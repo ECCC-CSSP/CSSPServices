@@ -456,27 +456,27 @@ namespace CSSPServices.Tests
                     BoxModelResult boxModelResult = (from c in dbTestDB.BoxModelResults select c).FirstOrDefault();
                     Assert.IsNotNull(boxModelResult);
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        boxModelResultService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        boxModelResultService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             BoxModelResult boxModelResultRet = boxModelResultService.GetBoxModelResultWithBoxModelResultID(boxModelResult.BoxModelResultID);
                             CheckBoxModelResultFields(new List<BoxModelResult>() { boxModelResultRet });
                             Assert.AreEqual(boxModelResult.BoxModelResultID, boxModelResultRet.BoxModelResultID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            BoxModelResultWeb boxModelResultWebRet = boxModelResultService.GetBoxModelResultWebWithBoxModelResultID(boxModelResult.BoxModelResultID);
-                            CheckBoxModelResultWebFields(new List<BoxModelResultWeb>() { boxModelResultWebRet });
-                            Assert.AreEqual(boxModelResult.BoxModelResultID, boxModelResultWebRet.BoxModelResultID);
+                            BoxModelResult_A boxModelResult_ARet = boxModelResultService.GetBoxModelResult_AWithBoxModelResultID(boxModelResult.BoxModelResultID);
+                            CheckBoxModelResult_AFields(new List<BoxModelResult_A>() { boxModelResult_ARet });
+                            Assert.AreEqual(boxModelResult.BoxModelResultID, boxModelResult_ARet.BoxModelResultID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            BoxModelResultReport boxModelResultReportRet = boxModelResultService.GetBoxModelResultReportWithBoxModelResultID(boxModelResult.BoxModelResultID);
-                            CheckBoxModelResultReportFields(new List<BoxModelResultReport>() { boxModelResultReportRet });
-                            Assert.AreEqual(boxModelResult.BoxModelResultID, boxModelResultReportRet.BoxModelResultID);
+                            BoxModelResult_B boxModelResult_BRet = boxModelResultService.GetBoxModelResult_BWithBoxModelResultID(boxModelResult.BoxModelResultID);
+                            CheckBoxModelResult_BFields(new List<BoxModelResult_B>() { boxModelResult_BRet });
+                            Assert.AreEqual(boxModelResult.BoxModelResultID, boxModelResult_BRet.BoxModelResultID);
                         }
                         else
                         {
@@ -505,30 +505,29 @@ namespace CSSPServices.Tests
                     List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
                     boxModelResultDirectQueryList = (from c in dbTestDB.BoxModelResults select c).Take(200).ToList();
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        boxModelResultService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        boxModelResultService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<BoxModelResult> boxModelResultList = new List<BoxModelResult>();
                             boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
                             CheckBoxModelResultFields(boxModelResultList);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<BoxModelResultWeb> boxModelResultWebList = new List<BoxModelResultWeb>();
-                            boxModelResultWebList = boxModelResultService.GetBoxModelResultWebList().ToList();
-                            CheckBoxModelResultWebFields(boxModelResultWebList);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultWebList.Count);
+                            List<BoxModelResult_A> boxModelResult_AList = new List<BoxModelResult_A>();
+                            boxModelResult_AList = boxModelResultService.GetBoxModelResult_AList().ToList();
+                            CheckBoxModelResult_AFields(boxModelResult_AList);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResult_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<BoxModelResultReport> boxModelResultReportList = new List<BoxModelResultReport>();
-                            boxModelResultReportList = boxModelResultService.GetBoxModelResultReportList().ToList();
-                            CheckBoxModelResultReportFields(boxModelResultReportList);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultReportList.Count);
+                            List<BoxModelResult_B> boxModelResult_BList = new List<BoxModelResult_B>();
+                            boxModelResult_BList = boxModelResultService.GetBoxModelResult_BList().ToList();
+                            CheckBoxModelResult_BFields(boxModelResult_BList);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResult_BList.Count);
                         }
                         else
                         {
@@ -550,38 +549,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
 
                         List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
                         boxModelResultDirectQueryList = (from c in dbTestDB.BoxModelResults select c).Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<BoxModelResult> boxModelResultList = new List<BoxModelResult>();
                             boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
                             CheckBoxModelResultFields(boxModelResultList);
                             Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<BoxModelResultWeb> boxModelResultWebList = new List<BoxModelResultWeb>();
-                            boxModelResultWebList = boxModelResultService.GetBoxModelResultWebList().ToList();
-                            CheckBoxModelResultWebFields(boxModelResultWebList);
-                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultWebList[0].BoxModelResultID);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultWebList.Count);
+                            List<BoxModelResult_A> boxModelResult_AList = new List<BoxModelResult_A>();
+                            boxModelResult_AList = boxModelResultService.GetBoxModelResult_AList().ToList();
+                            CheckBoxModelResult_AFields(boxModelResult_AList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResult_AList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResult_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<BoxModelResultReport> boxModelResultReportList = new List<BoxModelResultReport>();
-                            boxModelResultReportList = boxModelResultService.GetBoxModelResultReportList().ToList();
-                            CheckBoxModelResultReportFields(boxModelResultReportList);
-                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultReportList[0].BoxModelResultID);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultReportList.Count);
+                            List<BoxModelResult_B> boxModelResult_BList = new List<BoxModelResult_B>();
+                            boxModelResult_BList = boxModelResultService.GetBoxModelResult_BList().ToList();
+                            CheckBoxModelResult_BFields(boxModelResult_BList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResult_BList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResult_BList.Count);
                         }
                         else
                         {
@@ -603,38 +601,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 1, 1,  "BoxModelResultID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 1, 1,  "BoxModelResultID", "");
 
                         List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
                         boxModelResultDirectQueryList = (from c in dbTestDB.BoxModelResults select c).Skip(1).Take(1).OrderBy(c => c.BoxModelResultID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<BoxModelResult> boxModelResultList = new List<BoxModelResult>();
                             boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
                             CheckBoxModelResultFields(boxModelResultList);
                             Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<BoxModelResultWeb> boxModelResultWebList = new List<BoxModelResultWeb>();
-                            boxModelResultWebList = boxModelResultService.GetBoxModelResultWebList().ToList();
-                            CheckBoxModelResultWebFields(boxModelResultWebList);
-                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultWebList[0].BoxModelResultID);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultWebList.Count);
+                            List<BoxModelResult_A> boxModelResult_AList = new List<BoxModelResult_A>();
+                            boxModelResult_AList = boxModelResultService.GetBoxModelResult_AList().ToList();
+                            CheckBoxModelResult_AFields(boxModelResult_AList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResult_AList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResult_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<BoxModelResultReport> boxModelResultReportList = new List<BoxModelResultReport>();
-                            boxModelResultReportList = boxModelResultService.GetBoxModelResultReportList().ToList();
-                            CheckBoxModelResultReportFields(boxModelResultReportList);
-                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultReportList[0].BoxModelResultID);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultReportList.Count);
+                            List<BoxModelResult_B> boxModelResult_BList = new List<BoxModelResult_B>();
+                            boxModelResult_BList = boxModelResultService.GetBoxModelResult_BList().ToList();
+                            CheckBoxModelResult_BFields(boxModelResult_BList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResult_BList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResult_BList.Count);
                         }
                         else
                         {
@@ -656,38 +653,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 1, 1, "BoxModelResultID,BoxModelID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 1, 1, "BoxModelResultID,BoxModelID", "");
 
                         List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
                         boxModelResultDirectQueryList = (from c in dbTestDB.BoxModelResults select c).Skip(1).Take(1).OrderBy(c => c.BoxModelResultID).ThenBy(c => c.BoxModelID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<BoxModelResult> boxModelResultList = new List<BoxModelResult>();
                             boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
                             CheckBoxModelResultFields(boxModelResultList);
                             Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<BoxModelResultWeb> boxModelResultWebList = new List<BoxModelResultWeb>();
-                            boxModelResultWebList = boxModelResultService.GetBoxModelResultWebList().ToList();
-                            CheckBoxModelResultWebFields(boxModelResultWebList);
-                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultWebList[0].BoxModelResultID);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultWebList.Count);
+                            List<BoxModelResult_A> boxModelResult_AList = new List<BoxModelResult_A>();
+                            boxModelResult_AList = boxModelResultService.GetBoxModelResult_AList().ToList();
+                            CheckBoxModelResult_AFields(boxModelResult_AList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResult_AList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResult_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<BoxModelResultReport> boxModelResultReportList = new List<BoxModelResultReport>();
-                            boxModelResultReportList = boxModelResultService.GetBoxModelResultReportList().ToList();
-                            CheckBoxModelResultReportFields(boxModelResultReportList);
-                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultReportList[0].BoxModelResultID);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultReportList.Count);
+                            List<BoxModelResult_B> boxModelResult_BList = new List<BoxModelResult_B>();
+                            boxModelResult_BList = boxModelResultService.GetBoxModelResult_BList().ToList();
+                            CheckBoxModelResult_BFields(boxModelResult_BList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResult_BList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResult_BList.Count);
                         }
                         else
                         {
@@ -709,38 +705,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 0, 1, "BoxModelResultID", "BoxModelResultID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 0, 1, "BoxModelResultID", "BoxModelResultID,EQ,4", "");
 
                         List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
                         boxModelResultDirectQueryList = (from c in dbTestDB.BoxModelResults select c).Where(c => c.BoxModelResultID == 4).Skip(0).Take(1).OrderBy(c => c.BoxModelResultID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<BoxModelResult> boxModelResultList = new List<BoxModelResult>();
                             boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
                             CheckBoxModelResultFields(boxModelResultList);
                             Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<BoxModelResultWeb> boxModelResultWebList = new List<BoxModelResultWeb>();
-                            boxModelResultWebList = boxModelResultService.GetBoxModelResultWebList().ToList();
-                            CheckBoxModelResultWebFields(boxModelResultWebList);
-                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultWebList[0].BoxModelResultID);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultWebList.Count);
+                            List<BoxModelResult_A> boxModelResult_AList = new List<BoxModelResult_A>();
+                            boxModelResult_AList = boxModelResultService.GetBoxModelResult_AList().ToList();
+                            CheckBoxModelResult_AFields(boxModelResult_AList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResult_AList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResult_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<BoxModelResultReport> boxModelResultReportList = new List<BoxModelResultReport>();
-                            boxModelResultReportList = boxModelResultService.GetBoxModelResultReportList().ToList();
-                            CheckBoxModelResultReportFields(boxModelResultReportList);
-                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultReportList[0].BoxModelResultID);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultReportList.Count);
+                            List<BoxModelResult_B> boxModelResult_BList = new List<BoxModelResult_B>();
+                            boxModelResult_BList = boxModelResultService.GetBoxModelResult_BList().ToList();
+                            CheckBoxModelResult_BFields(boxModelResult_BList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResult_BList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResult_BList.Count);
                         }
                         else
                         {
@@ -762,38 +757,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 0, 1, "BoxModelResultID", "BoxModelResultID,GT,2|BoxModelResultID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 0, 1, "BoxModelResultID", "BoxModelResultID,GT,2|BoxModelResultID,LT,5", "");
 
                         List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
                         boxModelResultDirectQueryList = (from c in dbTestDB.BoxModelResults select c).Where(c => c.BoxModelResultID > 2 && c.BoxModelResultID < 5).Skip(0).Take(1).OrderBy(c => c.BoxModelResultID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<BoxModelResult> boxModelResultList = new List<BoxModelResult>();
                             boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
                             CheckBoxModelResultFields(boxModelResultList);
                             Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<BoxModelResultWeb> boxModelResultWebList = new List<BoxModelResultWeb>();
-                            boxModelResultWebList = boxModelResultService.GetBoxModelResultWebList().ToList();
-                            CheckBoxModelResultWebFields(boxModelResultWebList);
-                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultWebList[0].BoxModelResultID);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultWebList.Count);
+                            List<BoxModelResult_A> boxModelResult_AList = new List<BoxModelResult_A>();
+                            boxModelResult_AList = boxModelResultService.GetBoxModelResult_AList().ToList();
+                            CheckBoxModelResult_AFields(boxModelResult_AList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResult_AList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResult_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<BoxModelResultReport> boxModelResultReportList = new List<BoxModelResultReport>();
-                            boxModelResultReportList = boxModelResultService.GetBoxModelResultReportList().ToList();
-                            CheckBoxModelResultReportFields(boxModelResultReportList);
-                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultReportList[0].BoxModelResultID);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultReportList.Count);
+                            List<BoxModelResult_B> boxModelResult_BList = new List<BoxModelResult_B>();
+                            boxModelResult_BList = boxModelResultService.GetBoxModelResult_BList().ToList();
+                            CheckBoxModelResult_BFields(boxModelResult_BList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResult_BList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResult_BList.Count);
                         }
                         else
                         {
@@ -815,38 +809,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 0, 10000, "", "BoxModelResultID,GT,2|BoxModelResultID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 0, 10000, "", "BoxModelResultID,GT,2|BoxModelResultID,LT,5", "");
 
                         List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
                         boxModelResultDirectQueryList = (from c in dbTestDB.BoxModelResults select c).Where(c => c.BoxModelResultID > 2 && c.BoxModelResultID < 5).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<BoxModelResult> boxModelResultList = new List<BoxModelResult>();
                             boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
                             CheckBoxModelResultFields(boxModelResultList);
                             Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<BoxModelResultWeb> boxModelResultWebList = new List<BoxModelResultWeb>();
-                            boxModelResultWebList = boxModelResultService.GetBoxModelResultWebList().ToList();
-                            CheckBoxModelResultWebFields(boxModelResultWebList);
-                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultWebList[0].BoxModelResultID);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultWebList.Count);
+                            List<BoxModelResult_A> boxModelResult_AList = new List<BoxModelResult_A>();
+                            boxModelResult_AList = boxModelResultService.GetBoxModelResult_AList().ToList();
+                            CheckBoxModelResult_AFields(boxModelResult_AList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResult_AList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResult_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<BoxModelResultReport> boxModelResultReportList = new List<BoxModelResultReport>();
-                            boxModelResultReportList = boxModelResultService.GetBoxModelResultReportList().ToList();
-                            CheckBoxModelResultReportFields(boxModelResultReportList);
-                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultReportList[0].BoxModelResultID);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultReportList.Count);
+                            List<BoxModelResult_B> boxModelResult_BList = new List<BoxModelResult_B>();
+                            boxModelResult_BList = boxModelResultService.GetBoxModelResult_BList().ToList();
+                            CheckBoxModelResult_BFields(boxModelResult_BList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResult_BList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResult_BList.Count);
                         }
                         else
                         {
@@ -899,99 +892,99 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(boxModelResultList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(boxModelResultList[0].HasErrors);
         }
-        private void CheckBoxModelResultWebFields(List<BoxModelResultWeb> boxModelResultWebList)
+        private void CheckBoxModelResult_AFields(List<BoxModelResult_A> boxModelResult_AList)
         {
-            Assert.IsNotNull(boxModelResultWebList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(boxModelResultWebList[0].BoxModelResultTypeText))
+            Assert.IsNotNull(boxModelResult_AList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(boxModelResult_AList[0].BoxModelResultTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResultWebList[0].BoxModelResultTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResult_AList[0].BoxModelResultTypeText));
             }
-            Assert.IsNotNull(boxModelResultWebList[0].BoxModelResultID);
-            Assert.IsNotNull(boxModelResultWebList[0].BoxModelID);
-            Assert.IsNotNull(boxModelResultWebList[0].BoxModelResultType);
-            Assert.IsNotNull(boxModelResultWebList[0].Volume_m3);
-            Assert.IsNotNull(boxModelResultWebList[0].Surface_m2);
-            Assert.IsNotNull(boxModelResultWebList[0].Radius_m);
-            if (boxModelResultWebList[0].LeftSideDiameterLineAngle_deg != null)
+            Assert.IsNotNull(boxModelResult_AList[0].BoxModelResultID);
+            Assert.IsNotNull(boxModelResult_AList[0].BoxModelID);
+            Assert.IsNotNull(boxModelResult_AList[0].BoxModelResultType);
+            Assert.IsNotNull(boxModelResult_AList[0].Volume_m3);
+            Assert.IsNotNull(boxModelResult_AList[0].Surface_m2);
+            Assert.IsNotNull(boxModelResult_AList[0].Radius_m);
+            if (boxModelResult_AList[0].LeftSideDiameterLineAngle_deg != null)
             {
-                Assert.IsNotNull(boxModelResultWebList[0].LeftSideDiameterLineAngle_deg);
+                Assert.IsNotNull(boxModelResult_AList[0].LeftSideDiameterLineAngle_deg);
             }
-            if (boxModelResultWebList[0].CircleCenterLatitude != null)
+            if (boxModelResult_AList[0].CircleCenterLatitude != null)
             {
-                Assert.IsNotNull(boxModelResultWebList[0].CircleCenterLatitude);
+                Assert.IsNotNull(boxModelResult_AList[0].CircleCenterLatitude);
             }
-            if (boxModelResultWebList[0].CircleCenterLongitude != null)
+            if (boxModelResult_AList[0].CircleCenterLongitude != null)
             {
-                Assert.IsNotNull(boxModelResultWebList[0].CircleCenterLongitude);
+                Assert.IsNotNull(boxModelResult_AList[0].CircleCenterLongitude);
             }
-            Assert.IsNotNull(boxModelResultWebList[0].FixLength);
-            Assert.IsNotNull(boxModelResultWebList[0].FixWidth);
-            Assert.IsNotNull(boxModelResultWebList[0].RectLength_m);
-            Assert.IsNotNull(boxModelResultWebList[0].RectWidth_m);
-            if (boxModelResultWebList[0].LeftSideLineAngle_deg != null)
+            Assert.IsNotNull(boxModelResult_AList[0].FixLength);
+            Assert.IsNotNull(boxModelResult_AList[0].FixWidth);
+            Assert.IsNotNull(boxModelResult_AList[0].RectLength_m);
+            Assert.IsNotNull(boxModelResult_AList[0].RectWidth_m);
+            if (boxModelResult_AList[0].LeftSideLineAngle_deg != null)
             {
-                Assert.IsNotNull(boxModelResultWebList[0].LeftSideLineAngle_deg);
+                Assert.IsNotNull(boxModelResult_AList[0].LeftSideLineAngle_deg);
             }
-            if (boxModelResultWebList[0].LeftSideLineStartLatitude != null)
+            if (boxModelResult_AList[0].LeftSideLineStartLatitude != null)
             {
-                Assert.IsNotNull(boxModelResultWebList[0].LeftSideLineStartLatitude);
+                Assert.IsNotNull(boxModelResult_AList[0].LeftSideLineStartLatitude);
             }
-            if (boxModelResultWebList[0].LeftSideLineStartLongitude != null)
+            if (boxModelResult_AList[0].LeftSideLineStartLongitude != null)
             {
-                Assert.IsNotNull(boxModelResultWebList[0].LeftSideLineStartLongitude);
+                Assert.IsNotNull(boxModelResult_AList[0].LeftSideLineStartLongitude);
             }
-            Assert.IsNotNull(boxModelResultWebList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(boxModelResultWebList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(boxModelResultWebList[0].HasErrors);
+            Assert.IsNotNull(boxModelResult_AList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(boxModelResult_AList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(boxModelResult_AList[0].HasErrors);
         }
-        private void CheckBoxModelResultReportFields(List<BoxModelResultReport> boxModelResultReportList)
+        private void CheckBoxModelResult_BFields(List<BoxModelResult_B> boxModelResult_BList)
         {
-            if (!string.IsNullOrWhiteSpace(boxModelResultReportList[0].BoxModelResultReportTest))
+            if (!string.IsNullOrWhiteSpace(boxModelResult_BList[0].BoxModelResultReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResultReportList[0].BoxModelResultReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResult_BList[0].BoxModelResultReportTest));
             }
-            Assert.IsNotNull(boxModelResultReportList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(boxModelResultReportList[0].BoxModelResultTypeText))
+            Assert.IsNotNull(boxModelResult_BList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(boxModelResult_BList[0].BoxModelResultTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResultReportList[0].BoxModelResultTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResult_BList[0].BoxModelResultTypeText));
             }
-            Assert.IsNotNull(boxModelResultReportList[0].BoxModelResultID);
-            Assert.IsNotNull(boxModelResultReportList[0].BoxModelID);
-            Assert.IsNotNull(boxModelResultReportList[0].BoxModelResultType);
-            Assert.IsNotNull(boxModelResultReportList[0].Volume_m3);
-            Assert.IsNotNull(boxModelResultReportList[0].Surface_m2);
-            Assert.IsNotNull(boxModelResultReportList[0].Radius_m);
-            if (boxModelResultReportList[0].LeftSideDiameterLineAngle_deg != null)
+            Assert.IsNotNull(boxModelResult_BList[0].BoxModelResultID);
+            Assert.IsNotNull(boxModelResult_BList[0].BoxModelID);
+            Assert.IsNotNull(boxModelResult_BList[0].BoxModelResultType);
+            Assert.IsNotNull(boxModelResult_BList[0].Volume_m3);
+            Assert.IsNotNull(boxModelResult_BList[0].Surface_m2);
+            Assert.IsNotNull(boxModelResult_BList[0].Radius_m);
+            if (boxModelResult_BList[0].LeftSideDiameterLineAngle_deg != null)
             {
-                Assert.IsNotNull(boxModelResultReportList[0].LeftSideDiameterLineAngle_deg);
+                Assert.IsNotNull(boxModelResult_BList[0].LeftSideDiameterLineAngle_deg);
             }
-            if (boxModelResultReportList[0].CircleCenterLatitude != null)
+            if (boxModelResult_BList[0].CircleCenterLatitude != null)
             {
-                Assert.IsNotNull(boxModelResultReportList[0].CircleCenterLatitude);
+                Assert.IsNotNull(boxModelResult_BList[0].CircleCenterLatitude);
             }
-            if (boxModelResultReportList[0].CircleCenterLongitude != null)
+            if (boxModelResult_BList[0].CircleCenterLongitude != null)
             {
-                Assert.IsNotNull(boxModelResultReportList[0].CircleCenterLongitude);
+                Assert.IsNotNull(boxModelResult_BList[0].CircleCenterLongitude);
             }
-            Assert.IsNotNull(boxModelResultReportList[0].FixLength);
-            Assert.IsNotNull(boxModelResultReportList[0].FixWidth);
-            Assert.IsNotNull(boxModelResultReportList[0].RectLength_m);
-            Assert.IsNotNull(boxModelResultReportList[0].RectWidth_m);
-            if (boxModelResultReportList[0].LeftSideLineAngle_deg != null)
+            Assert.IsNotNull(boxModelResult_BList[0].FixLength);
+            Assert.IsNotNull(boxModelResult_BList[0].FixWidth);
+            Assert.IsNotNull(boxModelResult_BList[0].RectLength_m);
+            Assert.IsNotNull(boxModelResult_BList[0].RectWidth_m);
+            if (boxModelResult_BList[0].LeftSideLineAngle_deg != null)
             {
-                Assert.IsNotNull(boxModelResultReportList[0].LeftSideLineAngle_deg);
+                Assert.IsNotNull(boxModelResult_BList[0].LeftSideLineAngle_deg);
             }
-            if (boxModelResultReportList[0].LeftSideLineStartLatitude != null)
+            if (boxModelResult_BList[0].LeftSideLineStartLatitude != null)
             {
-                Assert.IsNotNull(boxModelResultReportList[0].LeftSideLineStartLatitude);
+                Assert.IsNotNull(boxModelResult_BList[0].LeftSideLineStartLatitude);
             }
-            if (boxModelResultReportList[0].LeftSideLineStartLongitude != null)
+            if (boxModelResult_BList[0].LeftSideLineStartLongitude != null)
             {
-                Assert.IsNotNull(boxModelResultReportList[0].LeftSideLineStartLongitude);
+                Assert.IsNotNull(boxModelResult_BList[0].LeftSideLineStartLongitude);
             }
-            Assert.IsNotNull(boxModelResultReportList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(boxModelResultReportList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(boxModelResultReportList[0].HasErrors);
+            Assert.IsNotNull(boxModelResult_BList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(boxModelResult_BList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(boxModelResult_BList[0].HasErrors);
         }
         private BoxModelResult GetFilledRandomBoxModelResult(string OmitPropName)
         {

@@ -203,31 +203,31 @@ namespace CSSPServices
 
             return PolSourceSiteQuery;
         }
-        public PolSourceSiteWeb GetPolSourceSiteWebWithPolSourceSiteID(int PolSourceSiteID)
+        public PolSourceSite_A GetPolSourceSite_AWithPolSourceSiteID(int PolSourceSiteID)
         {
-            return FillPolSourceSiteWeb().Where(c => c.PolSourceSiteID == PolSourceSiteID).FirstOrDefault();
+            return FillPolSourceSite_A().Where(c => c.PolSourceSiteID == PolSourceSiteID).FirstOrDefault();
 
         }
-        public IQueryable<PolSourceSiteWeb> GetPolSourceSiteWebList()
+        public IQueryable<PolSourceSite_A> GetPolSourceSite_AList()
         {
-            IQueryable<PolSourceSiteWeb> PolSourceSiteWebQuery = FillPolSourceSiteWeb();
+            IQueryable<PolSourceSite_A> PolSourceSite_AQuery = FillPolSourceSite_A();
 
-            PolSourceSiteWebQuery = EnhanceQueryStatements<PolSourceSiteWeb>(PolSourceSiteWebQuery) as IQueryable<PolSourceSiteWeb>;
+            PolSourceSite_AQuery = EnhanceQueryStatements<PolSourceSite_A>(PolSourceSite_AQuery) as IQueryable<PolSourceSite_A>;
 
-            return PolSourceSiteWebQuery;
+            return PolSourceSite_AQuery;
         }
-        public PolSourceSiteReport GetPolSourceSiteReportWithPolSourceSiteID(int PolSourceSiteID)
+        public PolSourceSite_B GetPolSourceSite_BWithPolSourceSiteID(int PolSourceSiteID)
         {
-            return FillPolSourceSiteReport().Where(c => c.PolSourceSiteID == PolSourceSiteID).FirstOrDefault();
+            return FillPolSourceSite_B().Where(c => c.PolSourceSiteID == PolSourceSiteID).FirstOrDefault();
 
         }
-        public IQueryable<PolSourceSiteReport> GetPolSourceSiteReportList()
+        public IQueryable<PolSourceSite_B> GetPolSourceSite_BList()
         {
-            IQueryable<PolSourceSiteReport> PolSourceSiteReportQuery = FillPolSourceSiteReport();
+            IQueryable<PolSourceSite_B> PolSourceSite_BQuery = FillPolSourceSite_B();
 
-            PolSourceSiteReportQuery = EnhanceQueryStatements<PolSourceSiteReport>(PolSourceSiteReportQuery) as IQueryable<PolSourceSiteReport>;
+            PolSourceSite_BQuery = EnhanceQueryStatements<PolSourceSite_B>(PolSourceSite_BQuery) as IQueryable<PolSourceSite_B>;
 
-            return PolSourceSiteReportQuery;
+            return PolSourceSite_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -266,48 +266,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated PolSourceSiteFillWeb
-        private IQueryable<PolSourceSiteWeb> FillPolSourceSiteWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> PolSourceInactiveReasonEnumList = enums.GetEnumTextOrderedList(typeof(PolSourceInactiveReasonEnum));
-
-             IQueryable<PolSourceSiteWeb> PolSourceSiteWebQuery = (from c in db.PolSourceSites
-                let PolSourceSiteTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.PolSourceSiteTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new PolSourceSiteWeb
-                    {
-                        PolSourceSiteTVItemLanguage = PolSourceSiteTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        InactiveReasonText = (from e in PolSourceInactiveReasonEnumList
-                                where e.EnumID == (int?)c.InactiveReason
-                                select e.EnumText).FirstOrDefault(),
-                        PolSourceSiteID = c.PolSourceSiteID,
-                        PolSourceSiteTVItemID = c.PolSourceSiteTVItemID,
-                        Temp_Locator_CanDelete = c.Temp_Locator_CanDelete,
-                        Oldsiteid = c.Oldsiteid,
-                        Site = c.Site,
-                        SiteID = c.SiteID,
-                        IsPointSource = c.IsPointSource,
-                        InactiveReason = c.InactiveReason,
-                        CivicAddressTVItemID = c.CivicAddressTVItemID,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return PolSourceSiteWebQuery;
-        }
-        #endregion Functions private Generated PolSourceSiteFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(PolSourceSite polSourceSite)

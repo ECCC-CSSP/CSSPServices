@@ -184,31 +184,31 @@ namespace CSSPServices
 
             return ReportSectionQuery;
         }
-        public ReportSectionWeb GetReportSectionWebWithReportSectionID(int ReportSectionID)
+        public ReportSection_A GetReportSection_AWithReportSectionID(int ReportSectionID)
         {
-            return FillReportSectionWeb().Where(c => c.ReportSectionID == ReportSectionID).FirstOrDefault();
+            return FillReportSection_A().Where(c => c.ReportSectionID == ReportSectionID).FirstOrDefault();
 
         }
-        public IQueryable<ReportSectionWeb> GetReportSectionWebList()
+        public IQueryable<ReportSection_A> GetReportSection_AList()
         {
-            IQueryable<ReportSectionWeb> ReportSectionWebQuery = FillReportSectionWeb();
+            IQueryable<ReportSection_A> ReportSection_AQuery = FillReportSection_A();
 
-            ReportSectionWebQuery = EnhanceQueryStatements<ReportSectionWeb>(ReportSectionWebQuery) as IQueryable<ReportSectionWeb>;
+            ReportSection_AQuery = EnhanceQueryStatements<ReportSection_A>(ReportSection_AQuery) as IQueryable<ReportSection_A>;
 
-            return ReportSectionWebQuery;
+            return ReportSection_AQuery;
         }
-        public ReportSectionReport GetReportSectionReportWithReportSectionID(int ReportSectionID)
+        public ReportSection_B GetReportSection_BWithReportSectionID(int ReportSectionID)
         {
-            return FillReportSectionReport().Where(c => c.ReportSectionID == ReportSectionID).FirstOrDefault();
+            return FillReportSection_B().Where(c => c.ReportSectionID == ReportSectionID).FirstOrDefault();
 
         }
-        public IQueryable<ReportSectionReport> GetReportSectionReportList()
+        public IQueryable<ReportSection_B> GetReportSection_BList()
         {
-            IQueryable<ReportSectionReport> ReportSectionReportQuery = FillReportSectionReport();
+            IQueryable<ReportSection_B> ReportSection_BQuery = FillReportSection_B();
 
-            ReportSectionReportQuery = EnhanceQueryStatements<ReportSectionReport>(ReportSectionReportQuery) as IQueryable<ReportSectionReport>;
+            ReportSection_BQuery = EnhanceQueryStatements<ReportSection_B>(ReportSection_BQuery) as IQueryable<ReportSection_B>;
 
-            return ReportSectionReportQuery;
+            return ReportSection_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -247,46 +247,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated ReportSectionFillWeb
-        private IQueryable<ReportSectionWeb> FillReportSectionWeb()
-        {
-             IQueryable<ReportSectionWeb> ReportSectionWebQuery = (from c in db.ReportSections
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let ReportSectionName = (from cl in db.ReportSectionLanguages
-                    where cl.ReportSectionID == c.ReportSectionID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let ReportSectionText = (from cl in db.ReportSectionLanguages
-                    where cl.ReportSectionID == c.ReportSectionID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new ReportSectionWeb
-                    {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        ReportSectionName = ReportSectionName,
-                        ReportSectionText = ReportSectionText,
-                        ReportSectionID = c.ReportSectionID,
-                        ReportTypeID = c.ReportTypeID,
-                        TVItemID = c.TVItemID,
-                        Ordinal = c.Ordinal,
-                        IsStatic = c.IsStatic,
-                        ParentReportSectionID = c.ParentReportSectionID,
-                        Year = c.Year,
-                        Locked = c.Locked,
-                        TemplateReportSectionID = c.TemplateReportSectionID,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return ReportSectionWebQuery;
-        }
-        #endregion Functions private Generated ReportSectionFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(ReportSection reportSection)

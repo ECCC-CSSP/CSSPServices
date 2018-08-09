@@ -268,27 +268,27 @@ namespace CSSPServices.Tests
                     Spill spill = (from c in dbTestDB.Spills select c).FirstOrDefault();
                     Assert.IsNotNull(spill);
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        spillService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        spillService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             Spill spillRet = spillService.GetSpillWithSpillID(spill.SpillID);
                             CheckSpillFields(new List<Spill>() { spillRet });
                             Assert.AreEqual(spill.SpillID, spillRet.SpillID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            SpillWeb spillWebRet = spillService.GetSpillWebWithSpillID(spill.SpillID);
-                            CheckSpillWebFields(new List<SpillWeb>() { spillWebRet });
-                            Assert.AreEqual(spill.SpillID, spillWebRet.SpillID);
+                            Spill_A spill_ARet = spillService.GetSpill_AWithSpillID(spill.SpillID);
+                            CheckSpill_AFields(new List<Spill_A>() { spill_ARet });
+                            Assert.AreEqual(spill.SpillID, spill_ARet.SpillID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            SpillReport spillReportRet = spillService.GetSpillReportWithSpillID(spill.SpillID);
-                            CheckSpillReportFields(new List<SpillReport>() { spillReportRet });
-                            Assert.AreEqual(spill.SpillID, spillReportRet.SpillID);
+                            Spill_B spill_BRet = spillService.GetSpill_BWithSpillID(spill.SpillID);
+                            CheckSpill_BFields(new List<Spill_B>() { spill_BRet });
+                            Assert.AreEqual(spill.SpillID, spill_BRet.SpillID);
                         }
                         else
                         {
@@ -317,30 +317,29 @@ namespace CSSPServices.Tests
                     List<Spill> spillDirectQueryList = new List<Spill>();
                     spillDirectQueryList = (from c in dbTestDB.Spills select c).Take(200).ToList();
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        spillService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        spillService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<Spill> spillList = new List<Spill>();
                             spillList = spillService.GetSpillList().ToList();
                             CheckSpillFields(spillList);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<SpillWeb> spillWebList = new List<SpillWeb>();
-                            spillWebList = spillService.GetSpillWebList().ToList();
-                            CheckSpillWebFields(spillWebList);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillWebList.Count);
+                            List<Spill_A> spill_AList = new List<Spill_A>();
+                            spill_AList = spillService.GetSpill_AList().ToList();
+                            CheckSpill_AFields(spill_AList);
+                            Assert.AreEqual(spillDirectQueryList.Count, spill_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<SpillReport> spillReportList = new List<SpillReport>();
-                            spillReportList = spillService.GetSpillReportList().ToList();
-                            CheckSpillReportFields(spillReportList);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillReportList.Count);
+                            List<Spill_B> spill_BList = new List<Spill_B>();
+                            spill_BList = spillService.GetSpill_BList().ToList();
+                            CheckSpill_BFields(spill_BList);
+                            Assert.AreEqual(spillDirectQueryList.Count, spill_BList.Count);
                         }
                         else
                         {
@@ -362,38 +361,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         SpillService spillService = new SpillService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        spillService.Query = spillService.FillQuery(typeof(Spill), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        spillService.Query = spillService.FillQuery(typeof(Spill), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
 
                         List<Spill> spillDirectQueryList = new List<Spill>();
                         spillDirectQueryList = (from c in dbTestDB.Spills select c).Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<Spill> spillList = new List<Spill>();
                             spillList = spillService.GetSpillList().ToList();
                             CheckSpillFields(spillList);
                             Assert.AreEqual(spillDirectQueryList[0].SpillID, spillList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<SpillWeb> spillWebList = new List<SpillWeb>();
-                            spillWebList = spillService.GetSpillWebList().ToList();
-                            CheckSpillWebFields(spillWebList);
-                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spillWebList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillWebList.Count);
+                            List<Spill_A> spill_AList = new List<Spill_A>();
+                            spill_AList = spillService.GetSpill_AList().ToList();
+                            CheckSpill_AFields(spill_AList);
+                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spill_AList[0].SpillID);
+                            Assert.AreEqual(spillDirectQueryList.Count, spill_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<SpillReport> spillReportList = new List<SpillReport>();
-                            spillReportList = spillService.GetSpillReportList().ToList();
-                            CheckSpillReportFields(spillReportList);
-                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spillReportList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillReportList.Count);
+                            List<Spill_B> spill_BList = new List<Spill_B>();
+                            spill_BList = spillService.GetSpill_BList().ToList();
+                            CheckSpill_BFields(spill_BList);
+                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spill_BList[0].SpillID);
+                            Assert.AreEqual(spillDirectQueryList.Count, spill_BList.Count);
                         }
                         else
                         {
@@ -415,38 +413,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         SpillService spillService = new SpillService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        spillService.Query = spillService.FillQuery(typeof(Spill), culture.TwoLetterISOLanguageName, 1, 1,  "SpillID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        spillService.Query = spillService.FillQuery(typeof(Spill), culture.TwoLetterISOLanguageName, 1, 1,  "SpillID", "");
 
                         List<Spill> spillDirectQueryList = new List<Spill>();
                         spillDirectQueryList = (from c in dbTestDB.Spills select c).Skip(1).Take(1).OrderBy(c => c.SpillID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<Spill> spillList = new List<Spill>();
                             spillList = spillService.GetSpillList().ToList();
                             CheckSpillFields(spillList);
                             Assert.AreEqual(spillDirectQueryList[0].SpillID, spillList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<SpillWeb> spillWebList = new List<SpillWeb>();
-                            spillWebList = spillService.GetSpillWebList().ToList();
-                            CheckSpillWebFields(spillWebList);
-                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spillWebList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillWebList.Count);
+                            List<Spill_A> spill_AList = new List<Spill_A>();
+                            spill_AList = spillService.GetSpill_AList().ToList();
+                            CheckSpill_AFields(spill_AList);
+                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spill_AList[0].SpillID);
+                            Assert.AreEqual(spillDirectQueryList.Count, spill_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<SpillReport> spillReportList = new List<SpillReport>();
-                            spillReportList = spillService.GetSpillReportList().ToList();
-                            CheckSpillReportFields(spillReportList);
-                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spillReportList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillReportList.Count);
+                            List<Spill_B> spill_BList = new List<Spill_B>();
+                            spill_BList = spillService.GetSpill_BList().ToList();
+                            CheckSpill_BFields(spill_BList);
+                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spill_BList[0].SpillID);
+                            Assert.AreEqual(spillDirectQueryList.Count, spill_BList.Count);
                         }
                         else
                         {
@@ -468,38 +465,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         SpillService spillService = new SpillService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        spillService.Query = spillService.FillQuery(typeof(Spill), culture.TwoLetterISOLanguageName, 1, 1, "SpillID,MunicipalityTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        spillService.Query = spillService.FillQuery(typeof(Spill), culture.TwoLetterISOLanguageName, 1, 1, "SpillID,MunicipalityTVItemID", "");
 
                         List<Spill> spillDirectQueryList = new List<Spill>();
                         spillDirectQueryList = (from c in dbTestDB.Spills select c).Skip(1).Take(1).OrderBy(c => c.SpillID).ThenBy(c => c.MunicipalityTVItemID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<Spill> spillList = new List<Spill>();
                             spillList = spillService.GetSpillList().ToList();
                             CheckSpillFields(spillList);
                             Assert.AreEqual(spillDirectQueryList[0].SpillID, spillList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<SpillWeb> spillWebList = new List<SpillWeb>();
-                            spillWebList = spillService.GetSpillWebList().ToList();
-                            CheckSpillWebFields(spillWebList);
-                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spillWebList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillWebList.Count);
+                            List<Spill_A> spill_AList = new List<Spill_A>();
+                            spill_AList = spillService.GetSpill_AList().ToList();
+                            CheckSpill_AFields(spill_AList);
+                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spill_AList[0].SpillID);
+                            Assert.AreEqual(spillDirectQueryList.Count, spill_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<SpillReport> spillReportList = new List<SpillReport>();
-                            spillReportList = spillService.GetSpillReportList().ToList();
-                            CheckSpillReportFields(spillReportList);
-                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spillReportList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillReportList.Count);
+                            List<Spill_B> spill_BList = new List<Spill_B>();
+                            spill_BList = spillService.GetSpill_BList().ToList();
+                            CheckSpill_BFields(spill_BList);
+                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spill_BList[0].SpillID);
+                            Assert.AreEqual(spillDirectQueryList.Count, spill_BList.Count);
                         }
                         else
                         {
@@ -521,38 +517,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         SpillService spillService = new SpillService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        spillService.Query = spillService.FillQuery(typeof(Spill), culture.TwoLetterISOLanguageName, 0, 1, "SpillID", "SpillID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        spillService.Query = spillService.FillQuery(typeof(Spill), culture.TwoLetterISOLanguageName, 0, 1, "SpillID", "SpillID,EQ,4", "");
 
                         List<Spill> spillDirectQueryList = new List<Spill>();
                         spillDirectQueryList = (from c in dbTestDB.Spills select c).Where(c => c.SpillID == 4).Skip(0).Take(1).OrderBy(c => c.SpillID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<Spill> spillList = new List<Spill>();
                             spillList = spillService.GetSpillList().ToList();
                             CheckSpillFields(spillList);
                             Assert.AreEqual(spillDirectQueryList[0].SpillID, spillList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<SpillWeb> spillWebList = new List<SpillWeb>();
-                            spillWebList = spillService.GetSpillWebList().ToList();
-                            CheckSpillWebFields(spillWebList);
-                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spillWebList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillWebList.Count);
+                            List<Spill_A> spill_AList = new List<Spill_A>();
+                            spill_AList = spillService.GetSpill_AList().ToList();
+                            CheckSpill_AFields(spill_AList);
+                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spill_AList[0].SpillID);
+                            Assert.AreEqual(spillDirectQueryList.Count, spill_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<SpillReport> spillReportList = new List<SpillReport>();
-                            spillReportList = spillService.GetSpillReportList().ToList();
-                            CheckSpillReportFields(spillReportList);
-                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spillReportList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillReportList.Count);
+                            List<Spill_B> spill_BList = new List<Spill_B>();
+                            spill_BList = spillService.GetSpill_BList().ToList();
+                            CheckSpill_BFields(spill_BList);
+                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spill_BList[0].SpillID);
+                            Assert.AreEqual(spillDirectQueryList.Count, spill_BList.Count);
                         }
                         else
                         {
@@ -574,38 +569,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         SpillService spillService = new SpillService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        spillService.Query = spillService.FillQuery(typeof(Spill), culture.TwoLetterISOLanguageName, 0, 1, "SpillID", "SpillID,GT,2|SpillID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        spillService.Query = spillService.FillQuery(typeof(Spill), culture.TwoLetterISOLanguageName, 0, 1, "SpillID", "SpillID,GT,2|SpillID,LT,5", "");
 
                         List<Spill> spillDirectQueryList = new List<Spill>();
                         spillDirectQueryList = (from c in dbTestDB.Spills select c).Where(c => c.SpillID > 2 && c.SpillID < 5).Skip(0).Take(1).OrderBy(c => c.SpillID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<Spill> spillList = new List<Spill>();
                             spillList = spillService.GetSpillList().ToList();
                             CheckSpillFields(spillList);
                             Assert.AreEqual(spillDirectQueryList[0].SpillID, spillList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<SpillWeb> spillWebList = new List<SpillWeb>();
-                            spillWebList = spillService.GetSpillWebList().ToList();
-                            CheckSpillWebFields(spillWebList);
-                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spillWebList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillWebList.Count);
+                            List<Spill_A> spill_AList = new List<Spill_A>();
+                            spill_AList = spillService.GetSpill_AList().ToList();
+                            CheckSpill_AFields(spill_AList);
+                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spill_AList[0].SpillID);
+                            Assert.AreEqual(spillDirectQueryList.Count, spill_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<SpillReport> spillReportList = new List<SpillReport>();
-                            spillReportList = spillService.GetSpillReportList().ToList();
-                            CheckSpillReportFields(spillReportList);
-                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spillReportList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillReportList.Count);
+                            List<Spill_B> spill_BList = new List<Spill_B>();
+                            spill_BList = spillService.GetSpill_BList().ToList();
+                            CheckSpill_BFields(spill_BList);
+                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spill_BList[0].SpillID);
+                            Assert.AreEqual(spillDirectQueryList.Count, spill_BList.Count);
                         }
                         else
                         {
@@ -627,38 +621,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         SpillService spillService = new SpillService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        spillService.Query = spillService.FillQuery(typeof(Spill), culture.TwoLetterISOLanguageName, 0, 10000, "", "SpillID,GT,2|SpillID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        spillService.Query = spillService.FillQuery(typeof(Spill), culture.TwoLetterISOLanguageName, 0, 10000, "", "SpillID,GT,2|SpillID,LT,5", "");
 
                         List<Spill> spillDirectQueryList = new List<Spill>();
                         spillDirectQueryList = (from c in dbTestDB.Spills select c).Where(c => c.SpillID > 2 && c.SpillID < 5).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<Spill> spillList = new List<Spill>();
                             spillList = spillService.GetSpillList().ToList();
                             CheckSpillFields(spillList);
                             Assert.AreEqual(spillDirectQueryList[0].SpillID, spillList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<SpillWeb> spillWebList = new List<SpillWeb>();
-                            spillWebList = spillService.GetSpillWebList().ToList();
-                            CheckSpillWebFields(spillWebList);
-                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spillWebList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillWebList.Count);
+                            List<Spill_A> spill_AList = new List<Spill_A>();
+                            spill_AList = spillService.GetSpill_AList().ToList();
+                            CheckSpill_AFields(spill_AList);
+                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spill_AList[0].SpillID);
+                            Assert.AreEqual(spillDirectQueryList.Count, spill_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<SpillReport> spillReportList = new List<SpillReport>();
-                            spillReportList = spillService.GetSpillReportList().ToList();
-                            CheckSpillReportFields(spillReportList);
-                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spillReportList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillReportList.Count);
+                            List<Spill_B> spill_BList = new List<Spill_B>();
+                            spill_BList = spillService.GetSpill_BList().ToList();
+                            CheckSpill_BFields(spill_BList);
+                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spill_BList[0].SpillID);
+                            Assert.AreEqual(spillDirectQueryList.Count, spill_BList.Count);
                         }
                         else
                         {
@@ -689,51 +682,51 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(spillList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(spillList[0].HasErrors);
         }
-        private void CheckSpillWebFields(List<SpillWeb> spillWebList)
+        private void CheckSpill_AFields(List<Spill_A> spill_AList)
         {
-            Assert.IsNotNull(spillWebList[0].MunicipalityTVItemLanguage);
-            Assert.IsNotNull(spillWebList[0].InfrastructureTVItemLanguage);
-            Assert.IsNotNull(spillWebList[0].LastUpdateContactTVItemLanguage);
-            Assert.IsNotNull(spillWebList[0].SpillID);
-            Assert.IsNotNull(spillWebList[0].MunicipalityTVItemID);
-            if (spillWebList[0].InfrastructureTVItemID != null)
+            Assert.IsNotNull(spill_AList[0].MunicipalityTVItemLanguage);
+            Assert.IsNotNull(spill_AList[0].InfrastructureTVItemLanguage);
+            Assert.IsNotNull(spill_AList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(spill_AList[0].SpillID);
+            Assert.IsNotNull(spill_AList[0].MunicipalityTVItemID);
+            if (spill_AList[0].InfrastructureTVItemID != null)
             {
-                Assert.IsNotNull(spillWebList[0].InfrastructureTVItemID);
+                Assert.IsNotNull(spill_AList[0].InfrastructureTVItemID);
             }
-            Assert.IsNotNull(spillWebList[0].StartDateTime_Local);
-            if (spillWebList[0].EndDateTime_Local != null)
+            Assert.IsNotNull(spill_AList[0].StartDateTime_Local);
+            if (spill_AList[0].EndDateTime_Local != null)
             {
-                Assert.IsNotNull(spillWebList[0].EndDateTime_Local);
+                Assert.IsNotNull(spill_AList[0].EndDateTime_Local);
             }
-            Assert.IsNotNull(spillWebList[0].AverageFlow_m3_day);
-            Assert.IsNotNull(spillWebList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(spillWebList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(spillWebList[0].HasErrors);
+            Assert.IsNotNull(spill_AList[0].AverageFlow_m3_day);
+            Assert.IsNotNull(spill_AList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(spill_AList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(spill_AList[0].HasErrors);
         }
-        private void CheckSpillReportFields(List<SpillReport> spillReportList)
+        private void CheckSpill_BFields(List<Spill_B> spill_BList)
         {
-            if (!string.IsNullOrWhiteSpace(spillReportList[0].SpillReportTest))
+            if (!string.IsNullOrWhiteSpace(spill_BList[0].SpillReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(spillReportList[0].SpillReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(spill_BList[0].SpillReportTest));
             }
-            Assert.IsNotNull(spillReportList[0].MunicipalityTVItemLanguage);
-            Assert.IsNotNull(spillReportList[0].InfrastructureTVItemLanguage);
-            Assert.IsNotNull(spillReportList[0].LastUpdateContactTVItemLanguage);
-            Assert.IsNotNull(spillReportList[0].SpillID);
-            Assert.IsNotNull(spillReportList[0].MunicipalityTVItemID);
-            if (spillReportList[0].InfrastructureTVItemID != null)
+            Assert.IsNotNull(spill_BList[0].MunicipalityTVItemLanguage);
+            Assert.IsNotNull(spill_BList[0].InfrastructureTVItemLanguage);
+            Assert.IsNotNull(spill_BList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(spill_BList[0].SpillID);
+            Assert.IsNotNull(spill_BList[0].MunicipalityTVItemID);
+            if (spill_BList[0].InfrastructureTVItemID != null)
             {
-                Assert.IsNotNull(spillReportList[0].InfrastructureTVItemID);
+                Assert.IsNotNull(spill_BList[0].InfrastructureTVItemID);
             }
-            Assert.IsNotNull(spillReportList[0].StartDateTime_Local);
-            if (spillReportList[0].EndDateTime_Local != null)
+            Assert.IsNotNull(spill_BList[0].StartDateTime_Local);
+            if (spill_BList[0].EndDateTime_Local != null)
             {
-                Assert.IsNotNull(spillReportList[0].EndDateTime_Local);
+                Assert.IsNotNull(spill_BList[0].EndDateTime_Local);
             }
-            Assert.IsNotNull(spillReportList[0].AverageFlow_m3_day);
-            Assert.IsNotNull(spillReportList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(spillReportList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(spillReportList[0].HasErrors);
+            Assert.IsNotNull(spill_BList[0].AverageFlow_m3_day);
+            Assert.IsNotNull(spill_BList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(spill_BList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(spill_BList[0].HasErrors);
         }
         private Spill GetFilledRandomSpill(string OmitPropName)
         {

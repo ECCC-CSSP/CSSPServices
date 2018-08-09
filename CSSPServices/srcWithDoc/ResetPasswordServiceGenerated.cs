@@ -155,31 +155,31 @@ namespace CSSPServices
 
             return ResetPasswordQuery;
         }
-        public ResetPasswordWeb GetResetPasswordWebWithResetPasswordID(int ResetPasswordID)
+        public ResetPassword_A GetResetPassword_AWithResetPasswordID(int ResetPasswordID)
         {
-            return FillResetPasswordWeb().Where(c => c.ResetPasswordID == ResetPasswordID).FirstOrDefault();
+            return FillResetPassword_A().Where(c => c.ResetPasswordID == ResetPasswordID).FirstOrDefault();
 
         }
-        public IQueryable<ResetPasswordWeb> GetResetPasswordWebList()
+        public IQueryable<ResetPassword_A> GetResetPassword_AList()
         {
-            IQueryable<ResetPasswordWeb> ResetPasswordWebQuery = FillResetPasswordWeb();
+            IQueryable<ResetPassword_A> ResetPassword_AQuery = FillResetPassword_A();
 
-            ResetPasswordWebQuery = EnhanceQueryStatements<ResetPasswordWeb>(ResetPasswordWebQuery) as IQueryable<ResetPasswordWeb>;
+            ResetPassword_AQuery = EnhanceQueryStatements<ResetPassword_A>(ResetPassword_AQuery) as IQueryable<ResetPassword_A>;
 
-            return ResetPasswordWebQuery;
+            return ResetPassword_AQuery;
         }
-        public ResetPasswordReport GetResetPasswordReportWithResetPasswordID(int ResetPasswordID)
+        public ResetPassword_B GetResetPassword_BWithResetPasswordID(int ResetPasswordID)
         {
-            return FillResetPasswordReport().Where(c => c.ResetPasswordID == ResetPasswordID).FirstOrDefault();
+            return FillResetPassword_B().Where(c => c.ResetPasswordID == ResetPasswordID).FirstOrDefault();
 
         }
-        public IQueryable<ResetPasswordReport> GetResetPasswordReportList()
+        public IQueryable<ResetPassword_B> GetResetPassword_BList()
         {
-            IQueryable<ResetPasswordReport> ResetPasswordReportQuery = FillResetPasswordReport();
+            IQueryable<ResetPassword_B> ResetPassword_BQuery = FillResetPassword_B();
 
-            ResetPasswordReportQuery = EnhanceQueryStatements<ResetPasswordReport>(ResetPasswordReportQuery) as IQueryable<ResetPasswordReport>;
+            ResetPassword_BQuery = EnhanceQueryStatements<ResetPassword_B>(ResetPassword_BQuery) as IQueryable<ResetPassword_B>;
 
-            return ResetPasswordReportQuery;
+            return ResetPassword_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -218,31 +218,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated ResetPasswordFillWeb
-        private IQueryable<ResetPasswordWeb> FillResetPasswordWeb()
-        {
-             IQueryable<ResetPasswordWeb> ResetPasswordWebQuery = (from c in db.ResetPasswords
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new ResetPasswordWeb
-                    {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        ResetPasswordID = c.ResetPasswordID,
-                        Email = c.Email,
-                        ExpireDate_Local = c.ExpireDate_Local,
-                        Code = c.Code,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return ResetPasswordWebQuery;
-        }
-        #endregion Functions private Generated ResetPasswordFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(ResetPassword resetPassword)

@@ -412,27 +412,27 @@ namespace CSSPServices.Tests
                     UseOfSite useOfSite = (from c in dbTestDB.UseOfSites select c).FirstOrDefault();
                     Assert.IsNotNull(useOfSite);
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        useOfSiteService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        useOfSiteService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             UseOfSite useOfSiteRet = useOfSiteService.GetUseOfSiteWithUseOfSiteID(useOfSite.UseOfSiteID);
                             CheckUseOfSiteFields(new List<UseOfSite>() { useOfSiteRet });
                             Assert.AreEqual(useOfSite.UseOfSiteID, useOfSiteRet.UseOfSiteID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            UseOfSiteWeb useOfSiteWebRet = useOfSiteService.GetUseOfSiteWebWithUseOfSiteID(useOfSite.UseOfSiteID);
-                            CheckUseOfSiteWebFields(new List<UseOfSiteWeb>() { useOfSiteWebRet });
-                            Assert.AreEqual(useOfSite.UseOfSiteID, useOfSiteWebRet.UseOfSiteID);
+                            UseOfSite_A useOfSite_ARet = useOfSiteService.GetUseOfSite_AWithUseOfSiteID(useOfSite.UseOfSiteID);
+                            CheckUseOfSite_AFields(new List<UseOfSite_A>() { useOfSite_ARet });
+                            Assert.AreEqual(useOfSite.UseOfSiteID, useOfSite_ARet.UseOfSiteID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            UseOfSiteReport useOfSiteReportRet = useOfSiteService.GetUseOfSiteReportWithUseOfSiteID(useOfSite.UseOfSiteID);
-                            CheckUseOfSiteReportFields(new List<UseOfSiteReport>() { useOfSiteReportRet });
-                            Assert.AreEqual(useOfSite.UseOfSiteID, useOfSiteReportRet.UseOfSiteID);
+                            UseOfSite_B useOfSite_BRet = useOfSiteService.GetUseOfSite_BWithUseOfSiteID(useOfSite.UseOfSiteID);
+                            CheckUseOfSite_BFields(new List<UseOfSite_B>() { useOfSite_BRet });
+                            Assert.AreEqual(useOfSite.UseOfSiteID, useOfSite_BRet.UseOfSiteID);
                         }
                         else
                         {
@@ -461,30 +461,29 @@ namespace CSSPServices.Tests
                     List<UseOfSite> useOfSiteDirectQueryList = new List<UseOfSite>();
                     useOfSiteDirectQueryList = (from c in dbTestDB.UseOfSites select c).Take(200).ToList();
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        useOfSiteService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        useOfSiteService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<UseOfSite> useOfSiteList = new List<UseOfSite>();
                             useOfSiteList = useOfSiteService.GetUseOfSiteList().ToList();
                             CheckUseOfSiteFields(useOfSiteList);
-                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSiteList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<UseOfSiteWeb> useOfSiteWebList = new List<UseOfSiteWeb>();
-                            useOfSiteWebList = useOfSiteService.GetUseOfSiteWebList().ToList();
-                            CheckUseOfSiteWebFields(useOfSiteWebList);
-                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSiteWebList.Count);
+                            List<UseOfSite_A> useOfSite_AList = new List<UseOfSite_A>();
+                            useOfSite_AList = useOfSiteService.GetUseOfSite_AList().ToList();
+                            CheckUseOfSite_AFields(useOfSite_AList);
+                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSite_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<UseOfSiteReport> useOfSiteReportList = new List<UseOfSiteReport>();
-                            useOfSiteReportList = useOfSiteService.GetUseOfSiteReportList().ToList();
-                            CheckUseOfSiteReportFields(useOfSiteReportList);
-                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSiteReportList.Count);
+                            List<UseOfSite_B> useOfSite_BList = new List<UseOfSite_B>();
+                            useOfSite_BList = useOfSiteService.GetUseOfSite_BList().ToList();
+                            CheckUseOfSite_BFields(useOfSite_BList);
+                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSite_BList.Count);
                         }
                         else
                         {
@@ -506,38 +505,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         UseOfSiteService useOfSiteService = new UseOfSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        useOfSiteService.Query = useOfSiteService.FillQuery(typeof(UseOfSite), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        useOfSiteService.Query = useOfSiteService.FillQuery(typeof(UseOfSite), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
 
                         List<UseOfSite> useOfSiteDirectQueryList = new List<UseOfSite>();
                         useOfSiteDirectQueryList = (from c in dbTestDB.UseOfSites select c).Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<UseOfSite> useOfSiteList = new List<UseOfSite>();
                             useOfSiteList = useOfSiteService.GetUseOfSiteList().ToList();
                             CheckUseOfSiteFields(useOfSiteList);
                             Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSiteList[0].UseOfSiteID);
-                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSiteList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<UseOfSiteWeb> useOfSiteWebList = new List<UseOfSiteWeb>();
-                            useOfSiteWebList = useOfSiteService.GetUseOfSiteWebList().ToList();
-                            CheckUseOfSiteWebFields(useOfSiteWebList);
-                            Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSiteWebList[0].UseOfSiteID);
-                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSiteWebList.Count);
+                            List<UseOfSite_A> useOfSite_AList = new List<UseOfSite_A>();
+                            useOfSite_AList = useOfSiteService.GetUseOfSite_AList().ToList();
+                            CheckUseOfSite_AFields(useOfSite_AList);
+                            Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSite_AList[0].UseOfSiteID);
+                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSite_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<UseOfSiteReport> useOfSiteReportList = new List<UseOfSiteReport>();
-                            useOfSiteReportList = useOfSiteService.GetUseOfSiteReportList().ToList();
-                            CheckUseOfSiteReportFields(useOfSiteReportList);
-                            Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSiteReportList[0].UseOfSiteID);
-                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSiteReportList.Count);
+                            List<UseOfSite_B> useOfSite_BList = new List<UseOfSite_B>();
+                            useOfSite_BList = useOfSiteService.GetUseOfSite_BList().ToList();
+                            CheckUseOfSite_BFields(useOfSite_BList);
+                            Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSite_BList[0].UseOfSiteID);
+                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSite_BList.Count);
                         }
                         else
                         {
@@ -559,38 +557,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         UseOfSiteService useOfSiteService = new UseOfSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        useOfSiteService.Query = useOfSiteService.FillQuery(typeof(UseOfSite), culture.TwoLetterISOLanguageName, 1, 1,  "UseOfSiteID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        useOfSiteService.Query = useOfSiteService.FillQuery(typeof(UseOfSite), culture.TwoLetterISOLanguageName, 1, 1,  "UseOfSiteID", "");
 
                         List<UseOfSite> useOfSiteDirectQueryList = new List<UseOfSite>();
                         useOfSiteDirectQueryList = (from c in dbTestDB.UseOfSites select c).Skip(1).Take(1).OrderBy(c => c.UseOfSiteID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<UseOfSite> useOfSiteList = new List<UseOfSite>();
                             useOfSiteList = useOfSiteService.GetUseOfSiteList().ToList();
                             CheckUseOfSiteFields(useOfSiteList);
                             Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSiteList[0].UseOfSiteID);
-                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSiteList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<UseOfSiteWeb> useOfSiteWebList = new List<UseOfSiteWeb>();
-                            useOfSiteWebList = useOfSiteService.GetUseOfSiteWebList().ToList();
-                            CheckUseOfSiteWebFields(useOfSiteWebList);
-                            Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSiteWebList[0].UseOfSiteID);
-                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSiteWebList.Count);
+                            List<UseOfSite_A> useOfSite_AList = new List<UseOfSite_A>();
+                            useOfSite_AList = useOfSiteService.GetUseOfSite_AList().ToList();
+                            CheckUseOfSite_AFields(useOfSite_AList);
+                            Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSite_AList[0].UseOfSiteID);
+                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSite_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<UseOfSiteReport> useOfSiteReportList = new List<UseOfSiteReport>();
-                            useOfSiteReportList = useOfSiteService.GetUseOfSiteReportList().ToList();
-                            CheckUseOfSiteReportFields(useOfSiteReportList);
-                            Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSiteReportList[0].UseOfSiteID);
-                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSiteReportList.Count);
+                            List<UseOfSite_B> useOfSite_BList = new List<UseOfSite_B>();
+                            useOfSite_BList = useOfSiteService.GetUseOfSite_BList().ToList();
+                            CheckUseOfSite_BFields(useOfSite_BList);
+                            Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSite_BList[0].UseOfSiteID);
+                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSite_BList.Count);
                         }
                         else
                         {
@@ -612,38 +609,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         UseOfSiteService useOfSiteService = new UseOfSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        useOfSiteService.Query = useOfSiteService.FillQuery(typeof(UseOfSite), culture.TwoLetterISOLanguageName, 1, 1, "UseOfSiteID,SiteTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        useOfSiteService.Query = useOfSiteService.FillQuery(typeof(UseOfSite), culture.TwoLetterISOLanguageName, 1, 1, "UseOfSiteID,SiteTVItemID", "");
 
                         List<UseOfSite> useOfSiteDirectQueryList = new List<UseOfSite>();
                         useOfSiteDirectQueryList = (from c in dbTestDB.UseOfSites select c).Skip(1).Take(1).OrderBy(c => c.UseOfSiteID).ThenBy(c => c.SiteTVItemID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<UseOfSite> useOfSiteList = new List<UseOfSite>();
                             useOfSiteList = useOfSiteService.GetUseOfSiteList().ToList();
                             CheckUseOfSiteFields(useOfSiteList);
                             Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSiteList[0].UseOfSiteID);
-                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSiteList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<UseOfSiteWeb> useOfSiteWebList = new List<UseOfSiteWeb>();
-                            useOfSiteWebList = useOfSiteService.GetUseOfSiteWebList().ToList();
-                            CheckUseOfSiteWebFields(useOfSiteWebList);
-                            Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSiteWebList[0].UseOfSiteID);
-                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSiteWebList.Count);
+                            List<UseOfSite_A> useOfSite_AList = new List<UseOfSite_A>();
+                            useOfSite_AList = useOfSiteService.GetUseOfSite_AList().ToList();
+                            CheckUseOfSite_AFields(useOfSite_AList);
+                            Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSite_AList[0].UseOfSiteID);
+                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSite_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<UseOfSiteReport> useOfSiteReportList = new List<UseOfSiteReport>();
-                            useOfSiteReportList = useOfSiteService.GetUseOfSiteReportList().ToList();
-                            CheckUseOfSiteReportFields(useOfSiteReportList);
-                            Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSiteReportList[0].UseOfSiteID);
-                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSiteReportList.Count);
+                            List<UseOfSite_B> useOfSite_BList = new List<UseOfSite_B>();
+                            useOfSite_BList = useOfSiteService.GetUseOfSite_BList().ToList();
+                            CheckUseOfSite_BFields(useOfSite_BList);
+                            Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSite_BList[0].UseOfSiteID);
+                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSite_BList.Count);
                         }
                         else
                         {
@@ -665,38 +661,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         UseOfSiteService useOfSiteService = new UseOfSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        useOfSiteService.Query = useOfSiteService.FillQuery(typeof(UseOfSite), culture.TwoLetterISOLanguageName, 0, 1, "UseOfSiteID", "UseOfSiteID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        useOfSiteService.Query = useOfSiteService.FillQuery(typeof(UseOfSite), culture.TwoLetterISOLanguageName, 0, 1, "UseOfSiteID", "UseOfSiteID,EQ,4", "");
 
                         List<UseOfSite> useOfSiteDirectQueryList = new List<UseOfSite>();
                         useOfSiteDirectQueryList = (from c in dbTestDB.UseOfSites select c).Where(c => c.UseOfSiteID == 4).Skip(0).Take(1).OrderBy(c => c.UseOfSiteID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<UseOfSite> useOfSiteList = new List<UseOfSite>();
                             useOfSiteList = useOfSiteService.GetUseOfSiteList().ToList();
                             CheckUseOfSiteFields(useOfSiteList);
                             Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSiteList[0].UseOfSiteID);
-                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSiteList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<UseOfSiteWeb> useOfSiteWebList = new List<UseOfSiteWeb>();
-                            useOfSiteWebList = useOfSiteService.GetUseOfSiteWebList().ToList();
-                            CheckUseOfSiteWebFields(useOfSiteWebList);
-                            Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSiteWebList[0].UseOfSiteID);
-                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSiteWebList.Count);
+                            List<UseOfSite_A> useOfSite_AList = new List<UseOfSite_A>();
+                            useOfSite_AList = useOfSiteService.GetUseOfSite_AList().ToList();
+                            CheckUseOfSite_AFields(useOfSite_AList);
+                            Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSite_AList[0].UseOfSiteID);
+                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSite_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<UseOfSiteReport> useOfSiteReportList = new List<UseOfSiteReport>();
-                            useOfSiteReportList = useOfSiteService.GetUseOfSiteReportList().ToList();
-                            CheckUseOfSiteReportFields(useOfSiteReportList);
-                            Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSiteReportList[0].UseOfSiteID);
-                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSiteReportList.Count);
+                            List<UseOfSite_B> useOfSite_BList = new List<UseOfSite_B>();
+                            useOfSite_BList = useOfSiteService.GetUseOfSite_BList().ToList();
+                            CheckUseOfSite_BFields(useOfSite_BList);
+                            Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSite_BList[0].UseOfSiteID);
+                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSite_BList.Count);
                         }
                         else
                         {
@@ -718,38 +713,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         UseOfSiteService useOfSiteService = new UseOfSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        useOfSiteService.Query = useOfSiteService.FillQuery(typeof(UseOfSite), culture.TwoLetterISOLanguageName, 0, 1, "UseOfSiteID", "UseOfSiteID,GT,2|UseOfSiteID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        useOfSiteService.Query = useOfSiteService.FillQuery(typeof(UseOfSite), culture.TwoLetterISOLanguageName, 0, 1, "UseOfSiteID", "UseOfSiteID,GT,2|UseOfSiteID,LT,5", "");
 
                         List<UseOfSite> useOfSiteDirectQueryList = new List<UseOfSite>();
                         useOfSiteDirectQueryList = (from c in dbTestDB.UseOfSites select c).Where(c => c.UseOfSiteID > 2 && c.UseOfSiteID < 5).Skip(0).Take(1).OrderBy(c => c.UseOfSiteID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<UseOfSite> useOfSiteList = new List<UseOfSite>();
                             useOfSiteList = useOfSiteService.GetUseOfSiteList().ToList();
                             CheckUseOfSiteFields(useOfSiteList);
                             Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSiteList[0].UseOfSiteID);
-                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSiteList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<UseOfSiteWeb> useOfSiteWebList = new List<UseOfSiteWeb>();
-                            useOfSiteWebList = useOfSiteService.GetUseOfSiteWebList().ToList();
-                            CheckUseOfSiteWebFields(useOfSiteWebList);
-                            Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSiteWebList[0].UseOfSiteID);
-                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSiteWebList.Count);
+                            List<UseOfSite_A> useOfSite_AList = new List<UseOfSite_A>();
+                            useOfSite_AList = useOfSiteService.GetUseOfSite_AList().ToList();
+                            CheckUseOfSite_AFields(useOfSite_AList);
+                            Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSite_AList[0].UseOfSiteID);
+                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSite_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<UseOfSiteReport> useOfSiteReportList = new List<UseOfSiteReport>();
-                            useOfSiteReportList = useOfSiteService.GetUseOfSiteReportList().ToList();
-                            CheckUseOfSiteReportFields(useOfSiteReportList);
-                            Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSiteReportList[0].UseOfSiteID);
-                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSiteReportList.Count);
+                            List<UseOfSite_B> useOfSite_BList = new List<UseOfSite_B>();
+                            useOfSite_BList = useOfSiteService.GetUseOfSite_BList().ToList();
+                            CheckUseOfSite_BFields(useOfSite_BList);
+                            Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSite_BList[0].UseOfSiteID);
+                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSite_BList.Count);
                         }
                         else
                         {
@@ -771,38 +765,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         UseOfSiteService useOfSiteService = new UseOfSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        useOfSiteService.Query = useOfSiteService.FillQuery(typeof(UseOfSite), culture.TwoLetterISOLanguageName, 0, 10000, "", "UseOfSiteID,GT,2|UseOfSiteID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        useOfSiteService.Query = useOfSiteService.FillQuery(typeof(UseOfSite), culture.TwoLetterISOLanguageName, 0, 10000, "", "UseOfSiteID,GT,2|UseOfSiteID,LT,5", "");
 
                         List<UseOfSite> useOfSiteDirectQueryList = new List<UseOfSite>();
                         useOfSiteDirectQueryList = (from c in dbTestDB.UseOfSites select c).Where(c => c.UseOfSiteID > 2 && c.UseOfSiteID < 5).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<UseOfSite> useOfSiteList = new List<UseOfSite>();
                             useOfSiteList = useOfSiteService.GetUseOfSiteList().ToList();
                             CheckUseOfSiteFields(useOfSiteList);
                             Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSiteList[0].UseOfSiteID);
-                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSiteList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<UseOfSiteWeb> useOfSiteWebList = new List<UseOfSiteWeb>();
-                            useOfSiteWebList = useOfSiteService.GetUseOfSiteWebList().ToList();
-                            CheckUseOfSiteWebFields(useOfSiteWebList);
-                            Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSiteWebList[0].UseOfSiteID);
-                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSiteWebList.Count);
+                            List<UseOfSite_A> useOfSite_AList = new List<UseOfSite_A>();
+                            useOfSite_AList = useOfSiteService.GetUseOfSite_AList().ToList();
+                            CheckUseOfSite_AFields(useOfSite_AList);
+                            Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSite_AList[0].UseOfSiteID);
+                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSite_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<UseOfSiteReport> useOfSiteReportList = new List<UseOfSiteReport>();
-                            useOfSiteReportList = useOfSiteService.GetUseOfSiteReportList().ToList();
-                            CheckUseOfSiteReportFields(useOfSiteReportList);
-                            Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSiteReportList[0].UseOfSiteID);
-                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSiteReportList.Count);
+                            List<UseOfSite_B> useOfSite_BList = new List<UseOfSite_B>();
+                            useOfSite_BList = useOfSiteService.GetUseOfSite_BList().ToList();
+                            CheckUseOfSite_BFields(useOfSite_BList);
+                            Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSite_BList[0].UseOfSiteID);
+                            Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSite_BList.Count);
                         }
                         else
                         {
@@ -859,111 +852,111 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(useOfSiteList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(useOfSiteList[0].HasErrors);
         }
-        private void CheckUseOfSiteWebFields(List<UseOfSiteWeb> useOfSiteWebList)
+        private void CheckUseOfSite_AFields(List<UseOfSite_A> useOfSite_AList)
         {
-            Assert.IsNotNull(useOfSiteWebList[0].SiteTVItemLanguage);
-            Assert.IsNotNull(useOfSiteWebList[0].SubsectorTVItemLanguage);
-            Assert.IsNotNull(useOfSiteWebList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(useOfSiteWebList[0].SiteTypeText))
+            Assert.IsNotNull(useOfSite_AList[0].SiteTVItemLanguage);
+            Assert.IsNotNull(useOfSite_AList[0].SubsectorTVItemLanguage);
+            Assert.IsNotNull(useOfSite_AList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(useOfSite_AList[0].SiteTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteWebList[0].SiteTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSite_AList[0].SiteTypeText));
             }
-            Assert.IsNotNull(useOfSiteWebList[0].UseOfSiteID);
-            Assert.IsNotNull(useOfSiteWebList[0].SiteTVItemID);
-            Assert.IsNotNull(useOfSiteWebList[0].SubsectorTVItemID);
-            Assert.IsNotNull(useOfSiteWebList[0].SiteType);
-            Assert.IsNotNull(useOfSiteWebList[0].Ordinal);
-            Assert.IsNotNull(useOfSiteWebList[0].StartYear);
-            if (useOfSiteWebList[0].EndYear != null)
+            Assert.IsNotNull(useOfSite_AList[0].UseOfSiteID);
+            Assert.IsNotNull(useOfSite_AList[0].SiteTVItemID);
+            Assert.IsNotNull(useOfSite_AList[0].SubsectorTVItemID);
+            Assert.IsNotNull(useOfSite_AList[0].SiteType);
+            Assert.IsNotNull(useOfSite_AList[0].Ordinal);
+            Assert.IsNotNull(useOfSite_AList[0].StartYear);
+            if (useOfSite_AList[0].EndYear != null)
             {
-                Assert.IsNotNull(useOfSiteWebList[0].EndYear);
+                Assert.IsNotNull(useOfSite_AList[0].EndYear);
             }
-            if (useOfSiteWebList[0].UseWeight != null)
+            if (useOfSite_AList[0].UseWeight != null)
             {
-                Assert.IsNotNull(useOfSiteWebList[0].UseWeight);
+                Assert.IsNotNull(useOfSite_AList[0].UseWeight);
             }
-            if (useOfSiteWebList[0].Weight_perc != null)
+            if (useOfSite_AList[0].Weight_perc != null)
             {
-                Assert.IsNotNull(useOfSiteWebList[0].Weight_perc);
+                Assert.IsNotNull(useOfSite_AList[0].Weight_perc);
             }
-            if (useOfSiteWebList[0].UseEquation != null)
+            if (useOfSite_AList[0].UseEquation != null)
             {
-                Assert.IsNotNull(useOfSiteWebList[0].UseEquation);
+                Assert.IsNotNull(useOfSite_AList[0].UseEquation);
             }
-            if (useOfSiteWebList[0].Param1 != null)
+            if (useOfSite_AList[0].Param1 != null)
             {
-                Assert.IsNotNull(useOfSiteWebList[0].Param1);
+                Assert.IsNotNull(useOfSite_AList[0].Param1);
             }
-            if (useOfSiteWebList[0].Param2 != null)
+            if (useOfSite_AList[0].Param2 != null)
             {
-                Assert.IsNotNull(useOfSiteWebList[0].Param2);
+                Assert.IsNotNull(useOfSite_AList[0].Param2);
             }
-            if (useOfSiteWebList[0].Param3 != null)
+            if (useOfSite_AList[0].Param3 != null)
             {
-                Assert.IsNotNull(useOfSiteWebList[0].Param3);
+                Assert.IsNotNull(useOfSite_AList[0].Param3);
             }
-            if (useOfSiteWebList[0].Param4 != null)
+            if (useOfSite_AList[0].Param4 != null)
             {
-                Assert.IsNotNull(useOfSiteWebList[0].Param4);
+                Assert.IsNotNull(useOfSite_AList[0].Param4);
             }
-            Assert.IsNotNull(useOfSiteWebList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(useOfSiteWebList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(useOfSiteWebList[0].HasErrors);
+            Assert.IsNotNull(useOfSite_AList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(useOfSite_AList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(useOfSite_AList[0].HasErrors);
         }
-        private void CheckUseOfSiteReportFields(List<UseOfSiteReport> useOfSiteReportList)
+        private void CheckUseOfSite_BFields(List<UseOfSite_B> useOfSite_BList)
         {
-            if (!string.IsNullOrWhiteSpace(useOfSiteReportList[0].UseOfSiteReportTest))
+            if (!string.IsNullOrWhiteSpace(useOfSite_BList[0].UseOfSiteReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteReportList[0].UseOfSiteReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSite_BList[0].UseOfSiteReportTest));
             }
-            Assert.IsNotNull(useOfSiteReportList[0].SiteTVItemLanguage);
-            Assert.IsNotNull(useOfSiteReportList[0].SubsectorTVItemLanguage);
-            Assert.IsNotNull(useOfSiteReportList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(useOfSiteReportList[0].SiteTypeText))
+            Assert.IsNotNull(useOfSite_BList[0].SiteTVItemLanguage);
+            Assert.IsNotNull(useOfSite_BList[0].SubsectorTVItemLanguage);
+            Assert.IsNotNull(useOfSite_BList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(useOfSite_BList[0].SiteTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteReportList[0].SiteTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSite_BList[0].SiteTypeText));
             }
-            Assert.IsNotNull(useOfSiteReportList[0].UseOfSiteID);
-            Assert.IsNotNull(useOfSiteReportList[0].SiteTVItemID);
-            Assert.IsNotNull(useOfSiteReportList[0].SubsectorTVItemID);
-            Assert.IsNotNull(useOfSiteReportList[0].SiteType);
-            Assert.IsNotNull(useOfSiteReportList[0].Ordinal);
-            Assert.IsNotNull(useOfSiteReportList[0].StartYear);
-            if (useOfSiteReportList[0].EndYear != null)
+            Assert.IsNotNull(useOfSite_BList[0].UseOfSiteID);
+            Assert.IsNotNull(useOfSite_BList[0].SiteTVItemID);
+            Assert.IsNotNull(useOfSite_BList[0].SubsectorTVItemID);
+            Assert.IsNotNull(useOfSite_BList[0].SiteType);
+            Assert.IsNotNull(useOfSite_BList[0].Ordinal);
+            Assert.IsNotNull(useOfSite_BList[0].StartYear);
+            if (useOfSite_BList[0].EndYear != null)
             {
-                Assert.IsNotNull(useOfSiteReportList[0].EndYear);
+                Assert.IsNotNull(useOfSite_BList[0].EndYear);
             }
-            if (useOfSiteReportList[0].UseWeight != null)
+            if (useOfSite_BList[0].UseWeight != null)
             {
-                Assert.IsNotNull(useOfSiteReportList[0].UseWeight);
+                Assert.IsNotNull(useOfSite_BList[0].UseWeight);
             }
-            if (useOfSiteReportList[0].Weight_perc != null)
+            if (useOfSite_BList[0].Weight_perc != null)
             {
-                Assert.IsNotNull(useOfSiteReportList[0].Weight_perc);
+                Assert.IsNotNull(useOfSite_BList[0].Weight_perc);
             }
-            if (useOfSiteReportList[0].UseEquation != null)
+            if (useOfSite_BList[0].UseEquation != null)
             {
-                Assert.IsNotNull(useOfSiteReportList[0].UseEquation);
+                Assert.IsNotNull(useOfSite_BList[0].UseEquation);
             }
-            if (useOfSiteReportList[0].Param1 != null)
+            if (useOfSite_BList[0].Param1 != null)
             {
-                Assert.IsNotNull(useOfSiteReportList[0].Param1);
+                Assert.IsNotNull(useOfSite_BList[0].Param1);
             }
-            if (useOfSiteReportList[0].Param2 != null)
+            if (useOfSite_BList[0].Param2 != null)
             {
-                Assert.IsNotNull(useOfSiteReportList[0].Param2);
+                Assert.IsNotNull(useOfSite_BList[0].Param2);
             }
-            if (useOfSiteReportList[0].Param3 != null)
+            if (useOfSite_BList[0].Param3 != null)
             {
-                Assert.IsNotNull(useOfSiteReportList[0].Param3);
+                Assert.IsNotNull(useOfSite_BList[0].Param3);
             }
-            if (useOfSiteReportList[0].Param4 != null)
+            if (useOfSite_BList[0].Param4 != null)
             {
-                Assert.IsNotNull(useOfSiteReportList[0].Param4);
+                Assert.IsNotNull(useOfSite_BList[0].Param4);
             }
-            Assert.IsNotNull(useOfSiteReportList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(useOfSiteReportList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(useOfSiteReportList[0].HasErrors);
+            Assert.IsNotNull(useOfSite_BList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(useOfSite_BList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(useOfSite_BList[0].HasErrors);
         }
         private UseOfSite GetFilledRandomUseOfSite(string OmitPropName)
         {

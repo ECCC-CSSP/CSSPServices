@@ -151,31 +151,31 @@ namespace CSSPServices
 
             return AppTaskLanguageQuery;
         }
-        public AppTaskLanguageWeb GetAppTaskLanguageWebWithAppTaskLanguageID(int AppTaskLanguageID)
+        public AppTaskLanguage_A GetAppTaskLanguage_AWithAppTaskLanguageID(int AppTaskLanguageID)
         {
-            return FillAppTaskLanguageWeb().Where(c => c.AppTaskLanguageID == AppTaskLanguageID).FirstOrDefault();
+            return FillAppTaskLanguage_A().Where(c => c.AppTaskLanguageID == AppTaskLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<AppTaskLanguageWeb> GetAppTaskLanguageWebList()
+        public IQueryable<AppTaskLanguage_A> GetAppTaskLanguage_AList()
         {
-            IQueryable<AppTaskLanguageWeb> AppTaskLanguageWebQuery = FillAppTaskLanguageWeb();
+            IQueryable<AppTaskLanguage_A> AppTaskLanguage_AQuery = FillAppTaskLanguage_A();
 
-            AppTaskLanguageWebQuery = EnhanceQueryStatements<AppTaskLanguageWeb>(AppTaskLanguageWebQuery) as IQueryable<AppTaskLanguageWeb>;
+            AppTaskLanguage_AQuery = EnhanceQueryStatements<AppTaskLanguage_A>(AppTaskLanguage_AQuery) as IQueryable<AppTaskLanguage_A>;
 
-            return AppTaskLanguageWebQuery;
+            return AppTaskLanguage_AQuery;
         }
-        public AppTaskLanguageReport GetAppTaskLanguageReportWithAppTaskLanguageID(int AppTaskLanguageID)
+        public AppTaskLanguage_B GetAppTaskLanguage_BWithAppTaskLanguageID(int AppTaskLanguageID)
         {
-            return FillAppTaskLanguageReport().Where(c => c.AppTaskLanguageID == AppTaskLanguageID).FirstOrDefault();
+            return FillAppTaskLanguage_B().Where(c => c.AppTaskLanguageID == AppTaskLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<AppTaskLanguageReport> GetAppTaskLanguageReportList()
+        public IQueryable<AppTaskLanguage_B> GetAppTaskLanguage_BList()
         {
-            IQueryable<AppTaskLanguageReport> AppTaskLanguageReportQuery = FillAppTaskLanguageReport();
+            IQueryable<AppTaskLanguage_B> AppTaskLanguage_BQuery = FillAppTaskLanguage_B();
 
-            AppTaskLanguageReportQuery = EnhanceQueryStatements<AppTaskLanguageReport>(AppTaskLanguageReportQuery) as IQueryable<AppTaskLanguageReport>;
+            AppTaskLanguage_BQuery = EnhanceQueryStatements<AppTaskLanguage_B>(AppTaskLanguage_BQuery) as IQueryable<AppTaskLanguage_B>;
 
-            return AppTaskLanguageReportQuery;
+            return AppTaskLanguage_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -214,44 +214,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated AppTaskLanguageFillWeb
-        private IQueryable<AppTaskLanguageWeb> FillAppTaskLanguageWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
-            List<EnumIDAndText> TranslationStatusEnumList = enums.GetEnumTextOrderedList(typeof(TranslationStatusEnum));
-
-             IQueryable<AppTaskLanguageWeb> AppTaskLanguageWebQuery = (from c in db.AppTaskLanguages
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new AppTaskLanguageWeb
-                    {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        LanguageText = (from e in LanguageEnumList
-                                where e.EnumID == (int?)c.Language
-                                select e.EnumText).FirstOrDefault(),
-                        TranslationStatusText = (from e in TranslationStatusEnumList
-                                where e.EnumID == (int?)c.TranslationStatus
-                                select e.EnumText).FirstOrDefault(),
-                        AppTaskLanguageID = c.AppTaskLanguageID,
-                        AppTaskID = c.AppTaskID,
-                        Language = c.Language,
-                        StatusText = c.StatusText,
-                        ErrorText = c.ErrorText,
-                        TranslationStatus = c.TranslationStatus,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return AppTaskLanguageWebQuery;
-        }
-        #endregion Functions private Generated AppTaskLanguageFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(AppTaskLanguage appTaskLanguage)

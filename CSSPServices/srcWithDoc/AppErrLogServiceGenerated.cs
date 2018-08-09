@@ -165,31 +165,57 @@ namespace CSSPServices
 
             return AppErrLogQuery;
         }
-        public AppErrLogWeb GetAppErrLogWebWithAppErrLogID(int AppErrLogID)
+        public AppErrLog_A GetAppErrLog_AWithAppErrLogID(int AppErrLogID)
         {
-            return FillAppErrLogWeb().Where(c => c.AppErrLogID == AppErrLogID).FirstOrDefault();
+            return FillAppErrLog_A().Where(c => c.AppErrLogID == AppErrLogID).FirstOrDefault();
 
         }
-        public IQueryable<AppErrLogWeb> GetAppErrLogWebList()
+        public IQueryable<AppErrLog_A> GetAppErrLog_AList()
         {
-            IQueryable<AppErrLogWeb> AppErrLogWebQuery = FillAppErrLogWeb();
+            IQueryable<AppErrLog_A> AppErrLog_AQuery = FillAppErrLog_A();
 
-            AppErrLogWebQuery = EnhanceQueryStatements<AppErrLogWeb>(AppErrLogWebQuery) as IQueryable<AppErrLogWeb>;
+            AppErrLog_AQuery = EnhanceQueryStatements<AppErrLog_A>(AppErrLog_AQuery) as IQueryable<AppErrLog_A>;
 
-            return AppErrLogWebQuery;
+            return AppErrLog_AQuery;
         }
-        public AppErrLogReport GetAppErrLogReportWithAppErrLogID(int AppErrLogID)
+        public AppErrLog_B GetAppErrLog_BWithAppErrLogID(int AppErrLogID)
         {
-            return FillAppErrLogReport().Where(c => c.AppErrLogID == AppErrLogID).FirstOrDefault();
+            return FillAppErrLog_B().Where(c => c.AppErrLogID == AppErrLogID).FirstOrDefault();
 
         }
-        public IQueryable<AppErrLogReport> GetAppErrLogReportList()
+        public IQueryable<AppErrLog_B> GetAppErrLog_BList()
         {
-            IQueryable<AppErrLogReport> AppErrLogReportQuery = FillAppErrLogReport();
+            IQueryable<AppErrLog_B> AppErrLog_BQuery = FillAppErrLog_B();
 
-            AppErrLogReportQuery = EnhanceQueryStatements<AppErrLogReport>(AppErrLogReportQuery) as IQueryable<AppErrLogReport>;
+            AppErrLog_BQuery = EnhanceQueryStatements<AppErrLog_B>(AppErrLog_BQuery) as IQueryable<AppErrLog_B>;
 
-            return AppErrLogReportQuery;
+            return AppErrLog_BQuery;
+        }
+        public AppErrLog_C GetAppErrLog_CWithAppErrLogID(int AppErrLogID)
+        {
+            return FillAppErrLog_C().Where(c => c.AppErrLogID == AppErrLogID).FirstOrDefault();
+
+        }
+        public IQueryable<AppErrLog_C> GetAppErrLog_CList()
+        {
+            IQueryable<AppErrLog_C> AppErrLog_CQuery = FillAppErrLog_C();
+
+            AppErrLog_CQuery = EnhanceQueryStatements<AppErrLog_C>(AppErrLog_CQuery) as IQueryable<AppErrLog_C>;
+
+            return AppErrLog_CQuery;
+        }
+        public AppErrLog_D GetAppErrLog_DWithAppErrLogID(int AppErrLogID)
+        {
+            return FillAppErrLog_D().Where(c => c.AppErrLogID == AppErrLogID).FirstOrDefault();
+
+        }
+        public IQueryable<AppErrLog_D> GetAppErrLog_DList()
+        {
+            IQueryable<AppErrLog_D> AppErrLog_DQuery = FillAppErrLog_D();
+
+            AppErrLog_DQuery = EnhanceQueryStatements<AppErrLog_D>(AppErrLog_DQuery) as IQueryable<AppErrLog_D>;
+
+            return AppErrLog_DQuery;
         }
         #endregion Functions public Generated Get
 
@@ -228,33 +254,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated AppErrLogFillWeb
-        private IQueryable<AppErrLogWeb> FillAppErrLogWeb()
-        {
-             IQueryable<AppErrLogWeb> AppErrLogWebQuery = (from c in db.AppErrLogs
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new AppErrLogWeb
-                    {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        AppErrLogID = c.AppErrLogID,
-                        Tag = c.Tag,
-                        LineNumber = c.LineNumber,
-                        Source = c.Source,
-                        Message = c.Message,
-                        DateTime_UTC = c.DateTime_UTC,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return AppErrLogWebQuery;
-        }
-        #endregion Functions private Generated AppErrLogFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(AppErrLog appErrLog)

@@ -247,31 +247,31 @@ namespace CSSPServices
 
             return ClimateDataValueQuery;
         }
-        public ClimateDataValueWeb GetClimateDataValueWebWithClimateDataValueID(int ClimateDataValueID)
+        public ClimateDataValue_A GetClimateDataValue_AWithClimateDataValueID(int ClimateDataValueID)
         {
-            return FillClimateDataValueWeb().Where(c => c.ClimateDataValueID == ClimateDataValueID).FirstOrDefault();
+            return FillClimateDataValue_A().Where(c => c.ClimateDataValueID == ClimateDataValueID).FirstOrDefault();
 
         }
-        public IQueryable<ClimateDataValueWeb> GetClimateDataValueWebList()
+        public IQueryable<ClimateDataValue_A> GetClimateDataValue_AList()
         {
-            IQueryable<ClimateDataValueWeb> ClimateDataValueWebQuery = FillClimateDataValueWeb();
+            IQueryable<ClimateDataValue_A> ClimateDataValue_AQuery = FillClimateDataValue_A();
 
-            ClimateDataValueWebQuery = EnhanceQueryStatements<ClimateDataValueWeb>(ClimateDataValueWebQuery) as IQueryable<ClimateDataValueWeb>;
+            ClimateDataValue_AQuery = EnhanceQueryStatements<ClimateDataValue_A>(ClimateDataValue_AQuery) as IQueryable<ClimateDataValue_A>;
 
-            return ClimateDataValueWebQuery;
+            return ClimateDataValue_AQuery;
         }
-        public ClimateDataValueReport GetClimateDataValueReportWithClimateDataValueID(int ClimateDataValueID)
+        public ClimateDataValue_B GetClimateDataValue_BWithClimateDataValueID(int ClimateDataValueID)
         {
-            return FillClimateDataValueReport().Where(c => c.ClimateDataValueID == ClimateDataValueID).FirstOrDefault();
+            return FillClimateDataValue_B().Where(c => c.ClimateDataValueID == ClimateDataValueID).FirstOrDefault();
 
         }
-        public IQueryable<ClimateDataValueReport> GetClimateDataValueReportList()
+        public IQueryable<ClimateDataValue_B> GetClimateDataValue_BList()
         {
-            IQueryable<ClimateDataValueReport> ClimateDataValueReportQuery = FillClimateDataValueReport();
+            IQueryable<ClimateDataValue_B> ClimateDataValue_BQuery = FillClimateDataValue_B();
 
-            ClimateDataValueReportQuery = EnhanceQueryStatements<ClimateDataValueReport>(ClimateDataValueReportQuery) as IQueryable<ClimateDataValueReport>;
+            ClimateDataValue_BQuery = EnhanceQueryStatements<ClimateDataValue_B>(ClimateDataValue_BQuery) as IQueryable<ClimateDataValue_B>;
 
-            return ClimateDataValueReportQuery;
+            return ClimateDataValue_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -310,52 +310,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated ClimateDataValueFillWeb
-        private IQueryable<ClimateDataValueWeb> FillClimateDataValueWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> StorageDataTypeEnumList = enums.GetEnumTextOrderedList(typeof(StorageDataTypeEnum));
-
-             IQueryable<ClimateDataValueWeb> ClimateDataValueWebQuery = (from c in db.ClimateDataValues
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new ClimateDataValueWeb
-                    {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        StorageDataTypeEnumText = (from e in StorageDataTypeEnumList
-                                where e.EnumID == (int?)c.StorageDataType
-                                select e.EnumText).FirstOrDefault(),
-                        ClimateDataValueID = c.ClimateDataValueID,
-                        ClimateSiteID = c.ClimateSiteID,
-                        DateTime_Local = c.DateTime_Local,
-                        Keep = c.Keep,
-                        StorageDataType = c.StorageDataType,
-                        HasBeenRead = c.HasBeenRead,
-                        Snow_cm = c.Snow_cm,
-                        Rainfall_mm = c.Rainfall_mm,
-                        RainfallEntered_mm = c.RainfallEntered_mm,
-                        TotalPrecip_mm_cm = c.TotalPrecip_mm_cm,
-                        MaxTemp_C = c.MaxTemp_C,
-                        MinTemp_C = c.MinTemp_C,
-                        HeatDegDays_C = c.HeatDegDays_C,
-                        CoolDegDays_C = c.CoolDegDays_C,
-                        SnowOnGround_cm = c.SnowOnGround_cm,
-                        DirMaxGust_0North = c.DirMaxGust_0North,
-                        SpdMaxGust_kmh = c.SpdMaxGust_kmh,
-                        HourlyValues = c.HourlyValues,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return ClimateDataValueWebQuery;
-        }
-        #endregion Functions private Generated ClimateDataValueFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(ClimateDataValue climateDataValue)

@@ -151,31 +151,31 @@ namespace CSSPServices
 
             return BoxModelLanguageQuery;
         }
-        public BoxModelLanguageWeb GetBoxModelLanguageWebWithBoxModelLanguageID(int BoxModelLanguageID)
+        public BoxModelLanguage_A GetBoxModelLanguage_AWithBoxModelLanguageID(int BoxModelLanguageID)
         {
-            return FillBoxModelLanguageWeb().Where(c => c.BoxModelLanguageID == BoxModelLanguageID).FirstOrDefault();
+            return FillBoxModelLanguage_A().Where(c => c.BoxModelLanguageID == BoxModelLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<BoxModelLanguageWeb> GetBoxModelLanguageWebList()
+        public IQueryable<BoxModelLanguage_A> GetBoxModelLanguage_AList()
         {
-            IQueryable<BoxModelLanguageWeb> BoxModelLanguageWebQuery = FillBoxModelLanguageWeb();
+            IQueryable<BoxModelLanguage_A> BoxModelLanguage_AQuery = FillBoxModelLanguage_A();
 
-            BoxModelLanguageWebQuery = EnhanceQueryStatements<BoxModelLanguageWeb>(BoxModelLanguageWebQuery) as IQueryable<BoxModelLanguageWeb>;
+            BoxModelLanguage_AQuery = EnhanceQueryStatements<BoxModelLanguage_A>(BoxModelLanguage_AQuery) as IQueryable<BoxModelLanguage_A>;
 
-            return BoxModelLanguageWebQuery;
+            return BoxModelLanguage_AQuery;
         }
-        public BoxModelLanguageReport GetBoxModelLanguageReportWithBoxModelLanguageID(int BoxModelLanguageID)
+        public BoxModelLanguage_B GetBoxModelLanguage_BWithBoxModelLanguageID(int BoxModelLanguageID)
         {
-            return FillBoxModelLanguageReport().Where(c => c.BoxModelLanguageID == BoxModelLanguageID).FirstOrDefault();
+            return FillBoxModelLanguage_B().Where(c => c.BoxModelLanguageID == BoxModelLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<BoxModelLanguageReport> GetBoxModelLanguageReportList()
+        public IQueryable<BoxModelLanguage_B> GetBoxModelLanguage_BList()
         {
-            IQueryable<BoxModelLanguageReport> BoxModelLanguageReportQuery = FillBoxModelLanguageReport();
+            IQueryable<BoxModelLanguage_B> BoxModelLanguage_BQuery = FillBoxModelLanguage_B();
 
-            BoxModelLanguageReportQuery = EnhanceQueryStatements<BoxModelLanguageReport>(BoxModelLanguageReportQuery) as IQueryable<BoxModelLanguageReport>;
+            BoxModelLanguage_BQuery = EnhanceQueryStatements<BoxModelLanguage_B>(BoxModelLanguage_BQuery) as IQueryable<BoxModelLanguage_B>;
 
-            return BoxModelLanguageReportQuery;
+            return BoxModelLanguage_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -214,43 +214,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated BoxModelLanguageFillWeb
-        private IQueryable<BoxModelLanguageWeb> FillBoxModelLanguageWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
-            List<EnumIDAndText> TranslationStatusEnumList = enums.GetEnumTextOrderedList(typeof(TranslationStatusEnum));
-
-             IQueryable<BoxModelLanguageWeb> BoxModelLanguageWebQuery = (from c in db.BoxModelLanguages
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new BoxModelLanguageWeb
-                    {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        LanguageText = (from e in LanguageEnumList
-                                where e.EnumID == (int?)c.Language
-                                select e.EnumText).FirstOrDefault(),
-                        TranslationStatusText = (from e in TranslationStatusEnumList
-                                where e.EnumID == (int?)c.TranslationStatus
-                                select e.EnumText).FirstOrDefault(),
-                        BoxModelLanguageID = c.BoxModelLanguageID,
-                        BoxModelID = c.BoxModelID,
-                        Language = c.Language,
-                        ScenarioName = c.ScenarioName,
-                        TranslationStatus = c.TranslationStatus,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return BoxModelLanguageWebQuery;
-        }
-        #endregion Functions private Generated BoxModelLanguageFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(BoxModelLanguage boxModelLanguage)

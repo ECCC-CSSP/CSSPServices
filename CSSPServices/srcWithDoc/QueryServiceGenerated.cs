@@ -103,24 +103,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "QueryWhere", "200"), new[] { "Where" });
             }
 
-            if (query.EntityQueryDetailType != null)
+            if (string.IsNullOrWhiteSpace(query.Detail))
             {
-                retStr = enums.EnumTypeOK(typeof(EntityQueryDetailTypeEnum), (int?)query.EntityQueryDetailType);
-                if (query.EntityQueryDetailType == null || !string.IsNullOrWhiteSpace(retStr))
-                {
-                    query.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "QueryEntityQueryDetailType"), new[] { "EntityQueryDetailType" });
-                }
+                query.HasErrors = true;
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "QueryDetail"), new[] { "Detail" });
             }
 
-            if (query.EntityQueryType != null)
+            if (!string.IsNullOrWhiteSpace(query.Detail) && query.Detail.Length > 1)
             {
-                retStr = enums.EnumTypeOK(typeof(EntityQueryTypeEnum), (int?)query.EntityQueryType);
-                if (query.EntityQueryType == null || !string.IsNullOrWhiteSpace(retStr))
-                {
-                    query.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "QueryEntityQueryType"), new[] { "EntityQueryType" });
-                }
+                query.HasErrors = true;
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "QueryDetail", "1"), new[] { "Detail" });
             }
 
                 //Error: Type not implemented [OrderList] of type [List`1]

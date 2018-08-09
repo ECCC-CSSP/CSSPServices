@@ -1135,27 +1135,27 @@ namespace CSSPServices.Tests
                     LabSheetDetail labSheetDetail = (from c in dbTestDB.LabSheetDetails select c).FirstOrDefault();
                     Assert.IsNotNull(labSheetDetail);
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        labSheetDetailService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        labSheetDetailService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             LabSheetDetail labSheetDetailRet = labSheetDetailService.GetLabSheetDetailWithLabSheetDetailID(labSheetDetail.LabSheetDetailID);
                             CheckLabSheetDetailFields(new List<LabSheetDetail>() { labSheetDetailRet });
                             Assert.AreEqual(labSheetDetail.LabSheetDetailID, labSheetDetailRet.LabSheetDetailID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            LabSheetDetailWeb labSheetDetailWebRet = labSheetDetailService.GetLabSheetDetailWebWithLabSheetDetailID(labSheetDetail.LabSheetDetailID);
-                            CheckLabSheetDetailWebFields(new List<LabSheetDetailWeb>() { labSheetDetailWebRet });
-                            Assert.AreEqual(labSheetDetail.LabSheetDetailID, labSheetDetailWebRet.LabSheetDetailID);
+                            LabSheetDetail_A labSheetDetail_ARet = labSheetDetailService.GetLabSheetDetail_AWithLabSheetDetailID(labSheetDetail.LabSheetDetailID);
+                            CheckLabSheetDetail_AFields(new List<LabSheetDetail_A>() { labSheetDetail_ARet });
+                            Assert.AreEqual(labSheetDetail.LabSheetDetailID, labSheetDetail_ARet.LabSheetDetailID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            LabSheetDetailReport labSheetDetailReportRet = labSheetDetailService.GetLabSheetDetailReportWithLabSheetDetailID(labSheetDetail.LabSheetDetailID);
-                            CheckLabSheetDetailReportFields(new List<LabSheetDetailReport>() { labSheetDetailReportRet });
-                            Assert.AreEqual(labSheetDetail.LabSheetDetailID, labSheetDetailReportRet.LabSheetDetailID);
+                            LabSheetDetail_B labSheetDetail_BRet = labSheetDetailService.GetLabSheetDetail_BWithLabSheetDetailID(labSheetDetail.LabSheetDetailID);
+                            CheckLabSheetDetail_BFields(new List<LabSheetDetail_B>() { labSheetDetail_BRet });
+                            Assert.AreEqual(labSheetDetail.LabSheetDetailID, labSheetDetail_BRet.LabSheetDetailID);
                         }
                         else
                         {
@@ -1184,30 +1184,29 @@ namespace CSSPServices.Tests
                     List<LabSheetDetail> labSheetDetailDirectQueryList = new List<LabSheetDetail>();
                     labSheetDetailDirectQueryList = (from c in dbTestDB.LabSheetDetails select c).Take(200).ToList();
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        labSheetDetailService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        labSheetDetailService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<LabSheetDetail> labSheetDetailList = new List<LabSheetDetail>();
                             labSheetDetailList = labSheetDetailService.GetLabSheetDetailList().ToList();
                             CheckLabSheetDetailFields(labSheetDetailList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<LabSheetDetailWeb> labSheetDetailWebList = new List<LabSheetDetailWeb>();
-                            labSheetDetailWebList = labSheetDetailService.GetLabSheetDetailWebList().ToList();
-                            CheckLabSheetDetailWebFields(labSheetDetailWebList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailWebList.Count);
+                            List<LabSheetDetail_A> labSheetDetail_AList = new List<LabSheetDetail_A>();
+                            labSheetDetail_AList = labSheetDetailService.GetLabSheetDetail_AList().ToList();
+                            CheckLabSheetDetail_AFields(labSheetDetail_AList);
+                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetail_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<LabSheetDetailReport> labSheetDetailReportList = new List<LabSheetDetailReport>();
-                            labSheetDetailReportList = labSheetDetailService.GetLabSheetDetailReportList().ToList();
-                            CheckLabSheetDetailReportFields(labSheetDetailReportList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailReportList.Count);
+                            List<LabSheetDetail_B> labSheetDetail_BList = new List<LabSheetDetail_B>();
+                            labSheetDetail_BList = labSheetDetailService.GetLabSheetDetail_BList().ToList();
+                            CheckLabSheetDetail_BFields(labSheetDetail_BList);
+                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetail_BList.Count);
                         }
                         else
                         {
@@ -1229,38 +1228,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         LabSheetDetailService labSheetDetailService = new LabSheetDetailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        labSheetDetailService.Query = labSheetDetailService.FillQuery(typeof(LabSheetDetail), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        labSheetDetailService.Query = labSheetDetailService.FillQuery(typeof(LabSheetDetail), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
 
                         List<LabSheetDetail> labSheetDetailDirectQueryList = new List<LabSheetDetail>();
                         labSheetDetailDirectQueryList = (from c in dbTestDB.LabSheetDetails select c).Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<LabSheetDetail> labSheetDetailList = new List<LabSheetDetail>();
                             labSheetDetailList = labSheetDetailService.GetLabSheetDetailList().ToList();
                             CheckLabSheetDetailFields(labSheetDetailList);
                             Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<LabSheetDetailWeb> labSheetDetailWebList = new List<LabSheetDetailWeb>();
-                            labSheetDetailWebList = labSheetDetailService.GetLabSheetDetailWebList().ToList();
-                            CheckLabSheetDetailWebFields(labSheetDetailWebList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailWebList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailWebList.Count);
+                            List<LabSheetDetail_A> labSheetDetail_AList = new List<LabSheetDetail_A>();
+                            labSheetDetail_AList = labSheetDetailService.GetLabSheetDetail_AList().ToList();
+                            CheckLabSheetDetail_AFields(labSheetDetail_AList);
+                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetail_AList[0].LabSheetDetailID);
+                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetail_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<LabSheetDetailReport> labSheetDetailReportList = new List<LabSheetDetailReport>();
-                            labSheetDetailReportList = labSheetDetailService.GetLabSheetDetailReportList().ToList();
-                            CheckLabSheetDetailReportFields(labSheetDetailReportList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailReportList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailReportList.Count);
+                            List<LabSheetDetail_B> labSheetDetail_BList = new List<LabSheetDetail_B>();
+                            labSheetDetail_BList = labSheetDetailService.GetLabSheetDetail_BList().ToList();
+                            CheckLabSheetDetail_BFields(labSheetDetail_BList);
+                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetail_BList[0].LabSheetDetailID);
+                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetail_BList.Count);
                         }
                         else
                         {
@@ -1282,38 +1280,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         LabSheetDetailService labSheetDetailService = new LabSheetDetailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        labSheetDetailService.Query = labSheetDetailService.FillQuery(typeof(LabSheetDetail), culture.TwoLetterISOLanguageName, 1, 1,  "LabSheetDetailID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        labSheetDetailService.Query = labSheetDetailService.FillQuery(typeof(LabSheetDetail), culture.TwoLetterISOLanguageName, 1, 1,  "LabSheetDetailID", "");
 
                         List<LabSheetDetail> labSheetDetailDirectQueryList = new List<LabSheetDetail>();
                         labSheetDetailDirectQueryList = (from c in dbTestDB.LabSheetDetails select c).Skip(1).Take(1).OrderBy(c => c.LabSheetDetailID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<LabSheetDetail> labSheetDetailList = new List<LabSheetDetail>();
                             labSheetDetailList = labSheetDetailService.GetLabSheetDetailList().ToList();
                             CheckLabSheetDetailFields(labSheetDetailList);
                             Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<LabSheetDetailWeb> labSheetDetailWebList = new List<LabSheetDetailWeb>();
-                            labSheetDetailWebList = labSheetDetailService.GetLabSheetDetailWebList().ToList();
-                            CheckLabSheetDetailWebFields(labSheetDetailWebList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailWebList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailWebList.Count);
+                            List<LabSheetDetail_A> labSheetDetail_AList = new List<LabSheetDetail_A>();
+                            labSheetDetail_AList = labSheetDetailService.GetLabSheetDetail_AList().ToList();
+                            CheckLabSheetDetail_AFields(labSheetDetail_AList);
+                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetail_AList[0].LabSheetDetailID);
+                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetail_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<LabSheetDetailReport> labSheetDetailReportList = new List<LabSheetDetailReport>();
-                            labSheetDetailReportList = labSheetDetailService.GetLabSheetDetailReportList().ToList();
-                            CheckLabSheetDetailReportFields(labSheetDetailReportList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailReportList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailReportList.Count);
+                            List<LabSheetDetail_B> labSheetDetail_BList = new List<LabSheetDetail_B>();
+                            labSheetDetail_BList = labSheetDetailService.GetLabSheetDetail_BList().ToList();
+                            CheckLabSheetDetail_BFields(labSheetDetail_BList);
+                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetail_BList[0].LabSheetDetailID);
+                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetail_BList.Count);
                         }
                         else
                         {
@@ -1335,38 +1332,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         LabSheetDetailService labSheetDetailService = new LabSheetDetailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        labSheetDetailService.Query = labSheetDetailService.FillQuery(typeof(LabSheetDetail), culture.TwoLetterISOLanguageName, 1, 1, "LabSheetDetailID,LabSheetID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        labSheetDetailService.Query = labSheetDetailService.FillQuery(typeof(LabSheetDetail), culture.TwoLetterISOLanguageName, 1, 1, "LabSheetDetailID,LabSheetID", "");
 
                         List<LabSheetDetail> labSheetDetailDirectQueryList = new List<LabSheetDetail>();
                         labSheetDetailDirectQueryList = (from c in dbTestDB.LabSheetDetails select c).Skip(1).Take(1).OrderBy(c => c.LabSheetDetailID).ThenBy(c => c.LabSheetID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<LabSheetDetail> labSheetDetailList = new List<LabSheetDetail>();
                             labSheetDetailList = labSheetDetailService.GetLabSheetDetailList().ToList();
                             CheckLabSheetDetailFields(labSheetDetailList);
                             Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<LabSheetDetailWeb> labSheetDetailWebList = new List<LabSheetDetailWeb>();
-                            labSheetDetailWebList = labSheetDetailService.GetLabSheetDetailWebList().ToList();
-                            CheckLabSheetDetailWebFields(labSheetDetailWebList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailWebList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailWebList.Count);
+                            List<LabSheetDetail_A> labSheetDetail_AList = new List<LabSheetDetail_A>();
+                            labSheetDetail_AList = labSheetDetailService.GetLabSheetDetail_AList().ToList();
+                            CheckLabSheetDetail_AFields(labSheetDetail_AList);
+                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetail_AList[0].LabSheetDetailID);
+                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetail_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<LabSheetDetailReport> labSheetDetailReportList = new List<LabSheetDetailReport>();
-                            labSheetDetailReportList = labSheetDetailService.GetLabSheetDetailReportList().ToList();
-                            CheckLabSheetDetailReportFields(labSheetDetailReportList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailReportList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailReportList.Count);
+                            List<LabSheetDetail_B> labSheetDetail_BList = new List<LabSheetDetail_B>();
+                            labSheetDetail_BList = labSheetDetailService.GetLabSheetDetail_BList().ToList();
+                            CheckLabSheetDetail_BFields(labSheetDetail_BList);
+                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetail_BList[0].LabSheetDetailID);
+                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetail_BList.Count);
                         }
                         else
                         {
@@ -1388,38 +1384,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         LabSheetDetailService labSheetDetailService = new LabSheetDetailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        labSheetDetailService.Query = labSheetDetailService.FillQuery(typeof(LabSheetDetail), culture.TwoLetterISOLanguageName, 0, 1, "LabSheetDetailID", "LabSheetDetailID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        labSheetDetailService.Query = labSheetDetailService.FillQuery(typeof(LabSheetDetail), culture.TwoLetterISOLanguageName, 0, 1, "LabSheetDetailID", "LabSheetDetailID,EQ,4", "");
 
                         List<LabSheetDetail> labSheetDetailDirectQueryList = new List<LabSheetDetail>();
                         labSheetDetailDirectQueryList = (from c in dbTestDB.LabSheetDetails select c).Where(c => c.LabSheetDetailID == 4).Skip(0).Take(1).OrderBy(c => c.LabSheetDetailID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<LabSheetDetail> labSheetDetailList = new List<LabSheetDetail>();
                             labSheetDetailList = labSheetDetailService.GetLabSheetDetailList().ToList();
                             CheckLabSheetDetailFields(labSheetDetailList);
                             Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<LabSheetDetailWeb> labSheetDetailWebList = new List<LabSheetDetailWeb>();
-                            labSheetDetailWebList = labSheetDetailService.GetLabSheetDetailWebList().ToList();
-                            CheckLabSheetDetailWebFields(labSheetDetailWebList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailWebList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailWebList.Count);
+                            List<LabSheetDetail_A> labSheetDetail_AList = new List<LabSheetDetail_A>();
+                            labSheetDetail_AList = labSheetDetailService.GetLabSheetDetail_AList().ToList();
+                            CheckLabSheetDetail_AFields(labSheetDetail_AList);
+                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetail_AList[0].LabSheetDetailID);
+                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetail_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<LabSheetDetailReport> labSheetDetailReportList = new List<LabSheetDetailReport>();
-                            labSheetDetailReportList = labSheetDetailService.GetLabSheetDetailReportList().ToList();
-                            CheckLabSheetDetailReportFields(labSheetDetailReportList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailReportList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailReportList.Count);
+                            List<LabSheetDetail_B> labSheetDetail_BList = new List<LabSheetDetail_B>();
+                            labSheetDetail_BList = labSheetDetailService.GetLabSheetDetail_BList().ToList();
+                            CheckLabSheetDetail_BFields(labSheetDetail_BList);
+                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetail_BList[0].LabSheetDetailID);
+                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetail_BList.Count);
                         }
                         else
                         {
@@ -1441,38 +1436,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         LabSheetDetailService labSheetDetailService = new LabSheetDetailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        labSheetDetailService.Query = labSheetDetailService.FillQuery(typeof(LabSheetDetail), culture.TwoLetterISOLanguageName, 0, 1, "LabSheetDetailID", "LabSheetDetailID,GT,2|LabSheetDetailID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        labSheetDetailService.Query = labSheetDetailService.FillQuery(typeof(LabSheetDetail), culture.TwoLetterISOLanguageName, 0, 1, "LabSheetDetailID", "LabSheetDetailID,GT,2|LabSheetDetailID,LT,5", "");
 
                         List<LabSheetDetail> labSheetDetailDirectQueryList = new List<LabSheetDetail>();
                         labSheetDetailDirectQueryList = (from c in dbTestDB.LabSheetDetails select c).Where(c => c.LabSheetDetailID > 2 && c.LabSheetDetailID < 5).Skip(0).Take(1).OrderBy(c => c.LabSheetDetailID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<LabSheetDetail> labSheetDetailList = new List<LabSheetDetail>();
                             labSheetDetailList = labSheetDetailService.GetLabSheetDetailList().ToList();
                             CheckLabSheetDetailFields(labSheetDetailList);
                             Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<LabSheetDetailWeb> labSheetDetailWebList = new List<LabSheetDetailWeb>();
-                            labSheetDetailWebList = labSheetDetailService.GetLabSheetDetailWebList().ToList();
-                            CheckLabSheetDetailWebFields(labSheetDetailWebList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailWebList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailWebList.Count);
+                            List<LabSheetDetail_A> labSheetDetail_AList = new List<LabSheetDetail_A>();
+                            labSheetDetail_AList = labSheetDetailService.GetLabSheetDetail_AList().ToList();
+                            CheckLabSheetDetail_AFields(labSheetDetail_AList);
+                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetail_AList[0].LabSheetDetailID);
+                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetail_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<LabSheetDetailReport> labSheetDetailReportList = new List<LabSheetDetailReport>();
-                            labSheetDetailReportList = labSheetDetailService.GetLabSheetDetailReportList().ToList();
-                            CheckLabSheetDetailReportFields(labSheetDetailReportList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailReportList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailReportList.Count);
+                            List<LabSheetDetail_B> labSheetDetail_BList = new List<LabSheetDetail_B>();
+                            labSheetDetail_BList = labSheetDetailService.GetLabSheetDetail_BList().ToList();
+                            CheckLabSheetDetail_BFields(labSheetDetail_BList);
+                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetail_BList[0].LabSheetDetailID);
+                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetail_BList.Count);
                         }
                         else
                         {
@@ -1494,38 +1488,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         LabSheetDetailService labSheetDetailService = new LabSheetDetailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        labSheetDetailService.Query = labSheetDetailService.FillQuery(typeof(LabSheetDetail), culture.TwoLetterISOLanguageName, 0, 10000, "", "LabSheetDetailID,GT,2|LabSheetDetailID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        labSheetDetailService.Query = labSheetDetailService.FillQuery(typeof(LabSheetDetail), culture.TwoLetterISOLanguageName, 0, 10000, "", "LabSheetDetailID,GT,2|LabSheetDetailID,LT,5", "");
 
                         List<LabSheetDetail> labSheetDetailDirectQueryList = new List<LabSheetDetail>();
                         labSheetDetailDirectQueryList = (from c in dbTestDB.LabSheetDetails select c).Where(c => c.LabSheetDetailID > 2 && c.LabSheetDetailID < 5).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<LabSheetDetail> labSheetDetailList = new List<LabSheetDetail>();
                             labSheetDetailList = labSheetDetailService.GetLabSheetDetailList().ToList();
                             CheckLabSheetDetailFields(labSheetDetailList);
                             Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<LabSheetDetailWeb> labSheetDetailWebList = new List<LabSheetDetailWeb>();
-                            labSheetDetailWebList = labSheetDetailService.GetLabSheetDetailWebList().ToList();
-                            CheckLabSheetDetailWebFields(labSheetDetailWebList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailWebList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailWebList.Count);
+                            List<LabSheetDetail_A> labSheetDetail_AList = new List<LabSheetDetail_A>();
+                            labSheetDetail_AList = labSheetDetailService.GetLabSheetDetail_AList().ToList();
+                            CheckLabSheetDetail_AFields(labSheetDetail_AList);
+                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetail_AList[0].LabSheetDetailID);
+                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetail_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<LabSheetDetailReport> labSheetDetailReportList = new List<LabSheetDetailReport>();
-                            labSheetDetailReportList = labSheetDetailService.GetLabSheetDetailReportList().ToList();
-                            CheckLabSheetDetailReportFields(labSheetDetailReportList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailReportList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailReportList.Count);
+                            List<LabSheetDetail_B> labSheetDetail_BList = new List<LabSheetDetail_B>();
+                            labSheetDetail_BList = labSheetDetailService.GetLabSheetDetail_BList().ToList();
+                            CheckLabSheetDetail_BFields(labSheetDetail_BList);
+                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetail_BList[0].LabSheetDetailID);
+                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetail_BList.Count);
                         }
                         else
                         {
@@ -1775,487 +1768,487 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(labSheetDetailList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(labSheetDetailList[0].HasErrors);
         }
-        private void CheckLabSheetDetailWebFields(List<LabSheetDetailWeb> labSheetDetailWebList)
+        private void CheckLabSheetDetail_AFields(List<LabSheetDetail_A> labSheetDetail_AList)
         {
-            Assert.IsNotNull(labSheetDetailWebList[0].SubsectorTVItemLanguage);
-            Assert.IsNotNull(labSheetDetailWebList[0].LastUpdateContactTVItemLanguage);
-            Assert.IsNotNull(labSheetDetailWebList[0].LabSheetDetailID);
-            Assert.IsNotNull(labSheetDetailWebList[0].LabSheetID);
-            Assert.IsNotNull(labSheetDetailWebList[0].SamplingPlanID);
-            Assert.IsNotNull(labSheetDetailWebList[0].SubsectorTVItemID);
-            Assert.IsNotNull(labSheetDetailWebList[0].Version);
-            Assert.IsNotNull(labSheetDetailWebList[0].RunDate);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Tides));
-            if (!string.IsNullOrWhiteSpace(labSheetDetailWebList[0].SampleCrewInitials))
+            Assert.IsNotNull(labSheetDetail_AList[0].SubsectorTVItemLanguage);
+            Assert.IsNotNull(labSheetDetail_AList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(labSheetDetail_AList[0].LabSheetDetailID);
+            Assert.IsNotNull(labSheetDetail_AList[0].LabSheetID);
+            Assert.IsNotNull(labSheetDetail_AList[0].SamplingPlanID);
+            Assert.IsNotNull(labSheetDetail_AList[0].SubsectorTVItemID);
+            Assert.IsNotNull(labSheetDetail_AList[0].Version);
+            Assert.IsNotNull(labSheetDetail_AList[0].RunDate);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Tides));
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_AList[0].SampleCrewInitials))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailWebList[0].SampleCrewInitials));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_AList[0].SampleCrewInitials));
             }
-            if (labSheetDetailWebList[0].WaterBathCount != null)
+            if (labSheetDetail_AList[0].WaterBathCount != null)
             {
-                Assert.IsNotNull(labSheetDetailWebList[0].WaterBathCount);
+                Assert.IsNotNull(labSheetDetail_AList[0].WaterBathCount);
             }
-            if (labSheetDetailWebList[0].IncubationBath1StartTime != null)
+            if (labSheetDetail_AList[0].IncubationBath1StartTime != null)
             {
-                Assert.IsNotNull(labSheetDetailWebList[0].IncubationBath1StartTime);
+                Assert.IsNotNull(labSheetDetail_AList[0].IncubationBath1StartTime);
             }
-            if (labSheetDetailWebList[0].IncubationBath2StartTime != null)
+            if (labSheetDetail_AList[0].IncubationBath2StartTime != null)
             {
-                Assert.IsNotNull(labSheetDetailWebList[0].IncubationBath2StartTime);
+                Assert.IsNotNull(labSheetDetail_AList[0].IncubationBath2StartTime);
             }
-            if (labSheetDetailWebList[0].IncubationBath3StartTime != null)
+            if (labSheetDetail_AList[0].IncubationBath3StartTime != null)
             {
-                Assert.IsNotNull(labSheetDetailWebList[0].IncubationBath3StartTime);
+                Assert.IsNotNull(labSheetDetail_AList[0].IncubationBath3StartTime);
             }
-            if (labSheetDetailWebList[0].IncubationBath1EndTime != null)
+            if (labSheetDetail_AList[0].IncubationBath1EndTime != null)
             {
-                Assert.IsNotNull(labSheetDetailWebList[0].IncubationBath1EndTime);
+                Assert.IsNotNull(labSheetDetail_AList[0].IncubationBath1EndTime);
             }
-            if (labSheetDetailWebList[0].IncubationBath2EndTime != null)
+            if (labSheetDetail_AList[0].IncubationBath2EndTime != null)
             {
-                Assert.IsNotNull(labSheetDetailWebList[0].IncubationBath2EndTime);
+                Assert.IsNotNull(labSheetDetail_AList[0].IncubationBath2EndTime);
             }
-            if (labSheetDetailWebList[0].IncubationBath3EndTime != null)
+            if (labSheetDetail_AList[0].IncubationBath3EndTime != null)
             {
-                Assert.IsNotNull(labSheetDetailWebList[0].IncubationBath3EndTime);
+                Assert.IsNotNull(labSheetDetail_AList[0].IncubationBath3EndTime);
             }
-            if (labSheetDetailWebList[0].IncubationBath1TimeCalculated_minutes != null)
+            if (labSheetDetail_AList[0].IncubationBath1TimeCalculated_minutes != null)
             {
-                Assert.IsNotNull(labSheetDetailWebList[0].IncubationBath1TimeCalculated_minutes);
+                Assert.IsNotNull(labSheetDetail_AList[0].IncubationBath1TimeCalculated_minutes);
             }
-            if (labSheetDetailWebList[0].IncubationBath2TimeCalculated_minutes != null)
+            if (labSheetDetail_AList[0].IncubationBath2TimeCalculated_minutes != null)
             {
-                Assert.IsNotNull(labSheetDetailWebList[0].IncubationBath2TimeCalculated_minutes);
+                Assert.IsNotNull(labSheetDetail_AList[0].IncubationBath2TimeCalculated_minutes);
             }
-            if (labSheetDetailWebList[0].IncubationBath3TimeCalculated_minutes != null)
+            if (labSheetDetail_AList[0].IncubationBath3TimeCalculated_minutes != null)
             {
-                Assert.IsNotNull(labSheetDetailWebList[0].IncubationBath3TimeCalculated_minutes);
+                Assert.IsNotNull(labSheetDetail_AList[0].IncubationBath3TimeCalculated_minutes);
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailWebList[0].WaterBath1))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_AList[0].WaterBath1))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailWebList[0].WaterBath1));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_AList[0].WaterBath1));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailWebList[0].WaterBath2))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_AList[0].WaterBath2))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailWebList[0].WaterBath2));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_AList[0].WaterBath2));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailWebList[0].WaterBath3))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_AList[0].WaterBath3))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailWebList[0].WaterBath3));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_AList[0].WaterBath3));
             }
-            if (labSheetDetailWebList[0].TCField1 != null)
+            if (labSheetDetail_AList[0].TCField1 != null)
             {
-                Assert.IsNotNull(labSheetDetailWebList[0].TCField1);
+                Assert.IsNotNull(labSheetDetail_AList[0].TCField1);
             }
-            if (labSheetDetailWebList[0].TCLab1 != null)
+            if (labSheetDetail_AList[0].TCLab1 != null)
             {
-                Assert.IsNotNull(labSheetDetailWebList[0].TCLab1);
+                Assert.IsNotNull(labSheetDetail_AList[0].TCLab1);
             }
-            if (labSheetDetailWebList[0].TCField2 != null)
+            if (labSheetDetail_AList[0].TCField2 != null)
             {
-                Assert.IsNotNull(labSheetDetailWebList[0].TCField2);
+                Assert.IsNotNull(labSheetDetail_AList[0].TCField2);
             }
-            if (labSheetDetailWebList[0].TCLab2 != null)
+            if (labSheetDetail_AList[0].TCLab2 != null)
             {
-                Assert.IsNotNull(labSheetDetailWebList[0].TCLab2);
+                Assert.IsNotNull(labSheetDetail_AList[0].TCLab2);
             }
-            if (labSheetDetailWebList[0].TCFirst != null)
+            if (labSheetDetail_AList[0].TCFirst != null)
             {
-                Assert.IsNotNull(labSheetDetailWebList[0].TCFirst);
+                Assert.IsNotNull(labSheetDetail_AList[0].TCFirst);
             }
-            if (labSheetDetailWebList[0].TCAverage != null)
+            if (labSheetDetail_AList[0].TCAverage != null)
             {
-                Assert.IsNotNull(labSheetDetailWebList[0].TCAverage);
+                Assert.IsNotNull(labSheetDetail_AList[0].TCAverage);
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailWebList[0].ControlLot))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_AList[0].ControlLot))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailWebList[0].ControlLot));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_AList[0].ControlLot));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Positive35))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Positive35))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Positive35));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Positive35));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailWebList[0].NonTarget35))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_AList[0].NonTarget35))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailWebList[0].NonTarget35));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_AList[0].NonTarget35));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Negative35))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Negative35))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Negative35));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Negative35));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Bath1Positive44_5))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Bath1Positive44_5))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Bath1Positive44_5));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Bath1Positive44_5));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Bath2Positive44_5))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Bath2Positive44_5))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Bath2Positive44_5));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Bath2Positive44_5));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Bath3Positive44_5))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Bath3Positive44_5))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Bath3Positive44_5));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Bath3Positive44_5));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Bath1NonTarget44_5))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Bath1NonTarget44_5))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Bath1NonTarget44_5));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Bath1NonTarget44_5));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Bath2NonTarget44_5))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Bath2NonTarget44_5))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Bath2NonTarget44_5));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Bath2NonTarget44_5));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Bath3NonTarget44_5))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Bath3NonTarget44_5))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Bath3NonTarget44_5));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Bath3NonTarget44_5));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Bath1Negative44_5))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Bath1Negative44_5))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Bath1Negative44_5));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Bath1Negative44_5));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Bath2Negative44_5))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Bath2Negative44_5))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Bath2Negative44_5));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Bath2Negative44_5));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Bath3Negative44_5))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Bath3Negative44_5))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Bath3Negative44_5));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Bath3Negative44_5));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Blank35))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Blank35))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Blank35));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Blank35));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Bath1Blank44_5))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Bath1Blank44_5))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Bath1Blank44_5));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Bath1Blank44_5));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Bath2Blank44_5))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Bath2Blank44_5))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Bath2Blank44_5));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Bath2Blank44_5));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Bath3Blank44_5))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Bath3Blank44_5))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Bath3Blank44_5));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Bath3Blank44_5));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Lot35))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Lot35))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Lot35));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Lot35));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Lot44_5))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Lot44_5))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Lot44_5));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Lot44_5));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Weather))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Weather))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailWebList[0].Weather));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_AList[0].Weather));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailWebList[0].RunComment))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_AList[0].RunComment))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailWebList[0].RunComment));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_AList[0].RunComment));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailWebList[0].RunWeatherComment))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_AList[0].RunWeatherComment))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailWebList[0].RunWeatherComment));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_AList[0].RunWeatherComment));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailWebList[0].SampleBottleLotNumber))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_AList[0].SampleBottleLotNumber))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailWebList[0].SampleBottleLotNumber));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_AList[0].SampleBottleLotNumber));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailWebList[0].SalinitiesReadBy))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_AList[0].SalinitiesReadBy))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailWebList[0].SalinitiesReadBy));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_AList[0].SalinitiesReadBy));
             }
-            if (labSheetDetailWebList[0].SalinitiesReadDate != null)
+            if (labSheetDetail_AList[0].SalinitiesReadDate != null)
             {
-                Assert.IsNotNull(labSheetDetailWebList[0].SalinitiesReadDate);
+                Assert.IsNotNull(labSheetDetail_AList[0].SalinitiesReadDate);
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailWebList[0].ResultsReadBy))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_AList[0].ResultsReadBy))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailWebList[0].ResultsReadBy));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_AList[0].ResultsReadBy));
             }
-            if (labSheetDetailWebList[0].ResultsReadDate != null)
+            if (labSheetDetail_AList[0].ResultsReadDate != null)
             {
-                Assert.IsNotNull(labSheetDetailWebList[0].ResultsReadDate);
+                Assert.IsNotNull(labSheetDetail_AList[0].ResultsReadDate);
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailWebList[0].ResultsRecordedBy))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_AList[0].ResultsRecordedBy))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailWebList[0].ResultsRecordedBy));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_AList[0].ResultsRecordedBy));
             }
-            if (labSheetDetailWebList[0].ResultsRecordedDate != null)
+            if (labSheetDetail_AList[0].ResultsRecordedDate != null)
             {
-                Assert.IsNotNull(labSheetDetailWebList[0].ResultsRecordedDate);
+                Assert.IsNotNull(labSheetDetail_AList[0].ResultsRecordedDate);
             }
-            if (labSheetDetailWebList[0].DailyDuplicateRLog != null)
+            if (labSheetDetail_AList[0].DailyDuplicateRLog != null)
             {
-                Assert.IsNotNull(labSheetDetailWebList[0].DailyDuplicateRLog);
+                Assert.IsNotNull(labSheetDetail_AList[0].DailyDuplicateRLog);
             }
-            if (labSheetDetailWebList[0].DailyDuplicatePrecisionCriteria != null)
+            if (labSheetDetail_AList[0].DailyDuplicatePrecisionCriteria != null)
             {
-                Assert.IsNotNull(labSheetDetailWebList[0].DailyDuplicatePrecisionCriteria);
+                Assert.IsNotNull(labSheetDetail_AList[0].DailyDuplicatePrecisionCriteria);
             }
-            if (labSheetDetailWebList[0].DailyDuplicateAcceptable != null)
+            if (labSheetDetail_AList[0].DailyDuplicateAcceptable != null)
             {
-                Assert.IsNotNull(labSheetDetailWebList[0].DailyDuplicateAcceptable);
+                Assert.IsNotNull(labSheetDetail_AList[0].DailyDuplicateAcceptable);
             }
-            if (labSheetDetailWebList[0].IntertechDuplicateRLog != null)
+            if (labSheetDetail_AList[0].IntertechDuplicateRLog != null)
             {
-                Assert.IsNotNull(labSheetDetailWebList[0].IntertechDuplicateRLog);
+                Assert.IsNotNull(labSheetDetail_AList[0].IntertechDuplicateRLog);
             }
-            if (labSheetDetailWebList[0].IntertechDuplicatePrecisionCriteria != null)
+            if (labSheetDetail_AList[0].IntertechDuplicatePrecisionCriteria != null)
             {
-                Assert.IsNotNull(labSheetDetailWebList[0].IntertechDuplicatePrecisionCriteria);
+                Assert.IsNotNull(labSheetDetail_AList[0].IntertechDuplicatePrecisionCriteria);
             }
-            if (labSheetDetailWebList[0].IntertechDuplicateAcceptable != null)
+            if (labSheetDetail_AList[0].IntertechDuplicateAcceptable != null)
             {
-                Assert.IsNotNull(labSheetDetailWebList[0].IntertechDuplicateAcceptable);
+                Assert.IsNotNull(labSheetDetail_AList[0].IntertechDuplicateAcceptable);
             }
-            if (labSheetDetailWebList[0].IntertechReadAcceptable != null)
+            if (labSheetDetail_AList[0].IntertechReadAcceptable != null)
             {
-                Assert.IsNotNull(labSheetDetailWebList[0].IntertechReadAcceptable);
+                Assert.IsNotNull(labSheetDetail_AList[0].IntertechReadAcceptable);
             }
-            Assert.IsNotNull(labSheetDetailWebList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(labSheetDetailWebList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(labSheetDetailWebList[0].HasErrors);
+            Assert.IsNotNull(labSheetDetail_AList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(labSheetDetail_AList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(labSheetDetail_AList[0].HasErrors);
         }
-        private void CheckLabSheetDetailReportFields(List<LabSheetDetailReport> labSheetDetailReportList)
+        private void CheckLabSheetDetail_BFields(List<LabSheetDetail_B> labSheetDetail_BList)
         {
-            if (!string.IsNullOrWhiteSpace(labSheetDetailReportList[0].LabSheetDetailReportTest))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_BList[0].LabSheetDetailReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailReportList[0].LabSheetDetailReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_BList[0].LabSheetDetailReportTest));
             }
-            Assert.IsNotNull(labSheetDetailReportList[0].SubsectorTVItemLanguage);
-            Assert.IsNotNull(labSheetDetailReportList[0].LastUpdateContactTVItemLanguage);
-            Assert.IsNotNull(labSheetDetailReportList[0].LabSheetDetailID);
-            Assert.IsNotNull(labSheetDetailReportList[0].LabSheetID);
-            Assert.IsNotNull(labSheetDetailReportList[0].SamplingPlanID);
-            Assert.IsNotNull(labSheetDetailReportList[0].SubsectorTVItemID);
-            Assert.IsNotNull(labSheetDetailReportList[0].Version);
-            Assert.IsNotNull(labSheetDetailReportList[0].RunDate);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Tides));
-            if (!string.IsNullOrWhiteSpace(labSheetDetailReportList[0].SampleCrewInitials))
+            Assert.IsNotNull(labSheetDetail_BList[0].SubsectorTVItemLanguage);
+            Assert.IsNotNull(labSheetDetail_BList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(labSheetDetail_BList[0].LabSheetDetailID);
+            Assert.IsNotNull(labSheetDetail_BList[0].LabSheetID);
+            Assert.IsNotNull(labSheetDetail_BList[0].SamplingPlanID);
+            Assert.IsNotNull(labSheetDetail_BList[0].SubsectorTVItemID);
+            Assert.IsNotNull(labSheetDetail_BList[0].Version);
+            Assert.IsNotNull(labSheetDetail_BList[0].RunDate);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Tides));
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_BList[0].SampleCrewInitials))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailReportList[0].SampleCrewInitials));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_BList[0].SampleCrewInitials));
             }
-            if (labSheetDetailReportList[0].WaterBathCount != null)
+            if (labSheetDetail_BList[0].WaterBathCount != null)
             {
-                Assert.IsNotNull(labSheetDetailReportList[0].WaterBathCount);
+                Assert.IsNotNull(labSheetDetail_BList[0].WaterBathCount);
             }
-            if (labSheetDetailReportList[0].IncubationBath1StartTime != null)
+            if (labSheetDetail_BList[0].IncubationBath1StartTime != null)
             {
-                Assert.IsNotNull(labSheetDetailReportList[0].IncubationBath1StartTime);
+                Assert.IsNotNull(labSheetDetail_BList[0].IncubationBath1StartTime);
             }
-            if (labSheetDetailReportList[0].IncubationBath2StartTime != null)
+            if (labSheetDetail_BList[0].IncubationBath2StartTime != null)
             {
-                Assert.IsNotNull(labSheetDetailReportList[0].IncubationBath2StartTime);
+                Assert.IsNotNull(labSheetDetail_BList[0].IncubationBath2StartTime);
             }
-            if (labSheetDetailReportList[0].IncubationBath3StartTime != null)
+            if (labSheetDetail_BList[0].IncubationBath3StartTime != null)
             {
-                Assert.IsNotNull(labSheetDetailReportList[0].IncubationBath3StartTime);
+                Assert.IsNotNull(labSheetDetail_BList[0].IncubationBath3StartTime);
             }
-            if (labSheetDetailReportList[0].IncubationBath1EndTime != null)
+            if (labSheetDetail_BList[0].IncubationBath1EndTime != null)
             {
-                Assert.IsNotNull(labSheetDetailReportList[0].IncubationBath1EndTime);
+                Assert.IsNotNull(labSheetDetail_BList[0].IncubationBath1EndTime);
             }
-            if (labSheetDetailReportList[0].IncubationBath2EndTime != null)
+            if (labSheetDetail_BList[0].IncubationBath2EndTime != null)
             {
-                Assert.IsNotNull(labSheetDetailReportList[0].IncubationBath2EndTime);
+                Assert.IsNotNull(labSheetDetail_BList[0].IncubationBath2EndTime);
             }
-            if (labSheetDetailReportList[0].IncubationBath3EndTime != null)
+            if (labSheetDetail_BList[0].IncubationBath3EndTime != null)
             {
-                Assert.IsNotNull(labSheetDetailReportList[0].IncubationBath3EndTime);
+                Assert.IsNotNull(labSheetDetail_BList[0].IncubationBath3EndTime);
             }
-            if (labSheetDetailReportList[0].IncubationBath1TimeCalculated_minutes != null)
+            if (labSheetDetail_BList[0].IncubationBath1TimeCalculated_minutes != null)
             {
-                Assert.IsNotNull(labSheetDetailReportList[0].IncubationBath1TimeCalculated_minutes);
+                Assert.IsNotNull(labSheetDetail_BList[0].IncubationBath1TimeCalculated_minutes);
             }
-            if (labSheetDetailReportList[0].IncubationBath2TimeCalculated_minutes != null)
+            if (labSheetDetail_BList[0].IncubationBath2TimeCalculated_minutes != null)
             {
-                Assert.IsNotNull(labSheetDetailReportList[0].IncubationBath2TimeCalculated_minutes);
+                Assert.IsNotNull(labSheetDetail_BList[0].IncubationBath2TimeCalculated_minutes);
             }
-            if (labSheetDetailReportList[0].IncubationBath3TimeCalculated_minutes != null)
+            if (labSheetDetail_BList[0].IncubationBath3TimeCalculated_minutes != null)
             {
-                Assert.IsNotNull(labSheetDetailReportList[0].IncubationBath3TimeCalculated_minutes);
+                Assert.IsNotNull(labSheetDetail_BList[0].IncubationBath3TimeCalculated_minutes);
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailReportList[0].WaterBath1))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_BList[0].WaterBath1))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailReportList[0].WaterBath1));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_BList[0].WaterBath1));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailReportList[0].WaterBath2))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_BList[0].WaterBath2))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailReportList[0].WaterBath2));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_BList[0].WaterBath2));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailReportList[0].WaterBath3))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_BList[0].WaterBath3))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailReportList[0].WaterBath3));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_BList[0].WaterBath3));
             }
-            if (labSheetDetailReportList[0].TCField1 != null)
+            if (labSheetDetail_BList[0].TCField1 != null)
             {
-                Assert.IsNotNull(labSheetDetailReportList[0].TCField1);
+                Assert.IsNotNull(labSheetDetail_BList[0].TCField1);
             }
-            if (labSheetDetailReportList[0].TCLab1 != null)
+            if (labSheetDetail_BList[0].TCLab1 != null)
             {
-                Assert.IsNotNull(labSheetDetailReportList[0].TCLab1);
+                Assert.IsNotNull(labSheetDetail_BList[0].TCLab1);
             }
-            if (labSheetDetailReportList[0].TCField2 != null)
+            if (labSheetDetail_BList[0].TCField2 != null)
             {
-                Assert.IsNotNull(labSheetDetailReportList[0].TCField2);
+                Assert.IsNotNull(labSheetDetail_BList[0].TCField2);
             }
-            if (labSheetDetailReportList[0].TCLab2 != null)
+            if (labSheetDetail_BList[0].TCLab2 != null)
             {
-                Assert.IsNotNull(labSheetDetailReportList[0].TCLab2);
+                Assert.IsNotNull(labSheetDetail_BList[0].TCLab2);
             }
-            if (labSheetDetailReportList[0].TCFirst != null)
+            if (labSheetDetail_BList[0].TCFirst != null)
             {
-                Assert.IsNotNull(labSheetDetailReportList[0].TCFirst);
+                Assert.IsNotNull(labSheetDetail_BList[0].TCFirst);
             }
-            if (labSheetDetailReportList[0].TCAverage != null)
+            if (labSheetDetail_BList[0].TCAverage != null)
             {
-                Assert.IsNotNull(labSheetDetailReportList[0].TCAverage);
+                Assert.IsNotNull(labSheetDetail_BList[0].TCAverage);
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailReportList[0].ControlLot))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_BList[0].ControlLot))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailReportList[0].ControlLot));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_BList[0].ControlLot));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Positive35))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Positive35))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Positive35));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Positive35));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailReportList[0].NonTarget35))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_BList[0].NonTarget35))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailReportList[0].NonTarget35));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_BList[0].NonTarget35));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Negative35))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Negative35))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Negative35));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Negative35));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Bath1Positive44_5))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Bath1Positive44_5))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Bath1Positive44_5));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Bath1Positive44_5));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Bath2Positive44_5))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Bath2Positive44_5))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Bath2Positive44_5));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Bath2Positive44_5));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Bath3Positive44_5))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Bath3Positive44_5))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Bath3Positive44_5));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Bath3Positive44_5));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Bath1NonTarget44_5))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Bath1NonTarget44_5))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Bath1NonTarget44_5));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Bath1NonTarget44_5));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Bath2NonTarget44_5))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Bath2NonTarget44_5))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Bath2NonTarget44_5));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Bath2NonTarget44_5));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Bath3NonTarget44_5))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Bath3NonTarget44_5))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Bath3NonTarget44_5));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Bath3NonTarget44_5));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Bath1Negative44_5))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Bath1Negative44_5))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Bath1Negative44_5));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Bath1Negative44_5));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Bath2Negative44_5))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Bath2Negative44_5))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Bath2Negative44_5));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Bath2Negative44_5));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Bath3Negative44_5))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Bath3Negative44_5))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Bath3Negative44_5));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Bath3Negative44_5));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Blank35))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Blank35))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Blank35));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Blank35));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Bath1Blank44_5))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Bath1Blank44_5))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Bath1Blank44_5));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Bath1Blank44_5));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Bath2Blank44_5))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Bath2Blank44_5))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Bath2Blank44_5));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Bath2Blank44_5));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Bath3Blank44_5))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Bath3Blank44_5))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Bath3Blank44_5));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Bath3Blank44_5));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Lot35))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Lot35))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Lot35));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Lot35));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Lot44_5))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Lot44_5))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Lot44_5));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Lot44_5));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Weather))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Weather))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailReportList[0].Weather));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_BList[0].Weather));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailReportList[0].RunComment))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_BList[0].RunComment))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailReportList[0].RunComment));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_BList[0].RunComment));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailReportList[0].RunWeatherComment))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_BList[0].RunWeatherComment))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailReportList[0].RunWeatherComment));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_BList[0].RunWeatherComment));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailReportList[0].SampleBottleLotNumber))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_BList[0].SampleBottleLotNumber))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailReportList[0].SampleBottleLotNumber));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_BList[0].SampleBottleLotNumber));
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailReportList[0].SalinitiesReadBy))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_BList[0].SalinitiesReadBy))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailReportList[0].SalinitiesReadBy));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_BList[0].SalinitiesReadBy));
             }
-            if (labSheetDetailReportList[0].SalinitiesReadDate != null)
+            if (labSheetDetail_BList[0].SalinitiesReadDate != null)
             {
-                Assert.IsNotNull(labSheetDetailReportList[0].SalinitiesReadDate);
+                Assert.IsNotNull(labSheetDetail_BList[0].SalinitiesReadDate);
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailReportList[0].ResultsReadBy))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_BList[0].ResultsReadBy))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailReportList[0].ResultsReadBy));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_BList[0].ResultsReadBy));
             }
-            if (labSheetDetailReportList[0].ResultsReadDate != null)
+            if (labSheetDetail_BList[0].ResultsReadDate != null)
             {
-                Assert.IsNotNull(labSheetDetailReportList[0].ResultsReadDate);
+                Assert.IsNotNull(labSheetDetail_BList[0].ResultsReadDate);
             }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailReportList[0].ResultsRecordedBy))
+            if (!string.IsNullOrWhiteSpace(labSheetDetail_BList[0].ResultsRecordedBy))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailReportList[0].ResultsRecordedBy));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetail_BList[0].ResultsRecordedBy));
             }
-            if (labSheetDetailReportList[0].ResultsRecordedDate != null)
+            if (labSheetDetail_BList[0].ResultsRecordedDate != null)
             {
-                Assert.IsNotNull(labSheetDetailReportList[0].ResultsRecordedDate);
+                Assert.IsNotNull(labSheetDetail_BList[0].ResultsRecordedDate);
             }
-            if (labSheetDetailReportList[0].DailyDuplicateRLog != null)
+            if (labSheetDetail_BList[0].DailyDuplicateRLog != null)
             {
-                Assert.IsNotNull(labSheetDetailReportList[0].DailyDuplicateRLog);
+                Assert.IsNotNull(labSheetDetail_BList[0].DailyDuplicateRLog);
             }
-            if (labSheetDetailReportList[0].DailyDuplicatePrecisionCriteria != null)
+            if (labSheetDetail_BList[0].DailyDuplicatePrecisionCriteria != null)
             {
-                Assert.IsNotNull(labSheetDetailReportList[0].DailyDuplicatePrecisionCriteria);
+                Assert.IsNotNull(labSheetDetail_BList[0].DailyDuplicatePrecisionCriteria);
             }
-            if (labSheetDetailReportList[0].DailyDuplicateAcceptable != null)
+            if (labSheetDetail_BList[0].DailyDuplicateAcceptable != null)
             {
-                Assert.IsNotNull(labSheetDetailReportList[0].DailyDuplicateAcceptable);
+                Assert.IsNotNull(labSheetDetail_BList[0].DailyDuplicateAcceptable);
             }
-            if (labSheetDetailReportList[0].IntertechDuplicateRLog != null)
+            if (labSheetDetail_BList[0].IntertechDuplicateRLog != null)
             {
-                Assert.IsNotNull(labSheetDetailReportList[0].IntertechDuplicateRLog);
+                Assert.IsNotNull(labSheetDetail_BList[0].IntertechDuplicateRLog);
             }
-            if (labSheetDetailReportList[0].IntertechDuplicatePrecisionCriteria != null)
+            if (labSheetDetail_BList[0].IntertechDuplicatePrecisionCriteria != null)
             {
-                Assert.IsNotNull(labSheetDetailReportList[0].IntertechDuplicatePrecisionCriteria);
+                Assert.IsNotNull(labSheetDetail_BList[0].IntertechDuplicatePrecisionCriteria);
             }
-            if (labSheetDetailReportList[0].IntertechDuplicateAcceptable != null)
+            if (labSheetDetail_BList[0].IntertechDuplicateAcceptable != null)
             {
-                Assert.IsNotNull(labSheetDetailReportList[0].IntertechDuplicateAcceptable);
+                Assert.IsNotNull(labSheetDetail_BList[0].IntertechDuplicateAcceptable);
             }
-            if (labSheetDetailReportList[0].IntertechReadAcceptable != null)
+            if (labSheetDetail_BList[0].IntertechReadAcceptable != null)
             {
-                Assert.IsNotNull(labSheetDetailReportList[0].IntertechReadAcceptable);
+                Assert.IsNotNull(labSheetDetail_BList[0].IntertechReadAcceptable);
             }
-            Assert.IsNotNull(labSheetDetailReportList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(labSheetDetailReportList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(labSheetDetailReportList[0].HasErrors);
+            Assert.IsNotNull(labSheetDetail_BList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(labSheetDetail_BList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(labSheetDetail_BList[0].HasErrors);
         }
         private LabSheetDetail GetFilledRandomLabSheetDetail(string OmitPropName)
         {

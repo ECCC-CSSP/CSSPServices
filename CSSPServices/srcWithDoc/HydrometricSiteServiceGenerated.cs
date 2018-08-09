@@ -224,31 +224,31 @@ namespace CSSPServices
 
             return HydrometricSiteQuery;
         }
-        public HydrometricSiteWeb GetHydrometricSiteWebWithHydrometricSiteID(int HydrometricSiteID)
+        public HydrometricSite_A GetHydrometricSite_AWithHydrometricSiteID(int HydrometricSiteID)
         {
-            return FillHydrometricSiteWeb().Where(c => c.HydrometricSiteID == HydrometricSiteID).FirstOrDefault();
+            return FillHydrometricSite_A().Where(c => c.HydrometricSiteID == HydrometricSiteID).FirstOrDefault();
 
         }
-        public IQueryable<HydrometricSiteWeb> GetHydrometricSiteWebList()
+        public IQueryable<HydrometricSite_A> GetHydrometricSite_AList()
         {
-            IQueryable<HydrometricSiteWeb> HydrometricSiteWebQuery = FillHydrometricSiteWeb();
+            IQueryable<HydrometricSite_A> HydrometricSite_AQuery = FillHydrometricSite_A();
 
-            HydrometricSiteWebQuery = EnhanceQueryStatements<HydrometricSiteWeb>(HydrometricSiteWebQuery) as IQueryable<HydrometricSiteWeb>;
+            HydrometricSite_AQuery = EnhanceQueryStatements<HydrometricSite_A>(HydrometricSite_AQuery) as IQueryable<HydrometricSite_A>;
 
-            return HydrometricSiteWebQuery;
+            return HydrometricSite_AQuery;
         }
-        public HydrometricSiteReport GetHydrometricSiteReportWithHydrometricSiteID(int HydrometricSiteID)
+        public HydrometricSite_B GetHydrometricSite_BWithHydrometricSiteID(int HydrometricSiteID)
         {
-            return FillHydrometricSiteReport().Where(c => c.HydrometricSiteID == HydrometricSiteID).FirstOrDefault();
+            return FillHydrometricSite_B().Where(c => c.HydrometricSiteID == HydrometricSiteID).FirstOrDefault();
 
         }
-        public IQueryable<HydrometricSiteReport> GetHydrometricSiteReportList()
+        public IQueryable<HydrometricSite_B> GetHydrometricSite_BList()
         {
-            IQueryable<HydrometricSiteReport> HydrometricSiteReportQuery = FillHydrometricSiteReport();
+            IQueryable<HydrometricSite_B> HydrometricSite_BQuery = FillHydrometricSite_B();
 
-            HydrometricSiteReportQuery = EnhanceQueryStatements<HydrometricSiteReport>(HydrometricSiteReportQuery) as IQueryable<HydrometricSiteReport>;
+            HydrometricSite_BQuery = EnhanceQueryStatements<HydrometricSite_B>(HydrometricSite_BQuery) as IQueryable<HydrometricSite_B>;
 
-            return HydrometricSiteReportQuery;
+            return HydrometricSite_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -287,50 +287,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated HydrometricSiteFillWeb
-        private IQueryable<HydrometricSiteWeb> FillHydrometricSiteWeb()
-        {
-             IQueryable<HydrometricSiteWeb> HydrometricSiteWebQuery = (from c in db.HydrometricSites
-                let HydrometricTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.HydrometricSiteTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new HydrometricSiteWeb
-                    {
-                        HydrometricTVItemLanguage = HydrometricTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        HydrometricSiteID = c.HydrometricSiteID,
-                        HydrometricSiteTVItemID = c.HydrometricSiteTVItemID,
-                        FedSiteNumber = c.FedSiteNumber,
-                        QuebecSiteNumber = c.QuebecSiteNumber,
-                        HydrometricSiteName = c.HydrometricSiteName,
-                        Description = c.Description,
-                        Province = c.Province,
-                        Elevation_m = c.Elevation_m,
-                        StartDate_Local = c.StartDate_Local,
-                        EndDate_Local = c.EndDate_Local,
-                        TimeOffset_hour = c.TimeOffset_hour,
-                        DrainageArea_km2 = c.DrainageArea_km2,
-                        IsNatural = c.IsNatural,
-                        IsActive = c.IsActive,
-                        Sediment = c.Sediment,
-                        RHBN = c.RHBN,
-                        RealTime = c.RealTime,
-                        HasRatingCurve = c.HasRatingCurve,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return HydrometricSiteWebQuery;
-        }
-        #endregion Functions private Generated HydrometricSiteFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(HydrometricSite hydrometricSite)

@@ -343,27 +343,27 @@ namespace CSSPServices.Tests
                     Address address = (from c in dbTestDB.Addresses select c).FirstOrDefault();
                     Assert.IsNotNull(address);
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        addressService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        addressService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             Address addressRet = addressService.GetAddressWithAddressID(address.AddressID);
                             CheckAddressFields(new List<Address>() { addressRet });
                             Assert.AreEqual(address.AddressID, addressRet.AddressID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            AddressWeb addressWebRet = addressService.GetAddressWebWithAddressID(address.AddressID);
-                            CheckAddressWebFields(new List<AddressWeb>() { addressWebRet });
-                            Assert.AreEqual(address.AddressID, addressWebRet.AddressID);
+                            Address_A address_ARet = addressService.GetAddress_AWithAddressID(address.AddressID);
+                            CheckAddress_AFields(new List<Address_A>() { address_ARet });
+                            Assert.AreEqual(address.AddressID, address_ARet.AddressID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            AddressReport addressReportRet = addressService.GetAddressReportWithAddressID(address.AddressID);
-                            CheckAddressReportFields(new List<AddressReport>() { addressReportRet });
-                            Assert.AreEqual(address.AddressID, addressReportRet.AddressID);
+                            Address_B address_BRet = addressService.GetAddress_BWithAddressID(address.AddressID);
+                            CheckAddress_BFields(new List<Address_B>() { address_BRet });
+                            Assert.AreEqual(address.AddressID, address_BRet.AddressID);
                         }
                         else
                         {
@@ -392,30 +392,29 @@ namespace CSSPServices.Tests
                     List<Address> addressDirectQueryList = new List<Address>();
                     addressDirectQueryList = (from c in dbTestDB.Addresses select c).Take(200).ToList();
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        addressService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        addressService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<Address> addressList = new List<Address>();
                             addressList = addressService.GetAddressList().ToList();
                             CheckAddressFields(addressList);
-                            Assert.AreEqual(addressDirectQueryList.Count, addressList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<AddressWeb> addressWebList = new List<AddressWeb>();
-                            addressWebList = addressService.GetAddressWebList().ToList();
-                            CheckAddressWebFields(addressWebList);
-                            Assert.AreEqual(addressDirectQueryList.Count, addressWebList.Count);
+                            List<Address_A> address_AList = new List<Address_A>();
+                            address_AList = addressService.GetAddress_AList().ToList();
+                            CheckAddress_AFields(address_AList);
+                            Assert.AreEqual(addressDirectQueryList.Count, address_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<AddressReport> addressReportList = new List<AddressReport>();
-                            addressReportList = addressService.GetAddressReportList().ToList();
-                            CheckAddressReportFields(addressReportList);
-                            Assert.AreEqual(addressDirectQueryList.Count, addressReportList.Count);
+                            List<Address_B> address_BList = new List<Address_B>();
+                            address_BList = addressService.GetAddress_BList().ToList();
+                            CheckAddress_BFields(address_BList);
+                            Assert.AreEqual(addressDirectQueryList.Count, address_BList.Count);
                         }
                         else
                         {
@@ -437,38 +436,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         AddressService addressService = new AddressService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        addressService.Query = addressService.FillQuery(typeof(Address), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        addressService.Query = addressService.FillQuery(typeof(Address), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
 
                         List<Address> addressDirectQueryList = new List<Address>();
                         addressDirectQueryList = (from c in dbTestDB.Addresses select c).Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<Address> addressList = new List<Address>();
                             addressList = addressService.GetAddressList().ToList();
                             CheckAddressFields(addressList);
                             Assert.AreEqual(addressDirectQueryList[0].AddressID, addressList[0].AddressID);
-                            Assert.AreEqual(addressDirectQueryList.Count, addressList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<AddressWeb> addressWebList = new List<AddressWeb>();
-                            addressWebList = addressService.GetAddressWebList().ToList();
-                            CheckAddressWebFields(addressWebList);
-                            Assert.AreEqual(addressDirectQueryList[0].AddressID, addressWebList[0].AddressID);
-                            Assert.AreEqual(addressDirectQueryList.Count, addressWebList.Count);
+                            List<Address_A> address_AList = new List<Address_A>();
+                            address_AList = addressService.GetAddress_AList().ToList();
+                            CheckAddress_AFields(address_AList);
+                            Assert.AreEqual(addressDirectQueryList[0].AddressID, address_AList[0].AddressID);
+                            Assert.AreEqual(addressDirectQueryList.Count, address_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<AddressReport> addressReportList = new List<AddressReport>();
-                            addressReportList = addressService.GetAddressReportList().ToList();
-                            CheckAddressReportFields(addressReportList);
-                            Assert.AreEqual(addressDirectQueryList[0].AddressID, addressReportList[0].AddressID);
-                            Assert.AreEqual(addressDirectQueryList.Count, addressReportList.Count);
+                            List<Address_B> address_BList = new List<Address_B>();
+                            address_BList = addressService.GetAddress_BList().ToList();
+                            CheckAddress_BFields(address_BList);
+                            Assert.AreEqual(addressDirectQueryList[0].AddressID, address_BList[0].AddressID);
+                            Assert.AreEqual(addressDirectQueryList.Count, address_BList.Count);
                         }
                         else
                         {
@@ -490,38 +488,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         AddressService addressService = new AddressService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        addressService.Query = addressService.FillQuery(typeof(Address), culture.TwoLetterISOLanguageName, 1, 1,  "AddressID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        addressService.Query = addressService.FillQuery(typeof(Address), culture.TwoLetterISOLanguageName, 1, 1,  "AddressID", "");
 
                         List<Address> addressDirectQueryList = new List<Address>();
                         addressDirectQueryList = (from c in dbTestDB.Addresses select c).Skip(1).Take(1).OrderBy(c => c.AddressID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<Address> addressList = new List<Address>();
                             addressList = addressService.GetAddressList().ToList();
                             CheckAddressFields(addressList);
                             Assert.AreEqual(addressDirectQueryList[0].AddressID, addressList[0].AddressID);
-                            Assert.AreEqual(addressDirectQueryList.Count, addressList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<AddressWeb> addressWebList = new List<AddressWeb>();
-                            addressWebList = addressService.GetAddressWebList().ToList();
-                            CheckAddressWebFields(addressWebList);
-                            Assert.AreEqual(addressDirectQueryList[0].AddressID, addressWebList[0].AddressID);
-                            Assert.AreEqual(addressDirectQueryList.Count, addressWebList.Count);
+                            List<Address_A> address_AList = new List<Address_A>();
+                            address_AList = addressService.GetAddress_AList().ToList();
+                            CheckAddress_AFields(address_AList);
+                            Assert.AreEqual(addressDirectQueryList[0].AddressID, address_AList[0].AddressID);
+                            Assert.AreEqual(addressDirectQueryList.Count, address_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<AddressReport> addressReportList = new List<AddressReport>();
-                            addressReportList = addressService.GetAddressReportList().ToList();
-                            CheckAddressReportFields(addressReportList);
-                            Assert.AreEqual(addressDirectQueryList[0].AddressID, addressReportList[0].AddressID);
-                            Assert.AreEqual(addressDirectQueryList.Count, addressReportList.Count);
+                            List<Address_B> address_BList = new List<Address_B>();
+                            address_BList = addressService.GetAddress_BList().ToList();
+                            CheckAddress_BFields(address_BList);
+                            Assert.AreEqual(addressDirectQueryList[0].AddressID, address_BList[0].AddressID);
+                            Assert.AreEqual(addressDirectQueryList.Count, address_BList.Count);
                         }
                         else
                         {
@@ -543,38 +540,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         AddressService addressService = new AddressService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        addressService.Query = addressService.FillQuery(typeof(Address), culture.TwoLetterISOLanguageName, 1, 1, "AddressID,AddressTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        addressService.Query = addressService.FillQuery(typeof(Address), culture.TwoLetterISOLanguageName, 1, 1, "AddressID,AddressTVItemID", "");
 
                         List<Address> addressDirectQueryList = new List<Address>();
                         addressDirectQueryList = (from c in dbTestDB.Addresses select c).Skip(1).Take(1).OrderBy(c => c.AddressID).ThenBy(c => c.AddressTVItemID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<Address> addressList = new List<Address>();
                             addressList = addressService.GetAddressList().ToList();
                             CheckAddressFields(addressList);
                             Assert.AreEqual(addressDirectQueryList[0].AddressID, addressList[0].AddressID);
-                            Assert.AreEqual(addressDirectQueryList.Count, addressList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<AddressWeb> addressWebList = new List<AddressWeb>();
-                            addressWebList = addressService.GetAddressWebList().ToList();
-                            CheckAddressWebFields(addressWebList);
-                            Assert.AreEqual(addressDirectQueryList[0].AddressID, addressWebList[0].AddressID);
-                            Assert.AreEqual(addressDirectQueryList.Count, addressWebList.Count);
+                            List<Address_A> address_AList = new List<Address_A>();
+                            address_AList = addressService.GetAddress_AList().ToList();
+                            CheckAddress_AFields(address_AList);
+                            Assert.AreEqual(addressDirectQueryList[0].AddressID, address_AList[0].AddressID);
+                            Assert.AreEqual(addressDirectQueryList.Count, address_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<AddressReport> addressReportList = new List<AddressReport>();
-                            addressReportList = addressService.GetAddressReportList().ToList();
-                            CheckAddressReportFields(addressReportList);
-                            Assert.AreEqual(addressDirectQueryList[0].AddressID, addressReportList[0].AddressID);
-                            Assert.AreEqual(addressDirectQueryList.Count, addressReportList.Count);
+                            List<Address_B> address_BList = new List<Address_B>();
+                            address_BList = addressService.GetAddress_BList().ToList();
+                            CheckAddress_BFields(address_BList);
+                            Assert.AreEqual(addressDirectQueryList[0].AddressID, address_BList[0].AddressID);
+                            Assert.AreEqual(addressDirectQueryList.Count, address_BList.Count);
                         }
                         else
                         {
@@ -596,38 +592,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         AddressService addressService = new AddressService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        addressService.Query = addressService.FillQuery(typeof(Address), culture.TwoLetterISOLanguageName, 0, 1, "AddressID", "AddressID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        addressService.Query = addressService.FillQuery(typeof(Address), culture.TwoLetterISOLanguageName, 0, 1, "AddressID", "AddressID,EQ,4", "");
 
                         List<Address> addressDirectQueryList = new List<Address>();
                         addressDirectQueryList = (from c in dbTestDB.Addresses select c).Where(c => c.AddressID == 4).Skip(0).Take(1).OrderBy(c => c.AddressID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<Address> addressList = new List<Address>();
                             addressList = addressService.GetAddressList().ToList();
                             CheckAddressFields(addressList);
                             Assert.AreEqual(addressDirectQueryList[0].AddressID, addressList[0].AddressID);
-                            Assert.AreEqual(addressDirectQueryList.Count, addressList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<AddressWeb> addressWebList = new List<AddressWeb>();
-                            addressWebList = addressService.GetAddressWebList().ToList();
-                            CheckAddressWebFields(addressWebList);
-                            Assert.AreEqual(addressDirectQueryList[0].AddressID, addressWebList[0].AddressID);
-                            Assert.AreEqual(addressDirectQueryList.Count, addressWebList.Count);
+                            List<Address_A> address_AList = new List<Address_A>();
+                            address_AList = addressService.GetAddress_AList().ToList();
+                            CheckAddress_AFields(address_AList);
+                            Assert.AreEqual(addressDirectQueryList[0].AddressID, address_AList[0].AddressID);
+                            Assert.AreEqual(addressDirectQueryList.Count, address_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<AddressReport> addressReportList = new List<AddressReport>();
-                            addressReportList = addressService.GetAddressReportList().ToList();
-                            CheckAddressReportFields(addressReportList);
-                            Assert.AreEqual(addressDirectQueryList[0].AddressID, addressReportList[0].AddressID);
-                            Assert.AreEqual(addressDirectQueryList.Count, addressReportList.Count);
+                            List<Address_B> address_BList = new List<Address_B>();
+                            address_BList = addressService.GetAddress_BList().ToList();
+                            CheckAddress_BFields(address_BList);
+                            Assert.AreEqual(addressDirectQueryList[0].AddressID, address_BList[0].AddressID);
+                            Assert.AreEqual(addressDirectQueryList.Count, address_BList.Count);
                         }
                         else
                         {
@@ -649,38 +644,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         AddressService addressService = new AddressService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        addressService.Query = addressService.FillQuery(typeof(Address), culture.TwoLetterISOLanguageName, 0, 1, "AddressID", "AddressID,GT,2|AddressID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        addressService.Query = addressService.FillQuery(typeof(Address), culture.TwoLetterISOLanguageName, 0, 1, "AddressID", "AddressID,GT,2|AddressID,LT,5", "");
 
                         List<Address> addressDirectQueryList = new List<Address>();
                         addressDirectQueryList = (from c in dbTestDB.Addresses select c).Where(c => c.AddressID > 2 && c.AddressID < 5).Skip(0).Take(1).OrderBy(c => c.AddressID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<Address> addressList = new List<Address>();
                             addressList = addressService.GetAddressList().ToList();
                             CheckAddressFields(addressList);
                             Assert.AreEqual(addressDirectQueryList[0].AddressID, addressList[0].AddressID);
-                            Assert.AreEqual(addressDirectQueryList.Count, addressList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<AddressWeb> addressWebList = new List<AddressWeb>();
-                            addressWebList = addressService.GetAddressWebList().ToList();
-                            CheckAddressWebFields(addressWebList);
-                            Assert.AreEqual(addressDirectQueryList[0].AddressID, addressWebList[0].AddressID);
-                            Assert.AreEqual(addressDirectQueryList.Count, addressWebList.Count);
+                            List<Address_A> address_AList = new List<Address_A>();
+                            address_AList = addressService.GetAddress_AList().ToList();
+                            CheckAddress_AFields(address_AList);
+                            Assert.AreEqual(addressDirectQueryList[0].AddressID, address_AList[0].AddressID);
+                            Assert.AreEqual(addressDirectQueryList.Count, address_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<AddressReport> addressReportList = new List<AddressReport>();
-                            addressReportList = addressService.GetAddressReportList().ToList();
-                            CheckAddressReportFields(addressReportList);
-                            Assert.AreEqual(addressDirectQueryList[0].AddressID, addressReportList[0].AddressID);
-                            Assert.AreEqual(addressDirectQueryList.Count, addressReportList.Count);
+                            List<Address_B> address_BList = new List<Address_B>();
+                            address_BList = addressService.GetAddress_BList().ToList();
+                            CheckAddress_BFields(address_BList);
+                            Assert.AreEqual(addressDirectQueryList[0].AddressID, address_BList[0].AddressID);
+                            Assert.AreEqual(addressDirectQueryList.Count, address_BList.Count);
                         }
                         else
                         {
@@ -702,38 +696,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         AddressService addressService = new AddressService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        addressService.Query = addressService.FillQuery(typeof(Address), culture.TwoLetterISOLanguageName, 0, 10000, "", "AddressID,GT,2|AddressID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        addressService.Query = addressService.FillQuery(typeof(Address), culture.TwoLetterISOLanguageName, 0, 10000, "", "AddressID,GT,2|AddressID,LT,5", "");
 
                         List<Address> addressDirectQueryList = new List<Address>();
                         addressDirectQueryList = (from c in dbTestDB.Addresses select c).Where(c => c.AddressID > 2 && c.AddressID < 5).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<Address> addressList = new List<Address>();
                             addressList = addressService.GetAddressList().ToList();
                             CheckAddressFields(addressList);
                             Assert.AreEqual(addressDirectQueryList[0].AddressID, addressList[0].AddressID);
-                            Assert.AreEqual(addressDirectQueryList.Count, addressList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<AddressWeb> addressWebList = new List<AddressWeb>();
-                            addressWebList = addressService.GetAddressWebList().ToList();
-                            CheckAddressWebFields(addressWebList);
-                            Assert.AreEqual(addressDirectQueryList[0].AddressID, addressWebList[0].AddressID);
-                            Assert.AreEqual(addressDirectQueryList.Count, addressWebList.Count);
+                            List<Address_A> address_AList = new List<Address_A>();
+                            address_AList = addressService.GetAddress_AList().ToList();
+                            CheckAddress_AFields(address_AList);
+                            Assert.AreEqual(addressDirectQueryList[0].AddressID, address_AList[0].AddressID);
+                            Assert.AreEqual(addressDirectQueryList.Count, address_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<AddressReport> addressReportList = new List<AddressReport>();
-                            addressReportList = addressService.GetAddressReportList().ToList();
-                            CheckAddressReportFields(addressReportList);
-                            Assert.AreEqual(addressDirectQueryList[0].AddressID, addressReportList[0].AddressID);
-                            Assert.AreEqual(addressDirectQueryList.Count, addressReportList.Count);
+                            List<Address_B> address_BList = new List<Address_B>();
+                            address_BList = addressService.GetAddress_BList().ToList();
+                            CheckAddress_BFields(address_BList);
+                            Assert.AreEqual(addressDirectQueryList[0].AddressID, address_BList[0].AddressID);
+                            Assert.AreEqual(addressDirectQueryList.Count, address_BList.Count);
                         }
                         else
                         {
@@ -778,99 +771,99 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(addressList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(addressList[0].HasErrors);
         }
-        private void CheckAddressWebFields(List<AddressWeb> addressWebList)
+        private void CheckAddress_AFields(List<Address_A> address_AList)
         {
-            Assert.IsNotNull(addressWebList[0].AddressTVItemLanguage);
-            Assert.IsNotNull(addressWebList[0].CountryTVItemLanguage);
-            Assert.IsNotNull(addressWebList[0].ProvinceTVItemLanguage);
-            Assert.IsNotNull(addressWebList[0].MunicipalityTVItemLanguage);
-            Assert.IsNotNull(addressWebList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(addressWebList[0].AddressTypeText))
+            Assert.IsFalse(string.IsNullOrWhiteSpace(address_AList[0].AddressText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(address_AList[0].CountryText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(address_AList[0].ProvinceText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(address_AList[0].MunicipalityText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(address_AList[0].LastUpdateContactText));
+            if (!string.IsNullOrWhiteSpace(address_AList[0].AddressTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(addressWebList[0].AddressTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(address_AList[0].AddressTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(addressWebList[0].StreetTypeText))
+            if (!string.IsNullOrWhiteSpace(address_AList[0].StreetTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(addressWebList[0].StreetTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(address_AList[0].StreetTypeText));
             }
-            Assert.IsNotNull(addressWebList[0].AddressID);
-            Assert.IsNotNull(addressWebList[0].AddressTVItemID);
-            Assert.IsNotNull(addressWebList[0].AddressType);
-            Assert.IsNotNull(addressWebList[0].CountryTVItemID);
-            Assert.IsNotNull(addressWebList[0].ProvinceTVItemID);
-            Assert.IsNotNull(addressWebList[0].MunicipalityTVItemID);
-            if (!string.IsNullOrWhiteSpace(addressWebList[0].StreetName))
+            Assert.IsNotNull(address_AList[0].AddressID);
+            Assert.IsNotNull(address_AList[0].AddressTVItemID);
+            Assert.IsNotNull(address_AList[0].AddressType);
+            Assert.IsNotNull(address_AList[0].CountryTVItemID);
+            Assert.IsNotNull(address_AList[0].ProvinceTVItemID);
+            Assert.IsNotNull(address_AList[0].MunicipalityTVItemID);
+            if (!string.IsNullOrWhiteSpace(address_AList[0].StreetName))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(addressWebList[0].StreetName));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(address_AList[0].StreetName));
             }
-            if (!string.IsNullOrWhiteSpace(addressWebList[0].StreetNumber))
+            if (!string.IsNullOrWhiteSpace(address_AList[0].StreetNumber))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(addressWebList[0].StreetNumber));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(address_AList[0].StreetNumber));
             }
-            if (addressWebList[0].StreetType != null)
+            if (address_AList[0].StreetType != null)
             {
-                Assert.IsNotNull(addressWebList[0].StreetType);
+                Assert.IsNotNull(address_AList[0].StreetType);
             }
-            if (!string.IsNullOrWhiteSpace(addressWebList[0].PostalCode))
+            if (!string.IsNullOrWhiteSpace(address_AList[0].PostalCode))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(addressWebList[0].PostalCode));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(address_AList[0].PostalCode));
             }
-            if (!string.IsNullOrWhiteSpace(addressWebList[0].GoogleAddressText))
+            if (!string.IsNullOrWhiteSpace(address_AList[0].GoogleAddressText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(addressWebList[0].GoogleAddressText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(address_AList[0].GoogleAddressText));
             }
-            Assert.IsNotNull(addressWebList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(addressWebList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(addressWebList[0].HasErrors);
+            Assert.IsNotNull(address_AList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(address_AList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(address_AList[0].HasErrors);
         }
-        private void CheckAddressReportFields(List<AddressReport> addressReportList)
+        private void CheckAddress_BFields(List<Address_B> address_BList)
         {
-            if (!string.IsNullOrWhiteSpace(addressReportList[0].AddressReportTest))
+            if (!string.IsNullOrWhiteSpace(address_BList[0].AddressReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(addressReportList[0].AddressReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(address_BList[0].AddressReportTest));
             }
-            Assert.IsNotNull(addressReportList[0].AddressTVItemLanguage);
-            Assert.IsNotNull(addressReportList[0].CountryTVItemLanguage);
-            Assert.IsNotNull(addressReportList[0].ProvinceTVItemLanguage);
-            Assert.IsNotNull(addressReportList[0].MunicipalityTVItemLanguage);
-            Assert.IsNotNull(addressReportList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(addressReportList[0].AddressTypeText))
+            Assert.IsFalse(string.IsNullOrWhiteSpace(address_BList[0].AddressText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(address_BList[0].CountryText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(address_BList[0].ProvinceText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(address_BList[0].MunicipalityText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(address_BList[0].LastUpdateContactText));
+            if (!string.IsNullOrWhiteSpace(address_BList[0].AddressTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(addressReportList[0].AddressTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(address_BList[0].AddressTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(addressReportList[0].StreetTypeText))
+            if (!string.IsNullOrWhiteSpace(address_BList[0].StreetTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(addressReportList[0].StreetTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(address_BList[0].StreetTypeText));
             }
-            Assert.IsNotNull(addressReportList[0].AddressID);
-            Assert.IsNotNull(addressReportList[0].AddressTVItemID);
-            Assert.IsNotNull(addressReportList[0].AddressType);
-            Assert.IsNotNull(addressReportList[0].CountryTVItemID);
-            Assert.IsNotNull(addressReportList[0].ProvinceTVItemID);
-            Assert.IsNotNull(addressReportList[0].MunicipalityTVItemID);
-            if (!string.IsNullOrWhiteSpace(addressReportList[0].StreetName))
+            Assert.IsNotNull(address_BList[0].AddressID);
+            Assert.IsNotNull(address_BList[0].AddressTVItemID);
+            Assert.IsNotNull(address_BList[0].AddressType);
+            Assert.IsNotNull(address_BList[0].CountryTVItemID);
+            Assert.IsNotNull(address_BList[0].ProvinceTVItemID);
+            Assert.IsNotNull(address_BList[0].MunicipalityTVItemID);
+            if (!string.IsNullOrWhiteSpace(address_BList[0].StreetName))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(addressReportList[0].StreetName));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(address_BList[0].StreetName));
             }
-            if (!string.IsNullOrWhiteSpace(addressReportList[0].StreetNumber))
+            if (!string.IsNullOrWhiteSpace(address_BList[0].StreetNumber))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(addressReportList[0].StreetNumber));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(address_BList[0].StreetNumber));
             }
-            if (addressReportList[0].StreetType != null)
+            if (address_BList[0].StreetType != null)
             {
-                Assert.IsNotNull(addressReportList[0].StreetType);
+                Assert.IsNotNull(address_BList[0].StreetType);
             }
-            if (!string.IsNullOrWhiteSpace(addressReportList[0].PostalCode))
+            if (!string.IsNullOrWhiteSpace(address_BList[0].PostalCode))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(addressReportList[0].PostalCode));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(address_BList[0].PostalCode));
             }
-            if (!string.IsNullOrWhiteSpace(addressReportList[0].GoogleAddressText))
+            if (!string.IsNullOrWhiteSpace(address_BList[0].GoogleAddressText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(addressReportList[0].GoogleAddressText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(address_BList[0].GoogleAddressText));
             }
-            Assert.IsNotNull(addressReportList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(addressReportList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(addressReportList[0].HasErrors);
+            Assert.IsNotNull(address_BList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(address_BList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(address_BList[0].HasErrors);
         }
         private Address GetFilledRandomAddress(string OmitPropName)
         {

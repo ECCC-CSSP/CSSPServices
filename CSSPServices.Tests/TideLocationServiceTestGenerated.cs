@@ -303,27 +303,27 @@ namespace CSSPServices.Tests
                     TideLocation tideLocation = (from c in dbTestDB.TideLocations select c).FirstOrDefault();
                     Assert.IsNotNull(tideLocation);
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        tideLocationService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        tideLocationService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             TideLocation tideLocationRet = tideLocationService.GetTideLocationWithTideLocationID(tideLocation.TideLocationID);
                             CheckTideLocationFields(new List<TideLocation>() { tideLocationRet });
                             Assert.AreEqual(tideLocation.TideLocationID, tideLocationRet.TideLocationID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            TideLocationWeb tideLocationWebRet = tideLocationService.GetTideLocationWebWithTideLocationID(tideLocation.TideLocationID);
-                            CheckTideLocationWebFields(new List<TideLocationWeb>() { tideLocationWebRet });
-                            Assert.AreEqual(tideLocation.TideLocationID, tideLocationWebRet.TideLocationID);
+                            TideLocation_A tideLocation_ARet = tideLocationService.GetTideLocation_AWithTideLocationID(tideLocation.TideLocationID);
+                            CheckTideLocation_AFields(new List<TideLocation_A>() { tideLocation_ARet });
+                            Assert.AreEqual(tideLocation.TideLocationID, tideLocation_ARet.TideLocationID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            TideLocationReport tideLocationReportRet = tideLocationService.GetTideLocationReportWithTideLocationID(tideLocation.TideLocationID);
-                            CheckTideLocationReportFields(new List<TideLocationReport>() { tideLocationReportRet });
-                            Assert.AreEqual(tideLocation.TideLocationID, tideLocationReportRet.TideLocationID);
+                            TideLocation_B tideLocation_BRet = tideLocationService.GetTideLocation_BWithTideLocationID(tideLocation.TideLocationID);
+                            CheckTideLocation_BFields(new List<TideLocation_B>() { tideLocation_BRet });
+                            Assert.AreEqual(tideLocation.TideLocationID, tideLocation_BRet.TideLocationID);
                         }
                         else
                         {
@@ -352,30 +352,29 @@ namespace CSSPServices.Tests
                     List<TideLocation> tideLocationDirectQueryList = new List<TideLocation>();
                     tideLocationDirectQueryList = (from c in dbTestDB.TideLocations select c).Take(200).ToList();
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        tideLocationService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        tideLocationService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<TideLocation> tideLocationList = new List<TideLocation>();
                             tideLocationList = tideLocationService.GetTideLocationList().ToList();
                             CheckTideLocationFields(tideLocationList);
-                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<TideLocationWeb> tideLocationWebList = new List<TideLocationWeb>();
-                            tideLocationWebList = tideLocationService.GetTideLocationWebList().ToList();
-                            CheckTideLocationWebFields(tideLocationWebList);
-                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationWebList.Count);
+                            List<TideLocation_A> tideLocation_AList = new List<TideLocation_A>();
+                            tideLocation_AList = tideLocationService.GetTideLocation_AList().ToList();
+                            CheckTideLocation_AFields(tideLocation_AList);
+                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocation_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<TideLocationReport> tideLocationReportList = new List<TideLocationReport>();
-                            tideLocationReportList = tideLocationService.GetTideLocationReportList().ToList();
-                            CheckTideLocationReportFields(tideLocationReportList);
-                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationReportList.Count);
+                            List<TideLocation_B> tideLocation_BList = new List<TideLocation_B>();
+                            tideLocation_BList = tideLocationService.GetTideLocation_BList().ToList();
+                            CheckTideLocation_BFields(tideLocation_BList);
+                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocation_BList.Count);
                         }
                         else
                         {
@@ -397,38 +396,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         TideLocationService tideLocationService = new TideLocationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tideLocationService.Query = tideLocationService.FillQuery(typeof(TideLocation), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        tideLocationService.Query = tideLocationService.FillQuery(typeof(TideLocation), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
 
                         List<TideLocation> tideLocationDirectQueryList = new List<TideLocation>();
                         tideLocationDirectQueryList = (from c in dbTestDB.TideLocations select c).Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<TideLocation> tideLocationList = new List<TideLocation>();
                             tideLocationList = tideLocationService.GetTideLocationList().ToList();
                             CheckTideLocationFields(tideLocationList);
                             Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationList[0].TideLocationID);
-                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<TideLocationWeb> tideLocationWebList = new List<TideLocationWeb>();
-                            tideLocationWebList = tideLocationService.GetTideLocationWebList().ToList();
-                            CheckTideLocationWebFields(tideLocationWebList);
-                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationWebList[0].TideLocationID);
-                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationWebList.Count);
+                            List<TideLocation_A> tideLocation_AList = new List<TideLocation_A>();
+                            tideLocation_AList = tideLocationService.GetTideLocation_AList().ToList();
+                            CheckTideLocation_AFields(tideLocation_AList);
+                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocation_AList[0].TideLocationID);
+                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocation_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<TideLocationReport> tideLocationReportList = new List<TideLocationReport>();
-                            tideLocationReportList = tideLocationService.GetTideLocationReportList().ToList();
-                            CheckTideLocationReportFields(tideLocationReportList);
-                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationReportList[0].TideLocationID);
-                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationReportList.Count);
+                            List<TideLocation_B> tideLocation_BList = new List<TideLocation_B>();
+                            tideLocation_BList = tideLocationService.GetTideLocation_BList().ToList();
+                            CheckTideLocation_BFields(tideLocation_BList);
+                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocation_BList[0].TideLocationID);
+                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocation_BList.Count);
                         }
                         else
                         {
@@ -450,38 +448,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         TideLocationService tideLocationService = new TideLocationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tideLocationService.Query = tideLocationService.FillQuery(typeof(TideLocation), culture.TwoLetterISOLanguageName, 1, 1,  "TideLocationID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        tideLocationService.Query = tideLocationService.FillQuery(typeof(TideLocation), culture.TwoLetterISOLanguageName, 1, 1,  "TideLocationID", "");
 
                         List<TideLocation> tideLocationDirectQueryList = new List<TideLocation>();
                         tideLocationDirectQueryList = (from c in dbTestDB.TideLocations select c).Skip(1).Take(1).OrderBy(c => c.TideLocationID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<TideLocation> tideLocationList = new List<TideLocation>();
                             tideLocationList = tideLocationService.GetTideLocationList().ToList();
                             CheckTideLocationFields(tideLocationList);
                             Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationList[0].TideLocationID);
-                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<TideLocationWeb> tideLocationWebList = new List<TideLocationWeb>();
-                            tideLocationWebList = tideLocationService.GetTideLocationWebList().ToList();
-                            CheckTideLocationWebFields(tideLocationWebList);
-                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationWebList[0].TideLocationID);
-                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationWebList.Count);
+                            List<TideLocation_A> tideLocation_AList = new List<TideLocation_A>();
+                            tideLocation_AList = tideLocationService.GetTideLocation_AList().ToList();
+                            CheckTideLocation_AFields(tideLocation_AList);
+                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocation_AList[0].TideLocationID);
+                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocation_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<TideLocationReport> tideLocationReportList = new List<TideLocationReport>();
-                            tideLocationReportList = tideLocationService.GetTideLocationReportList().ToList();
-                            CheckTideLocationReportFields(tideLocationReportList);
-                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationReportList[0].TideLocationID);
-                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationReportList.Count);
+                            List<TideLocation_B> tideLocation_BList = new List<TideLocation_B>();
+                            tideLocation_BList = tideLocationService.GetTideLocation_BList().ToList();
+                            CheckTideLocation_BFields(tideLocation_BList);
+                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocation_BList[0].TideLocationID);
+                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocation_BList.Count);
                         }
                         else
                         {
@@ -503,38 +500,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         TideLocationService tideLocationService = new TideLocationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tideLocationService.Query = tideLocationService.FillQuery(typeof(TideLocation), culture.TwoLetterISOLanguageName, 1, 1, "TideLocationID,Zone", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        tideLocationService.Query = tideLocationService.FillQuery(typeof(TideLocation), culture.TwoLetterISOLanguageName, 1, 1, "TideLocationID,Zone", "");
 
                         List<TideLocation> tideLocationDirectQueryList = new List<TideLocation>();
                         tideLocationDirectQueryList = (from c in dbTestDB.TideLocations select c).Skip(1).Take(1).OrderBy(c => c.TideLocationID).ThenBy(c => c.Zone).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<TideLocation> tideLocationList = new List<TideLocation>();
                             tideLocationList = tideLocationService.GetTideLocationList().ToList();
                             CheckTideLocationFields(tideLocationList);
                             Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationList[0].TideLocationID);
-                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<TideLocationWeb> tideLocationWebList = new List<TideLocationWeb>();
-                            tideLocationWebList = tideLocationService.GetTideLocationWebList().ToList();
-                            CheckTideLocationWebFields(tideLocationWebList);
-                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationWebList[0].TideLocationID);
-                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationWebList.Count);
+                            List<TideLocation_A> tideLocation_AList = new List<TideLocation_A>();
+                            tideLocation_AList = tideLocationService.GetTideLocation_AList().ToList();
+                            CheckTideLocation_AFields(tideLocation_AList);
+                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocation_AList[0].TideLocationID);
+                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocation_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<TideLocationReport> tideLocationReportList = new List<TideLocationReport>();
-                            tideLocationReportList = tideLocationService.GetTideLocationReportList().ToList();
-                            CheckTideLocationReportFields(tideLocationReportList);
-                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationReportList[0].TideLocationID);
-                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationReportList.Count);
+                            List<TideLocation_B> tideLocation_BList = new List<TideLocation_B>();
+                            tideLocation_BList = tideLocationService.GetTideLocation_BList().ToList();
+                            CheckTideLocation_BFields(tideLocation_BList);
+                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocation_BList[0].TideLocationID);
+                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocation_BList.Count);
                         }
                         else
                         {
@@ -556,38 +552,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         TideLocationService tideLocationService = new TideLocationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tideLocationService.Query = tideLocationService.FillQuery(typeof(TideLocation), culture.TwoLetterISOLanguageName, 0, 1, "TideLocationID", "TideLocationID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        tideLocationService.Query = tideLocationService.FillQuery(typeof(TideLocation), culture.TwoLetterISOLanguageName, 0, 1, "TideLocationID", "TideLocationID,EQ,4", "");
 
                         List<TideLocation> tideLocationDirectQueryList = new List<TideLocation>();
                         tideLocationDirectQueryList = (from c in dbTestDB.TideLocations select c).Where(c => c.TideLocationID == 4).Skip(0).Take(1).OrderBy(c => c.TideLocationID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<TideLocation> tideLocationList = new List<TideLocation>();
                             tideLocationList = tideLocationService.GetTideLocationList().ToList();
                             CheckTideLocationFields(tideLocationList);
                             Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationList[0].TideLocationID);
-                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<TideLocationWeb> tideLocationWebList = new List<TideLocationWeb>();
-                            tideLocationWebList = tideLocationService.GetTideLocationWebList().ToList();
-                            CheckTideLocationWebFields(tideLocationWebList);
-                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationWebList[0].TideLocationID);
-                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationWebList.Count);
+                            List<TideLocation_A> tideLocation_AList = new List<TideLocation_A>();
+                            tideLocation_AList = tideLocationService.GetTideLocation_AList().ToList();
+                            CheckTideLocation_AFields(tideLocation_AList);
+                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocation_AList[0].TideLocationID);
+                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocation_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<TideLocationReport> tideLocationReportList = new List<TideLocationReport>();
-                            tideLocationReportList = tideLocationService.GetTideLocationReportList().ToList();
-                            CheckTideLocationReportFields(tideLocationReportList);
-                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationReportList[0].TideLocationID);
-                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationReportList.Count);
+                            List<TideLocation_B> tideLocation_BList = new List<TideLocation_B>();
+                            tideLocation_BList = tideLocationService.GetTideLocation_BList().ToList();
+                            CheckTideLocation_BFields(tideLocation_BList);
+                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocation_BList[0].TideLocationID);
+                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocation_BList.Count);
                         }
                         else
                         {
@@ -609,38 +604,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         TideLocationService tideLocationService = new TideLocationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tideLocationService.Query = tideLocationService.FillQuery(typeof(TideLocation), culture.TwoLetterISOLanguageName, 0, 1, "TideLocationID", "TideLocationID,GT,2|TideLocationID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        tideLocationService.Query = tideLocationService.FillQuery(typeof(TideLocation), culture.TwoLetterISOLanguageName, 0, 1, "TideLocationID", "TideLocationID,GT,2|TideLocationID,LT,5", "");
 
                         List<TideLocation> tideLocationDirectQueryList = new List<TideLocation>();
                         tideLocationDirectQueryList = (from c in dbTestDB.TideLocations select c).Where(c => c.TideLocationID > 2 && c.TideLocationID < 5).Skip(0).Take(1).OrderBy(c => c.TideLocationID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<TideLocation> tideLocationList = new List<TideLocation>();
                             tideLocationList = tideLocationService.GetTideLocationList().ToList();
                             CheckTideLocationFields(tideLocationList);
                             Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationList[0].TideLocationID);
-                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<TideLocationWeb> tideLocationWebList = new List<TideLocationWeb>();
-                            tideLocationWebList = tideLocationService.GetTideLocationWebList().ToList();
-                            CheckTideLocationWebFields(tideLocationWebList);
-                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationWebList[0].TideLocationID);
-                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationWebList.Count);
+                            List<TideLocation_A> tideLocation_AList = new List<TideLocation_A>();
+                            tideLocation_AList = tideLocationService.GetTideLocation_AList().ToList();
+                            CheckTideLocation_AFields(tideLocation_AList);
+                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocation_AList[0].TideLocationID);
+                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocation_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<TideLocationReport> tideLocationReportList = new List<TideLocationReport>();
-                            tideLocationReportList = tideLocationService.GetTideLocationReportList().ToList();
-                            CheckTideLocationReportFields(tideLocationReportList);
-                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationReportList[0].TideLocationID);
-                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationReportList.Count);
+                            List<TideLocation_B> tideLocation_BList = new List<TideLocation_B>();
+                            tideLocation_BList = tideLocationService.GetTideLocation_BList().ToList();
+                            CheckTideLocation_BFields(tideLocation_BList);
+                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocation_BList[0].TideLocationID);
+                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocation_BList.Count);
                         }
                         else
                         {
@@ -662,38 +656,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         TideLocationService tideLocationService = new TideLocationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tideLocationService.Query = tideLocationService.FillQuery(typeof(TideLocation), culture.TwoLetterISOLanguageName, 0, 10000, "", "TideLocationID,GT,2|TideLocationID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        tideLocationService.Query = tideLocationService.FillQuery(typeof(TideLocation), culture.TwoLetterISOLanguageName, 0, 10000, "", "TideLocationID,GT,2|TideLocationID,LT,5", "");
 
                         List<TideLocation> tideLocationDirectQueryList = new List<TideLocation>();
                         tideLocationDirectQueryList = (from c in dbTestDB.TideLocations select c).Where(c => c.TideLocationID > 2 && c.TideLocationID < 5).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<TideLocation> tideLocationList = new List<TideLocation>();
                             tideLocationList = tideLocationService.GetTideLocationList().ToList();
                             CheckTideLocationFields(tideLocationList);
                             Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationList[0].TideLocationID);
-                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<TideLocationWeb> tideLocationWebList = new List<TideLocationWeb>();
-                            tideLocationWebList = tideLocationService.GetTideLocationWebList().ToList();
-                            CheckTideLocationWebFields(tideLocationWebList);
-                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationWebList[0].TideLocationID);
-                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationWebList.Count);
+                            List<TideLocation_A> tideLocation_AList = new List<TideLocation_A>();
+                            tideLocation_AList = tideLocationService.GetTideLocation_AList().ToList();
+                            CheckTideLocation_AFields(tideLocation_AList);
+                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocation_AList[0].TideLocationID);
+                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocation_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<TideLocationReport> tideLocationReportList = new List<TideLocationReport>();
-                            tideLocationReportList = tideLocationService.GetTideLocationReportList().ToList();
-                            CheckTideLocationReportFields(tideLocationReportList);
-                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationReportList[0].TideLocationID);
-                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationReportList.Count);
+                            List<TideLocation_B> tideLocation_BList = new List<TideLocation_B>();
+                            tideLocation_BList = tideLocationService.GetTideLocation_BList().ToList();
+                            CheckTideLocation_BFields(tideLocation_BList);
+                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocation_BList[0].TideLocationID);
+                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocation_BList.Count);
                         }
                         else
                         {
@@ -719,37 +712,37 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(tideLocationList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(tideLocationList[0].HasErrors);
         }
-        private void CheckTideLocationWebFields(List<TideLocationWeb> tideLocationWebList)
+        private void CheckTideLocation_AFields(List<TideLocation_A> tideLocation_AList)
         {
-            Assert.IsNotNull(tideLocationWebList[0].LastUpdateContactTVItemLanguage);
-            Assert.IsNotNull(tideLocationWebList[0].TideLocationID);
-            Assert.IsNotNull(tideLocationWebList[0].Zone);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tideLocationWebList[0].Name));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tideLocationWebList[0].Prov));
-            Assert.IsNotNull(tideLocationWebList[0].sid);
-            Assert.IsNotNull(tideLocationWebList[0].Lat);
-            Assert.IsNotNull(tideLocationWebList[0].Lng);
-            Assert.IsNotNull(tideLocationWebList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(tideLocationWebList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(tideLocationWebList[0].HasErrors);
+            Assert.IsNotNull(tideLocation_AList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(tideLocation_AList[0].TideLocationID);
+            Assert.IsNotNull(tideLocation_AList[0].Zone);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tideLocation_AList[0].Name));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tideLocation_AList[0].Prov));
+            Assert.IsNotNull(tideLocation_AList[0].sid);
+            Assert.IsNotNull(tideLocation_AList[0].Lat);
+            Assert.IsNotNull(tideLocation_AList[0].Lng);
+            Assert.IsNotNull(tideLocation_AList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(tideLocation_AList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(tideLocation_AList[0].HasErrors);
         }
-        private void CheckTideLocationReportFields(List<TideLocationReport> tideLocationReportList)
+        private void CheckTideLocation_BFields(List<TideLocation_B> tideLocation_BList)
         {
-            if (!string.IsNullOrWhiteSpace(tideLocationReportList[0].TideLocationReportTest))
+            if (!string.IsNullOrWhiteSpace(tideLocation_BList[0].TideLocationReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tideLocationReportList[0].TideLocationReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tideLocation_BList[0].TideLocationReportTest));
             }
-            Assert.IsNotNull(tideLocationReportList[0].LastUpdateContactTVItemLanguage);
-            Assert.IsNotNull(tideLocationReportList[0].TideLocationID);
-            Assert.IsNotNull(tideLocationReportList[0].Zone);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tideLocationReportList[0].Name));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tideLocationReportList[0].Prov));
-            Assert.IsNotNull(tideLocationReportList[0].sid);
-            Assert.IsNotNull(tideLocationReportList[0].Lat);
-            Assert.IsNotNull(tideLocationReportList[0].Lng);
-            Assert.IsNotNull(tideLocationReportList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(tideLocationReportList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(tideLocationReportList[0].HasErrors);
+            Assert.IsNotNull(tideLocation_BList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(tideLocation_BList[0].TideLocationID);
+            Assert.IsNotNull(tideLocation_BList[0].Zone);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tideLocation_BList[0].Name));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tideLocation_BList[0].Prov));
+            Assert.IsNotNull(tideLocation_BList[0].sid);
+            Assert.IsNotNull(tideLocation_BList[0].Lat);
+            Assert.IsNotNull(tideLocation_BList[0].Lng);
+            Assert.IsNotNull(tideLocation_BList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(tideLocation_BList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(tideLocation_BList[0].HasErrors);
         }
         private TideLocation GetFilledRandomTideLocation(string OmitPropName)
         {

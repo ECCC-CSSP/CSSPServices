@@ -138,31 +138,31 @@ namespace CSSPServices
 
             return ContactPreferenceQuery;
         }
-        public ContactPreferenceWeb GetContactPreferenceWebWithContactPreferenceID(int ContactPreferenceID)
+        public ContactPreference_A GetContactPreference_AWithContactPreferenceID(int ContactPreferenceID)
         {
-            return FillContactPreferenceWeb().Where(c => c.ContactPreferenceID == ContactPreferenceID).FirstOrDefault();
+            return FillContactPreference_A().Where(c => c.ContactPreferenceID == ContactPreferenceID).FirstOrDefault();
 
         }
-        public IQueryable<ContactPreferenceWeb> GetContactPreferenceWebList()
+        public IQueryable<ContactPreference_A> GetContactPreference_AList()
         {
-            IQueryable<ContactPreferenceWeb> ContactPreferenceWebQuery = FillContactPreferenceWeb();
+            IQueryable<ContactPreference_A> ContactPreference_AQuery = FillContactPreference_A();
 
-            ContactPreferenceWebQuery = EnhanceQueryStatements<ContactPreferenceWeb>(ContactPreferenceWebQuery) as IQueryable<ContactPreferenceWeb>;
+            ContactPreference_AQuery = EnhanceQueryStatements<ContactPreference_A>(ContactPreference_AQuery) as IQueryable<ContactPreference_A>;
 
-            return ContactPreferenceWebQuery;
+            return ContactPreference_AQuery;
         }
-        public ContactPreferenceReport GetContactPreferenceReportWithContactPreferenceID(int ContactPreferenceID)
+        public ContactPreference_B GetContactPreference_BWithContactPreferenceID(int ContactPreferenceID)
         {
-            return FillContactPreferenceReport().Where(c => c.ContactPreferenceID == ContactPreferenceID).FirstOrDefault();
+            return FillContactPreference_B().Where(c => c.ContactPreferenceID == ContactPreferenceID).FirstOrDefault();
 
         }
-        public IQueryable<ContactPreferenceReport> GetContactPreferenceReportList()
+        public IQueryable<ContactPreference_B> GetContactPreference_BList()
         {
-            IQueryable<ContactPreferenceReport> ContactPreferenceReportQuery = FillContactPreferenceReport();
+            IQueryable<ContactPreference_B> ContactPreference_BQuery = FillContactPreference_B();
 
-            ContactPreferenceReportQuery = EnhanceQueryStatements<ContactPreferenceReport>(ContactPreferenceReportQuery) as IQueryable<ContactPreferenceReport>;
+            ContactPreference_BQuery = EnhanceQueryStatements<ContactPreference_B>(ContactPreference_BQuery) as IQueryable<ContactPreference_B>;
 
-            return ContactPreferenceReportQuery;
+            return ContactPreference_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -201,38 +201,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated ContactPreferenceFillWeb
-        private IQueryable<ContactPreferenceWeb> FillContactPreferenceWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> TVTypeEnumList = enums.GetEnumTextOrderedList(typeof(TVTypeEnum));
-
-             IQueryable<ContactPreferenceWeb> ContactPreferenceWebQuery = (from c in db.ContactPreferences
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new ContactPreferenceWeb
-                    {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        TVTypeText = (from e in TVTypeEnumList
-                                where e.EnumID == (int?)c.TVType
-                                select e.EnumText).FirstOrDefault(),
-                        ContactPreferenceID = c.ContactPreferenceID,
-                        ContactID = c.ContactID,
-                        TVType = c.TVType,
-                        MarkerSize = c.MarkerSize,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return ContactPreferenceWebQuery;
-        }
-        #endregion Functions private Generated ContactPreferenceFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(ContactPreference contactPreference)

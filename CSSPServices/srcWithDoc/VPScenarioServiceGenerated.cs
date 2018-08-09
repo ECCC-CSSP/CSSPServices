@@ -281,31 +281,31 @@ namespace CSSPServices
 
             return VPScenarioQuery;
         }
-        public VPScenarioWeb GetVPScenarioWebWithVPScenarioID(int VPScenarioID)
+        public VPScenario_A GetVPScenario_AWithVPScenarioID(int VPScenarioID)
         {
-            return FillVPScenarioWeb().Where(c => c.VPScenarioID == VPScenarioID).FirstOrDefault();
+            return FillVPScenario_A().Where(c => c.VPScenarioID == VPScenarioID).FirstOrDefault();
 
         }
-        public IQueryable<VPScenarioWeb> GetVPScenarioWebList()
+        public IQueryable<VPScenario_A> GetVPScenario_AList()
         {
-            IQueryable<VPScenarioWeb> VPScenarioWebQuery = FillVPScenarioWeb();
+            IQueryable<VPScenario_A> VPScenario_AQuery = FillVPScenario_A();
 
-            VPScenarioWebQuery = EnhanceQueryStatements<VPScenarioWeb>(VPScenarioWebQuery) as IQueryable<VPScenarioWeb>;
+            VPScenario_AQuery = EnhanceQueryStatements<VPScenario_A>(VPScenario_AQuery) as IQueryable<VPScenario_A>;
 
-            return VPScenarioWebQuery;
+            return VPScenario_AQuery;
         }
-        public VPScenarioReport GetVPScenarioReportWithVPScenarioID(int VPScenarioID)
+        public VPScenario_B GetVPScenario_BWithVPScenarioID(int VPScenarioID)
         {
-            return FillVPScenarioReport().Where(c => c.VPScenarioID == VPScenarioID).FirstOrDefault();
+            return FillVPScenario_B().Where(c => c.VPScenarioID == VPScenarioID).FirstOrDefault();
 
         }
-        public IQueryable<VPScenarioReport> GetVPScenarioReportList()
+        public IQueryable<VPScenario_B> GetVPScenario_BList()
         {
-            IQueryable<VPScenarioReport> VPScenarioReportQuery = FillVPScenarioReport();
+            IQueryable<VPScenario_B> VPScenario_BQuery = FillVPScenario_B();
 
-            VPScenarioReportQuery = EnhanceQueryStatements<VPScenarioReport>(VPScenarioReportQuery) as IQueryable<VPScenarioReport>;
+            VPScenario_BQuery = EnhanceQueryStatements<VPScenario_B>(VPScenario_BQuery) as IQueryable<VPScenario_B>;
 
-            return VPScenarioReportQuery;
+            return VPScenario_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -344,59 +344,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated VPScenarioFillWeb
-        private IQueryable<VPScenarioWeb> FillVPScenarioWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> ScenarioStatusEnumList = enums.GetEnumTextOrderedList(typeof(ScenarioStatusEnum));
-
-             IQueryable<VPScenarioWeb> VPScenarioWebQuery = (from c in db.VPScenarios
-                let SubsectorTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.InfrastructureTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new VPScenarioWeb
-                    {
-                        SubsectorTVItemLanguage = SubsectorTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        VPScenarioStatusText = (from e in ScenarioStatusEnumList
-                                where e.EnumID == (int?)c.VPScenarioStatus
-                                select e.EnumText).FirstOrDefault(),
-                        VPScenarioID = c.VPScenarioID,
-                        InfrastructureTVItemID = c.InfrastructureTVItemID,
-                        VPScenarioStatus = c.VPScenarioStatus,
-                        UseAsBestEstimate = c.UseAsBestEstimate,
-                        EffluentFlow_m3_s = c.EffluentFlow_m3_s,
-                        EffluentConcentration_MPN_100ml = c.EffluentConcentration_MPN_100ml,
-                        FroudeNumber = c.FroudeNumber,
-                        PortDiameter_m = c.PortDiameter_m,
-                        PortDepth_m = c.PortDepth_m,
-                        PortElevation_m = c.PortElevation_m,
-                        VerticalAngle_deg = c.VerticalAngle_deg,
-                        HorizontalAngle_deg = c.HorizontalAngle_deg,
-                        NumberOfPorts = c.NumberOfPorts,
-                        PortSpacing_m = c.PortSpacing_m,
-                        AcuteMixZone_m = c.AcuteMixZone_m,
-                        ChronicMixZone_m = c.ChronicMixZone_m,
-                        EffluentSalinity_PSU = c.EffluentSalinity_PSU,
-                        EffluentTemperature_C = c.EffluentTemperature_C,
-                        EffluentVelocity_m_s = c.EffluentVelocity_m_s,
-                        RawResults = c.RawResults,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return VPScenarioWebQuery;
-        }
-        #endregion Functions private Generated VPScenarioFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(VPScenario vpScenario)

@@ -304,27 +304,27 @@ namespace CSSPServices.Tests
                     PolSourceSite polSourceSite = (from c in dbTestDB.PolSourceSites select c).FirstOrDefault();
                     Assert.IsNotNull(polSourceSite);
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        polSourceSiteService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        polSourceSiteService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             PolSourceSite polSourceSiteRet = polSourceSiteService.GetPolSourceSiteWithPolSourceSiteID(polSourceSite.PolSourceSiteID);
                             CheckPolSourceSiteFields(new List<PolSourceSite>() { polSourceSiteRet });
                             Assert.AreEqual(polSourceSite.PolSourceSiteID, polSourceSiteRet.PolSourceSiteID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            PolSourceSiteWeb polSourceSiteWebRet = polSourceSiteService.GetPolSourceSiteWebWithPolSourceSiteID(polSourceSite.PolSourceSiteID);
-                            CheckPolSourceSiteWebFields(new List<PolSourceSiteWeb>() { polSourceSiteWebRet });
-                            Assert.AreEqual(polSourceSite.PolSourceSiteID, polSourceSiteWebRet.PolSourceSiteID);
+                            PolSourceSite_A polSourceSite_ARet = polSourceSiteService.GetPolSourceSite_AWithPolSourceSiteID(polSourceSite.PolSourceSiteID);
+                            CheckPolSourceSite_AFields(new List<PolSourceSite_A>() { polSourceSite_ARet });
+                            Assert.AreEqual(polSourceSite.PolSourceSiteID, polSourceSite_ARet.PolSourceSiteID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            PolSourceSiteReport polSourceSiteReportRet = polSourceSiteService.GetPolSourceSiteReportWithPolSourceSiteID(polSourceSite.PolSourceSiteID);
-                            CheckPolSourceSiteReportFields(new List<PolSourceSiteReport>() { polSourceSiteReportRet });
-                            Assert.AreEqual(polSourceSite.PolSourceSiteID, polSourceSiteReportRet.PolSourceSiteID);
+                            PolSourceSite_B polSourceSite_BRet = polSourceSiteService.GetPolSourceSite_BWithPolSourceSiteID(polSourceSite.PolSourceSiteID);
+                            CheckPolSourceSite_BFields(new List<PolSourceSite_B>() { polSourceSite_BRet });
+                            Assert.AreEqual(polSourceSite.PolSourceSiteID, polSourceSite_BRet.PolSourceSiteID);
                         }
                         else
                         {
@@ -353,30 +353,29 @@ namespace CSSPServices.Tests
                     List<PolSourceSite> polSourceSiteDirectQueryList = new List<PolSourceSite>();
                     polSourceSiteDirectQueryList = (from c in dbTestDB.PolSourceSites select c).Take(200).ToList();
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        polSourceSiteService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        polSourceSiteService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<PolSourceSite> polSourceSiteList = new List<PolSourceSite>();
                             polSourceSiteList = polSourceSiteService.GetPolSourceSiteList().ToList();
                             CheckPolSourceSiteFields(polSourceSiteList);
-                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSiteList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<PolSourceSiteWeb> polSourceSiteWebList = new List<PolSourceSiteWeb>();
-                            polSourceSiteWebList = polSourceSiteService.GetPolSourceSiteWebList().ToList();
-                            CheckPolSourceSiteWebFields(polSourceSiteWebList);
-                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSiteWebList.Count);
+                            List<PolSourceSite_A> polSourceSite_AList = new List<PolSourceSite_A>();
+                            polSourceSite_AList = polSourceSiteService.GetPolSourceSite_AList().ToList();
+                            CheckPolSourceSite_AFields(polSourceSite_AList);
+                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSite_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<PolSourceSiteReport> polSourceSiteReportList = new List<PolSourceSiteReport>();
-                            polSourceSiteReportList = polSourceSiteService.GetPolSourceSiteReportList().ToList();
-                            CheckPolSourceSiteReportFields(polSourceSiteReportList);
-                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSiteReportList.Count);
+                            List<PolSourceSite_B> polSourceSite_BList = new List<PolSourceSite_B>();
+                            polSourceSite_BList = polSourceSiteService.GetPolSourceSite_BList().ToList();
+                            CheckPolSourceSite_BFields(polSourceSite_BList);
+                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSite_BList.Count);
                         }
                         else
                         {
@@ -398,38 +397,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         PolSourceSiteService polSourceSiteService = new PolSourceSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        polSourceSiteService.Query = polSourceSiteService.FillQuery(typeof(PolSourceSite), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        polSourceSiteService.Query = polSourceSiteService.FillQuery(typeof(PolSourceSite), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
 
                         List<PolSourceSite> polSourceSiteDirectQueryList = new List<PolSourceSite>();
                         polSourceSiteDirectQueryList = (from c in dbTestDB.PolSourceSites select c).Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<PolSourceSite> polSourceSiteList = new List<PolSourceSite>();
                             polSourceSiteList = polSourceSiteService.GetPolSourceSiteList().ToList();
                             CheckPolSourceSiteFields(polSourceSiteList);
                             Assert.AreEqual(polSourceSiteDirectQueryList[0].PolSourceSiteID, polSourceSiteList[0].PolSourceSiteID);
-                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSiteList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<PolSourceSiteWeb> polSourceSiteWebList = new List<PolSourceSiteWeb>();
-                            polSourceSiteWebList = polSourceSiteService.GetPolSourceSiteWebList().ToList();
-                            CheckPolSourceSiteWebFields(polSourceSiteWebList);
-                            Assert.AreEqual(polSourceSiteDirectQueryList[0].PolSourceSiteID, polSourceSiteWebList[0].PolSourceSiteID);
-                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSiteWebList.Count);
+                            List<PolSourceSite_A> polSourceSite_AList = new List<PolSourceSite_A>();
+                            polSourceSite_AList = polSourceSiteService.GetPolSourceSite_AList().ToList();
+                            CheckPolSourceSite_AFields(polSourceSite_AList);
+                            Assert.AreEqual(polSourceSiteDirectQueryList[0].PolSourceSiteID, polSourceSite_AList[0].PolSourceSiteID);
+                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSite_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<PolSourceSiteReport> polSourceSiteReportList = new List<PolSourceSiteReport>();
-                            polSourceSiteReportList = polSourceSiteService.GetPolSourceSiteReportList().ToList();
-                            CheckPolSourceSiteReportFields(polSourceSiteReportList);
-                            Assert.AreEqual(polSourceSiteDirectQueryList[0].PolSourceSiteID, polSourceSiteReportList[0].PolSourceSiteID);
-                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSiteReportList.Count);
+                            List<PolSourceSite_B> polSourceSite_BList = new List<PolSourceSite_B>();
+                            polSourceSite_BList = polSourceSiteService.GetPolSourceSite_BList().ToList();
+                            CheckPolSourceSite_BFields(polSourceSite_BList);
+                            Assert.AreEqual(polSourceSiteDirectQueryList[0].PolSourceSiteID, polSourceSite_BList[0].PolSourceSiteID);
+                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSite_BList.Count);
                         }
                         else
                         {
@@ -451,38 +449,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         PolSourceSiteService polSourceSiteService = new PolSourceSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        polSourceSiteService.Query = polSourceSiteService.FillQuery(typeof(PolSourceSite), culture.TwoLetterISOLanguageName, 1, 1,  "PolSourceSiteID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        polSourceSiteService.Query = polSourceSiteService.FillQuery(typeof(PolSourceSite), culture.TwoLetterISOLanguageName, 1, 1,  "PolSourceSiteID", "");
 
                         List<PolSourceSite> polSourceSiteDirectQueryList = new List<PolSourceSite>();
                         polSourceSiteDirectQueryList = (from c in dbTestDB.PolSourceSites select c).Skip(1).Take(1).OrderBy(c => c.PolSourceSiteID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<PolSourceSite> polSourceSiteList = new List<PolSourceSite>();
                             polSourceSiteList = polSourceSiteService.GetPolSourceSiteList().ToList();
                             CheckPolSourceSiteFields(polSourceSiteList);
                             Assert.AreEqual(polSourceSiteDirectQueryList[0].PolSourceSiteID, polSourceSiteList[0].PolSourceSiteID);
-                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSiteList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<PolSourceSiteWeb> polSourceSiteWebList = new List<PolSourceSiteWeb>();
-                            polSourceSiteWebList = polSourceSiteService.GetPolSourceSiteWebList().ToList();
-                            CheckPolSourceSiteWebFields(polSourceSiteWebList);
-                            Assert.AreEqual(polSourceSiteDirectQueryList[0].PolSourceSiteID, polSourceSiteWebList[0].PolSourceSiteID);
-                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSiteWebList.Count);
+                            List<PolSourceSite_A> polSourceSite_AList = new List<PolSourceSite_A>();
+                            polSourceSite_AList = polSourceSiteService.GetPolSourceSite_AList().ToList();
+                            CheckPolSourceSite_AFields(polSourceSite_AList);
+                            Assert.AreEqual(polSourceSiteDirectQueryList[0].PolSourceSiteID, polSourceSite_AList[0].PolSourceSiteID);
+                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSite_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<PolSourceSiteReport> polSourceSiteReportList = new List<PolSourceSiteReport>();
-                            polSourceSiteReportList = polSourceSiteService.GetPolSourceSiteReportList().ToList();
-                            CheckPolSourceSiteReportFields(polSourceSiteReportList);
-                            Assert.AreEqual(polSourceSiteDirectQueryList[0].PolSourceSiteID, polSourceSiteReportList[0].PolSourceSiteID);
-                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSiteReportList.Count);
+                            List<PolSourceSite_B> polSourceSite_BList = new List<PolSourceSite_B>();
+                            polSourceSite_BList = polSourceSiteService.GetPolSourceSite_BList().ToList();
+                            CheckPolSourceSite_BFields(polSourceSite_BList);
+                            Assert.AreEqual(polSourceSiteDirectQueryList[0].PolSourceSiteID, polSourceSite_BList[0].PolSourceSiteID);
+                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSite_BList.Count);
                         }
                         else
                         {
@@ -504,38 +501,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         PolSourceSiteService polSourceSiteService = new PolSourceSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        polSourceSiteService.Query = polSourceSiteService.FillQuery(typeof(PolSourceSite), culture.TwoLetterISOLanguageName, 1, 1, "PolSourceSiteID,PolSourceSiteTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        polSourceSiteService.Query = polSourceSiteService.FillQuery(typeof(PolSourceSite), culture.TwoLetterISOLanguageName, 1, 1, "PolSourceSiteID,PolSourceSiteTVItemID", "");
 
                         List<PolSourceSite> polSourceSiteDirectQueryList = new List<PolSourceSite>();
                         polSourceSiteDirectQueryList = (from c in dbTestDB.PolSourceSites select c).Skip(1).Take(1).OrderBy(c => c.PolSourceSiteID).ThenBy(c => c.PolSourceSiteTVItemID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<PolSourceSite> polSourceSiteList = new List<PolSourceSite>();
                             polSourceSiteList = polSourceSiteService.GetPolSourceSiteList().ToList();
                             CheckPolSourceSiteFields(polSourceSiteList);
                             Assert.AreEqual(polSourceSiteDirectQueryList[0].PolSourceSiteID, polSourceSiteList[0].PolSourceSiteID);
-                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSiteList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<PolSourceSiteWeb> polSourceSiteWebList = new List<PolSourceSiteWeb>();
-                            polSourceSiteWebList = polSourceSiteService.GetPolSourceSiteWebList().ToList();
-                            CheckPolSourceSiteWebFields(polSourceSiteWebList);
-                            Assert.AreEqual(polSourceSiteDirectQueryList[0].PolSourceSiteID, polSourceSiteWebList[0].PolSourceSiteID);
-                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSiteWebList.Count);
+                            List<PolSourceSite_A> polSourceSite_AList = new List<PolSourceSite_A>();
+                            polSourceSite_AList = polSourceSiteService.GetPolSourceSite_AList().ToList();
+                            CheckPolSourceSite_AFields(polSourceSite_AList);
+                            Assert.AreEqual(polSourceSiteDirectQueryList[0].PolSourceSiteID, polSourceSite_AList[0].PolSourceSiteID);
+                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSite_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<PolSourceSiteReport> polSourceSiteReportList = new List<PolSourceSiteReport>();
-                            polSourceSiteReportList = polSourceSiteService.GetPolSourceSiteReportList().ToList();
-                            CheckPolSourceSiteReportFields(polSourceSiteReportList);
-                            Assert.AreEqual(polSourceSiteDirectQueryList[0].PolSourceSiteID, polSourceSiteReportList[0].PolSourceSiteID);
-                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSiteReportList.Count);
+                            List<PolSourceSite_B> polSourceSite_BList = new List<PolSourceSite_B>();
+                            polSourceSite_BList = polSourceSiteService.GetPolSourceSite_BList().ToList();
+                            CheckPolSourceSite_BFields(polSourceSite_BList);
+                            Assert.AreEqual(polSourceSiteDirectQueryList[0].PolSourceSiteID, polSourceSite_BList[0].PolSourceSiteID);
+                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSite_BList.Count);
                         }
                         else
                         {
@@ -557,38 +553,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         PolSourceSiteService polSourceSiteService = new PolSourceSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        polSourceSiteService.Query = polSourceSiteService.FillQuery(typeof(PolSourceSite), culture.TwoLetterISOLanguageName, 0, 1, "PolSourceSiteID", "PolSourceSiteID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        polSourceSiteService.Query = polSourceSiteService.FillQuery(typeof(PolSourceSite), culture.TwoLetterISOLanguageName, 0, 1, "PolSourceSiteID", "PolSourceSiteID,EQ,4", "");
 
                         List<PolSourceSite> polSourceSiteDirectQueryList = new List<PolSourceSite>();
                         polSourceSiteDirectQueryList = (from c in dbTestDB.PolSourceSites select c).Where(c => c.PolSourceSiteID == 4).Skip(0).Take(1).OrderBy(c => c.PolSourceSiteID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<PolSourceSite> polSourceSiteList = new List<PolSourceSite>();
                             polSourceSiteList = polSourceSiteService.GetPolSourceSiteList().ToList();
                             CheckPolSourceSiteFields(polSourceSiteList);
                             Assert.AreEqual(polSourceSiteDirectQueryList[0].PolSourceSiteID, polSourceSiteList[0].PolSourceSiteID);
-                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSiteList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<PolSourceSiteWeb> polSourceSiteWebList = new List<PolSourceSiteWeb>();
-                            polSourceSiteWebList = polSourceSiteService.GetPolSourceSiteWebList().ToList();
-                            CheckPolSourceSiteWebFields(polSourceSiteWebList);
-                            Assert.AreEqual(polSourceSiteDirectQueryList[0].PolSourceSiteID, polSourceSiteWebList[0].PolSourceSiteID);
-                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSiteWebList.Count);
+                            List<PolSourceSite_A> polSourceSite_AList = new List<PolSourceSite_A>();
+                            polSourceSite_AList = polSourceSiteService.GetPolSourceSite_AList().ToList();
+                            CheckPolSourceSite_AFields(polSourceSite_AList);
+                            Assert.AreEqual(polSourceSiteDirectQueryList[0].PolSourceSiteID, polSourceSite_AList[0].PolSourceSiteID);
+                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSite_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<PolSourceSiteReport> polSourceSiteReportList = new List<PolSourceSiteReport>();
-                            polSourceSiteReportList = polSourceSiteService.GetPolSourceSiteReportList().ToList();
-                            CheckPolSourceSiteReportFields(polSourceSiteReportList);
-                            Assert.AreEqual(polSourceSiteDirectQueryList[0].PolSourceSiteID, polSourceSiteReportList[0].PolSourceSiteID);
-                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSiteReportList.Count);
+                            List<PolSourceSite_B> polSourceSite_BList = new List<PolSourceSite_B>();
+                            polSourceSite_BList = polSourceSiteService.GetPolSourceSite_BList().ToList();
+                            CheckPolSourceSite_BFields(polSourceSite_BList);
+                            Assert.AreEqual(polSourceSiteDirectQueryList[0].PolSourceSiteID, polSourceSite_BList[0].PolSourceSiteID);
+                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSite_BList.Count);
                         }
                         else
                         {
@@ -610,38 +605,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         PolSourceSiteService polSourceSiteService = new PolSourceSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        polSourceSiteService.Query = polSourceSiteService.FillQuery(typeof(PolSourceSite), culture.TwoLetterISOLanguageName, 0, 1, "PolSourceSiteID", "PolSourceSiteID,GT,2|PolSourceSiteID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        polSourceSiteService.Query = polSourceSiteService.FillQuery(typeof(PolSourceSite), culture.TwoLetterISOLanguageName, 0, 1, "PolSourceSiteID", "PolSourceSiteID,GT,2|PolSourceSiteID,LT,5", "");
 
                         List<PolSourceSite> polSourceSiteDirectQueryList = new List<PolSourceSite>();
                         polSourceSiteDirectQueryList = (from c in dbTestDB.PolSourceSites select c).Where(c => c.PolSourceSiteID > 2 && c.PolSourceSiteID < 5).Skip(0).Take(1).OrderBy(c => c.PolSourceSiteID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<PolSourceSite> polSourceSiteList = new List<PolSourceSite>();
                             polSourceSiteList = polSourceSiteService.GetPolSourceSiteList().ToList();
                             CheckPolSourceSiteFields(polSourceSiteList);
                             Assert.AreEqual(polSourceSiteDirectQueryList[0].PolSourceSiteID, polSourceSiteList[0].PolSourceSiteID);
-                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSiteList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<PolSourceSiteWeb> polSourceSiteWebList = new List<PolSourceSiteWeb>();
-                            polSourceSiteWebList = polSourceSiteService.GetPolSourceSiteWebList().ToList();
-                            CheckPolSourceSiteWebFields(polSourceSiteWebList);
-                            Assert.AreEqual(polSourceSiteDirectQueryList[0].PolSourceSiteID, polSourceSiteWebList[0].PolSourceSiteID);
-                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSiteWebList.Count);
+                            List<PolSourceSite_A> polSourceSite_AList = new List<PolSourceSite_A>();
+                            polSourceSite_AList = polSourceSiteService.GetPolSourceSite_AList().ToList();
+                            CheckPolSourceSite_AFields(polSourceSite_AList);
+                            Assert.AreEqual(polSourceSiteDirectQueryList[0].PolSourceSiteID, polSourceSite_AList[0].PolSourceSiteID);
+                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSite_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<PolSourceSiteReport> polSourceSiteReportList = new List<PolSourceSiteReport>();
-                            polSourceSiteReportList = polSourceSiteService.GetPolSourceSiteReportList().ToList();
-                            CheckPolSourceSiteReportFields(polSourceSiteReportList);
-                            Assert.AreEqual(polSourceSiteDirectQueryList[0].PolSourceSiteID, polSourceSiteReportList[0].PolSourceSiteID);
-                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSiteReportList.Count);
+                            List<PolSourceSite_B> polSourceSite_BList = new List<PolSourceSite_B>();
+                            polSourceSite_BList = polSourceSiteService.GetPolSourceSite_BList().ToList();
+                            CheckPolSourceSite_BFields(polSourceSite_BList);
+                            Assert.AreEqual(polSourceSiteDirectQueryList[0].PolSourceSiteID, polSourceSite_BList[0].PolSourceSiteID);
+                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSite_BList.Count);
                         }
                         else
                         {
@@ -663,38 +657,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         PolSourceSiteService polSourceSiteService = new PolSourceSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        polSourceSiteService.Query = polSourceSiteService.FillQuery(typeof(PolSourceSite), culture.TwoLetterISOLanguageName, 0, 10000, "", "PolSourceSiteID,GT,2|PolSourceSiteID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        polSourceSiteService.Query = polSourceSiteService.FillQuery(typeof(PolSourceSite), culture.TwoLetterISOLanguageName, 0, 10000, "", "PolSourceSiteID,GT,2|PolSourceSiteID,LT,5", "");
 
                         List<PolSourceSite> polSourceSiteDirectQueryList = new List<PolSourceSite>();
                         polSourceSiteDirectQueryList = (from c in dbTestDB.PolSourceSites select c).Where(c => c.PolSourceSiteID > 2 && c.PolSourceSiteID < 5).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<PolSourceSite> polSourceSiteList = new List<PolSourceSite>();
                             polSourceSiteList = polSourceSiteService.GetPolSourceSiteList().ToList();
                             CheckPolSourceSiteFields(polSourceSiteList);
                             Assert.AreEqual(polSourceSiteDirectQueryList[0].PolSourceSiteID, polSourceSiteList[0].PolSourceSiteID);
-                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSiteList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<PolSourceSiteWeb> polSourceSiteWebList = new List<PolSourceSiteWeb>();
-                            polSourceSiteWebList = polSourceSiteService.GetPolSourceSiteWebList().ToList();
-                            CheckPolSourceSiteWebFields(polSourceSiteWebList);
-                            Assert.AreEqual(polSourceSiteDirectQueryList[0].PolSourceSiteID, polSourceSiteWebList[0].PolSourceSiteID);
-                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSiteWebList.Count);
+                            List<PolSourceSite_A> polSourceSite_AList = new List<PolSourceSite_A>();
+                            polSourceSite_AList = polSourceSiteService.GetPolSourceSite_AList().ToList();
+                            CheckPolSourceSite_AFields(polSourceSite_AList);
+                            Assert.AreEqual(polSourceSiteDirectQueryList[0].PolSourceSiteID, polSourceSite_AList[0].PolSourceSiteID);
+                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSite_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<PolSourceSiteReport> polSourceSiteReportList = new List<PolSourceSiteReport>();
-                            polSourceSiteReportList = polSourceSiteService.GetPolSourceSiteReportList().ToList();
-                            CheckPolSourceSiteReportFields(polSourceSiteReportList);
-                            Assert.AreEqual(polSourceSiteDirectQueryList[0].PolSourceSiteID, polSourceSiteReportList[0].PolSourceSiteID);
-                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSiteReportList.Count);
+                            List<PolSourceSite_B> polSourceSite_BList = new List<PolSourceSite_B>();
+                            polSourceSite_BList = polSourceSiteService.GetPolSourceSite_BList().ToList();
+                            CheckPolSourceSite_BFields(polSourceSite_BList);
+                            Assert.AreEqual(polSourceSiteDirectQueryList[0].PolSourceSiteID, polSourceSite_BList[0].PolSourceSiteID);
+                            Assert.AreEqual(polSourceSiteDirectQueryList.Count, polSourceSite_BList.Count);
                         }
                         else
                         {
@@ -740,87 +733,87 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(polSourceSiteList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(polSourceSiteList[0].HasErrors);
         }
-        private void CheckPolSourceSiteWebFields(List<PolSourceSiteWeb> polSourceSiteWebList)
+        private void CheckPolSourceSite_AFields(List<PolSourceSite_A> polSourceSite_AList)
         {
-            Assert.IsNotNull(polSourceSiteWebList[0].PolSourceSiteTVItemLanguage);
-            Assert.IsNotNull(polSourceSiteWebList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(polSourceSiteWebList[0].InactiveReasonText))
+            Assert.IsNotNull(polSourceSite_AList[0].PolSourceSiteTVItemLanguage);
+            Assert.IsNotNull(polSourceSite_AList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(polSourceSite_AList[0].InactiveReasonText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteWebList[0].InactiveReasonText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSite_AList[0].InactiveReasonText));
             }
-            Assert.IsNotNull(polSourceSiteWebList[0].PolSourceSiteID);
-            Assert.IsNotNull(polSourceSiteWebList[0].PolSourceSiteTVItemID);
-            if (!string.IsNullOrWhiteSpace(polSourceSiteWebList[0].Temp_Locator_CanDelete))
+            Assert.IsNotNull(polSourceSite_AList[0].PolSourceSiteID);
+            Assert.IsNotNull(polSourceSite_AList[0].PolSourceSiteTVItemID);
+            if (!string.IsNullOrWhiteSpace(polSourceSite_AList[0].Temp_Locator_CanDelete))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteWebList[0].Temp_Locator_CanDelete));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSite_AList[0].Temp_Locator_CanDelete));
             }
-            if (polSourceSiteWebList[0].Oldsiteid != null)
+            if (polSourceSite_AList[0].Oldsiteid != null)
             {
-                Assert.IsNotNull(polSourceSiteWebList[0].Oldsiteid);
+                Assert.IsNotNull(polSourceSite_AList[0].Oldsiteid);
             }
-            if (polSourceSiteWebList[0].Site != null)
+            if (polSourceSite_AList[0].Site != null)
             {
-                Assert.IsNotNull(polSourceSiteWebList[0].Site);
+                Assert.IsNotNull(polSourceSite_AList[0].Site);
             }
-            if (polSourceSiteWebList[0].SiteID != null)
+            if (polSourceSite_AList[0].SiteID != null)
             {
-                Assert.IsNotNull(polSourceSiteWebList[0].SiteID);
+                Assert.IsNotNull(polSourceSite_AList[0].SiteID);
             }
-            Assert.IsNotNull(polSourceSiteWebList[0].IsPointSource);
-            if (polSourceSiteWebList[0].InactiveReason != null)
+            Assert.IsNotNull(polSourceSite_AList[0].IsPointSource);
+            if (polSourceSite_AList[0].InactiveReason != null)
             {
-                Assert.IsNotNull(polSourceSiteWebList[0].InactiveReason);
+                Assert.IsNotNull(polSourceSite_AList[0].InactiveReason);
             }
-            if (polSourceSiteWebList[0].CivicAddressTVItemID != null)
+            if (polSourceSite_AList[0].CivicAddressTVItemID != null)
             {
-                Assert.IsNotNull(polSourceSiteWebList[0].CivicAddressTVItemID);
+                Assert.IsNotNull(polSourceSite_AList[0].CivicAddressTVItemID);
             }
-            Assert.IsNotNull(polSourceSiteWebList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(polSourceSiteWebList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(polSourceSiteWebList[0].HasErrors);
+            Assert.IsNotNull(polSourceSite_AList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(polSourceSite_AList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(polSourceSite_AList[0].HasErrors);
         }
-        private void CheckPolSourceSiteReportFields(List<PolSourceSiteReport> polSourceSiteReportList)
+        private void CheckPolSourceSite_BFields(List<PolSourceSite_B> polSourceSite_BList)
         {
-            if (!string.IsNullOrWhiteSpace(polSourceSiteReportList[0].PolSourceSiteReportTest))
+            if (!string.IsNullOrWhiteSpace(polSourceSite_BList[0].PolSourceSiteReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteReportList[0].PolSourceSiteReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSite_BList[0].PolSourceSiteReportTest));
             }
-            Assert.IsNotNull(polSourceSiteReportList[0].PolSourceSiteTVItemLanguage);
-            Assert.IsNotNull(polSourceSiteReportList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(polSourceSiteReportList[0].InactiveReasonText))
+            Assert.IsNotNull(polSourceSite_BList[0].PolSourceSiteTVItemLanguage);
+            Assert.IsNotNull(polSourceSite_BList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(polSourceSite_BList[0].InactiveReasonText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteReportList[0].InactiveReasonText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSite_BList[0].InactiveReasonText));
             }
-            Assert.IsNotNull(polSourceSiteReportList[0].PolSourceSiteID);
-            Assert.IsNotNull(polSourceSiteReportList[0].PolSourceSiteTVItemID);
-            if (!string.IsNullOrWhiteSpace(polSourceSiteReportList[0].Temp_Locator_CanDelete))
+            Assert.IsNotNull(polSourceSite_BList[0].PolSourceSiteID);
+            Assert.IsNotNull(polSourceSite_BList[0].PolSourceSiteTVItemID);
+            if (!string.IsNullOrWhiteSpace(polSourceSite_BList[0].Temp_Locator_CanDelete))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteReportList[0].Temp_Locator_CanDelete));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSite_BList[0].Temp_Locator_CanDelete));
             }
-            if (polSourceSiteReportList[0].Oldsiteid != null)
+            if (polSourceSite_BList[0].Oldsiteid != null)
             {
-                Assert.IsNotNull(polSourceSiteReportList[0].Oldsiteid);
+                Assert.IsNotNull(polSourceSite_BList[0].Oldsiteid);
             }
-            if (polSourceSiteReportList[0].Site != null)
+            if (polSourceSite_BList[0].Site != null)
             {
-                Assert.IsNotNull(polSourceSiteReportList[0].Site);
+                Assert.IsNotNull(polSourceSite_BList[0].Site);
             }
-            if (polSourceSiteReportList[0].SiteID != null)
+            if (polSourceSite_BList[0].SiteID != null)
             {
-                Assert.IsNotNull(polSourceSiteReportList[0].SiteID);
+                Assert.IsNotNull(polSourceSite_BList[0].SiteID);
             }
-            Assert.IsNotNull(polSourceSiteReportList[0].IsPointSource);
-            if (polSourceSiteReportList[0].InactiveReason != null)
+            Assert.IsNotNull(polSourceSite_BList[0].IsPointSource);
+            if (polSourceSite_BList[0].InactiveReason != null)
             {
-                Assert.IsNotNull(polSourceSiteReportList[0].InactiveReason);
+                Assert.IsNotNull(polSourceSite_BList[0].InactiveReason);
             }
-            if (polSourceSiteReportList[0].CivicAddressTVItemID != null)
+            if (polSourceSite_BList[0].CivicAddressTVItemID != null)
             {
-                Assert.IsNotNull(polSourceSiteReportList[0].CivicAddressTVItemID);
+                Assert.IsNotNull(polSourceSite_BList[0].CivicAddressTVItemID);
             }
-            Assert.IsNotNull(polSourceSiteReportList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(polSourceSiteReportList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(polSourceSiteReportList[0].HasErrors);
+            Assert.IsNotNull(polSourceSite_BList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(polSourceSite_BList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(polSourceSite_BList[0].HasErrors);
         }
         private PolSourceSite GetFilledRandomPolSourceSite(string OmitPropName)
         {

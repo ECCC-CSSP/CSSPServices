@@ -192,31 +192,31 @@ namespace CSSPServices
 
             return SpillQuery;
         }
-        public SpillWeb GetSpillWebWithSpillID(int SpillID)
+        public Spill_A GetSpill_AWithSpillID(int SpillID)
         {
-            return FillSpillWeb().Where(c => c.SpillID == SpillID).FirstOrDefault();
+            return FillSpill_A().Where(c => c.SpillID == SpillID).FirstOrDefault();
 
         }
-        public IQueryable<SpillWeb> GetSpillWebList()
+        public IQueryable<Spill_A> GetSpill_AList()
         {
-            IQueryable<SpillWeb> SpillWebQuery = FillSpillWeb();
+            IQueryable<Spill_A> Spill_AQuery = FillSpill_A();
 
-            SpillWebQuery = EnhanceQueryStatements<SpillWeb>(SpillWebQuery) as IQueryable<SpillWeb>;
+            Spill_AQuery = EnhanceQueryStatements<Spill_A>(Spill_AQuery) as IQueryable<Spill_A>;
 
-            return SpillWebQuery;
+            return Spill_AQuery;
         }
-        public SpillReport GetSpillReportWithSpillID(int SpillID)
+        public Spill_B GetSpill_BWithSpillID(int SpillID)
         {
-            return FillSpillReport().Where(c => c.SpillID == SpillID).FirstOrDefault();
+            return FillSpill_B().Where(c => c.SpillID == SpillID).FirstOrDefault();
 
         }
-        public IQueryable<SpillReport> GetSpillReportList()
+        public IQueryable<Spill_B> GetSpill_BList()
         {
-            IQueryable<SpillReport> SpillReportQuery = FillSpillReport();
+            IQueryable<Spill_B> Spill_BQuery = FillSpill_B();
 
-            SpillReportQuery = EnhanceQueryStatements<SpillReport>(SpillReportQuery) as IQueryable<SpillReport>;
+            Spill_BQuery = EnhanceQueryStatements<Spill_B>(Spill_BQuery) as IQueryable<Spill_B>;
 
-            return SpillReportQuery;
+            return Spill_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -255,43 +255,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated SpillFillWeb
-        private IQueryable<SpillWeb> FillSpillWeb()
-        {
-             IQueryable<SpillWeb> SpillWebQuery = (from c in db.Spills
-                let MunicipalityTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.MunicipalityTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let InfrastructureTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.InfrastructureTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new SpillWeb
-                    {
-                        MunicipalityTVItemLanguage = MunicipalityTVItemLanguage,
-                        InfrastructureTVItemLanguage = InfrastructureTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        SpillID = c.SpillID,
-                        MunicipalityTVItemID = c.MunicipalityTVItemID,
-                        InfrastructureTVItemID = c.InfrastructureTVItemID,
-                        StartDateTime_Local = c.StartDateTime_Local,
-                        EndDateTime_Local = c.EndDateTime_Local,
-                        AverageFlow_m3_day = c.AverageFlow_m3_day,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return SpillWebQuery;
-        }
-        #endregion Functions private Generated SpillFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(Spill spill)

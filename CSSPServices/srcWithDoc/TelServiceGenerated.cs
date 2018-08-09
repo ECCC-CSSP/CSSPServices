@@ -156,31 +156,31 @@ namespace CSSPServices
 
             return TelQuery;
         }
-        public TelWeb GetTelWebWithTelID(int TelID)
+        public Tel_A GetTel_AWithTelID(int TelID)
         {
-            return FillTelWeb().Where(c => c.TelID == TelID).FirstOrDefault();
+            return FillTel_A().Where(c => c.TelID == TelID).FirstOrDefault();
 
         }
-        public IQueryable<TelWeb> GetTelWebList()
+        public IQueryable<Tel_A> GetTel_AList()
         {
-            IQueryable<TelWeb> TelWebQuery = FillTelWeb();
+            IQueryable<Tel_A> Tel_AQuery = FillTel_A();
 
-            TelWebQuery = EnhanceQueryStatements<TelWeb>(TelWebQuery) as IQueryable<TelWeb>;
+            Tel_AQuery = EnhanceQueryStatements<Tel_A>(Tel_AQuery) as IQueryable<Tel_A>;
 
-            return TelWebQuery;
+            return Tel_AQuery;
         }
-        public TelReport GetTelReportWithTelID(int TelID)
+        public Tel_B GetTel_BWithTelID(int TelID)
         {
-            return FillTelReport().Where(c => c.TelID == TelID).FirstOrDefault();
+            return FillTel_B().Where(c => c.TelID == TelID).FirstOrDefault();
 
         }
-        public IQueryable<TelReport> GetTelReportList()
+        public IQueryable<Tel_B> GetTel_BList()
         {
-            IQueryable<TelReport> TelReportQuery = FillTelReport();
+            IQueryable<Tel_B> Tel_BQuery = FillTel_B();
 
-            TelReportQuery = EnhanceQueryStatements<TelReport>(TelReportQuery) as IQueryable<TelReport>;
+            Tel_BQuery = EnhanceQueryStatements<Tel_B>(Tel_BQuery) as IQueryable<Tel_B>;
 
-            return TelReportQuery;
+            return Tel_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -219,43 +219,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated TelFillWeb
-        private IQueryable<TelWeb> FillTelWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> TelTypeEnumList = enums.GetEnumTextOrderedList(typeof(TelTypeEnum));
-
-             IQueryable<TelWeb> TelWebQuery = (from c in db.Tels
-                let TelTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.TelTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new TelWeb
-                    {
-                        TelTVItemLanguage = TelTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        TelTypeText = (from e in TelTypeEnumList
-                                where e.EnumID == (int?)c.TelType
-                                select e.EnumText).FirstOrDefault(),
-                        TelID = c.TelID,
-                        TelTVItemID = c.TelTVItemID,
-                        TelNumber = c.TelNumber,
-                        TelType = c.TelType,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return TelWebQuery;
-        }
-        #endregion Functions private Generated TelFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(Tel tel)

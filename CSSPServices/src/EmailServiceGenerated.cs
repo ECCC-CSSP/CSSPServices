@@ -166,31 +166,31 @@ namespace CSSPServices
 
             return EmailQuery;
         }
-        public EmailWeb GetEmailWebWithEmailID(int EmailID)
+        public Email_A GetEmail_AWithEmailID(int EmailID)
         {
-            return FillEmailWeb().Where(c => c.EmailID == EmailID).FirstOrDefault();
+            return FillEmail_A().Where(c => c.EmailID == EmailID).FirstOrDefault();
 
         }
-        public IQueryable<EmailWeb> GetEmailWebList()
+        public IQueryable<Email_A> GetEmail_AList()
         {
-            IQueryable<EmailWeb> EmailWebQuery = FillEmailWeb();
+            IQueryable<Email_A> Email_AQuery = FillEmail_A();
 
-            EmailWebQuery = EnhanceQueryStatements<EmailWeb>(EmailWebQuery) as IQueryable<EmailWeb>;
+            Email_AQuery = EnhanceQueryStatements<Email_A>(Email_AQuery) as IQueryable<Email_A>;
 
-            return EmailWebQuery;
+            return Email_AQuery;
         }
-        public EmailReport GetEmailReportWithEmailID(int EmailID)
+        public Email_B GetEmail_BWithEmailID(int EmailID)
         {
-            return FillEmailReport().Where(c => c.EmailID == EmailID).FirstOrDefault();
+            return FillEmail_B().Where(c => c.EmailID == EmailID).FirstOrDefault();
 
         }
-        public IQueryable<EmailReport> GetEmailReportList()
+        public IQueryable<Email_B> GetEmail_BList()
         {
-            IQueryable<EmailReport> EmailReportQuery = FillEmailReport();
+            IQueryable<Email_B> Email_BQuery = FillEmail_B();
 
-            EmailReportQuery = EnhanceQueryStatements<EmailReport>(EmailReportQuery) as IQueryable<EmailReport>;
+            Email_BQuery = EnhanceQueryStatements<Email_B>(Email_BQuery) as IQueryable<Email_B>;
 
-            return EmailReportQuery;
+            return Email_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -229,43 +229,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated EmailFillWeb
-        private IQueryable<EmailWeb> FillEmailWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> EmailTypeEnumList = enums.GetEnumTextOrderedList(typeof(EmailTypeEnum));
-
-             IQueryable<EmailWeb> EmailWebQuery = (from c in db.Emails
-                let EmailTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.EmailTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new EmailWeb
-                    {
-                        EmailTVItemLanguage = EmailTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        EmailTypeText = (from e in EmailTypeEnumList
-                                where e.EnumID == (int?)c.EmailType
-                                select e.EnumText).FirstOrDefault(),
-                        EmailID = c.EmailID,
-                        EmailTVItemID = c.EmailTVItemID,
-                        EmailAddress = c.EmailAddress,
-                        EmailType = c.EmailType,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return EmailWebQuery;
-        }
-        #endregion Functions private Generated EmailFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(Email email)

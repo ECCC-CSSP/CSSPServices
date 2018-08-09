@@ -222,27 +222,27 @@ namespace CSSPServices.Tests
                     ContactPreference contactPreference = (from c in dbTestDB.ContactPreferences select c).FirstOrDefault();
                     Assert.IsNotNull(contactPreference);
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        contactPreferenceService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        contactPreferenceService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             ContactPreference contactPreferenceRet = contactPreferenceService.GetContactPreferenceWithContactPreferenceID(contactPreference.ContactPreferenceID);
                             CheckContactPreferenceFields(new List<ContactPreference>() { contactPreferenceRet });
                             Assert.AreEqual(contactPreference.ContactPreferenceID, contactPreferenceRet.ContactPreferenceID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            ContactPreferenceWeb contactPreferenceWebRet = contactPreferenceService.GetContactPreferenceWebWithContactPreferenceID(contactPreference.ContactPreferenceID);
-                            CheckContactPreferenceWebFields(new List<ContactPreferenceWeb>() { contactPreferenceWebRet });
-                            Assert.AreEqual(contactPreference.ContactPreferenceID, contactPreferenceWebRet.ContactPreferenceID);
+                            ContactPreference_A contactPreference_ARet = contactPreferenceService.GetContactPreference_AWithContactPreferenceID(contactPreference.ContactPreferenceID);
+                            CheckContactPreference_AFields(new List<ContactPreference_A>() { contactPreference_ARet });
+                            Assert.AreEqual(contactPreference.ContactPreferenceID, contactPreference_ARet.ContactPreferenceID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            ContactPreferenceReport contactPreferenceReportRet = contactPreferenceService.GetContactPreferenceReportWithContactPreferenceID(contactPreference.ContactPreferenceID);
-                            CheckContactPreferenceReportFields(new List<ContactPreferenceReport>() { contactPreferenceReportRet });
-                            Assert.AreEqual(contactPreference.ContactPreferenceID, contactPreferenceReportRet.ContactPreferenceID);
+                            ContactPreference_B contactPreference_BRet = contactPreferenceService.GetContactPreference_BWithContactPreferenceID(contactPreference.ContactPreferenceID);
+                            CheckContactPreference_BFields(new List<ContactPreference_B>() { contactPreference_BRet });
+                            Assert.AreEqual(contactPreference.ContactPreferenceID, contactPreference_BRet.ContactPreferenceID);
                         }
                         else
                         {
@@ -271,30 +271,29 @@ namespace CSSPServices.Tests
                     List<ContactPreference> contactPreferenceDirectQueryList = new List<ContactPreference>();
                     contactPreferenceDirectQueryList = (from c in dbTestDB.ContactPreferences select c).Take(200).ToList();
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        contactPreferenceService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        contactPreferenceService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<ContactPreference> contactPreferenceList = new List<ContactPreference>();
                             contactPreferenceList = contactPreferenceService.GetContactPreferenceList().ToList();
                             CheckContactPreferenceFields(contactPreferenceList);
-                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<ContactPreferenceWeb> contactPreferenceWebList = new List<ContactPreferenceWeb>();
-                            contactPreferenceWebList = contactPreferenceService.GetContactPreferenceWebList().ToList();
-                            CheckContactPreferenceWebFields(contactPreferenceWebList);
-                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceWebList.Count);
+                            List<ContactPreference_A> contactPreference_AList = new List<ContactPreference_A>();
+                            contactPreference_AList = contactPreferenceService.GetContactPreference_AList().ToList();
+                            CheckContactPreference_AFields(contactPreference_AList);
+                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreference_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<ContactPreferenceReport> contactPreferenceReportList = new List<ContactPreferenceReport>();
-                            contactPreferenceReportList = contactPreferenceService.GetContactPreferenceReportList().ToList();
-                            CheckContactPreferenceReportFields(contactPreferenceReportList);
-                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceReportList.Count);
+                            List<ContactPreference_B> contactPreference_BList = new List<ContactPreference_B>();
+                            contactPreference_BList = contactPreferenceService.GetContactPreference_BList().ToList();
+                            CheckContactPreference_BFields(contactPreference_BList);
+                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreference_BList.Count);
                         }
                         else
                         {
@@ -316,38 +315,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         ContactPreferenceService contactPreferenceService = new ContactPreferenceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
 
                         List<ContactPreference> contactPreferenceDirectQueryList = new List<ContactPreference>();
                         contactPreferenceDirectQueryList = (from c in dbTestDB.ContactPreferences select c).Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<ContactPreference> contactPreferenceList = new List<ContactPreference>();
                             contactPreferenceList = contactPreferenceService.GetContactPreferenceList().ToList();
                             CheckContactPreferenceFields(contactPreferenceList);
                             Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceList[0].ContactPreferenceID);
-                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<ContactPreferenceWeb> contactPreferenceWebList = new List<ContactPreferenceWeb>();
-                            contactPreferenceWebList = contactPreferenceService.GetContactPreferenceWebList().ToList();
-                            CheckContactPreferenceWebFields(contactPreferenceWebList);
-                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceWebList[0].ContactPreferenceID);
-                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceWebList.Count);
+                            List<ContactPreference_A> contactPreference_AList = new List<ContactPreference_A>();
+                            contactPreference_AList = contactPreferenceService.GetContactPreference_AList().ToList();
+                            CheckContactPreference_AFields(contactPreference_AList);
+                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreference_AList[0].ContactPreferenceID);
+                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreference_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<ContactPreferenceReport> contactPreferenceReportList = new List<ContactPreferenceReport>();
-                            contactPreferenceReportList = contactPreferenceService.GetContactPreferenceReportList().ToList();
-                            CheckContactPreferenceReportFields(contactPreferenceReportList);
-                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceReportList[0].ContactPreferenceID);
-                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceReportList.Count);
+                            List<ContactPreference_B> contactPreference_BList = new List<ContactPreference_B>();
+                            contactPreference_BList = contactPreferenceService.GetContactPreference_BList().ToList();
+                            CheckContactPreference_BFields(contactPreference_BList);
+                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreference_BList[0].ContactPreferenceID);
+                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreference_BList.Count);
                         }
                         else
                         {
@@ -369,38 +367,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         ContactPreferenceService contactPreferenceService = new ContactPreferenceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 1, 1,  "ContactPreferenceID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 1, 1,  "ContactPreferenceID", "");
 
                         List<ContactPreference> contactPreferenceDirectQueryList = new List<ContactPreference>();
                         contactPreferenceDirectQueryList = (from c in dbTestDB.ContactPreferences select c).Skip(1).Take(1).OrderBy(c => c.ContactPreferenceID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<ContactPreference> contactPreferenceList = new List<ContactPreference>();
                             contactPreferenceList = contactPreferenceService.GetContactPreferenceList().ToList();
                             CheckContactPreferenceFields(contactPreferenceList);
                             Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceList[0].ContactPreferenceID);
-                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<ContactPreferenceWeb> contactPreferenceWebList = new List<ContactPreferenceWeb>();
-                            contactPreferenceWebList = contactPreferenceService.GetContactPreferenceWebList().ToList();
-                            CheckContactPreferenceWebFields(contactPreferenceWebList);
-                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceWebList[0].ContactPreferenceID);
-                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceWebList.Count);
+                            List<ContactPreference_A> contactPreference_AList = new List<ContactPreference_A>();
+                            contactPreference_AList = contactPreferenceService.GetContactPreference_AList().ToList();
+                            CheckContactPreference_AFields(contactPreference_AList);
+                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreference_AList[0].ContactPreferenceID);
+                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreference_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<ContactPreferenceReport> contactPreferenceReportList = new List<ContactPreferenceReport>();
-                            contactPreferenceReportList = contactPreferenceService.GetContactPreferenceReportList().ToList();
-                            CheckContactPreferenceReportFields(contactPreferenceReportList);
-                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceReportList[0].ContactPreferenceID);
-                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceReportList.Count);
+                            List<ContactPreference_B> contactPreference_BList = new List<ContactPreference_B>();
+                            contactPreference_BList = contactPreferenceService.GetContactPreference_BList().ToList();
+                            CheckContactPreference_BFields(contactPreference_BList);
+                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreference_BList[0].ContactPreferenceID);
+                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreference_BList.Count);
                         }
                         else
                         {
@@ -422,38 +419,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         ContactPreferenceService contactPreferenceService = new ContactPreferenceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 1, 1, "ContactPreferenceID,ContactID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 1, 1, "ContactPreferenceID,ContactID", "");
 
                         List<ContactPreference> contactPreferenceDirectQueryList = new List<ContactPreference>();
                         contactPreferenceDirectQueryList = (from c in dbTestDB.ContactPreferences select c).Skip(1).Take(1).OrderBy(c => c.ContactPreferenceID).ThenBy(c => c.ContactID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<ContactPreference> contactPreferenceList = new List<ContactPreference>();
                             contactPreferenceList = contactPreferenceService.GetContactPreferenceList().ToList();
                             CheckContactPreferenceFields(contactPreferenceList);
                             Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceList[0].ContactPreferenceID);
-                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<ContactPreferenceWeb> contactPreferenceWebList = new List<ContactPreferenceWeb>();
-                            contactPreferenceWebList = contactPreferenceService.GetContactPreferenceWebList().ToList();
-                            CheckContactPreferenceWebFields(contactPreferenceWebList);
-                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceWebList[0].ContactPreferenceID);
-                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceWebList.Count);
+                            List<ContactPreference_A> contactPreference_AList = new List<ContactPreference_A>();
+                            contactPreference_AList = contactPreferenceService.GetContactPreference_AList().ToList();
+                            CheckContactPreference_AFields(contactPreference_AList);
+                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreference_AList[0].ContactPreferenceID);
+                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreference_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<ContactPreferenceReport> contactPreferenceReportList = new List<ContactPreferenceReport>();
-                            contactPreferenceReportList = contactPreferenceService.GetContactPreferenceReportList().ToList();
-                            CheckContactPreferenceReportFields(contactPreferenceReportList);
-                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceReportList[0].ContactPreferenceID);
-                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceReportList.Count);
+                            List<ContactPreference_B> contactPreference_BList = new List<ContactPreference_B>();
+                            contactPreference_BList = contactPreferenceService.GetContactPreference_BList().ToList();
+                            CheckContactPreference_BFields(contactPreference_BList);
+                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreference_BList[0].ContactPreferenceID);
+                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreference_BList.Count);
                         }
                         else
                         {
@@ -475,38 +471,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         ContactPreferenceService contactPreferenceService = new ContactPreferenceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 0, 1, "ContactPreferenceID", "ContactPreferenceID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 0, 1, "ContactPreferenceID", "ContactPreferenceID,EQ,4", "");
 
                         List<ContactPreference> contactPreferenceDirectQueryList = new List<ContactPreference>();
                         contactPreferenceDirectQueryList = (from c in dbTestDB.ContactPreferences select c).Where(c => c.ContactPreferenceID == 4).Skip(0).Take(1).OrderBy(c => c.ContactPreferenceID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<ContactPreference> contactPreferenceList = new List<ContactPreference>();
                             contactPreferenceList = contactPreferenceService.GetContactPreferenceList().ToList();
                             CheckContactPreferenceFields(contactPreferenceList);
                             Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceList[0].ContactPreferenceID);
-                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<ContactPreferenceWeb> contactPreferenceWebList = new List<ContactPreferenceWeb>();
-                            contactPreferenceWebList = contactPreferenceService.GetContactPreferenceWebList().ToList();
-                            CheckContactPreferenceWebFields(contactPreferenceWebList);
-                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceWebList[0].ContactPreferenceID);
-                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceWebList.Count);
+                            List<ContactPreference_A> contactPreference_AList = new List<ContactPreference_A>();
+                            contactPreference_AList = contactPreferenceService.GetContactPreference_AList().ToList();
+                            CheckContactPreference_AFields(contactPreference_AList);
+                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreference_AList[0].ContactPreferenceID);
+                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreference_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<ContactPreferenceReport> contactPreferenceReportList = new List<ContactPreferenceReport>();
-                            contactPreferenceReportList = contactPreferenceService.GetContactPreferenceReportList().ToList();
-                            CheckContactPreferenceReportFields(contactPreferenceReportList);
-                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceReportList[0].ContactPreferenceID);
-                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceReportList.Count);
+                            List<ContactPreference_B> contactPreference_BList = new List<ContactPreference_B>();
+                            contactPreference_BList = contactPreferenceService.GetContactPreference_BList().ToList();
+                            CheckContactPreference_BFields(contactPreference_BList);
+                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreference_BList[0].ContactPreferenceID);
+                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreference_BList.Count);
                         }
                         else
                         {
@@ -528,38 +523,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         ContactPreferenceService contactPreferenceService = new ContactPreferenceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 0, 1, "ContactPreferenceID", "ContactPreferenceID,GT,2|ContactPreferenceID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 0, 1, "ContactPreferenceID", "ContactPreferenceID,GT,2|ContactPreferenceID,LT,5", "");
 
                         List<ContactPreference> contactPreferenceDirectQueryList = new List<ContactPreference>();
                         contactPreferenceDirectQueryList = (from c in dbTestDB.ContactPreferences select c).Where(c => c.ContactPreferenceID > 2 && c.ContactPreferenceID < 5).Skip(0).Take(1).OrderBy(c => c.ContactPreferenceID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<ContactPreference> contactPreferenceList = new List<ContactPreference>();
                             contactPreferenceList = contactPreferenceService.GetContactPreferenceList().ToList();
                             CheckContactPreferenceFields(contactPreferenceList);
                             Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceList[0].ContactPreferenceID);
-                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<ContactPreferenceWeb> contactPreferenceWebList = new List<ContactPreferenceWeb>();
-                            contactPreferenceWebList = contactPreferenceService.GetContactPreferenceWebList().ToList();
-                            CheckContactPreferenceWebFields(contactPreferenceWebList);
-                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceWebList[0].ContactPreferenceID);
-                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceWebList.Count);
+                            List<ContactPreference_A> contactPreference_AList = new List<ContactPreference_A>();
+                            contactPreference_AList = contactPreferenceService.GetContactPreference_AList().ToList();
+                            CheckContactPreference_AFields(contactPreference_AList);
+                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreference_AList[0].ContactPreferenceID);
+                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreference_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<ContactPreferenceReport> contactPreferenceReportList = new List<ContactPreferenceReport>();
-                            contactPreferenceReportList = contactPreferenceService.GetContactPreferenceReportList().ToList();
-                            CheckContactPreferenceReportFields(contactPreferenceReportList);
-                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceReportList[0].ContactPreferenceID);
-                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceReportList.Count);
+                            List<ContactPreference_B> contactPreference_BList = new List<ContactPreference_B>();
+                            contactPreference_BList = contactPreferenceService.GetContactPreference_BList().ToList();
+                            CheckContactPreference_BFields(contactPreference_BList);
+                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreference_BList[0].ContactPreferenceID);
+                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreference_BList.Count);
                         }
                         else
                         {
@@ -581,38 +575,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         ContactPreferenceService contactPreferenceService = new ContactPreferenceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 0, 10000, "", "ContactPreferenceID,GT,2|ContactPreferenceID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 0, 10000, "", "ContactPreferenceID,GT,2|ContactPreferenceID,LT,5", "");
 
                         List<ContactPreference> contactPreferenceDirectQueryList = new List<ContactPreference>();
                         contactPreferenceDirectQueryList = (from c in dbTestDB.ContactPreferences select c).Where(c => c.ContactPreferenceID > 2 && c.ContactPreferenceID < 5).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<ContactPreference> contactPreferenceList = new List<ContactPreference>();
                             contactPreferenceList = contactPreferenceService.GetContactPreferenceList().ToList();
                             CheckContactPreferenceFields(contactPreferenceList);
                             Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceList[0].ContactPreferenceID);
-                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<ContactPreferenceWeb> contactPreferenceWebList = new List<ContactPreferenceWeb>();
-                            contactPreferenceWebList = contactPreferenceService.GetContactPreferenceWebList().ToList();
-                            CheckContactPreferenceWebFields(contactPreferenceWebList);
-                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceWebList[0].ContactPreferenceID);
-                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceWebList.Count);
+                            List<ContactPreference_A> contactPreference_AList = new List<ContactPreference_A>();
+                            contactPreference_AList = contactPreferenceService.GetContactPreference_AList().ToList();
+                            CheckContactPreference_AFields(contactPreference_AList);
+                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreference_AList[0].ContactPreferenceID);
+                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreference_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<ContactPreferenceReport> contactPreferenceReportList = new List<ContactPreferenceReport>();
-                            contactPreferenceReportList = contactPreferenceService.GetContactPreferenceReportList().ToList();
-                            CheckContactPreferenceReportFields(contactPreferenceReportList);
-                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceReportList[0].ContactPreferenceID);
-                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceReportList.Count);
+                            List<ContactPreference_B> contactPreference_BList = new List<ContactPreference_B>();
+                            contactPreference_BList = contactPreferenceService.GetContactPreference_BList().ToList();
+                            CheckContactPreference_BFields(contactPreference_BList);
+                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreference_BList[0].ContactPreferenceID);
+                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreference_BList.Count);
                         }
                         else
                         {
@@ -635,39 +628,39 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(contactPreferenceList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(contactPreferenceList[0].HasErrors);
         }
-        private void CheckContactPreferenceWebFields(List<ContactPreferenceWeb> contactPreferenceWebList)
+        private void CheckContactPreference_AFields(List<ContactPreference_A> contactPreference_AList)
         {
-            Assert.IsNotNull(contactPreferenceWebList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(contactPreferenceWebList[0].TVTypeText))
+            Assert.IsNotNull(contactPreference_AList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(contactPreference_AList[0].TVTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(contactPreferenceWebList[0].TVTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(contactPreference_AList[0].TVTypeText));
             }
-            Assert.IsNotNull(contactPreferenceWebList[0].ContactPreferenceID);
-            Assert.IsNotNull(contactPreferenceWebList[0].ContactID);
-            Assert.IsNotNull(contactPreferenceWebList[0].TVType);
-            Assert.IsNotNull(contactPreferenceWebList[0].MarkerSize);
-            Assert.IsNotNull(contactPreferenceWebList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(contactPreferenceWebList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(contactPreferenceWebList[0].HasErrors);
+            Assert.IsNotNull(contactPreference_AList[0].ContactPreferenceID);
+            Assert.IsNotNull(contactPreference_AList[0].ContactID);
+            Assert.IsNotNull(contactPreference_AList[0].TVType);
+            Assert.IsNotNull(contactPreference_AList[0].MarkerSize);
+            Assert.IsNotNull(contactPreference_AList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(contactPreference_AList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(contactPreference_AList[0].HasErrors);
         }
-        private void CheckContactPreferenceReportFields(List<ContactPreferenceReport> contactPreferenceReportList)
+        private void CheckContactPreference_BFields(List<ContactPreference_B> contactPreference_BList)
         {
-            if (!string.IsNullOrWhiteSpace(contactPreferenceReportList[0].ContactPreferenceReportTest))
+            if (!string.IsNullOrWhiteSpace(contactPreference_BList[0].ContactPreferenceReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(contactPreferenceReportList[0].ContactPreferenceReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(contactPreference_BList[0].ContactPreferenceReportTest));
             }
-            Assert.IsNotNull(contactPreferenceReportList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(contactPreferenceReportList[0].TVTypeText))
+            Assert.IsNotNull(contactPreference_BList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(contactPreference_BList[0].TVTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(contactPreferenceReportList[0].TVTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(contactPreference_BList[0].TVTypeText));
             }
-            Assert.IsNotNull(contactPreferenceReportList[0].ContactPreferenceID);
-            Assert.IsNotNull(contactPreferenceReportList[0].ContactID);
-            Assert.IsNotNull(contactPreferenceReportList[0].TVType);
-            Assert.IsNotNull(contactPreferenceReportList[0].MarkerSize);
-            Assert.IsNotNull(contactPreferenceReportList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(contactPreferenceReportList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(contactPreferenceReportList[0].HasErrors);
+            Assert.IsNotNull(contactPreference_BList[0].ContactPreferenceID);
+            Assert.IsNotNull(contactPreference_BList[0].ContactID);
+            Assert.IsNotNull(contactPreference_BList[0].TVType);
+            Assert.IsNotNull(contactPreference_BList[0].MarkerSize);
+            Assert.IsNotNull(contactPreference_BList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(contactPreference_BList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(contactPreference_BList[0].HasErrors);
         }
         private ContactPreference GetFilledRandomContactPreference(string OmitPropName)
         {

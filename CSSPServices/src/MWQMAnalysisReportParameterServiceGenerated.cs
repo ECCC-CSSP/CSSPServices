@@ -319,31 +319,31 @@ namespace CSSPServices
 
             return MWQMAnalysisReportParameterQuery;
         }
-        public MWQMAnalysisReportParameterWeb GetMWQMAnalysisReportParameterWebWithMWQMAnalysisReportParameterID(int MWQMAnalysisReportParameterID)
+        public MWQMAnalysisReportParameter_A GetMWQMAnalysisReportParameter_AWithMWQMAnalysisReportParameterID(int MWQMAnalysisReportParameterID)
         {
-            return FillMWQMAnalysisReportParameterWeb().Where(c => c.MWQMAnalysisReportParameterID == MWQMAnalysisReportParameterID).FirstOrDefault();
+            return FillMWQMAnalysisReportParameter_A().Where(c => c.MWQMAnalysisReportParameterID == MWQMAnalysisReportParameterID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMAnalysisReportParameterWeb> GetMWQMAnalysisReportParameterWebList()
+        public IQueryable<MWQMAnalysisReportParameter_A> GetMWQMAnalysisReportParameter_AList()
         {
-            IQueryable<MWQMAnalysisReportParameterWeb> MWQMAnalysisReportParameterWebQuery = FillMWQMAnalysisReportParameterWeb();
+            IQueryable<MWQMAnalysisReportParameter_A> MWQMAnalysisReportParameter_AQuery = FillMWQMAnalysisReportParameter_A();
 
-            MWQMAnalysisReportParameterWebQuery = EnhanceQueryStatements<MWQMAnalysisReportParameterWeb>(MWQMAnalysisReportParameterWebQuery) as IQueryable<MWQMAnalysisReportParameterWeb>;
+            MWQMAnalysisReportParameter_AQuery = EnhanceQueryStatements<MWQMAnalysisReportParameter_A>(MWQMAnalysisReportParameter_AQuery) as IQueryable<MWQMAnalysisReportParameter_A>;
 
-            return MWQMAnalysisReportParameterWebQuery;
+            return MWQMAnalysisReportParameter_AQuery;
         }
-        public MWQMAnalysisReportParameterReport GetMWQMAnalysisReportParameterReportWithMWQMAnalysisReportParameterID(int MWQMAnalysisReportParameterID)
+        public MWQMAnalysisReportParameter_B GetMWQMAnalysisReportParameter_BWithMWQMAnalysisReportParameterID(int MWQMAnalysisReportParameterID)
         {
-            return FillMWQMAnalysisReportParameterReport().Where(c => c.MWQMAnalysisReportParameterID == MWQMAnalysisReportParameterID).FirstOrDefault();
+            return FillMWQMAnalysisReportParameter_B().Where(c => c.MWQMAnalysisReportParameterID == MWQMAnalysisReportParameterID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMAnalysisReportParameterReport> GetMWQMAnalysisReportParameterReportList()
+        public IQueryable<MWQMAnalysisReportParameter_B> GetMWQMAnalysisReportParameter_BList()
         {
-            IQueryable<MWQMAnalysisReportParameterReport> MWQMAnalysisReportParameterReportQuery = FillMWQMAnalysisReportParameterReport();
+            IQueryable<MWQMAnalysisReportParameter_B> MWQMAnalysisReportParameter_BQuery = FillMWQMAnalysisReportParameter_B();
 
-            MWQMAnalysisReportParameterReportQuery = EnhanceQueryStatements<MWQMAnalysisReportParameterReport>(MWQMAnalysisReportParameterReportQuery) as IQueryable<MWQMAnalysisReportParameterReport>;
+            MWQMAnalysisReportParameter_BQuery = EnhanceQueryStatements<MWQMAnalysisReportParameter_B>(MWQMAnalysisReportParameter_BQuery) as IQueryable<MWQMAnalysisReportParameter_B>;
 
-            return MWQMAnalysisReportParameterReportQuery;
+            return MWQMAnalysisReportParameter_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -382,63 +382,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated MWQMAnalysisReportParameterFillWeb
-        private IQueryable<MWQMAnalysisReportParameterWeb> FillMWQMAnalysisReportParameterWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> AnalysisReportExportCommandEnumList = enums.GetEnumTextOrderedList(typeof(AnalysisReportExportCommandEnum));
-
-             IQueryable<MWQMAnalysisReportParameterWeb> MWQMAnalysisReportParameterWebQuery = (from c in db.MWQMAnalysisReportParameters
-                let ExcelTVFileTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.ExcelTVFileTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new MWQMAnalysisReportParameterWeb
-                    {
-                        ExcelTVFileTVItemLanguage = ExcelTVFileTVItemLanguage,
-                        CommandText = (from e in AnalysisReportExportCommandEnumList
-                                where e.EnumID == (int?)c.Command
-                                select e.EnumText).FirstOrDefault(),
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        MWQMAnalysisReportParameterID = c.MWQMAnalysisReportParameterID,
-                        SubsectorTVItemID = c.SubsectorTVItemID,
-                        AnalysisName = c.AnalysisName,
-                        AnalysisReportYear = c.AnalysisReportYear,
-                        StartDate = c.StartDate,
-                        EndDate = c.EndDate,
-                        AnalysisCalculationType = c.AnalysisCalculationType,
-                        NumberOfRuns = c.NumberOfRuns,
-                        FullYear = c.FullYear,
-                        SalinityHighlightDeviationFromAverage = c.SalinityHighlightDeviationFromAverage,
-                        ShortRangeNumberOfDays = c.ShortRangeNumberOfDays,
-                        MidRangeNumberOfDays = c.MidRangeNumberOfDays,
-                        DryLimit24h = c.DryLimit24h,
-                        DryLimit48h = c.DryLimit48h,
-                        DryLimit72h = c.DryLimit72h,
-                        DryLimit96h = c.DryLimit96h,
-                        WetLimit24h = c.WetLimit24h,
-                        WetLimit48h = c.WetLimit48h,
-                        WetLimit72h = c.WetLimit72h,
-                        WetLimit96h = c.WetLimit96h,
-                        RunsToOmit = c.RunsToOmit,
-                        ShowDataTypes = c.ShowDataTypes,
-                        ExcelTVFileTVItemID = c.ExcelTVFileTVItemID,
-                        Command = c.Command,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return MWQMAnalysisReportParameterWebQuery;
-        }
-        #endregion Functions private Generated MWQMAnalysisReportParameterFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(MWQMAnalysisReportParameter mwqmAnalysisReportParameter)

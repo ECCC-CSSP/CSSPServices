@@ -150,31 +150,31 @@ namespace CSSPServices
 
             return LogQuery;
         }
-        public LogWeb GetLogWebWithLogID(int LogID)
+        public Log_A GetLog_AWithLogID(int LogID)
         {
-            return FillLogWeb().Where(c => c.LogID == LogID).FirstOrDefault();
+            return FillLog_A().Where(c => c.LogID == LogID).FirstOrDefault();
 
         }
-        public IQueryable<LogWeb> GetLogWebList()
+        public IQueryable<Log_A> GetLog_AList()
         {
-            IQueryable<LogWeb> LogWebQuery = FillLogWeb();
+            IQueryable<Log_A> Log_AQuery = FillLog_A();
 
-            LogWebQuery = EnhanceQueryStatements<LogWeb>(LogWebQuery) as IQueryable<LogWeb>;
+            Log_AQuery = EnhanceQueryStatements<Log_A>(Log_AQuery) as IQueryable<Log_A>;
 
-            return LogWebQuery;
+            return Log_AQuery;
         }
-        public LogReport GetLogReportWithLogID(int LogID)
+        public Log_B GetLog_BWithLogID(int LogID)
         {
-            return FillLogReport().Where(c => c.LogID == LogID).FirstOrDefault();
+            return FillLog_B().Where(c => c.LogID == LogID).FirstOrDefault();
 
         }
-        public IQueryable<LogReport> GetLogReportList()
+        public IQueryable<Log_B> GetLog_BList()
         {
-            IQueryable<LogReport> LogReportQuery = FillLogReport();
+            IQueryable<Log_B> Log_BQuery = FillLog_B();
 
-            LogReportQuery = EnhanceQueryStatements<LogReport>(LogReportQuery) as IQueryable<LogReport>;
+            Log_BQuery = EnhanceQueryStatements<Log_B>(Log_BQuery) as IQueryable<Log_B>;
 
-            return LogReportQuery;
+            return Log_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -213,39 +213,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated LogFillWeb
-        private IQueryable<LogWeb> FillLogWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> LogCommandEnumList = enums.GetEnumTextOrderedList(typeof(LogCommandEnum));
-
-             IQueryable<LogWeb> LogWebQuery = (from c in db.Logs
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new LogWeb
-                    {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        LogCommandText = (from e in LogCommandEnumList
-                                where e.EnumID == (int?)c.LogCommand
-                                select e.EnumText).FirstOrDefault(),
-                        LogID = c.LogID,
-                        TableName = c.TableName,
-                        ID = c.ID,
-                        LogCommand = c.LogCommand,
-                        Information = c.Information,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return LogWebQuery;
-        }
-        #endregion Functions private Generated LogFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(Log log)

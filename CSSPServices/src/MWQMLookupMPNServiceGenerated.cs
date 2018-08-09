@@ -141,31 +141,31 @@ namespace CSSPServices
 
             return MWQMLookupMPNQuery;
         }
-        public MWQMLookupMPNWeb GetMWQMLookupMPNWebWithMWQMLookupMPNID(int MWQMLookupMPNID)
+        public MWQMLookupMPN_A GetMWQMLookupMPN_AWithMWQMLookupMPNID(int MWQMLookupMPNID)
         {
-            return FillMWQMLookupMPNWeb().Where(c => c.MWQMLookupMPNID == MWQMLookupMPNID).FirstOrDefault();
+            return FillMWQMLookupMPN_A().Where(c => c.MWQMLookupMPNID == MWQMLookupMPNID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMLookupMPNWeb> GetMWQMLookupMPNWebList()
+        public IQueryable<MWQMLookupMPN_A> GetMWQMLookupMPN_AList()
         {
-            IQueryable<MWQMLookupMPNWeb> MWQMLookupMPNWebQuery = FillMWQMLookupMPNWeb();
+            IQueryable<MWQMLookupMPN_A> MWQMLookupMPN_AQuery = FillMWQMLookupMPN_A();
 
-            MWQMLookupMPNWebQuery = EnhanceQueryStatements<MWQMLookupMPNWeb>(MWQMLookupMPNWebQuery) as IQueryable<MWQMLookupMPNWeb>;
+            MWQMLookupMPN_AQuery = EnhanceQueryStatements<MWQMLookupMPN_A>(MWQMLookupMPN_AQuery) as IQueryable<MWQMLookupMPN_A>;
 
-            return MWQMLookupMPNWebQuery;
+            return MWQMLookupMPN_AQuery;
         }
-        public MWQMLookupMPNReport GetMWQMLookupMPNReportWithMWQMLookupMPNID(int MWQMLookupMPNID)
+        public MWQMLookupMPN_B GetMWQMLookupMPN_BWithMWQMLookupMPNID(int MWQMLookupMPNID)
         {
-            return FillMWQMLookupMPNReport().Where(c => c.MWQMLookupMPNID == MWQMLookupMPNID).FirstOrDefault();
+            return FillMWQMLookupMPN_B().Where(c => c.MWQMLookupMPNID == MWQMLookupMPNID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMLookupMPNReport> GetMWQMLookupMPNReportList()
+        public IQueryable<MWQMLookupMPN_B> GetMWQMLookupMPN_BList()
         {
-            IQueryable<MWQMLookupMPNReport> MWQMLookupMPNReportQuery = FillMWQMLookupMPNReport();
+            IQueryable<MWQMLookupMPN_B> MWQMLookupMPN_BQuery = FillMWQMLookupMPN_B();
 
-            MWQMLookupMPNReportQuery = EnhanceQueryStatements<MWQMLookupMPNReport>(MWQMLookupMPNReportQuery) as IQueryable<MWQMLookupMPNReport>;
+            MWQMLookupMPN_BQuery = EnhanceQueryStatements<MWQMLookupMPN_B>(MWQMLookupMPN_BQuery) as IQueryable<MWQMLookupMPN_B>;
 
-            return MWQMLookupMPNReportQuery;
+            return MWQMLookupMPN_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -204,32 +204,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated MWQMLookupMPNFillWeb
-        private IQueryable<MWQMLookupMPNWeb> FillMWQMLookupMPNWeb()
-        {
-             IQueryable<MWQMLookupMPNWeb> MWQMLookupMPNWebQuery = (from c in db.MWQMLookupMPNs
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new MWQMLookupMPNWeb
-                    {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        MWQMLookupMPNID = c.MWQMLookupMPNID,
-                        Tubes10 = c.Tubes10,
-                        Tubes1 = c.Tubes1,
-                        Tubes01 = c.Tubes01,
-                        MPN_100ml = c.MPN_100ml,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return MWQMLookupMPNWebQuery;
-        }
-        #endregion Functions private Generated MWQMLookupMPNFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(MWQMLookupMPN mwqmLookupMPN)

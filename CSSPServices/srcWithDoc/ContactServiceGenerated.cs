@@ -237,31 +237,31 @@ namespace CSSPServices
 
             return ContactQuery;
         }
-        public ContactWeb GetContactWebWithContactID(int ContactID)
+        public Contact_A GetContact_AWithContactID(int ContactID)
         {
-            return FillContactWeb().Where(c => c.ContactID == ContactID).FirstOrDefault();
+            return FillContact_A().Where(c => c.ContactID == ContactID).FirstOrDefault();
 
         }
-        public IQueryable<ContactWeb> GetContactWebList()
+        public IQueryable<Contact_A> GetContact_AList()
         {
-            IQueryable<ContactWeb> ContactWebQuery = FillContactWeb();
+            IQueryable<Contact_A> Contact_AQuery = FillContact_A();
 
-            ContactWebQuery = EnhanceQueryStatements<ContactWeb>(ContactWebQuery) as IQueryable<ContactWeb>;
+            Contact_AQuery = EnhanceQueryStatements<Contact_A>(Contact_AQuery) as IQueryable<Contact_A>;
 
-            return ContactWebQuery;
+            return Contact_AQuery;
         }
-        public ContactReport GetContactReportWithContactID(int ContactID)
+        public Contact_B GetContact_BWithContactID(int ContactID)
         {
-            return FillContactReport().Where(c => c.ContactID == ContactID).FirstOrDefault();
+            return FillContact_B().Where(c => c.ContactID == ContactID).FirstOrDefault();
 
         }
-        public IQueryable<ContactReport> GetContactReportList()
+        public IQueryable<Contact_B> GetContact_BList()
         {
-            IQueryable<ContactReport> ContactReportQuery = FillContactReport();
+            IQueryable<Contact_B> Contact_BQuery = FillContact_B();
 
-            ContactReportQuery = EnhanceQueryStatements<ContactReport>(ContactReportQuery) as IQueryable<ContactReport>;
+            Contact_BQuery = EnhanceQueryStatements<Contact_B>(Contact_BQuery) as IQueryable<Contact_B>;
 
-            return ContactReportQuery;
+            return Contact_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -300,57 +300,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated ContactFillWeb
-        private IQueryable<ContactWeb> FillContactWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> ContactTitleEnumList = enums.GetEnumTextOrderedList(typeof(ContactTitleEnum));
-
-             IQueryable<ContactWeb> ContactWebQuery = (from c in db.Contacts
-                let ContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.ContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let ParentTVItemID = (from cl in db.TVItems
-                    where cl.TVItemID == c.ContactTVItemID
-                    select cl.ParentID).FirstOrDefault()
-                    select new ContactWeb
-                    {
-                        ContactTVItemLanguage = ContactTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        ParentTVItemID = ParentTVItemID,
-                        ContactTitleText = (from e in ContactTitleEnumList
-                                where e.EnumID == (int?)c.ContactTitle
-                                select e.EnumText).FirstOrDefault(),
-                        ContactID = c.ContactID,
-                        Id = c.Id,
-                        ContactTVItemID = c.ContactTVItemID,
-                        LoginEmail = c.LoginEmail,
-                        FirstName = c.FirstName,
-                        LastName = c.LastName,
-                        Initial = c.Initial,
-                        WebName = c.WebName,
-                        ContactTitle = c.ContactTitle,
-                        IsAdmin = c.IsAdmin,
-                        EmailValidated = c.EmailValidated,
-                        Disabled = c.Disabled,
-                        IsNew = c.IsNew,
-                        SamplingPlanner_ProvincesTVItemID = c.SamplingPlanner_ProvincesTVItemID,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return ContactWebQuery;
-        }
-        #endregion Functions private Generated ContactFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(Contact contact)

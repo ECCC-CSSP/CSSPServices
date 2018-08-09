@@ -155,31 +155,31 @@ namespace CSSPServices
 
             return TideSiteQuery;
         }
-        public TideSiteWeb GetTideSiteWebWithTideSiteID(int TideSiteID)
+        public TideSite_A GetTideSite_AWithTideSiteID(int TideSiteID)
         {
-            return FillTideSiteWeb().Where(c => c.TideSiteID == TideSiteID).FirstOrDefault();
+            return FillTideSite_A().Where(c => c.TideSiteID == TideSiteID).FirstOrDefault();
 
         }
-        public IQueryable<TideSiteWeb> GetTideSiteWebList()
+        public IQueryable<TideSite_A> GetTideSite_AList()
         {
-            IQueryable<TideSiteWeb> TideSiteWebQuery = FillTideSiteWeb();
+            IQueryable<TideSite_A> TideSite_AQuery = FillTideSite_A();
 
-            TideSiteWebQuery = EnhanceQueryStatements<TideSiteWeb>(TideSiteWebQuery) as IQueryable<TideSiteWeb>;
+            TideSite_AQuery = EnhanceQueryStatements<TideSite_A>(TideSite_AQuery) as IQueryable<TideSite_A>;
 
-            return TideSiteWebQuery;
+            return TideSite_AQuery;
         }
-        public TideSiteReport GetTideSiteReportWithTideSiteID(int TideSiteID)
+        public TideSite_B GetTideSite_BWithTideSiteID(int TideSiteID)
         {
-            return FillTideSiteReport().Where(c => c.TideSiteID == TideSiteID).FirstOrDefault();
+            return FillTideSite_B().Where(c => c.TideSiteID == TideSiteID).FirstOrDefault();
 
         }
-        public IQueryable<TideSiteReport> GetTideSiteReportList()
+        public IQueryable<TideSite_B> GetTideSite_BList()
         {
-            IQueryable<TideSiteReport> TideSiteReportQuery = FillTideSiteReport();
+            IQueryable<TideSite_B> TideSite_BQuery = FillTideSite_B();
 
-            TideSiteReportQuery = EnhanceQueryStatements<TideSiteReport>(TideSiteReportQuery) as IQueryable<TideSiteReport>;
+            TideSite_BQuery = EnhanceQueryStatements<TideSite_B>(TideSite_BQuery) as IQueryable<TideSite_B>;
 
-            return TideSiteReportQuery;
+            return TideSite_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -218,36 +218,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated TideSiteFillWeb
-        private IQueryable<TideSiteWeb> FillTideSiteWeb()
-        {
-             IQueryable<TideSiteWeb> TideSiteWebQuery = (from c in db.TideSites
-                let TideSiteTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.TideSiteTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new TideSiteWeb
-                    {
-                        TideSiteTVItemLanguage = TideSiteTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        TideSiteID = c.TideSiteID,
-                        TideSiteTVItemID = c.TideSiteTVItemID,
-                        WebTideModel = c.WebTideModel,
-                        WebTideDatum_m = c.WebTideDatum_m,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return TideSiteWebQuery;
-        }
-        #endregion Functions private Generated TideSiteFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(TideSite tideSite)

@@ -268,31 +268,31 @@ namespace CSSPServices
 
             return MWQMSampleQuery;
         }
-        public MWQMSampleWeb GetMWQMSampleWebWithMWQMSampleID(int MWQMSampleID)
+        public MWQMSample_A GetMWQMSample_AWithMWQMSampleID(int MWQMSampleID)
         {
-            return FillMWQMSampleWeb().Where(c => c.MWQMSampleID == MWQMSampleID).FirstOrDefault();
+            return FillMWQMSample_A().Where(c => c.MWQMSampleID == MWQMSampleID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMSampleWeb> GetMWQMSampleWebList()
+        public IQueryable<MWQMSample_A> GetMWQMSample_AList()
         {
-            IQueryable<MWQMSampleWeb> MWQMSampleWebQuery = FillMWQMSampleWeb();
+            IQueryable<MWQMSample_A> MWQMSample_AQuery = FillMWQMSample_A();
 
-            MWQMSampleWebQuery = EnhanceQueryStatements<MWQMSampleWeb>(MWQMSampleWebQuery) as IQueryable<MWQMSampleWeb>;
+            MWQMSample_AQuery = EnhanceQueryStatements<MWQMSample_A>(MWQMSample_AQuery) as IQueryable<MWQMSample_A>;
 
-            return MWQMSampleWebQuery;
+            return MWQMSample_AQuery;
         }
-        public MWQMSampleReport GetMWQMSampleReportWithMWQMSampleID(int MWQMSampleID)
+        public MWQMSample_B GetMWQMSample_BWithMWQMSampleID(int MWQMSampleID)
         {
-            return FillMWQMSampleReport().Where(c => c.MWQMSampleID == MWQMSampleID).FirstOrDefault();
+            return FillMWQMSample_B().Where(c => c.MWQMSampleID == MWQMSampleID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMSampleReport> GetMWQMSampleReportList()
+        public IQueryable<MWQMSample_B> GetMWQMSample_BList()
         {
-            IQueryable<MWQMSampleReport> MWQMSampleReportQuery = FillMWQMSampleReport();
+            IQueryable<MWQMSample_B> MWQMSample_BQuery = FillMWQMSample_B();
 
-            MWQMSampleReportQuery = EnhanceQueryStatements<MWQMSampleReport>(MWQMSampleReportQuery) as IQueryable<MWQMSampleReport>;
+            MWQMSample_BQuery = EnhanceQueryStatements<MWQMSample_B>(MWQMSample_BQuery) as IQueryable<MWQMSample_B>;
 
-            return MWQMSampleReportQuery;
+            return MWQMSample_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -331,60 +331,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated MWQMSampleFillWeb
-        private IQueryable<MWQMSampleWeb> FillMWQMSampleWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> SampleTypeEnumList = enums.GetEnumTextOrderedList(typeof(SampleTypeEnum));
-
-             IQueryable<MWQMSampleWeb> MWQMSampleWebQuery = (from c in db.MWQMSamples
-                let MWQMSiteTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.MWQMSiteTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let MWQMRunTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.MWQMRunTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new MWQMSampleWeb
-                    {
-                        MWQMSiteTVItemLanguage = MWQMSiteTVItemLanguage,
-                        MWQMRunTVItemLanguage = MWQMRunTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        SampleType_oldText = (from e in SampleTypeEnumList
-                                where e.EnumID == (int?)c.SampleType_old
-                                select e.EnumText).FirstOrDefault(),
-                        MWQMSampleID = c.MWQMSampleID,
-                        MWQMSiteTVItemID = c.MWQMSiteTVItemID,
-                        MWQMRunTVItemID = c.MWQMRunTVItemID,
-                        SampleDateTime_Local = c.SampleDateTime_Local,
-                        Depth_m = c.Depth_m,
-                        FecCol_MPN_100ml = c.FecCol_MPN_100ml,
-                        Salinity_PPT = c.Salinity_PPT,
-                        WaterTemp_C = c.WaterTemp_C,
-                        PH = c.PH,
-                        SampleTypesText = c.SampleTypesText,
-                        SampleType_old = c.SampleType_old,
-                        Tube_10 = c.Tube_10,
-                        Tube_1_0 = c.Tube_1_0,
-                        Tube_0_1 = c.Tube_0_1,
-                        ProcessedBy = c.ProcessedBy,
-                        UseForOpenData = c.UseForOpenData,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return MWQMSampleWebQuery;
-        }
-        #endregion Functions private Generated MWQMSampleFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(MWQMSample mwqmSample)

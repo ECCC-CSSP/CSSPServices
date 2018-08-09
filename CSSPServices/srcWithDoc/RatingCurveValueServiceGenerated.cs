@@ -137,31 +137,31 @@ namespace CSSPServices
 
             return RatingCurveValueQuery;
         }
-        public RatingCurveValueWeb GetRatingCurveValueWebWithRatingCurveValueID(int RatingCurveValueID)
+        public RatingCurveValue_A GetRatingCurveValue_AWithRatingCurveValueID(int RatingCurveValueID)
         {
-            return FillRatingCurveValueWeb().Where(c => c.RatingCurveValueID == RatingCurveValueID).FirstOrDefault();
+            return FillRatingCurveValue_A().Where(c => c.RatingCurveValueID == RatingCurveValueID).FirstOrDefault();
 
         }
-        public IQueryable<RatingCurveValueWeb> GetRatingCurveValueWebList()
+        public IQueryable<RatingCurveValue_A> GetRatingCurveValue_AList()
         {
-            IQueryable<RatingCurveValueWeb> RatingCurveValueWebQuery = FillRatingCurveValueWeb();
+            IQueryable<RatingCurveValue_A> RatingCurveValue_AQuery = FillRatingCurveValue_A();
 
-            RatingCurveValueWebQuery = EnhanceQueryStatements<RatingCurveValueWeb>(RatingCurveValueWebQuery) as IQueryable<RatingCurveValueWeb>;
+            RatingCurveValue_AQuery = EnhanceQueryStatements<RatingCurveValue_A>(RatingCurveValue_AQuery) as IQueryable<RatingCurveValue_A>;
 
-            return RatingCurveValueWebQuery;
+            return RatingCurveValue_AQuery;
         }
-        public RatingCurveValueReport GetRatingCurveValueReportWithRatingCurveValueID(int RatingCurveValueID)
+        public RatingCurveValue_B GetRatingCurveValue_BWithRatingCurveValueID(int RatingCurveValueID)
         {
-            return FillRatingCurveValueReport().Where(c => c.RatingCurveValueID == RatingCurveValueID).FirstOrDefault();
+            return FillRatingCurveValue_B().Where(c => c.RatingCurveValueID == RatingCurveValueID).FirstOrDefault();
 
         }
-        public IQueryable<RatingCurveValueReport> GetRatingCurveValueReportList()
+        public IQueryable<RatingCurveValue_B> GetRatingCurveValue_BList()
         {
-            IQueryable<RatingCurveValueReport> RatingCurveValueReportQuery = FillRatingCurveValueReport();
+            IQueryable<RatingCurveValue_B> RatingCurveValue_BQuery = FillRatingCurveValue_B();
 
-            RatingCurveValueReportQuery = EnhanceQueryStatements<RatingCurveValueReport>(RatingCurveValueReportQuery) as IQueryable<RatingCurveValueReport>;
+            RatingCurveValue_BQuery = EnhanceQueryStatements<RatingCurveValue_B>(RatingCurveValue_BQuery) as IQueryable<RatingCurveValue_B>;
 
-            return RatingCurveValueReportQuery;
+            return RatingCurveValue_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -200,31 +200,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated RatingCurveValueFillWeb
-        private IQueryable<RatingCurveValueWeb> FillRatingCurveValueWeb()
-        {
-             IQueryable<RatingCurveValueWeb> RatingCurveValueWebQuery = (from c in db.RatingCurveValues
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new RatingCurveValueWeb
-                    {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        RatingCurveValueID = c.RatingCurveValueID,
-                        RatingCurveID = c.RatingCurveID,
-                        StageValue_m = c.StageValue_m,
-                        DischargeValue_m3_s = c.DischargeValue_m3_s,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return RatingCurveValueWebQuery;
-        }
-        #endregion Functions private Generated RatingCurveValueFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(RatingCurveValue ratingCurveValue)

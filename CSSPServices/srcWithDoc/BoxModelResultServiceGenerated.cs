@@ -216,31 +216,31 @@ namespace CSSPServices
 
             return BoxModelResultQuery;
         }
-        public BoxModelResultWeb GetBoxModelResultWebWithBoxModelResultID(int BoxModelResultID)
+        public BoxModelResult_A GetBoxModelResult_AWithBoxModelResultID(int BoxModelResultID)
         {
-            return FillBoxModelResultWeb().Where(c => c.BoxModelResultID == BoxModelResultID).FirstOrDefault();
+            return FillBoxModelResult_A().Where(c => c.BoxModelResultID == BoxModelResultID).FirstOrDefault();
 
         }
-        public IQueryable<BoxModelResultWeb> GetBoxModelResultWebList()
+        public IQueryable<BoxModelResult_A> GetBoxModelResult_AList()
         {
-            IQueryable<BoxModelResultWeb> BoxModelResultWebQuery = FillBoxModelResultWeb();
+            IQueryable<BoxModelResult_A> BoxModelResult_AQuery = FillBoxModelResult_A();
 
-            BoxModelResultWebQuery = EnhanceQueryStatements<BoxModelResultWeb>(BoxModelResultWebQuery) as IQueryable<BoxModelResultWeb>;
+            BoxModelResult_AQuery = EnhanceQueryStatements<BoxModelResult_A>(BoxModelResult_AQuery) as IQueryable<BoxModelResult_A>;
 
-            return BoxModelResultWebQuery;
+            return BoxModelResult_AQuery;
         }
-        public BoxModelResultReport GetBoxModelResultReportWithBoxModelResultID(int BoxModelResultID)
+        public BoxModelResult_B GetBoxModelResult_BWithBoxModelResultID(int BoxModelResultID)
         {
-            return FillBoxModelResultReport().Where(c => c.BoxModelResultID == BoxModelResultID).FirstOrDefault();
+            return FillBoxModelResult_B().Where(c => c.BoxModelResultID == BoxModelResultID).FirstOrDefault();
 
         }
-        public IQueryable<BoxModelResultReport> GetBoxModelResultReportList()
+        public IQueryable<BoxModelResult_B> GetBoxModelResult_BList()
         {
-            IQueryable<BoxModelResultReport> BoxModelResultReportQuery = FillBoxModelResultReport();
+            IQueryable<BoxModelResult_B> BoxModelResult_BQuery = FillBoxModelResult_B();
 
-            BoxModelResultReportQuery = EnhanceQueryStatements<BoxModelResultReport>(BoxModelResultReportQuery) as IQueryable<BoxModelResultReport>;
+            BoxModelResult_BQuery = EnhanceQueryStatements<BoxModelResult_B>(BoxModelResult_BQuery) as IQueryable<BoxModelResult_B>;
 
-            return BoxModelResultReportQuery;
+            return BoxModelResult_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -279,50 +279,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated BoxModelResultFillWeb
-        private IQueryable<BoxModelResultWeb> FillBoxModelResultWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> BoxModelResultTypeEnumList = enums.GetEnumTextOrderedList(typeof(BoxModelResultTypeEnum));
-
-             IQueryable<BoxModelResultWeb> BoxModelResultWebQuery = (from c in db.BoxModelResults
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new BoxModelResultWeb
-                    {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        BoxModelResultTypeText = (from e in BoxModelResultTypeEnumList
-                                where e.EnumID == (int?)c.BoxModelResultType
-                                select e.EnumText).FirstOrDefault(),
-                        BoxModelResultID = c.BoxModelResultID,
-                        BoxModelID = c.BoxModelID,
-                        BoxModelResultType = c.BoxModelResultType,
-                        Volume_m3 = c.Volume_m3,
-                        Surface_m2 = c.Surface_m2,
-                        Radius_m = c.Radius_m,
-                        LeftSideDiameterLineAngle_deg = c.LeftSideDiameterLineAngle_deg,
-                        CircleCenterLatitude = c.CircleCenterLatitude,
-                        CircleCenterLongitude = c.CircleCenterLongitude,
-                        FixLength = c.FixLength,
-                        FixWidth = c.FixWidth,
-                        RectLength_m = c.RectLength_m,
-                        RectWidth_m = c.RectWidth_m,
-                        LeftSideLineAngle_deg = c.LeftSideLineAngle_deg,
-                        LeftSideLineStartLatitude = c.LeftSideLineStartLatitude,
-                        LeftSideLineStartLongitude = c.LeftSideLineStartLongitude,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return BoxModelResultWebQuery;
-        }
-        #endregion Functions private Generated BoxModelResultFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(BoxModelResult boxModelResult)

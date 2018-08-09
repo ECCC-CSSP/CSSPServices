@@ -150,31 +150,31 @@ namespace CSSPServices
 
             return ClassificationQuery;
         }
-        public ClassificationWeb GetClassificationWebWithClassificationID(int ClassificationID)
+        public Classification_A GetClassification_AWithClassificationID(int ClassificationID)
         {
-            return FillClassificationWeb().Where(c => c.ClassificationID == ClassificationID).FirstOrDefault();
+            return FillClassification_A().Where(c => c.ClassificationID == ClassificationID).FirstOrDefault();
 
         }
-        public IQueryable<ClassificationWeb> GetClassificationWebList()
+        public IQueryable<Classification_A> GetClassification_AList()
         {
-            IQueryable<ClassificationWeb> ClassificationWebQuery = FillClassificationWeb();
+            IQueryable<Classification_A> Classification_AQuery = FillClassification_A();
 
-            ClassificationWebQuery = EnhanceQueryStatements<ClassificationWeb>(ClassificationWebQuery) as IQueryable<ClassificationWeb>;
+            Classification_AQuery = EnhanceQueryStatements<Classification_A>(Classification_AQuery) as IQueryable<Classification_A>;
 
-            return ClassificationWebQuery;
+            return Classification_AQuery;
         }
-        public ClassificationReport GetClassificationReportWithClassificationID(int ClassificationID)
+        public Classification_B GetClassification_BWithClassificationID(int ClassificationID)
         {
-            return FillClassificationReport().Where(c => c.ClassificationID == ClassificationID).FirstOrDefault();
+            return FillClassification_B().Where(c => c.ClassificationID == ClassificationID).FirstOrDefault();
 
         }
-        public IQueryable<ClassificationReport> GetClassificationReportList()
+        public IQueryable<Classification_B> GetClassification_BList()
         {
-            IQueryable<ClassificationReport> ClassificationReportQuery = FillClassificationReport();
+            IQueryable<Classification_B> Classification_BQuery = FillClassification_B();
 
-            ClassificationReportQuery = EnhanceQueryStatements<ClassificationReport>(ClassificationReportQuery) as IQueryable<ClassificationReport>;
+            Classification_BQuery = EnhanceQueryStatements<Classification_B>(Classification_BQuery) as IQueryable<Classification_B>;
 
-            return ClassificationReportQuery;
+            return Classification_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -213,38 +213,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated ClassificationFillWeb
-        private IQueryable<ClassificationWeb> FillClassificationWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> ClassificationTypeEnumList = enums.GetEnumTextOrderedList(typeof(ClassificationTypeEnum));
-
-             IQueryable<ClassificationWeb> ClassificationWebQuery = (from c in db.Classifications
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new ClassificationWeb
-                    {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        ClassificationTVText = (from e in ClassificationTypeEnumList
-                                where e.EnumID == (int?)c.ClassificationType
-                                select e.EnumText).FirstOrDefault(),
-                        ClassificationID = c.ClassificationID,
-                        ClassificationTVItemID = c.ClassificationTVItemID,
-                        ClassificationType = c.ClassificationType,
-                        Ordinal = c.Ordinal,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return ClassificationWebQuery;
-        }
-        #endregion Functions private Generated ClassificationFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(Classification classification)

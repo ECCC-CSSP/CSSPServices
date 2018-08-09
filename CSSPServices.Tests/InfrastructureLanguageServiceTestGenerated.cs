@@ -230,27 +230,27 @@ namespace CSSPServices.Tests
                     InfrastructureLanguage infrastructureLanguage = (from c in dbTestDB.InfrastructureLanguages select c).FirstOrDefault();
                     Assert.IsNotNull(infrastructureLanguage);
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        infrastructureLanguageService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        infrastructureLanguageService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             InfrastructureLanguage infrastructureLanguageRet = infrastructureLanguageService.GetInfrastructureLanguageWithInfrastructureLanguageID(infrastructureLanguage.InfrastructureLanguageID);
                             CheckInfrastructureLanguageFields(new List<InfrastructureLanguage>() { infrastructureLanguageRet });
                             Assert.AreEqual(infrastructureLanguage.InfrastructureLanguageID, infrastructureLanguageRet.InfrastructureLanguageID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            InfrastructureLanguageWeb infrastructureLanguageWebRet = infrastructureLanguageService.GetInfrastructureLanguageWebWithInfrastructureLanguageID(infrastructureLanguage.InfrastructureLanguageID);
-                            CheckInfrastructureLanguageWebFields(new List<InfrastructureLanguageWeb>() { infrastructureLanguageWebRet });
-                            Assert.AreEqual(infrastructureLanguage.InfrastructureLanguageID, infrastructureLanguageWebRet.InfrastructureLanguageID);
+                            InfrastructureLanguage_A infrastructureLanguage_ARet = infrastructureLanguageService.GetInfrastructureLanguage_AWithInfrastructureLanguageID(infrastructureLanguage.InfrastructureLanguageID);
+                            CheckInfrastructureLanguage_AFields(new List<InfrastructureLanguage_A>() { infrastructureLanguage_ARet });
+                            Assert.AreEqual(infrastructureLanguage.InfrastructureLanguageID, infrastructureLanguage_ARet.InfrastructureLanguageID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            InfrastructureLanguageReport infrastructureLanguageReportRet = infrastructureLanguageService.GetInfrastructureLanguageReportWithInfrastructureLanguageID(infrastructureLanguage.InfrastructureLanguageID);
-                            CheckInfrastructureLanguageReportFields(new List<InfrastructureLanguageReport>() { infrastructureLanguageReportRet });
-                            Assert.AreEqual(infrastructureLanguage.InfrastructureLanguageID, infrastructureLanguageReportRet.InfrastructureLanguageID);
+                            InfrastructureLanguage_B infrastructureLanguage_BRet = infrastructureLanguageService.GetInfrastructureLanguage_BWithInfrastructureLanguageID(infrastructureLanguage.InfrastructureLanguageID);
+                            CheckInfrastructureLanguage_BFields(new List<InfrastructureLanguage_B>() { infrastructureLanguage_BRet });
+                            Assert.AreEqual(infrastructureLanguage.InfrastructureLanguageID, infrastructureLanguage_BRet.InfrastructureLanguageID);
                         }
                         else
                         {
@@ -279,30 +279,29 @@ namespace CSSPServices.Tests
                     List<InfrastructureLanguage> infrastructureLanguageDirectQueryList = new List<InfrastructureLanguage>();
                     infrastructureLanguageDirectQueryList = (from c in dbTestDB.InfrastructureLanguages select c).Take(200).ToList();
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        infrastructureLanguageService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        infrastructureLanguageService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<InfrastructureLanguage> infrastructureLanguageList = new List<InfrastructureLanguage>();
                             infrastructureLanguageList = infrastructureLanguageService.GetInfrastructureLanguageList().ToList();
                             CheckInfrastructureLanguageFields(infrastructureLanguageList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<InfrastructureLanguageWeb> infrastructureLanguageWebList = new List<InfrastructureLanguageWeb>();
-                            infrastructureLanguageWebList = infrastructureLanguageService.GetInfrastructureLanguageWebList().ToList();
-                            CheckInfrastructureLanguageWebFields(infrastructureLanguageWebList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageWebList.Count);
+                            List<InfrastructureLanguage_A> infrastructureLanguage_AList = new List<InfrastructureLanguage_A>();
+                            infrastructureLanguage_AList = infrastructureLanguageService.GetInfrastructureLanguage_AList().ToList();
+                            CheckInfrastructureLanguage_AFields(infrastructureLanguage_AList);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<InfrastructureLanguageReport> infrastructureLanguageReportList = new List<InfrastructureLanguageReport>();
-                            infrastructureLanguageReportList = infrastructureLanguageService.GetInfrastructureLanguageReportList().ToList();
-                            CheckInfrastructureLanguageReportFields(infrastructureLanguageReportList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageReportList.Count);
+                            List<InfrastructureLanguage_B> infrastructureLanguage_BList = new List<InfrastructureLanguage_B>();
+                            infrastructureLanguage_BList = infrastructureLanguageService.GetInfrastructureLanguage_BList().ToList();
+                            CheckInfrastructureLanguage_BFields(infrastructureLanguage_BList);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguage_BList.Count);
                         }
                         else
                         {
@@ -324,38 +323,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         InfrastructureLanguageService infrastructureLanguageService = new InfrastructureLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        infrastructureLanguageService.Query = infrastructureLanguageService.FillQuery(typeof(InfrastructureLanguage), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        infrastructureLanguageService.Query = infrastructureLanguageService.FillQuery(typeof(InfrastructureLanguage), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
 
                         List<InfrastructureLanguage> infrastructureLanguageDirectQueryList = new List<InfrastructureLanguage>();
                         infrastructureLanguageDirectQueryList = (from c in dbTestDB.InfrastructureLanguages select c).Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<InfrastructureLanguage> infrastructureLanguageList = new List<InfrastructureLanguage>();
                             infrastructureLanguageList = infrastructureLanguageService.GetInfrastructureLanguageList().ToList();
                             CheckInfrastructureLanguageFields(infrastructureLanguageList);
                             Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<InfrastructureLanguageWeb> infrastructureLanguageWebList = new List<InfrastructureLanguageWeb>();
-                            infrastructureLanguageWebList = infrastructureLanguageService.GetInfrastructureLanguageWebList().ToList();
-                            CheckInfrastructureLanguageWebFields(infrastructureLanguageWebList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageWebList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageWebList.Count);
+                            List<InfrastructureLanguage_A> infrastructureLanguage_AList = new List<InfrastructureLanguage_A>();
+                            infrastructureLanguage_AList = infrastructureLanguageService.GetInfrastructureLanguage_AList().ToList();
+                            CheckInfrastructureLanguage_AFields(infrastructureLanguage_AList);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguage_AList[0].InfrastructureLanguageID);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<InfrastructureLanguageReport> infrastructureLanguageReportList = new List<InfrastructureLanguageReport>();
-                            infrastructureLanguageReportList = infrastructureLanguageService.GetInfrastructureLanguageReportList().ToList();
-                            CheckInfrastructureLanguageReportFields(infrastructureLanguageReportList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageReportList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageReportList.Count);
+                            List<InfrastructureLanguage_B> infrastructureLanguage_BList = new List<InfrastructureLanguage_B>();
+                            infrastructureLanguage_BList = infrastructureLanguageService.GetInfrastructureLanguage_BList().ToList();
+                            CheckInfrastructureLanguage_BFields(infrastructureLanguage_BList);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguage_BList[0].InfrastructureLanguageID);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguage_BList.Count);
                         }
                         else
                         {
@@ -377,38 +375,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         InfrastructureLanguageService infrastructureLanguageService = new InfrastructureLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        infrastructureLanguageService.Query = infrastructureLanguageService.FillQuery(typeof(InfrastructureLanguage), culture.TwoLetterISOLanguageName, 1, 1,  "InfrastructureLanguageID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        infrastructureLanguageService.Query = infrastructureLanguageService.FillQuery(typeof(InfrastructureLanguage), culture.TwoLetterISOLanguageName, 1, 1,  "InfrastructureLanguageID", "");
 
                         List<InfrastructureLanguage> infrastructureLanguageDirectQueryList = new List<InfrastructureLanguage>();
                         infrastructureLanguageDirectQueryList = (from c in dbTestDB.InfrastructureLanguages select c).Skip(1).Take(1).OrderBy(c => c.InfrastructureLanguageID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<InfrastructureLanguage> infrastructureLanguageList = new List<InfrastructureLanguage>();
                             infrastructureLanguageList = infrastructureLanguageService.GetInfrastructureLanguageList().ToList();
                             CheckInfrastructureLanguageFields(infrastructureLanguageList);
                             Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<InfrastructureLanguageWeb> infrastructureLanguageWebList = new List<InfrastructureLanguageWeb>();
-                            infrastructureLanguageWebList = infrastructureLanguageService.GetInfrastructureLanguageWebList().ToList();
-                            CheckInfrastructureLanguageWebFields(infrastructureLanguageWebList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageWebList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageWebList.Count);
+                            List<InfrastructureLanguage_A> infrastructureLanguage_AList = new List<InfrastructureLanguage_A>();
+                            infrastructureLanguage_AList = infrastructureLanguageService.GetInfrastructureLanguage_AList().ToList();
+                            CheckInfrastructureLanguage_AFields(infrastructureLanguage_AList);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguage_AList[0].InfrastructureLanguageID);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<InfrastructureLanguageReport> infrastructureLanguageReportList = new List<InfrastructureLanguageReport>();
-                            infrastructureLanguageReportList = infrastructureLanguageService.GetInfrastructureLanguageReportList().ToList();
-                            CheckInfrastructureLanguageReportFields(infrastructureLanguageReportList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageReportList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageReportList.Count);
+                            List<InfrastructureLanguage_B> infrastructureLanguage_BList = new List<InfrastructureLanguage_B>();
+                            infrastructureLanguage_BList = infrastructureLanguageService.GetInfrastructureLanguage_BList().ToList();
+                            CheckInfrastructureLanguage_BFields(infrastructureLanguage_BList);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguage_BList[0].InfrastructureLanguageID);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguage_BList.Count);
                         }
                         else
                         {
@@ -430,38 +427,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         InfrastructureLanguageService infrastructureLanguageService = new InfrastructureLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        infrastructureLanguageService.Query = infrastructureLanguageService.FillQuery(typeof(InfrastructureLanguage), culture.TwoLetterISOLanguageName, 1, 1, "InfrastructureLanguageID,InfrastructureID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        infrastructureLanguageService.Query = infrastructureLanguageService.FillQuery(typeof(InfrastructureLanguage), culture.TwoLetterISOLanguageName, 1, 1, "InfrastructureLanguageID,InfrastructureID", "");
 
                         List<InfrastructureLanguage> infrastructureLanguageDirectQueryList = new List<InfrastructureLanguage>();
                         infrastructureLanguageDirectQueryList = (from c in dbTestDB.InfrastructureLanguages select c).Skip(1).Take(1).OrderBy(c => c.InfrastructureLanguageID).ThenBy(c => c.InfrastructureID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<InfrastructureLanguage> infrastructureLanguageList = new List<InfrastructureLanguage>();
                             infrastructureLanguageList = infrastructureLanguageService.GetInfrastructureLanguageList().ToList();
                             CheckInfrastructureLanguageFields(infrastructureLanguageList);
                             Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<InfrastructureLanguageWeb> infrastructureLanguageWebList = new List<InfrastructureLanguageWeb>();
-                            infrastructureLanguageWebList = infrastructureLanguageService.GetInfrastructureLanguageWebList().ToList();
-                            CheckInfrastructureLanguageWebFields(infrastructureLanguageWebList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageWebList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageWebList.Count);
+                            List<InfrastructureLanguage_A> infrastructureLanguage_AList = new List<InfrastructureLanguage_A>();
+                            infrastructureLanguage_AList = infrastructureLanguageService.GetInfrastructureLanguage_AList().ToList();
+                            CheckInfrastructureLanguage_AFields(infrastructureLanguage_AList);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguage_AList[0].InfrastructureLanguageID);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<InfrastructureLanguageReport> infrastructureLanguageReportList = new List<InfrastructureLanguageReport>();
-                            infrastructureLanguageReportList = infrastructureLanguageService.GetInfrastructureLanguageReportList().ToList();
-                            CheckInfrastructureLanguageReportFields(infrastructureLanguageReportList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageReportList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageReportList.Count);
+                            List<InfrastructureLanguage_B> infrastructureLanguage_BList = new List<InfrastructureLanguage_B>();
+                            infrastructureLanguage_BList = infrastructureLanguageService.GetInfrastructureLanguage_BList().ToList();
+                            CheckInfrastructureLanguage_BFields(infrastructureLanguage_BList);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguage_BList[0].InfrastructureLanguageID);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguage_BList.Count);
                         }
                         else
                         {
@@ -483,38 +479,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         InfrastructureLanguageService infrastructureLanguageService = new InfrastructureLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        infrastructureLanguageService.Query = infrastructureLanguageService.FillQuery(typeof(InfrastructureLanguage), culture.TwoLetterISOLanguageName, 0, 1, "InfrastructureLanguageID", "InfrastructureLanguageID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        infrastructureLanguageService.Query = infrastructureLanguageService.FillQuery(typeof(InfrastructureLanguage), culture.TwoLetterISOLanguageName, 0, 1, "InfrastructureLanguageID", "InfrastructureLanguageID,EQ,4", "");
 
                         List<InfrastructureLanguage> infrastructureLanguageDirectQueryList = new List<InfrastructureLanguage>();
                         infrastructureLanguageDirectQueryList = (from c in dbTestDB.InfrastructureLanguages select c).Where(c => c.InfrastructureLanguageID == 4).Skip(0).Take(1).OrderBy(c => c.InfrastructureLanguageID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<InfrastructureLanguage> infrastructureLanguageList = new List<InfrastructureLanguage>();
                             infrastructureLanguageList = infrastructureLanguageService.GetInfrastructureLanguageList().ToList();
                             CheckInfrastructureLanguageFields(infrastructureLanguageList);
                             Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<InfrastructureLanguageWeb> infrastructureLanguageWebList = new List<InfrastructureLanguageWeb>();
-                            infrastructureLanguageWebList = infrastructureLanguageService.GetInfrastructureLanguageWebList().ToList();
-                            CheckInfrastructureLanguageWebFields(infrastructureLanguageWebList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageWebList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageWebList.Count);
+                            List<InfrastructureLanguage_A> infrastructureLanguage_AList = new List<InfrastructureLanguage_A>();
+                            infrastructureLanguage_AList = infrastructureLanguageService.GetInfrastructureLanguage_AList().ToList();
+                            CheckInfrastructureLanguage_AFields(infrastructureLanguage_AList);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguage_AList[0].InfrastructureLanguageID);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<InfrastructureLanguageReport> infrastructureLanguageReportList = new List<InfrastructureLanguageReport>();
-                            infrastructureLanguageReportList = infrastructureLanguageService.GetInfrastructureLanguageReportList().ToList();
-                            CheckInfrastructureLanguageReportFields(infrastructureLanguageReportList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageReportList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageReportList.Count);
+                            List<InfrastructureLanguage_B> infrastructureLanguage_BList = new List<InfrastructureLanguage_B>();
+                            infrastructureLanguage_BList = infrastructureLanguageService.GetInfrastructureLanguage_BList().ToList();
+                            CheckInfrastructureLanguage_BFields(infrastructureLanguage_BList);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguage_BList[0].InfrastructureLanguageID);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguage_BList.Count);
                         }
                         else
                         {
@@ -536,38 +531,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         InfrastructureLanguageService infrastructureLanguageService = new InfrastructureLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        infrastructureLanguageService.Query = infrastructureLanguageService.FillQuery(typeof(InfrastructureLanguage), culture.TwoLetterISOLanguageName, 0, 1, "InfrastructureLanguageID", "InfrastructureLanguageID,GT,2|InfrastructureLanguageID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        infrastructureLanguageService.Query = infrastructureLanguageService.FillQuery(typeof(InfrastructureLanguage), culture.TwoLetterISOLanguageName, 0, 1, "InfrastructureLanguageID", "InfrastructureLanguageID,GT,2|InfrastructureLanguageID,LT,5", "");
 
                         List<InfrastructureLanguage> infrastructureLanguageDirectQueryList = new List<InfrastructureLanguage>();
                         infrastructureLanguageDirectQueryList = (from c in dbTestDB.InfrastructureLanguages select c).Where(c => c.InfrastructureLanguageID > 2 && c.InfrastructureLanguageID < 5).Skip(0).Take(1).OrderBy(c => c.InfrastructureLanguageID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<InfrastructureLanguage> infrastructureLanguageList = new List<InfrastructureLanguage>();
                             infrastructureLanguageList = infrastructureLanguageService.GetInfrastructureLanguageList().ToList();
                             CheckInfrastructureLanguageFields(infrastructureLanguageList);
                             Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<InfrastructureLanguageWeb> infrastructureLanguageWebList = new List<InfrastructureLanguageWeb>();
-                            infrastructureLanguageWebList = infrastructureLanguageService.GetInfrastructureLanguageWebList().ToList();
-                            CheckInfrastructureLanguageWebFields(infrastructureLanguageWebList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageWebList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageWebList.Count);
+                            List<InfrastructureLanguage_A> infrastructureLanguage_AList = new List<InfrastructureLanguage_A>();
+                            infrastructureLanguage_AList = infrastructureLanguageService.GetInfrastructureLanguage_AList().ToList();
+                            CheckInfrastructureLanguage_AFields(infrastructureLanguage_AList);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguage_AList[0].InfrastructureLanguageID);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<InfrastructureLanguageReport> infrastructureLanguageReportList = new List<InfrastructureLanguageReport>();
-                            infrastructureLanguageReportList = infrastructureLanguageService.GetInfrastructureLanguageReportList().ToList();
-                            CheckInfrastructureLanguageReportFields(infrastructureLanguageReportList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageReportList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageReportList.Count);
+                            List<InfrastructureLanguage_B> infrastructureLanguage_BList = new List<InfrastructureLanguage_B>();
+                            infrastructureLanguage_BList = infrastructureLanguageService.GetInfrastructureLanguage_BList().ToList();
+                            CheckInfrastructureLanguage_BFields(infrastructureLanguage_BList);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguage_BList[0].InfrastructureLanguageID);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguage_BList.Count);
                         }
                         else
                         {
@@ -589,38 +583,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         InfrastructureLanguageService infrastructureLanguageService = new InfrastructureLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        infrastructureLanguageService.Query = infrastructureLanguageService.FillQuery(typeof(InfrastructureLanguage), culture.TwoLetterISOLanguageName, 0, 10000, "", "InfrastructureLanguageID,GT,2|InfrastructureLanguageID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        infrastructureLanguageService.Query = infrastructureLanguageService.FillQuery(typeof(InfrastructureLanguage), culture.TwoLetterISOLanguageName, 0, 10000, "", "InfrastructureLanguageID,GT,2|InfrastructureLanguageID,LT,5", "");
 
                         List<InfrastructureLanguage> infrastructureLanguageDirectQueryList = new List<InfrastructureLanguage>();
                         infrastructureLanguageDirectQueryList = (from c in dbTestDB.InfrastructureLanguages select c).Where(c => c.InfrastructureLanguageID > 2 && c.InfrastructureLanguageID < 5).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<InfrastructureLanguage> infrastructureLanguageList = new List<InfrastructureLanguage>();
                             infrastructureLanguageList = infrastructureLanguageService.GetInfrastructureLanguageList().ToList();
                             CheckInfrastructureLanguageFields(infrastructureLanguageList);
                             Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<InfrastructureLanguageWeb> infrastructureLanguageWebList = new List<InfrastructureLanguageWeb>();
-                            infrastructureLanguageWebList = infrastructureLanguageService.GetInfrastructureLanguageWebList().ToList();
-                            CheckInfrastructureLanguageWebFields(infrastructureLanguageWebList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageWebList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageWebList.Count);
+                            List<InfrastructureLanguage_A> infrastructureLanguage_AList = new List<InfrastructureLanguage_A>();
+                            infrastructureLanguage_AList = infrastructureLanguageService.GetInfrastructureLanguage_AList().ToList();
+                            CheckInfrastructureLanguage_AFields(infrastructureLanguage_AList);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguage_AList[0].InfrastructureLanguageID);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<InfrastructureLanguageReport> infrastructureLanguageReportList = new List<InfrastructureLanguageReport>();
-                            infrastructureLanguageReportList = infrastructureLanguageService.GetInfrastructureLanguageReportList().ToList();
-                            CheckInfrastructureLanguageReportFields(infrastructureLanguageReportList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageReportList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageReportList.Count);
+                            List<InfrastructureLanguage_B> infrastructureLanguage_BList = new List<InfrastructureLanguage_B>();
+                            infrastructureLanguage_BList = infrastructureLanguageService.GetInfrastructureLanguage_BList().ToList();
+                            CheckInfrastructureLanguage_BFields(infrastructureLanguage_BList);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguage_BList[0].InfrastructureLanguageID);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguage_BList.Count);
                         }
                         else
                         {
@@ -644,49 +637,49 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(infrastructureLanguageList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(infrastructureLanguageList[0].HasErrors);
         }
-        private void CheckInfrastructureLanguageWebFields(List<InfrastructureLanguageWeb> infrastructureLanguageWebList)
+        private void CheckInfrastructureLanguage_AFields(List<InfrastructureLanguage_A> infrastructureLanguage_AList)
         {
-            Assert.IsNotNull(infrastructureLanguageWebList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(infrastructureLanguageWebList[0].LanguageText))
+            Assert.IsNotNull(infrastructureLanguage_AList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(infrastructureLanguage_AList[0].LanguageText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageWebList[0].LanguageText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguage_AList[0].LanguageText));
             }
-            if (!string.IsNullOrWhiteSpace(infrastructureLanguageWebList[0].TranslationStatusText))
+            if (!string.IsNullOrWhiteSpace(infrastructureLanguage_AList[0].TranslationStatusText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageWebList[0].TranslationStatusText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguage_AList[0].TranslationStatusText));
             }
-            Assert.IsNotNull(infrastructureLanguageWebList[0].InfrastructureLanguageID);
-            Assert.IsNotNull(infrastructureLanguageWebList[0].InfrastructureID);
-            Assert.IsNotNull(infrastructureLanguageWebList[0].Language);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageWebList[0].Comment));
-            Assert.IsNotNull(infrastructureLanguageWebList[0].TranslationStatus);
-            Assert.IsNotNull(infrastructureLanguageWebList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(infrastructureLanguageWebList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(infrastructureLanguageWebList[0].HasErrors);
+            Assert.IsNotNull(infrastructureLanguage_AList[0].InfrastructureLanguageID);
+            Assert.IsNotNull(infrastructureLanguage_AList[0].InfrastructureID);
+            Assert.IsNotNull(infrastructureLanguage_AList[0].Language);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguage_AList[0].Comment));
+            Assert.IsNotNull(infrastructureLanguage_AList[0].TranslationStatus);
+            Assert.IsNotNull(infrastructureLanguage_AList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(infrastructureLanguage_AList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(infrastructureLanguage_AList[0].HasErrors);
         }
-        private void CheckInfrastructureLanguageReportFields(List<InfrastructureLanguageReport> infrastructureLanguageReportList)
+        private void CheckInfrastructureLanguage_BFields(List<InfrastructureLanguage_B> infrastructureLanguage_BList)
         {
-            if (!string.IsNullOrWhiteSpace(infrastructureLanguageReportList[0].InfrastructureLanguageReportTest))
+            if (!string.IsNullOrWhiteSpace(infrastructureLanguage_BList[0].InfrastructureLanguageReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageReportList[0].InfrastructureLanguageReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguage_BList[0].InfrastructureLanguageReportTest));
             }
-            Assert.IsNotNull(infrastructureLanguageReportList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(infrastructureLanguageReportList[0].LanguageText))
+            Assert.IsNotNull(infrastructureLanguage_BList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(infrastructureLanguage_BList[0].LanguageText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageReportList[0].LanguageText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguage_BList[0].LanguageText));
             }
-            if (!string.IsNullOrWhiteSpace(infrastructureLanguageReportList[0].TranslationStatusText))
+            if (!string.IsNullOrWhiteSpace(infrastructureLanguage_BList[0].TranslationStatusText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageReportList[0].TranslationStatusText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguage_BList[0].TranslationStatusText));
             }
-            Assert.IsNotNull(infrastructureLanguageReportList[0].InfrastructureLanguageID);
-            Assert.IsNotNull(infrastructureLanguageReportList[0].InfrastructureID);
-            Assert.IsNotNull(infrastructureLanguageReportList[0].Language);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageReportList[0].Comment));
-            Assert.IsNotNull(infrastructureLanguageReportList[0].TranslationStatus);
-            Assert.IsNotNull(infrastructureLanguageReportList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(infrastructureLanguageReportList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(infrastructureLanguageReportList[0].HasErrors);
+            Assert.IsNotNull(infrastructureLanguage_BList[0].InfrastructureLanguageID);
+            Assert.IsNotNull(infrastructureLanguage_BList[0].InfrastructureID);
+            Assert.IsNotNull(infrastructureLanguage_BList[0].Language);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguage_BList[0].Comment));
+            Assert.IsNotNull(infrastructureLanguage_BList[0].TranslationStatus);
+            Assert.IsNotNull(infrastructureLanguage_BList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(infrastructureLanguage_BList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(infrastructureLanguage_BList[0].HasErrors);
         }
         private InfrastructureLanguage GetFilledRandomInfrastructureLanguage(string OmitPropName)
         {

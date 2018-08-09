@@ -538,8 +538,7 @@ namespace CSSPServices
             return query;
         }
         public Query FillQuery(Type modelType, string lang = "en", int skip = 0, int take = 200, string order = "", string where = "",
-                EntityQueryDetailTypeEnum? EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-                EntityQueryTypeEnum? EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+                string detail = "")
         {
             Query query = new Query();
 
@@ -550,8 +549,7 @@ namespace CSSPServices
             query.Take = (take < 1 ? 1 : take);
             query.Order = order ?? "";
             query.Where = where ?? "";
-            query.EntityQueryDetailType = EntityQueryDetailType;
-            query.EntityQueryType = EntityQueryType;
+            query.Detail = detail ?? "";
 
             query.ValidationResults = ValidateQuery(new ValidationContext(query));
             if (query.ValidationResults.Count() > 0) return query;

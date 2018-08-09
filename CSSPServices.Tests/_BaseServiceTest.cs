@@ -74,8 +74,7 @@ namespace CSSPServices.Tests
             int take;
             string orderByName;
             string where;
-            EntityQueryDetailTypeEnum entityQueryDetailType;
-            EntityQueryTypeEnum entityQueryType;
+            string detail;
 
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -94,8 +93,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(200, baseService.Query.Take);
                     Assert.AreEqual("", baseService.Query.Order);
                     Assert.AreEqual("", baseService.Query.Where);
-                    Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.Query.EntityQueryDetailType);
-                    Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, baseService.Query.EntityQueryType);
+                    Assert.AreEqual("", baseService.Query.Detail);
                     Assert.AreEqual(0, baseService.Query.OrderList.Count);
                     Assert.AreEqual(0, baseService.Query.WhereInfoList.Count);
 
@@ -109,8 +107,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(200, baseService.Query.Take);
                     Assert.AreEqual("", baseService.Query.Order);
                     Assert.AreEqual("", baseService.Query.Where);
-                    Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.Query.EntityQueryDetailType);
-                    Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, baseService.Query.EntityQueryType);
+                    Assert.AreEqual("", baseService.Query.Detail);
                     Assert.AreEqual(0, baseService.Query.OrderList.Count);
                     Assert.AreEqual(0, baseService.Query.WhereInfoList.Count);
 
@@ -124,8 +121,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(200, baseService.Query.Take);
                     Assert.AreEqual("", baseService.Query.Order);
                     Assert.AreEqual("", baseService.Query.Where);
-                    Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.Query.EntityQueryDetailType);
-                    Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, baseService.Query.EntityQueryType);
+                    Assert.AreEqual("", baseService.Query.Detail);
                     Assert.AreEqual(0, baseService.Query.OrderList.Count);
                     Assert.AreEqual(0, baseService.Query.WhereInfoList.Count);
 
@@ -139,8 +135,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(2, baseService.Query.Take);
                     Assert.AreEqual("", baseService.Query.Order);
                     Assert.AreEqual("", baseService.Query.Where);
-                    Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.Query.EntityQueryDetailType);
-                    Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, baseService.Query.EntityQueryType);
+                    Assert.AreEqual("", baseService.Query.Detail);
                     Assert.AreEqual(0, baseService.Query.OrderList.Count);
                     Assert.AreEqual(0, baseService.Query.WhereInfoList.Count);
 
@@ -154,8 +149,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(200, baseService.Query.Take);
                     Assert.AreEqual(orderByName, baseService.Query.Order);
                     Assert.AreEqual("", baseService.Query.Where);
-                    Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.Query.EntityQueryDetailType);
-                    Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, baseService.Query.EntityQueryType);
+                    Assert.AreEqual("", baseService.Query.Detail);
                     Assert.AreEqual(4, baseService.Query.OrderList.Count);
                     Assert.AreEqual("AddressID", baseService.Query.OrderList[0]);
                     Assert.AreEqual("StreetType", baseService.Query.OrderList[1]);
@@ -173,8 +167,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(200, baseService.Query.Take);
                     Assert.AreEqual(orderByName, baseService.Query.Order);
                     Assert.AreEqual("", baseService.Query.Where);
-                    Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.Query.EntityQueryDetailType);
-                    Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, baseService.Query.EntityQueryType);
+                    Assert.AreEqual("", baseService.Query.Detail);
                     Assert.AreEqual(4, baseService.Query.OrderList.Count);
                     Assert.AreEqual("AddressID", baseService.Query.OrderList[0]);
                     Assert.AreEqual("StreetType", baseService.Query.OrderList[1]);
@@ -192,8 +185,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(200, baseService.Query.Take);
                     Assert.AreEqual("", baseService.Query.Order);
                     Assert.AreEqual(where, baseService.Query.Where);
-                    Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.Query.EntityQueryDetailType);
-                    Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, baseService.Query.EntityQueryType);
+                    Assert.AreEqual("", baseService.Query.Detail);
                     Assert.AreEqual(0, baseService.Query.OrderList.Count);
                     Assert.AreEqual(2, baseService.Query.WhereInfoList.Count);
                     Assert.AreEqual("AddressID", baseService.Query.WhereInfoList[0].PropertyName);
@@ -213,8 +205,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(200, baseService.Query.Take);
                     Assert.AreEqual("", baseService.Query.Order);
                     Assert.AreEqual(where, baseService.Query.Where);
-                    Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.Query.EntityQueryDetailType);
-                    Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, baseService.Query.EntityQueryType);
+                    Assert.AreEqual("", baseService.Query.Detail);
                     Assert.AreEqual(0, baseService.Query.OrderList.Count);
                     Assert.AreEqual(2, baseService.Query.WhereInfoList.Count);
                     Assert.AreEqual("AddressID", baseService.Query.WhereInfoList[0].PropertyName);
@@ -234,8 +225,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(200, baseService.Query.Take);
                     Assert.AreEqual("", baseService.Query.Order);
                     Assert.AreEqual(where, baseService.Query.Where);
-                    Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.Query.EntityQueryDetailType);
-                    Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, baseService.Query.EntityQueryType);
+                    Assert.AreEqual("", baseService.Query.Detail);
                     Assert.AreEqual(0, baseService.Query.OrderList.Count);
                     Assert.AreEqual(1, baseService.Query.WhereInfoList.Count);
                     Assert.AreEqual("AddressID", baseService.Query.WhereInfoList[0].PropertyName);
@@ -253,8 +243,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(200, baseService.Query.Take);
                     Assert.AreEqual("", baseService.Query.Order);
                     Assert.AreEqual(where, baseService.Query.Where);
-                    Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.Query.EntityQueryDetailType);
-                    Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, baseService.Query.EntityQueryType);
+                    Assert.AreEqual("", baseService.Query.Detail);
                     Assert.AreEqual(0, baseService.Query.OrderList.Count);
                     Assert.AreEqual(1, baseService.Query.WhereInfoList.Count);
                     Assert.AreEqual("FixLength", baseService.Query.WhereInfoList[0].PropertyName);
@@ -272,8 +261,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(200, baseService.Query.Take);
                     Assert.AreEqual("", baseService.Query.Order);
                     Assert.AreEqual(where, baseService.Query.Where);
-                    Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.Query.EntityQueryDetailType);
-                    Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, baseService.Query.EntityQueryType);
+                    Assert.AreEqual("", baseService.Query.Detail);
                     Assert.AreEqual(0, baseService.Query.OrderList.Count);
                     Assert.AreEqual(1, baseService.Query.WhereInfoList.Count);
                     Assert.AreEqual("LastUpdateDate_UTC", baseService.Query.WhereInfoList[0].PropertyName);
@@ -291,8 +279,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(200, baseService.Query.Take);
                     Assert.AreEqual("", baseService.Query.Order);
                     Assert.AreEqual(where, baseService.Query.Where);
-                    Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.Query.EntityQueryDetailType);
-                    Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, baseService.Query.EntityQueryType);
+                    Assert.AreEqual("", baseService.Query.Detail);
                     Assert.AreEqual(0, baseService.Query.OrderList.Count);
                     Assert.AreEqual(1, baseService.Query.WhereInfoList.Count);
                     Assert.AreEqual("LastUpdateDate_UTC", baseService.Query.WhereInfoList[0].PropertyName);
@@ -310,8 +297,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(200, baseService.Query.Take);
                     Assert.AreEqual("", baseService.Query.Order);
                     Assert.AreEqual(where, baseService.Query.Where);
-                    Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.Query.EntityQueryDetailType);
-                    Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, baseService.Query.EntityQueryType);
+                    Assert.AreEqual("", baseService.Query.Detail);
                     Assert.AreEqual(0, baseService.Query.OrderList.Count);
                     Assert.AreEqual(1, baseService.Query.WhereInfoList.Count);
                     Assert.AreEqual("LastUpdateDate_UTC", baseService.Query.WhereInfoList[0].PropertyName);
@@ -329,8 +315,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(200, baseService.Query.Take);
                     Assert.AreEqual("", baseService.Query.Order);
                     Assert.AreEqual(where, baseService.Query.Where);
-                    Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.Query.EntityQueryDetailType);
-                    Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, baseService.Query.EntityQueryType);
+                    Assert.AreEqual("", baseService.Query.Detail);
                     Assert.AreEqual(0, baseService.Query.OrderList.Count);
                     Assert.AreEqual(1, baseService.Query.WhereInfoList.Count);
                     Assert.AreEqual("Radius_m", baseService.Query.WhereInfoList[0].PropertyName);
@@ -348,8 +333,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(200, baseService.Query.Take);
                     Assert.AreEqual("", baseService.Query.Order);
                     Assert.AreEqual(where, baseService.Query.Where);
-                    Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.Query.EntityQueryDetailType);
-                    Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, baseService.Query.EntityQueryType);
+                    Assert.AreEqual("", baseService.Query.Detail);
                     Assert.AreEqual(0, baseService.Query.OrderList.Count);
                     Assert.AreEqual(1, baseService.Query.WhereInfoList.Count);
                     Assert.AreEqual("StreetType", baseService.Query.WhereInfoList[0].PropertyName);
@@ -368,8 +352,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(200, baseService.Query.Take);
                     Assert.AreEqual("", baseService.Query.Order);
                     Assert.AreEqual(where, baseService.Query.Where);
-                    Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.Query.EntityQueryDetailType);
-                    Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, baseService.Query.EntityQueryType);
+                    Assert.AreEqual("", baseService.Query.Detail);
                     Assert.AreEqual(0, baseService.Query.OrderList.Count);
                     Assert.AreEqual(1, baseService.Query.WhereInfoList.Count);
                     Assert.AreEqual("StreetType", baseService.Query.WhereInfoList[0].PropertyName);
@@ -379,8 +362,8 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(StreetTypeEnum.Road.ToString(), baseService.Query.WhereInfoList[0].ValueEnumText);
 
                     // FillQuery entityQueryDetailType = EntityQueryDetailTypeEnum.EntityReport
-                    entityQueryDetailType = EntityQueryDetailTypeEnum.EntityReport;
-                    baseService.Query = baseService.FillQuery(typeof(Address), EntityQueryDetailType: entityQueryDetailType);
+                    detail = "A";
+                    baseService.Query = baseService.FillQuery(typeof(Address), detail: detail);
 
                     Assert.AreEqual(typeof(Address), baseService.Query.ModelType);
                     Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
@@ -388,23 +371,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(200, baseService.Query.Take);
                     Assert.AreEqual("", baseService.Query.Order);
                     Assert.AreEqual("", baseService.Query.Where);
-                    Assert.AreEqual(EntityQueryDetailTypeEnum.EntityReport, baseService.Query.EntityQueryDetailType);
-                    Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, baseService.Query.EntityQueryType);
-                    Assert.AreEqual(0, baseService.Query.OrderList.Count);
-                    Assert.AreEqual(0, baseService.Query.WhereInfoList.Count);
-
-                    // FillQuery entityQueryType = EntityQueryTypeEnum.WithTracking
-                    entityQueryType = EntityQueryTypeEnum.WithTracking;
-                    baseService.Query = baseService.FillQuery(typeof(Address), EntityQueryType: entityQueryType);
-
-                    Assert.AreEqual(typeof(Address), baseService.Query.ModelType);
-                    Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
-                    Assert.AreEqual(0, baseService.Query.Skip);
-                    Assert.AreEqual(200, baseService.Query.Take);
-                    Assert.AreEqual("", baseService.Query.Order);
-                    Assert.AreEqual("", baseService.Query.Where);
-                    Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.Query.EntityQueryDetailType);
-                    Assert.AreEqual(EntityQueryTypeEnum.WithTracking, baseService.Query.EntityQueryType);
+                    Assert.AreEqual("A", baseService.Query.Detail);
                     Assert.AreEqual(0, baseService.Query.OrderList.Count);
                     Assert.AreEqual(0, baseService.Query.WhereInfoList.Count);
 
@@ -414,18 +381,16 @@ namespace CSSPServices.Tests
                     take = 4;
                     orderByName = "AddressID,StreetName,StreetNumber";
                     where = "AddressID,GT,4|StreetName,EQ,Allo";
-                    entityQueryDetailType = EntityQueryDetailTypeEnum.EntityReport;
-                    entityQueryType = EntityQueryTypeEnum.WithTracking;
+                    detail = "B";
 
-                    baseService.Query = baseService.FillQuery(typeof(Address), lang, skip, take, orderByName, where, entityQueryDetailType, entityQueryType);
+                    baseService.Query = baseService.FillQuery(typeof(Address), lang, skip, take, orderByName, where, detail);
 
                     Assert.AreEqual(LanguageEnum.fr, baseService.Query.Language);
                     Assert.AreEqual(2, baseService.Query.Skip);
                     Assert.AreEqual(4, baseService.Query.Take);
                     Assert.AreEqual(orderByName, baseService.Query.Order);
                     Assert.AreEqual(where, baseService.Query.Where);
-                    Assert.AreEqual(EntityQueryDetailTypeEnum.EntityReport, baseService.Query.EntityQueryDetailType);
-                    Assert.AreEqual(EntityQueryTypeEnum.WithTracking, baseService.Query.EntityQueryType);
+                    Assert.AreEqual("B", baseService.Query.Detail);
                     Assert.AreEqual(3, baseService.Query.OrderList.Count);
                     Assert.AreEqual("AddressID", baseService.Query.OrderList[0]);
                     Assert.AreEqual("StreetName", baseService.Query.OrderList[1]);

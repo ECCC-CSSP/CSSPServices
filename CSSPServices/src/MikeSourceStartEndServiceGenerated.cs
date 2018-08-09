@@ -207,31 +207,31 @@ namespace CSSPServices
 
             return MikeSourceStartEndQuery;
         }
-        public MikeSourceStartEndWeb GetMikeSourceStartEndWebWithMikeSourceStartEndID(int MikeSourceStartEndID)
+        public MikeSourceStartEnd_A GetMikeSourceStartEnd_AWithMikeSourceStartEndID(int MikeSourceStartEndID)
         {
-            return FillMikeSourceStartEndWeb().Where(c => c.MikeSourceStartEndID == MikeSourceStartEndID).FirstOrDefault();
+            return FillMikeSourceStartEnd_A().Where(c => c.MikeSourceStartEndID == MikeSourceStartEndID).FirstOrDefault();
 
         }
-        public IQueryable<MikeSourceStartEndWeb> GetMikeSourceStartEndWebList()
+        public IQueryable<MikeSourceStartEnd_A> GetMikeSourceStartEnd_AList()
         {
-            IQueryable<MikeSourceStartEndWeb> MikeSourceStartEndWebQuery = FillMikeSourceStartEndWeb();
+            IQueryable<MikeSourceStartEnd_A> MikeSourceStartEnd_AQuery = FillMikeSourceStartEnd_A();
 
-            MikeSourceStartEndWebQuery = EnhanceQueryStatements<MikeSourceStartEndWeb>(MikeSourceStartEndWebQuery) as IQueryable<MikeSourceStartEndWeb>;
+            MikeSourceStartEnd_AQuery = EnhanceQueryStatements<MikeSourceStartEnd_A>(MikeSourceStartEnd_AQuery) as IQueryable<MikeSourceStartEnd_A>;
 
-            return MikeSourceStartEndWebQuery;
+            return MikeSourceStartEnd_AQuery;
         }
-        public MikeSourceStartEndReport GetMikeSourceStartEndReportWithMikeSourceStartEndID(int MikeSourceStartEndID)
+        public MikeSourceStartEnd_B GetMikeSourceStartEnd_BWithMikeSourceStartEndID(int MikeSourceStartEndID)
         {
-            return FillMikeSourceStartEndReport().Where(c => c.MikeSourceStartEndID == MikeSourceStartEndID).FirstOrDefault();
+            return FillMikeSourceStartEnd_B().Where(c => c.MikeSourceStartEndID == MikeSourceStartEndID).FirstOrDefault();
 
         }
-        public IQueryable<MikeSourceStartEndReport> GetMikeSourceStartEndReportList()
+        public IQueryable<MikeSourceStartEnd_B> GetMikeSourceStartEnd_BList()
         {
-            IQueryable<MikeSourceStartEndReport> MikeSourceStartEndReportQuery = FillMikeSourceStartEndReport();
+            IQueryable<MikeSourceStartEnd_B> MikeSourceStartEnd_BQuery = FillMikeSourceStartEnd_B();
 
-            MikeSourceStartEndReportQuery = EnhanceQueryStatements<MikeSourceStartEndReport>(MikeSourceStartEndReportQuery) as IQueryable<MikeSourceStartEndReport>;
+            MikeSourceStartEnd_BQuery = EnhanceQueryStatements<MikeSourceStartEnd_B>(MikeSourceStartEnd_BQuery) as IQueryable<MikeSourceStartEnd_B>;
 
-            return MikeSourceStartEndReportQuery;
+            return MikeSourceStartEnd_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -270,39 +270,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated MikeSourceStartEndFillWeb
-        private IQueryable<MikeSourceStartEndWeb> FillMikeSourceStartEndWeb()
-        {
-             IQueryable<MikeSourceStartEndWeb> MikeSourceStartEndWebQuery = (from c in db.MikeSourceStartEnds
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new MikeSourceStartEndWeb
-                    {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        MikeSourceStartEndID = c.MikeSourceStartEndID,
-                        MikeSourceID = c.MikeSourceID,
-                        StartDateAndTime_Local = c.StartDateAndTime_Local,
-                        EndDateAndTime_Local = c.EndDateAndTime_Local,
-                        SourceFlowStart_m3_day = c.SourceFlowStart_m3_day,
-                        SourceFlowEnd_m3_day = c.SourceFlowEnd_m3_day,
-                        SourcePollutionStart_MPN_100ml = c.SourcePollutionStart_MPN_100ml,
-                        SourcePollutionEnd_MPN_100ml = c.SourcePollutionEnd_MPN_100ml,
-                        SourceTemperatureStart_C = c.SourceTemperatureStart_C,
-                        SourceTemperatureEnd_C = c.SourceTemperatureEnd_C,
-                        SourceSalinityStart_PSU = c.SourceSalinityStart_PSU,
-                        SourceSalinityEnd_PSU = c.SourceSalinityEnd_PSU,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return MikeSourceStartEndWebQuery;
-        }
-        #endregion Functions private Generated MikeSourceStartEndFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(MikeSourceStartEnd mikeSourceStartEnd)

@@ -137,31 +137,31 @@ namespace CSSPServices
 
             return RatingCurveQuery;
         }
-        public RatingCurveWeb GetRatingCurveWebWithRatingCurveID(int RatingCurveID)
+        public RatingCurve_A GetRatingCurve_AWithRatingCurveID(int RatingCurveID)
         {
-            return FillRatingCurveWeb().Where(c => c.RatingCurveID == RatingCurveID).FirstOrDefault();
+            return FillRatingCurve_A().Where(c => c.RatingCurveID == RatingCurveID).FirstOrDefault();
 
         }
-        public IQueryable<RatingCurveWeb> GetRatingCurveWebList()
+        public IQueryable<RatingCurve_A> GetRatingCurve_AList()
         {
-            IQueryable<RatingCurveWeb> RatingCurveWebQuery = FillRatingCurveWeb();
+            IQueryable<RatingCurve_A> RatingCurve_AQuery = FillRatingCurve_A();
 
-            RatingCurveWebQuery = EnhanceQueryStatements<RatingCurveWeb>(RatingCurveWebQuery) as IQueryable<RatingCurveWeb>;
+            RatingCurve_AQuery = EnhanceQueryStatements<RatingCurve_A>(RatingCurve_AQuery) as IQueryable<RatingCurve_A>;
 
-            return RatingCurveWebQuery;
+            return RatingCurve_AQuery;
         }
-        public RatingCurveReport GetRatingCurveReportWithRatingCurveID(int RatingCurveID)
+        public RatingCurve_B GetRatingCurve_BWithRatingCurveID(int RatingCurveID)
         {
-            return FillRatingCurveReport().Where(c => c.RatingCurveID == RatingCurveID).FirstOrDefault();
+            return FillRatingCurve_B().Where(c => c.RatingCurveID == RatingCurveID).FirstOrDefault();
 
         }
-        public IQueryable<RatingCurveReport> GetRatingCurveReportList()
+        public IQueryable<RatingCurve_B> GetRatingCurve_BList()
         {
-            IQueryable<RatingCurveReport> RatingCurveReportQuery = FillRatingCurveReport();
+            IQueryable<RatingCurve_B> RatingCurve_BQuery = FillRatingCurve_B();
 
-            RatingCurveReportQuery = EnhanceQueryStatements<RatingCurveReport>(RatingCurveReportQuery) as IQueryable<RatingCurveReport>;
+            RatingCurve_BQuery = EnhanceQueryStatements<RatingCurve_B>(RatingCurve_BQuery) as IQueryable<RatingCurve_B>;
 
-            return RatingCurveReportQuery;
+            return RatingCurve_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -200,30 +200,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated RatingCurveFillWeb
-        private IQueryable<RatingCurveWeb> FillRatingCurveWeb()
-        {
-             IQueryable<RatingCurveWeb> RatingCurveWebQuery = (from c in db.RatingCurves
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new RatingCurveWeb
-                    {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        RatingCurveID = c.RatingCurveID,
-                        HydrometricSiteID = c.HydrometricSiteID,
-                        RatingCurveNumber = c.RatingCurveNumber,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return RatingCurveWebQuery;
-        }
-        #endregion Functions private Generated RatingCurveFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(RatingCurve ratingCurve)

@@ -221,31 +221,31 @@ namespace CSSPServices
 
             return VPAmbientQuery;
         }
-        public VPAmbientWeb GetVPAmbientWebWithVPAmbientID(int VPAmbientID)
+        public VPAmbient_A GetVPAmbient_AWithVPAmbientID(int VPAmbientID)
         {
-            return FillVPAmbientWeb().Where(c => c.VPAmbientID == VPAmbientID).FirstOrDefault();
+            return FillVPAmbient_A().Where(c => c.VPAmbientID == VPAmbientID).FirstOrDefault();
 
         }
-        public IQueryable<VPAmbientWeb> GetVPAmbientWebList()
+        public IQueryable<VPAmbient_A> GetVPAmbient_AList()
         {
-            IQueryable<VPAmbientWeb> VPAmbientWebQuery = FillVPAmbientWeb();
+            IQueryable<VPAmbient_A> VPAmbient_AQuery = FillVPAmbient_A();
 
-            VPAmbientWebQuery = EnhanceQueryStatements<VPAmbientWeb>(VPAmbientWebQuery) as IQueryable<VPAmbientWeb>;
+            VPAmbient_AQuery = EnhanceQueryStatements<VPAmbient_A>(VPAmbient_AQuery) as IQueryable<VPAmbient_A>;
 
-            return VPAmbientWebQuery;
+            return VPAmbient_AQuery;
         }
-        public VPAmbientReport GetVPAmbientReportWithVPAmbientID(int VPAmbientID)
+        public VPAmbient_B GetVPAmbient_BWithVPAmbientID(int VPAmbientID)
         {
-            return FillVPAmbientReport().Where(c => c.VPAmbientID == VPAmbientID).FirstOrDefault();
+            return FillVPAmbient_B().Where(c => c.VPAmbientID == VPAmbientID).FirstOrDefault();
 
         }
-        public IQueryable<VPAmbientReport> GetVPAmbientReportList()
+        public IQueryable<VPAmbient_B> GetVPAmbient_BList()
         {
-            IQueryable<VPAmbientReport> VPAmbientReportQuery = FillVPAmbientReport();
+            IQueryable<VPAmbient_B> VPAmbient_BQuery = FillVPAmbient_B();
 
-            VPAmbientReportQuery = EnhanceQueryStatements<VPAmbientReport>(VPAmbientReportQuery) as IQueryable<VPAmbientReport>;
+            VPAmbient_BQuery = EnhanceQueryStatements<VPAmbient_B>(VPAmbient_BQuery) as IQueryable<VPAmbient_B>;
 
-            return VPAmbientReportQuery;
+            return VPAmbient_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -284,40 +284,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated VPAmbientFillWeb
-        private IQueryable<VPAmbientWeb> FillVPAmbientWeb()
-        {
-             IQueryable<VPAmbientWeb> VPAmbientWebQuery = (from c in db.VPAmbients
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new VPAmbientWeb
-                    {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        VPAmbientID = c.VPAmbientID,
-                        VPScenarioID = c.VPScenarioID,
-                        Row = c.Row,
-                        MeasurementDepth_m = c.MeasurementDepth_m,
-                        CurrentSpeed_m_s = c.CurrentSpeed_m_s,
-                        CurrentDirection_deg = c.CurrentDirection_deg,
-                        AmbientSalinity_PSU = c.AmbientSalinity_PSU,
-                        AmbientTemperature_C = c.AmbientTemperature_C,
-                        BackgroundConcentration_MPN_100ml = c.BackgroundConcentration_MPN_100ml,
-                        PollutantDecayRate_per_day = c.PollutantDecayRate_per_day,
-                        FarFieldCurrentSpeed_m_s = c.FarFieldCurrentSpeed_m_s,
-                        FarFieldCurrentDirection_deg = c.FarFieldCurrentDirection_deg,
-                        FarFieldDiffusionCoefficient = c.FarFieldDiffusionCoefficient,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return VPAmbientWebQuery;
-        }
-        #endregion Functions private Generated VPAmbientFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(VPAmbient vpAmbient)

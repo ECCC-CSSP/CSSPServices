@@ -147,31 +147,31 @@ namespace CSSPServices
 
             return SpillLanguageQuery;
         }
-        public SpillLanguageWeb GetSpillLanguageWebWithSpillLanguageID(int SpillLanguageID)
+        public SpillLanguage_A GetSpillLanguage_AWithSpillLanguageID(int SpillLanguageID)
         {
-            return FillSpillLanguageWeb().Where(c => c.SpillLanguageID == SpillLanguageID).FirstOrDefault();
+            return FillSpillLanguage_A().Where(c => c.SpillLanguageID == SpillLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<SpillLanguageWeb> GetSpillLanguageWebList()
+        public IQueryable<SpillLanguage_A> GetSpillLanguage_AList()
         {
-            IQueryable<SpillLanguageWeb> SpillLanguageWebQuery = FillSpillLanguageWeb();
+            IQueryable<SpillLanguage_A> SpillLanguage_AQuery = FillSpillLanguage_A();
 
-            SpillLanguageWebQuery = EnhanceQueryStatements<SpillLanguageWeb>(SpillLanguageWebQuery) as IQueryable<SpillLanguageWeb>;
+            SpillLanguage_AQuery = EnhanceQueryStatements<SpillLanguage_A>(SpillLanguage_AQuery) as IQueryable<SpillLanguage_A>;
 
-            return SpillLanguageWebQuery;
+            return SpillLanguage_AQuery;
         }
-        public SpillLanguageReport GetSpillLanguageReportWithSpillLanguageID(int SpillLanguageID)
+        public SpillLanguage_B GetSpillLanguage_BWithSpillLanguageID(int SpillLanguageID)
         {
-            return FillSpillLanguageReport().Where(c => c.SpillLanguageID == SpillLanguageID).FirstOrDefault();
+            return FillSpillLanguage_B().Where(c => c.SpillLanguageID == SpillLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<SpillLanguageReport> GetSpillLanguageReportList()
+        public IQueryable<SpillLanguage_B> GetSpillLanguage_BList()
         {
-            IQueryable<SpillLanguageReport> SpillLanguageReportQuery = FillSpillLanguageReport();
+            IQueryable<SpillLanguage_B> SpillLanguage_BQuery = FillSpillLanguage_B();
 
-            SpillLanguageReportQuery = EnhanceQueryStatements<SpillLanguageReport>(SpillLanguageReportQuery) as IQueryable<SpillLanguageReport>;
+            SpillLanguage_BQuery = EnhanceQueryStatements<SpillLanguage_B>(SpillLanguage_BQuery) as IQueryable<SpillLanguage_B>;
 
-            return SpillLanguageReportQuery;
+            return SpillLanguage_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -210,43 +210,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated SpillLanguageFillWeb
-        private IQueryable<SpillLanguageWeb> FillSpillLanguageWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
-            List<EnumIDAndText> TranslationStatusEnumList = enums.GetEnumTextOrderedList(typeof(TranslationStatusEnum));
-
-             IQueryable<SpillLanguageWeb> SpillLanguageWebQuery = (from c in db.SpillLanguages
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new SpillLanguageWeb
-                    {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        LanguageText = (from e in LanguageEnumList
-                                where e.EnumID == (int?)c.Language
-                                select e.EnumText).FirstOrDefault(),
-                        TranslationStatusText = (from e in TranslationStatusEnumList
-                                where e.EnumID == (int?)c.TranslationStatus
-                                select e.EnumText).FirstOrDefault(),
-                        SpillLanguageID = c.SpillLanguageID,
-                        SpillID = c.SpillID,
-                        Language = c.Language,
-                        SpillComment = c.SpillComment,
-                        TranslationStatus = c.TranslationStatus,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return SpillLanguageWebQuery;
-        }
-        #endregion Functions private Generated SpillLanguageFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(SpillLanguage spillLanguage)

@@ -203,31 +203,31 @@ namespace CSSPServices
 
             return TideDataValueQuery;
         }
-        public TideDataValueWeb GetTideDataValueWebWithTideDataValueID(int TideDataValueID)
+        public TideDataValue_A GetTideDataValue_AWithTideDataValueID(int TideDataValueID)
         {
-            return FillTideDataValueWeb().Where(c => c.TideDataValueID == TideDataValueID).FirstOrDefault();
+            return FillTideDataValue_A().Where(c => c.TideDataValueID == TideDataValueID).FirstOrDefault();
 
         }
-        public IQueryable<TideDataValueWeb> GetTideDataValueWebList()
+        public IQueryable<TideDataValue_A> GetTideDataValue_AList()
         {
-            IQueryable<TideDataValueWeb> TideDataValueWebQuery = FillTideDataValueWeb();
+            IQueryable<TideDataValue_A> TideDataValue_AQuery = FillTideDataValue_A();
 
-            TideDataValueWebQuery = EnhanceQueryStatements<TideDataValueWeb>(TideDataValueWebQuery) as IQueryable<TideDataValueWeb>;
+            TideDataValue_AQuery = EnhanceQueryStatements<TideDataValue_A>(TideDataValue_AQuery) as IQueryable<TideDataValue_A>;
 
-            return TideDataValueWebQuery;
+            return TideDataValue_AQuery;
         }
-        public TideDataValueReport GetTideDataValueReportWithTideDataValueID(int TideDataValueID)
+        public TideDataValue_B GetTideDataValue_BWithTideDataValueID(int TideDataValueID)
         {
-            return FillTideDataValueReport().Where(c => c.TideDataValueID == TideDataValueID).FirstOrDefault();
+            return FillTideDataValue_B().Where(c => c.TideDataValueID == TideDataValueID).FirstOrDefault();
 
         }
-        public IQueryable<TideDataValueReport> GetTideDataValueReportList()
+        public IQueryable<TideDataValue_B> GetTideDataValue_BList()
         {
-            IQueryable<TideDataValueReport> TideDataValueReportQuery = FillTideDataValueReport();
+            IQueryable<TideDataValue_B> TideDataValue_BQuery = FillTideDataValue_B();
 
-            TideDataValueReportQuery = EnhanceQueryStatements<TideDataValueReport>(TideDataValueReportQuery) as IQueryable<TideDataValueReport>;
+            TideDataValue_BQuery = EnhanceQueryStatements<TideDataValue_B>(TideDataValue_BQuery) as IQueryable<TideDataValue_B>;
 
-            return TideDataValueReportQuery;
+            return TideDataValue_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -266,61 +266,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated TideDataValueFillWeb
-        private IQueryable<TideDataValueWeb> FillTideDataValueWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> TideDataTypeEnumList = enums.GetEnumTextOrderedList(typeof(TideDataTypeEnum));
-            List<EnumIDAndText> StorageDataTypeEnumList = enums.GetEnumTextOrderedList(typeof(StorageDataTypeEnum));
-            List<EnumIDAndText> TideTextEnumList = enums.GetEnumTextOrderedList(typeof(TideTextEnum));
-
-             IQueryable<TideDataValueWeb> TideDataValueWebQuery = (from c in db.TideDataValues
-                let TideSiteTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.TideSiteTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new TideDataValueWeb
-                    {
-                        TideSiteTVItemLanguage = TideSiteTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        TideDataTypeText = (from e in TideDataTypeEnumList
-                                where e.EnumID == (int?)c.TideDataType
-                                select e.EnumText).FirstOrDefault(),
-                        StorageDataTypeText = (from e in StorageDataTypeEnumList
-                                where e.EnumID == (int?)c.StorageDataType
-                                select e.EnumText).FirstOrDefault(),
-                        TideStartText = (from e in TideTextEnumList
-                                where e.EnumID == (int?)c.TideStart
-                                select e.EnumText).FirstOrDefault(),
-                        TideEndText = (from e in TideTextEnumList
-                                where e.EnumID == (int?)c.TideEnd
-                                select e.EnumText).FirstOrDefault(),
-                        TideDataValueID = c.TideDataValueID,
-                        TideSiteTVItemID = c.TideSiteTVItemID,
-                        DateTime_Local = c.DateTime_Local,
-                        Keep = c.Keep,
-                        TideDataType = c.TideDataType,
-                        StorageDataType = c.StorageDataType,
-                        Depth_m = c.Depth_m,
-                        UVelocity_m_s = c.UVelocity_m_s,
-                        VVelocity_m_s = c.VVelocity_m_s,
-                        TideStart = c.TideStart,
-                        TideEnd = c.TideEnd,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return TideDataValueWebQuery;
-        }
-        #endregion Functions private Generated TideDataValueFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(TideDataValue tideDataValue)

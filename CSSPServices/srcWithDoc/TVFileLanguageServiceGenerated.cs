@@ -141,31 +141,31 @@ namespace CSSPServices
 
             return TVFileLanguageQuery;
         }
-        public TVFileLanguageWeb GetTVFileLanguageWebWithTVFileLanguageID(int TVFileLanguageID)
+        public TVFileLanguage_A GetTVFileLanguage_AWithTVFileLanguageID(int TVFileLanguageID)
         {
-            return FillTVFileLanguageWeb().Where(c => c.TVFileLanguageID == TVFileLanguageID).FirstOrDefault();
+            return FillTVFileLanguage_A().Where(c => c.TVFileLanguageID == TVFileLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<TVFileLanguageWeb> GetTVFileLanguageWebList()
+        public IQueryable<TVFileLanguage_A> GetTVFileLanguage_AList()
         {
-            IQueryable<TVFileLanguageWeb> TVFileLanguageWebQuery = FillTVFileLanguageWeb();
+            IQueryable<TVFileLanguage_A> TVFileLanguage_AQuery = FillTVFileLanguage_A();
 
-            TVFileLanguageWebQuery = EnhanceQueryStatements<TVFileLanguageWeb>(TVFileLanguageWebQuery) as IQueryable<TVFileLanguageWeb>;
+            TVFileLanguage_AQuery = EnhanceQueryStatements<TVFileLanguage_A>(TVFileLanguage_AQuery) as IQueryable<TVFileLanguage_A>;
 
-            return TVFileLanguageWebQuery;
+            return TVFileLanguage_AQuery;
         }
-        public TVFileLanguageReport GetTVFileLanguageReportWithTVFileLanguageID(int TVFileLanguageID)
+        public TVFileLanguage_B GetTVFileLanguage_BWithTVFileLanguageID(int TVFileLanguageID)
         {
-            return FillTVFileLanguageReport().Where(c => c.TVFileLanguageID == TVFileLanguageID).FirstOrDefault();
+            return FillTVFileLanguage_B().Where(c => c.TVFileLanguageID == TVFileLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<TVFileLanguageReport> GetTVFileLanguageReportList()
+        public IQueryable<TVFileLanguage_B> GetTVFileLanguage_BList()
         {
-            IQueryable<TVFileLanguageReport> TVFileLanguageReportQuery = FillTVFileLanguageReport();
+            IQueryable<TVFileLanguage_B> TVFileLanguage_BQuery = FillTVFileLanguage_B();
 
-            TVFileLanguageReportQuery = EnhanceQueryStatements<TVFileLanguageReport>(TVFileLanguageReportQuery) as IQueryable<TVFileLanguageReport>;
+            TVFileLanguage_BQuery = EnhanceQueryStatements<TVFileLanguage_B>(TVFileLanguage_BQuery) as IQueryable<TVFileLanguage_B>;
 
-            return TVFileLanguageReportQuery;
+            return TVFileLanguage_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -204,43 +204,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated TVFileLanguageFillWeb
-        private IQueryable<TVFileLanguageWeb> FillTVFileLanguageWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
-            List<EnumIDAndText> TranslationStatusEnumList = enums.GetEnumTextOrderedList(typeof(TranslationStatusEnum));
-
-             IQueryable<TVFileLanguageWeb> TVFileLanguageWebQuery = (from c in db.TVFileLanguages
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new TVFileLanguageWeb
-                    {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        LanguageText = (from e in LanguageEnumList
-                                where e.EnumID == (int?)c.Language
-                                select e.EnumText).FirstOrDefault(),
-                        TranslationStatusText = (from e in TranslationStatusEnumList
-                                where e.EnumID == (int?)c.TranslationStatus
-                                select e.EnumText).FirstOrDefault(),
-                        TVFileLanguageID = c.TVFileLanguageID,
-                        TVFileID = c.TVFileID,
-                        Language = c.Language,
-                        FileDescription = c.FileDescription,
-                        TranslationStatus = c.TranslationStatus,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return TVFileLanguageWebQuery;
-        }
-        #endregion Functions private Generated TVFileLanguageFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(TVFileLanguage tvFileLanguage)

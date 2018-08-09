@@ -204,31 +204,31 @@ namespace CSSPServices
 
             return MapInfoQuery;
         }
-        public MapInfoWeb GetMapInfoWebWithMapInfoID(int MapInfoID)
+        public MapInfo_A GetMapInfo_AWithMapInfoID(int MapInfoID)
         {
-            return FillMapInfoWeb().Where(c => c.MapInfoID == MapInfoID).FirstOrDefault();
+            return FillMapInfo_A().Where(c => c.MapInfoID == MapInfoID).FirstOrDefault();
 
         }
-        public IQueryable<MapInfoWeb> GetMapInfoWebList()
+        public IQueryable<MapInfo_A> GetMapInfo_AList()
         {
-            IQueryable<MapInfoWeb> MapInfoWebQuery = FillMapInfoWeb();
+            IQueryable<MapInfo_A> MapInfo_AQuery = FillMapInfo_A();
 
-            MapInfoWebQuery = EnhanceQueryStatements<MapInfoWeb>(MapInfoWebQuery) as IQueryable<MapInfoWeb>;
+            MapInfo_AQuery = EnhanceQueryStatements<MapInfo_A>(MapInfo_AQuery) as IQueryable<MapInfo_A>;
 
-            return MapInfoWebQuery;
+            return MapInfo_AQuery;
         }
-        public MapInfoReport GetMapInfoReportWithMapInfoID(int MapInfoID)
+        public MapInfo_B GetMapInfo_BWithMapInfoID(int MapInfoID)
         {
-            return FillMapInfoReport().Where(c => c.MapInfoID == MapInfoID).FirstOrDefault();
+            return FillMapInfo_B().Where(c => c.MapInfoID == MapInfoID).FirstOrDefault();
 
         }
-        public IQueryable<MapInfoReport> GetMapInfoReportList()
+        public IQueryable<MapInfo_B> GetMapInfo_BList()
         {
-            IQueryable<MapInfoReport> MapInfoReportQuery = FillMapInfoReport();
+            IQueryable<MapInfo_B> MapInfo_BQuery = FillMapInfo_B();
 
-            MapInfoReportQuery = EnhanceQueryStatements<MapInfoReport>(MapInfoReportQuery) as IQueryable<MapInfoReport>;
+            MapInfo_BQuery = EnhanceQueryStatements<MapInfo_B>(MapInfo_BQuery) as IQueryable<MapInfo_B>;
 
-            return MapInfoReportQuery;
+            return MapInfo_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -267,51 +267,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated MapInfoFillWeb
-        private IQueryable<MapInfoWeb> FillMapInfoWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> TVTypeEnumList = enums.GetEnumTextOrderedList(typeof(TVTypeEnum));
-            List<EnumIDAndText> MapInfoDrawTypeEnumList = enums.GetEnumTextOrderedList(typeof(MapInfoDrawTypeEnum));
-
-             IQueryable<MapInfoWeb> MapInfoWebQuery = (from c in db.MapInfos
-                let TVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.TVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new MapInfoWeb
-                    {
-                        TVItemLanguage = TVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        TVTypeText = (from e in TVTypeEnumList
-                                where e.EnumID == (int?)c.TVType
-                                select e.EnumText).FirstOrDefault(),
-                        MapInfoDrawTypeText = (from e in MapInfoDrawTypeEnumList
-                                where e.EnumID == (int?)c.MapInfoDrawType
-                                select e.EnumText).FirstOrDefault(),
-                        MapInfoID = c.MapInfoID,
-                        TVItemID = c.TVItemID,
-                        TVType = c.TVType,
-                        LatMin = c.LatMin,
-                        LatMax = c.LatMax,
-                        LngMin = c.LngMin,
-                        LngMax = c.LngMax,
-                        MapInfoDrawType = c.MapInfoDrawType,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return MapInfoWebQuery;
-        }
-        #endregion Functions private Generated MapInfoFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(MapInfo mapInfo)

@@ -401,27 +401,27 @@ namespace CSSPServices.Tests
                     LabSheetTubeMPNDetail labSheetTubeMPNDetail = (from c in dbTestDB.LabSheetTubeMPNDetails select c).FirstOrDefault();
                     Assert.IsNotNull(labSheetTubeMPNDetail);
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        labSheetTubeMPNDetailService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        labSheetTubeMPNDetailService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             LabSheetTubeMPNDetail labSheetTubeMPNDetailRet = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailWithLabSheetTubeMPNDetailID(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID);
                             CheckLabSheetTubeMPNDetailFields(new List<LabSheetTubeMPNDetail>() { labSheetTubeMPNDetailRet });
                             Assert.AreEqual(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID, labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            LabSheetTubeMPNDetailWeb labSheetTubeMPNDetailWebRet = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailWebWithLabSheetTubeMPNDetailID(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID);
-                            CheckLabSheetTubeMPNDetailWebFields(new List<LabSheetTubeMPNDetailWeb>() { labSheetTubeMPNDetailWebRet });
-                            Assert.AreEqual(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID, labSheetTubeMPNDetailWebRet.LabSheetTubeMPNDetailID);
+                            LabSheetTubeMPNDetail_A labSheetTubeMPNDetail_ARet = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetail_AWithLabSheetTubeMPNDetailID(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID);
+                            CheckLabSheetTubeMPNDetail_AFields(new List<LabSheetTubeMPNDetail_A>() { labSheetTubeMPNDetail_ARet });
+                            Assert.AreEqual(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID, labSheetTubeMPNDetail_ARet.LabSheetTubeMPNDetailID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            LabSheetTubeMPNDetailReport labSheetTubeMPNDetailReportRet = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailReportWithLabSheetTubeMPNDetailID(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID);
-                            CheckLabSheetTubeMPNDetailReportFields(new List<LabSheetTubeMPNDetailReport>() { labSheetTubeMPNDetailReportRet });
-                            Assert.AreEqual(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID, labSheetTubeMPNDetailReportRet.LabSheetTubeMPNDetailID);
+                            LabSheetTubeMPNDetail_B labSheetTubeMPNDetail_BRet = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetail_BWithLabSheetTubeMPNDetailID(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID);
+                            CheckLabSheetTubeMPNDetail_BFields(new List<LabSheetTubeMPNDetail_B>() { labSheetTubeMPNDetail_BRet });
+                            Assert.AreEqual(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID, labSheetTubeMPNDetail_BRet.LabSheetTubeMPNDetailID);
                         }
                         else
                         {
@@ -450,30 +450,29 @@ namespace CSSPServices.Tests
                     List<LabSheetTubeMPNDetail> labSheetTubeMPNDetailDirectQueryList = new List<LabSheetTubeMPNDetail>();
                     labSheetTubeMPNDetailDirectQueryList = (from c in dbTestDB.LabSheetTubeMPNDetails select c).Take(200).ToList();
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        labSheetTubeMPNDetailService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        labSheetTubeMPNDetailService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<LabSheetTubeMPNDetail> labSheetTubeMPNDetailList = new List<LabSheetTubeMPNDetail>();
                             labSheetTubeMPNDetailList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailList().ToList();
                             CheckLabSheetTubeMPNDetailFields(labSheetTubeMPNDetailList);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<LabSheetTubeMPNDetailWeb> labSheetTubeMPNDetailWebList = new List<LabSheetTubeMPNDetailWeb>();
-                            labSheetTubeMPNDetailWebList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailWebList().ToList();
-                            CheckLabSheetTubeMPNDetailWebFields(labSheetTubeMPNDetailWebList);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailWebList.Count);
+                            List<LabSheetTubeMPNDetail_A> labSheetTubeMPNDetail_AList = new List<LabSheetTubeMPNDetail_A>();
+                            labSheetTubeMPNDetail_AList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetail_AList().ToList();
+                            CheckLabSheetTubeMPNDetail_AFields(labSheetTubeMPNDetail_AList);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetail_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<LabSheetTubeMPNDetailReport> labSheetTubeMPNDetailReportList = new List<LabSheetTubeMPNDetailReport>();
-                            labSheetTubeMPNDetailReportList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailReportList().ToList();
-                            CheckLabSheetTubeMPNDetailReportFields(labSheetTubeMPNDetailReportList);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailReportList.Count);
+                            List<LabSheetTubeMPNDetail_B> labSheetTubeMPNDetail_BList = new List<LabSheetTubeMPNDetail_B>();
+                            labSheetTubeMPNDetail_BList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetail_BList().ToList();
+                            CheckLabSheetTubeMPNDetail_BFields(labSheetTubeMPNDetail_BList);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetail_BList.Count);
                         }
                         else
                         {
@@ -495,38 +494,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         LabSheetTubeMPNDetailService labSheetTubeMPNDetailService = new LabSheetTubeMPNDetailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        labSheetTubeMPNDetailService.Query = labSheetTubeMPNDetailService.FillQuery(typeof(LabSheetTubeMPNDetail), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        labSheetTubeMPNDetailService.Query = labSheetTubeMPNDetailService.FillQuery(typeof(LabSheetTubeMPNDetail), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
 
                         List<LabSheetTubeMPNDetail> labSheetTubeMPNDetailDirectQueryList = new List<LabSheetTubeMPNDetail>();
                         labSheetTubeMPNDetailDirectQueryList = (from c in dbTestDB.LabSheetTubeMPNDetails select c).Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<LabSheetTubeMPNDetail> labSheetTubeMPNDetailList = new List<LabSheetTubeMPNDetail>();
                             labSheetTubeMPNDetailList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailList().ToList();
                             CheckLabSheetTubeMPNDetailFields(labSheetTubeMPNDetailList);
                             Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailID);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<LabSheetTubeMPNDetailWeb> labSheetTubeMPNDetailWebList = new List<LabSheetTubeMPNDetailWeb>();
-                            labSheetTubeMPNDetailWebList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailWebList().ToList();
-                            CheckLabSheetTubeMPNDetailWebFields(labSheetTubeMPNDetailWebList);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailWebList[0].LabSheetTubeMPNDetailID);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailWebList.Count);
+                            List<LabSheetTubeMPNDetail_A> labSheetTubeMPNDetail_AList = new List<LabSheetTubeMPNDetail_A>();
+                            labSheetTubeMPNDetail_AList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetail_AList().ToList();
+                            CheckLabSheetTubeMPNDetail_AFields(labSheetTubeMPNDetail_AList);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetail_AList[0].LabSheetTubeMPNDetailID);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetail_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<LabSheetTubeMPNDetailReport> labSheetTubeMPNDetailReportList = new List<LabSheetTubeMPNDetailReport>();
-                            labSheetTubeMPNDetailReportList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailReportList().ToList();
-                            CheckLabSheetTubeMPNDetailReportFields(labSheetTubeMPNDetailReportList);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailReportList[0].LabSheetTubeMPNDetailID);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailReportList.Count);
+                            List<LabSheetTubeMPNDetail_B> labSheetTubeMPNDetail_BList = new List<LabSheetTubeMPNDetail_B>();
+                            labSheetTubeMPNDetail_BList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetail_BList().ToList();
+                            CheckLabSheetTubeMPNDetail_BFields(labSheetTubeMPNDetail_BList);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetail_BList[0].LabSheetTubeMPNDetailID);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetail_BList.Count);
                         }
                         else
                         {
@@ -548,38 +546,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         LabSheetTubeMPNDetailService labSheetTubeMPNDetailService = new LabSheetTubeMPNDetailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        labSheetTubeMPNDetailService.Query = labSheetTubeMPNDetailService.FillQuery(typeof(LabSheetTubeMPNDetail), culture.TwoLetterISOLanguageName, 1, 1,  "LabSheetTubeMPNDetailID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        labSheetTubeMPNDetailService.Query = labSheetTubeMPNDetailService.FillQuery(typeof(LabSheetTubeMPNDetail), culture.TwoLetterISOLanguageName, 1, 1,  "LabSheetTubeMPNDetailID", "");
 
                         List<LabSheetTubeMPNDetail> labSheetTubeMPNDetailDirectQueryList = new List<LabSheetTubeMPNDetail>();
                         labSheetTubeMPNDetailDirectQueryList = (from c in dbTestDB.LabSheetTubeMPNDetails select c).Skip(1).Take(1).OrderBy(c => c.LabSheetTubeMPNDetailID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<LabSheetTubeMPNDetail> labSheetTubeMPNDetailList = new List<LabSheetTubeMPNDetail>();
                             labSheetTubeMPNDetailList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailList().ToList();
                             CheckLabSheetTubeMPNDetailFields(labSheetTubeMPNDetailList);
                             Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailID);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<LabSheetTubeMPNDetailWeb> labSheetTubeMPNDetailWebList = new List<LabSheetTubeMPNDetailWeb>();
-                            labSheetTubeMPNDetailWebList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailWebList().ToList();
-                            CheckLabSheetTubeMPNDetailWebFields(labSheetTubeMPNDetailWebList);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailWebList[0].LabSheetTubeMPNDetailID);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailWebList.Count);
+                            List<LabSheetTubeMPNDetail_A> labSheetTubeMPNDetail_AList = new List<LabSheetTubeMPNDetail_A>();
+                            labSheetTubeMPNDetail_AList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetail_AList().ToList();
+                            CheckLabSheetTubeMPNDetail_AFields(labSheetTubeMPNDetail_AList);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetail_AList[0].LabSheetTubeMPNDetailID);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetail_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<LabSheetTubeMPNDetailReport> labSheetTubeMPNDetailReportList = new List<LabSheetTubeMPNDetailReport>();
-                            labSheetTubeMPNDetailReportList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailReportList().ToList();
-                            CheckLabSheetTubeMPNDetailReportFields(labSheetTubeMPNDetailReportList);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailReportList[0].LabSheetTubeMPNDetailID);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailReportList.Count);
+                            List<LabSheetTubeMPNDetail_B> labSheetTubeMPNDetail_BList = new List<LabSheetTubeMPNDetail_B>();
+                            labSheetTubeMPNDetail_BList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetail_BList().ToList();
+                            CheckLabSheetTubeMPNDetail_BFields(labSheetTubeMPNDetail_BList);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetail_BList[0].LabSheetTubeMPNDetailID);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetail_BList.Count);
                         }
                         else
                         {
@@ -601,38 +598,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         LabSheetTubeMPNDetailService labSheetTubeMPNDetailService = new LabSheetTubeMPNDetailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        labSheetTubeMPNDetailService.Query = labSheetTubeMPNDetailService.FillQuery(typeof(LabSheetTubeMPNDetail), culture.TwoLetterISOLanguageName, 1, 1, "LabSheetTubeMPNDetailID,LabSheetDetailID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        labSheetTubeMPNDetailService.Query = labSheetTubeMPNDetailService.FillQuery(typeof(LabSheetTubeMPNDetail), culture.TwoLetterISOLanguageName, 1, 1, "LabSheetTubeMPNDetailID,LabSheetDetailID", "");
 
                         List<LabSheetTubeMPNDetail> labSheetTubeMPNDetailDirectQueryList = new List<LabSheetTubeMPNDetail>();
                         labSheetTubeMPNDetailDirectQueryList = (from c in dbTestDB.LabSheetTubeMPNDetails select c).Skip(1).Take(1).OrderBy(c => c.LabSheetTubeMPNDetailID).ThenBy(c => c.LabSheetDetailID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<LabSheetTubeMPNDetail> labSheetTubeMPNDetailList = new List<LabSheetTubeMPNDetail>();
                             labSheetTubeMPNDetailList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailList().ToList();
                             CheckLabSheetTubeMPNDetailFields(labSheetTubeMPNDetailList);
                             Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailID);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<LabSheetTubeMPNDetailWeb> labSheetTubeMPNDetailWebList = new List<LabSheetTubeMPNDetailWeb>();
-                            labSheetTubeMPNDetailWebList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailWebList().ToList();
-                            CheckLabSheetTubeMPNDetailWebFields(labSheetTubeMPNDetailWebList);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailWebList[0].LabSheetTubeMPNDetailID);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailWebList.Count);
+                            List<LabSheetTubeMPNDetail_A> labSheetTubeMPNDetail_AList = new List<LabSheetTubeMPNDetail_A>();
+                            labSheetTubeMPNDetail_AList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetail_AList().ToList();
+                            CheckLabSheetTubeMPNDetail_AFields(labSheetTubeMPNDetail_AList);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetail_AList[0].LabSheetTubeMPNDetailID);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetail_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<LabSheetTubeMPNDetailReport> labSheetTubeMPNDetailReportList = new List<LabSheetTubeMPNDetailReport>();
-                            labSheetTubeMPNDetailReportList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailReportList().ToList();
-                            CheckLabSheetTubeMPNDetailReportFields(labSheetTubeMPNDetailReportList);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailReportList[0].LabSheetTubeMPNDetailID);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailReportList.Count);
+                            List<LabSheetTubeMPNDetail_B> labSheetTubeMPNDetail_BList = new List<LabSheetTubeMPNDetail_B>();
+                            labSheetTubeMPNDetail_BList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetail_BList().ToList();
+                            CheckLabSheetTubeMPNDetail_BFields(labSheetTubeMPNDetail_BList);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetail_BList[0].LabSheetTubeMPNDetailID);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetail_BList.Count);
                         }
                         else
                         {
@@ -654,38 +650,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         LabSheetTubeMPNDetailService labSheetTubeMPNDetailService = new LabSheetTubeMPNDetailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        labSheetTubeMPNDetailService.Query = labSheetTubeMPNDetailService.FillQuery(typeof(LabSheetTubeMPNDetail), culture.TwoLetterISOLanguageName, 0, 1, "LabSheetTubeMPNDetailID", "LabSheetTubeMPNDetailID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        labSheetTubeMPNDetailService.Query = labSheetTubeMPNDetailService.FillQuery(typeof(LabSheetTubeMPNDetail), culture.TwoLetterISOLanguageName, 0, 1, "LabSheetTubeMPNDetailID", "LabSheetTubeMPNDetailID,EQ,4", "");
 
                         List<LabSheetTubeMPNDetail> labSheetTubeMPNDetailDirectQueryList = new List<LabSheetTubeMPNDetail>();
                         labSheetTubeMPNDetailDirectQueryList = (from c in dbTestDB.LabSheetTubeMPNDetails select c).Where(c => c.LabSheetTubeMPNDetailID == 4).Skip(0).Take(1).OrderBy(c => c.LabSheetTubeMPNDetailID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<LabSheetTubeMPNDetail> labSheetTubeMPNDetailList = new List<LabSheetTubeMPNDetail>();
                             labSheetTubeMPNDetailList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailList().ToList();
                             CheckLabSheetTubeMPNDetailFields(labSheetTubeMPNDetailList);
                             Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailID);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<LabSheetTubeMPNDetailWeb> labSheetTubeMPNDetailWebList = new List<LabSheetTubeMPNDetailWeb>();
-                            labSheetTubeMPNDetailWebList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailWebList().ToList();
-                            CheckLabSheetTubeMPNDetailWebFields(labSheetTubeMPNDetailWebList);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailWebList[0].LabSheetTubeMPNDetailID);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailWebList.Count);
+                            List<LabSheetTubeMPNDetail_A> labSheetTubeMPNDetail_AList = new List<LabSheetTubeMPNDetail_A>();
+                            labSheetTubeMPNDetail_AList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetail_AList().ToList();
+                            CheckLabSheetTubeMPNDetail_AFields(labSheetTubeMPNDetail_AList);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetail_AList[0].LabSheetTubeMPNDetailID);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetail_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<LabSheetTubeMPNDetailReport> labSheetTubeMPNDetailReportList = new List<LabSheetTubeMPNDetailReport>();
-                            labSheetTubeMPNDetailReportList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailReportList().ToList();
-                            CheckLabSheetTubeMPNDetailReportFields(labSheetTubeMPNDetailReportList);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailReportList[0].LabSheetTubeMPNDetailID);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailReportList.Count);
+                            List<LabSheetTubeMPNDetail_B> labSheetTubeMPNDetail_BList = new List<LabSheetTubeMPNDetail_B>();
+                            labSheetTubeMPNDetail_BList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetail_BList().ToList();
+                            CheckLabSheetTubeMPNDetail_BFields(labSheetTubeMPNDetail_BList);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetail_BList[0].LabSheetTubeMPNDetailID);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetail_BList.Count);
                         }
                         else
                         {
@@ -707,38 +702,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         LabSheetTubeMPNDetailService labSheetTubeMPNDetailService = new LabSheetTubeMPNDetailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        labSheetTubeMPNDetailService.Query = labSheetTubeMPNDetailService.FillQuery(typeof(LabSheetTubeMPNDetail), culture.TwoLetterISOLanguageName, 0, 1, "LabSheetTubeMPNDetailID", "LabSheetTubeMPNDetailID,GT,2|LabSheetTubeMPNDetailID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        labSheetTubeMPNDetailService.Query = labSheetTubeMPNDetailService.FillQuery(typeof(LabSheetTubeMPNDetail), culture.TwoLetterISOLanguageName, 0, 1, "LabSheetTubeMPNDetailID", "LabSheetTubeMPNDetailID,GT,2|LabSheetTubeMPNDetailID,LT,5", "");
 
                         List<LabSheetTubeMPNDetail> labSheetTubeMPNDetailDirectQueryList = new List<LabSheetTubeMPNDetail>();
                         labSheetTubeMPNDetailDirectQueryList = (from c in dbTestDB.LabSheetTubeMPNDetails select c).Where(c => c.LabSheetTubeMPNDetailID > 2 && c.LabSheetTubeMPNDetailID < 5).Skip(0).Take(1).OrderBy(c => c.LabSheetTubeMPNDetailID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<LabSheetTubeMPNDetail> labSheetTubeMPNDetailList = new List<LabSheetTubeMPNDetail>();
                             labSheetTubeMPNDetailList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailList().ToList();
                             CheckLabSheetTubeMPNDetailFields(labSheetTubeMPNDetailList);
                             Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailID);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<LabSheetTubeMPNDetailWeb> labSheetTubeMPNDetailWebList = new List<LabSheetTubeMPNDetailWeb>();
-                            labSheetTubeMPNDetailWebList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailWebList().ToList();
-                            CheckLabSheetTubeMPNDetailWebFields(labSheetTubeMPNDetailWebList);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailWebList[0].LabSheetTubeMPNDetailID);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailWebList.Count);
+                            List<LabSheetTubeMPNDetail_A> labSheetTubeMPNDetail_AList = new List<LabSheetTubeMPNDetail_A>();
+                            labSheetTubeMPNDetail_AList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetail_AList().ToList();
+                            CheckLabSheetTubeMPNDetail_AFields(labSheetTubeMPNDetail_AList);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetail_AList[0].LabSheetTubeMPNDetailID);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetail_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<LabSheetTubeMPNDetailReport> labSheetTubeMPNDetailReportList = new List<LabSheetTubeMPNDetailReport>();
-                            labSheetTubeMPNDetailReportList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailReportList().ToList();
-                            CheckLabSheetTubeMPNDetailReportFields(labSheetTubeMPNDetailReportList);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailReportList[0].LabSheetTubeMPNDetailID);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailReportList.Count);
+                            List<LabSheetTubeMPNDetail_B> labSheetTubeMPNDetail_BList = new List<LabSheetTubeMPNDetail_B>();
+                            labSheetTubeMPNDetail_BList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetail_BList().ToList();
+                            CheckLabSheetTubeMPNDetail_BFields(labSheetTubeMPNDetail_BList);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetail_BList[0].LabSheetTubeMPNDetailID);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetail_BList.Count);
                         }
                         else
                         {
@@ -760,38 +754,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         LabSheetTubeMPNDetailService labSheetTubeMPNDetailService = new LabSheetTubeMPNDetailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        labSheetTubeMPNDetailService.Query = labSheetTubeMPNDetailService.FillQuery(typeof(LabSheetTubeMPNDetail), culture.TwoLetterISOLanguageName, 0, 10000, "", "LabSheetTubeMPNDetailID,GT,2|LabSheetTubeMPNDetailID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        labSheetTubeMPNDetailService.Query = labSheetTubeMPNDetailService.FillQuery(typeof(LabSheetTubeMPNDetail), culture.TwoLetterISOLanguageName, 0, 10000, "", "LabSheetTubeMPNDetailID,GT,2|LabSheetTubeMPNDetailID,LT,5", "");
 
                         List<LabSheetTubeMPNDetail> labSheetTubeMPNDetailDirectQueryList = new List<LabSheetTubeMPNDetail>();
                         labSheetTubeMPNDetailDirectQueryList = (from c in dbTestDB.LabSheetTubeMPNDetails select c).Where(c => c.LabSheetTubeMPNDetailID > 2 && c.LabSheetTubeMPNDetailID < 5).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<LabSheetTubeMPNDetail> labSheetTubeMPNDetailList = new List<LabSheetTubeMPNDetail>();
                             labSheetTubeMPNDetailList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailList().ToList();
                             CheckLabSheetTubeMPNDetailFields(labSheetTubeMPNDetailList);
                             Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailID);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<LabSheetTubeMPNDetailWeb> labSheetTubeMPNDetailWebList = new List<LabSheetTubeMPNDetailWeb>();
-                            labSheetTubeMPNDetailWebList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailWebList().ToList();
-                            CheckLabSheetTubeMPNDetailWebFields(labSheetTubeMPNDetailWebList);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailWebList[0].LabSheetTubeMPNDetailID);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailWebList.Count);
+                            List<LabSheetTubeMPNDetail_A> labSheetTubeMPNDetail_AList = new List<LabSheetTubeMPNDetail_A>();
+                            labSheetTubeMPNDetail_AList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetail_AList().ToList();
+                            CheckLabSheetTubeMPNDetail_AFields(labSheetTubeMPNDetail_AList);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetail_AList[0].LabSheetTubeMPNDetailID);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetail_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<LabSheetTubeMPNDetailReport> labSheetTubeMPNDetailReportList = new List<LabSheetTubeMPNDetailReport>();
-                            labSheetTubeMPNDetailReportList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailReportList().ToList();
-                            CheckLabSheetTubeMPNDetailReportFields(labSheetTubeMPNDetailReportList);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailReportList[0].LabSheetTubeMPNDetailID);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailReportList.Count);
+                            List<LabSheetTubeMPNDetail_B> labSheetTubeMPNDetail_BList = new List<LabSheetTubeMPNDetail_B>();
+                            labSheetTubeMPNDetail_BList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetail_BList().ToList();
+                            CheckLabSheetTubeMPNDetail_BFields(labSheetTubeMPNDetail_BList);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetail_BList[0].LabSheetTubeMPNDetailID);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetail_BList.Count);
                         }
                         else
                         {
@@ -851,115 +844,115 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(labSheetTubeMPNDetailList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(labSheetTubeMPNDetailList[0].HasErrors);
         }
-        private void CheckLabSheetTubeMPNDetailWebFields(List<LabSheetTubeMPNDetailWeb> labSheetTubeMPNDetailWebList)
+        private void CheckLabSheetTubeMPNDetail_AFields(List<LabSheetTubeMPNDetail_A> labSheetTubeMPNDetail_AList)
         {
-            Assert.IsNotNull(labSheetTubeMPNDetailWebList[0].MWQMSiteTVItemLanguage);
-            Assert.IsNotNull(labSheetTubeMPNDetailWebList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetailWebList[0].SampleTypeText))
+            Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].MWQMSiteTVItemLanguage);
+            Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetail_AList[0].SampleTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailWebList[0].SampleTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetail_AList[0].SampleTypeText));
             }
-            Assert.IsNotNull(labSheetTubeMPNDetailWebList[0].LabSheetTubeMPNDetailID);
-            Assert.IsNotNull(labSheetTubeMPNDetailWebList[0].LabSheetDetailID);
-            Assert.IsNotNull(labSheetTubeMPNDetailWebList[0].Ordinal);
-            Assert.IsNotNull(labSheetTubeMPNDetailWebList[0].MWQMSiteTVItemID);
-            if (labSheetTubeMPNDetailWebList[0].SampleDateTime != null)
+            Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].LabSheetTubeMPNDetailID);
+            Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].LabSheetDetailID);
+            Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].Ordinal);
+            Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].MWQMSiteTVItemID);
+            if (labSheetTubeMPNDetail_AList[0].SampleDateTime != null)
             {
-                Assert.IsNotNull(labSheetTubeMPNDetailWebList[0].SampleDateTime);
+                Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].SampleDateTime);
             }
-            if (labSheetTubeMPNDetailWebList[0].MPN != null)
+            if (labSheetTubeMPNDetail_AList[0].MPN != null)
             {
-                Assert.IsNotNull(labSheetTubeMPNDetailWebList[0].MPN);
+                Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].MPN);
             }
-            if (labSheetTubeMPNDetailWebList[0].Tube10 != null)
+            if (labSheetTubeMPNDetail_AList[0].Tube10 != null)
             {
-                Assert.IsNotNull(labSheetTubeMPNDetailWebList[0].Tube10);
+                Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].Tube10);
             }
-            if (labSheetTubeMPNDetailWebList[0].Tube1_0 != null)
+            if (labSheetTubeMPNDetail_AList[0].Tube1_0 != null)
             {
-                Assert.IsNotNull(labSheetTubeMPNDetailWebList[0].Tube1_0);
+                Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].Tube1_0);
             }
-            if (labSheetTubeMPNDetailWebList[0].Tube0_1 != null)
+            if (labSheetTubeMPNDetail_AList[0].Tube0_1 != null)
             {
-                Assert.IsNotNull(labSheetTubeMPNDetailWebList[0].Tube0_1);
+                Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].Tube0_1);
             }
-            if (labSheetTubeMPNDetailWebList[0].Salinity != null)
+            if (labSheetTubeMPNDetail_AList[0].Salinity != null)
             {
-                Assert.IsNotNull(labSheetTubeMPNDetailWebList[0].Salinity);
+                Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].Salinity);
             }
-            if (labSheetTubeMPNDetailWebList[0].Temperature != null)
+            if (labSheetTubeMPNDetail_AList[0].Temperature != null)
             {
-                Assert.IsNotNull(labSheetTubeMPNDetailWebList[0].Temperature);
+                Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].Temperature);
             }
-            if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetailWebList[0].ProcessedBy))
+            if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetail_AList[0].ProcessedBy))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailWebList[0].ProcessedBy));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetail_AList[0].ProcessedBy));
             }
-            Assert.IsNotNull(labSheetTubeMPNDetailWebList[0].SampleType);
-            if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetailWebList[0].SiteComment))
+            Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].SampleType);
+            if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetail_AList[0].SiteComment))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailWebList[0].SiteComment));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetail_AList[0].SiteComment));
             }
-            Assert.IsNotNull(labSheetTubeMPNDetailWebList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(labSheetTubeMPNDetailWebList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(labSheetTubeMPNDetailWebList[0].HasErrors);
+            Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].HasErrors);
         }
-        private void CheckLabSheetTubeMPNDetailReportFields(List<LabSheetTubeMPNDetailReport> labSheetTubeMPNDetailReportList)
+        private void CheckLabSheetTubeMPNDetail_BFields(List<LabSheetTubeMPNDetail_B> labSheetTubeMPNDetail_BList)
         {
-            if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetailReportList[0].LabSheetTubeMPNDetailReportTest))
+            if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetail_BList[0].LabSheetTubeMPNDetailReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailReportList[0].LabSheetTubeMPNDetailReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetail_BList[0].LabSheetTubeMPNDetailReportTest));
             }
-            Assert.IsNotNull(labSheetTubeMPNDetailReportList[0].MWQMSiteTVItemLanguage);
-            Assert.IsNotNull(labSheetTubeMPNDetailReportList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetailReportList[0].SampleTypeText))
+            Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].MWQMSiteTVItemLanguage);
+            Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetail_BList[0].SampleTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailReportList[0].SampleTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetail_BList[0].SampleTypeText));
             }
-            Assert.IsNotNull(labSheetTubeMPNDetailReportList[0].LabSheetTubeMPNDetailID);
-            Assert.IsNotNull(labSheetTubeMPNDetailReportList[0].LabSheetDetailID);
-            Assert.IsNotNull(labSheetTubeMPNDetailReportList[0].Ordinal);
-            Assert.IsNotNull(labSheetTubeMPNDetailReportList[0].MWQMSiteTVItemID);
-            if (labSheetTubeMPNDetailReportList[0].SampleDateTime != null)
+            Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].LabSheetTubeMPNDetailID);
+            Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].LabSheetDetailID);
+            Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].Ordinal);
+            Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].MWQMSiteTVItemID);
+            if (labSheetTubeMPNDetail_BList[0].SampleDateTime != null)
             {
-                Assert.IsNotNull(labSheetTubeMPNDetailReportList[0].SampleDateTime);
+                Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].SampleDateTime);
             }
-            if (labSheetTubeMPNDetailReportList[0].MPN != null)
+            if (labSheetTubeMPNDetail_BList[0].MPN != null)
             {
-                Assert.IsNotNull(labSheetTubeMPNDetailReportList[0].MPN);
+                Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].MPN);
             }
-            if (labSheetTubeMPNDetailReportList[0].Tube10 != null)
+            if (labSheetTubeMPNDetail_BList[0].Tube10 != null)
             {
-                Assert.IsNotNull(labSheetTubeMPNDetailReportList[0].Tube10);
+                Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].Tube10);
             }
-            if (labSheetTubeMPNDetailReportList[0].Tube1_0 != null)
+            if (labSheetTubeMPNDetail_BList[0].Tube1_0 != null)
             {
-                Assert.IsNotNull(labSheetTubeMPNDetailReportList[0].Tube1_0);
+                Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].Tube1_0);
             }
-            if (labSheetTubeMPNDetailReportList[0].Tube0_1 != null)
+            if (labSheetTubeMPNDetail_BList[0].Tube0_1 != null)
             {
-                Assert.IsNotNull(labSheetTubeMPNDetailReportList[0].Tube0_1);
+                Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].Tube0_1);
             }
-            if (labSheetTubeMPNDetailReportList[0].Salinity != null)
+            if (labSheetTubeMPNDetail_BList[0].Salinity != null)
             {
-                Assert.IsNotNull(labSheetTubeMPNDetailReportList[0].Salinity);
+                Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].Salinity);
             }
-            if (labSheetTubeMPNDetailReportList[0].Temperature != null)
+            if (labSheetTubeMPNDetail_BList[0].Temperature != null)
             {
-                Assert.IsNotNull(labSheetTubeMPNDetailReportList[0].Temperature);
+                Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].Temperature);
             }
-            if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetailReportList[0].ProcessedBy))
+            if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetail_BList[0].ProcessedBy))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailReportList[0].ProcessedBy));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetail_BList[0].ProcessedBy));
             }
-            Assert.IsNotNull(labSheetTubeMPNDetailReportList[0].SampleType);
-            if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetailReportList[0].SiteComment))
+            Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].SampleType);
+            if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetail_BList[0].SiteComment))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailReportList[0].SiteComment));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetail_BList[0].SiteComment));
             }
-            Assert.IsNotNull(labSheetTubeMPNDetailReportList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(labSheetTubeMPNDetailReportList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(labSheetTubeMPNDetailReportList[0].HasErrors);
+            Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].HasErrors);
         }
         private LabSheetTubeMPNDetail GetFilledRandomLabSheetTubeMPNDetail(string OmitPropName)
         {

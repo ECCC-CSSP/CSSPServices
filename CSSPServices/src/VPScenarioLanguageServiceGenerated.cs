@@ -151,31 +151,31 @@ namespace CSSPServices
 
             return VPScenarioLanguageQuery;
         }
-        public VPScenarioLanguageWeb GetVPScenarioLanguageWebWithVPScenarioLanguageID(int VPScenarioLanguageID)
+        public VPScenarioLanguage_A GetVPScenarioLanguage_AWithVPScenarioLanguageID(int VPScenarioLanguageID)
         {
-            return FillVPScenarioLanguageWeb().Where(c => c.VPScenarioLanguageID == VPScenarioLanguageID).FirstOrDefault();
+            return FillVPScenarioLanguage_A().Where(c => c.VPScenarioLanguageID == VPScenarioLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<VPScenarioLanguageWeb> GetVPScenarioLanguageWebList()
+        public IQueryable<VPScenarioLanguage_A> GetVPScenarioLanguage_AList()
         {
-            IQueryable<VPScenarioLanguageWeb> VPScenarioLanguageWebQuery = FillVPScenarioLanguageWeb();
+            IQueryable<VPScenarioLanguage_A> VPScenarioLanguage_AQuery = FillVPScenarioLanguage_A();
 
-            VPScenarioLanguageWebQuery = EnhanceQueryStatements<VPScenarioLanguageWeb>(VPScenarioLanguageWebQuery) as IQueryable<VPScenarioLanguageWeb>;
+            VPScenarioLanguage_AQuery = EnhanceQueryStatements<VPScenarioLanguage_A>(VPScenarioLanguage_AQuery) as IQueryable<VPScenarioLanguage_A>;
 
-            return VPScenarioLanguageWebQuery;
+            return VPScenarioLanguage_AQuery;
         }
-        public VPScenarioLanguageReport GetVPScenarioLanguageReportWithVPScenarioLanguageID(int VPScenarioLanguageID)
+        public VPScenarioLanguage_B GetVPScenarioLanguage_BWithVPScenarioLanguageID(int VPScenarioLanguageID)
         {
-            return FillVPScenarioLanguageReport().Where(c => c.VPScenarioLanguageID == VPScenarioLanguageID).FirstOrDefault();
+            return FillVPScenarioLanguage_B().Where(c => c.VPScenarioLanguageID == VPScenarioLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<VPScenarioLanguageReport> GetVPScenarioLanguageReportList()
+        public IQueryable<VPScenarioLanguage_B> GetVPScenarioLanguage_BList()
         {
-            IQueryable<VPScenarioLanguageReport> VPScenarioLanguageReportQuery = FillVPScenarioLanguageReport();
+            IQueryable<VPScenarioLanguage_B> VPScenarioLanguage_BQuery = FillVPScenarioLanguage_B();
 
-            VPScenarioLanguageReportQuery = EnhanceQueryStatements<VPScenarioLanguageReport>(VPScenarioLanguageReportQuery) as IQueryable<VPScenarioLanguageReport>;
+            VPScenarioLanguage_BQuery = EnhanceQueryStatements<VPScenarioLanguage_B>(VPScenarioLanguage_BQuery) as IQueryable<VPScenarioLanguage_B>;
 
-            return VPScenarioLanguageReportQuery;
+            return VPScenarioLanguage_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -214,43 +214,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated VPScenarioLanguageFillWeb
-        private IQueryable<VPScenarioLanguageWeb> FillVPScenarioLanguageWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
-            List<EnumIDAndText> TranslationStatusEnumList = enums.GetEnumTextOrderedList(typeof(TranslationStatusEnum));
-
-             IQueryable<VPScenarioLanguageWeb> VPScenarioLanguageWebQuery = (from c in db.VPScenarioLanguages
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new VPScenarioLanguageWeb
-                    {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        LanguageText = (from e in LanguageEnumList
-                                where e.EnumID == (int?)c.Language
-                                select e.EnumText).FirstOrDefault(),
-                        TranslationStatusText = (from e in TranslationStatusEnumList
-                                where e.EnumID == (int?)c.TranslationStatus
-                                select e.EnumText).FirstOrDefault(),
-                        VPScenarioLanguageID = c.VPScenarioLanguageID,
-                        VPScenarioID = c.VPScenarioID,
-                        Language = c.Language,
-                        VPScenarioName = c.VPScenarioName,
-                        TranslationStatus = c.TranslationStatus,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return VPScenarioLanguageWebQuery;
-        }
-        #endregion Functions private Generated VPScenarioLanguageFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(VPScenarioLanguage vpScenarioLanguage)

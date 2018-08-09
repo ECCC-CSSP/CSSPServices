@@ -332,31 +332,31 @@ namespace CSSPServices
 
             return MikeScenarioQuery;
         }
-        public MikeScenarioWeb GetMikeScenarioWebWithMikeScenarioID(int MikeScenarioID)
+        public MikeScenario_A GetMikeScenario_AWithMikeScenarioID(int MikeScenarioID)
         {
-            return FillMikeScenarioWeb().Where(c => c.MikeScenarioID == MikeScenarioID).FirstOrDefault();
+            return FillMikeScenario_A().Where(c => c.MikeScenarioID == MikeScenarioID).FirstOrDefault();
 
         }
-        public IQueryable<MikeScenarioWeb> GetMikeScenarioWebList()
+        public IQueryable<MikeScenario_A> GetMikeScenario_AList()
         {
-            IQueryable<MikeScenarioWeb> MikeScenarioWebQuery = FillMikeScenarioWeb();
+            IQueryable<MikeScenario_A> MikeScenario_AQuery = FillMikeScenario_A();
 
-            MikeScenarioWebQuery = EnhanceQueryStatements<MikeScenarioWeb>(MikeScenarioWebQuery) as IQueryable<MikeScenarioWeb>;
+            MikeScenario_AQuery = EnhanceQueryStatements<MikeScenario_A>(MikeScenario_AQuery) as IQueryable<MikeScenario_A>;
 
-            return MikeScenarioWebQuery;
+            return MikeScenario_AQuery;
         }
-        public MikeScenarioReport GetMikeScenarioReportWithMikeScenarioID(int MikeScenarioID)
+        public MikeScenario_B GetMikeScenario_BWithMikeScenarioID(int MikeScenarioID)
         {
-            return FillMikeScenarioReport().Where(c => c.MikeScenarioID == MikeScenarioID).FirstOrDefault();
+            return FillMikeScenario_B().Where(c => c.MikeScenarioID == MikeScenarioID).FirstOrDefault();
 
         }
-        public IQueryable<MikeScenarioReport> GetMikeScenarioReportList()
+        public IQueryable<MikeScenario_B> GetMikeScenario_BList()
         {
-            IQueryable<MikeScenarioReport> MikeScenarioReportQuery = FillMikeScenarioReport();
+            IQueryable<MikeScenario_B> MikeScenario_BQuery = FillMikeScenario_B();
 
-            MikeScenarioReportQuery = EnhanceQueryStatements<MikeScenarioReport>(MikeScenarioReportQuery) as IQueryable<MikeScenarioReport>;
+            MikeScenario_BQuery = EnhanceQueryStatements<MikeScenario_B>(MikeScenario_BQuery) as IQueryable<MikeScenario_B>;
 
-            return MikeScenarioReportQuery;
+            return MikeScenario_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -395,65 +395,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated MikeScenarioFillWeb
-        private IQueryable<MikeScenarioWeb> FillMikeScenarioWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> ScenarioStatusEnumList = enums.GetEnumTextOrderedList(typeof(ScenarioStatusEnum));
-
-             IQueryable<MikeScenarioWeb> MikeScenarioWebQuery = (from c in db.MikeScenarios
-                let MikeScenarioTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.MikeScenarioTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new MikeScenarioWeb
-                    {
-                        MikeScenarioTVItemLanguage = MikeScenarioTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        ScenarioStatusText = (from e in ScenarioStatusEnumList
-                                where e.EnumID == (int?)c.ScenarioStatus
-                                select e.EnumText).FirstOrDefault(),
-                        MikeScenarioID = c.MikeScenarioID,
-                        MikeScenarioTVItemID = c.MikeScenarioTVItemID,
-                        ParentMikeScenarioID = c.ParentMikeScenarioID,
-                        ScenarioStatus = c.ScenarioStatus,
-                        ErrorInfo = c.ErrorInfo,
-                        MikeScenarioStartDateTime_Local = c.MikeScenarioStartDateTime_Local,
-                        MikeScenarioEndDateTime_Local = c.MikeScenarioEndDateTime_Local,
-                        MikeScenarioStartExecutionDateTime_Local = c.MikeScenarioStartExecutionDateTime_Local,
-                        MikeScenarioExecutionTime_min = c.MikeScenarioExecutionTime_min,
-                        WindSpeed_km_h = c.WindSpeed_km_h,
-                        WindDirection_deg = c.WindDirection_deg,
-                        DecayFactor_per_day = c.DecayFactor_per_day,
-                        DecayIsConstant = c.DecayIsConstant,
-                        DecayFactorAmplitude = c.DecayFactorAmplitude,
-                        ResultFrequency_min = c.ResultFrequency_min,
-                        AmbientTemperature_C = c.AmbientTemperature_C,
-                        AmbientSalinity_PSU = c.AmbientSalinity_PSU,
-                        ManningNumber = c.ManningNumber,
-                        NumberOfElements = c.NumberOfElements,
-                        NumberOfTimeSteps = c.NumberOfTimeSteps,
-                        NumberOfSigmaLayers = c.NumberOfSigmaLayers,
-                        NumberOfZLayers = c.NumberOfZLayers,
-                        NumberOfHydroOutputParameters = c.NumberOfHydroOutputParameters,
-                        NumberOfTransOutputParameters = c.NumberOfTransOutputParameters,
-                        EstimatedHydroFileSize = c.EstimatedHydroFileSize,
-                        EstimatedTransFileSize = c.EstimatedTransFileSize,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return MikeScenarioWebQuery;
-        }
-        #endregion Functions private Generated MikeScenarioFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(MikeScenario mikeScenario)

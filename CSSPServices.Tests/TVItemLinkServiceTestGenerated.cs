@@ -338,27 +338,27 @@ namespace CSSPServices.Tests
                     TVItemLink tvItemLink = (from c in dbTestDB.TVItemLinks select c).FirstOrDefault();
                     Assert.IsNotNull(tvItemLink);
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        tvItemLinkService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        tvItemLinkService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             TVItemLink tvItemLinkRet = tvItemLinkService.GetTVItemLinkWithTVItemLinkID(tvItemLink.TVItemLinkID);
                             CheckTVItemLinkFields(new List<TVItemLink>() { tvItemLinkRet });
                             Assert.AreEqual(tvItemLink.TVItemLinkID, tvItemLinkRet.TVItemLinkID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            TVItemLinkWeb tvItemLinkWebRet = tvItemLinkService.GetTVItemLinkWebWithTVItemLinkID(tvItemLink.TVItemLinkID);
-                            CheckTVItemLinkWebFields(new List<TVItemLinkWeb>() { tvItemLinkWebRet });
-                            Assert.AreEqual(tvItemLink.TVItemLinkID, tvItemLinkWebRet.TVItemLinkID);
+                            TVItemLink_A tvItemLink_ARet = tvItemLinkService.GetTVItemLink_AWithTVItemLinkID(tvItemLink.TVItemLinkID);
+                            CheckTVItemLink_AFields(new List<TVItemLink_A>() { tvItemLink_ARet });
+                            Assert.AreEqual(tvItemLink.TVItemLinkID, tvItemLink_ARet.TVItemLinkID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            TVItemLinkReport tvItemLinkReportRet = tvItemLinkService.GetTVItemLinkReportWithTVItemLinkID(tvItemLink.TVItemLinkID);
-                            CheckTVItemLinkReportFields(new List<TVItemLinkReport>() { tvItemLinkReportRet });
-                            Assert.AreEqual(tvItemLink.TVItemLinkID, tvItemLinkReportRet.TVItemLinkID);
+                            TVItemLink_B tvItemLink_BRet = tvItemLinkService.GetTVItemLink_BWithTVItemLinkID(tvItemLink.TVItemLinkID);
+                            CheckTVItemLink_BFields(new List<TVItemLink_B>() { tvItemLink_BRet });
+                            Assert.AreEqual(tvItemLink.TVItemLinkID, tvItemLink_BRet.TVItemLinkID);
                         }
                         else
                         {
@@ -387,30 +387,29 @@ namespace CSSPServices.Tests
                     List<TVItemLink> tvItemLinkDirectQueryList = new List<TVItemLink>();
                     tvItemLinkDirectQueryList = (from c in dbTestDB.TVItemLinks select c).Take(200).ToList();
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        tvItemLinkService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        tvItemLinkService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<TVItemLink> tvItemLinkList = new List<TVItemLink>();
                             tvItemLinkList = tvItemLinkService.GetTVItemLinkList().ToList();
                             CheckTVItemLinkFields(tvItemLinkList);
-                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<TVItemLinkWeb> tvItemLinkWebList = new List<TVItemLinkWeb>();
-                            tvItemLinkWebList = tvItemLinkService.GetTVItemLinkWebList().ToList();
-                            CheckTVItemLinkWebFields(tvItemLinkWebList);
-                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkWebList.Count);
+                            List<TVItemLink_A> tvItemLink_AList = new List<TVItemLink_A>();
+                            tvItemLink_AList = tvItemLinkService.GetTVItemLink_AList().ToList();
+                            CheckTVItemLink_AFields(tvItemLink_AList);
+                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLink_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<TVItemLinkReport> tvItemLinkReportList = new List<TVItemLinkReport>();
-                            tvItemLinkReportList = tvItemLinkService.GetTVItemLinkReportList().ToList();
-                            CheckTVItemLinkReportFields(tvItemLinkReportList);
-                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkReportList.Count);
+                            List<TVItemLink_B> tvItemLink_BList = new List<TVItemLink_B>();
+                            tvItemLink_BList = tvItemLinkService.GetTVItemLink_BList().ToList();
+                            CheckTVItemLink_BFields(tvItemLink_BList);
+                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLink_BList.Count);
                         }
                         else
                         {
@@ -432,38 +431,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         TVItemLinkService tvItemLinkService = new TVItemLinkService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tvItemLinkService.Query = tvItemLinkService.FillQuery(typeof(TVItemLink), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        tvItemLinkService.Query = tvItemLinkService.FillQuery(typeof(TVItemLink), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
 
                         List<TVItemLink> tvItemLinkDirectQueryList = new List<TVItemLink>();
                         tvItemLinkDirectQueryList = (from c in dbTestDB.TVItemLinks select c).Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<TVItemLink> tvItemLinkList = new List<TVItemLink>();
                             tvItemLinkList = tvItemLinkService.GetTVItemLinkList().ToList();
                             CheckTVItemLinkFields(tvItemLinkList);
                             Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkList[0].TVItemLinkID);
-                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<TVItemLinkWeb> tvItemLinkWebList = new List<TVItemLinkWeb>();
-                            tvItemLinkWebList = tvItemLinkService.GetTVItemLinkWebList().ToList();
-                            CheckTVItemLinkWebFields(tvItemLinkWebList);
-                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkWebList[0].TVItemLinkID);
-                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkWebList.Count);
+                            List<TVItemLink_A> tvItemLink_AList = new List<TVItemLink_A>();
+                            tvItemLink_AList = tvItemLinkService.GetTVItemLink_AList().ToList();
+                            CheckTVItemLink_AFields(tvItemLink_AList);
+                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLink_AList[0].TVItemLinkID);
+                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLink_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<TVItemLinkReport> tvItemLinkReportList = new List<TVItemLinkReport>();
-                            tvItemLinkReportList = tvItemLinkService.GetTVItemLinkReportList().ToList();
-                            CheckTVItemLinkReportFields(tvItemLinkReportList);
-                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkReportList[0].TVItemLinkID);
-                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkReportList.Count);
+                            List<TVItemLink_B> tvItemLink_BList = new List<TVItemLink_B>();
+                            tvItemLink_BList = tvItemLinkService.GetTVItemLink_BList().ToList();
+                            CheckTVItemLink_BFields(tvItemLink_BList);
+                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLink_BList[0].TVItemLinkID);
+                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLink_BList.Count);
                         }
                         else
                         {
@@ -485,38 +483,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         TVItemLinkService tvItemLinkService = new TVItemLinkService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tvItemLinkService.Query = tvItemLinkService.FillQuery(typeof(TVItemLink), culture.TwoLetterISOLanguageName, 1, 1,  "TVItemLinkID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        tvItemLinkService.Query = tvItemLinkService.FillQuery(typeof(TVItemLink), culture.TwoLetterISOLanguageName, 1, 1,  "TVItemLinkID", "");
 
                         List<TVItemLink> tvItemLinkDirectQueryList = new List<TVItemLink>();
                         tvItemLinkDirectQueryList = (from c in dbTestDB.TVItemLinks select c).Skip(1).Take(1).OrderBy(c => c.TVItemLinkID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<TVItemLink> tvItemLinkList = new List<TVItemLink>();
                             tvItemLinkList = tvItemLinkService.GetTVItemLinkList().ToList();
                             CheckTVItemLinkFields(tvItemLinkList);
                             Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkList[0].TVItemLinkID);
-                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<TVItemLinkWeb> tvItemLinkWebList = new List<TVItemLinkWeb>();
-                            tvItemLinkWebList = tvItemLinkService.GetTVItemLinkWebList().ToList();
-                            CheckTVItemLinkWebFields(tvItemLinkWebList);
-                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkWebList[0].TVItemLinkID);
-                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkWebList.Count);
+                            List<TVItemLink_A> tvItemLink_AList = new List<TVItemLink_A>();
+                            tvItemLink_AList = tvItemLinkService.GetTVItemLink_AList().ToList();
+                            CheckTVItemLink_AFields(tvItemLink_AList);
+                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLink_AList[0].TVItemLinkID);
+                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLink_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<TVItemLinkReport> tvItemLinkReportList = new List<TVItemLinkReport>();
-                            tvItemLinkReportList = tvItemLinkService.GetTVItemLinkReportList().ToList();
-                            CheckTVItemLinkReportFields(tvItemLinkReportList);
-                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkReportList[0].TVItemLinkID);
-                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkReportList.Count);
+                            List<TVItemLink_B> tvItemLink_BList = new List<TVItemLink_B>();
+                            tvItemLink_BList = tvItemLinkService.GetTVItemLink_BList().ToList();
+                            CheckTVItemLink_BFields(tvItemLink_BList);
+                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLink_BList[0].TVItemLinkID);
+                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLink_BList.Count);
                         }
                         else
                         {
@@ -538,38 +535,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         TVItemLinkService tvItemLinkService = new TVItemLinkService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tvItemLinkService.Query = tvItemLinkService.FillQuery(typeof(TVItemLink), culture.TwoLetterISOLanguageName, 1, 1, "TVItemLinkID,FromTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        tvItemLinkService.Query = tvItemLinkService.FillQuery(typeof(TVItemLink), culture.TwoLetterISOLanguageName, 1, 1, "TVItemLinkID,FromTVItemID", "");
 
                         List<TVItemLink> tvItemLinkDirectQueryList = new List<TVItemLink>();
                         tvItemLinkDirectQueryList = (from c in dbTestDB.TVItemLinks select c).Skip(1).Take(1).OrderBy(c => c.TVItemLinkID).ThenBy(c => c.FromTVItemID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<TVItemLink> tvItemLinkList = new List<TVItemLink>();
                             tvItemLinkList = tvItemLinkService.GetTVItemLinkList().ToList();
                             CheckTVItemLinkFields(tvItemLinkList);
                             Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkList[0].TVItemLinkID);
-                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<TVItemLinkWeb> tvItemLinkWebList = new List<TVItemLinkWeb>();
-                            tvItemLinkWebList = tvItemLinkService.GetTVItemLinkWebList().ToList();
-                            CheckTVItemLinkWebFields(tvItemLinkWebList);
-                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkWebList[0].TVItemLinkID);
-                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkWebList.Count);
+                            List<TVItemLink_A> tvItemLink_AList = new List<TVItemLink_A>();
+                            tvItemLink_AList = tvItemLinkService.GetTVItemLink_AList().ToList();
+                            CheckTVItemLink_AFields(tvItemLink_AList);
+                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLink_AList[0].TVItemLinkID);
+                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLink_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<TVItemLinkReport> tvItemLinkReportList = new List<TVItemLinkReport>();
-                            tvItemLinkReportList = tvItemLinkService.GetTVItemLinkReportList().ToList();
-                            CheckTVItemLinkReportFields(tvItemLinkReportList);
-                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkReportList[0].TVItemLinkID);
-                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkReportList.Count);
+                            List<TVItemLink_B> tvItemLink_BList = new List<TVItemLink_B>();
+                            tvItemLink_BList = tvItemLinkService.GetTVItemLink_BList().ToList();
+                            CheckTVItemLink_BFields(tvItemLink_BList);
+                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLink_BList[0].TVItemLinkID);
+                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLink_BList.Count);
                         }
                         else
                         {
@@ -591,38 +587,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         TVItemLinkService tvItemLinkService = new TVItemLinkService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tvItemLinkService.Query = tvItemLinkService.FillQuery(typeof(TVItemLink), culture.TwoLetterISOLanguageName, 0, 1, "TVItemLinkID", "TVItemLinkID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        tvItemLinkService.Query = tvItemLinkService.FillQuery(typeof(TVItemLink), culture.TwoLetterISOLanguageName, 0, 1, "TVItemLinkID", "TVItemLinkID,EQ,4", "");
 
                         List<TVItemLink> tvItemLinkDirectQueryList = new List<TVItemLink>();
                         tvItemLinkDirectQueryList = (from c in dbTestDB.TVItemLinks select c).Where(c => c.TVItemLinkID == 4).Skip(0).Take(1).OrderBy(c => c.TVItemLinkID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<TVItemLink> tvItemLinkList = new List<TVItemLink>();
                             tvItemLinkList = tvItemLinkService.GetTVItemLinkList().ToList();
                             CheckTVItemLinkFields(tvItemLinkList);
                             Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkList[0].TVItemLinkID);
-                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<TVItemLinkWeb> tvItemLinkWebList = new List<TVItemLinkWeb>();
-                            tvItemLinkWebList = tvItemLinkService.GetTVItemLinkWebList().ToList();
-                            CheckTVItemLinkWebFields(tvItemLinkWebList);
-                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkWebList[0].TVItemLinkID);
-                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkWebList.Count);
+                            List<TVItemLink_A> tvItemLink_AList = new List<TVItemLink_A>();
+                            tvItemLink_AList = tvItemLinkService.GetTVItemLink_AList().ToList();
+                            CheckTVItemLink_AFields(tvItemLink_AList);
+                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLink_AList[0].TVItemLinkID);
+                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLink_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<TVItemLinkReport> tvItemLinkReportList = new List<TVItemLinkReport>();
-                            tvItemLinkReportList = tvItemLinkService.GetTVItemLinkReportList().ToList();
-                            CheckTVItemLinkReportFields(tvItemLinkReportList);
-                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkReportList[0].TVItemLinkID);
-                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkReportList.Count);
+                            List<TVItemLink_B> tvItemLink_BList = new List<TVItemLink_B>();
+                            tvItemLink_BList = tvItemLinkService.GetTVItemLink_BList().ToList();
+                            CheckTVItemLink_BFields(tvItemLink_BList);
+                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLink_BList[0].TVItemLinkID);
+                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLink_BList.Count);
                         }
                         else
                         {
@@ -644,38 +639,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         TVItemLinkService tvItemLinkService = new TVItemLinkService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tvItemLinkService.Query = tvItemLinkService.FillQuery(typeof(TVItemLink), culture.TwoLetterISOLanguageName, 0, 1, "TVItemLinkID", "TVItemLinkID,GT,2|TVItemLinkID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        tvItemLinkService.Query = tvItemLinkService.FillQuery(typeof(TVItemLink), culture.TwoLetterISOLanguageName, 0, 1, "TVItemLinkID", "TVItemLinkID,GT,2|TVItemLinkID,LT,5", "");
 
                         List<TVItemLink> tvItemLinkDirectQueryList = new List<TVItemLink>();
                         tvItemLinkDirectQueryList = (from c in dbTestDB.TVItemLinks select c).Where(c => c.TVItemLinkID > 2 && c.TVItemLinkID < 5).Skip(0).Take(1).OrderBy(c => c.TVItemLinkID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<TVItemLink> tvItemLinkList = new List<TVItemLink>();
                             tvItemLinkList = tvItemLinkService.GetTVItemLinkList().ToList();
                             CheckTVItemLinkFields(tvItemLinkList);
                             Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkList[0].TVItemLinkID);
-                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<TVItemLinkWeb> tvItemLinkWebList = new List<TVItemLinkWeb>();
-                            tvItemLinkWebList = tvItemLinkService.GetTVItemLinkWebList().ToList();
-                            CheckTVItemLinkWebFields(tvItemLinkWebList);
-                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkWebList[0].TVItemLinkID);
-                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkWebList.Count);
+                            List<TVItemLink_A> tvItemLink_AList = new List<TVItemLink_A>();
+                            tvItemLink_AList = tvItemLinkService.GetTVItemLink_AList().ToList();
+                            CheckTVItemLink_AFields(tvItemLink_AList);
+                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLink_AList[0].TVItemLinkID);
+                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLink_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<TVItemLinkReport> tvItemLinkReportList = new List<TVItemLinkReport>();
-                            tvItemLinkReportList = tvItemLinkService.GetTVItemLinkReportList().ToList();
-                            CheckTVItemLinkReportFields(tvItemLinkReportList);
-                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkReportList[0].TVItemLinkID);
-                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkReportList.Count);
+                            List<TVItemLink_B> tvItemLink_BList = new List<TVItemLink_B>();
+                            tvItemLink_BList = tvItemLinkService.GetTVItemLink_BList().ToList();
+                            CheckTVItemLink_BFields(tvItemLink_BList);
+                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLink_BList[0].TVItemLinkID);
+                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLink_BList.Count);
                         }
                         else
                         {
@@ -697,38 +691,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         TVItemLinkService tvItemLinkService = new TVItemLinkService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tvItemLinkService.Query = tvItemLinkService.FillQuery(typeof(TVItemLink), culture.TwoLetterISOLanguageName, 0, 10000, "", "TVItemLinkID,GT,2|TVItemLinkID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        tvItemLinkService.Query = tvItemLinkService.FillQuery(typeof(TVItemLink), culture.TwoLetterISOLanguageName, 0, 10000, "", "TVItemLinkID,GT,2|TVItemLinkID,LT,5", "");
 
                         List<TVItemLink> tvItemLinkDirectQueryList = new List<TVItemLink>();
                         tvItemLinkDirectQueryList = (from c in dbTestDB.TVItemLinks select c).Where(c => c.TVItemLinkID > 2 && c.TVItemLinkID < 5).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<TVItemLink> tvItemLinkList = new List<TVItemLink>();
                             tvItemLinkList = tvItemLinkService.GetTVItemLinkList().ToList();
                             CheckTVItemLinkFields(tvItemLinkList);
                             Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkList[0].TVItemLinkID);
-                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<TVItemLinkWeb> tvItemLinkWebList = new List<TVItemLinkWeb>();
-                            tvItemLinkWebList = tvItemLinkService.GetTVItemLinkWebList().ToList();
-                            CheckTVItemLinkWebFields(tvItemLinkWebList);
-                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkWebList[0].TVItemLinkID);
-                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkWebList.Count);
+                            List<TVItemLink_A> tvItemLink_AList = new List<TVItemLink_A>();
+                            tvItemLink_AList = tvItemLinkService.GetTVItemLink_AList().ToList();
+                            CheckTVItemLink_AFields(tvItemLink_AList);
+                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLink_AList[0].TVItemLinkID);
+                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLink_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<TVItemLinkReport> tvItemLinkReportList = new List<TVItemLinkReport>();
-                            tvItemLinkReportList = tvItemLinkService.GetTVItemLinkReportList().ToList();
-                            CheckTVItemLinkReportFields(tvItemLinkReportList);
-                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkReportList[0].TVItemLinkID);
-                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkReportList.Count);
+                            List<TVItemLink_B> tvItemLink_BList = new List<TVItemLink_B>();
+                            tvItemLink_BList = tvItemLinkService.GetTVItemLink_BList().ToList();
+                            CheckTVItemLink_BFields(tvItemLink_BList);
+                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLink_BList[0].TVItemLinkID);
+                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLink_BList.Count);
                         }
                         else
                         {
@@ -767,83 +760,83 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(tvItemLinkList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(tvItemLinkList[0].HasErrors);
         }
-        private void CheckTVItemLinkWebFields(List<TVItemLinkWeb> tvItemLinkWebList)
+        private void CheckTVItemLink_AFields(List<TVItemLink_A> tvItemLink_AList)
         {
-            Assert.IsNotNull(tvItemLinkWebList[0].FromTVItemLanguage);
-            Assert.IsNotNull(tvItemLinkWebList[0].ToTVItemLanguage);
-            Assert.IsNotNull(tvItemLinkWebList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(tvItemLinkWebList[0].FromTVTypeText))
+            Assert.IsNotNull(tvItemLink_AList[0].FromTVItemLanguage);
+            Assert.IsNotNull(tvItemLink_AList[0].ToTVItemLanguage);
+            Assert.IsNotNull(tvItemLink_AList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(tvItemLink_AList[0].FromTVTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkWebList[0].FromTVTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLink_AList[0].FromTVTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(tvItemLinkWebList[0].ToTVTypeText))
+            if (!string.IsNullOrWhiteSpace(tvItemLink_AList[0].ToTVTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkWebList[0].ToTVTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLink_AList[0].ToTVTypeText));
             }
-            Assert.IsNotNull(tvItemLinkWebList[0].TVItemLinkID);
-            Assert.IsNotNull(tvItemLinkWebList[0].FromTVItemID);
-            Assert.IsNotNull(tvItemLinkWebList[0].ToTVItemID);
-            Assert.IsNotNull(tvItemLinkWebList[0].FromTVType);
-            Assert.IsNotNull(tvItemLinkWebList[0].ToTVType);
-            if (tvItemLinkWebList[0].StartDateTime_Local != null)
+            Assert.IsNotNull(tvItemLink_AList[0].TVItemLinkID);
+            Assert.IsNotNull(tvItemLink_AList[0].FromTVItemID);
+            Assert.IsNotNull(tvItemLink_AList[0].ToTVItemID);
+            Assert.IsNotNull(tvItemLink_AList[0].FromTVType);
+            Assert.IsNotNull(tvItemLink_AList[0].ToTVType);
+            if (tvItemLink_AList[0].StartDateTime_Local != null)
             {
-                Assert.IsNotNull(tvItemLinkWebList[0].StartDateTime_Local);
+                Assert.IsNotNull(tvItemLink_AList[0].StartDateTime_Local);
             }
-            if (tvItemLinkWebList[0].EndDateTime_Local != null)
+            if (tvItemLink_AList[0].EndDateTime_Local != null)
             {
-                Assert.IsNotNull(tvItemLinkWebList[0].EndDateTime_Local);
+                Assert.IsNotNull(tvItemLink_AList[0].EndDateTime_Local);
             }
-            Assert.IsNotNull(tvItemLinkWebList[0].Ordinal);
-            Assert.IsNotNull(tvItemLinkWebList[0].TVLevel);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkWebList[0].TVPath));
-            if (tvItemLinkWebList[0].ParentTVItemLinkID != null)
+            Assert.IsNotNull(tvItemLink_AList[0].Ordinal);
+            Assert.IsNotNull(tvItemLink_AList[0].TVLevel);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLink_AList[0].TVPath));
+            if (tvItemLink_AList[0].ParentTVItemLinkID != null)
             {
-                Assert.IsNotNull(tvItemLinkWebList[0].ParentTVItemLinkID);
+                Assert.IsNotNull(tvItemLink_AList[0].ParentTVItemLinkID);
             }
-            Assert.IsNotNull(tvItemLinkWebList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(tvItemLinkWebList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(tvItemLinkWebList[0].HasErrors);
+            Assert.IsNotNull(tvItemLink_AList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(tvItemLink_AList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(tvItemLink_AList[0].HasErrors);
         }
-        private void CheckTVItemLinkReportFields(List<TVItemLinkReport> tvItemLinkReportList)
+        private void CheckTVItemLink_BFields(List<TVItemLink_B> tvItemLink_BList)
         {
-            if (!string.IsNullOrWhiteSpace(tvItemLinkReportList[0].TVItemLinkReportTest))
+            if (!string.IsNullOrWhiteSpace(tvItemLink_BList[0].TVItemLinkReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkReportList[0].TVItemLinkReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLink_BList[0].TVItemLinkReportTest));
             }
-            Assert.IsNotNull(tvItemLinkReportList[0].FromTVItemLanguage);
-            Assert.IsNotNull(tvItemLinkReportList[0].ToTVItemLanguage);
-            Assert.IsNotNull(tvItemLinkReportList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(tvItemLinkReportList[0].FromTVTypeText))
+            Assert.IsNotNull(tvItemLink_BList[0].FromTVItemLanguage);
+            Assert.IsNotNull(tvItemLink_BList[0].ToTVItemLanguage);
+            Assert.IsNotNull(tvItemLink_BList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(tvItemLink_BList[0].FromTVTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkReportList[0].FromTVTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLink_BList[0].FromTVTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(tvItemLinkReportList[0].ToTVTypeText))
+            if (!string.IsNullOrWhiteSpace(tvItemLink_BList[0].ToTVTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkReportList[0].ToTVTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLink_BList[0].ToTVTypeText));
             }
-            Assert.IsNotNull(tvItemLinkReportList[0].TVItemLinkID);
-            Assert.IsNotNull(tvItemLinkReportList[0].FromTVItemID);
-            Assert.IsNotNull(tvItemLinkReportList[0].ToTVItemID);
-            Assert.IsNotNull(tvItemLinkReportList[0].FromTVType);
-            Assert.IsNotNull(tvItemLinkReportList[0].ToTVType);
-            if (tvItemLinkReportList[0].StartDateTime_Local != null)
+            Assert.IsNotNull(tvItemLink_BList[0].TVItemLinkID);
+            Assert.IsNotNull(tvItemLink_BList[0].FromTVItemID);
+            Assert.IsNotNull(tvItemLink_BList[0].ToTVItemID);
+            Assert.IsNotNull(tvItemLink_BList[0].FromTVType);
+            Assert.IsNotNull(tvItemLink_BList[0].ToTVType);
+            if (tvItemLink_BList[0].StartDateTime_Local != null)
             {
-                Assert.IsNotNull(tvItemLinkReportList[0].StartDateTime_Local);
+                Assert.IsNotNull(tvItemLink_BList[0].StartDateTime_Local);
             }
-            if (tvItemLinkReportList[0].EndDateTime_Local != null)
+            if (tvItemLink_BList[0].EndDateTime_Local != null)
             {
-                Assert.IsNotNull(tvItemLinkReportList[0].EndDateTime_Local);
+                Assert.IsNotNull(tvItemLink_BList[0].EndDateTime_Local);
             }
-            Assert.IsNotNull(tvItemLinkReportList[0].Ordinal);
-            Assert.IsNotNull(tvItemLinkReportList[0].TVLevel);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkReportList[0].TVPath));
-            if (tvItemLinkReportList[0].ParentTVItemLinkID != null)
+            Assert.IsNotNull(tvItemLink_BList[0].Ordinal);
+            Assert.IsNotNull(tvItemLink_BList[0].TVLevel);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLink_BList[0].TVPath));
+            if (tvItemLink_BList[0].ParentTVItemLinkID != null)
             {
-                Assert.IsNotNull(tvItemLinkReportList[0].ParentTVItemLinkID);
+                Assert.IsNotNull(tvItemLink_BList[0].ParentTVItemLinkID);
             }
-            Assert.IsNotNull(tvItemLinkReportList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(tvItemLinkReportList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(tvItemLinkReportList[0].HasErrors);
+            Assert.IsNotNull(tvItemLink_BList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(tvItemLink_BList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(tvItemLink_BList[0].HasErrors);
         }
         private TVItemLink GetFilledRandomTVItemLink(string OmitPropName)
         {

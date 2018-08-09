@@ -167,31 +167,31 @@ namespace CSSPServices
 
             return PolSourceObservationQuery;
         }
-        public PolSourceObservationWeb GetPolSourceObservationWebWithPolSourceObservationID(int PolSourceObservationID)
+        public PolSourceObservation_A GetPolSourceObservation_AWithPolSourceObservationID(int PolSourceObservationID)
         {
-            return FillPolSourceObservationWeb().Where(c => c.PolSourceObservationID == PolSourceObservationID).FirstOrDefault();
+            return FillPolSourceObservation_A().Where(c => c.PolSourceObservationID == PolSourceObservationID).FirstOrDefault();
 
         }
-        public IQueryable<PolSourceObservationWeb> GetPolSourceObservationWebList()
+        public IQueryable<PolSourceObservation_A> GetPolSourceObservation_AList()
         {
-            IQueryable<PolSourceObservationWeb> PolSourceObservationWebQuery = FillPolSourceObservationWeb();
+            IQueryable<PolSourceObservation_A> PolSourceObservation_AQuery = FillPolSourceObservation_A();
 
-            PolSourceObservationWebQuery = EnhanceQueryStatements<PolSourceObservationWeb>(PolSourceObservationWebQuery) as IQueryable<PolSourceObservationWeb>;
+            PolSourceObservation_AQuery = EnhanceQueryStatements<PolSourceObservation_A>(PolSourceObservation_AQuery) as IQueryable<PolSourceObservation_A>;
 
-            return PolSourceObservationWebQuery;
+            return PolSourceObservation_AQuery;
         }
-        public PolSourceObservationReport GetPolSourceObservationReportWithPolSourceObservationID(int PolSourceObservationID)
+        public PolSourceObservation_B GetPolSourceObservation_BWithPolSourceObservationID(int PolSourceObservationID)
         {
-            return FillPolSourceObservationReport().Where(c => c.PolSourceObservationID == PolSourceObservationID).FirstOrDefault();
+            return FillPolSourceObservation_B().Where(c => c.PolSourceObservationID == PolSourceObservationID).FirstOrDefault();
 
         }
-        public IQueryable<PolSourceObservationReport> GetPolSourceObservationReportList()
+        public IQueryable<PolSourceObservation_B> GetPolSourceObservation_BList()
         {
-            IQueryable<PolSourceObservationReport> PolSourceObservationReportQuery = FillPolSourceObservationReport();
+            IQueryable<PolSourceObservation_B> PolSourceObservation_BQuery = FillPolSourceObservation_B();
 
-            PolSourceObservationReportQuery = EnhanceQueryStatements<PolSourceObservationReport>(PolSourceObservationReportQuery) as IQueryable<PolSourceObservationReport>;
+            PolSourceObservation_BQuery = EnhanceQueryStatements<PolSourceObservation_B>(PolSourceObservation_BQuery) as IQueryable<PolSourceObservation_B>;
 
-            return PolSourceObservationReportQuery;
+            return PolSourceObservation_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -230,42 +230,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated PolSourceObservationFillWeb
-        private IQueryable<PolSourceObservationWeb> FillPolSourceObservationWeb()
-        {
-             IQueryable<PolSourceObservationWeb> PolSourceObservationWebQuery = (from c in db.PolSourceObservations
-                let PolSourceSiteTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.PolSourceSiteID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let ContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.ContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new PolSourceObservationWeb
-                    {
-                        PolSourceSiteTVItemLanguage = PolSourceSiteTVItemLanguage,
-                        ContactTVItemLanguage = ContactTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        PolSourceObservationID = c.PolSourceObservationID,
-                        PolSourceSiteID = c.PolSourceSiteID,
-                        ObservationDate_Local = c.ObservationDate_Local,
-                        ContactTVItemID = c.ContactTVItemID,
-                        Observation_ToBeDeleted = c.Observation_ToBeDeleted,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return PolSourceObservationWebQuery;
-        }
-        #endregion Functions private Generated PolSourceObservationFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(PolSourceObservation polSourceObservation)

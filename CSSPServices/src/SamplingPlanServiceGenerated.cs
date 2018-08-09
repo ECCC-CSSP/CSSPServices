@@ -309,31 +309,31 @@ namespace CSSPServices
 
             return SamplingPlanQuery;
         }
-        public SamplingPlanWeb GetSamplingPlanWebWithSamplingPlanID(int SamplingPlanID)
+        public SamplingPlan_A GetSamplingPlan_AWithSamplingPlanID(int SamplingPlanID)
         {
-            return FillSamplingPlanWeb().Where(c => c.SamplingPlanID == SamplingPlanID).FirstOrDefault();
+            return FillSamplingPlan_A().Where(c => c.SamplingPlanID == SamplingPlanID).FirstOrDefault();
 
         }
-        public IQueryable<SamplingPlanWeb> GetSamplingPlanWebList()
+        public IQueryable<SamplingPlan_A> GetSamplingPlan_AList()
         {
-            IQueryable<SamplingPlanWeb> SamplingPlanWebQuery = FillSamplingPlanWeb();
+            IQueryable<SamplingPlan_A> SamplingPlan_AQuery = FillSamplingPlan_A();
 
-            SamplingPlanWebQuery = EnhanceQueryStatements<SamplingPlanWeb>(SamplingPlanWebQuery) as IQueryable<SamplingPlanWeb>;
+            SamplingPlan_AQuery = EnhanceQueryStatements<SamplingPlan_A>(SamplingPlan_AQuery) as IQueryable<SamplingPlan_A>;
 
-            return SamplingPlanWebQuery;
+            return SamplingPlan_AQuery;
         }
-        public SamplingPlanReport GetSamplingPlanReportWithSamplingPlanID(int SamplingPlanID)
+        public SamplingPlan_B GetSamplingPlan_BWithSamplingPlanID(int SamplingPlanID)
         {
-            return FillSamplingPlanReport().Where(c => c.SamplingPlanID == SamplingPlanID).FirstOrDefault();
+            return FillSamplingPlan_B().Where(c => c.SamplingPlanID == SamplingPlanID).FirstOrDefault();
 
         }
-        public IQueryable<SamplingPlanReport> GetSamplingPlanReportList()
+        public IQueryable<SamplingPlan_B> GetSamplingPlan_BList()
         {
-            IQueryable<SamplingPlanReport> SamplingPlanReportQuery = FillSamplingPlanReport();
+            IQueryable<SamplingPlan_B> SamplingPlan_BQuery = FillSamplingPlan_B();
 
-            SamplingPlanReportQuery = EnhanceQueryStatements<SamplingPlanReport>(SamplingPlanReportQuery) as IQueryable<SamplingPlanReport>;
+            SamplingPlan_BQuery = EnhanceQueryStatements<SamplingPlan_B>(SamplingPlan_BQuery) as IQueryable<SamplingPlan_B>;
 
-            return SamplingPlanReportQuery;
+            return SamplingPlan_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -372,77 +372,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated SamplingPlanFillWeb
-        private IQueryable<SamplingPlanWeb> FillSamplingPlanWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> SampleTypeEnumList = enums.GetEnumTextOrderedList(typeof(SampleTypeEnum));
-            List<EnumIDAndText> SamplingPlanTypeEnumList = enums.GetEnumTextOrderedList(typeof(SamplingPlanTypeEnum));
-            List<EnumIDAndText> LabSheetTypeEnumList = enums.GetEnumTextOrderedList(typeof(LabSheetTypeEnum));
-
-             IQueryable<SamplingPlanWeb> SamplingPlanWebQuery = (from c in db.SamplingPlans
-                let ProvinceTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.ProvinceTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let CreatorTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.CreatorTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let SamplingPlanFileTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.SamplingPlanFileTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new SamplingPlanWeb
-                    {
-                        ProvinceTVItemLanguage = ProvinceTVItemLanguage,
-                        CreatorTVItemLanguage = CreatorTVItemLanguage,
-                        SamplingPlanFileTVItemLanguage = SamplingPlanFileTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        SampleTypeText = (from e in SampleTypeEnumList
-                                where e.EnumID == (int?)c.SampleType
-                                select e.EnumText).FirstOrDefault(),
-                        SamplingPlanTypeText = (from e in SamplingPlanTypeEnumList
-                                where e.EnumID == (int?)c.SamplingPlanType
-                                select e.EnumText).FirstOrDefault(),
-                        LabSheetTypeText = (from e in LabSheetTypeEnumList
-                                where e.EnumID == (int?)c.LabSheetType
-                                select e.EnumText).FirstOrDefault(),
-                        SamplingPlanID = c.SamplingPlanID,
-                        IsActive = c.IsActive,
-                        SamplingPlanName = c.SamplingPlanName,
-                        ForGroupName = c.ForGroupName,
-                        SampleType = c.SampleType,
-                        SamplingPlanType = c.SamplingPlanType,
-                        LabSheetType = c.LabSheetType,
-                        ProvinceTVItemID = c.ProvinceTVItemID,
-                        CreatorTVItemID = c.CreatorTVItemID,
-                        Year = c.Year,
-                        AccessCode = c.AccessCode,
-                        DailyDuplicatePrecisionCriteria = c.DailyDuplicatePrecisionCriteria,
-                        IntertechDuplicatePrecisionCriteria = c.IntertechDuplicatePrecisionCriteria,
-                        IncludeLaboratoryQAQC = c.IncludeLaboratoryQAQC,
-                        ApprovalCode = c.ApprovalCode,
-                        SamplingPlanFileTVItemID = c.SamplingPlanFileTVItemID,
-                        AnalyzeMethodDefault = c.AnalyzeMethodDefault,
-                        SampleMatrixDefault = c.SampleMatrixDefault,
-                        LaboratoryDefault = c.LaboratoryDefault,
-                        BackupDirectory = c.BackupDirectory,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return SamplingPlanWebQuery;
-        }
-        #endregion Functions private Generated SamplingPlanFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(SamplingPlan samplingPlan)

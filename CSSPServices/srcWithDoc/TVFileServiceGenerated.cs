@@ -242,31 +242,31 @@ namespace CSSPServices
 
             return TVFileQuery;
         }
-        public TVFileWeb GetTVFileWebWithTVFileID(int TVFileID)
+        public TVFile_A GetTVFile_AWithTVFileID(int TVFileID)
         {
-            return FillTVFileWeb().Where(c => c.TVFileID == TVFileID).FirstOrDefault();
+            return FillTVFile_A().Where(c => c.TVFileID == TVFileID).FirstOrDefault();
 
         }
-        public IQueryable<TVFileWeb> GetTVFileWebList()
+        public IQueryable<TVFile_A> GetTVFile_AList()
         {
-            IQueryable<TVFileWeb> TVFileWebQuery = FillTVFileWeb();
+            IQueryable<TVFile_A> TVFile_AQuery = FillTVFile_A();
 
-            TVFileWebQuery = EnhanceQueryStatements<TVFileWeb>(TVFileWebQuery) as IQueryable<TVFileWeb>;
+            TVFile_AQuery = EnhanceQueryStatements<TVFile_A>(TVFile_AQuery) as IQueryable<TVFile_A>;
 
-            return TVFileWebQuery;
+            return TVFile_AQuery;
         }
-        public TVFileReport GetTVFileReportWithTVFileID(int TVFileID)
+        public TVFile_B GetTVFile_BWithTVFileID(int TVFileID)
         {
-            return FillTVFileReport().Where(c => c.TVFileID == TVFileID).FirstOrDefault();
+            return FillTVFile_B().Where(c => c.TVFileID == TVFileID).FirstOrDefault();
 
         }
-        public IQueryable<TVFileReport> GetTVFileReportList()
+        public IQueryable<TVFile_B> GetTVFile_BList()
         {
-            IQueryable<TVFileReport> TVFileReportQuery = FillTVFileReport();
+            IQueryable<TVFile_B> TVFile_BQuery = FillTVFile_B();
 
-            TVFileReportQuery = EnhanceQueryStatements<TVFileReport>(TVFileReportQuery) as IQueryable<TVFileReport>;
+            TVFile_BQuery = EnhanceQueryStatements<TVFile_B>(TVFile_BQuery) as IQueryable<TVFile_B>;
 
-            return TVFileReportQuery;
+            return TVFile_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -305,67 +305,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated TVFileFillWeb
-        private IQueryable<TVFileWeb> FillTVFileWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> TVTypeEnumList = enums.GetEnumTextOrderedList(typeof(TVTypeEnum));
-            List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
-            List<EnumIDAndText> FilePurposeEnumList = enums.GetEnumTextOrderedList(typeof(FilePurposeEnum));
-            List<EnumIDAndText> FileTypeEnumList = enums.GetEnumTextOrderedList(typeof(FileTypeEnum));
-
-             IQueryable<TVFileWeb> TVFileWebQuery = (from c in db.TVFiles
-                let TVFileTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.TVFileTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new TVFileWeb
-                    {
-                        TVFileTVItemLanguage = TVFileTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        TemplateTVTypeText = (from e in TVTypeEnumList
-                                where e.EnumID == (int?)c.TemplateTVType
-                                select e.EnumText).FirstOrDefault(),
-                        LanguageText = (from e in LanguageEnumList
-                                where e.EnumID == (int?)c.Language
-                                select e.EnumText).FirstOrDefault(),
-                        FilePurposeText = (from e in FilePurposeEnumList
-                                where e.EnumID == (int?)c.FilePurpose
-                                select e.EnumText).FirstOrDefault(),
-                        FileTypeText = (from e in FileTypeEnumList
-                                where e.EnumID == (int?)c.FileType
-                                select e.EnumText).FirstOrDefault(),
-                        TVFileID = c.TVFileID,
-                        TVFileTVItemID = c.TVFileTVItemID,
-                        TemplateTVType = c.TemplateTVType,
-                        ReportTypeID = c.ReportTypeID,
-                        Parameters = c.Parameters,
-                        Year = c.Year,
-                        Language = c.Language,
-                        FilePurpose = c.FilePurpose,
-                        FileType = c.FileType,
-                        FileSize_kb = c.FileSize_kb,
-                        FileInfo = c.FileInfo,
-                        FileCreatedDate_UTC = c.FileCreatedDate_UTC,
-                        FromWater = c.FromWater,
-                        ClientFilePath = c.ClientFilePath,
-                        ServerFileName = c.ServerFileName,
-                        ServerFilePath = c.ServerFilePath,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return TVFileWebQuery;
-        }
-        #endregion Functions private Generated TVFileFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(TVFile tvFile)

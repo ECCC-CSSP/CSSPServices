@@ -320,27 +320,27 @@ namespace CSSPServices.Tests
                     VPResult vpResult = (from c in dbTestDB.VPResults select c).FirstOrDefault();
                     Assert.IsNotNull(vpResult);
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        vpResultService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        vpResultService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             VPResult vpResultRet = vpResultService.GetVPResultWithVPResultID(vpResult.VPResultID);
                             CheckVPResultFields(new List<VPResult>() { vpResultRet });
                             Assert.AreEqual(vpResult.VPResultID, vpResultRet.VPResultID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            VPResultWeb vpResultWebRet = vpResultService.GetVPResultWebWithVPResultID(vpResult.VPResultID);
-                            CheckVPResultWebFields(new List<VPResultWeb>() { vpResultWebRet });
-                            Assert.AreEqual(vpResult.VPResultID, vpResultWebRet.VPResultID);
+                            VPResult_A vpResult_ARet = vpResultService.GetVPResult_AWithVPResultID(vpResult.VPResultID);
+                            CheckVPResult_AFields(new List<VPResult_A>() { vpResult_ARet });
+                            Assert.AreEqual(vpResult.VPResultID, vpResult_ARet.VPResultID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            VPResultReport vpResultReportRet = vpResultService.GetVPResultReportWithVPResultID(vpResult.VPResultID);
-                            CheckVPResultReportFields(new List<VPResultReport>() { vpResultReportRet });
-                            Assert.AreEqual(vpResult.VPResultID, vpResultReportRet.VPResultID);
+                            VPResult_B vpResult_BRet = vpResultService.GetVPResult_BWithVPResultID(vpResult.VPResultID);
+                            CheckVPResult_BFields(new List<VPResult_B>() { vpResult_BRet });
+                            Assert.AreEqual(vpResult.VPResultID, vpResult_BRet.VPResultID);
                         }
                         else
                         {
@@ -369,30 +369,29 @@ namespace CSSPServices.Tests
                     List<VPResult> vpResultDirectQueryList = new List<VPResult>();
                     vpResultDirectQueryList = (from c in dbTestDB.VPResults select c).Take(200).ToList();
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        vpResultService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        vpResultService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<VPResult> vpResultList = new List<VPResult>();
                             vpResultList = vpResultService.GetVPResultList().ToList();
                             CheckVPResultFields(vpResultList);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<VPResultWeb> vpResultWebList = new List<VPResultWeb>();
-                            vpResultWebList = vpResultService.GetVPResultWebList().ToList();
-                            CheckVPResultWebFields(vpResultWebList);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultWebList.Count);
+                            List<VPResult_A> vpResult_AList = new List<VPResult_A>();
+                            vpResult_AList = vpResultService.GetVPResult_AList().ToList();
+                            CheckVPResult_AFields(vpResult_AList);
+                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResult_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<VPResultReport> vpResultReportList = new List<VPResultReport>();
-                            vpResultReportList = vpResultService.GetVPResultReportList().ToList();
-                            CheckVPResultReportFields(vpResultReportList);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultReportList.Count);
+                            List<VPResult_B> vpResult_BList = new List<VPResult_B>();
+                            vpResult_BList = vpResultService.GetVPResult_BList().ToList();
+                            CheckVPResult_BFields(vpResult_BList);
+                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResult_BList.Count);
                         }
                         else
                         {
@@ -414,38 +413,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         VPResultService vpResultService = new VPResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        vpResultService.Query = vpResultService.FillQuery(typeof(VPResult), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        vpResultService.Query = vpResultService.FillQuery(typeof(VPResult), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
 
                         List<VPResult> vpResultDirectQueryList = new List<VPResult>();
                         vpResultDirectQueryList = (from c in dbTestDB.VPResults select c).Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<VPResult> vpResultList = new List<VPResult>();
                             vpResultList = vpResultService.GetVPResultList().ToList();
                             CheckVPResultFields(vpResultList);
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<VPResultWeb> vpResultWebList = new List<VPResultWeb>();
-                            vpResultWebList = vpResultService.GetVPResultWebList().ToList();
-                            CheckVPResultWebFields(vpResultWebList);
-                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultWebList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultWebList.Count);
+                            List<VPResult_A> vpResult_AList = new List<VPResult_A>();
+                            vpResult_AList = vpResultService.GetVPResult_AList().ToList();
+                            CheckVPResult_AFields(vpResult_AList);
+                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResult_AList[0].VPResultID);
+                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResult_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<VPResultReport> vpResultReportList = new List<VPResultReport>();
-                            vpResultReportList = vpResultService.GetVPResultReportList().ToList();
-                            CheckVPResultReportFields(vpResultReportList);
-                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultReportList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultReportList.Count);
+                            List<VPResult_B> vpResult_BList = new List<VPResult_B>();
+                            vpResult_BList = vpResultService.GetVPResult_BList().ToList();
+                            CheckVPResult_BFields(vpResult_BList);
+                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResult_BList[0].VPResultID);
+                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResult_BList.Count);
                         }
                         else
                         {
@@ -467,38 +465,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         VPResultService vpResultService = new VPResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        vpResultService.Query = vpResultService.FillQuery(typeof(VPResult), culture.TwoLetterISOLanguageName, 1, 1,  "VPResultID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        vpResultService.Query = vpResultService.FillQuery(typeof(VPResult), culture.TwoLetterISOLanguageName, 1, 1,  "VPResultID", "");
 
                         List<VPResult> vpResultDirectQueryList = new List<VPResult>();
                         vpResultDirectQueryList = (from c in dbTestDB.VPResults select c).Skip(1).Take(1).OrderBy(c => c.VPResultID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<VPResult> vpResultList = new List<VPResult>();
                             vpResultList = vpResultService.GetVPResultList().ToList();
                             CheckVPResultFields(vpResultList);
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<VPResultWeb> vpResultWebList = new List<VPResultWeb>();
-                            vpResultWebList = vpResultService.GetVPResultWebList().ToList();
-                            CheckVPResultWebFields(vpResultWebList);
-                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultWebList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultWebList.Count);
+                            List<VPResult_A> vpResult_AList = new List<VPResult_A>();
+                            vpResult_AList = vpResultService.GetVPResult_AList().ToList();
+                            CheckVPResult_AFields(vpResult_AList);
+                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResult_AList[0].VPResultID);
+                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResult_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<VPResultReport> vpResultReportList = new List<VPResultReport>();
-                            vpResultReportList = vpResultService.GetVPResultReportList().ToList();
-                            CheckVPResultReportFields(vpResultReportList);
-                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultReportList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultReportList.Count);
+                            List<VPResult_B> vpResult_BList = new List<VPResult_B>();
+                            vpResult_BList = vpResultService.GetVPResult_BList().ToList();
+                            CheckVPResult_BFields(vpResult_BList);
+                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResult_BList[0].VPResultID);
+                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResult_BList.Count);
                         }
                         else
                         {
@@ -520,38 +517,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         VPResultService vpResultService = new VPResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        vpResultService.Query = vpResultService.FillQuery(typeof(VPResult), culture.TwoLetterISOLanguageName, 1, 1, "VPResultID,VPScenarioID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        vpResultService.Query = vpResultService.FillQuery(typeof(VPResult), culture.TwoLetterISOLanguageName, 1, 1, "VPResultID,VPScenarioID", "");
 
                         List<VPResult> vpResultDirectQueryList = new List<VPResult>();
                         vpResultDirectQueryList = (from c in dbTestDB.VPResults select c).Skip(1).Take(1).OrderBy(c => c.VPResultID).ThenBy(c => c.VPScenarioID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<VPResult> vpResultList = new List<VPResult>();
                             vpResultList = vpResultService.GetVPResultList().ToList();
                             CheckVPResultFields(vpResultList);
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<VPResultWeb> vpResultWebList = new List<VPResultWeb>();
-                            vpResultWebList = vpResultService.GetVPResultWebList().ToList();
-                            CheckVPResultWebFields(vpResultWebList);
-                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultWebList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultWebList.Count);
+                            List<VPResult_A> vpResult_AList = new List<VPResult_A>();
+                            vpResult_AList = vpResultService.GetVPResult_AList().ToList();
+                            CheckVPResult_AFields(vpResult_AList);
+                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResult_AList[0].VPResultID);
+                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResult_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<VPResultReport> vpResultReportList = new List<VPResultReport>();
-                            vpResultReportList = vpResultService.GetVPResultReportList().ToList();
-                            CheckVPResultReportFields(vpResultReportList);
-                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultReportList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultReportList.Count);
+                            List<VPResult_B> vpResult_BList = new List<VPResult_B>();
+                            vpResult_BList = vpResultService.GetVPResult_BList().ToList();
+                            CheckVPResult_BFields(vpResult_BList);
+                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResult_BList[0].VPResultID);
+                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResult_BList.Count);
                         }
                         else
                         {
@@ -573,38 +569,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         VPResultService vpResultService = new VPResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        vpResultService.Query = vpResultService.FillQuery(typeof(VPResult), culture.TwoLetterISOLanguageName, 0, 1, "VPResultID", "VPResultID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        vpResultService.Query = vpResultService.FillQuery(typeof(VPResult), culture.TwoLetterISOLanguageName, 0, 1, "VPResultID", "VPResultID,EQ,4", "");
 
                         List<VPResult> vpResultDirectQueryList = new List<VPResult>();
                         vpResultDirectQueryList = (from c in dbTestDB.VPResults select c).Where(c => c.VPResultID == 4).Skip(0).Take(1).OrderBy(c => c.VPResultID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<VPResult> vpResultList = new List<VPResult>();
                             vpResultList = vpResultService.GetVPResultList().ToList();
                             CheckVPResultFields(vpResultList);
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<VPResultWeb> vpResultWebList = new List<VPResultWeb>();
-                            vpResultWebList = vpResultService.GetVPResultWebList().ToList();
-                            CheckVPResultWebFields(vpResultWebList);
-                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultWebList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultWebList.Count);
+                            List<VPResult_A> vpResult_AList = new List<VPResult_A>();
+                            vpResult_AList = vpResultService.GetVPResult_AList().ToList();
+                            CheckVPResult_AFields(vpResult_AList);
+                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResult_AList[0].VPResultID);
+                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResult_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<VPResultReport> vpResultReportList = new List<VPResultReport>();
-                            vpResultReportList = vpResultService.GetVPResultReportList().ToList();
-                            CheckVPResultReportFields(vpResultReportList);
-                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultReportList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultReportList.Count);
+                            List<VPResult_B> vpResult_BList = new List<VPResult_B>();
+                            vpResult_BList = vpResultService.GetVPResult_BList().ToList();
+                            CheckVPResult_BFields(vpResult_BList);
+                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResult_BList[0].VPResultID);
+                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResult_BList.Count);
                         }
                         else
                         {
@@ -626,38 +621,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         VPResultService vpResultService = new VPResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        vpResultService.Query = vpResultService.FillQuery(typeof(VPResult), culture.TwoLetterISOLanguageName, 0, 1, "VPResultID", "VPResultID,GT,2|VPResultID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        vpResultService.Query = vpResultService.FillQuery(typeof(VPResult), culture.TwoLetterISOLanguageName, 0, 1, "VPResultID", "VPResultID,GT,2|VPResultID,LT,5", "");
 
                         List<VPResult> vpResultDirectQueryList = new List<VPResult>();
                         vpResultDirectQueryList = (from c in dbTestDB.VPResults select c).Where(c => c.VPResultID > 2 && c.VPResultID < 5).Skip(0).Take(1).OrderBy(c => c.VPResultID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<VPResult> vpResultList = new List<VPResult>();
                             vpResultList = vpResultService.GetVPResultList().ToList();
                             CheckVPResultFields(vpResultList);
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<VPResultWeb> vpResultWebList = new List<VPResultWeb>();
-                            vpResultWebList = vpResultService.GetVPResultWebList().ToList();
-                            CheckVPResultWebFields(vpResultWebList);
-                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultWebList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultWebList.Count);
+                            List<VPResult_A> vpResult_AList = new List<VPResult_A>();
+                            vpResult_AList = vpResultService.GetVPResult_AList().ToList();
+                            CheckVPResult_AFields(vpResult_AList);
+                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResult_AList[0].VPResultID);
+                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResult_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<VPResultReport> vpResultReportList = new List<VPResultReport>();
-                            vpResultReportList = vpResultService.GetVPResultReportList().ToList();
-                            CheckVPResultReportFields(vpResultReportList);
-                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultReportList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultReportList.Count);
+                            List<VPResult_B> vpResult_BList = new List<VPResult_B>();
+                            vpResult_BList = vpResultService.GetVPResult_BList().ToList();
+                            CheckVPResult_BFields(vpResult_BList);
+                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResult_BList[0].VPResultID);
+                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResult_BList.Count);
                         }
                         else
                         {
@@ -679,38 +673,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         VPResultService vpResultService = new VPResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        vpResultService.Query = vpResultService.FillQuery(typeof(VPResult), culture.TwoLetterISOLanguageName, 0, 10000, "", "VPResultID,GT,2|VPResultID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        vpResultService.Query = vpResultService.FillQuery(typeof(VPResult), culture.TwoLetterISOLanguageName, 0, 10000, "", "VPResultID,GT,2|VPResultID,LT,5", "");
 
                         List<VPResult> vpResultDirectQueryList = new List<VPResult>();
                         vpResultDirectQueryList = (from c in dbTestDB.VPResults select c).Where(c => c.VPResultID > 2 && c.VPResultID < 5).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<VPResult> vpResultList = new List<VPResult>();
                             vpResultList = vpResultService.GetVPResultList().ToList();
                             CheckVPResultFields(vpResultList);
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<VPResultWeb> vpResultWebList = new List<VPResultWeb>();
-                            vpResultWebList = vpResultService.GetVPResultWebList().ToList();
-                            CheckVPResultWebFields(vpResultWebList);
-                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultWebList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultWebList.Count);
+                            List<VPResult_A> vpResult_AList = new List<VPResult_A>();
+                            vpResult_AList = vpResultService.GetVPResult_AList().ToList();
+                            CheckVPResult_AFields(vpResult_AList);
+                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResult_AList[0].VPResultID);
+                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResult_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<VPResultReport> vpResultReportList = new List<VPResultReport>();
-                            vpResultReportList = vpResultService.GetVPResultReportList().ToList();
-                            CheckVPResultReportFields(vpResultReportList);
-                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultReportList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultReportList.Count);
+                            List<VPResult_B> vpResult_BList = new List<VPResult_B>();
+                            vpResult_BList = vpResultService.GetVPResult_BList().ToList();
+                            CheckVPResult_BFields(vpResult_BList);
+                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResult_BList[0].VPResultID);
+                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResult_BList.Count);
                         }
                         else
                         {
@@ -737,39 +730,39 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(vpResultList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(vpResultList[0].HasErrors);
         }
-        private void CheckVPResultWebFields(List<VPResultWeb> vpResultWebList)
+        private void CheckVPResult_AFields(List<VPResult_A> vpResult_AList)
         {
-            Assert.IsNotNull(vpResultWebList[0].LastUpdateContactTVItemLanguage);
-            Assert.IsNotNull(vpResultWebList[0].VPResultID);
-            Assert.IsNotNull(vpResultWebList[0].VPScenarioID);
-            Assert.IsNotNull(vpResultWebList[0].Ordinal);
-            Assert.IsNotNull(vpResultWebList[0].Concentration_MPN_100ml);
-            Assert.IsNotNull(vpResultWebList[0].Dilution);
-            Assert.IsNotNull(vpResultWebList[0].FarFieldWidth_m);
-            Assert.IsNotNull(vpResultWebList[0].DispersionDistance_m);
-            Assert.IsNotNull(vpResultWebList[0].TravelTime_hour);
-            Assert.IsNotNull(vpResultWebList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(vpResultWebList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(vpResultWebList[0].HasErrors);
+            Assert.IsNotNull(vpResult_AList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(vpResult_AList[0].VPResultID);
+            Assert.IsNotNull(vpResult_AList[0].VPScenarioID);
+            Assert.IsNotNull(vpResult_AList[0].Ordinal);
+            Assert.IsNotNull(vpResult_AList[0].Concentration_MPN_100ml);
+            Assert.IsNotNull(vpResult_AList[0].Dilution);
+            Assert.IsNotNull(vpResult_AList[0].FarFieldWidth_m);
+            Assert.IsNotNull(vpResult_AList[0].DispersionDistance_m);
+            Assert.IsNotNull(vpResult_AList[0].TravelTime_hour);
+            Assert.IsNotNull(vpResult_AList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(vpResult_AList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(vpResult_AList[0].HasErrors);
         }
-        private void CheckVPResultReportFields(List<VPResultReport> vpResultReportList)
+        private void CheckVPResult_BFields(List<VPResult_B> vpResult_BList)
         {
-            if (!string.IsNullOrWhiteSpace(vpResultReportList[0].VPResultReportTest))
+            if (!string.IsNullOrWhiteSpace(vpResult_BList[0].VPResultReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(vpResultReportList[0].VPResultReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(vpResult_BList[0].VPResultReportTest));
             }
-            Assert.IsNotNull(vpResultReportList[0].LastUpdateContactTVItemLanguage);
-            Assert.IsNotNull(vpResultReportList[0].VPResultID);
-            Assert.IsNotNull(vpResultReportList[0].VPScenarioID);
-            Assert.IsNotNull(vpResultReportList[0].Ordinal);
-            Assert.IsNotNull(vpResultReportList[0].Concentration_MPN_100ml);
-            Assert.IsNotNull(vpResultReportList[0].Dilution);
-            Assert.IsNotNull(vpResultReportList[0].FarFieldWidth_m);
-            Assert.IsNotNull(vpResultReportList[0].DispersionDistance_m);
-            Assert.IsNotNull(vpResultReportList[0].TravelTime_hour);
-            Assert.IsNotNull(vpResultReportList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(vpResultReportList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(vpResultReportList[0].HasErrors);
+            Assert.IsNotNull(vpResult_BList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(vpResult_BList[0].VPResultID);
+            Assert.IsNotNull(vpResult_BList[0].VPScenarioID);
+            Assert.IsNotNull(vpResult_BList[0].Ordinal);
+            Assert.IsNotNull(vpResult_BList[0].Concentration_MPN_100ml);
+            Assert.IsNotNull(vpResult_BList[0].Dilution);
+            Assert.IsNotNull(vpResult_BList[0].FarFieldWidth_m);
+            Assert.IsNotNull(vpResult_BList[0].DispersionDistance_m);
+            Assert.IsNotNull(vpResult_BList[0].TravelTime_hour);
+            Assert.IsNotNull(vpResult_BList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(vpResult_BList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(vpResult_BList[0].HasErrors);
         }
         private VPResult GetFilledRandomVPResult(string OmitPropName)
         {

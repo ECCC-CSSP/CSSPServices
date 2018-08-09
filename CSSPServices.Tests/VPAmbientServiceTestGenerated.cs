@@ -435,27 +435,27 @@ namespace CSSPServices.Tests
                     VPAmbient vpAmbient = (from c in dbTestDB.VPAmbients select c).FirstOrDefault();
                     Assert.IsNotNull(vpAmbient);
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        vpAmbientService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        vpAmbientService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             VPAmbient vpAmbientRet = vpAmbientService.GetVPAmbientWithVPAmbientID(vpAmbient.VPAmbientID);
                             CheckVPAmbientFields(new List<VPAmbient>() { vpAmbientRet });
                             Assert.AreEqual(vpAmbient.VPAmbientID, vpAmbientRet.VPAmbientID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            VPAmbientWeb vpAmbientWebRet = vpAmbientService.GetVPAmbientWebWithVPAmbientID(vpAmbient.VPAmbientID);
-                            CheckVPAmbientWebFields(new List<VPAmbientWeb>() { vpAmbientWebRet });
-                            Assert.AreEqual(vpAmbient.VPAmbientID, vpAmbientWebRet.VPAmbientID);
+                            VPAmbient_A vpAmbient_ARet = vpAmbientService.GetVPAmbient_AWithVPAmbientID(vpAmbient.VPAmbientID);
+                            CheckVPAmbient_AFields(new List<VPAmbient_A>() { vpAmbient_ARet });
+                            Assert.AreEqual(vpAmbient.VPAmbientID, vpAmbient_ARet.VPAmbientID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            VPAmbientReport vpAmbientReportRet = vpAmbientService.GetVPAmbientReportWithVPAmbientID(vpAmbient.VPAmbientID);
-                            CheckVPAmbientReportFields(new List<VPAmbientReport>() { vpAmbientReportRet });
-                            Assert.AreEqual(vpAmbient.VPAmbientID, vpAmbientReportRet.VPAmbientID);
+                            VPAmbient_B vpAmbient_BRet = vpAmbientService.GetVPAmbient_BWithVPAmbientID(vpAmbient.VPAmbientID);
+                            CheckVPAmbient_BFields(new List<VPAmbient_B>() { vpAmbient_BRet });
+                            Assert.AreEqual(vpAmbient.VPAmbientID, vpAmbient_BRet.VPAmbientID);
                         }
                         else
                         {
@@ -484,30 +484,29 @@ namespace CSSPServices.Tests
                     List<VPAmbient> vpAmbientDirectQueryList = new List<VPAmbient>();
                     vpAmbientDirectQueryList = (from c in dbTestDB.VPAmbients select c).Take(200).ToList();
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        vpAmbientService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        vpAmbientService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<VPAmbient> vpAmbientList = new List<VPAmbient>();
                             vpAmbientList = vpAmbientService.GetVPAmbientList().ToList();
                             CheckVPAmbientFields(vpAmbientList);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<VPAmbientWeb> vpAmbientWebList = new List<VPAmbientWeb>();
-                            vpAmbientWebList = vpAmbientService.GetVPAmbientWebList().ToList();
-                            CheckVPAmbientWebFields(vpAmbientWebList);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientWebList.Count);
+                            List<VPAmbient_A> vpAmbient_AList = new List<VPAmbient_A>();
+                            vpAmbient_AList = vpAmbientService.GetVPAmbient_AList().ToList();
+                            CheckVPAmbient_AFields(vpAmbient_AList);
+                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbient_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<VPAmbientReport> vpAmbientReportList = new List<VPAmbientReport>();
-                            vpAmbientReportList = vpAmbientService.GetVPAmbientReportList().ToList();
-                            CheckVPAmbientReportFields(vpAmbientReportList);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientReportList.Count);
+                            List<VPAmbient_B> vpAmbient_BList = new List<VPAmbient_B>();
+                            vpAmbient_BList = vpAmbientService.GetVPAmbient_BList().ToList();
+                            CheckVPAmbient_BFields(vpAmbient_BList);
+                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbient_BList.Count);
                         }
                         else
                         {
@@ -529,38 +528,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         VPAmbientService vpAmbientService = new VPAmbientService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        vpAmbientService.Query = vpAmbientService.FillQuery(typeof(VPAmbient), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        vpAmbientService.Query = vpAmbientService.FillQuery(typeof(VPAmbient), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
 
                         List<VPAmbient> vpAmbientDirectQueryList = new List<VPAmbient>();
                         vpAmbientDirectQueryList = (from c in dbTestDB.VPAmbients select c).Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<VPAmbient> vpAmbientList = new List<VPAmbient>();
                             vpAmbientList = vpAmbientService.GetVPAmbientList().ToList();
                             CheckVPAmbientFields(vpAmbientList);
                             Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<VPAmbientWeb> vpAmbientWebList = new List<VPAmbientWeb>();
-                            vpAmbientWebList = vpAmbientService.GetVPAmbientWebList().ToList();
-                            CheckVPAmbientWebFields(vpAmbientWebList);
-                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientWebList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientWebList.Count);
+                            List<VPAmbient_A> vpAmbient_AList = new List<VPAmbient_A>();
+                            vpAmbient_AList = vpAmbientService.GetVPAmbient_AList().ToList();
+                            CheckVPAmbient_AFields(vpAmbient_AList);
+                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbient_AList[0].VPAmbientID);
+                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbient_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<VPAmbientReport> vpAmbientReportList = new List<VPAmbientReport>();
-                            vpAmbientReportList = vpAmbientService.GetVPAmbientReportList().ToList();
-                            CheckVPAmbientReportFields(vpAmbientReportList);
-                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientReportList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientReportList.Count);
+                            List<VPAmbient_B> vpAmbient_BList = new List<VPAmbient_B>();
+                            vpAmbient_BList = vpAmbientService.GetVPAmbient_BList().ToList();
+                            CheckVPAmbient_BFields(vpAmbient_BList);
+                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbient_BList[0].VPAmbientID);
+                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbient_BList.Count);
                         }
                         else
                         {
@@ -582,38 +580,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         VPAmbientService vpAmbientService = new VPAmbientService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        vpAmbientService.Query = vpAmbientService.FillQuery(typeof(VPAmbient), culture.TwoLetterISOLanguageName, 1, 1,  "VPAmbientID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        vpAmbientService.Query = vpAmbientService.FillQuery(typeof(VPAmbient), culture.TwoLetterISOLanguageName, 1, 1,  "VPAmbientID", "");
 
                         List<VPAmbient> vpAmbientDirectQueryList = new List<VPAmbient>();
                         vpAmbientDirectQueryList = (from c in dbTestDB.VPAmbients select c).Skip(1).Take(1).OrderBy(c => c.VPAmbientID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<VPAmbient> vpAmbientList = new List<VPAmbient>();
                             vpAmbientList = vpAmbientService.GetVPAmbientList().ToList();
                             CheckVPAmbientFields(vpAmbientList);
                             Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<VPAmbientWeb> vpAmbientWebList = new List<VPAmbientWeb>();
-                            vpAmbientWebList = vpAmbientService.GetVPAmbientWebList().ToList();
-                            CheckVPAmbientWebFields(vpAmbientWebList);
-                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientWebList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientWebList.Count);
+                            List<VPAmbient_A> vpAmbient_AList = new List<VPAmbient_A>();
+                            vpAmbient_AList = vpAmbientService.GetVPAmbient_AList().ToList();
+                            CheckVPAmbient_AFields(vpAmbient_AList);
+                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbient_AList[0].VPAmbientID);
+                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbient_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<VPAmbientReport> vpAmbientReportList = new List<VPAmbientReport>();
-                            vpAmbientReportList = vpAmbientService.GetVPAmbientReportList().ToList();
-                            CheckVPAmbientReportFields(vpAmbientReportList);
-                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientReportList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientReportList.Count);
+                            List<VPAmbient_B> vpAmbient_BList = new List<VPAmbient_B>();
+                            vpAmbient_BList = vpAmbientService.GetVPAmbient_BList().ToList();
+                            CheckVPAmbient_BFields(vpAmbient_BList);
+                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbient_BList[0].VPAmbientID);
+                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbient_BList.Count);
                         }
                         else
                         {
@@ -635,38 +632,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         VPAmbientService vpAmbientService = new VPAmbientService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        vpAmbientService.Query = vpAmbientService.FillQuery(typeof(VPAmbient), culture.TwoLetterISOLanguageName, 1, 1, "VPAmbientID,VPScenarioID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        vpAmbientService.Query = vpAmbientService.FillQuery(typeof(VPAmbient), culture.TwoLetterISOLanguageName, 1, 1, "VPAmbientID,VPScenarioID", "");
 
                         List<VPAmbient> vpAmbientDirectQueryList = new List<VPAmbient>();
                         vpAmbientDirectQueryList = (from c in dbTestDB.VPAmbients select c).Skip(1).Take(1).OrderBy(c => c.VPAmbientID).ThenBy(c => c.VPScenarioID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<VPAmbient> vpAmbientList = new List<VPAmbient>();
                             vpAmbientList = vpAmbientService.GetVPAmbientList().ToList();
                             CheckVPAmbientFields(vpAmbientList);
                             Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<VPAmbientWeb> vpAmbientWebList = new List<VPAmbientWeb>();
-                            vpAmbientWebList = vpAmbientService.GetVPAmbientWebList().ToList();
-                            CheckVPAmbientWebFields(vpAmbientWebList);
-                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientWebList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientWebList.Count);
+                            List<VPAmbient_A> vpAmbient_AList = new List<VPAmbient_A>();
+                            vpAmbient_AList = vpAmbientService.GetVPAmbient_AList().ToList();
+                            CheckVPAmbient_AFields(vpAmbient_AList);
+                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbient_AList[0].VPAmbientID);
+                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbient_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<VPAmbientReport> vpAmbientReportList = new List<VPAmbientReport>();
-                            vpAmbientReportList = vpAmbientService.GetVPAmbientReportList().ToList();
-                            CheckVPAmbientReportFields(vpAmbientReportList);
-                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientReportList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientReportList.Count);
+                            List<VPAmbient_B> vpAmbient_BList = new List<VPAmbient_B>();
+                            vpAmbient_BList = vpAmbientService.GetVPAmbient_BList().ToList();
+                            CheckVPAmbient_BFields(vpAmbient_BList);
+                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbient_BList[0].VPAmbientID);
+                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbient_BList.Count);
                         }
                         else
                         {
@@ -688,38 +684,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         VPAmbientService vpAmbientService = new VPAmbientService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        vpAmbientService.Query = vpAmbientService.FillQuery(typeof(VPAmbient), culture.TwoLetterISOLanguageName, 0, 1, "VPAmbientID", "VPAmbientID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        vpAmbientService.Query = vpAmbientService.FillQuery(typeof(VPAmbient), culture.TwoLetterISOLanguageName, 0, 1, "VPAmbientID", "VPAmbientID,EQ,4", "");
 
                         List<VPAmbient> vpAmbientDirectQueryList = new List<VPAmbient>();
                         vpAmbientDirectQueryList = (from c in dbTestDB.VPAmbients select c).Where(c => c.VPAmbientID == 4).Skip(0).Take(1).OrderBy(c => c.VPAmbientID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<VPAmbient> vpAmbientList = new List<VPAmbient>();
                             vpAmbientList = vpAmbientService.GetVPAmbientList().ToList();
                             CheckVPAmbientFields(vpAmbientList);
                             Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<VPAmbientWeb> vpAmbientWebList = new List<VPAmbientWeb>();
-                            vpAmbientWebList = vpAmbientService.GetVPAmbientWebList().ToList();
-                            CheckVPAmbientWebFields(vpAmbientWebList);
-                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientWebList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientWebList.Count);
+                            List<VPAmbient_A> vpAmbient_AList = new List<VPAmbient_A>();
+                            vpAmbient_AList = vpAmbientService.GetVPAmbient_AList().ToList();
+                            CheckVPAmbient_AFields(vpAmbient_AList);
+                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbient_AList[0].VPAmbientID);
+                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbient_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<VPAmbientReport> vpAmbientReportList = new List<VPAmbientReport>();
-                            vpAmbientReportList = vpAmbientService.GetVPAmbientReportList().ToList();
-                            CheckVPAmbientReportFields(vpAmbientReportList);
-                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientReportList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientReportList.Count);
+                            List<VPAmbient_B> vpAmbient_BList = new List<VPAmbient_B>();
+                            vpAmbient_BList = vpAmbientService.GetVPAmbient_BList().ToList();
+                            CheckVPAmbient_BFields(vpAmbient_BList);
+                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbient_BList[0].VPAmbientID);
+                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbient_BList.Count);
                         }
                         else
                         {
@@ -741,38 +736,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         VPAmbientService vpAmbientService = new VPAmbientService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        vpAmbientService.Query = vpAmbientService.FillQuery(typeof(VPAmbient), culture.TwoLetterISOLanguageName, 0, 1, "VPAmbientID", "VPAmbientID,GT,2|VPAmbientID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        vpAmbientService.Query = vpAmbientService.FillQuery(typeof(VPAmbient), culture.TwoLetterISOLanguageName, 0, 1, "VPAmbientID", "VPAmbientID,GT,2|VPAmbientID,LT,5", "");
 
                         List<VPAmbient> vpAmbientDirectQueryList = new List<VPAmbient>();
                         vpAmbientDirectQueryList = (from c in dbTestDB.VPAmbients select c).Where(c => c.VPAmbientID > 2 && c.VPAmbientID < 5).Skip(0).Take(1).OrderBy(c => c.VPAmbientID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<VPAmbient> vpAmbientList = new List<VPAmbient>();
                             vpAmbientList = vpAmbientService.GetVPAmbientList().ToList();
                             CheckVPAmbientFields(vpAmbientList);
                             Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<VPAmbientWeb> vpAmbientWebList = new List<VPAmbientWeb>();
-                            vpAmbientWebList = vpAmbientService.GetVPAmbientWebList().ToList();
-                            CheckVPAmbientWebFields(vpAmbientWebList);
-                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientWebList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientWebList.Count);
+                            List<VPAmbient_A> vpAmbient_AList = new List<VPAmbient_A>();
+                            vpAmbient_AList = vpAmbientService.GetVPAmbient_AList().ToList();
+                            CheckVPAmbient_AFields(vpAmbient_AList);
+                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbient_AList[0].VPAmbientID);
+                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbient_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<VPAmbientReport> vpAmbientReportList = new List<VPAmbientReport>();
-                            vpAmbientReportList = vpAmbientService.GetVPAmbientReportList().ToList();
-                            CheckVPAmbientReportFields(vpAmbientReportList);
-                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientReportList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientReportList.Count);
+                            List<VPAmbient_B> vpAmbient_BList = new List<VPAmbient_B>();
+                            vpAmbient_BList = vpAmbientService.GetVPAmbient_BList().ToList();
+                            CheckVPAmbient_BFields(vpAmbient_BList);
+                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbient_BList[0].VPAmbientID);
+                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbient_BList.Count);
                         }
                         else
                         {
@@ -794,38 +788,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         VPAmbientService vpAmbientService = new VPAmbientService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        vpAmbientService.Query = vpAmbientService.FillQuery(typeof(VPAmbient), culture.TwoLetterISOLanguageName, 0, 10000, "", "VPAmbientID,GT,2|VPAmbientID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        vpAmbientService.Query = vpAmbientService.FillQuery(typeof(VPAmbient), culture.TwoLetterISOLanguageName, 0, 10000, "", "VPAmbientID,GT,2|VPAmbientID,LT,5", "");
 
                         List<VPAmbient> vpAmbientDirectQueryList = new List<VPAmbient>();
                         vpAmbientDirectQueryList = (from c in dbTestDB.VPAmbients select c).Where(c => c.VPAmbientID > 2 && c.VPAmbientID < 5).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<VPAmbient> vpAmbientList = new List<VPAmbient>();
                             vpAmbientList = vpAmbientService.GetVPAmbientList().ToList();
                             CheckVPAmbientFields(vpAmbientList);
                             Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<VPAmbientWeb> vpAmbientWebList = new List<VPAmbientWeb>();
-                            vpAmbientWebList = vpAmbientService.GetVPAmbientWebList().ToList();
-                            CheckVPAmbientWebFields(vpAmbientWebList);
-                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientWebList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientWebList.Count);
+                            List<VPAmbient_A> vpAmbient_AList = new List<VPAmbient_A>();
+                            vpAmbient_AList = vpAmbientService.GetVPAmbient_AList().ToList();
+                            CheckVPAmbient_AFields(vpAmbient_AList);
+                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbient_AList[0].VPAmbientID);
+                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbient_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<VPAmbientReport> vpAmbientReportList = new List<VPAmbientReport>();
-                            vpAmbientReportList = vpAmbientService.GetVPAmbientReportList().ToList();
-                            CheckVPAmbientReportFields(vpAmbientReportList);
-                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientReportList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientReportList.Count);
+                            List<VPAmbient_B> vpAmbient_BList = new List<VPAmbient_B>();
+                            vpAmbient_BList = vpAmbientService.GetVPAmbient_BList().ToList();
+                            CheckVPAmbient_BFields(vpAmbient_BList);
+                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbient_BList[0].VPAmbientID);
+                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbient_BList.Count);
                         }
                         else
                         {
@@ -887,109 +880,109 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(vpAmbientList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(vpAmbientList[0].HasErrors);
         }
-        private void CheckVPAmbientWebFields(List<VPAmbientWeb> vpAmbientWebList)
+        private void CheckVPAmbient_AFields(List<VPAmbient_A> vpAmbient_AList)
         {
-            Assert.IsNotNull(vpAmbientWebList[0].LastUpdateContactTVItemLanguage);
-            Assert.IsNotNull(vpAmbientWebList[0].VPAmbientID);
-            Assert.IsNotNull(vpAmbientWebList[0].VPScenarioID);
-            Assert.IsNotNull(vpAmbientWebList[0].Row);
-            if (vpAmbientWebList[0].MeasurementDepth_m != null)
+            Assert.IsNotNull(vpAmbient_AList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(vpAmbient_AList[0].VPAmbientID);
+            Assert.IsNotNull(vpAmbient_AList[0].VPScenarioID);
+            Assert.IsNotNull(vpAmbient_AList[0].Row);
+            if (vpAmbient_AList[0].MeasurementDepth_m != null)
             {
-                Assert.IsNotNull(vpAmbientWebList[0].MeasurementDepth_m);
+                Assert.IsNotNull(vpAmbient_AList[0].MeasurementDepth_m);
             }
-            if (vpAmbientWebList[0].CurrentSpeed_m_s != null)
+            if (vpAmbient_AList[0].CurrentSpeed_m_s != null)
             {
-                Assert.IsNotNull(vpAmbientWebList[0].CurrentSpeed_m_s);
+                Assert.IsNotNull(vpAmbient_AList[0].CurrentSpeed_m_s);
             }
-            if (vpAmbientWebList[0].CurrentDirection_deg != null)
+            if (vpAmbient_AList[0].CurrentDirection_deg != null)
             {
-                Assert.IsNotNull(vpAmbientWebList[0].CurrentDirection_deg);
+                Assert.IsNotNull(vpAmbient_AList[0].CurrentDirection_deg);
             }
-            if (vpAmbientWebList[0].AmbientSalinity_PSU != null)
+            if (vpAmbient_AList[0].AmbientSalinity_PSU != null)
             {
-                Assert.IsNotNull(vpAmbientWebList[0].AmbientSalinity_PSU);
+                Assert.IsNotNull(vpAmbient_AList[0].AmbientSalinity_PSU);
             }
-            if (vpAmbientWebList[0].AmbientTemperature_C != null)
+            if (vpAmbient_AList[0].AmbientTemperature_C != null)
             {
-                Assert.IsNotNull(vpAmbientWebList[0].AmbientTemperature_C);
+                Assert.IsNotNull(vpAmbient_AList[0].AmbientTemperature_C);
             }
-            if (vpAmbientWebList[0].BackgroundConcentration_MPN_100ml != null)
+            if (vpAmbient_AList[0].BackgroundConcentration_MPN_100ml != null)
             {
-                Assert.IsNotNull(vpAmbientWebList[0].BackgroundConcentration_MPN_100ml);
+                Assert.IsNotNull(vpAmbient_AList[0].BackgroundConcentration_MPN_100ml);
             }
-            if (vpAmbientWebList[0].PollutantDecayRate_per_day != null)
+            if (vpAmbient_AList[0].PollutantDecayRate_per_day != null)
             {
-                Assert.IsNotNull(vpAmbientWebList[0].PollutantDecayRate_per_day);
+                Assert.IsNotNull(vpAmbient_AList[0].PollutantDecayRate_per_day);
             }
-            if (vpAmbientWebList[0].FarFieldCurrentSpeed_m_s != null)
+            if (vpAmbient_AList[0].FarFieldCurrentSpeed_m_s != null)
             {
-                Assert.IsNotNull(vpAmbientWebList[0].FarFieldCurrentSpeed_m_s);
+                Assert.IsNotNull(vpAmbient_AList[0].FarFieldCurrentSpeed_m_s);
             }
-            if (vpAmbientWebList[0].FarFieldCurrentDirection_deg != null)
+            if (vpAmbient_AList[0].FarFieldCurrentDirection_deg != null)
             {
-                Assert.IsNotNull(vpAmbientWebList[0].FarFieldCurrentDirection_deg);
+                Assert.IsNotNull(vpAmbient_AList[0].FarFieldCurrentDirection_deg);
             }
-            if (vpAmbientWebList[0].FarFieldDiffusionCoefficient != null)
+            if (vpAmbient_AList[0].FarFieldDiffusionCoefficient != null)
             {
-                Assert.IsNotNull(vpAmbientWebList[0].FarFieldDiffusionCoefficient);
+                Assert.IsNotNull(vpAmbient_AList[0].FarFieldDiffusionCoefficient);
             }
-            Assert.IsNotNull(vpAmbientWebList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(vpAmbientWebList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(vpAmbientWebList[0].HasErrors);
+            Assert.IsNotNull(vpAmbient_AList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(vpAmbient_AList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(vpAmbient_AList[0].HasErrors);
         }
-        private void CheckVPAmbientReportFields(List<VPAmbientReport> vpAmbientReportList)
+        private void CheckVPAmbient_BFields(List<VPAmbient_B> vpAmbient_BList)
         {
-            if (!string.IsNullOrWhiteSpace(vpAmbientReportList[0].VPAmbientReportTest))
+            if (!string.IsNullOrWhiteSpace(vpAmbient_BList[0].VPAmbientReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(vpAmbientReportList[0].VPAmbientReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(vpAmbient_BList[0].VPAmbientReportTest));
             }
-            Assert.IsNotNull(vpAmbientReportList[0].LastUpdateContactTVItemLanguage);
-            Assert.IsNotNull(vpAmbientReportList[0].VPAmbientID);
-            Assert.IsNotNull(vpAmbientReportList[0].VPScenarioID);
-            Assert.IsNotNull(vpAmbientReportList[0].Row);
-            if (vpAmbientReportList[0].MeasurementDepth_m != null)
+            Assert.IsNotNull(vpAmbient_BList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(vpAmbient_BList[0].VPAmbientID);
+            Assert.IsNotNull(vpAmbient_BList[0].VPScenarioID);
+            Assert.IsNotNull(vpAmbient_BList[0].Row);
+            if (vpAmbient_BList[0].MeasurementDepth_m != null)
             {
-                Assert.IsNotNull(vpAmbientReportList[0].MeasurementDepth_m);
+                Assert.IsNotNull(vpAmbient_BList[0].MeasurementDepth_m);
             }
-            if (vpAmbientReportList[0].CurrentSpeed_m_s != null)
+            if (vpAmbient_BList[0].CurrentSpeed_m_s != null)
             {
-                Assert.IsNotNull(vpAmbientReportList[0].CurrentSpeed_m_s);
+                Assert.IsNotNull(vpAmbient_BList[0].CurrentSpeed_m_s);
             }
-            if (vpAmbientReportList[0].CurrentDirection_deg != null)
+            if (vpAmbient_BList[0].CurrentDirection_deg != null)
             {
-                Assert.IsNotNull(vpAmbientReportList[0].CurrentDirection_deg);
+                Assert.IsNotNull(vpAmbient_BList[0].CurrentDirection_deg);
             }
-            if (vpAmbientReportList[0].AmbientSalinity_PSU != null)
+            if (vpAmbient_BList[0].AmbientSalinity_PSU != null)
             {
-                Assert.IsNotNull(vpAmbientReportList[0].AmbientSalinity_PSU);
+                Assert.IsNotNull(vpAmbient_BList[0].AmbientSalinity_PSU);
             }
-            if (vpAmbientReportList[0].AmbientTemperature_C != null)
+            if (vpAmbient_BList[0].AmbientTemperature_C != null)
             {
-                Assert.IsNotNull(vpAmbientReportList[0].AmbientTemperature_C);
+                Assert.IsNotNull(vpAmbient_BList[0].AmbientTemperature_C);
             }
-            if (vpAmbientReportList[0].BackgroundConcentration_MPN_100ml != null)
+            if (vpAmbient_BList[0].BackgroundConcentration_MPN_100ml != null)
             {
-                Assert.IsNotNull(vpAmbientReportList[0].BackgroundConcentration_MPN_100ml);
+                Assert.IsNotNull(vpAmbient_BList[0].BackgroundConcentration_MPN_100ml);
             }
-            if (vpAmbientReportList[0].PollutantDecayRate_per_day != null)
+            if (vpAmbient_BList[0].PollutantDecayRate_per_day != null)
             {
-                Assert.IsNotNull(vpAmbientReportList[0].PollutantDecayRate_per_day);
+                Assert.IsNotNull(vpAmbient_BList[0].PollutantDecayRate_per_day);
             }
-            if (vpAmbientReportList[0].FarFieldCurrentSpeed_m_s != null)
+            if (vpAmbient_BList[0].FarFieldCurrentSpeed_m_s != null)
             {
-                Assert.IsNotNull(vpAmbientReportList[0].FarFieldCurrentSpeed_m_s);
+                Assert.IsNotNull(vpAmbient_BList[0].FarFieldCurrentSpeed_m_s);
             }
-            if (vpAmbientReportList[0].FarFieldCurrentDirection_deg != null)
+            if (vpAmbient_BList[0].FarFieldCurrentDirection_deg != null)
             {
-                Assert.IsNotNull(vpAmbientReportList[0].FarFieldCurrentDirection_deg);
+                Assert.IsNotNull(vpAmbient_BList[0].FarFieldCurrentDirection_deg);
             }
-            if (vpAmbientReportList[0].FarFieldDiffusionCoefficient != null)
+            if (vpAmbient_BList[0].FarFieldDiffusionCoefficient != null)
             {
-                Assert.IsNotNull(vpAmbientReportList[0].FarFieldDiffusionCoefficient);
+                Assert.IsNotNull(vpAmbient_BList[0].FarFieldDiffusionCoefficient);
             }
-            Assert.IsNotNull(vpAmbientReportList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(vpAmbientReportList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(vpAmbientReportList[0].HasErrors);
+            Assert.IsNotNull(vpAmbient_BList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(vpAmbient_BList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(vpAmbient_BList[0].HasErrors);
         }
         private VPAmbient GetFilledRandomVPAmbient(string OmitPropName)
         {

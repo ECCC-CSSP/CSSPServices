@@ -305,27 +305,27 @@ namespace CSSPServices.Tests
                     ReportTypeLanguage reportTypeLanguage = (from c in dbTestDB.ReportTypeLanguages select c).FirstOrDefault();
                     Assert.IsNotNull(reportTypeLanguage);
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        reportTypeLanguageService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        reportTypeLanguageService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             ReportTypeLanguage reportTypeLanguageRet = reportTypeLanguageService.GetReportTypeLanguageWithReportTypeLanguageID(reportTypeLanguage.ReportTypeLanguageID);
                             CheckReportTypeLanguageFields(new List<ReportTypeLanguage>() { reportTypeLanguageRet });
                             Assert.AreEqual(reportTypeLanguage.ReportTypeLanguageID, reportTypeLanguageRet.ReportTypeLanguageID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            ReportTypeLanguageWeb reportTypeLanguageWebRet = reportTypeLanguageService.GetReportTypeLanguageWebWithReportTypeLanguageID(reportTypeLanguage.ReportTypeLanguageID);
-                            CheckReportTypeLanguageWebFields(new List<ReportTypeLanguageWeb>() { reportTypeLanguageWebRet });
-                            Assert.AreEqual(reportTypeLanguage.ReportTypeLanguageID, reportTypeLanguageWebRet.ReportTypeLanguageID);
+                            ReportTypeLanguage_A reportTypeLanguage_ARet = reportTypeLanguageService.GetReportTypeLanguage_AWithReportTypeLanguageID(reportTypeLanguage.ReportTypeLanguageID);
+                            CheckReportTypeLanguage_AFields(new List<ReportTypeLanguage_A>() { reportTypeLanguage_ARet });
+                            Assert.AreEqual(reportTypeLanguage.ReportTypeLanguageID, reportTypeLanguage_ARet.ReportTypeLanguageID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            ReportTypeLanguageReport reportTypeLanguageReportRet = reportTypeLanguageService.GetReportTypeLanguageReportWithReportTypeLanguageID(reportTypeLanguage.ReportTypeLanguageID);
-                            CheckReportTypeLanguageReportFields(new List<ReportTypeLanguageReport>() { reportTypeLanguageReportRet });
-                            Assert.AreEqual(reportTypeLanguage.ReportTypeLanguageID, reportTypeLanguageReportRet.ReportTypeLanguageID);
+                            ReportTypeLanguage_B reportTypeLanguage_BRet = reportTypeLanguageService.GetReportTypeLanguage_BWithReportTypeLanguageID(reportTypeLanguage.ReportTypeLanguageID);
+                            CheckReportTypeLanguage_BFields(new List<ReportTypeLanguage_B>() { reportTypeLanguage_BRet });
+                            Assert.AreEqual(reportTypeLanguage.ReportTypeLanguageID, reportTypeLanguage_BRet.ReportTypeLanguageID);
                         }
                         else
                         {
@@ -354,30 +354,29 @@ namespace CSSPServices.Tests
                     List<ReportTypeLanguage> reportTypeLanguageDirectQueryList = new List<ReportTypeLanguage>();
                     reportTypeLanguageDirectQueryList = (from c in dbTestDB.ReportTypeLanguages select c).Take(200).ToList();
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        reportTypeLanguageService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        reportTypeLanguageService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<ReportTypeLanguage> reportTypeLanguageList = new List<ReportTypeLanguage>();
                             reportTypeLanguageList = reportTypeLanguageService.GetReportTypeLanguageList().ToList();
                             CheckReportTypeLanguageFields(reportTypeLanguageList);
-                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<ReportTypeLanguageWeb> reportTypeLanguageWebList = new List<ReportTypeLanguageWeb>();
-                            reportTypeLanguageWebList = reportTypeLanguageService.GetReportTypeLanguageWebList().ToList();
-                            CheckReportTypeLanguageWebFields(reportTypeLanguageWebList);
-                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguageWebList.Count);
+                            List<ReportTypeLanguage_A> reportTypeLanguage_AList = new List<ReportTypeLanguage_A>();
+                            reportTypeLanguage_AList = reportTypeLanguageService.GetReportTypeLanguage_AList().ToList();
+                            CheckReportTypeLanguage_AFields(reportTypeLanguage_AList);
+                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<ReportTypeLanguageReport> reportTypeLanguageReportList = new List<ReportTypeLanguageReport>();
-                            reportTypeLanguageReportList = reportTypeLanguageService.GetReportTypeLanguageReportList().ToList();
-                            CheckReportTypeLanguageReportFields(reportTypeLanguageReportList);
-                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguageReportList.Count);
+                            List<ReportTypeLanguage_B> reportTypeLanguage_BList = new List<ReportTypeLanguage_B>();
+                            reportTypeLanguage_BList = reportTypeLanguageService.GetReportTypeLanguage_BList().ToList();
+                            CheckReportTypeLanguage_BFields(reportTypeLanguage_BList);
+                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguage_BList.Count);
                         }
                         else
                         {
@@ -399,38 +398,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         ReportTypeLanguageService reportTypeLanguageService = new ReportTypeLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        reportTypeLanguageService.Query = reportTypeLanguageService.FillQuery(typeof(ReportTypeLanguage), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        reportTypeLanguageService.Query = reportTypeLanguageService.FillQuery(typeof(ReportTypeLanguage), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
 
                         List<ReportTypeLanguage> reportTypeLanguageDirectQueryList = new List<ReportTypeLanguage>();
                         reportTypeLanguageDirectQueryList = (from c in dbTestDB.ReportTypeLanguages select c).Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<ReportTypeLanguage> reportTypeLanguageList = new List<ReportTypeLanguage>();
                             reportTypeLanguageList = reportTypeLanguageService.GetReportTypeLanguageList().ToList();
                             CheckReportTypeLanguageFields(reportTypeLanguageList);
                             Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguageList[0].ReportTypeLanguageID);
-                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<ReportTypeLanguageWeb> reportTypeLanguageWebList = new List<ReportTypeLanguageWeb>();
-                            reportTypeLanguageWebList = reportTypeLanguageService.GetReportTypeLanguageWebList().ToList();
-                            CheckReportTypeLanguageWebFields(reportTypeLanguageWebList);
-                            Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguageWebList[0].ReportTypeLanguageID);
-                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguageWebList.Count);
+                            List<ReportTypeLanguage_A> reportTypeLanguage_AList = new List<ReportTypeLanguage_A>();
+                            reportTypeLanguage_AList = reportTypeLanguageService.GetReportTypeLanguage_AList().ToList();
+                            CheckReportTypeLanguage_AFields(reportTypeLanguage_AList);
+                            Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguage_AList[0].ReportTypeLanguageID);
+                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<ReportTypeLanguageReport> reportTypeLanguageReportList = new List<ReportTypeLanguageReport>();
-                            reportTypeLanguageReportList = reportTypeLanguageService.GetReportTypeLanguageReportList().ToList();
-                            CheckReportTypeLanguageReportFields(reportTypeLanguageReportList);
-                            Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguageReportList[0].ReportTypeLanguageID);
-                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguageReportList.Count);
+                            List<ReportTypeLanguage_B> reportTypeLanguage_BList = new List<ReportTypeLanguage_B>();
+                            reportTypeLanguage_BList = reportTypeLanguageService.GetReportTypeLanguage_BList().ToList();
+                            CheckReportTypeLanguage_BFields(reportTypeLanguage_BList);
+                            Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguage_BList[0].ReportTypeLanguageID);
+                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguage_BList.Count);
                         }
                         else
                         {
@@ -452,38 +450,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         ReportTypeLanguageService reportTypeLanguageService = new ReportTypeLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        reportTypeLanguageService.Query = reportTypeLanguageService.FillQuery(typeof(ReportTypeLanguage), culture.TwoLetterISOLanguageName, 1, 1,  "ReportTypeLanguageID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        reportTypeLanguageService.Query = reportTypeLanguageService.FillQuery(typeof(ReportTypeLanguage), culture.TwoLetterISOLanguageName, 1, 1,  "ReportTypeLanguageID", "");
 
                         List<ReportTypeLanguage> reportTypeLanguageDirectQueryList = new List<ReportTypeLanguage>();
                         reportTypeLanguageDirectQueryList = (from c in dbTestDB.ReportTypeLanguages select c).Skip(1).Take(1).OrderBy(c => c.ReportTypeLanguageID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<ReportTypeLanguage> reportTypeLanguageList = new List<ReportTypeLanguage>();
                             reportTypeLanguageList = reportTypeLanguageService.GetReportTypeLanguageList().ToList();
                             CheckReportTypeLanguageFields(reportTypeLanguageList);
                             Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguageList[0].ReportTypeLanguageID);
-                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<ReportTypeLanguageWeb> reportTypeLanguageWebList = new List<ReportTypeLanguageWeb>();
-                            reportTypeLanguageWebList = reportTypeLanguageService.GetReportTypeLanguageWebList().ToList();
-                            CheckReportTypeLanguageWebFields(reportTypeLanguageWebList);
-                            Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguageWebList[0].ReportTypeLanguageID);
-                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguageWebList.Count);
+                            List<ReportTypeLanguage_A> reportTypeLanguage_AList = new List<ReportTypeLanguage_A>();
+                            reportTypeLanguage_AList = reportTypeLanguageService.GetReportTypeLanguage_AList().ToList();
+                            CheckReportTypeLanguage_AFields(reportTypeLanguage_AList);
+                            Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguage_AList[0].ReportTypeLanguageID);
+                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<ReportTypeLanguageReport> reportTypeLanguageReportList = new List<ReportTypeLanguageReport>();
-                            reportTypeLanguageReportList = reportTypeLanguageService.GetReportTypeLanguageReportList().ToList();
-                            CheckReportTypeLanguageReportFields(reportTypeLanguageReportList);
-                            Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguageReportList[0].ReportTypeLanguageID);
-                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguageReportList.Count);
+                            List<ReportTypeLanguage_B> reportTypeLanguage_BList = new List<ReportTypeLanguage_B>();
+                            reportTypeLanguage_BList = reportTypeLanguageService.GetReportTypeLanguage_BList().ToList();
+                            CheckReportTypeLanguage_BFields(reportTypeLanguage_BList);
+                            Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguage_BList[0].ReportTypeLanguageID);
+                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguage_BList.Count);
                         }
                         else
                         {
@@ -505,38 +502,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         ReportTypeLanguageService reportTypeLanguageService = new ReportTypeLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        reportTypeLanguageService.Query = reportTypeLanguageService.FillQuery(typeof(ReportTypeLanguage), culture.TwoLetterISOLanguageName, 1, 1, "ReportTypeLanguageID,ReportTypeID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        reportTypeLanguageService.Query = reportTypeLanguageService.FillQuery(typeof(ReportTypeLanguage), culture.TwoLetterISOLanguageName, 1, 1, "ReportTypeLanguageID,ReportTypeID", "");
 
                         List<ReportTypeLanguage> reportTypeLanguageDirectQueryList = new List<ReportTypeLanguage>();
                         reportTypeLanguageDirectQueryList = (from c in dbTestDB.ReportTypeLanguages select c).Skip(1).Take(1).OrderBy(c => c.ReportTypeLanguageID).ThenBy(c => c.ReportTypeID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<ReportTypeLanguage> reportTypeLanguageList = new List<ReportTypeLanguage>();
                             reportTypeLanguageList = reportTypeLanguageService.GetReportTypeLanguageList().ToList();
                             CheckReportTypeLanguageFields(reportTypeLanguageList);
                             Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguageList[0].ReportTypeLanguageID);
-                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<ReportTypeLanguageWeb> reportTypeLanguageWebList = new List<ReportTypeLanguageWeb>();
-                            reportTypeLanguageWebList = reportTypeLanguageService.GetReportTypeLanguageWebList().ToList();
-                            CheckReportTypeLanguageWebFields(reportTypeLanguageWebList);
-                            Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguageWebList[0].ReportTypeLanguageID);
-                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguageWebList.Count);
+                            List<ReportTypeLanguage_A> reportTypeLanguage_AList = new List<ReportTypeLanguage_A>();
+                            reportTypeLanguage_AList = reportTypeLanguageService.GetReportTypeLanguage_AList().ToList();
+                            CheckReportTypeLanguage_AFields(reportTypeLanguage_AList);
+                            Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguage_AList[0].ReportTypeLanguageID);
+                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<ReportTypeLanguageReport> reportTypeLanguageReportList = new List<ReportTypeLanguageReport>();
-                            reportTypeLanguageReportList = reportTypeLanguageService.GetReportTypeLanguageReportList().ToList();
-                            CheckReportTypeLanguageReportFields(reportTypeLanguageReportList);
-                            Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguageReportList[0].ReportTypeLanguageID);
-                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguageReportList.Count);
+                            List<ReportTypeLanguage_B> reportTypeLanguage_BList = new List<ReportTypeLanguage_B>();
+                            reportTypeLanguage_BList = reportTypeLanguageService.GetReportTypeLanguage_BList().ToList();
+                            CheckReportTypeLanguage_BFields(reportTypeLanguage_BList);
+                            Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguage_BList[0].ReportTypeLanguageID);
+                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguage_BList.Count);
                         }
                         else
                         {
@@ -558,38 +554,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         ReportTypeLanguageService reportTypeLanguageService = new ReportTypeLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        reportTypeLanguageService.Query = reportTypeLanguageService.FillQuery(typeof(ReportTypeLanguage), culture.TwoLetterISOLanguageName, 0, 1, "ReportTypeLanguageID", "ReportTypeLanguageID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        reportTypeLanguageService.Query = reportTypeLanguageService.FillQuery(typeof(ReportTypeLanguage), culture.TwoLetterISOLanguageName, 0, 1, "ReportTypeLanguageID", "ReportTypeLanguageID,EQ,4", "");
 
                         List<ReportTypeLanguage> reportTypeLanguageDirectQueryList = new List<ReportTypeLanguage>();
                         reportTypeLanguageDirectQueryList = (from c in dbTestDB.ReportTypeLanguages select c).Where(c => c.ReportTypeLanguageID == 4).Skip(0).Take(1).OrderBy(c => c.ReportTypeLanguageID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<ReportTypeLanguage> reportTypeLanguageList = new List<ReportTypeLanguage>();
                             reportTypeLanguageList = reportTypeLanguageService.GetReportTypeLanguageList().ToList();
                             CheckReportTypeLanguageFields(reportTypeLanguageList);
                             Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguageList[0].ReportTypeLanguageID);
-                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<ReportTypeLanguageWeb> reportTypeLanguageWebList = new List<ReportTypeLanguageWeb>();
-                            reportTypeLanguageWebList = reportTypeLanguageService.GetReportTypeLanguageWebList().ToList();
-                            CheckReportTypeLanguageWebFields(reportTypeLanguageWebList);
-                            Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguageWebList[0].ReportTypeLanguageID);
-                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguageWebList.Count);
+                            List<ReportTypeLanguage_A> reportTypeLanguage_AList = new List<ReportTypeLanguage_A>();
+                            reportTypeLanguage_AList = reportTypeLanguageService.GetReportTypeLanguage_AList().ToList();
+                            CheckReportTypeLanguage_AFields(reportTypeLanguage_AList);
+                            Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguage_AList[0].ReportTypeLanguageID);
+                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<ReportTypeLanguageReport> reportTypeLanguageReportList = new List<ReportTypeLanguageReport>();
-                            reportTypeLanguageReportList = reportTypeLanguageService.GetReportTypeLanguageReportList().ToList();
-                            CheckReportTypeLanguageReportFields(reportTypeLanguageReportList);
-                            Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguageReportList[0].ReportTypeLanguageID);
-                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguageReportList.Count);
+                            List<ReportTypeLanguage_B> reportTypeLanguage_BList = new List<ReportTypeLanguage_B>();
+                            reportTypeLanguage_BList = reportTypeLanguageService.GetReportTypeLanguage_BList().ToList();
+                            CheckReportTypeLanguage_BFields(reportTypeLanguage_BList);
+                            Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguage_BList[0].ReportTypeLanguageID);
+                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguage_BList.Count);
                         }
                         else
                         {
@@ -611,38 +606,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         ReportTypeLanguageService reportTypeLanguageService = new ReportTypeLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        reportTypeLanguageService.Query = reportTypeLanguageService.FillQuery(typeof(ReportTypeLanguage), culture.TwoLetterISOLanguageName, 0, 1, "ReportTypeLanguageID", "ReportTypeLanguageID,GT,2|ReportTypeLanguageID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        reportTypeLanguageService.Query = reportTypeLanguageService.FillQuery(typeof(ReportTypeLanguage), culture.TwoLetterISOLanguageName, 0, 1, "ReportTypeLanguageID", "ReportTypeLanguageID,GT,2|ReportTypeLanguageID,LT,5", "");
 
                         List<ReportTypeLanguage> reportTypeLanguageDirectQueryList = new List<ReportTypeLanguage>();
                         reportTypeLanguageDirectQueryList = (from c in dbTestDB.ReportTypeLanguages select c).Where(c => c.ReportTypeLanguageID > 2 && c.ReportTypeLanguageID < 5).Skip(0).Take(1).OrderBy(c => c.ReportTypeLanguageID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<ReportTypeLanguage> reportTypeLanguageList = new List<ReportTypeLanguage>();
                             reportTypeLanguageList = reportTypeLanguageService.GetReportTypeLanguageList().ToList();
                             CheckReportTypeLanguageFields(reportTypeLanguageList);
                             Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguageList[0].ReportTypeLanguageID);
-                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<ReportTypeLanguageWeb> reportTypeLanguageWebList = new List<ReportTypeLanguageWeb>();
-                            reportTypeLanguageWebList = reportTypeLanguageService.GetReportTypeLanguageWebList().ToList();
-                            CheckReportTypeLanguageWebFields(reportTypeLanguageWebList);
-                            Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguageWebList[0].ReportTypeLanguageID);
-                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguageWebList.Count);
+                            List<ReportTypeLanguage_A> reportTypeLanguage_AList = new List<ReportTypeLanguage_A>();
+                            reportTypeLanguage_AList = reportTypeLanguageService.GetReportTypeLanguage_AList().ToList();
+                            CheckReportTypeLanguage_AFields(reportTypeLanguage_AList);
+                            Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguage_AList[0].ReportTypeLanguageID);
+                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<ReportTypeLanguageReport> reportTypeLanguageReportList = new List<ReportTypeLanguageReport>();
-                            reportTypeLanguageReportList = reportTypeLanguageService.GetReportTypeLanguageReportList().ToList();
-                            CheckReportTypeLanguageReportFields(reportTypeLanguageReportList);
-                            Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguageReportList[0].ReportTypeLanguageID);
-                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguageReportList.Count);
+                            List<ReportTypeLanguage_B> reportTypeLanguage_BList = new List<ReportTypeLanguage_B>();
+                            reportTypeLanguage_BList = reportTypeLanguageService.GetReportTypeLanguage_BList().ToList();
+                            CheckReportTypeLanguage_BFields(reportTypeLanguage_BList);
+                            Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguage_BList[0].ReportTypeLanguageID);
+                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguage_BList.Count);
                         }
                         else
                         {
@@ -664,38 +658,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         ReportTypeLanguageService reportTypeLanguageService = new ReportTypeLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        reportTypeLanguageService.Query = reportTypeLanguageService.FillQuery(typeof(ReportTypeLanguage), culture.TwoLetterISOLanguageName, 0, 10000, "", "ReportTypeLanguageID,GT,2|ReportTypeLanguageID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        reportTypeLanguageService.Query = reportTypeLanguageService.FillQuery(typeof(ReportTypeLanguage), culture.TwoLetterISOLanguageName, 0, 10000, "", "ReportTypeLanguageID,GT,2|ReportTypeLanguageID,LT,5", "");
 
                         List<ReportTypeLanguage> reportTypeLanguageDirectQueryList = new List<ReportTypeLanguage>();
                         reportTypeLanguageDirectQueryList = (from c in dbTestDB.ReportTypeLanguages select c).Where(c => c.ReportTypeLanguageID > 2 && c.ReportTypeLanguageID < 5).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<ReportTypeLanguage> reportTypeLanguageList = new List<ReportTypeLanguage>();
                             reportTypeLanguageList = reportTypeLanguageService.GetReportTypeLanguageList().ToList();
                             CheckReportTypeLanguageFields(reportTypeLanguageList);
                             Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguageList[0].ReportTypeLanguageID);
-                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<ReportTypeLanguageWeb> reportTypeLanguageWebList = new List<ReportTypeLanguageWeb>();
-                            reportTypeLanguageWebList = reportTypeLanguageService.GetReportTypeLanguageWebList().ToList();
-                            CheckReportTypeLanguageWebFields(reportTypeLanguageWebList);
-                            Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguageWebList[0].ReportTypeLanguageID);
-                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguageWebList.Count);
+                            List<ReportTypeLanguage_A> reportTypeLanguage_AList = new List<ReportTypeLanguage_A>();
+                            reportTypeLanguage_AList = reportTypeLanguageService.GetReportTypeLanguage_AList().ToList();
+                            CheckReportTypeLanguage_AFields(reportTypeLanguage_AList);
+                            Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguage_AList[0].ReportTypeLanguageID);
+                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<ReportTypeLanguageReport> reportTypeLanguageReportList = new List<ReportTypeLanguageReport>();
-                            reportTypeLanguageReportList = reportTypeLanguageService.GetReportTypeLanguageReportList().ToList();
-                            CheckReportTypeLanguageReportFields(reportTypeLanguageReportList);
-                            Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguageReportList[0].ReportTypeLanguageID);
-                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguageReportList.Count);
+                            List<ReportTypeLanguage_B> reportTypeLanguage_BList = new List<ReportTypeLanguage_B>();
+                            reportTypeLanguage_BList = reportTypeLanguageService.GetReportTypeLanguage_BList().ToList();
+                            CheckReportTypeLanguage_BFields(reportTypeLanguage_BList);
+                            Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguage_BList[0].ReportTypeLanguageID);
+                            Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguage_BList.Count);
                         }
                         else
                         {
@@ -723,73 +716,73 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(reportTypeLanguageList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(reportTypeLanguageList[0].HasErrors);
         }
-        private void CheckReportTypeLanguageWebFields(List<ReportTypeLanguageWeb> reportTypeLanguageWebList)
+        private void CheckReportTypeLanguage_AFields(List<ReportTypeLanguage_A> reportTypeLanguage_AList)
         {
-            Assert.IsNotNull(reportTypeLanguageWebList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(reportTypeLanguageWebList[0].LanguageText))
+            Assert.IsNotNull(reportTypeLanguage_AList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(reportTypeLanguage_AList[0].LanguageText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguageWebList[0].LanguageText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguage_AList[0].LanguageText));
             }
-            if (!string.IsNullOrWhiteSpace(reportTypeLanguageWebList[0].TranslationStatusNameText))
+            if (!string.IsNullOrWhiteSpace(reportTypeLanguage_AList[0].TranslationStatusNameText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguageWebList[0].TranslationStatusNameText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguage_AList[0].TranslationStatusNameText));
             }
-            if (!string.IsNullOrWhiteSpace(reportTypeLanguageWebList[0].TranslationStatusDescriptionText))
+            if (!string.IsNullOrWhiteSpace(reportTypeLanguage_AList[0].TranslationStatusDescriptionText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguageWebList[0].TranslationStatusDescriptionText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguage_AList[0].TranslationStatusDescriptionText));
             }
-            if (!string.IsNullOrWhiteSpace(reportTypeLanguageWebList[0].TranslationStatusStartOfFileNameText))
+            if (!string.IsNullOrWhiteSpace(reportTypeLanguage_AList[0].TranslationStatusStartOfFileNameText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguageWebList[0].TranslationStatusStartOfFileNameText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguage_AList[0].TranslationStatusStartOfFileNameText));
             }
-            Assert.IsNotNull(reportTypeLanguageWebList[0].ReportTypeLanguageID);
-            Assert.IsNotNull(reportTypeLanguageWebList[0].ReportTypeID);
-            Assert.IsNotNull(reportTypeLanguageWebList[0].Language);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguageWebList[0].Name));
-            Assert.IsNotNull(reportTypeLanguageWebList[0].TranslationStatusName);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguageWebList[0].Description));
-            Assert.IsNotNull(reportTypeLanguageWebList[0].TranslationStatusDescription);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguageWebList[0].StartOfFileName));
-            Assert.IsNotNull(reportTypeLanguageWebList[0].TranslationStatusStartOfFileName);
-            Assert.IsNotNull(reportTypeLanguageWebList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(reportTypeLanguageWebList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(reportTypeLanguageWebList[0].HasErrors);
+            Assert.IsNotNull(reportTypeLanguage_AList[0].ReportTypeLanguageID);
+            Assert.IsNotNull(reportTypeLanguage_AList[0].ReportTypeID);
+            Assert.IsNotNull(reportTypeLanguage_AList[0].Language);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguage_AList[0].Name));
+            Assert.IsNotNull(reportTypeLanguage_AList[0].TranslationStatusName);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguage_AList[0].Description));
+            Assert.IsNotNull(reportTypeLanguage_AList[0].TranslationStatusDescription);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguage_AList[0].StartOfFileName));
+            Assert.IsNotNull(reportTypeLanguage_AList[0].TranslationStatusStartOfFileName);
+            Assert.IsNotNull(reportTypeLanguage_AList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(reportTypeLanguage_AList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(reportTypeLanguage_AList[0].HasErrors);
         }
-        private void CheckReportTypeLanguageReportFields(List<ReportTypeLanguageReport> reportTypeLanguageReportList)
+        private void CheckReportTypeLanguage_BFields(List<ReportTypeLanguage_B> reportTypeLanguage_BList)
         {
-            if (!string.IsNullOrWhiteSpace(reportTypeLanguageReportList[0].ReportTypeLanguageReportTest))
+            if (!string.IsNullOrWhiteSpace(reportTypeLanguage_BList[0].ReportTypeLanguageReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguageReportList[0].ReportTypeLanguageReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguage_BList[0].ReportTypeLanguageReportTest));
             }
-            Assert.IsNotNull(reportTypeLanguageReportList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(reportTypeLanguageReportList[0].LanguageText))
+            Assert.IsNotNull(reportTypeLanguage_BList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(reportTypeLanguage_BList[0].LanguageText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguageReportList[0].LanguageText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguage_BList[0].LanguageText));
             }
-            if (!string.IsNullOrWhiteSpace(reportTypeLanguageReportList[0].TranslationStatusNameText))
+            if (!string.IsNullOrWhiteSpace(reportTypeLanguage_BList[0].TranslationStatusNameText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguageReportList[0].TranslationStatusNameText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguage_BList[0].TranslationStatusNameText));
             }
-            if (!string.IsNullOrWhiteSpace(reportTypeLanguageReportList[0].TranslationStatusDescriptionText))
+            if (!string.IsNullOrWhiteSpace(reportTypeLanguage_BList[0].TranslationStatusDescriptionText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguageReportList[0].TranslationStatusDescriptionText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguage_BList[0].TranslationStatusDescriptionText));
             }
-            if (!string.IsNullOrWhiteSpace(reportTypeLanguageReportList[0].TranslationStatusStartOfFileNameText))
+            if (!string.IsNullOrWhiteSpace(reportTypeLanguage_BList[0].TranslationStatusStartOfFileNameText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguageReportList[0].TranslationStatusStartOfFileNameText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguage_BList[0].TranslationStatusStartOfFileNameText));
             }
-            Assert.IsNotNull(reportTypeLanguageReportList[0].ReportTypeLanguageID);
-            Assert.IsNotNull(reportTypeLanguageReportList[0].ReportTypeID);
-            Assert.IsNotNull(reportTypeLanguageReportList[0].Language);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguageReportList[0].Name));
-            Assert.IsNotNull(reportTypeLanguageReportList[0].TranslationStatusName);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguageReportList[0].Description));
-            Assert.IsNotNull(reportTypeLanguageReportList[0].TranslationStatusDescription);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguageReportList[0].StartOfFileName));
-            Assert.IsNotNull(reportTypeLanguageReportList[0].TranslationStatusStartOfFileName);
-            Assert.IsNotNull(reportTypeLanguageReportList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(reportTypeLanguageReportList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(reportTypeLanguageReportList[0].HasErrors);
+            Assert.IsNotNull(reportTypeLanguage_BList[0].ReportTypeLanguageID);
+            Assert.IsNotNull(reportTypeLanguage_BList[0].ReportTypeID);
+            Assert.IsNotNull(reportTypeLanguage_BList[0].Language);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguage_BList[0].Name));
+            Assert.IsNotNull(reportTypeLanguage_BList[0].TranslationStatusName);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguage_BList[0].Description));
+            Assert.IsNotNull(reportTypeLanguage_BList[0].TranslationStatusDescription);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguage_BList[0].StartOfFileName));
+            Assert.IsNotNull(reportTypeLanguage_BList[0].TranslationStatusStartOfFileName);
+            Assert.IsNotNull(reportTypeLanguage_BList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(reportTypeLanguage_BList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(reportTypeLanguage_BList[0].HasErrors);
         }
         private ReportTypeLanguage GetFilledRandomReportTypeLanguage(string OmitPropName)
         {

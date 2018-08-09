@@ -143,31 +143,31 @@ namespace CSSPServices
 
             return MapInfoPointQuery;
         }
-        public MapInfoPointWeb GetMapInfoPointWebWithMapInfoPointID(int MapInfoPointID)
+        public MapInfoPoint_A GetMapInfoPoint_AWithMapInfoPointID(int MapInfoPointID)
         {
-            return FillMapInfoPointWeb().Where(c => c.MapInfoPointID == MapInfoPointID).FirstOrDefault();
+            return FillMapInfoPoint_A().Where(c => c.MapInfoPointID == MapInfoPointID).FirstOrDefault();
 
         }
-        public IQueryable<MapInfoPointWeb> GetMapInfoPointWebList()
+        public IQueryable<MapInfoPoint_A> GetMapInfoPoint_AList()
         {
-            IQueryable<MapInfoPointWeb> MapInfoPointWebQuery = FillMapInfoPointWeb();
+            IQueryable<MapInfoPoint_A> MapInfoPoint_AQuery = FillMapInfoPoint_A();
 
-            MapInfoPointWebQuery = EnhanceQueryStatements<MapInfoPointWeb>(MapInfoPointWebQuery) as IQueryable<MapInfoPointWeb>;
+            MapInfoPoint_AQuery = EnhanceQueryStatements<MapInfoPoint_A>(MapInfoPoint_AQuery) as IQueryable<MapInfoPoint_A>;
 
-            return MapInfoPointWebQuery;
+            return MapInfoPoint_AQuery;
         }
-        public MapInfoPointReport GetMapInfoPointReportWithMapInfoPointID(int MapInfoPointID)
+        public MapInfoPoint_B GetMapInfoPoint_BWithMapInfoPointID(int MapInfoPointID)
         {
-            return FillMapInfoPointReport().Where(c => c.MapInfoPointID == MapInfoPointID).FirstOrDefault();
+            return FillMapInfoPoint_B().Where(c => c.MapInfoPointID == MapInfoPointID).FirstOrDefault();
 
         }
-        public IQueryable<MapInfoPointReport> GetMapInfoPointReportList()
+        public IQueryable<MapInfoPoint_B> GetMapInfoPoint_BList()
         {
-            IQueryable<MapInfoPointReport> MapInfoPointReportQuery = FillMapInfoPointReport();
+            IQueryable<MapInfoPoint_B> MapInfoPoint_BQuery = FillMapInfoPoint_B();
 
-            MapInfoPointReportQuery = EnhanceQueryStatements<MapInfoPointReport>(MapInfoPointReportQuery) as IQueryable<MapInfoPointReport>;
+            MapInfoPoint_BQuery = EnhanceQueryStatements<MapInfoPoint_B>(MapInfoPoint_BQuery) as IQueryable<MapInfoPoint_B>;
 
-            return MapInfoPointReportQuery;
+            return MapInfoPoint_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -206,32 +206,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated MapInfoPointFillWeb
-        private IQueryable<MapInfoPointWeb> FillMapInfoPointWeb()
-        {
-             IQueryable<MapInfoPointWeb> MapInfoPointWebQuery = (from c in db.MapInfoPoints
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new MapInfoPointWeb
-                    {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        MapInfoPointID = c.MapInfoPointID,
-                        MapInfoID = c.MapInfoID,
-                        Ordinal = c.Ordinal,
-                        Lat = c.Lat,
-                        Lng = c.Lng,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return MapInfoPointWebQuery;
-        }
-        #endregion Functions private Generated MapInfoPointFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(MapInfoPoint mapInfoPoint)

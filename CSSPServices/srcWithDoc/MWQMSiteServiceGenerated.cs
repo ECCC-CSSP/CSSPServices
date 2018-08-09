@@ -174,31 +174,31 @@ namespace CSSPServices
 
             return MWQMSiteQuery;
         }
-        public MWQMSiteWeb GetMWQMSiteWebWithMWQMSiteID(int MWQMSiteID)
+        public MWQMSite_A GetMWQMSite_AWithMWQMSiteID(int MWQMSiteID)
         {
-            return FillMWQMSiteWeb().Where(c => c.MWQMSiteID == MWQMSiteID).FirstOrDefault();
+            return FillMWQMSite_A().Where(c => c.MWQMSiteID == MWQMSiteID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMSiteWeb> GetMWQMSiteWebList()
+        public IQueryable<MWQMSite_A> GetMWQMSite_AList()
         {
-            IQueryable<MWQMSiteWeb> MWQMSiteWebQuery = FillMWQMSiteWeb();
+            IQueryable<MWQMSite_A> MWQMSite_AQuery = FillMWQMSite_A();
 
-            MWQMSiteWebQuery = EnhanceQueryStatements<MWQMSiteWeb>(MWQMSiteWebQuery) as IQueryable<MWQMSiteWeb>;
+            MWQMSite_AQuery = EnhanceQueryStatements<MWQMSite_A>(MWQMSite_AQuery) as IQueryable<MWQMSite_A>;
 
-            return MWQMSiteWebQuery;
+            return MWQMSite_AQuery;
         }
-        public MWQMSiteReport GetMWQMSiteReportWithMWQMSiteID(int MWQMSiteID)
+        public MWQMSite_B GetMWQMSite_BWithMWQMSiteID(int MWQMSiteID)
         {
-            return FillMWQMSiteReport().Where(c => c.MWQMSiteID == MWQMSiteID).FirstOrDefault();
+            return FillMWQMSite_B().Where(c => c.MWQMSiteID == MWQMSiteID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMSiteReport> GetMWQMSiteReportList()
+        public IQueryable<MWQMSite_B> GetMWQMSite_BList()
         {
-            IQueryable<MWQMSiteReport> MWQMSiteReportQuery = FillMWQMSiteReport();
+            IQueryable<MWQMSite_B> MWQMSite_BQuery = FillMWQMSite_B();
 
-            MWQMSiteReportQuery = EnhanceQueryStatements<MWQMSiteReport>(MWQMSiteReportQuery) as IQueryable<MWQMSiteReport>;
+            MWQMSite_BQuery = EnhanceQueryStatements<MWQMSite_B>(MWQMSite_BQuery) as IQueryable<MWQMSite_B>;
 
-            return MWQMSiteReportQuery;
+            return MWQMSite_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -237,45 +237,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated MWQMSiteFillWeb
-        private IQueryable<MWQMSiteWeb> FillMWQMSiteWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> MWQMSiteLatestClassificationEnumList = enums.GetEnumTextOrderedList(typeof(MWQMSiteLatestClassificationEnum));
-
-             IQueryable<MWQMSiteWeb> MWQMSiteWebQuery = (from c in db.MWQMSites
-                let MWQMSiteTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.MWQMSiteTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new MWQMSiteWeb
-                    {
-                        MWQMSiteTVItemLanguage = MWQMSiteTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        MWQMSiteLatestClassificationText = (from e in MWQMSiteLatestClassificationEnumList
-                                where e.EnumID == (int?)c.MWQMSiteLatestClassification
-                                select e.EnumText).FirstOrDefault(),
-                        MWQMSiteID = c.MWQMSiteID,
-                        MWQMSiteTVItemID = c.MWQMSiteTVItemID,
-                        MWQMSiteNumber = c.MWQMSiteNumber,
-                        MWQMSiteDescription = c.MWQMSiteDescription,
-                        MWQMSiteLatestClassification = c.MWQMSiteLatestClassification,
-                        Ordinal = c.Ordinal,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return MWQMSiteWebQuery;
-        }
-        #endregion Functions private Generated MWQMSiteFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(MWQMSite mwqmSite)

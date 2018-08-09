@@ -238,31 +238,31 @@ namespace CSSPServices
 
             return AddressQuery;
         }
-        public AddressWeb GetAddressWebWithAddressID(int AddressID)
+        public Address_A GetAddress_AWithAddressID(int AddressID)
         {
-            return FillAddressWeb().Where(c => c.AddressID == AddressID).FirstOrDefault();
+            return FillAddress_A().Where(c => c.AddressID == AddressID).FirstOrDefault();
 
         }
-        public IQueryable<AddressWeb> GetAddressWebList()
+        public IQueryable<Address_A> GetAddress_AList()
         {
-            IQueryable<AddressWeb> AddressWebQuery = FillAddressWeb();
+            IQueryable<Address_A> Address_AQuery = FillAddress_A();
 
-            AddressWebQuery = EnhanceQueryStatements<AddressWeb>(AddressWebQuery) as IQueryable<AddressWeb>;
+            Address_AQuery = EnhanceQueryStatements<Address_A>(Address_AQuery) as IQueryable<Address_A>;
 
-            return AddressWebQuery;
+            return Address_AQuery;
         }
-        public AddressReport GetAddressReportWithAddressID(int AddressID)
+        public Address_B GetAddress_BWithAddressID(int AddressID)
         {
-            return FillAddressReport().Where(c => c.AddressID == AddressID).FirstOrDefault();
+            return FillAddress_B().Where(c => c.AddressID == AddressID).FirstOrDefault();
 
         }
-        public IQueryable<AddressReport> GetAddressReportList()
+        public IQueryable<Address_B> GetAddress_BList()
         {
-            IQueryable<AddressReport> AddressReportQuery = FillAddressReport();
+            IQueryable<Address_B> Address_BQuery = FillAddress_B();
 
-            AddressReportQuery = EnhanceQueryStatements<AddressReport>(AddressReportQuery) as IQueryable<AddressReport>;
+            Address_BQuery = EnhanceQueryStatements<Address_B>(Address_BQuery) as IQueryable<Address_B>;
 
-            return AddressReportQuery;
+            return Address_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -301,69 +301,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated AddressFillWeb
-        private IQueryable<AddressWeb> FillAddressWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> AddressTypeEnumList = enums.GetEnumTextOrderedList(typeof(AddressTypeEnum));
-            List<EnumIDAndText> StreetTypeEnumList = enums.GetEnumTextOrderedList(typeof(StreetTypeEnum));
-
-             IQueryable<AddressWeb> AddressWebQuery = (from c in db.Addresses
-                let AddressTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.AddressTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let CountryTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.CountryTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let ProvinceTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.ProvinceTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let MunicipalityTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.MunicipalityTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new AddressWeb
-                    {
-                        AddressTVItemLanguage = AddressTVItemLanguage,
-                        CountryTVItemLanguage = CountryTVItemLanguage,
-                        ProvinceTVItemLanguage = ProvinceTVItemLanguage,
-                        MunicipalityTVItemLanguage = MunicipalityTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        AddressTypeText = (from e in AddressTypeEnumList
-                                where e.EnumID == (int?)c.AddressType
-                                select e.EnumText).FirstOrDefault(),
-                        StreetTypeText = (from e in StreetTypeEnumList
-                                where e.EnumID == (int?)c.StreetType
-                                select e.EnumText).FirstOrDefault(),
-                        AddressID = c.AddressID,
-                        AddressTVItemID = c.AddressTVItemID,
-                        AddressType = c.AddressType,
-                        CountryTVItemID = c.CountryTVItemID,
-                        ProvinceTVItemID = c.ProvinceTVItemID,
-                        MunicipalityTVItemID = c.MunicipalityTVItemID,
-                        StreetName = c.StreetName,
-                        StreetNumber = c.StreetNumber,
-                        StreetType = c.StreetType,
-                        PostalCode = c.PostalCode,
-                        GoogleAddressText = c.GoogleAddressText,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return AddressWebQuery;
-        }
-        #endregion Functions private Generated AddressFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(Address address)

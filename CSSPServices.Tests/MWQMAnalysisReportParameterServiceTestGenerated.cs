@@ -594,27 +594,27 @@ namespace CSSPServices.Tests
                     MWQMAnalysisReportParameter mwqmAnalysisReportParameter = (from c in dbTestDB.MWQMAnalysisReportParameters select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmAnalysisReportParameter);
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        mwqmAnalysisReportParameterService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        mwqmAnalysisReportParameterService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             MWQMAnalysisReportParameter mwqmAnalysisReportParameterRet = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterWithMWQMAnalysisReportParameterID(mwqmAnalysisReportParameter.MWQMAnalysisReportParameterID);
                             CheckMWQMAnalysisReportParameterFields(new List<MWQMAnalysisReportParameter>() { mwqmAnalysisReportParameterRet });
                             Assert.AreEqual(mwqmAnalysisReportParameter.MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterRet.MWQMAnalysisReportParameterID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            MWQMAnalysisReportParameterWeb mwqmAnalysisReportParameterWebRet = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterWebWithMWQMAnalysisReportParameterID(mwqmAnalysisReportParameter.MWQMAnalysisReportParameterID);
-                            CheckMWQMAnalysisReportParameterWebFields(new List<MWQMAnalysisReportParameterWeb>() { mwqmAnalysisReportParameterWebRet });
-                            Assert.AreEqual(mwqmAnalysisReportParameter.MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterWebRet.MWQMAnalysisReportParameterID);
+                            MWQMAnalysisReportParameter_A mwqmAnalysisReportParameter_ARet = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameter_AWithMWQMAnalysisReportParameterID(mwqmAnalysisReportParameter.MWQMAnalysisReportParameterID);
+                            CheckMWQMAnalysisReportParameter_AFields(new List<MWQMAnalysisReportParameter_A>() { mwqmAnalysisReportParameter_ARet });
+                            Assert.AreEqual(mwqmAnalysisReportParameter.MWQMAnalysisReportParameterID, mwqmAnalysisReportParameter_ARet.MWQMAnalysisReportParameterID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            MWQMAnalysisReportParameterReport mwqmAnalysisReportParameterReportRet = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterReportWithMWQMAnalysisReportParameterID(mwqmAnalysisReportParameter.MWQMAnalysisReportParameterID);
-                            CheckMWQMAnalysisReportParameterReportFields(new List<MWQMAnalysisReportParameterReport>() { mwqmAnalysisReportParameterReportRet });
-                            Assert.AreEqual(mwqmAnalysisReportParameter.MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterReportRet.MWQMAnalysisReportParameterID);
+                            MWQMAnalysisReportParameter_B mwqmAnalysisReportParameter_BRet = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameter_BWithMWQMAnalysisReportParameterID(mwqmAnalysisReportParameter.MWQMAnalysisReportParameterID);
+                            CheckMWQMAnalysisReportParameter_BFields(new List<MWQMAnalysisReportParameter_B>() { mwqmAnalysisReportParameter_BRet });
+                            Assert.AreEqual(mwqmAnalysisReportParameter.MWQMAnalysisReportParameterID, mwqmAnalysisReportParameter_BRet.MWQMAnalysisReportParameterID);
                         }
                         else
                         {
@@ -643,30 +643,29 @@ namespace CSSPServices.Tests
                     List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterDirectQueryList = new List<MWQMAnalysisReportParameter>();
                     mwqmAnalysisReportParameterDirectQueryList = (from c in dbTestDB.MWQMAnalysisReportParameters select c).Take(200).ToList();
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        mwqmAnalysisReportParameterService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        mwqmAnalysisReportParameterService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterList = new List<MWQMAnalysisReportParameter>();
                             mwqmAnalysisReportParameterList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().ToList();
                             CheckMWQMAnalysisReportParameterFields(mwqmAnalysisReportParameterList);
-                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameterList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MWQMAnalysisReportParameterWeb> mwqmAnalysisReportParameterWebList = new List<MWQMAnalysisReportParameterWeb>();
-                            mwqmAnalysisReportParameterWebList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterWebList().ToList();
-                            CheckMWQMAnalysisReportParameterWebFields(mwqmAnalysisReportParameterWebList);
-                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameterWebList.Count);
+                            List<MWQMAnalysisReportParameter_A> mwqmAnalysisReportParameter_AList = new List<MWQMAnalysisReportParameter_A>();
+                            mwqmAnalysisReportParameter_AList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameter_AList().ToList();
+                            CheckMWQMAnalysisReportParameter_AFields(mwqmAnalysisReportParameter_AList);
+                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameter_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MWQMAnalysisReportParameterReport> mwqmAnalysisReportParameterReportList = new List<MWQMAnalysisReportParameterReport>();
-                            mwqmAnalysisReportParameterReportList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterReportList().ToList();
-                            CheckMWQMAnalysisReportParameterReportFields(mwqmAnalysisReportParameterReportList);
-                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameterReportList.Count);
+                            List<MWQMAnalysisReportParameter_B> mwqmAnalysisReportParameter_BList = new List<MWQMAnalysisReportParameter_B>();
+                            mwqmAnalysisReportParameter_BList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameter_BList().ToList();
+                            CheckMWQMAnalysisReportParameter_BFields(mwqmAnalysisReportParameter_BList);
+                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameter_BList.Count);
                         }
                         else
                         {
@@ -688,38 +687,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MWQMAnalysisReportParameterService mwqmAnalysisReportParameterService = new MWQMAnalysisReportParameterService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmAnalysisReportParameterService.Query = mwqmAnalysisReportParameterService.FillQuery(typeof(MWQMAnalysisReportParameter), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mwqmAnalysisReportParameterService.Query = mwqmAnalysisReportParameterService.FillQuery(typeof(MWQMAnalysisReportParameter), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
 
                         List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterDirectQueryList = new List<MWQMAnalysisReportParameter>();
                         mwqmAnalysisReportParameterDirectQueryList = (from c in dbTestDB.MWQMAnalysisReportParameters select c).Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterList = new List<MWQMAnalysisReportParameter>();
                             mwqmAnalysisReportParameterList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().ToList();
                             CheckMWQMAnalysisReportParameterFields(mwqmAnalysisReportParameterList);
                             Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterID);
-                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameterList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MWQMAnalysisReportParameterWeb> mwqmAnalysisReportParameterWebList = new List<MWQMAnalysisReportParameterWeb>();
-                            mwqmAnalysisReportParameterWebList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterWebList().ToList();
-                            CheckMWQMAnalysisReportParameterWebFields(mwqmAnalysisReportParameterWebList);
-                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterWebList[0].MWQMAnalysisReportParameterID);
-                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameterWebList.Count);
+                            List<MWQMAnalysisReportParameter_A> mwqmAnalysisReportParameter_AList = new List<MWQMAnalysisReportParameter_A>();
+                            mwqmAnalysisReportParameter_AList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameter_AList().ToList();
+                            CheckMWQMAnalysisReportParameter_AFields(mwqmAnalysisReportParameter_AList);
+                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameter_AList[0].MWQMAnalysisReportParameterID);
+                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameter_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MWQMAnalysisReportParameterReport> mwqmAnalysisReportParameterReportList = new List<MWQMAnalysisReportParameterReport>();
-                            mwqmAnalysisReportParameterReportList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterReportList().ToList();
-                            CheckMWQMAnalysisReportParameterReportFields(mwqmAnalysisReportParameterReportList);
-                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterReportList[0].MWQMAnalysisReportParameterID);
-                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameterReportList.Count);
+                            List<MWQMAnalysisReportParameter_B> mwqmAnalysisReportParameter_BList = new List<MWQMAnalysisReportParameter_B>();
+                            mwqmAnalysisReportParameter_BList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameter_BList().ToList();
+                            CheckMWQMAnalysisReportParameter_BFields(mwqmAnalysisReportParameter_BList);
+                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameter_BList[0].MWQMAnalysisReportParameterID);
+                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameter_BList.Count);
                         }
                         else
                         {
@@ -741,38 +739,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MWQMAnalysisReportParameterService mwqmAnalysisReportParameterService = new MWQMAnalysisReportParameterService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmAnalysisReportParameterService.Query = mwqmAnalysisReportParameterService.FillQuery(typeof(MWQMAnalysisReportParameter), culture.TwoLetterISOLanguageName, 1, 1,  "MWQMAnalysisReportParameterID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mwqmAnalysisReportParameterService.Query = mwqmAnalysisReportParameterService.FillQuery(typeof(MWQMAnalysisReportParameter), culture.TwoLetterISOLanguageName, 1, 1,  "MWQMAnalysisReportParameterID", "");
 
                         List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterDirectQueryList = new List<MWQMAnalysisReportParameter>();
                         mwqmAnalysisReportParameterDirectQueryList = (from c in dbTestDB.MWQMAnalysisReportParameters select c).Skip(1).Take(1).OrderBy(c => c.MWQMAnalysisReportParameterID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterList = new List<MWQMAnalysisReportParameter>();
                             mwqmAnalysisReportParameterList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().ToList();
                             CheckMWQMAnalysisReportParameterFields(mwqmAnalysisReportParameterList);
                             Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterID);
-                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameterList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MWQMAnalysisReportParameterWeb> mwqmAnalysisReportParameterWebList = new List<MWQMAnalysisReportParameterWeb>();
-                            mwqmAnalysisReportParameterWebList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterWebList().ToList();
-                            CheckMWQMAnalysisReportParameterWebFields(mwqmAnalysisReportParameterWebList);
-                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterWebList[0].MWQMAnalysisReportParameterID);
-                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameterWebList.Count);
+                            List<MWQMAnalysisReportParameter_A> mwqmAnalysisReportParameter_AList = new List<MWQMAnalysisReportParameter_A>();
+                            mwqmAnalysisReportParameter_AList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameter_AList().ToList();
+                            CheckMWQMAnalysisReportParameter_AFields(mwqmAnalysisReportParameter_AList);
+                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameter_AList[0].MWQMAnalysisReportParameterID);
+                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameter_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MWQMAnalysisReportParameterReport> mwqmAnalysisReportParameterReportList = new List<MWQMAnalysisReportParameterReport>();
-                            mwqmAnalysisReportParameterReportList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterReportList().ToList();
-                            CheckMWQMAnalysisReportParameterReportFields(mwqmAnalysisReportParameterReportList);
-                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterReportList[0].MWQMAnalysisReportParameterID);
-                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameterReportList.Count);
+                            List<MWQMAnalysisReportParameter_B> mwqmAnalysisReportParameter_BList = new List<MWQMAnalysisReportParameter_B>();
+                            mwqmAnalysisReportParameter_BList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameter_BList().ToList();
+                            CheckMWQMAnalysisReportParameter_BFields(mwqmAnalysisReportParameter_BList);
+                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameter_BList[0].MWQMAnalysisReportParameterID);
+                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameter_BList.Count);
                         }
                         else
                         {
@@ -794,38 +791,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MWQMAnalysisReportParameterService mwqmAnalysisReportParameterService = new MWQMAnalysisReportParameterService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmAnalysisReportParameterService.Query = mwqmAnalysisReportParameterService.FillQuery(typeof(MWQMAnalysisReportParameter), culture.TwoLetterISOLanguageName, 1, 1, "MWQMAnalysisReportParameterID,SubsectorTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mwqmAnalysisReportParameterService.Query = mwqmAnalysisReportParameterService.FillQuery(typeof(MWQMAnalysisReportParameter), culture.TwoLetterISOLanguageName, 1, 1, "MWQMAnalysisReportParameterID,SubsectorTVItemID", "");
 
                         List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterDirectQueryList = new List<MWQMAnalysisReportParameter>();
                         mwqmAnalysisReportParameterDirectQueryList = (from c in dbTestDB.MWQMAnalysisReportParameters select c).Skip(1).Take(1).OrderBy(c => c.MWQMAnalysisReportParameterID).ThenBy(c => c.SubsectorTVItemID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterList = new List<MWQMAnalysisReportParameter>();
                             mwqmAnalysisReportParameterList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().ToList();
                             CheckMWQMAnalysisReportParameterFields(mwqmAnalysisReportParameterList);
                             Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterID);
-                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameterList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MWQMAnalysisReportParameterWeb> mwqmAnalysisReportParameterWebList = new List<MWQMAnalysisReportParameterWeb>();
-                            mwqmAnalysisReportParameterWebList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterWebList().ToList();
-                            CheckMWQMAnalysisReportParameterWebFields(mwqmAnalysisReportParameterWebList);
-                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterWebList[0].MWQMAnalysisReportParameterID);
-                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameterWebList.Count);
+                            List<MWQMAnalysisReportParameter_A> mwqmAnalysisReportParameter_AList = new List<MWQMAnalysisReportParameter_A>();
+                            mwqmAnalysisReportParameter_AList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameter_AList().ToList();
+                            CheckMWQMAnalysisReportParameter_AFields(mwqmAnalysisReportParameter_AList);
+                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameter_AList[0].MWQMAnalysisReportParameterID);
+                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameter_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MWQMAnalysisReportParameterReport> mwqmAnalysisReportParameterReportList = new List<MWQMAnalysisReportParameterReport>();
-                            mwqmAnalysisReportParameterReportList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterReportList().ToList();
-                            CheckMWQMAnalysisReportParameterReportFields(mwqmAnalysisReportParameterReportList);
-                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterReportList[0].MWQMAnalysisReportParameterID);
-                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameterReportList.Count);
+                            List<MWQMAnalysisReportParameter_B> mwqmAnalysisReportParameter_BList = new List<MWQMAnalysisReportParameter_B>();
+                            mwqmAnalysisReportParameter_BList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameter_BList().ToList();
+                            CheckMWQMAnalysisReportParameter_BFields(mwqmAnalysisReportParameter_BList);
+                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameter_BList[0].MWQMAnalysisReportParameterID);
+                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameter_BList.Count);
                         }
                         else
                         {
@@ -847,38 +843,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MWQMAnalysisReportParameterService mwqmAnalysisReportParameterService = new MWQMAnalysisReportParameterService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmAnalysisReportParameterService.Query = mwqmAnalysisReportParameterService.FillQuery(typeof(MWQMAnalysisReportParameter), culture.TwoLetterISOLanguageName, 0, 1, "MWQMAnalysisReportParameterID", "MWQMAnalysisReportParameterID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mwqmAnalysisReportParameterService.Query = mwqmAnalysisReportParameterService.FillQuery(typeof(MWQMAnalysisReportParameter), culture.TwoLetterISOLanguageName, 0, 1, "MWQMAnalysisReportParameterID", "MWQMAnalysisReportParameterID,EQ,4", "");
 
                         List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterDirectQueryList = new List<MWQMAnalysisReportParameter>();
                         mwqmAnalysisReportParameterDirectQueryList = (from c in dbTestDB.MWQMAnalysisReportParameters select c).Where(c => c.MWQMAnalysisReportParameterID == 4).Skip(0).Take(1).OrderBy(c => c.MWQMAnalysisReportParameterID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterList = new List<MWQMAnalysisReportParameter>();
                             mwqmAnalysisReportParameterList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().ToList();
                             CheckMWQMAnalysisReportParameterFields(mwqmAnalysisReportParameterList);
                             Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterID);
-                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameterList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MWQMAnalysisReportParameterWeb> mwqmAnalysisReportParameterWebList = new List<MWQMAnalysisReportParameterWeb>();
-                            mwqmAnalysisReportParameterWebList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterWebList().ToList();
-                            CheckMWQMAnalysisReportParameterWebFields(mwqmAnalysisReportParameterWebList);
-                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterWebList[0].MWQMAnalysisReportParameterID);
-                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameterWebList.Count);
+                            List<MWQMAnalysisReportParameter_A> mwqmAnalysisReportParameter_AList = new List<MWQMAnalysisReportParameter_A>();
+                            mwqmAnalysisReportParameter_AList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameter_AList().ToList();
+                            CheckMWQMAnalysisReportParameter_AFields(mwqmAnalysisReportParameter_AList);
+                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameter_AList[0].MWQMAnalysisReportParameterID);
+                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameter_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MWQMAnalysisReportParameterReport> mwqmAnalysisReportParameterReportList = new List<MWQMAnalysisReportParameterReport>();
-                            mwqmAnalysisReportParameterReportList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterReportList().ToList();
-                            CheckMWQMAnalysisReportParameterReportFields(mwqmAnalysisReportParameterReportList);
-                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterReportList[0].MWQMAnalysisReportParameterID);
-                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameterReportList.Count);
+                            List<MWQMAnalysisReportParameter_B> mwqmAnalysisReportParameter_BList = new List<MWQMAnalysisReportParameter_B>();
+                            mwqmAnalysisReportParameter_BList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameter_BList().ToList();
+                            CheckMWQMAnalysisReportParameter_BFields(mwqmAnalysisReportParameter_BList);
+                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameter_BList[0].MWQMAnalysisReportParameterID);
+                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameter_BList.Count);
                         }
                         else
                         {
@@ -900,38 +895,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MWQMAnalysisReportParameterService mwqmAnalysisReportParameterService = new MWQMAnalysisReportParameterService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmAnalysisReportParameterService.Query = mwqmAnalysisReportParameterService.FillQuery(typeof(MWQMAnalysisReportParameter), culture.TwoLetterISOLanguageName, 0, 1, "MWQMAnalysisReportParameterID", "MWQMAnalysisReportParameterID,GT,2|MWQMAnalysisReportParameterID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mwqmAnalysisReportParameterService.Query = mwqmAnalysisReportParameterService.FillQuery(typeof(MWQMAnalysisReportParameter), culture.TwoLetterISOLanguageName, 0, 1, "MWQMAnalysisReportParameterID", "MWQMAnalysisReportParameterID,GT,2|MWQMAnalysisReportParameterID,LT,5", "");
 
                         List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterDirectQueryList = new List<MWQMAnalysisReportParameter>();
                         mwqmAnalysisReportParameterDirectQueryList = (from c in dbTestDB.MWQMAnalysisReportParameters select c).Where(c => c.MWQMAnalysisReportParameterID > 2 && c.MWQMAnalysisReportParameterID < 5).Skip(0).Take(1).OrderBy(c => c.MWQMAnalysisReportParameterID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterList = new List<MWQMAnalysisReportParameter>();
                             mwqmAnalysisReportParameterList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().ToList();
                             CheckMWQMAnalysisReportParameterFields(mwqmAnalysisReportParameterList);
                             Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterID);
-                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameterList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MWQMAnalysisReportParameterWeb> mwqmAnalysisReportParameterWebList = new List<MWQMAnalysisReportParameterWeb>();
-                            mwqmAnalysisReportParameterWebList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterWebList().ToList();
-                            CheckMWQMAnalysisReportParameterWebFields(mwqmAnalysisReportParameterWebList);
-                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterWebList[0].MWQMAnalysisReportParameterID);
-                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameterWebList.Count);
+                            List<MWQMAnalysisReportParameter_A> mwqmAnalysisReportParameter_AList = new List<MWQMAnalysisReportParameter_A>();
+                            mwqmAnalysisReportParameter_AList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameter_AList().ToList();
+                            CheckMWQMAnalysisReportParameter_AFields(mwqmAnalysisReportParameter_AList);
+                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameter_AList[0].MWQMAnalysisReportParameterID);
+                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameter_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MWQMAnalysisReportParameterReport> mwqmAnalysisReportParameterReportList = new List<MWQMAnalysisReportParameterReport>();
-                            mwqmAnalysisReportParameterReportList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterReportList().ToList();
-                            CheckMWQMAnalysisReportParameterReportFields(mwqmAnalysisReportParameterReportList);
-                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterReportList[0].MWQMAnalysisReportParameterID);
-                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameterReportList.Count);
+                            List<MWQMAnalysisReportParameter_B> mwqmAnalysisReportParameter_BList = new List<MWQMAnalysisReportParameter_B>();
+                            mwqmAnalysisReportParameter_BList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameter_BList().ToList();
+                            CheckMWQMAnalysisReportParameter_BFields(mwqmAnalysisReportParameter_BList);
+                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameter_BList[0].MWQMAnalysisReportParameterID);
+                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameter_BList.Count);
                         }
                         else
                         {
@@ -953,38 +947,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MWQMAnalysisReportParameterService mwqmAnalysisReportParameterService = new MWQMAnalysisReportParameterService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmAnalysisReportParameterService.Query = mwqmAnalysisReportParameterService.FillQuery(typeof(MWQMAnalysisReportParameter), culture.TwoLetterISOLanguageName, 0, 10000, "", "MWQMAnalysisReportParameterID,GT,2|MWQMAnalysisReportParameterID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mwqmAnalysisReportParameterService.Query = mwqmAnalysisReportParameterService.FillQuery(typeof(MWQMAnalysisReportParameter), culture.TwoLetterISOLanguageName, 0, 10000, "", "MWQMAnalysisReportParameterID,GT,2|MWQMAnalysisReportParameterID,LT,5", "");
 
                         List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterDirectQueryList = new List<MWQMAnalysisReportParameter>();
                         mwqmAnalysisReportParameterDirectQueryList = (from c in dbTestDB.MWQMAnalysisReportParameters select c).Where(c => c.MWQMAnalysisReportParameterID > 2 && c.MWQMAnalysisReportParameterID < 5).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterList = new List<MWQMAnalysisReportParameter>();
                             mwqmAnalysisReportParameterList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().ToList();
                             CheckMWQMAnalysisReportParameterFields(mwqmAnalysisReportParameterList);
                             Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterID);
-                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameterList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MWQMAnalysisReportParameterWeb> mwqmAnalysisReportParameterWebList = new List<MWQMAnalysisReportParameterWeb>();
-                            mwqmAnalysisReportParameterWebList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterWebList().ToList();
-                            CheckMWQMAnalysisReportParameterWebFields(mwqmAnalysisReportParameterWebList);
-                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterWebList[0].MWQMAnalysisReportParameterID);
-                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameterWebList.Count);
+                            List<MWQMAnalysisReportParameter_A> mwqmAnalysisReportParameter_AList = new List<MWQMAnalysisReportParameter_A>();
+                            mwqmAnalysisReportParameter_AList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameter_AList().ToList();
+                            CheckMWQMAnalysisReportParameter_AFields(mwqmAnalysisReportParameter_AList);
+                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameter_AList[0].MWQMAnalysisReportParameterID);
+                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameter_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MWQMAnalysisReportParameterReport> mwqmAnalysisReportParameterReportList = new List<MWQMAnalysisReportParameterReport>();
-                            mwqmAnalysisReportParameterReportList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterReportList().ToList();
-                            CheckMWQMAnalysisReportParameterReportFields(mwqmAnalysisReportParameterReportList);
-                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterReportList[0].MWQMAnalysisReportParameterID);
-                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameterReportList.Count);
+                            List<MWQMAnalysisReportParameter_B> mwqmAnalysisReportParameter_BList = new List<MWQMAnalysisReportParameter_B>();
+                            mwqmAnalysisReportParameter_BList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameter_BList().ToList();
+                            CheckMWQMAnalysisReportParameter_BFields(mwqmAnalysisReportParameter_BList);
+                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameter_BList[0].MWQMAnalysisReportParameterID);
+                            Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameter_BList.Count);
                         }
                         else
                         {
@@ -1036,105 +1029,105 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(mwqmAnalysisReportParameterList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(mwqmAnalysisReportParameterList[0].HasErrors);
         }
-        private void CheckMWQMAnalysisReportParameterWebFields(List<MWQMAnalysisReportParameterWeb> mwqmAnalysisReportParameterWebList)
+        private void CheckMWQMAnalysisReportParameter_AFields(List<MWQMAnalysisReportParameter_A> mwqmAnalysisReportParameter_AList)
         {
-            if (mwqmAnalysisReportParameterWebList[0].ExcelTVFileTVItemLanguage != null)
+            if (mwqmAnalysisReportParameter_AList[0].ExcelTVFileTVItemLanguage != null)
             {
-                Assert.IsNotNull(mwqmAnalysisReportParameterWebList[0].ExcelTVFileTVItemLanguage);
+                Assert.IsNotNull(mwqmAnalysisReportParameter_AList[0].ExcelTVFileTVItemLanguage);
             }
-            if (!string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterWebList[0].CommandText))
+            if (!string.IsNullOrWhiteSpace(mwqmAnalysisReportParameter_AList[0].CommandText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterWebList[0].CommandText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameter_AList[0].CommandText));
             }
-            Assert.IsNotNull(mwqmAnalysisReportParameterWebList[0].LastUpdateContactTVItemLanguage);
-            Assert.IsNotNull(mwqmAnalysisReportParameterWebList[0].MWQMAnalysisReportParameterID);
-            Assert.IsNotNull(mwqmAnalysisReportParameterWebList[0].SubsectorTVItemID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterWebList[0].AnalysisName));
-            if (mwqmAnalysisReportParameterWebList[0].AnalysisReportYear != null)
+            Assert.IsNotNull(mwqmAnalysisReportParameter_AList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_AList[0].MWQMAnalysisReportParameterID);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_AList[0].SubsectorTVItemID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameter_AList[0].AnalysisName));
+            if (mwqmAnalysisReportParameter_AList[0].AnalysisReportYear != null)
             {
-                Assert.IsNotNull(mwqmAnalysisReportParameterWebList[0].AnalysisReportYear);
+                Assert.IsNotNull(mwqmAnalysisReportParameter_AList[0].AnalysisReportYear);
             }
-            Assert.IsNotNull(mwqmAnalysisReportParameterWebList[0].StartDate);
-            Assert.IsNotNull(mwqmAnalysisReportParameterWebList[0].EndDate);
-            Assert.IsNotNull(mwqmAnalysisReportParameterWebList[0].AnalysisCalculationType);
-            Assert.IsNotNull(mwqmAnalysisReportParameterWebList[0].NumberOfRuns);
-            Assert.IsNotNull(mwqmAnalysisReportParameterWebList[0].FullYear);
-            Assert.IsNotNull(mwqmAnalysisReportParameterWebList[0].SalinityHighlightDeviationFromAverage);
-            Assert.IsNotNull(mwqmAnalysisReportParameterWebList[0].ShortRangeNumberOfDays);
-            Assert.IsNotNull(mwqmAnalysisReportParameterWebList[0].MidRangeNumberOfDays);
-            Assert.IsNotNull(mwqmAnalysisReportParameterWebList[0].DryLimit24h);
-            Assert.IsNotNull(mwqmAnalysisReportParameterWebList[0].DryLimit48h);
-            Assert.IsNotNull(mwqmAnalysisReportParameterWebList[0].DryLimit72h);
-            Assert.IsNotNull(mwqmAnalysisReportParameterWebList[0].DryLimit96h);
-            Assert.IsNotNull(mwqmAnalysisReportParameterWebList[0].WetLimit24h);
-            Assert.IsNotNull(mwqmAnalysisReportParameterWebList[0].WetLimit48h);
-            Assert.IsNotNull(mwqmAnalysisReportParameterWebList[0].WetLimit72h);
-            Assert.IsNotNull(mwqmAnalysisReportParameterWebList[0].WetLimit96h);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterWebList[0].RunsToOmit));
-            if (!string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterWebList[0].ShowDataTypes))
+            Assert.IsNotNull(mwqmAnalysisReportParameter_AList[0].StartDate);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_AList[0].EndDate);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_AList[0].AnalysisCalculationType);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_AList[0].NumberOfRuns);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_AList[0].FullYear);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_AList[0].SalinityHighlightDeviationFromAverage);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_AList[0].ShortRangeNumberOfDays);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_AList[0].MidRangeNumberOfDays);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_AList[0].DryLimit24h);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_AList[0].DryLimit48h);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_AList[0].DryLimit72h);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_AList[0].DryLimit96h);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_AList[0].WetLimit24h);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_AList[0].WetLimit48h);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_AList[0].WetLimit72h);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_AList[0].WetLimit96h);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameter_AList[0].RunsToOmit));
+            if (!string.IsNullOrWhiteSpace(mwqmAnalysisReportParameter_AList[0].ShowDataTypes))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterWebList[0].ShowDataTypes));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameter_AList[0].ShowDataTypes));
             }
-            if (mwqmAnalysisReportParameterWebList[0].ExcelTVFileTVItemID != null)
+            if (mwqmAnalysisReportParameter_AList[0].ExcelTVFileTVItemID != null)
             {
-                Assert.IsNotNull(mwqmAnalysisReportParameterWebList[0].ExcelTVFileTVItemID);
+                Assert.IsNotNull(mwqmAnalysisReportParameter_AList[0].ExcelTVFileTVItemID);
             }
-            Assert.IsNotNull(mwqmAnalysisReportParameterWebList[0].Command);
-            Assert.IsNotNull(mwqmAnalysisReportParameterWebList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(mwqmAnalysisReportParameterWebList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(mwqmAnalysisReportParameterWebList[0].HasErrors);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_AList[0].Command);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_AList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_AList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_AList[0].HasErrors);
         }
-        private void CheckMWQMAnalysisReportParameterReportFields(List<MWQMAnalysisReportParameterReport> mwqmAnalysisReportParameterReportList)
+        private void CheckMWQMAnalysisReportParameter_BFields(List<MWQMAnalysisReportParameter_B> mwqmAnalysisReportParameter_BList)
         {
-            if (!string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterReportList[0].MWQMAnalysisReportParameterReportTest))
+            if (!string.IsNullOrWhiteSpace(mwqmAnalysisReportParameter_BList[0].MWQMAnalysisReportParameterReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterReportList[0].MWQMAnalysisReportParameterReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameter_BList[0].MWQMAnalysisReportParameterReportTest));
             }
-            if (mwqmAnalysisReportParameterReportList[0].ExcelTVFileTVItemLanguage != null)
+            if (mwqmAnalysisReportParameter_BList[0].ExcelTVFileTVItemLanguage != null)
             {
-                Assert.IsNotNull(mwqmAnalysisReportParameterReportList[0].ExcelTVFileTVItemLanguage);
+                Assert.IsNotNull(mwqmAnalysisReportParameter_BList[0].ExcelTVFileTVItemLanguage);
             }
-            if (!string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterReportList[0].CommandText))
+            if (!string.IsNullOrWhiteSpace(mwqmAnalysisReportParameter_BList[0].CommandText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterReportList[0].CommandText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameter_BList[0].CommandText));
             }
-            Assert.IsNotNull(mwqmAnalysisReportParameterReportList[0].LastUpdateContactTVItemLanguage);
-            Assert.IsNotNull(mwqmAnalysisReportParameterReportList[0].MWQMAnalysisReportParameterID);
-            Assert.IsNotNull(mwqmAnalysisReportParameterReportList[0].SubsectorTVItemID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterReportList[0].AnalysisName));
-            if (mwqmAnalysisReportParameterReportList[0].AnalysisReportYear != null)
+            Assert.IsNotNull(mwqmAnalysisReportParameter_BList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_BList[0].MWQMAnalysisReportParameterID);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_BList[0].SubsectorTVItemID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameter_BList[0].AnalysisName));
+            if (mwqmAnalysisReportParameter_BList[0].AnalysisReportYear != null)
             {
-                Assert.IsNotNull(mwqmAnalysisReportParameterReportList[0].AnalysisReportYear);
+                Assert.IsNotNull(mwqmAnalysisReportParameter_BList[0].AnalysisReportYear);
             }
-            Assert.IsNotNull(mwqmAnalysisReportParameterReportList[0].StartDate);
-            Assert.IsNotNull(mwqmAnalysisReportParameterReportList[0].EndDate);
-            Assert.IsNotNull(mwqmAnalysisReportParameterReportList[0].AnalysisCalculationType);
-            Assert.IsNotNull(mwqmAnalysisReportParameterReportList[0].NumberOfRuns);
-            Assert.IsNotNull(mwqmAnalysisReportParameterReportList[0].FullYear);
-            Assert.IsNotNull(mwqmAnalysisReportParameterReportList[0].SalinityHighlightDeviationFromAverage);
-            Assert.IsNotNull(mwqmAnalysisReportParameterReportList[0].ShortRangeNumberOfDays);
-            Assert.IsNotNull(mwqmAnalysisReportParameterReportList[0].MidRangeNumberOfDays);
-            Assert.IsNotNull(mwqmAnalysisReportParameterReportList[0].DryLimit24h);
-            Assert.IsNotNull(mwqmAnalysisReportParameterReportList[0].DryLimit48h);
-            Assert.IsNotNull(mwqmAnalysisReportParameterReportList[0].DryLimit72h);
-            Assert.IsNotNull(mwqmAnalysisReportParameterReportList[0].DryLimit96h);
-            Assert.IsNotNull(mwqmAnalysisReportParameterReportList[0].WetLimit24h);
-            Assert.IsNotNull(mwqmAnalysisReportParameterReportList[0].WetLimit48h);
-            Assert.IsNotNull(mwqmAnalysisReportParameterReportList[0].WetLimit72h);
-            Assert.IsNotNull(mwqmAnalysisReportParameterReportList[0].WetLimit96h);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterReportList[0].RunsToOmit));
-            if (!string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterReportList[0].ShowDataTypes))
+            Assert.IsNotNull(mwqmAnalysisReportParameter_BList[0].StartDate);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_BList[0].EndDate);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_BList[0].AnalysisCalculationType);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_BList[0].NumberOfRuns);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_BList[0].FullYear);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_BList[0].SalinityHighlightDeviationFromAverage);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_BList[0].ShortRangeNumberOfDays);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_BList[0].MidRangeNumberOfDays);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_BList[0].DryLimit24h);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_BList[0].DryLimit48h);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_BList[0].DryLimit72h);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_BList[0].DryLimit96h);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_BList[0].WetLimit24h);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_BList[0].WetLimit48h);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_BList[0].WetLimit72h);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_BList[0].WetLimit96h);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameter_BList[0].RunsToOmit));
+            if (!string.IsNullOrWhiteSpace(mwqmAnalysisReportParameter_BList[0].ShowDataTypes))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterReportList[0].ShowDataTypes));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameter_BList[0].ShowDataTypes));
             }
-            if (mwqmAnalysisReportParameterReportList[0].ExcelTVFileTVItemID != null)
+            if (mwqmAnalysisReportParameter_BList[0].ExcelTVFileTVItemID != null)
             {
-                Assert.IsNotNull(mwqmAnalysisReportParameterReportList[0].ExcelTVFileTVItemID);
+                Assert.IsNotNull(mwqmAnalysisReportParameter_BList[0].ExcelTVFileTVItemID);
             }
-            Assert.IsNotNull(mwqmAnalysisReportParameterReportList[0].Command);
-            Assert.IsNotNull(mwqmAnalysisReportParameterReportList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(mwqmAnalysisReportParameterReportList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(mwqmAnalysisReportParameterReportList[0].HasErrors);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_BList[0].Command);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_BList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_BList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(mwqmAnalysisReportParameter_BList[0].HasErrors);
         }
         private MWQMAnalysisReportParameter GetFilledRandomMWQMAnalysisReportParameter(string OmitPropName)
         {

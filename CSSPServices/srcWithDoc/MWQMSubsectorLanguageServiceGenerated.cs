@@ -163,31 +163,31 @@ namespace CSSPServices
 
             return MWQMSubsectorLanguageQuery;
         }
-        public MWQMSubsectorLanguageWeb GetMWQMSubsectorLanguageWebWithMWQMSubsectorLanguageID(int MWQMSubsectorLanguageID)
+        public MWQMSubsectorLanguage_A GetMWQMSubsectorLanguage_AWithMWQMSubsectorLanguageID(int MWQMSubsectorLanguageID)
         {
-            return FillMWQMSubsectorLanguageWeb().Where(c => c.MWQMSubsectorLanguageID == MWQMSubsectorLanguageID).FirstOrDefault();
+            return FillMWQMSubsectorLanguage_A().Where(c => c.MWQMSubsectorLanguageID == MWQMSubsectorLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMSubsectorLanguageWeb> GetMWQMSubsectorLanguageWebList()
+        public IQueryable<MWQMSubsectorLanguage_A> GetMWQMSubsectorLanguage_AList()
         {
-            IQueryable<MWQMSubsectorLanguageWeb> MWQMSubsectorLanguageWebQuery = FillMWQMSubsectorLanguageWeb();
+            IQueryable<MWQMSubsectorLanguage_A> MWQMSubsectorLanguage_AQuery = FillMWQMSubsectorLanguage_A();
 
-            MWQMSubsectorLanguageWebQuery = EnhanceQueryStatements<MWQMSubsectorLanguageWeb>(MWQMSubsectorLanguageWebQuery) as IQueryable<MWQMSubsectorLanguageWeb>;
+            MWQMSubsectorLanguage_AQuery = EnhanceQueryStatements<MWQMSubsectorLanguage_A>(MWQMSubsectorLanguage_AQuery) as IQueryable<MWQMSubsectorLanguage_A>;
 
-            return MWQMSubsectorLanguageWebQuery;
+            return MWQMSubsectorLanguage_AQuery;
         }
-        public MWQMSubsectorLanguageReport GetMWQMSubsectorLanguageReportWithMWQMSubsectorLanguageID(int MWQMSubsectorLanguageID)
+        public MWQMSubsectorLanguage_B GetMWQMSubsectorLanguage_BWithMWQMSubsectorLanguageID(int MWQMSubsectorLanguageID)
         {
-            return FillMWQMSubsectorLanguageReport().Where(c => c.MWQMSubsectorLanguageID == MWQMSubsectorLanguageID).FirstOrDefault();
+            return FillMWQMSubsectorLanguage_B().Where(c => c.MWQMSubsectorLanguageID == MWQMSubsectorLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMSubsectorLanguageReport> GetMWQMSubsectorLanguageReportList()
+        public IQueryable<MWQMSubsectorLanguage_B> GetMWQMSubsectorLanguage_BList()
         {
-            IQueryable<MWQMSubsectorLanguageReport> MWQMSubsectorLanguageReportQuery = FillMWQMSubsectorLanguageReport();
+            IQueryable<MWQMSubsectorLanguage_B> MWQMSubsectorLanguage_BQuery = FillMWQMSubsectorLanguage_B();
 
-            MWQMSubsectorLanguageReportQuery = EnhanceQueryStatements<MWQMSubsectorLanguageReport>(MWQMSubsectorLanguageReportQuery) as IQueryable<MWQMSubsectorLanguageReport>;
+            MWQMSubsectorLanguage_BQuery = EnhanceQueryStatements<MWQMSubsectorLanguage_B>(MWQMSubsectorLanguage_BQuery) as IQueryable<MWQMSubsectorLanguage_B>;
 
-            return MWQMSubsectorLanguageReportQuery;
+            return MWQMSubsectorLanguage_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -226,48 +226,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated MWQMSubsectorLanguageFillWeb
-        private IQueryable<MWQMSubsectorLanguageWeb> FillMWQMSubsectorLanguageWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
-            List<EnumIDAndText> TranslationStatusEnumList = enums.GetEnumTextOrderedList(typeof(TranslationStatusEnum));
-
-             IQueryable<MWQMSubsectorLanguageWeb> MWQMSubsectorLanguageWebQuery = (from c in db.MWQMSubsectorLanguages
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new MWQMSubsectorLanguageWeb
-                    {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        LanguageText = (from e in LanguageEnumList
-                                where e.EnumID == (int?)c.Language
-                                select e.EnumText).FirstOrDefault(),
-                        TranslationStatusSubsectorDescText = (from e in TranslationStatusEnumList
-                                where e.EnumID == (int?)c.TranslationStatusSubsectorDesc
-                                select e.EnumText).FirstOrDefault(),
-                        TranslationStatusLogBookText = (from e in TranslationStatusEnumList
-                                where e.EnumID == (int?)c.TranslationStatusLogBook
-                                select e.EnumText).FirstOrDefault(),
-                        MWQMSubsectorLanguageID = c.MWQMSubsectorLanguageID,
-                        MWQMSubsectorID = c.MWQMSubsectorID,
-                        Language = c.Language,
-                        SubsectorDesc = c.SubsectorDesc,
-                        TranslationStatusSubsectorDesc = c.TranslationStatusSubsectorDesc,
-                        LogBook = c.LogBook,
-                        TranslationStatusLogBook = c.TranslationStatusLogBook,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return MWQMSubsectorLanguageWebQuery;
-        }
-        #endregion Functions private Generated MWQMSubsectorLanguageFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(MWQMSubsectorLanguage mwqmSubsectorLanguage)

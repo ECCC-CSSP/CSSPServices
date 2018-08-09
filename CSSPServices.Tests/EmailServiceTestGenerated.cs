@@ -231,27 +231,27 @@ namespace CSSPServices.Tests
                     Email email = (from c in dbTestDB.Emails select c).FirstOrDefault();
                     Assert.IsNotNull(email);
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        emailService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        emailService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             Email emailRet = emailService.GetEmailWithEmailID(email.EmailID);
                             CheckEmailFields(new List<Email>() { emailRet });
                             Assert.AreEqual(email.EmailID, emailRet.EmailID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            EmailWeb emailWebRet = emailService.GetEmailWebWithEmailID(email.EmailID);
-                            CheckEmailWebFields(new List<EmailWeb>() { emailWebRet });
-                            Assert.AreEqual(email.EmailID, emailWebRet.EmailID);
+                            Email_A email_ARet = emailService.GetEmail_AWithEmailID(email.EmailID);
+                            CheckEmail_AFields(new List<Email_A>() { email_ARet });
+                            Assert.AreEqual(email.EmailID, email_ARet.EmailID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            EmailReport emailReportRet = emailService.GetEmailReportWithEmailID(email.EmailID);
-                            CheckEmailReportFields(new List<EmailReport>() { emailReportRet });
-                            Assert.AreEqual(email.EmailID, emailReportRet.EmailID);
+                            Email_B email_BRet = emailService.GetEmail_BWithEmailID(email.EmailID);
+                            CheckEmail_BFields(new List<Email_B>() { email_BRet });
+                            Assert.AreEqual(email.EmailID, email_BRet.EmailID);
                         }
                         else
                         {
@@ -280,30 +280,29 @@ namespace CSSPServices.Tests
                     List<Email> emailDirectQueryList = new List<Email>();
                     emailDirectQueryList = (from c in dbTestDB.Emails select c).Take(200).ToList();
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        emailService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        emailService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<Email> emailList = new List<Email>();
                             emailList = emailService.GetEmailList().ToList();
                             CheckEmailFields(emailList);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<EmailWeb> emailWebList = new List<EmailWeb>();
-                            emailWebList = emailService.GetEmailWebList().ToList();
-                            CheckEmailWebFields(emailWebList);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailWebList.Count);
+                            List<Email_A> email_AList = new List<Email_A>();
+                            email_AList = emailService.GetEmail_AList().ToList();
+                            CheckEmail_AFields(email_AList);
+                            Assert.AreEqual(emailDirectQueryList.Count, email_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<EmailReport> emailReportList = new List<EmailReport>();
-                            emailReportList = emailService.GetEmailReportList().ToList();
-                            CheckEmailReportFields(emailReportList);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailReportList.Count);
+                            List<Email_B> email_BList = new List<Email_B>();
+                            email_BList = emailService.GetEmail_BList().ToList();
+                            CheckEmail_BFields(email_BList);
+                            Assert.AreEqual(emailDirectQueryList.Count, email_BList.Count);
                         }
                         else
                         {
@@ -325,38 +324,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         EmailService emailService = new EmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        emailService.Query = emailService.FillQuery(typeof(Email), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        emailService.Query = emailService.FillQuery(typeof(Email), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
 
                         List<Email> emailDirectQueryList = new List<Email>();
                         emailDirectQueryList = (from c in dbTestDB.Emails select c).Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<Email> emailList = new List<Email>();
                             emailList = emailService.GetEmailList().ToList();
                             CheckEmailFields(emailList);
                             Assert.AreEqual(emailDirectQueryList[0].EmailID, emailList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<EmailWeb> emailWebList = new List<EmailWeb>();
-                            emailWebList = emailService.GetEmailWebList().ToList();
-                            CheckEmailWebFields(emailWebList);
-                            Assert.AreEqual(emailDirectQueryList[0].EmailID, emailWebList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailWebList.Count);
+                            List<Email_A> email_AList = new List<Email_A>();
+                            email_AList = emailService.GetEmail_AList().ToList();
+                            CheckEmail_AFields(email_AList);
+                            Assert.AreEqual(emailDirectQueryList[0].EmailID, email_AList[0].EmailID);
+                            Assert.AreEqual(emailDirectQueryList.Count, email_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<EmailReport> emailReportList = new List<EmailReport>();
-                            emailReportList = emailService.GetEmailReportList().ToList();
-                            CheckEmailReportFields(emailReportList);
-                            Assert.AreEqual(emailDirectQueryList[0].EmailID, emailReportList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailReportList.Count);
+                            List<Email_B> email_BList = new List<Email_B>();
+                            email_BList = emailService.GetEmail_BList().ToList();
+                            CheckEmail_BFields(email_BList);
+                            Assert.AreEqual(emailDirectQueryList[0].EmailID, email_BList[0].EmailID);
+                            Assert.AreEqual(emailDirectQueryList.Count, email_BList.Count);
                         }
                         else
                         {
@@ -378,38 +376,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         EmailService emailService = new EmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        emailService.Query = emailService.FillQuery(typeof(Email), culture.TwoLetterISOLanguageName, 1, 1,  "EmailID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        emailService.Query = emailService.FillQuery(typeof(Email), culture.TwoLetterISOLanguageName, 1, 1,  "EmailID", "");
 
                         List<Email> emailDirectQueryList = new List<Email>();
                         emailDirectQueryList = (from c in dbTestDB.Emails select c).Skip(1).Take(1).OrderBy(c => c.EmailID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<Email> emailList = new List<Email>();
                             emailList = emailService.GetEmailList().ToList();
                             CheckEmailFields(emailList);
                             Assert.AreEqual(emailDirectQueryList[0].EmailID, emailList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<EmailWeb> emailWebList = new List<EmailWeb>();
-                            emailWebList = emailService.GetEmailWebList().ToList();
-                            CheckEmailWebFields(emailWebList);
-                            Assert.AreEqual(emailDirectQueryList[0].EmailID, emailWebList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailWebList.Count);
+                            List<Email_A> email_AList = new List<Email_A>();
+                            email_AList = emailService.GetEmail_AList().ToList();
+                            CheckEmail_AFields(email_AList);
+                            Assert.AreEqual(emailDirectQueryList[0].EmailID, email_AList[0].EmailID);
+                            Assert.AreEqual(emailDirectQueryList.Count, email_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<EmailReport> emailReportList = new List<EmailReport>();
-                            emailReportList = emailService.GetEmailReportList().ToList();
-                            CheckEmailReportFields(emailReportList);
-                            Assert.AreEqual(emailDirectQueryList[0].EmailID, emailReportList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailReportList.Count);
+                            List<Email_B> email_BList = new List<Email_B>();
+                            email_BList = emailService.GetEmail_BList().ToList();
+                            CheckEmail_BFields(email_BList);
+                            Assert.AreEqual(emailDirectQueryList[0].EmailID, email_BList[0].EmailID);
+                            Assert.AreEqual(emailDirectQueryList.Count, email_BList.Count);
                         }
                         else
                         {
@@ -431,38 +428,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         EmailService emailService = new EmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        emailService.Query = emailService.FillQuery(typeof(Email), culture.TwoLetterISOLanguageName, 1, 1, "EmailID,EmailTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        emailService.Query = emailService.FillQuery(typeof(Email), culture.TwoLetterISOLanguageName, 1, 1, "EmailID,EmailTVItemID", "");
 
                         List<Email> emailDirectQueryList = new List<Email>();
                         emailDirectQueryList = (from c in dbTestDB.Emails select c).Skip(1).Take(1).OrderBy(c => c.EmailID).ThenBy(c => c.EmailTVItemID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<Email> emailList = new List<Email>();
                             emailList = emailService.GetEmailList().ToList();
                             CheckEmailFields(emailList);
                             Assert.AreEqual(emailDirectQueryList[0].EmailID, emailList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<EmailWeb> emailWebList = new List<EmailWeb>();
-                            emailWebList = emailService.GetEmailWebList().ToList();
-                            CheckEmailWebFields(emailWebList);
-                            Assert.AreEqual(emailDirectQueryList[0].EmailID, emailWebList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailWebList.Count);
+                            List<Email_A> email_AList = new List<Email_A>();
+                            email_AList = emailService.GetEmail_AList().ToList();
+                            CheckEmail_AFields(email_AList);
+                            Assert.AreEqual(emailDirectQueryList[0].EmailID, email_AList[0].EmailID);
+                            Assert.AreEqual(emailDirectQueryList.Count, email_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<EmailReport> emailReportList = new List<EmailReport>();
-                            emailReportList = emailService.GetEmailReportList().ToList();
-                            CheckEmailReportFields(emailReportList);
-                            Assert.AreEqual(emailDirectQueryList[0].EmailID, emailReportList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailReportList.Count);
+                            List<Email_B> email_BList = new List<Email_B>();
+                            email_BList = emailService.GetEmail_BList().ToList();
+                            CheckEmail_BFields(email_BList);
+                            Assert.AreEqual(emailDirectQueryList[0].EmailID, email_BList[0].EmailID);
+                            Assert.AreEqual(emailDirectQueryList.Count, email_BList.Count);
                         }
                         else
                         {
@@ -484,38 +480,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         EmailService emailService = new EmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        emailService.Query = emailService.FillQuery(typeof(Email), culture.TwoLetterISOLanguageName, 0, 1, "EmailID", "EmailID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        emailService.Query = emailService.FillQuery(typeof(Email), culture.TwoLetterISOLanguageName, 0, 1, "EmailID", "EmailID,EQ,4", "");
 
                         List<Email> emailDirectQueryList = new List<Email>();
                         emailDirectQueryList = (from c in dbTestDB.Emails select c).Where(c => c.EmailID == 4).Skip(0).Take(1).OrderBy(c => c.EmailID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<Email> emailList = new List<Email>();
                             emailList = emailService.GetEmailList().ToList();
                             CheckEmailFields(emailList);
                             Assert.AreEqual(emailDirectQueryList[0].EmailID, emailList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<EmailWeb> emailWebList = new List<EmailWeb>();
-                            emailWebList = emailService.GetEmailWebList().ToList();
-                            CheckEmailWebFields(emailWebList);
-                            Assert.AreEqual(emailDirectQueryList[0].EmailID, emailWebList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailWebList.Count);
+                            List<Email_A> email_AList = new List<Email_A>();
+                            email_AList = emailService.GetEmail_AList().ToList();
+                            CheckEmail_AFields(email_AList);
+                            Assert.AreEqual(emailDirectQueryList[0].EmailID, email_AList[0].EmailID);
+                            Assert.AreEqual(emailDirectQueryList.Count, email_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<EmailReport> emailReportList = new List<EmailReport>();
-                            emailReportList = emailService.GetEmailReportList().ToList();
-                            CheckEmailReportFields(emailReportList);
-                            Assert.AreEqual(emailDirectQueryList[0].EmailID, emailReportList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailReportList.Count);
+                            List<Email_B> email_BList = new List<Email_B>();
+                            email_BList = emailService.GetEmail_BList().ToList();
+                            CheckEmail_BFields(email_BList);
+                            Assert.AreEqual(emailDirectQueryList[0].EmailID, email_BList[0].EmailID);
+                            Assert.AreEqual(emailDirectQueryList.Count, email_BList.Count);
                         }
                         else
                         {
@@ -537,38 +532,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         EmailService emailService = new EmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        emailService.Query = emailService.FillQuery(typeof(Email), culture.TwoLetterISOLanguageName, 0, 1, "EmailID", "EmailID,GT,2|EmailID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        emailService.Query = emailService.FillQuery(typeof(Email), culture.TwoLetterISOLanguageName, 0, 1, "EmailID", "EmailID,GT,2|EmailID,LT,5", "");
 
                         List<Email> emailDirectQueryList = new List<Email>();
                         emailDirectQueryList = (from c in dbTestDB.Emails select c).Where(c => c.EmailID > 2 && c.EmailID < 5).Skip(0).Take(1).OrderBy(c => c.EmailID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<Email> emailList = new List<Email>();
                             emailList = emailService.GetEmailList().ToList();
                             CheckEmailFields(emailList);
                             Assert.AreEqual(emailDirectQueryList[0].EmailID, emailList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<EmailWeb> emailWebList = new List<EmailWeb>();
-                            emailWebList = emailService.GetEmailWebList().ToList();
-                            CheckEmailWebFields(emailWebList);
-                            Assert.AreEqual(emailDirectQueryList[0].EmailID, emailWebList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailWebList.Count);
+                            List<Email_A> email_AList = new List<Email_A>();
+                            email_AList = emailService.GetEmail_AList().ToList();
+                            CheckEmail_AFields(email_AList);
+                            Assert.AreEqual(emailDirectQueryList[0].EmailID, email_AList[0].EmailID);
+                            Assert.AreEqual(emailDirectQueryList.Count, email_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<EmailReport> emailReportList = new List<EmailReport>();
-                            emailReportList = emailService.GetEmailReportList().ToList();
-                            CheckEmailReportFields(emailReportList);
-                            Assert.AreEqual(emailDirectQueryList[0].EmailID, emailReportList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailReportList.Count);
+                            List<Email_B> email_BList = new List<Email_B>();
+                            email_BList = emailService.GetEmail_BList().ToList();
+                            CheckEmail_BFields(email_BList);
+                            Assert.AreEqual(emailDirectQueryList[0].EmailID, email_BList[0].EmailID);
+                            Assert.AreEqual(emailDirectQueryList.Count, email_BList.Count);
                         }
                         else
                         {
@@ -590,38 +584,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         EmailService emailService = new EmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        emailService.Query = emailService.FillQuery(typeof(Email), culture.TwoLetterISOLanguageName, 0, 10000, "", "EmailID,GT,2|EmailID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        emailService.Query = emailService.FillQuery(typeof(Email), culture.TwoLetterISOLanguageName, 0, 10000, "", "EmailID,GT,2|EmailID,LT,5", "");
 
                         List<Email> emailDirectQueryList = new List<Email>();
                         emailDirectQueryList = (from c in dbTestDB.Emails select c).Where(c => c.EmailID > 2 && c.EmailID < 5).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<Email> emailList = new List<Email>();
                             emailList = emailService.GetEmailList().ToList();
                             CheckEmailFields(emailList);
                             Assert.AreEqual(emailDirectQueryList[0].EmailID, emailList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<EmailWeb> emailWebList = new List<EmailWeb>();
-                            emailWebList = emailService.GetEmailWebList().ToList();
-                            CheckEmailWebFields(emailWebList);
-                            Assert.AreEqual(emailDirectQueryList[0].EmailID, emailWebList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailWebList.Count);
+                            List<Email_A> email_AList = new List<Email_A>();
+                            email_AList = emailService.GetEmail_AList().ToList();
+                            CheckEmail_AFields(email_AList);
+                            Assert.AreEqual(emailDirectQueryList[0].EmailID, email_AList[0].EmailID);
+                            Assert.AreEqual(emailDirectQueryList.Count, email_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<EmailReport> emailReportList = new List<EmailReport>();
-                            emailReportList = emailService.GetEmailReportList().ToList();
-                            CheckEmailReportFields(emailReportList);
-                            Assert.AreEqual(emailDirectQueryList[0].EmailID, emailReportList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailReportList.Count);
+                            List<Email_B> email_BList = new List<Email_B>();
+                            email_BList = emailService.GetEmail_BList().ToList();
+                            CheckEmail_BFields(email_BList);
+                            Assert.AreEqual(emailDirectQueryList[0].EmailID, email_BList[0].EmailID);
+                            Assert.AreEqual(emailDirectQueryList.Count, email_BList.Count);
                         }
                         else
                         {
@@ -644,41 +637,41 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(emailList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(emailList[0].HasErrors);
         }
-        private void CheckEmailWebFields(List<EmailWeb> emailWebList)
+        private void CheckEmail_AFields(List<Email_A> email_AList)
         {
-            Assert.IsNotNull(emailWebList[0].EmailTVItemLanguage);
-            Assert.IsNotNull(emailWebList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(emailWebList[0].EmailTypeText))
+            Assert.IsNotNull(email_AList[0].EmailTVItemLanguage);
+            Assert.IsNotNull(email_AList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(email_AList[0].EmailTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(emailWebList[0].EmailTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(email_AList[0].EmailTypeText));
             }
-            Assert.IsNotNull(emailWebList[0].EmailID);
-            Assert.IsNotNull(emailWebList[0].EmailTVItemID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(emailWebList[0].EmailAddress));
-            Assert.IsNotNull(emailWebList[0].EmailType);
-            Assert.IsNotNull(emailWebList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(emailWebList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(emailWebList[0].HasErrors);
+            Assert.IsNotNull(email_AList[0].EmailID);
+            Assert.IsNotNull(email_AList[0].EmailTVItemID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(email_AList[0].EmailAddress));
+            Assert.IsNotNull(email_AList[0].EmailType);
+            Assert.IsNotNull(email_AList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(email_AList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(email_AList[0].HasErrors);
         }
-        private void CheckEmailReportFields(List<EmailReport> emailReportList)
+        private void CheckEmail_BFields(List<Email_B> email_BList)
         {
-            if (!string.IsNullOrWhiteSpace(emailReportList[0].EmailReportTest))
+            if (!string.IsNullOrWhiteSpace(email_BList[0].EmailReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(emailReportList[0].EmailReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(email_BList[0].EmailReportTest));
             }
-            Assert.IsNotNull(emailReportList[0].EmailTVItemLanguage);
-            Assert.IsNotNull(emailReportList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(emailReportList[0].EmailTypeText))
+            Assert.IsNotNull(email_BList[0].EmailTVItemLanguage);
+            Assert.IsNotNull(email_BList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(email_BList[0].EmailTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(emailReportList[0].EmailTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(email_BList[0].EmailTypeText));
             }
-            Assert.IsNotNull(emailReportList[0].EmailID);
-            Assert.IsNotNull(emailReportList[0].EmailTVItemID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(emailReportList[0].EmailAddress));
-            Assert.IsNotNull(emailReportList[0].EmailType);
-            Assert.IsNotNull(emailReportList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(emailReportList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(emailReportList[0].HasErrors);
+            Assert.IsNotNull(email_BList[0].EmailID);
+            Assert.IsNotNull(email_BList[0].EmailTVItemID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(email_BList[0].EmailAddress));
+            Assert.IsNotNull(email_BList[0].EmailType);
+            Assert.IsNotNull(email_BList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(email_BList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(email_BList[0].HasErrors);
         }
         private Email GetFilledRandomEmail(string OmitPropName)
         {

@@ -154,31 +154,31 @@ namespace CSSPServices
 
             return HydrometricDataValueQuery;
         }
-        public HydrometricDataValueWeb GetHydrometricDataValueWebWithHydrometricDataValueID(int HydrometricDataValueID)
+        public HydrometricDataValue_A GetHydrometricDataValue_AWithHydrometricDataValueID(int HydrometricDataValueID)
         {
-            return FillHydrometricDataValueWeb().Where(c => c.HydrometricDataValueID == HydrometricDataValueID).FirstOrDefault();
+            return FillHydrometricDataValue_A().Where(c => c.HydrometricDataValueID == HydrometricDataValueID).FirstOrDefault();
 
         }
-        public IQueryable<HydrometricDataValueWeb> GetHydrometricDataValueWebList()
+        public IQueryable<HydrometricDataValue_A> GetHydrometricDataValue_AList()
         {
-            IQueryable<HydrometricDataValueWeb> HydrometricDataValueWebQuery = FillHydrometricDataValueWeb();
+            IQueryable<HydrometricDataValue_A> HydrometricDataValue_AQuery = FillHydrometricDataValue_A();
 
-            HydrometricDataValueWebQuery = EnhanceQueryStatements<HydrometricDataValueWeb>(HydrometricDataValueWebQuery) as IQueryable<HydrometricDataValueWeb>;
+            HydrometricDataValue_AQuery = EnhanceQueryStatements<HydrometricDataValue_A>(HydrometricDataValue_AQuery) as IQueryable<HydrometricDataValue_A>;
 
-            return HydrometricDataValueWebQuery;
+            return HydrometricDataValue_AQuery;
         }
-        public HydrometricDataValueReport GetHydrometricDataValueReportWithHydrometricDataValueID(int HydrometricDataValueID)
+        public HydrometricDataValue_B GetHydrometricDataValue_BWithHydrometricDataValueID(int HydrometricDataValueID)
         {
-            return FillHydrometricDataValueReport().Where(c => c.HydrometricDataValueID == HydrometricDataValueID).FirstOrDefault();
+            return FillHydrometricDataValue_B().Where(c => c.HydrometricDataValueID == HydrometricDataValueID).FirstOrDefault();
 
         }
-        public IQueryable<HydrometricDataValueReport> GetHydrometricDataValueReportList()
+        public IQueryable<HydrometricDataValue_B> GetHydrometricDataValue_BList()
         {
-            IQueryable<HydrometricDataValueReport> HydrometricDataValueReportQuery = FillHydrometricDataValueReport();
+            IQueryable<HydrometricDataValue_B> HydrometricDataValue_BQuery = FillHydrometricDataValue_B();
 
-            HydrometricDataValueReportQuery = EnhanceQueryStatements<HydrometricDataValueReport>(HydrometricDataValueReportQuery) as IQueryable<HydrometricDataValueReport>;
+            HydrometricDataValue_BQuery = EnhanceQueryStatements<HydrometricDataValue_B>(HydrometricDataValue_BQuery) as IQueryable<HydrometricDataValue_B>;
 
-            return HydrometricDataValueReportQuery;
+            return HydrometricDataValue_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -217,41 +217,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated HydrometricDataValueFillWeb
-        private IQueryable<HydrometricDataValueWeb> FillHydrometricDataValueWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> StorageDataTypeEnumList = enums.GetEnumTextOrderedList(typeof(StorageDataTypeEnum));
-
-             IQueryable<HydrometricDataValueWeb> HydrometricDataValueWebQuery = (from c in db.HydrometricDataValues
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new HydrometricDataValueWeb
-                    {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        StorageDataTypeText = (from e in StorageDataTypeEnumList
-                                where e.EnumID == (int?)c.StorageDataType
-                                select e.EnumText).FirstOrDefault(),
-                        HydrometricDataValueID = c.HydrometricDataValueID,
-                        HydrometricSiteID = c.HydrometricSiteID,
-                        DateTime_Local = c.DateTime_Local,
-                        Keep = c.Keep,
-                        StorageDataType = c.StorageDataType,
-                        Flow_m3_s = c.Flow_m3_s,
-                        HourlyValues = c.HourlyValues,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return HydrometricDataValueWebQuery;
-        }
-        #endregion Functions private Generated HydrometricDataValueFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(HydrometricDataValue hydrometricDataValue)

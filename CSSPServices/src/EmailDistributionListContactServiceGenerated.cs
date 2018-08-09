@@ -159,31 +159,31 @@ namespace CSSPServices
 
             return EmailDistributionListContactQuery;
         }
-        public EmailDistributionListContactWeb GetEmailDistributionListContactWebWithEmailDistributionListContactID(int EmailDistributionListContactID)
+        public EmailDistributionListContact_A GetEmailDistributionListContact_AWithEmailDistributionListContactID(int EmailDistributionListContactID)
         {
-            return FillEmailDistributionListContactWeb().Where(c => c.EmailDistributionListContactID == EmailDistributionListContactID).FirstOrDefault();
+            return FillEmailDistributionListContact_A().Where(c => c.EmailDistributionListContactID == EmailDistributionListContactID).FirstOrDefault();
 
         }
-        public IQueryable<EmailDistributionListContactWeb> GetEmailDistributionListContactWebList()
+        public IQueryable<EmailDistributionListContact_A> GetEmailDistributionListContact_AList()
         {
-            IQueryable<EmailDistributionListContactWeb> EmailDistributionListContactWebQuery = FillEmailDistributionListContactWeb();
+            IQueryable<EmailDistributionListContact_A> EmailDistributionListContact_AQuery = FillEmailDistributionListContact_A();
 
-            EmailDistributionListContactWebQuery = EnhanceQueryStatements<EmailDistributionListContactWeb>(EmailDistributionListContactWebQuery) as IQueryable<EmailDistributionListContactWeb>;
+            EmailDistributionListContact_AQuery = EnhanceQueryStatements<EmailDistributionListContact_A>(EmailDistributionListContact_AQuery) as IQueryable<EmailDistributionListContact_A>;
 
-            return EmailDistributionListContactWebQuery;
+            return EmailDistributionListContact_AQuery;
         }
-        public EmailDistributionListContactReport GetEmailDistributionListContactReportWithEmailDistributionListContactID(int EmailDistributionListContactID)
+        public EmailDistributionListContact_B GetEmailDistributionListContact_BWithEmailDistributionListContactID(int EmailDistributionListContactID)
         {
-            return FillEmailDistributionListContactReport().Where(c => c.EmailDistributionListContactID == EmailDistributionListContactID).FirstOrDefault();
+            return FillEmailDistributionListContact_B().Where(c => c.EmailDistributionListContactID == EmailDistributionListContactID).FirstOrDefault();
 
         }
-        public IQueryable<EmailDistributionListContactReport> GetEmailDistributionListContactReportList()
+        public IQueryable<EmailDistributionListContact_B> GetEmailDistributionListContact_BList()
         {
-            IQueryable<EmailDistributionListContactReport> EmailDistributionListContactReportQuery = FillEmailDistributionListContactReport();
+            IQueryable<EmailDistributionListContact_B> EmailDistributionListContact_BQuery = FillEmailDistributionListContact_B();
 
-            EmailDistributionListContactReportQuery = EnhanceQueryStatements<EmailDistributionListContactReport>(EmailDistributionListContactReportQuery) as IQueryable<EmailDistributionListContactReport>;
+            EmailDistributionListContact_BQuery = EnhanceQueryStatements<EmailDistributionListContact_B>(EmailDistributionListContact_BQuery) as IQueryable<EmailDistributionListContact_B>;
 
-            return EmailDistributionListContactReportQuery;
+            return EmailDistributionListContact_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -222,37 +222,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated EmailDistributionListContactFillWeb
-        private IQueryable<EmailDistributionListContactWeb> FillEmailDistributionListContactWeb()
-        {
-             IQueryable<EmailDistributionListContactWeb> EmailDistributionListContactWebQuery = (from c in db.EmailDistributionListContacts
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new EmailDistributionListContactWeb
-                    {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        EmailDistributionListContactID = c.EmailDistributionListContactID,
-                        EmailDistributionListID = c.EmailDistributionListID,
-                        IsCC = c.IsCC,
-                        Name = c.Name,
-                        Email = c.Email,
-                        CMPRainfallSeasonal = c.CMPRainfallSeasonal,
-                        CMPWastewater = c.CMPWastewater,
-                        EmergencyWeather = c.EmergencyWeather,
-                        EmergencyWastewater = c.EmergencyWastewater,
-                        ReopeningAllTypes = c.ReopeningAllTypes,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return EmailDistributionListContactWebQuery;
-        }
-        #endregion Functions private Generated EmailDistributionListContactFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(EmailDistributionListContact emailDistributionListContact)

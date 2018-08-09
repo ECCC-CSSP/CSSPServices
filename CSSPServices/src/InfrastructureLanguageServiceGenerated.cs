@@ -147,31 +147,31 @@ namespace CSSPServices
 
             return InfrastructureLanguageQuery;
         }
-        public InfrastructureLanguageWeb GetInfrastructureLanguageWebWithInfrastructureLanguageID(int InfrastructureLanguageID)
+        public InfrastructureLanguage_A GetInfrastructureLanguage_AWithInfrastructureLanguageID(int InfrastructureLanguageID)
         {
-            return FillInfrastructureLanguageWeb().Where(c => c.InfrastructureLanguageID == InfrastructureLanguageID).FirstOrDefault();
+            return FillInfrastructureLanguage_A().Where(c => c.InfrastructureLanguageID == InfrastructureLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<InfrastructureLanguageWeb> GetInfrastructureLanguageWebList()
+        public IQueryable<InfrastructureLanguage_A> GetInfrastructureLanguage_AList()
         {
-            IQueryable<InfrastructureLanguageWeb> InfrastructureLanguageWebQuery = FillInfrastructureLanguageWeb();
+            IQueryable<InfrastructureLanguage_A> InfrastructureLanguage_AQuery = FillInfrastructureLanguage_A();
 
-            InfrastructureLanguageWebQuery = EnhanceQueryStatements<InfrastructureLanguageWeb>(InfrastructureLanguageWebQuery) as IQueryable<InfrastructureLanguageWeb>;
+            InfrastructureLanguage_AQuery = EnhanceQueryStatements<InfrastructureLanguage_A>(InfrastructureLanguage_AQuery) as IQueryable<InfrastructureLanguage_A>;
 
-            return InfrastructureLanguageWebQuery;
+            return InfrastructureLanguage_AQuery;
         }
-        public InfrastructureLanguageReport GetInfrastructureLanguageReportWithInfrastructureLanguageID(int InfrastructureLanguageID)
+        public InfrastructureLanguage_B GetInfrastructureLanguage_BWithInfrastructureLanguageID(int InfrastructureLanguageID)
         {
-            return FillInfrastructureLanguageReport().Where(c => c.InfrastructureLanguageID == InfrastructureLanguageID).FirstOrDefault();
+            return FillInfrastructureLanguage_B().Where(c => c.InfrastructureLanguageID == InfrastructureLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<InfrastructureLanguageReport> GetInfrastructureLanguageReportList()
+        public IQueryable<InfrastructureLanguage_B> GetInfrastructureLanguage_BList()
         {
-            IQueryable<InfrastructureLanguageReport> InfrastructureLanguageReportQuery = FillInfrastructureLanguageReport();
+            IQueryable<InfrastructureLanguage_B> InfrastructureLanguage_BQuery = FillInfrastructureLanguage_B();
 
-            InfrastructureLanguageReportQuery = EnhanceQueryStatements<InfrastructureLanguageReport>(InfrastructureLanguageReportQuery) as IQueryable<InfrastructureLanguageReport>;
+            InfrastructureLanguage_BQuery = EnhanceQueryStatements<InfrastructureLanguage_B>(InfrastructureLanguage_BQuery) as IQueryable<InfrastructureLanguage_B>;
 
-            return InfrastructureLanguageReportQuery;
+            return InfrastructureLanguage_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -210,43 +210,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated InfrastructureLanguageFillWeb
-        private IQueryable<InfrastructureLanguageWeb> FillInfrastructureLanguageWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
-            List<EnumIDAndText> TranslationStatusEnumList = enums.GetEnumTextOrderedList(typeof(TranslationStatusEnum));
-
-             IQueryable<InfrastructureLanguageWeb> InfrastructureLanguageWebQuery = (from c in db.InfrastructureLanguages
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new InfrastructureLanguageWeb
-                    {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        LanguageText = (from e in LanguageEnumList
-                                where e.EnumID == (int?)c.Language
-                                select e.EnumText).FirstOrDefault(),
-                        TranslationStatusText = (from e in TranslationStatusEnumList
-                                where e.EnumID == (int?)c.TranslationStatus
-                                select e.EnumText).FirstOrDefault(),
-                        InfrastructureLanguageID = c.InfrastructureLanguageID,
-                        InfrastructureID = c.InfrastructureID,
-                        Language = c.Language,
-                        Comment = c.Comment,
-                        TranslationStatus = c.TranslationStatus,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return InfrastructureLanguageWebQuery;
-        }
-        #endregion Functions private Generated InfrastructureLanguageFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(InfrastructureLanguage infrastructureLanguage)

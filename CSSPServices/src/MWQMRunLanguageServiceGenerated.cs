@@ -162,31 +162,31 @@ namespace CSSPServices
 
             return MWQMRunLanguageQuery;
         }
-        public MWQMRunLanguageWeb GetMWQMRunLanguageWebWithMWQMRunLanguageID(int MWQMRunLanguageID)
+        public MWQMRunLanguage_A GetMWQMRunLanguage_AWithMWQMRunLanguageID(int MWQMRunLanguageID)
         {
-            return FillMWQMRunLanguageWeb().Where(c => c.MWQMRunLanguageID == MWQMRunLanguageID).FirstOrDefault();
+            return FillMWQMRunLanguage_A().Where(c => c.MWQMRunLanguageID == MWQMRunLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMRunLanguageWeb> GetMWQMRunLanguageWebList()
+        public IQueryable<MWQMRunLanguage_A> GetMWQMRunLanguage_AList()
         {
-            IQueryable<MWQMRunLanguageWeb> MWQMRunLanguageWebQuery = FillMWQMRunLanguageWeb();
+            IQueryable<MWQMRunLanguage_A> MWQMRunLanguage_AQuery = FillMWQMRunLanguage_A();
 
-            MWQMRunLanguageWebQuery = EnhanceQueryStatements<MWQMRunLanguageWeb>(MWQMRunLanguageWebQuery) as IQueryable<MWQMRunLanguageWeb>;
+            MWQMRunLanguage_AQuery = EnhanceQueryStatements<MWQMRunLanguage_A>(MWQMRunLanguage_AQuery) as IQueryable<MWQMRunLanguage_A>;
 
-            return MWQMRunLanguageWebQuery;
+            return MWQMRunLanguage_AQuery;
         }
-        public MWQMRunLanguageReport GetMWQMRunLanguageReportWithMWQMRunLanguageID(int MWQMRunLanguageID)
+        public MWQMRunLanguage_B GetMWQMRunLanguage_BWithMWQMRunLanguageID(int MWQMRunLanguageID)
         {
-            return FillMWQMRunLanguageReport().Where(c => c.MWQMRunLanguageID == MWQMRunLanguageID).FirstOrDefault();
+            return FillMWQMRunLanguage_B().Where(c => c.MWQMRunLanguageID == MWQMRunLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMRunLanguageReport> GetMWQMRunLanguageReportList()
+        public IQueryable<MWQMRunLanguage_B> GetMWQMRunLanguage_BList()
         {
-            IQueryable<MWQMRunLanguageReport> MWQMRunLanguageReportQuery = FillMWQMRunLanguageReport();
+            IQueryable<MWQMRunLanguage_B> MWQMRunLanguage_BQuery = FillMWQMRunLanguage_B();
 
-            MWQMRunLanguageReportQuery = EnhanceQueryStatements<MWQMRunLanguageReport>(MWQMRunLanguageReportQuery) as IQueryable<MWQMRunLanguageReport>;
+            MWQMRunLanguage_BQuery = EnhanceQueryStatements<MWQMRunLanguage_B>(MWQMRunLanguage_BQuery) as IQueryable<MWQMRunLanguage_B>;
 
-            return MWQMRunLanguageReportQuery;
+            return MWQMRunLanguage_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -225,48 +225,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated MWQMRunLanguageFillWeb
-        private IQueryable<MWQMRunLanguageWeb> FillMWQMRunLanguageWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
-            List<EnumIDAndText> TranslationStatusEnumList = enums.GetEnumTextOrderedList(typeof(TranslationStatusEnum));
-
-             IQueryable<MWQMRunLanguageWeb> MWQMRunLanguageWebQuery = (from c in db.MWQMRunLanguages
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new MWQMRunLanguageWeb
-                    {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        LanguageText = (from e in LanguageEnumList
-                                where e.EnumID == (int?)c.Language
-                                select e.EnumText).FirstOrDefault(),
-                        TranslationStatusRunCommentText = (from e in TranslationStatusEnumList
-                                where e.EnumID == (int?)c.TranslationStatusRunComment
-                                select e.EnumText).FirstOrDefault(),
-                        TranslationStatusRunWeatherCommentText = (from e in TranslationStatusEnumList
-                                where e.EnumID == (int?)c.TranslationStatusRunWeatherComment
-                                select e.EnumText).FirstOrDefault(),
-                        MWQMRunLanguageID = c.MWQMRunLanguageID,
-                        MWQMRunID = c.MWQMRunID,
-                        Language = c.Language,
-                        RunComment = c.RunComment,
-                        TranslationStatusRunComment = c.TranslationStatusRunComment,
-                        RunWeatherComment = c.RunWeatherComment,
-                        TranslationStatusRunWeatherComment = c.TranslationStatusRunWeatherComment,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return MWQMRunLanguageWebQuery;
-        }
-        #endregion Functions private Generated MWQMRunLanguageFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(MWQMRunLanguage mwqmRunLanguage)

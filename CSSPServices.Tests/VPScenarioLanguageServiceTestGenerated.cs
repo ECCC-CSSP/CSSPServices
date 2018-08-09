@@ -237,27 +237,27 @@ namespace CSSPServices.Tests
                     VPScenarioLanguage vpScenarioLanguage = (from c in dbTestDB.VPScenarioLanguages select c).FirstOrDefault();
                     Assert.IsNotNull(vpScenarioLanguage);
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        vpScenarioLanguageService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        vpScenarioLanguageService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             VPScenarioLanguage vpScenarioLanguageRet = vpScenarioLanguageService.GetVPScenarioLanguageWithVPScenarioLanguageID(vpScenarioLanguage.VPScenarioLanguageID);
                             CheckVPScenarioLanguageFields(new List<VPScenarioLanguage>() { vpScenarioLanguageRet });
                             Assert.AreEqual(vpScenarioLanguage.VPScenarioLanguageID, vpScenarioLanguageRet.VPScenarioLanguageID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            VPScenarioLanguageWeb vpScenarioLanguageWebRet = vpScenarioLanguageService.GetVPScenarioLanguageWebWithVPScenarioLanguageID(vpScenarioLanguage.VPScenarioLanguageID);
-                            CheckVPScenarioLanguageWebFields(new List<VPScenarioLanguageWeb>() { vpScenarioLanguageWebRet });
-                            Assert.AreEqual(vpScenarioLanguage.VPScenarioLanguageID, vpScenarioLanguageWebRet.VPScenarioLanguageID);
+                            VPScenarioLanguage_A vpScenarioLanguage_ARet = vpScenarioLanguageService.GetVPScenarioLanguage_AWithVPScenarioLanguageID(vpScenarioLanguage.VPScenarioLanguageID);
+                            CheckVPScenarioLanguage_AFields(new List<VPScenarioLanguage_A>() { vpScenarioLanguage_ARet });
+                            Assert.AreEqual(vpScenarioLanguage.VPScenarioLanguageID, vpScenarioLanguage_ARet.VPScenarioLanguageID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            VPScenarioLanguageReport vpScenarioLanguageReportRet = vpScenarioLanguageService.GetVPScenarioLanguageReportWithVPScenarioLanguageID(vpScenarioLanguage.VPScenarioLanguageID);
-                            CheckVPScenarioLanguageReportFields(new List<VPScenarioLanguageReport>() { vpScenarioLanguageReportRet });
-                            Assert.AreEqual(vpScenarioLanguage.VPScenarioLanguageID, vpScenarioLanguageReportRet.VPScenarioLanguageID);
+                            VPScenarioLanguage_B vpScenarioLanguage_BRet = vpScenarioLanguageService.GetVPScenarioLanguage_BWithVPScenarioLanguageID(vpScenarioLanguage.VPScenarioLanguageID);
+                            CheckVPScenarioLanguage_BFields(new List<VPScenarioLanguage_B>() { vpScenarioLanguage_BRet });
+                            Assert.AreEqual(vpScenarioLanguage.VPScenarioLanguageID, vpScenarioLanguage_BRet.VPScenarioLanguageID);
                         }
                         else
                         {
@@ -286,30 +286,29 @@ namespace CSSPServices.Tests
                     List<VPScenarioLanguage> vpScenarioLanguageDirectQueryList = new List<VPScenarioLanguage>();
                     vpScenarioLanguageDirectQueryList = (from c in dbTestDB.VPScenarioLanguages select c).Take(200).ToList();
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        vpScenarioLanguageService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        vpScenarioLanguageService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<VPScenarioLanguage> vpScenarioLanguageList = new List<VPScenarioLanguage>();
                             vpScenarioLanguageList = vpScenarioLanguageService.GetVPScenarioLanguageList().ToList();
                             CheckVPScenarioLanguageFields(vpScenarioLanguageList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<VPScenarioLanguageWeb> vpScenarioLanguageWebList = new List<VPScenarioLanguageWeb>();
-                            vpScenarioLanguageWebList = vpScenarioLanguageService.GetVPScenarioLanguageWebList().ToList();
-                            CheckVPScenarioLanguageWebFields(vpScenarioLanguageWebList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageWebList.Count);
+                            List<VPScenarioLanguage_A> vpScenarioLanguage_AList = new List<VPScenarioLanguage_A>();
+                            vpScenarioLanguage_AList = vpScenarioLanguageService.GetVPScenarioLanguage_AList().ToList();
+                            CheckVPScenarioLanguage_AFields(vpScenarioLanguage_AList);
+                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<VPScenarioLanguageReport> vpScenarioLanguageReportList = new List<VPScenarioLanguageReport>();
-                            vpScenarioLanguageReportList = vpScenarioLanguageService.GetVPScenarioLanguageReportList().ToList();
-                            CheckVPScenarioLanguageReportFields(vpScenarioLanguageReportList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageReportList.Count);
+                            List<VPScenarioLanguage_B> vpScenarioLanguage_BList = new List<VPScenarioLanguage_B>();
+                            vpScenarioLanguage_BList = vpScenarioLanguageService.GetVPScenarioLanguage_BList().ToList();
+                            CheckVPScenarioLanguage_BFields(vpScenarioLanguage_BList);
+                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguage_BList.Count);
                         }
                         else
                         {
@@ -331,38 +330,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         VPScenarioLanguageService vpScenarioLanguageService = new VPScenarioLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        vpScenarioLanguageService.Query = vpScenarioLanguageService.FillQuery(typeof(VPScenarioLanguage), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        vpScenarioLanguageService.Query = vpScenarioLanguageService.FillQuery(typeof(VPScenarioLanguage), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
 
                         List<VPScenarioLanguage> vpScenarioLanguageDirectQueryList = new List<VPScenarioLanguage>();
                         vpScenarioLanguageDirectQueryList = (from c in dbTestDB.VPScenarioLanguages select c).Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<VPScenarioLanguage> vpScenarioLanguageList = new List<VPScenarioLanguage>();
                             vpScenarioLanguageList = vpScenarioLanguageService.GetVPScenarioLanguageList().ToList();
                             CheckVPScenarioLanguageFields(vpScenarioLanguageList);
                             Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<VPScenarioLanguageWeb> vpScenarioLanguageWebList = new List<VPScenarioLanguageWeb>();
-                            vpScenarioLanguageWebList = vpScenarioLanguageService.GetVPScenarioLanguageWebList().ToList();
-                            CheckVPScenarioLanguageWebFields(vpScenarioLanguageWebList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageWebList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageWebList.Count);
+                            List<VPScenarioLanguage_A> vpScenarioLanguage_AList = new List<VPScenarioLanguage_A>();
+                            vpScenarioLanguage_AList = vpScenarioLanguageService.GetVPScenarioLanguage_AList().ToList();
+                            CheckVPScenarioLanguage_AFields(vpScenarioLanguage_AList);
+                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguage_AList[0].VPScenarioLanguageID);
+                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<VPScenarioLanguageReport> vpScenarioLanguageReportList = new List<VPScenarioLanguageReport>();
-                            vpScenarioLanguageReportList = vpScenarioLanguageService.GetVPScenarioLanguageReportList().ToList();
-                            CheckVPScenarioLanguageReportFields(vpScenarioLanguageReportList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageReportList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageReportList.Count);
+                            List<VPScenarioLanguage_B> vpScenarioLanguage_BList = new List<VPScenarioLanguage_B>();
+                            vpScenarioLanguage_BList = vpScenarioLanguageService.GetVPScenarioLanguage_BList().ToList();
+                            CheckVPScenarioLanguage_BFields(vpScenarioLanguage_BList);
+                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguage_BList[0].VPScenarioLanguageID);
+                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguage_BList.Count);
                         }
                         else
                         {
@@ -384,38 +382,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         VPScenarioLanguageService vpScenarioLanguageService = new VPScenarioLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        vpScenarioLanguageService.Query = vpScenarioLanguageService.FillQuery(typeof(VPScenarioLanguage), culture.TwoLetterISOLanguageName, 1, 1,  "VPScenarioLanguageID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        vpScenarioLanguageService.Query = vpScenarioLanguageService.FillQuery(typeof(VPScenarioLanguage), culture.TwoLetterISOLanguageName, 1, 1,  "VPScenarioLanguageID", "");
 
                         List<VPScenarioLanguage> vpScenarioLanguageDirectQueryList = new List<VPScenarioLanguage>();
                         vpScenarioLanguageDirectQueryList = (from c in dbTestDB.VPScenarioLanguages select c).Skip(1).Take(1).OrderBy(c => c.VPScenarioLanguageID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<VPScenarioLanguage> vpScenarioLanguageList = new List<VPScenarioLanguage>();
                             vpScenarioLanguageList = vpScenarioLanguageService.GetVPScenarioLanguageList().ToList();
                             CheckVPScenarioLanguageFields(vpScenarioLanguageList);
                             Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<VPScenarioLanguageWeb> vpScenarioLanguageWebList = new List<VPScenarioLanguageWeb>();
-                            vpScenarioLanguageWebList = vpScenarioLanguageService.GetVPScenarioLanguageWebList().ToList();
-                            CheckVPScenarioLanguageWebFields(vpScenarioLanguageWebList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageWebList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageWebList.Count);
+                            List<VPScenarioLanguage_A> vpScenarioLanguage_AList = new List<VPScenarioLanguage_A>();
+                            vpScenarioLanguage_AList = vpScenarioLanguageService.GetVPScenarioLanguage_AList().ToList();
+                            CheckVPScenarioLanguage_AFields(vpScenarioLanguage_AList);
+                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguage_AList[0].VPScenarioLanguageID);
+                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<VPScenarioLanguageReport> vpScenarioLanguageReportList = new List<VPScenarioLanguageReport>();
-                            vpScenarioLanguageReportList = vpScenarioLanguageService.GetVPScenarioLanguageReportList().ToList();
-                            CheckVPScenarioLanguageReportFields(vpScenarioLanguageReportList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageReportList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageReportList.Count);
+                            List<VPScenarioLanguage_B> vpScenarioLanguage_BList = new List<VPScenarioLanguage_B>();
+                            vpScenarioLanguage_BList = vpScenarioLanguageService.GetVPScenarioLanguage_BList().ToList();
+                            CheckVPScenarioLanguage_BFields(vpScenarioLanguage_BList);
+                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguage_BList[0].VPScenarioLanguageID);
+                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguage_BList.Count);
                         }
                         else
                         {
@@ -437,38 +434,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         VPScenarioLanguageService vpScenarioLanguageService = new VPScenarioLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        vpScenarioLanguageService.Query = vpScenarioLanguageService.FillQuery(typeof(VPScenarioLanguage), culture.TwoLetterISOLanguageName, 1, 1, "VPScenarioLanguageID,VPScenarioID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        vpScenarioLanguageService.Query = vpScenarioLanguageService.FillQuery(typeof(VPScenarioLanguage), culture.TwoLetterISOLanguageName, 1, 1, "VPScenarioLanguageID,VPScenarioID", "");
 
                         List<VPScenarioLanguage> vpScenarioLanguageDirectQueryList = new List<VPScenarioLanguage>();
                         vpScenarioLanguageDirectQueryList = (from c in dbTestDB.VPScenarioLanguages select c).Skip(1).Take(1).OrderBy(c => c.VPScenarioLanguageID).ThenBy(c => c.VPScenarioID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<VPScenarioLanguage> vpScenarioLanguageList = new List<VPScenarioLanguage>();
                             vpScenarioLanguageList = vpScenarioLanguageService.GetVPScenarioLanguageList().ToList();
                             CheckVPScenarioLanguageFields(vpScenarioLanguageList);
                             Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<VPScenarioLanguageWeb> vpScenarioLanguageWebList = new List<VPScenarioLanguageWeb>();
-                            vpScenarioLanguageWebList = vpScenarioLanguageService.GetVPScenarioLanguageWebList().ToList();
-                            CheckVPScenarioLanguageWebFields(vpScenarioLanguageWebList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageWebList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageWebList.Count);
+                            List<VPScenarioLanguage_A> vpScenarioLanguage_AList = new List<VPScenarioLanguage_A>();
+                            vpScenarioLanguage_AList = vpScenarioLanguageService.GetVPScenarioLanguage_AList().ToList();
+                            CheckVPScenarioLanguage_AFields(vpScenarioLanguage_AList);
+                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguage_AList[0].VPScenarioLanguageID);
+                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<VPScenarioLanguageReport> vpScenarioLanguageReportList = new List<VPScenarioLanguageReport>();
-                            vpScenarioLanguageReportList = vpScenarioLanguageService.GetVPScenarioLanguageReportList().ToList();
-                            CheckVPScenarioLanguageReportFields(vpScenarioLanguageReportList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageReportList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageReportList.Count);
+                            List<VPScenarioLanguage_B> vpScenarioLanguage_BList = new List<VPScenarioLanguage_B>();
+                            vpScenarioLanguage_BList = vpScenarioLanguageService.GetVPScenarioLanguage_BList().ToList();
+                            CheckVPScenarioLanguage_BFields(vpScenarioLanguage_BList);
+                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguage_BList[0].VPScenarioLanguageID);
+                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguage_BList.Count);
                         }
                         else
                         {
@@ -490,38 +486,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         VPScenarioLanguageService vpScenarioLanguageService = new VPScenarioLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        vpScenarioLanguageService.Query = vpScenarioLanguageService.FillQuery(typeof(VPScenarioLanguage), culture.TwoLetterISOLanguageName, 0, 1, "VPScenarioLanguageID", "VPScenarioLanguageID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        vpScenarioLanguageService.Query = vpScenarioLanguageService.FillQuery(typeof(VPScenarioLanguage), culture.TwoLetterISOLanguageName, 0, 1, "VPScenarioLanguageID", "VPScenarioLanguageID,EQ,4", "");
 
                         List<VPScenarioLanguage> vpScenarioLanguageDirectQueryList = new List<VPScenarioLanguage>();
                         vpScenarioLanguageDirectQueryList = (from c in dbTestDB.VPScenarioLanguages select c).Where(c => c.VPScenarioLanguageID == 4).Skip(0).Take(1).OrderBy(c => c.VPScenarioLanguageID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<VPScenarioLanguage> vpScenarioLanguageList = new List<VPScenarioLanguage>();
                             vpScenarioLanguageList = vpScenarioLanguageService.GetVPScenarioLanguageList().ToList();
                             CheckVPScenarioLanguageFields(vpScenarioLanguageList);
                             Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<VPScenarioLanguageWeb> vpScenarioLanguageWebList = new List<VPScenarioLanguageWeb>();
-                            vpScenarioLanguageWebList = vpScenarioLanguageService.GetVPScenarioLanguageWebList().ToList();
-                            CheckVPScenarioLanguageWebFields(vpScenarioLanguageWebList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageWebList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageWebList.Count);
+                            List<VPScenarioLanguage_A> vpScenarioLanguage_AList = new List<VPScenarioLanguage_A>();
+                            vpScenarioLanguage_AList = vpScenarioLanguageService.GetVPScenarioLanguage_AList().ToList();
+                            CheckVPScenarioLanguage_AFields(vpScenarioLanguage_AList);
+                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguage_AList[0].VPScenarioLanguageID);
+                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<VPScenarioLanguageReport> vpScenarioLanguageReportList = new List<VPScenarioLanguageReport>();
-                            vpScenarioLanguageReportList = vpScenarioLanguageService.GetVPScenarioLanguageReportList().ToList();
-                            CheckVPScenarioLanguageReportFields(vpScenarioLanguageReportList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageReportList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageReportList.Count);
+                            List<VPScenarioLanguage_B> vpScenarioLanguage_BList = new List<VPScenarioLanguage_B>();
+                            vpScenarioLanguage_BList = vpScenarioLanguageService.GetVPScenarioLanguage_BList().ToList();
+                            CheckVPScenarioLanguage_BFields(vpScenarioLanguage_BList);
+                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguage_BList[0].VPScenarioLanguageID);
+                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguage_BList.Count);
                         }
                         else
                         {
@@ -543,38 +538,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         VPScenarioLanguageService vpScenarioLanguageService = new VPScenarioLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        vpScenarioLanguageService.Query = vpScenarioLanguageService.FillQuery(typeof(VPScenarioLanguage), culture.TwoLetterISOLanguageName, 0, 1, "VPScenarioLanguageID", "VPScenarioLanguageID,GT,2|VPScenarioLanguageID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        vpScenarioLanguageService.Query = vpScenarioLanguageService.FillQuery(typeof(VPScenarioLanguage), culture.TwoLetterISOLanguageName, 0, 1, "VPScenarioLanguageID", "VPScenarioLanguageID,GT,2|VPScenarioLanguageID,LT,5", "");
 
                         List<VPScenarioLanguage> vpScenarioLanguageDirectQueryList = new List<VPScenarioLanguage>();
                         vpScenarioLanguageDirectQueryList = (from c in dbTestDB.VPScenarioLanguages select c).Where(c => c.VPScenarioLanguageID > 2 && c.VPScenarioLanguageID < 5).Skip(0).Take(1).OrderBy(c => c.VPScenarioLanguageID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<VPScenarioLanguage> vpScenarioLanguageList = new List<VPScenarioLanguage>();
                             vpScenarioLanguageList = vpScenarioLanguageService.GetVPScenarioLanguageList().ToList();
                             CheckVPScenarioLanguageFields(vpScenarioLanguageList);
                             Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<VPScenarioLanguageWeb> vpScenarioLanguageWebList = new List<VPScenarioLanguageWeb>();
-                            vpScenarioLanguageWebList = vpScenarioLanguageService.GetVPScenarioLanguageWebList().ToList();
-                            CheckVPScenarioLanguageWebFields(vpScenarioLanguageWebList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageWebList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageWebList.Count);
+                            List<VPScenarioLanguage_A> vpScenarioLanguage_AList = new List<VPScenarioLanguage_A>();
+                            vpScenarioLanguage_AList = vpScenarioLanguageService.GetVPScenarioLanguage_AList().ToList();
+                            CheckVPScenarioLanguage_AFields(vpScenarioLanguage_AList);
+                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguage_AList[0].VPScenarioLanguageID);
+                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<VPScenarioLanguageReport> vpScenarioLanguageReportList = new List<VPScenarioLanguageReport>();
-                            vpScenarioLanguageReportList = vpScenarioLanguageService.GetVPScenarioLanguageReportList().ToList();
-                            CheckVPScenarioLanguageReportFields(vpScenarioLanguageReportList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageReportList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageReportList.Count);
+                            List<VPScenarioLanguage_B> vpScenarioLanguage_BList = new List<VPScenarioLanguage_B>();
+                            vpScenarioLanguage_BList = vpScenarioLanguageService.GetVPScenarioLanguage_BList().ToList();
+                            CheckVPScenarioLanguage_BFields(vpScenarioLanguage_BList);
+                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguage_BList[0].VPScenarioLanguageID);
+                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguage_BList.Count);
                         }
                         else
                         {
@@ -596,38 +590,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         VPScenarioLanguageService vpScenarioLanguageService = new VPScenarioLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        vpScenarioLanguageService.Query = vpScenarioLanguageService.FillQuery(typeof(VPScenarioLanguage), culture.TwoLetterISOLanguageName, 0, 10000, "", "VPScenarioLanguageID,GT,2|VPScenarioLanguageID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        vpScenarioLanguageService.Query = vpScenarioLanguageService.FillQuery(typeof(VPScenarioLanguage), culture.TwoLetterISOLanguageName, 0, 10000, "", "VPScenarioLanguageID,GT,2|VPScenarioLanguageID,LT,5", "");
 
                         List<VPScenarioLanguage> vpScenarioLanguageDirectQueryList = new List<VPScenarioLanguage>();
                         vpScenarioLanguageDirectQueryList = (from c in dbTestDB.VPScenarioLanguages select c).Where(c => c.VPScenarioLanguageID > 2 && c.VPScenarioLanguageID < 5).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<VPScenarioLanguage> vpScenarioLanguageList = new List<VPScenarioLanguage>();
                             vpScenarioLanguageList = vpScenarioLanguageService.GetVPScenarioLanguageList().ToList();
                             CheckVPScenarioLanguageFields(vpScenarioLanguageList);
                             Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<VPScenarioLanguageWeb> vpScenarioLanguageWebList = new List<VPScenarioLanguageWeb>();
-                            vpScenarioLanguageWebList = vpScenarioLanguageService.GetVPScenarioLanguageWebList().ToList();
-                            CheckVPScenarioLanguageWebFields(vpScenarioLanguageWebList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageWebList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageWebList.Count);
+                            List<VPScenarioLanguage_A> vpScenarioLanguage_AList = new List<VPScenarioLanguage_A>();
+                            vpScenarioLanguage_AList = vpScenarioLanguageService.GetVPScenarioLanguage_AList().ToList();
+                            CheckVPScenarioLanguage_AFields(vpScenarioLanguage_AList);
+                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguage_AList[0].VPScenarioLanguageID);
+                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<VPScenarioLanguageReport> vpScenarioLanguageReportList = new List<VPScenarioLanguageReport>();
-                            vpScenarioLanguageReportList = vpScenarioLanguageService.GetVPScenarioLanguageReportList().ToList();
-                            CheckVPScenarioLanguageReportFields(vpScenarioLanguageReportList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageReportList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageReportList.Count);
+                            List<VPScenarioLanguage_B> vpScenarioLanguage_BList = new List<VPScenarioLanguage_B>();
+                            vpScenarioLanguage_BList = vpScenarioLanguageService.GetVPScenarioLanguage_BList().ToList();
+                            CheckVPScenarioLanguage_BFields(vpScenarioLanguage_BList);
+                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguage_BList[0].VPScenarioLanguageID);
+                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguage_BList.Count);
                         }
                         else
                         {
@@ -651,49 +644,49 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(vpScenarioLanguageList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(vpScenarioLanguageList[0].HasErrors);
         }
-        private void CheckVPScenarioLanguageWebFields(List<VPScenarioLanguageWeb> vpScenarioLanguageWebList)
+        private void CheckVPScenarioLanguage_AFields(List<VPScenarioLanguage_A> vpScenarioLanguage_AList)
         {
-            Assert.IsNotNull(vpScenarioLanguageWebList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(vpScenarioLanguageWebList[0].LanguageText))
+            Assert.IsNotNull(vpScenarioLanguage_AList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(vpScenarioLanguage_AList[0].LanguageText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageWebList[0].LanguageText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguage_AList[0].LanguageText));
             }
-            if (!string.IsNullOrWhiteSpace(vpScenarioLanguageWebList[0].TranslationStatusText))
+            if (!string.IsNullOrWhiteSpace(vpScenarioLanguage_AList[0].TranslationStatusText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageWebList[0].TranslationStatusText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguage_AList[0].TranslationStatusText));
             }
-            Assert.IsNotNull(vpScenarioLanguageWebList[0].VPScenarioLanguageID);
-            Assert.IsNotNull(vpScenarioLanguageWebList[0].VPScenarioID);
-            Assert.IsNotNull(vpScenarioLanguageWebList[0].Language);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageWebList[0].VPScenarioName));
-            Assert.IsNotNull(vpScenarioLanguageWebList[0].TranslationStatus);
-            Assert.IsNotNull(vpScenarioLanguageWebList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(vpScenarioLanguageWebList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(vpScenarioLanguageWebList[0].HasErrors);
+            Assert.IsNotNull(vpScenarioLanguage_AList[0].VPScenarioLanguageID);
+            Assert.IsNotNull(vpScenarioLanguage_AList[0].VPScenarioID);
+            Assert.IsNotNull(vpScenarioLanguage_AList[0].Language);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguage_AList[0].VPScenarioName));
+            Assert.IsNotNull(vpScenarioLanguage_AList[0].TranslationStatus);
+            Assert.IsNotNull(vpScenarioLanguage_AList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(vpScenarioLanguage_AList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(vpScenarioLanguage_AList[0].HasErrors);
         }
-        private void CheckVPScenarioLanguageReportFields(List<VPScenarioLanguageReport> vpScenarioLanguageReportList)
+        private void CheckVPScenarioLanguage_BFields(List<VPScenarioLanguage_B> vpScenarioLanguage_BList)
         {
-            if (!string.IsNullOrWhiteSpace(vpScenarioLanguageReportList[0].VPScenarioLanguageReportTest))
+            if (!string.IsNullOrWhiteSpace(vpScenarioLanguage_BList[0].VPScenarioLanguageReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageReportList[0].VPScenarioLanguageReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguage_BList[0].VPScenarioLanguageReportTest));
             }
-            Assert.IsNotNull(vpScenarioLanguageReportList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(vpScenarioLanguageReportList[0].LanguageText))
+            Assert.IsNotNull(vpScenarioLanguage_BList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(vpScenarioLanguage_BList[0].LanguageText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageReportList[0].LanguageText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguage_BList[0].LanguageText));
             }
-            if (!string.IsNullOrWhiteSpace(vpScenarioLanguageReportList[0].TranslationStatusText))
+            if (!string.IsNullOrWhiteSpace(vpScenarioLanguage_BList[0].TranslationStatusText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageReportList[0].TranslationStatusText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguage_BList[0].TranslationStatusText));
             }
-            Assert.IsNotNull(vpScenarioLanguageReportList[0].VPScenarioLanguageID);
-            Assert.IsNotNull(vpScenarioLanguageReportList[0].VPScenarioID);
-            Assert.IsNotNull(vpScenarioLanguageReportList[0].Language);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageReportList[0].VPScenarioName));
-            Assert.IsNotNull(vpScenarioLanguageReportList[0].TranslationStatus);
-            Assert.IsNotNull(vpScenarioLanguageReportList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(vpScenarioLanguageReportList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(vpScenarioLanguageReportList[0].HasErrors);
+            Assert.IsNotNull(vpScenarioLanguage_BList[0].VPScenarioLanguageID);
+            Assert.IsNotNull(vpScenarioLanguage_BList[0].VPScenarioID);
+            Assert.IsNotNull(vpScenarioLanguage_BList[0].Language);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguage_BList[0].VPScenarioName));
+            Assert.IsNotNull(vpScenarioLanguage_BList[0].TranslationStatus);
+            Assert.IsNotNull(vpScenarioLanguage_BList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(vpScenarioLanguage_BList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(vpScenarioLanguage_BList[0].HasErrors);
         }
         private VPScenarioLanguage GetFilledRandomVPScenarioLanguage(string OmitPropName)
         {

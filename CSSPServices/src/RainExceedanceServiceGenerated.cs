@@ -207,31 +207,31 @@ namespace CSSPServices
 
             return RainExceedanceQuery;
         }
-        public RainExceedanceWeb GetRainExceedanceWebWithRainExceedanceID(int RainExceedanceID)
+        public RainExceedance_A GetRainExceedance_AWithRainExceedanceID(int RainExceedanceID)
         {
-            return FillRainExceedanceWeb().Where(c => c.RainExceedanceID == RainExceedanceID).FirstOrDefault();
+            return FillRainExceedance_A().Where(c => c.RainExceedanceID == RainExceedanceID).FirstOrDefault();
 
         }
-        public IQueryable<RainExceedanceWeb> GetRainExceedanceWebList()
+        public IQueryable<RainExceedance_A> GetRainExceedance_AList()
         {
-            IQueryable<RainExceedanceWeb> RainExceedanceWebQuery = FillRainExceedanceWeb();
+            IQueryable<RainExceedance_A> RainExceedance_AQuery = FillRainExceedance_A();
 
-            RainExceedanceWebQuery = EnhanceQueryStatements<RainExceedanceWeb>(RainExceedanceWebQuery) as IQueryable<RainExceedanceWeb>;
+            RainExceedance_AQuery = EnhanceQueryStatements<RainExceedance_A>(RainExceedance_AQuery) as IQueryable<RainExceedance_A>;
 
-            return RainExceedanceWebQuery;
+            return RainExceedance_AQuery;
         }
-        public RainExceedanceReport GetRainExceedanceReportWithRainExceedanceID(int RainExceedanceID)
+        public RainExceedance_B GetRainExceedance_BWithRainExceedanceID(int RainExceedanceID)
         {
-            return FillRainExceedanceReport().Where(c => c.RainExceedanceID == RainExceedanceID).FirstOrDefault();
+            return FillRainExceedance_B().Where(c => c.RainExceedanceID == RainExceedanceID).FirstOrDefault();
 
         }
-        public IQueryable<RainExceedanceReport> GetRainExceedanceReportList()
+        public IQueryable<RainExceedance_B> GetRainExceedance_BList()
         {
-            IQueryable<RainExceedanceReport> RainExceedanceReportQuery = FillRainExceedanceReport();
+            IQueryable<RainExceedance_B> RainExceedance_BQuery = FillRainExceedance_B();
 
-            RainExceedanceReportQuery = EnhanceQueryStatements<RainExceedanceReport>(RainExceedanceReportQuery) as IQueryable<RainExceedanceReport>;
+            RainExceedance_BQuery = EnhanceQueryStatements<RainExceedance_B>(RainExceedance_BQuery) as IQueryable<RainExceedance_B>;
 
-            return RainExceedanceReportQuery;
+            return RainExceedance_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -270,39 +270,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated RainExceedanceFillWeb
-        private IQueryable<RainExceedanceWeb> FillRainExceedanceWeb()
-        {
-             IQueryable<RainExceedanceWeb> RainExceedanceWebQuery = (from c in db.RainExceedances
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new RainExceedanceWeb
-                    {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        RainExceedanceID = c.RainExceedanceID,
-                        YearRound = c.YearRound,
-                        StartDate_Local = c.StartDate_Local,
-                        EndDate_Local = c.EndDate_Local,
-                        RainMaximum_mm = c.RainMaximum_mm,
-                        RainExtreme_mm = c.RainExtreme_mm,
-                        DaysPriorToStart = c.DaysPriorToStart,
-                        RepeatEveryYear = c.RepeatEveryYear,
-                        ProvinceTVItemIDs = c.ProvinceTVItemIDs,
-                        SubsectorTVItemIDs = c.SubsectorTVItemIDs,
-                        ClimateSiteTVItemIDs = c.ClimateSiteTVItemIDs,
-                        EmailDistributionListIDs = c.EmailDistributionListIDs,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return RainExceedanceWebQuery;
-        }
-        #endregion Functions private Generated RainExceedanceFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(RainExceedance rainExceedance)

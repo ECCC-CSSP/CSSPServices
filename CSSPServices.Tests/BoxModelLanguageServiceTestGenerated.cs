@@ -237,27 +237,27 @@ namespace CSSPServices.Tests
                     BoxModelLanguage boxModelLanguage = (from c in dbTestDB.BoxModelLanguages select c).FirstOrDefault();
                     Assert.IsNotNull(boxModelLanguage);
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        boxModelLanguageService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        boxModelLanguageService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             BoxModelLanguage boxModelLanguageRet = boxModelLanguageService.GetBoxModelLanguageWithBoxModelLanguageID(boxModelLanguage.BoxModelLanguageID);
                             CheckBoxModelLanguageFields(new List<BoxModelLanguage>() { boxModelLanguageRet });
                             Assert.AreEqual(boxModelLanguage.BoxModelLanguageID, boxModelLanguageRet.BoxModelLanguageID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            BoxModelLanguageWeb boxModelLanguageWebRet = boxModelLanguageService.GetBoxModelLanguageWebWithBoxModelLanguageID(boxModelLanguage.BoxModelLanguageID);
-                            CheckBoxModelLanguageWebFields(new List<BoxModelLanguageWeb>() { boxModelLanguageWebRet });
-                            Assert.AreEqual(boxModelLanguage.BoxModelLanguageID, boxModelLanguageWebRet.BoxModelLanguageID);
+                            BoxModelLanguage_A boxModelLanguage_ARet = boxModelLanguageService.GetBoxModelLanguage_AWithBoxModelLanguageID(boxModelLanguage.BoxModelLanguageID);
+                            CheckBoxModelLanguage_AFields(new List<BoxModelLanguage_A>() { boxModelLanguage_ARet });
+                            Assert.AreEqual(boxModelLanguage.BoxModelLanguageID, boxModelLanguage_ARet.BoxModelLanguageID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            BoxModelLanguageReport boxModelLanguageReportRet = boxModelLanguageService.GetBoxModelLanguageReportWithBoxModelLanguageID(boxModelLanguage.BoxModelLanguageID);
-                            CheckBoxModelLanguageReportFields(new List<BoxModelLanguageReport>() { boxModelLanguageReportRet });
-                            Assert.AreEqual(boxModelLanguage.BoxModelLanguageID, boxModelLanguageReportRet.BoxModelLanguageID);
+                            BoxModelLanguage_B boxModelLanguage_BRet = boxModelLanguageService.GetBoxModelLanguage_BWithBoxModelLanguageID(boxModelLanguage.BoxModelLanguageID);
+                            CheckBoxModelLanguage_BFields(new List<BoxModelLanguage_B>() { boxModelLanguage_BRet });
+                            Assert.AreEqual(boxModelLanguage.BoxModelLanguageID, boxModelLanguage_BRet.BoxModelLanguageID);
                         }
                         else
                         {
@@ -286,30 +286,29 @@ namespace CSSPServices.Tests
                     List<BoxModelLanguage> boxModelLanguageDirectQueryList = new List<BoxModelLanguage>();
                     boxModelLanguageDirectQueryList = (from c in dbTestDB.BoxModelLanguages select c).Take(200).ToList();
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        boxModelLanguageService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        boxModelLanguageService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<BoxModelLanguage> boxModelLanguageList = new List<BoxModelLanguage>();
                             boxModelLanguageList = boxModelLanguageService.GetBoxModelLanguageList().ToList();
                             CheckBoxModelLanguageFields(boxModelLanguageList);
-                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<BoxModelLanguageWeb> boxModelLanguageWebList = new List<BoxModelLanguageWeb>();
-                            boxModelLanguageWebList = boxModelLanguageService.GetBoxModelLanguageWebList().ToList();
-                            CheckBoxModelLanguageWebFields(boxModelLanguageWebList);
-                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguageWebList.Count);
+                            List<BoxModelLanguage_A> boxModelLanguage_AList = new List<BoxModelLanguage_A>();
+                            boxModelLanguage_AList = boxModelLanguageService.GetBoxModelLanguage_AList().ToList();
+                            CheckBoxModelLanguage_AFields(boxModelLanguage_AList);
+                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<BoxModelLanguageReport> boxModelLanguageReportList = new List<BoxModelLanguageReport>();
-                            boxModelLanguageReportList = boxModelLanguageService.GetBoxModelLanguageReportList().ToList();
-                            CheckBoxModelLanguageReportFields(boxModelLanguageReportList);
-                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguageReportList.Count);
+                            List<BoxModelLanguage_B> boxModelLanguage_BList = new List<BoxModelLanguage_B>();
+                            boxModelLanguage_BList = boxModelLanguageService.GetBoxModelLanguage_BList().ToList();
+                            CheckBoxModelLanguage_BFields(boxModelLanguage_BList);
+                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguage_BList.Count);
                         }
                         else
                         {
@@ -331,38 +330,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         BoxModelLanguageService boxModelLanguageService = new BoxModelLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        boxModelLanguageService.Query = boxModelLanguageService.FillQuery(typeof(BoxModelLanguage), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        boxModelLanguageService.Query = boxModelLanguageService.FillQuery(typeof(BoxModelLanguage), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
 
                         List<BoxModelLanguage> boxModelLanguageDirectQueryList = new List<BoxModelLanguage>();
                         boxModelLanguageDirectQueryList = (from c in dbTestDB.BoxModelLanguages select c).Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<BoxModelLanguage> boxModelLanguageList = new List<BoxModelLanguage>();
                             boxModelLanguageList = boxModelLanguageService.GetBoxModelLanguageList().ToList();
                             CheckBoxModelLanguageFields(boxModelLanguageList);
                             Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguageList[0].BoxModelLanguageID);
-                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<BoxModelLanguageWeb> boxModelLanguageWebList = new List<BoxModelLanguageWeb>();
-                            boxModelLanguageWebList = boxModelLanguageService.GetBoxModelLanguageWebList().ToList();
-                            CheckBoxModelLanguageWebFields(boxModelLanguageWebList);
-                            Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguageWebList[0].BoxModelLanguageID);
-                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguageWebList.Count);
+                            List<BoxModelLanguage_A> boxModelLanguage_AList = new List<BoxModelLanguage_A>();
+                            boxModelLanguage_AList = boxModelLanguageService.GetBoxModelLanguage_AList().ToList();
+                            CheckBoxModelLanguage_AFields(boxModelLanguage_AList);
+                            Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguage_AList[0].BoxModelLanguageID);
+                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<BoxModelLanguageReport> boxModelLanguageReportList = new List<BoxModelLanguageReport>();
-                            boxModelLanguageReportList = boxModelLanguageService.GetBoxModelLanguageReportList().ToList();
-                            CheckBoxModelLanguageReportFields(boxModelLanguageReportList);
-                            Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguageReportList[0].BoxModelLanguageID);
-                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguageReportList.Count);
+                            List<BoxModelLanguage_B> boxModelLanguage_BList = new List<BoxModelLanguage_B>();
+                            boxModelLanguage_BList = boxModelLanguageService.GetBoxModelLanguage_BList().ToList();
+                            CheckBoxModelLanguage_BFields(boxModelLanguage_BList);
+                            Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguage_BList[0].BoxModelLanguageID);
+                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguage_BList.Count);
                         }
                         else
                         {
@@ -384,38 +382,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         BoxModelLanguageService boxModelLanguageService = new BoxModelLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        boxModelLanguageService.Query = boxModelLanguageService.FillQuery(typeof(BoxModelLanguage), culture.TwoLetterISOLanguageName, 1, 1,  "BoxModelLanguageID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        boxModelLanguageService.Query = boxModelLanguageService.FillQuery(typeof(BoxModelLanguage), culture.TwoLetterISOLanguageName, 1, 1,  "BoxModelLanguageID", "");
 
                         List<BoxModelLanguage> boxModelLanguageDirectQueryList = new List<BoxModelLanguage>();
                         boxModelLanguageDirectQueryList = (from c in dbTestDB.BoxModelLanguages select c).Skip(1).Take(1).OrderBy(c => c.BoxModelLanguageID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<BoxModelLanguage> boxModelLanguageList = new List<BoxModelLanguage>();
                             boxModelLanguageList = boxModelLanguageService.GetBoxModelLanguageList().ToList();
                             CheckBoxModelLanguageFields(boxModelLanguageList);
                             Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguageList[0].BoxModelLanguageID);
-                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<BoxModelLanguageWeb> boxModelLanguageWebList = new List<BoxModelLanguageWeb>();
-                            boxModelLanguageWebList = boxModelLanguageService.GetBoxModelLanguageWebList().ToList();
-                            CheckBoxModelLanguageWebFields(boxModelLanguageWebList);
-                            Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguageWebList[0].BoxModelLanguageID);
-                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguageWebList.Count);
+                            List<BoxModelLanguage_A> boxModelLanguage_AList = new List<BoxModelLanguage_A>();
+                            boxModelLanguage_AList = boxModelLanguageService.GetBoxModelLanguage_AList().ToList();
+                            CheckBoxModelLanguage_AFields(boxModelLanguage_AList);
+                            Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguage_AList[0].BoxModelLanguageID);
+                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<BoxModelLanguageReport> boxModelLanguageReportList = new List<BoxModelLanguageReport>();
-                            boxModelLanguageReportList = boxModelLanguageService.GetBoxModelLanguageReportList().ToList();
-                            CheckBoxModelLanguageReportFields(boxModelLanguageReportList);
-                            Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguageReportList[0].BoxModelLanguageID);
-                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguageReportList.Count);
+                            List<BoxModelLanguage_B> boxModelLanguage_BList = new List<BoxModelLanguage_B>();
+                            boxModelLanguage_BList = boxModelLanguageService.GetBoxModelLanguage_BList().ToList();
+                            CheckBoxModelLanguage_BFields(boxModelLanguage_BList);
+                            Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguage_BList[0].BoxModelLanguageID);
+                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguage_BList.Count);
                         }
                         else
                         {
@@ -437,38 +434,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         BoxModelLanguageService boxModelLanguageService = new BoxModelLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        boxModelLanguageService.Query = boxModelLanguageService.FillQuery(typeof(BoxModelLanguage), culture.TwoLetterISOLanguageName, 1, 1, "BoxModelLanguageID,BoxModelID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        boxModelLanguageService.Query = boxModelLanguageService.FillQuery(typeof(BoxModelLanguage), culture.TwoLetterISOLanguageName, 1, 1, "BoxModelLanguageID,BoxModelID", "");
 
                         List<BoxModelLanguage> boxModelLanguageDirectQueryList = new List<BoxModelLanguage>();
                         boxModelLanguageDirectQueryList = (from c in dbTestDB.BoxModelLanguages select c).Skip(1).Take(1).OrderBy(c => c.BoxModelLanguageID).ThenBy(c => c.BoxModelID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<BoxModelLanguage> boxModelLanguageList = new List<BoxModelLanguage>();
                             boxModelLanguageList = boxModelLanguageService.GetBoxModelLanguageList().ToList();
                             CheckBoxModelLanguageFields(boxModelLanguageList);
                             Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguageList[0].BoxModelLanguageID);
-                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<BoxModelLanguageWeb> boxModelLanguageWebList = new List<BoxModelLanguageWeb>();
-                            boxModelLanguageWebList = boxModelLanguageService.GetBoxModelLanguageWebList().ToList();
-                            CheckBoxModelLanguageWebFields(boxModelLanguageWebList);
-                            Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguageWebList[0].BoxModelLanguageID);
-                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguageWebList.Count);
+                            List<BoxModelLanguage_A> boxModelLanguage_AList = new List<BoxModelLanguage_A>();
+                            boxModelLanguage_AList = boxModelLanguageService.GetBoxModelLanguage_AList().ToList();
+                            CheckBoxModelLanguage_AFields(boxModelLanguage_AList);
+                            Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguage_AList[0].BoxModelLanguageID);
+                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<BoxModelLanguageReport> boxModelLanguageReportList = new List<BoxModelLanguageReport>();
-                            boxModelLanguageReportList = boxModelLanguageService.GetBoxModelLanguageReportList().ToList();
-                            CheckBoxModelLanguageReportFields(boxModelLanguageReportList);
-                            Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguageReportList[0].BoxModelLanguageID);
-                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguageReportList.Count);
+                            List<BoxModelLanguage_B> boxModelLanguage_BList = new List<BoxModelLanguage_B>();
+                            boxModelLanguage_BList = boxModelLanguageService.GetBoxModelLanguage_BList().ToList();
+                            CheckBoxModelLanguage_BFields(boxModelLanguage_BList);
+                            Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguage_BList[0].BoxModelLanguageID);
+                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguage_BList.Count);
                         }
                         else
                         {
@@ -490,38 +486,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         BoxModelLanguageService boxModelLanguageService = new BoxModelLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        boxModelLanguageService.Query = boxModelLanguageService.FillQuery(typeof(BoxModelLanguage), culture.TwoLetterISOLanguageName, 0, 1, "BoxModelLanguageID", "BoxModelLanguageID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        boxModelLanguageService.Query = boxModelLanguageService.FillQuery(typeof(BoxModelLanguage), culture.TwoLetterISOLanguageName, 0, 1, "BoxModelLanguageID", "BoxModelLanguageID,EQ,4", "");
 
                         List<BoxModelLanguage> boxModelLanguageDirectQueryList = new List<BoxModelLanguage>();
                         boxModelLanguageDirectQueryList = (from c in dbTestDB.BoxModelLanguages select c).Where(c => c.BoxModelLanguageID == 4).Skip(0).Take(1).OrderBy(c => c.BoxModelLanguageID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<BoxModelLanguage> boxModelLanguageList = new List<BoxModelLanguage>();
                             boxModelLanguageList = boxModelLanguageService.GetBoxModelLanguageList().ToList();
                             CheckBoxModelLanguageFields(boxModelLanguageList);
                             Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguageList[0].BoxModelLanguageID);
-                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<BoxModelLanguageWeb> boxModelLanguageWebList = new List<BoxModelLanguageWeb>();
-                            boxModelLanguageWebList = boxModelLanguageService.GetBoxModelLanguageWebList().ToList();
-                            CheckBoxModelLanguageWebFields(boxModelLanguageWebList);
-                            Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguageWebList[0].BoxModelLanguageID);
-                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguageWebList.Count);
+                            List<BoxModelLanguage_A> boxModelLanguage_AList = new List<BoxModelLanguage_A>();
+                            boxModelLanguage_AList = boxModelLanguageService.GetBoxModelLanguage_AList().ToList();
+                            CheckBoxModelLanguage_AFields(boxModelLanguage_AList);
+                            Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguage_AList[0].BoxModelLanguageID);
+                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<BoxModelLanguageReport> boxModelLanguageReportList = new List<BoxModelLanguageReport>();
-                            boxModelLanguageReportList = boxModelLanguageService.GetBoxModelLanguageReportList().ToList();
-                            CheckBoxModelLanguageReportFields(boxModelLanguageReportList);
-                            Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguageReportList[0].BoxModelLanguageID);
-                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguageReportList.Count);
+                            List<BoxModelLanguage_B> boxModelLanguage_BList = new List<BoxModelLanguage_B>();
+                            boxModelLanguage_BList = boxModelLanguageService.GetBoxModelLanguage_BList().ToList();
+                            CheckBoxModelLanguage_BFields(boxModelLanguage_BList);
+                            Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguage_BList[0].BoxModelLanguageID);
+                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguage_BList.Count);
                         }
                         else
                         {
@@ -543,38 +538,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         BoxModelLanguageService boxModelLanguageService = new BoxModelLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        boxModelLanguageService.Query = boxModelLanguageService.FillQuery(typeof(BoxModelLanguage), culture.TwoLetterISOLanguageName, 0, 1, "BoxModelLanguageID", "BoxModelLanguageID,GT,2|BoxModelLanguageID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        boxModelLanguageService.Query = boxModelLanguageService.FillQuery(typeof(BoxModelLanguage), culture.TwoLetterISOLanguageName, 0, 1, "BoxModelLanguageID", "BoxModelLanguageID,GT,2|BoxModelLanguageID,LT,5", "");
 
                         List<BoxModelLanguage> boxModelLanguageDirectQueryList = new List<BoxModelLanguage>();
                         boxModelLanguageDirectQueryList = (from c in dbTestDB.BoxModelLanguages select c).Where(c => c.BoxModelLanguageID > 2 && c.BoxModelLanguageID < 5).Skip(0).Take(1).OrderBy(c => c.BoxModelLanguageID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<BoxModelLanguage> boxModelLanguageList = new List<BoxModelLanguage>();
                             boxModelLanguageList = boxModelLanguageService.GetBoxModelLanguageList().ToList();
                             CheckBoxModelLanguageFields(boxModelLanguageList);
                             Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguageList[0].BoxModelLanguageID);
-                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<BoxModelLanguageWeb> boxModelLanguageWebList = new List<BoxModelLanguageWeb>();
-                            boxModelLanguageWebList = boxModelLanguageService.GetBoxModelLanguageWebList().ToList();
-                            CheckBoxModelLanguageWebFields(boxModelLanguageWebList);
-                            Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguageWebList[0].BoxModelLanguageID);
-                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguageWebList.Count);
+                            List<BoxModelLanguage_A> boxModelLanguage_AList = new List<BoxModelLanguage_A>();
+                            boxModelLanguage_AList = boxModelLanguageService.GetBoxModelLanguage_AList().ToList();
+                            CheckBoxModelLanguage_AFields(boxModelLanguage_AList);
+                            Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguage_AList[0].BoxModelLanguageID);
+                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<BoxModelLanguageReport> boxModelLanguageReportList = new List<BoxModelLanguageReport>();
-                            boxModelLanguageReportList = boxModelLanguageService.GetBoxModelLanguageReportList().ToList();
-                            CheckBoxModelLanguageReportFields(boxModelLanguageReportList);
-                            Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguageReportList[0].BoxModelLanguageID);
-                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguageReportList.Count);
+                            List<BoxModelLanguage_B> boxModelLanguage_BList = new List<BoxModelLanguage_B>();
+                            boxModelLanguage_BList = boxModelLanguageService.GetBoxModelLanguage_BList().ToList();
+                            CheckBoxModelLanguage_BFields(boxModelLanguage_BList);
+                            Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguage_BList[0].BoxModelLanguageID);
+                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguage_BList.Count);
                         }
                         else
                         {
@@ -596,38 +590,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         BoxModelLanguageService boxModelLanguageService = new BoxModelLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        boxModelLanguageService.Query = boxModelLanguageService.FillQuery(typeof(BoxModelLanguage), culture.TwoLetterISOLanguageName, 0, 10000, "", "BoxModelLanguageID,GT,2|BoxModelLanguageID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        boxModelLanguageService.Query = boxModelLanguageService.FillQuery(typeof(BoxModelLanguage), culture.TwoLetterISOLanguageName, 0, 10000, "", "BoxModelLanguageID,GT,2|BoxModelLanguageID,LT,5", "");
 
                         List<BoxModelLanguage> boxModelLanguageDirectQueryList = new List<BoxModelLanguage>();
                         boxModelLanguageDirectQueryList = (from c in dbTestDB.BoxModelLanguages select c).Where(c => c.BoxModelLanguageID > 2 && c.BoxModelLanguageID < 5).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<BoxModelLanguage> boxModelLanguageList = new List<BoxModelLanguage>();
                             boxModelLanguageList = boxModelLanguageService.GetBoxModelLanguageList().ToList();
                             CheckBoxModelLanguageFields(boxModelLanguageList);
                             Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguageList[0].BoxModelLanguageID);
-                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<BoxModelLanguageWeb> boxModelLanguageWebList = new List<BoxModelLanguageWeb>();
-                            boxModelLanguageWebList = boxModelLanguageService.GetBoxModelLanguageWebList().ToList();
-                            CheckBoxModelLanguageWebFields(boxModelLanguageWebList);
-                            Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguageWebList[0].BoxModelLanguageID);
-                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguageWebList.Count);
+                            List<BoxModelLanguage_A> boxModelLanguage_AList = new List<BoxModelLanguage_A>();
+                            boxModelLanguage_AList = boxModelLanguageService.GetBoxModelLanguage_AList().ToList();
+                            CheckBoxModelLanguage_AFields(boxModelLanguage_AList);
+                            Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguage_AList[0].BoxModelLanguageID);
+                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<BoxModelLanguageReport> boxModelLanguageReportList = new List<BoxModelLanguageReport>();
-                            boxModelLanguageReportList = boxModelLanguageService.GetBoxModelLanguageReportList().ToList();
-                            CheckBoxModelLanguageReportFields(boxModelLanguageReportList);
-                            Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguageReportList[0].BoxModelLanguageID);
-                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguageReportList.Count);
+                            List<BoxModelLanguage_B> boxModelLanguage_BList = new List<BoxModelLanguage_B>();
+                            boxModelLanguage_BList = boxModelLanguageService.GetBoxModelLanguage_BList().ToList();
+                            CheckBoxModelLanguage_BFields(boxModelLanguage_BList);
+                            Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguage_BList[0].BoxModelLanguageID);
+                            Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguage_BList.Count);
                         }
                         else
                         {
@@ -651,49 +644,49 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(boxModelLanguageList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(boxModelLanguageList[0].HasErrors);
         }
-        private void CheckBoxModelLanguageWebFields(List<BoxModelLanguageWeb> boxModelLanguageWebList)
+        private void CheckBoxModelLanguage_AFields(List<BoxModelLanguage_A> boxModelLanguage_AList)
         {
-            Assert.IsNotNull(boxModelLanguageWebList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(boxModelLanguageWebList[0].LanguageText))
+            Assert.IsNotNull(boxModelLanguage_AList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(boxModelLanguage_AList[0].LanguageText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageWebList[0].LanguageText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguage_AList[0].LanguageText));
             }
-            if (!string.IsNullOrWhiteSpace(boxModelLanguageWebList[0].TranslationStatusText))
+            if (!string.IsNullOrWhiteSpace(boxModelLanguage_AList[0].TranslationStatusText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageWebList[0].TranslationStatusText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguage_AList[0].TranslationStatusText));
             }
-            Assert.IsNotNull(boxModelLanguageWebList[0].BoxModelLanguageID);
-            Assert.IsNotNull(boxModelLanguageWebList[0].BoxModelID);
-            Assert.IsNotNull(boxModelLanguageWebList[0].Language);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageWebList[0].ScenarioName));
-            Assert.IsNotNull(boxModelLanguageWebList[0].TranslationStatus);
-            Assert.IsNotNull(boxModelLanguageWebList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(boxModelLanguageWebList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(boxModelLanguageWebList[0].HasErrors);
+            Assert.IsNotNull(boxModelLanguage_AList[0].BoxModelLanguageID);
+            Assert.IsNotNull(boxModelLanguage_AList[0].BoxModelID);
+            Assert.IsNotNull(boxModelLanguage_AList[0].Language);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguage_AList[0].ScenarioName));
+            Assert.IsNotNull(boxModelLanguage_AList[0].TranslationStatus);
+            Assert.IsNotNull(boxModelLanguage_AList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(boxModelLanguage_AList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(boxModelLanguage_AList[0].HasErrors);
         }
-        private void CheckBoxModelLanguageReportFields(List<BoxModelLanguageReport> boxModelLanguageReportList)
+        private void CheckBoxModelLanguage_BFields(List<BoxModelLanguage_B> boxModelLanguage_BList)
         {
-            if (!string.IsNullOrWhiteSpace(boxModelLanguageReportList[0].BoxModelLanguageReportTest))
+            if (!string.IsNullOrWhiteSpace(boxModelLanguage_BList[0].BoxModelLanguageReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageReportList[0].BoxModelLanguageReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguage_BList[0].BoxModelLanguageReportTest));
             }
-            Assert.IsNotNull(boxModelLanguageReportList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(boxModelLanguageReportList[0].LanguageText))
+            Assert.IsNotNull(boxModelLanguage_BList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(boxModelLanguage_BList[0].LanguageText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageReportList[0].LanguageText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguage_BList[0].LanguageText));
             }
-            if (!string.IsNullOrWhiteSpace(boxModelLanguageReportList[0].TranslationStatusText))
+            if (!string.IsNullOrWhiteSpace(boxModelLanguage_BList[0].TranslationStatusText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageReportList[0].TranslationStatusText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguage_BList[0].TranslationStatusText));
             }
-            Assert.IsNotNull(boxModelLanguageReportList[0].BoxModelLanguageID);
-            Assert.IsNotNull(boxModelLanguageReportList[0].BoxModelID);
-            Assert.IsNotNull(boxModelLanguageReportList[0].Language);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageReportList[0].ScenarioName));
-            Assert.IsNotNull(boxModelLanguageReportList[0].TranslationStatus);
-            Assert.IsNotNull(boxModelLanguageReportList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(boxModelLanguageReportList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(boxModelLanguageReportList[0].HasErrors);
+            Assert.IsNotNull(boxModelLanguage_BList[0].BoxModelLanguageID);
+            Assert.IsNotNull(boxModelLanguage_BList[0].BoxModelID);
+            Assert.IsNotNull(boxModelLanguage_BList[0].Language);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguage_BList[0].ScenarioName));
+            Assert.IsNotNull(boxModelLanguage_BList[0].TranslationStatus);
+            Assert.IsNotNull(boxModelLanguage_BList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(boxModelLanguage_BList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(boxModelLanguage_BList[0].HasErrors);
         }
         private BoxModelLanguage GetFilledRandomBoxModelLanguage(string OmitPropName)
         {

@@ -163,31 +163,31 @@ namespace CSSPServices
 
             return DocTemplateQuery;
         }
-        public DocTemplateWeb GetDocTemplateWebWithDocTemplateID(int DocTemplateID)
+        public DocTemplate_A GetDocTemplate_AWithDocTemplateID(int DocTemplateID)
         {
-            return FillDocTemplateWeb().Where(c => c.DocTemplateID == DocTemplateID).FirstOrDefault();
+            return FillDocTemplate_A().Where(c => c.DocTemplateID == DocTemplateID).FirstOrDefault();
 
         }
-        public IQueryable<DocTemplateWeb> GetDocTemplateWebList()
+        public IQueryable<DocTemplate_A> GetDocTemplate_AList()
         {
-            IQueryable<DocTemplateWeb> DocTemplateWebQuery = FillDocTemplateWeb();
+            IQueryable<DocTemplate_A> DocTemplate_AQuery = FillDocTemplate_A();
 
-            DocTemplateWebQuery = EnhanceQueryStatements<DocTemplateWeb>(DocTemplateWebQuery) as IQueryable<DocTemplateWeb>;
+            DocTemplate_AQuery = EnhanceQueryStatements<DocTemplate_A>(DocTemplate_AQuery) as IQueryable<DocTemplate_A>;
 
-            return DocTemplateWebQuery;
+            return DocTemplate_AQuery;
         }
-        public DocTemplateReport GetDocTemplateReportWithDocTemplateID(int DocTemplateID)
+        public DocTemplate_B GetDocTemplate_BWithDocTemplateID(int DocTemplateID)
         {
-            return FillDocTemplateReport().Where(c => c.DocTemplateID == DocTemplateID).FirstOrDefault();
+            return FillDocTemplate_B().Where(c => c.DocTemplateID == DocTemplateID).FirstOrDefault();
 
         }
-        public IQueryable<DocTemplateReport> GetDocTemplateReportList()
+        public IQueryable<DocTemplate_B> GetDocTemplate_BList()
         {
-            IQueryable<DocTemplateReport> DocTemplateReportQuery = FillDocTemplateReport();
+            IQueryable<DocTemplate_B> DocTemplate_BQuery = FillDocTemplate_B();
 
-            DocTemplateReportQuery = EnhanceQueryStatements<DocTemplateReport>(DocTemplateReportQuery) as IQueryable<DocTemplateReport>;
+            DocTemplate_BQuery = EnhanceQueryStatements<DocTemplate_B>(DocTemplate_BQuery) as IQueryable<DocTemplate_B>;
 
-            return DocTemplateReportQuery;
+            return DocTemplate_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -226,43 +226,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated DocTemplateFillWeb
-        private IQueryable<DocTemplateWeb> FillDocTemplateWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
-            List<EnumIDAndText> TVTypeEnumList = enums.GetEnumTextOrderedList(typeof(TVTypeEnum));
-
-             IQueryable<DocTemplateWeb> DocTemplateWebQuery = (from c in db.DocTemplates
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new DocTemplateWeb
-                    {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        LanguageText = (from e in LanguageEnumList
-                                where e.EnumID == (int?)c.Language
-                                select e.EnumText).FirstOrDefault(),
-                        TVTypeText = (from e in TVTypeEnumList
-                                where e.EnumID == (int?)c.TVType
-                                select e.EnumText).FirstOrDefault(),
-                        DocTemplateID = c.DocTemplateID,
-                        Language = c.Language,
-                        TVType = c.TVType,
-                        TVFileTVItemID = c.TVFileTVItemID,
-                        FileName = c.FileName,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return DocTemplateWebQuery;
-        }
-        #endregion Functions private Generated DocTemplateFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(DocTemplate docTemplate)

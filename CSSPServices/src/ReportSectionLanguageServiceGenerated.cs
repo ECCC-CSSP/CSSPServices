@@ -170,31 +170,31 @@ namespace CSSPServices
 
             return ReportSectionLanguageQuery;
         }
-        public ReportSectionLanguageWeb GetReportSectionLanguageWebWithReportSectionLanguageID(int ReportSectionLanguageID)
+        public ReportSectionLanguage_A GetReportSectionLanguage_AWithReportSectionLanguageID(int ReportSectionLanguageID)
         {
-            return FillReportSectionLanguageWeb().Where(c => c.ReportSectionLanguageID == ReportSectionLanguageID).FirstOrDefault();
+            return FillReportSectionLanguage_A().Where(c => c.ReportSectionLanguageID == ReportSectionLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<ReportSectionLanguageWeb> GetReportSectionLanguageWebList()
+        public IQueryable<ReportSectionLanguage_A> GetReportSectionLanguage_AList()
         {
-            IQueryable<ReportSectionLanguageWeb> ReportSectionLanguageWebQuery = FillReportSectionLanguageWeb();
+            IQueryable<ReportSectionLanguage_A> ReportSectionLanguage_AQuery = FillReportSectionLanguage_A();
 
-            ReportSectionLanguageWebQuery = EnhanceQueryStatements<ReportSectionLanguageWeb>(ReportSectionLanguageWebQuery) as IQueryable<ReportSectionLanguageWeb>;
+            ReportSectionLanguage_AQuery = EnhanceQueryStatements<ReportSectionLanguage_A>(ReportSectionLanguage_AQuery) as IQueryable<ReportSectionLanguage_A>;
 
-            return ReportSectionLanguageWebQuery;
+            return ReportSectionLanguage_AQuery;
         }
-        public ReportSectionLanguageReport GetReportSectionLanguageReportWithReportSectionLanguageID(int ReportSectionLanguageID)
+        public ReportSectionLanguage_B GetReportSectionLanguage_BWithReportSectionLanguageID(int ReportSectionLanguageID)
         {
-            return FillReportSectionLanguageReport().Where(c => c.ReportSectionLanguageID == ReportSectionLanguageID).FirstOrDefault();
+            return FillReportSectionLanguage_B().Where(c => c.ReportSectionLanguageID == ReportSectionLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<ReportSectionLanguageReport> GetReportSectionLanguageReportList()
+        public IQueryable<ReportSectionLanguage_B> GetReportSectionLanguage_BList()
         {
-            IQueryable<ReportSectionLanguageReport> ReportSectionLanguageReportQuery = FillReportSectionLanguageReport();
+            IQueryable<ReportSectionLanguage_B> ReportSectionLanguage_BQuery = FillReportSectionLanguage_B();
 
-            ReportSectionLanguageReportQuery = EnhanceQueryStatements<ReportSectionLanguageReport>(ReportSectionLanguageReportQuery) as IQueryable<ReportSectionLanguageReport>;
+            ReportSectionLanguage_BQuery = EnhanceQueryStatements<ReportSectionLanguage_B>(ReportSectionLanguage_BQuery) as IQueryable<ReportSectionLanguage_B>;
 
-            return ReportSectionLanguageReportQuery;
+            return ReportSectionLanguage_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -233,48 +233,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated ReportSectionLanguageFillWeb
-        private IQueryable<ReportSectionLanguageWeb> FillReportSectionLanguageWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
-            List<EnumIDAndText> TranslationStatusEnumList = enums.GetEnumTextOrderedList(typeof(TranslationStatusEnum));
-
-             IQueryable<ReportSectionLanguageWeb> ReportSectionLanguageWebQuery = (from c in db.ReportSectionLanguages
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new ReportSectionLanguageWeb
-                    {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        LanguageText = (from e in LanguageEnumList
-                                where e.EnumID == (int?)c.Language
-                                select e.EnumText).FirstOrDefault(),
-                        TranslationStatusReportSectionNameText = (from e in TranslationStatusEnumList
-                                where e.EnumID == (int?)c.TranslationStatusReportSectionName
-                                select e.EnumText).FirstOrDefault(),
-                        TranslationStatusReportSectionNameTextText = (from e in TranslationStatusEnumList
-                                where e.EnumID == (int?)c.TranslationStatusReportSectionText
-                                select e.EnumText).FirstOrDefault(),
-                        ReportSectionLanguageID = c.ReportSectionLanguageID,
-                        ReportSectionID = c.ReportSectionID,
-                        Language = c.Language,
-                        ReportSectionName = c.ReportSectionName,
-                        TranslationStatusReportSectionName = c.TranslationStatusReportSectionName,
-                        ReportSectionText = c.ReportSectionText,
-                        TranslationStatusReportSectionText = c.TranslationStatusReportSectionText,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return ReportSectionLanguageWebQuery;
-        }
-        #endregion Functions private Generated ReportSectionLanguageFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(ReportSectionLanguage reportSectionLanguage)

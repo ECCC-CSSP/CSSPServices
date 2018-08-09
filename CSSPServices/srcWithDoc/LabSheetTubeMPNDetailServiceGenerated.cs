@@ -230,31 +230,31 @@ namespace CSSPServices
 
             return LabSheetTubeMPNDetailQuery;
         }
-        public LabSheetTubeMPNDetailWeb GetLabSheetTubeMPNDetailWebWithLabSheetTubeMPNDetailID(int LabSheetTubeMPNDetailID)
+        public LabSheetTubeMPNDetail_A GetLabSheetTubeMPNDetail_AWithLabSheetTubeMPNDetailID(int LabSheetTubeMPNDetailID)
         {
-            return FillLabSheetTubeMPNDetailWeb().Where(c => c.LabSheetTubeMPNDetailID == LabSheetTubeMPNDetailID).FirstOrDefault();
+            return FillLabSheetTubeMPNDetail_A().Where(c => c.LabSheetTubeMPNDetailID == LabSheetTubeMPNDetailID).FirstOrDefault();
 
         }
-        public IQueryable<LabSheetTubeMPNDetailWeb> GetLabSheetTubeMPNDetailWebList()
+        public IQueryable<LabSheetTubeMPNDetail_A> GetLabSheetTubeMPNDetail_AList()
         {
-            IQueryable<LabSheetTubeMPNDetailWeb> LabSheetTubeMPNDetailWebQuery = FillLabSheetTubeMPNDetailWeb();
+            IQueryable<LabSheetTubeMPNDetail_A> LabSheetTubeMPNDetail_AQuery = FillLabSheetTubeMPNDetail_A();
 
-            LabSheetTubeMPNDetailWebQuery = EnhanceQueryStatements<LabSheetTubeMPNDetailWeb>(LabSheetTubeMPNDetailWebQuery) as IQueryable<LabSheetTubeMPNDetailWeb>;
+            LabSheetTubeMPNDetail_AQuery = EnhanceQueryStatements<LabSheetTubeMPNDetail_A>(LabSheetTubeMPNDetail_AQuery) as IQueryable<LabSheetTubeMPNDetail_A>;
 
-            return LabSheetTubeMPNDetailWebQuery;
+            return LabSheetTubeMPNDetail_AQuery;
         }
-        public LabSheetTubeMPNDetailReport GetLabSheetTubeMPNDetailReportWithLabSheetTubeMPNDetailID(int LabSheetTubeMPNDetailID)
+        public LabSheetTubeMPNDetail_B GetLabSheetTubeMPNDetail_BWithLabSheetTubeMPNDetailID(int LabSheetTubeMPNDetailID)
         {
-            return FillLabSheetTubeMPNDetailReport().Where(c => c.LabSheetTubeMPNDetailID == LabSheetTubeMPNDetailID).FirstOrDefault();
+            return FillLabSheetTubeMPNDetail_B().Where(c => c.LabSheetTubeMPNDetailID == LabSheetTubeMPNDetailID).FirstOrDefault();
 
         }
-        public IQueryable<LabSheetTubeMPNDetailReport> GetLabSheetTubeMPNDetailReportList()
+        public IQueryable<LabSheetTubeMPNDetail_B> GetLabSheetTubeMPNDetail_BList()
         {
-            IQueryable<LabSheetTubeMPNDetailReport> LabSheetTubeMPNDetailReportQuery = FillLabSheetTubeMPNDetailReport();
+            IQueryable<LabSheetTubeMPNDetail_B> LabSheetTubeMPNDetail_BQuery = FillLabSheetTubeMPNDetail_B();
 
-            LabSheetTubeMPNDetailReportQuery = EnhanceQueryStatements<LabSheetTubeMPNDetailReport>(LabSheetTubeMPNDetailReportQuery) as IQueryable<LabSheetTubeMPNDetailReport>;
+            LabSheetTubeMPNDetail_BQuery = EnhanceQueryStatements<LabSheetTubeMPNDetail_B>(LabSheetTubeMPNDetail_BQuery) as IQueryable<LabSheetTubeMPNDetail_B>;
 
-            return LabSheetTubeMPNDetailReportQuery;
+            return LabSheetTubeMPNDetail_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -293,53 +293,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated LabSheetTubeMPNDetailFillWeb
-        private IQueryable<LabSheetTubeMPNDetailWeb> FillLabSheetTubeMPNDetailWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> SampleTypeEnumList = enums.GetEnumTextOrderedList(typeof(SampleTypeEnum));
-
-             IQueryable<LabSheetTubeMPNDetailWeb> LabSheetTubeMPNDetailWebQuery = (from c in db.LabSheetTubeMPNDetails
-                let MWQMSiteTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.MWQMSiteTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new LabSheetTubeMPNDetailWeb
-                    {
-                        MWQMSiteTVItemLanguage = MWQMSiteTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        SampleTypeText = (from e in SampleTypeEnumList
-                                where e.EnumID == (int?)c.SampleType
-                                select e.EnumText).FirstOrDefault(),
-                        LabSheetTubeMPNDetailID = c.LabSheetTubeMPNDetailID,
-                        LabSheetDetailID = c.LabSheetDetailID,
-                        Ordinal = c.Ordinal,
-                        MWQMSiteTVItemID = c.MWQMSiteTVItemID,
-                        SampleDateTime = c.SampleDateTime,
-                        MPN = c.MPN,
-                        Tube10 = c.Tube10,
-                        Tube1_0 = c.Tube1_0,
-                        Tube0_1 = c.Tube0_1,
-                        Salinity = c.Salinity,
-                        Temperature = c.Temperature,
-                        ProcessedBy = c.ProcessedBy,
-                        SampleType = c.SampleType,
-                        SiteComment = c.SiteComment,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return LabSheetTubeMPNDetailWebQuery;
-        }
-        #endregion Functions private Generated LabSheetTubeMPNDetailFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(LabSheetTubeMPNDetail labSheetTubeMPNDetail)

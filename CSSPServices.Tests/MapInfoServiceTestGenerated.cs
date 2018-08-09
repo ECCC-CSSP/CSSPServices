@@ -314,27 +314,27 @@ namespace CSSPServices.Tests
                     MapInfo mapInfo = (from c in dbTestDB.MapInfos select c).FirstOrDefault();
                     Assert.IsNotNull(mapInfo);
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        mapInfoService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        mapInfoService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             MapInfo mapInfoRet = mapInfoService.GetMapInfoWithMapInfoID(mapInfo.MapInfoID);
                             CheckMapInfoFields(new List<MapInfo>() { mapInfoRet });
                             Assert.AreEqual(mapInfo.MapInfoID, mapInfoRet.MapInfoID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            MapInfoWeb mapInfoWebRet = mapInfoService.GetMapInfoWebWithMapInfoID(mapInfo.MapInfoID);
-                            CheckMapInfoWebFields(new List<MapInfoWeb>() { mapInfoWebRet });
-                            Assert.AreEqual(mapInfo.MapInfoID, mapInfoWebRet.MapInfoID);
+                            MapInfo_A mapInfo_ARet = mapInfoService.GetMapInfo_AWithMapInfoID(mapInfo.MapInfoID);
+                            CheckMapInfo_AFields(new List<MapInfo_A>() { mapInfo_ARet });
+                            Assert.AreEqual(mapInfo.MapInfoID, mapInfo_ARet.MapInfoID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            MapInfoReport mapInfoReportRet = mapInfoService.GetMapInfoReportWithMapInfoID(mapInfo.MapInfoID);
-                            CheckMapInfoReportFields(new List<MapInfoReport>() { mapInfoReportRet });
-                            Assert.AreEqual(mapInfo.MapInfoID, mapInfoReportRet.MapInfoID);
+                            MapInfo_B mapInfo_BRet = mapInfoService.GetMapInfo_BWithMapInfoID(mapInfo.MapInfoID);
+                            CheckMapInfo_BFields(new List<MapInfo_B>() { mapInfo_BRet });
+                            Assert.AreEqual(mapInfo.MapInfoID, mapInfo_BRet.MapInfoID);
                         }
                         else
                         {
@@ -363,30 +363,29 @@ namespace CSSPServices.Tests
                     List<MapInfo> mapInfoDirectQueryList = new List<MapInfo>();
                     mapInfoDirectQueryList = (from c in dbTestDB.MapInfos select c).Take(200).ToList();
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        mapInfoService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        mapInfoService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MapInfo> mapInfoList = new List<MapInfo>();
                             mapInfoList = mapInfoService.GetMapInfoList().ToList();
                             CheckMapInfoFields(mapInfoList);
-                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfoList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MapInfoWeb> mapInfoWebList = new List<MapInfoWeb>();
-                            mapInfoWebList = mapInfoService.GetMapInfoWebList().ToList();
-                            CheckMapInfoWebFields(mapInfoWebList);
-                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfoWebList.Count);
+                            List<MapInfo_A> mapInfo_AList = new List<MapInfo_A>();
+                            mapInfo_AList = mapInfoService.GetMapInfo_AList().ToList();
+                            CheckMapInfo_AFields(mapInfo_AList);
+                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfo_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MapInfoReport> mapInfoReportList = new List<MapInfoReport>();
-                            mapInfoReportList = mapInfoService.GetMapInfoReportList().ToList();
-                            CheckMapInfoReportFields(mapInfoReportList);
-                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfoReportList.Count);
+                            List<MapInfo_B> mapInfo_BList = new List<MapInfo_B>();
+                            mapInfo_BList = mapInfoService.GetMapInfo_BList().ToList();
+                            CheckMapInfo_BFields(mapInfo_BList);
+                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfo_BList.Count);
                         }
                         else
                         {
@@ -408,38 +407,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MapInfoService mapInfoService = new MapInfoService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mapInfoService.Query = mapInfoService.FillQuery(typeof(MapInfo), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mapInfoService.Query = mapInfoService.FillQuery(typeof(MapInfo), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
 
                         List<MapInfo> mapInfoDirectQueryList = new List<MapInfo>();
                         mapInfoDirectQueryList = (from c in dbTestDB.MapInfos select c).Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MapInfo> mapInfoList = new List<MapInfo>();
                             mapInfoList = mapInfoService.GetMapInfoList().ToList();
                             CheckMapInfoFields(mapInfoList);
                             Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoList[0].MapInfoID);
-                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfoList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MapInfoWeb> mapInfoWebList = new List<MapInfoWeb>();
-                            mapInfoWebList = mapInfoService.GetMapInfoWebList().ToList();
-                            CheckMapInfoWebFields(mapInfoWebList);
-                            Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoWebList[0].MapInfoID);
-                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfoWebList.Count);
+                            List<MapInfo_A> mapInfo_AList = new List<MapInfo_A>();
+                            mapInfo_AList = mapInfoService.GetMapInfo_AList().ToList();
+                            CheckMapInfo_AFields(mapInfo_AList);
+                            Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfo_AList[0].MapInfoID);
+                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfo_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MapInfoReport> mapInfoReportList = new List<MapInfoReport>();
-                            mapInfoReportList = mapInfoService.GetMapInfoReportList().ToList();
-                            CheckMapInfoReportFields(mapInfoReportList);
-                            Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoReportList[0].MapInfoID);
-                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfoReportList.Count);
+                            List<MapInfo_B> mapInfo_BList = new List<MapInfo_B>();
+                            mapInfo_BList = mapInfoService.GetMapInfo_BList().ToList();
+                            CheckMapInfo_BFields(mapInfo_BList);
+                            Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfo_BList[0].MapInfoID);
+                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfo_BList.Count);
                         }
                         else
                         {
@@ -461,38 +459,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MapInfoService mapInfoService = new MapInfoService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mapInfoService.Query = mapInfoService.FillQuery(typeof(MapInfo), culture.TwoLetterISOLanguageName, 1, 1,  "MapInfoID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mapInfoService.Query = mapInfoService.FillQuery(typeof(MapInfo), culture.TwoLetterISOLanguageName, 1, 1,  "MapInfoID", "");
 
                         List<MapInfo> mapInfoDirectQueryList = new List<MapInfo>();
                         mapInfoDirectQueryList = (from c in dbTestDB.MapInfos select c).Skip(1).Take(1).OrderBy(c => c.MapInfoID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MapInfo> mapInfoList = new List<MapInfo>();
                             mapInfoList = mapInfoService.GetMapInfoList().ToList();
                             CheckMapInfoFields(mapInfoList);
                             Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoList[0].MapInfoID);
-                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfoList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MapInfoWeb> mapInfoWebList = new List<MapInfoWeb>();
-                            mapInfoWebList = mapInfoService.GetMapInfoWebList().ToList();
-                            CheckMapInfoWebFields(mapInfoWebList);
-                            Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoWebList[0].MapInfoID);
-                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfoWebList.Count);
+                            List<MapInfo_A> mapInfo_AList = new List<MapInfo_A>();
+                            mapInfo_AList = mapInfoService.GetMapInfo_AList().ToList();
+                            CheckMapInfo_AFields(mapInfo_AList);
+                            Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfo_AList[0].MapInfoID);
+                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfo_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MapInfoReport> mapInfoReportList = new List<MapInfoReport>();
-                            mapInfoReportList = mapInfoService.GetMapInfoReportList().ToList();
-                            CheckMapInfoReportFields(mapInfoReportList);
-                            Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoReportList[0].MapInfoID);
-                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfoReportList.Count);
+                            List<MapInfo_B> mapInfo_BList = new List<MapInfo_B>();
+                            mapInfo_BList = mapInfoService.GetMapInfo_BList().ToList();
+                            CheckMapInfo_BFields(mapInfo_BList);
+                            Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfo_BList[0].MapInfoID);
+                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfo_BList.Count);
                         }
                         else
                         {
@@ -514,38 +511,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MapInfoService mapInfoService = new MapInfoService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mapInfoService.Query = mapInfoService.FillQuery(typeof(MapInfo), culture.TwoLetterISOLanguageName, 1, 1, "MapInfoID,TVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mapInfoService.Query = mapInfoService.FillQuery(typeof(MapInfo), culture.TwoLetterISOLanguageName, 1, 1, "MapInfoID,TVItemID", "");
 
                         List<MapInfo> mapInfoDirectQueryList = new List<MapInfo>();
                         mapInfoDirectQueryList = (from c in dbTestDB.MapInfos select c).Skip(1).Take(1).OrderBy(c => c.MapInfoID).ThenBy(c => c.TVItemID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MapInfo> mapInfoList = new List<MapInfo>();
                             mapInfoList = mapInfoService.GetMapInfoList().ToList();
                             CheckMapInfoFields(mapInfoList);
                             Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoList[0].MapInfoID);
-                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfoList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MapInfoWeb> mapInfoWebList = new List<MapInfoWeb>();
-                            mapInfoWebList = mapInfoService.GetMapInfoWebList().ToList();
-                            CheckMapInfoWebFields(mapInfoWebList);
-                            Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoWebList[0].MapInfoID);
-                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfoWebList.Count);
+                            List<MapInfo_A> mapInfo_AList = new List<MapInfo_A>();
+                            mapInfo_AList = mapInfoService.GetMapInfo_AList().ToList();
+                            CheckMapInfo_AFields(mapInfo_AList);
+                            Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfo_AList[0].MapInfoID);
+                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfo_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MapInfoReport> mapInfoReportList = new List<MapInfoReport>();
-                            mapInfoReportList = mapInfoService.GetMapInfoReportList().ToList();
-                            CheckMapInfoReportFields(mapInfoReportList);
-                            Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoReportList[0].MapInfoID);
-                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfoReportList.Count);
+                            List<MapInfo_B> mapInfo_BList = new List<MapInfo_B>();
+                            mapInfo_BList = mapInfoService.GetMapInfo_BList().ToList();
+                            CheckMapInfo_BFields(mapInfo_BList);
+                            Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfo_BList[0].MapInfoID);
+                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfo_BList.Count);
                         }
                         else
                         {
@@ -567,38 +563,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MapInfoService mapInfoService = new MapInfoService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mapInfoService.Query = mapInfoService.FillQuery(typeof(MapInfo), culture.TwoLetterISOLanguageName, 0, 1, "MapInfoID", "MapInfoID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mapInfoService.Query = mapInfoService.FillQuery(typeof(MapInfo), culture.TwoLetterISOLanguageName, 0, 1, "MapInfoID", "MapInfoID,EQ,4", "");
 
                         List<MapInfo> mapInfoDirectQueryList = new List<MapInfo>();
                         mapInfoDirectQueryList = (from c in dbTestDB.MapInfos select c).Where(c => c.MapInfoID == 4).Skip(0).Take(1).OrderBy(c => c.MapInfoID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MapInfo> mapInfoList = new List<MapInfo>();
                             mapInfoList = mapInfoService.GetMapInfoList().ToList();
                             CheckMapInfoFields(mapInfoList);
                             Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoList[0].MapInfoID);
-                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfoList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MapInfoWeb> mapInfoWebList = new List<MapInfoWeb>();
-                            mapInfoWebList = mapInfoService.GetMapInfoWebList().ToList();
-                            CheckMapInfoWebFields(mapInfoWebList);
-                            Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoWebList[0].MapInfoID);
-                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfoWebList.Count);
+                            List<MapInfo_A> mapInfo_AList = new List<MapInfo_A>();
+                            mapInfo_AList = mapInfoService.GetMapInfo_AList().ToList();
+                            CheckMapInfo_AFields(mapInfo_AList);
+                            Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfo_AList[0].MapInfoID);
+                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfo_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MapInfoReport> mapInfoReportList = new List<MapInfoReport>();
-                            mapInfoReportList = mapInfoService.GetMapInfoReportList().ToList();
-                            CheckMapInfoReportFields(mapInfoReportList);
-                            Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoReportList[0].MapInfoID);
-                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfoReportList.Count);
+                            List<MapInfo_B> mapInfo_BList = new List<MapInfo_B>();
+                            mapInfo_BList = mapInfoService.GetMapInfo_BList().ToList();
+                            CheckMapInfo_BFields(mapInfo_BList);
+                            Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfo_BList[0].MapInfoID);
+                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfo_BList.Count);
                         }
                         else
                         {
@@ -620,38 +615,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MapInfoService mapInfoService = new MapInfoService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mapInfoService.Query = mapInfoService.FillQuery(typeof(MapInfo), culture.TwoLetterISOLanguageName, 0, 1, "MapInfoID", "MapInfoID,GT,2|MapInfoID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mapInfoService.Query = mapInfoService.FillQuery(typeof(MapInfo), culture.TwoLetterISOLanguageName, 0, 1, "MapInfoID", "MapInfoID,GT,2|MapInfoID,LT,5", "");
 
                         List<MapInfo> mapInfoDirectQueryList = new List<MapInfo>();
                         mapInfoDirectQueryList = (from c in dbTestDB.MapInfos select c).Where(c => c.MapInfoID > 2 && c.MapInfoID < 5).Skip(0).Take(1).OrderBy(c => c.MapInfoID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MapInfo> mapInfoList = new List<MapInfo>();
                             mapInfoList = mapInfoService.GetMapInfoList().ToList();
                             CheckMapInfoFields(mapInfoList);
                             Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoList[0].MapInfoID);
-                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfoList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MapInfoWeb> mapInfoWebList = new List<MapInfoWeb>();
-                            mapInfoWebList = mapInfoService.GetMapInfoWebList().ToList();
-                            CheckMapInfoWebFields(mapInfoWebList);
-                            Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoWebList[0].MapInfoID);
-                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfoWebList.Count);
+                            List<MapInfo_A> mapInfo_AList = new List<MapInfo_A>();
+                            mapInfo_AList = mapInfoService.GetMapInfo_AList().ToList();
+                            CheckMapInfo_AFields(mapInfo_AList);
+                            Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfo_AList[0].MapInfoID);
+                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfo_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MapInfoReport> mapInfoReportList = new List<MapInfoReport>();
-                            mapInfoReportList = mapInfoService.GetMapInfoReportList().ToList();
-                            CheckMapInfoReportFields(mapInfoReportList);
-                            Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoReportList[0].MapInfoID);
-                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfoReportList.Count);
+                            List<MapInfo_B> mapInfo_BList = new List<MapInfo_B>();
+                            mapInfo_BList = mapInfoService.GetMapInfo_BList().ToList();
+                            CheckMapInfo_BFields(mapInfo_BList);
+                            Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfo_BList[0].MapInfoID);
+                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfo_BList.Count);
                         }
                         else
                         {
@@ -673,38 +667,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MapInfoService mapInfoService = new MapInfoService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mapInfoService.Query = mapInfoService.FillQuery(typeof(MapInfo), culture.TwoLetterISOLanguageName, 0, 10000, "", "MapInfoID,GT,2|MapInfoID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mapInfoService.Query = mapInfoService.FillQuery(typeof(MapInfo), culture.TwoLetterISOLanguageName, 0, 10000, "", "MapInfoID,GT,2|MapInfoID,LT,5", "");
 
                         List<MapInfo> mapInfoDirectQueryList = new List<MapInfo>();
                         mapInfoDirectQueryList = (from c in dbTestDB.MapInfos select c).Where(c => c.MapInfoID > 2 && c.MapInfoID < 5).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MapInfo> mapInfoList = new List<MapInfo>();
                             mapInfoList = mapInfoService.GetMapInfoList().ToList();
                             CheckMapInfoFields(mapInfoList);
                             Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoList[0].MapInfoID);
-                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfoList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MapInfoWeb> mapInfoWebList = new List<MapInfoWeb>();
-                            mapInfoWebList = mapInfoService.GetMapInfoWebList().ToList();
-                            CheckMapInfoWebFields(mapInfoWebList);
-                            Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoWebList[0].MapInfoID);
-                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfoWebList.Count);
+                            List<MapInfo_A> mapInfo_AList = new List<MapInfo_A>();
+                            mapInfo_AList = mapInfoService.GetMapInfo_AList().ToList();
+                            CheckMapInfo_AFields(mapInfo_AList);
+                            Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfo_AList[0].MapInfoID);
+                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfo_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MapInfoReport> mapInfoReportList = new List<MapInfoReport>();
-                            mapInfoReportList = mapInfoService.GetMapInfoReportList().ToList();
-                            CheckMapInfoReportFields(mapInfoReportList);
-                            Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoReportList[0].MapInfoID);
-                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfoReportList.Count);
+                            List<MapInfo_B> mapInfo_BList = new List<MapInfo_B>();
+                            mapInfo_BList = mapInfoService.GetMapInfo_BList().ToList();
+                            CheckMapInfo_BFields(mapInfo_BList);
+                            Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfo_BList[0].MapInfoID);
+                            Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfo_BList.Count);
                         }
                         else
                         {
@@ -731,57 +724,57 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(mapInfoList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(mapInfoList[0].HasErrors);
         }
-        private void CheckMapInfoWebFields(List<MapInfoWeb> mapInfoWebList)
+        private void CheckMapInfo_AFields(List<MapInfo_A> mapInfo_AList)
         {
-            Assert.IsNotNull(mapInfoWebList[0].TVItemLanguage);
-            Assert.IsNotNull(mapInfoWebList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(mapInfoWebList[0].TVTypeText))
+            Assert.IsNotNull(mapInfo_AList[0].TVItemLanguage);
+            Assert.IsNotNull(mapInfo_AList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(mapInfo_AList[0].TVTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoWebList[0].TVTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfo_AList[0].TVTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(mapInfoWebList[0].MapInfoDrawTypeText))
+            if (!string.IsNullOrWhiteSpace(mapInfo_AList[0].MapInfoDrawTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoWebList[0].MapInfoDrawTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfo_AList[0].MapInfoDrawTypeText));
             }
-            Assert.IsNotNull(mapInfoWebList[0].MapInfoID);
-            Assert.IsNotNull(mapInfoWebList[0].TVItemID);
-            Assert.IsNotNull(mapInfoWebList[0].TVType);
-            Assert.IsNotNull(mapInfoWebList[0].LatMin);
-            Assert.IsNotNull(mapInfoWebList[0].LatMax);
-            Assert.IsNotNull(mapInfoWebList[0].LngMin);
-            Assert.IsNotNull(mapInfoWebList[0].LngMax);
-            Assert.IsNotNull(mapInfoWebList[0].MapInfoDrawType);
-            Assert.IsNotNull(mapInfoWebList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(mapInfoWebList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(mapInfoWebList[0].HasErrors);
+            Assert.IsNotNull(mapInfo_AList[0].MapInfoID);
+            Assert.IsNotNull(mapInfo_AList[0].TVItemID);
+            Assert.IsNotNull(mapInfo_AList[0].TVType);
+            Assert.IsNotNull(mapInfo_AList[0].LatMin);
+            Assert.IsNotNull(mapInfo_AList[0].LatMax);
+            Assert.IsNotNull(mapInfo_AList[0].LngMin);
+            Assert.IsNotNull(mapInfo_AList[0].LngMax);
+            Assert.IsNotNull(mapInfo_AList[0].MapInfoDrawType);
+            Assert.IsNotNull(mapInfo_AList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(mapInfo_AList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(mapInfo_AList[0].HasErrors);
         }
-        private void CheckMapInfoReportFields(List<MapInfoReport> mapInfoReportList)
+        private void CheckMapInfo_BFields(List<MapInfo_B> mapInfo_BList)
         {
-            if (!string.IsNullOrWhiteSpace(mapInfoReportList[0].MapInfoReportTest))
+            if (!string.IsNullOrWhiteSpace(mapInfo_BList[0].MapInfoReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoReportList[0].MapInfoReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfo_BList[0].MapInfoReportTest));
             }
-            Assert.IsNotNull(mapInfoReportList[0].TVItemLanguage);
-            Assert.IsNotNull(mapInfoReportList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(mapInfoReportList[0].TVTypeText))
+            Assert.IsNotNull(mapInfo_BList[0].TVItemLanguage);
+            Assert.IsNotNull(mapInfo_BList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(mapInfo_BList[0].TVTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoReportList[0].TVTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfo_BList[0].TVTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(mapInfoReportList[0].MapInfoDrawTypeText))
+            if (!string.IsNullOrWhiteSpace(mapInfo_BList[0].MapInfoDrawTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoReportList[0].MapInfoDrawTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfo_BList[0].MapInfoDrawTypeText));
             }
-            Assert.IsNotNull(mapInfoReportList[0].MapInfoID);
-            Assert.IsNotNull(mapInfoReportList[0].TVItemID);
-            Assert.IsNotNull(mapInfoReportList[0].TVType);
-            Assert.IsNotNull(mapInfoReportList[0].LatMin);
-            Assert.IsNotNull(mapInfoReportList[0].LatMax);
-            Assert.IsNotNull(mapInfoReportList[0].LngMin);
-            Assert.IsNotNull(mapInfoReportList[0].LngMax);
-            Assert.IsNotNull(mapInfoReportList[0].MapInfoDrawType);
-            Assert.IsNotNull(mapInfoReportList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(mapInfoReportList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(mapInfoReportList[0].HasErrors);
+            Assert.IsNotNull(mapInfo_BList[0].MapInfoID);
+            Assert.IsNotNull(mapInfo_BList[0].TVItemID);
+            Assert.IsNotNull(mapInfo_BList[0].TVType);
+            Assert.IsNotNull(mapInfo_BList[0].LatMin);
+            Assert.IsNotNull(mapInfo_BList[0].LatMax);
+            Assert.IsNotNull(mapInfo_BList[0].LngMin);
+            Assert.IsNotNull(mapInfo_BList[0].LngMax);
+            Assert.IsNotNull(mapInfo_BList[0].MapInfoDrawType);
+            Assert.IsNotNull(mapInfo_BList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(mapInfo_BList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(mapInfo_BList[0].HasErrors);
         }
         private MapInfo GetFilledRandomMapInfo(string OmitPropName)
         {

@@ -232,31 +232,31 @@ namespace CSSPServices
 
             return UseOfSiteQuery;
         }
-        public UseOfSiteWeb GetUseOfSiteWebWithUseOfSiteID(int UseOfSiteID)
+        public UseOfSite_A GetUseOfSite_AWithUseOfSiteID(int UseOfSiteID)
         {
-            return FillUseOfSiteWeb().Where(c => c.UseOfSiteID == UseOfSiteID).FirstOrDefault();
+            return FillUseOfSite_A().Where(c => c.UseOfSiteID == UseOfSiteID).FirstOrDefault();
 
         }
-        public IQueryable<UseOfSiteWeb> GetUseOfSiteWebList()
+        public IQueryable<UseOfSite_A> GetUseOfSite_AList()
         {
-            IQueryable<UseOfSiteWeb> UseOfSiteWebQuery = FillUseOfSiteWeb();
+            IQueryable<UseOfSite_A> UseOfSite_AQuery = FillUseOfSite_A();
 
-            UseOfSiteWebQuery = EnhanceQueryStatements<UseOfSiteWeb>(UseOfSiteWebQuery) as IQueryable<UseOfSiteWeb>;
+            UseOfSite_AQuery = EnhanceQueryStatements<UseOfSite_A>(UseOfSite_AQuery) as IQueryable<UseOfSite_A>;
 
-            return UseOfSiteWebQuery;
+            return UseOfSite_AQuery;
         }
-        public UseOfSiteReport GetUseOfSiteReportWithUseOfSiteID(int UseOfSiteID)
+        public UseOfSite_B GetUseOfSite_BWithUseOfSiteID(int UseOfSiteID)
         {
-            return FillUseOfSiteReport().Where(c => c.UseOfSiteID == UseOfSiteID).FirstOrDefault();
+            return FillUseOfSite_B().Where(c => c.UseOfSiteID == UseOfSiteID).FirstOrDefault();
 
         }
-        public IQueryable<UseOfSiteReport> GetUseOfSiteReportList()
+        public IQueryable<UseOfSite_B> GetUseOfSite_BList()
         {
-            IQueryable<UseOfSiteReport> UseOfSiteReportQuery = FillUseOfSiteReport();
+            IQueryable<UseOfSite_B> UseOfSite_BQuery = FillUseOfSite_B();
 
-            UseOfSiteReportQuery = EnhanceQueryStatements<UseOfSiteReport>(UseOfSiteReportQuery) as IQueryable<UseOfSiteReport>;
+            UseOfSite_BQuery = EnhanceQueryStatements<UseOfSite_B>(UseOfSite_BQuery) as IQueryable<UseOfSite_B>;
 
-            return UseOfSiteReportQuery;
+            return UseOfSite_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -295,58 +295,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated UseOfSiteFillWeb
-        private IQueryable<UseOfSiteWeb> FillUseOfSiteWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> SiteTypeEnumList = enums.GetEnumTextOrderedList(typeof(SiteTypeEnum));
-
-             IQueryable<UseOfSiteWeb> UseOfSiteWebQuery = (from c in db.UseOfSites
-                let SiteTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.SiteTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let SubsectorTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.SubsectorTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new UseOfSiteWeb
-                    {
-                        SiteTVItemLanguage = SiteTVItemLanguage,
-                        SubsectorTVItemLanguage = SubsectorTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        SiteTypeText = (from e in SiteTypeEnumList
-                                where e.EnumID == (int?)c.SiteType
-                                select e.EnumText).FirstOrDefault(),
-                        UseOfSiteID = c.UseOfSiteID,
-                        SiteTVItemID = c.SiteTVItemID,
-                        SubsectorTVItemID = c.SubsectorTVItemID,
-                        SiteType = c.SiteType,
-                        Ordinal = c.Ordinal,
-                        StartYear = c.StartYear,
-                        EndYear = c.EndYear,
-                        UseWeight = c.UseWeight,
-                        Weight_perc = c.Weight_perc,
-                        UseEquation = c.UseEquation,
-                        Param1 = c.Param1,
-                        Param2 = c.Param2,
-                        Param3 = c.Param3,
-                        Param4 = c.Param4,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return UseOfSiteWebQuery;
-        }
-        #endregion Functions private Generated UseOfSiteFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(UseOfSite useOfSite)

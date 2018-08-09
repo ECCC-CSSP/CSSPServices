@@ -189,31 +189,31 @@ namespace CSSPServices
 
             return ReportTypeLanguageQuery;
         }
-        public ReportTypeLanguageWeb GetReportTypeLanguageWebWithReportTypeLanguageID(int ReportTypeLanguageID)
+        public ReportTypeLanguage_A GetReportTypeLanguage_AWithReportTypeLanguageID(int ReportTypeLanguageID)
         {
-            return FillReportTypeLanguageWeb().Where(c => c.ReportTypeLanguageID == ReportTypeLanguageID).FirstOrDefault();
+            return FillReportTypeLanguage_A().Where(c => c.ReportTypeLanguageID == ReportTypeLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<ReportTypeLanguageWeb> GetReportTypeLanguageWebList()
+        public IQueryable<ReportTypeLanguage_A> GetReportTypeLanguage_AList()
         {
-            IQueryable<ReportTypeLanguageWeb> ReportTypeLanguageWebQuery = FillReportTypeLanguageWeb();
+            IQueryable<ReportTypeLanguage_A> ReportTypeLanguage_AQuery = FillReportTypeLanguage_A();
 
-            ReportTypeLanguageWebQuery = EnhanceQueryStatements<ReportTypeLanguageWeb>(ReportTypeLanguageWebQuery) as IQueryable<ReportTypeLanguageWeb>;
+            ReportTypeLanguage_AQuery = EnhanceQueryStatements<ReportTypeLanguage_A>(ReportTypeLanguage_AQuery) as IQueryable<ReportTypeLanguage_A>;
 
-            return ReportTypeLanguageWebQuery;
+            return ReportTypeLanguage_AQuery;
         }
-        public ReportTypeLanguageReport GetReportTypeLanguageReportWithReportTypeLanguageID(int ReportTypeLanguageID)
+        public ReportTypeLanguage_B GetReportTypeLanguage_BWithReportTypeLanguageID(int ReportTypeLanguageID)
         {
-            return FillReportTypeLanguageReport().Where(c => c.ReportTypeLanguageID == ReportTypeLanguageID).FirstOrDefault();
+            return FillReportTypeLanguage_B().Where(c => c.ReportTypeLanguageID == ReportTypeLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<ReportTypeLanguageReport> GetReportTypeLanguageReportList()
+        public IQueryable<ReportTypeLanguage_B> GetReportTypeLanguage_BList()
         {
-            IQueryable<ReportTypeLanguageReport> ReportTypeLanguageReportQuery = FillReportTypeLanguageReport();
+            IQueryable<ReportTypeLanguage_B> ReportTypeLanguage_BQuery = FillReportTypeLanguage_B();
 
-            ReportTypeLanguageReportQuery = EnhanceQueryStatements<ReportTypeLanguageReport>(ReportTypeLanguageReportQuery) as IQueryable<ReportTypeLanguageReport>;
+            ReportTypeLanguage_BQuery = EnhanceQueryStatements<ReportTypeLanguage_B>(ReportTypeLanguage_BQuery) as IQueryable<ReportTypeLanguage_B>;
 
-            return ReportTypeLanguageReportQuery;
+            return ReportTypeLanguage_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -252,53 +252,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated ReportTypeLanguageFillWeb
-        private IQueryable<ReportTypeLanguageWeb> FillReportTypeLanguageWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
-            List<EnumIDAndText> TranslationStatusEnumList = enums.GetEnumTextOrderedList(typeof(TranslationStatusEnum));
-
-             IQueryable<ReportTypeLanguageWeb> ReportTypeLanguageWebQuery = (from c in db.ReportTypeLanguages
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new ReportTypeLanguageWeb
-                    {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        LanguageText = (from e in LanguageEnumList
-                                where e.EnumID == (int?)c.Language
-                                select e.EnumText).FirstOrDefault(),
-                        TranslationStatusNameText = (from e in TranslationStatusEnumList
-                                where e.EnumID == (int?)c.TranslationStatusName
-                                select e.EnumText).FirstOrDefault(),
-                        TranslationStatusDescriptionText = (from e in TranslationStatusEnumList
-                                where e.EnumID == (int?)c.TranslationStatusDescription
-                                select e.EnumText).FirstOrDefault(),
-                        TranslationStatusStartOfFileNameText = (from e in TranslationStatusEnumList
-                                where e.EnumID == (int?)c.TranslationStatusStartOfFileName
-                                select e.EnumText).FirstOrDefault(),
-                        ReportTypeLanguageID = c.ReportTypeLanguageID,
-                        ReportTypeID = c.ReportTypeID,
-                        Language = c.Language,
-                        Name = c.Name,
-                        TranslationStatusName = c.TranslationStatusName,
-                        Description = c.Description,
-                        TranslationStatusDescription = c.TranslationStatusDescription,
-                        StartOfFileName = c.StartOfFileName,
-                        TranslationStatusStartOfFileName = c.TranslationStatusStartOfFileName,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return ReportTypeLanguageWebQuery;
-        }
-        #endregion Functions private Generated ReportTypeLanguageFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(ReportTypeLanguage reportTypeLanguage)

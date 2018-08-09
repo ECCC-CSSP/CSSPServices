@@ -282,31 +282,31 @@ namespace CSSPServices
 
             return AppTaskQuery;
         }
-        public AppTaskWeb GetAppTaskWebWithAppTaskID(int AppTaskID)
+        public AppTask_A GetAppTask_AWithAppTaskID(int AppTaskID)
         {
-            return FillAppTaskWeb().Where(c => c.AppTaskID == AppTaskID).FirstOrDefault();
+            return FillAppTask_A().Where(c => c.AppTaskID == AppTaskID).FirstOrDefault();
 
         }
-        public IQueryable<AppTaskWeb> GetAppTaskWebList()
+        public IQueryable<AppTask_A> GetAppTask_AList()
         {
-            IQueryable<AppTaskWeb> AppTaskWebQuery = FillAppTaskWeb();
+            IQueryable<AppTask_A> AppTask_AQuery = FillAppTask_A();
 
-            AppTaskWebQuery = EnhanceQueryStatements<AppTaskWeb>(AppTaskWebQuery) as IQueryable<AppTaskWeb>;
+            AppTask_AQuery = EnhanceQueryStatements<AppTask_A>(AppTask_AQuery) as IQueryable<AppTask_A>;
 
-            return AppTaskWebQuery;
+            return AppTask_AQuery;
         }
-        public AppTaskReport GetAppTaskReportWithAppTaskID(int AppTaskID)
+        public AppTask_B GetAppTask_BWithAppTaskID(int AppTaskID)
         {
-            return FillAppTaskReport().Where(c => c.AppTaskID == AppTaskID).FirstOrDefault();
+            return FillAppTask_B().Where(c => c.AppTaskID == AppTaskID).FirstOrDefault();
 
         }
-        public IQueryable<AppTaskReport> GetAppTaskReportList()
+        public IQueryable<AppTask_B> GetAppTask_BList()
         {
-            IQueryable<AppTaskReport> AppTaskReportQuery = FillAppTaskReport();
+            IQueryable<AppTask_B> AppTask_BQuery = FillAppTask_B();
 
-            AppTaskReportQuery = EnhanceQueryStatements<AppTaskReport>(AppTaskReportQuery) as IQueryable<AppTaskReport>;
+            AppTask_BQuery = EnhanceQueryStatements<AppTask_B>(AppTask_BQuery) as IQueryable<AppTask_B>;
 
-            return AppTaskReportQuery;
+            return AppTask_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -345,64 +345,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated AppTaskFillWeb
-        private IQueryable<AppTaskWeb> FillAppTaskWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> AppTaskCommandEnumList = enums.GetEnumTextOrderedList(typeof(AppTaskCommandEnum));
-            List<EnumIDAndText> AppTaskStatusEnumList = enums.GetEnumTextOrderedList(typeof(AppTaskStatusEnum));
-            List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
-
-             IQueryable<AppTaskWeb> AppTaskWebQuery = (from c in db.AppTasks
-                let TVItemTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.TVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let TVItem2TVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.TVItemID2
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new AppTaskWeb
-                    {
-                        TVItemTVItemLanguage = TVItemTVItemLanguage,
-                        TVItem2TVItemLanguage = TVItem2TVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        AppTaskCommandText = (from e in AppTaskCommandEnumList
-                                where e.EnumID == (int?)c.AppTaskCommand
-                                select e.EnumText).FirstOrDefault(),
-                        AppTaskStatusText = (from e in AppTaskStatusEnumList
-                                where e.EnumID == (int?)c.AppTaskStatus
-                                select e.EnumText).FirstOrDefault(),
-                        LanguageText = (from e in LanguageEnumList
-                                where e.EnumID == (int?)c.Language
-                                select e.EnumText).FirstOrDefault(),
-                        AppTaskID = c.AppTaskID,
-                        TVItemID = c.TVItemID,
-                        TVItemID2 = c.TVItemID2,
-                        AppTaskCommand = c.AppTaskCommand,
-                        AppTaskStatus = c.AppTaskStatus,
-                        PercentCompleted = c.PercentCompleted,
-                        Parameters = c.Parameters,
-                        Language = c.Language,
-                        StartDateTime_UTC = c.StartDateTime_UTC,
-                        EndDateTime_UTC = c.EndDateTime_UTC,
-                        EstimatedLength_second = c.EstimatedLength_second,
-                        RemainingTime_second = c.RemainingTime_second,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return AppTaskWebQuery;
-        }
-        #endregion Functions private Generated AppTaskFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(AppTask appTask)

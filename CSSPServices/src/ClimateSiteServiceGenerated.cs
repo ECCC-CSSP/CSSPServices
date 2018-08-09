@@ -254,31 +254,31 @@ namespace CSSPServices
 
             return ClimateSiteQuery;
         }
-        public ClimateSiteWeb GetClimateSiteWebWithClimateSiteID(int ClimateSiteID)
+        public ClimateSite_A GetClimateSite_AWithClimateSiteID(int ClimateSiteID)
         {
-            return FillClimateSiteWeb().Where(c => c.ClimateSiteID == ClimateSiteID).FirstOrDefault();
+            return FillClimateSite_A().Where(c => c.ClimateSiteID == ClimateSiteID).FirstOrDefault();
 
         }
-        public IQueryable<ClimateSiteWeb> GetClimateSiteWebList()
+        public IQueryable<ClimateSite_A> GetClimateSite_AList()
         {
-            IQueryable<ClimateSiteWeb> ClimateSiteWebQuery = FillClimateSiteWeb();
+            IQueryable<ClimateSite_A> ClimateSite_AQuery = FillClimateSite_A();
 
-            ClimateSiteWebQuery = EnhanceQueryStatements<ClimateSiteWeb>(ClimateSiteWebQuery) as IQueryable<ClimateSiteWeb>;
+            ClimateSite_AQuery = EnhanceQueryStatements<ClimateSite_A>(ClimateSite_AQuery) as IQueryable<ClimateSite_A>;
 
-            return ClimateSiteWebQuery;
+            return ClimateSite_AQuery;
         }
-        public ClimateSiteReport GetClimateSiteReportWithClimateSiteID(int ClimateSiteID)
+        public ClimateSite_B GetClimateSite_BWithClimateSiteID(int ClimateSiteID)
         {
-            return FillClimateSiteReport().Where(c => c.ClimateSiteID == ClimateSiteID).FirstOrDefault();
+            return FillClimateSite_B().Where(c => c.ClimateSiteID == ClimateSiteID).FirstOrDefault();
 
         }
-        public IQueryable<ClimateSiteReport> GetClimateSiteReportList()
+        public IQueryable<ClimateSite_B> GetClimateSite_BList()
         {
-            IQueryable<ClimateSiteReport> ClimateSiteReportQuery = FillClimateSiteReport();
+            IQueryable<ClimateSite_B> ClimateSite_BQuery = FillClimateSite_B();
 
-            ClimateSiteReportQuery = EnhanceQueryStatements<ClimateSiteReport>(ClimateSiteReportQuery) as IQueryable<ClimateSiteReport>;
+            ClimateSite_BQuery = EnhanceQueryStatements<ClimateSite_B>(ClimateSite_BQuery) as IQueryable<ClimateSite_B>;
 
-            return ClimateSiteReportQuery;
+            return ClimateSite_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -317,54 +317,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated ClimateSiteFillWeb
-        private IQueryable<ClimateSiteWeb> FillClimateSiteWeb()
-        {
-             IQueryable<ClimateSiteWeb> ClimateSiteWebQuery = (from c in db.ClimateSites
-                let ClimateSiteTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.ClimateSiteTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new ClimateSiteWeb
-                    {
-                        ClimateSiteTVItemLanguage = ClimateSiteTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        ClimateSiteID = c.ClimateSiteID,
-                        ClimateSiteTVItemID = c.ClimateSiteTVItemID,
-                        ECDBID = c.ECDBID,
-                        ClimateSiteName = c.ClimateSiteName,
-                        Province = c.Province,
-                        Elevation_m = c.Elevation_m,
-                        ClimateID = c.ClimateID,
-                        WMOID = c.WMOID,
-                        TCID = c.TCID,
-                        IsProvincial = c.IsProvincial,
-                        ProvSiteID = c.ProvSiteID,
-                        TimeOffset_hour = c.TimeOffset_hour,
-                        File_desc = c.File_desc,
-                        HourlyStartDate_Local = c.HourlyStartDate_Local,
-                        HourlyEndDate_Local = c.HourlyEndDate_Local,
-                        HourlyNow = c.HourlyNow,
-                        DailyStartDate_Local = c.DailyStartDate_Local,
-                        DailyEndDate_Local = c.DailyEndDate_Local,
-                        DailyNow = c.DailyNow,
-                        MonthlyStartDate_Local = c.MonthlyStartDate_Local,
-                        MonthlyEndDate_Local = c.MonthlyEndDate_Local,
-                        MonthlyNow = c.MonthlyNow,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return ClimateSiteWebQuery;
-        }
-        #endregion Functions private Generated ClimateSiteFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(ClimateSite climateSite)

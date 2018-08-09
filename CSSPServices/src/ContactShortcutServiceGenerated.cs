@@ -149,31 +149,31 @@ namespace CSSPServices
 
             return ContactShortcutQuery;
         }
-        public ContactShortcutWeb GetContactShortcutWebWithContactShortcutID(int ContactShortcutID)
+        public ContactShortcut_A GetContactShortcut_AWithContactShortcutID(int ContactShortcutID)
         {
-            return FillContactShortcutWeb().Where(c => c.ContactShortcutID == ContactShortcutID).FirstOrDefault();
+            return FillContactShortcut_A().Where(c => c.ContactShortcutID == ContactShortcutID).FirstOrDefault();
 
         }
-        public IQueryable<ContactShortcutWeb> GetContactShortcutWebList()
+        public IQueryable<ContactShortcut_A> GetContactShortcut_AList()
         {
-            IQueryable<ContactShortcutWeb> ContactShortcutWebQuery = FillContactShortcutWeb();
+            IQueryable<ContactShortcut_A> ContactShortcut_AQuery = FillContactShortcut_A();
 
-            ContactShortcutWebQuery = EnhanceQueryStatements<ContactShortcutWeb>(ContactShortcutWebQuery) as IQueryable<ContactShortcutWeb>;
+            ContactShortcut_AQuery = EnhanceQueryStatements<ContactShortcut_A>(ContactShortcut_AQuery) as IQueryable<ContactShortcut_A>;
 
-            return ContactShortcutWebQuery;
+            return ContactShortcut_AQuery;
         }
-        public ContactShortcutReport GetContactShortcutReportWithContactShortcutID(int ContactShortcutID)
+        public ContactShortcut_B GetContactShortcut_BWithContactShortcutID(int ContactShortcutID)
         {
-            return FillContactShortcutReport().Where(c => c.ContactShortcutID == ContactShortcutID).FirstOrDefault();
+            return FillContactShortcut_B().Where(c => c.ContactShortcutID == ContactShortcutID).FirstOrDefault();
 
         }
-        public IQueryable<ContactShortcutReport> GetContactShortcutReportList()
+        public IQueryable<ContactShortcut_B> GetContactShortcut_BList()
         {
-            IQueryable<ContactShortcutReport> ContactShortcutReportQuery = FillContactShortcutReport();
+            IQueryable<ContactShortcut_B> ContactShortcut_BQuery = FillContactShortcut_B();
 
-            ContactShortcutReportQuery = EnhanceQueryStatements<ContactShortcutReport>(ContactShortcutReportQuery) as IQueryable<ContactShortcutReport>;
+            ContactShortcut_BQuery = EnhanceQueryStatements<ContactShortcut_B>(ContactShortcut_BQuery) as IQueryable<ContactShortcut_B>;
 
-            return ContactShortcutReportQuery;
+            return ContactShortcut_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -212,31 +212,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated ContactShortcutFillWeb
-        private IQueryable<ContactShortcutWeb> FillContactShortcutWeb()
-        {
-             IQueryable<ContactShortcutWeb> ContactShortcutWebQuery = (from c in db.ContactShortcuts
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new ContactShortcutWeb
-                    {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        ContactShortcutID = c.ContactShortcutID,
-                        ContactID = c.ContactID,
-                        ShortCutText = c.ShortCutText,
-                        ShortCutAddress = c.ShortCutAddress,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return ContactShortcutWebQuery;
-        }
-        #endregion Functions private Generated ContactShortcutFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(ContactShortcut contactShortcut)

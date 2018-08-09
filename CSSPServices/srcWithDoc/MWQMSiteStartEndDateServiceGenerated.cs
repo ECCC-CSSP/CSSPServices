@@ -163,31 +163,31 @@ namespace CSSPServices
 
             return MWQMSiteStartEndDateQuery;
         }
-        public MWQMSiteStartEndDateWeb GetMWQMSiteStartEndDateWebWithMWQMSiteStartEndDateID(int MWQMSiteStartEndDateID)
+        public MWQMSiteStartEndDate_A GetMWQMSiteStartEndDate_AWithMWQMSiteStartEndDateID(int MWQMSiteStartEndDateID)
         {
-            return FillMWQMSiteStartEndDateWeb().Where(c => c.MWQMSiteStartEndDateID == MWQMSiteStartEndDateID).FirstOrDefault();
+            return FillMWQMSiteStartEndDate_A().Where(c => c.MWQMSiteStartEndDateID == MWQMSiteStartEndDateID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMSiteStartEndDateWeb> GetMWQMSiteStartEndDateWebList()
+        public IQueryable<MWQMSiteStartEndDate_A> GetMWQMSiteStartEndDate_AList()
         {
-            IQueryable<MWQMSiteStartEndDateWeb> MWQMSiteStartEndDateWebQuery = FillMWQMSiteStartEndDateWeb();
+            IQueryable<MWQMSiteStartEndDate_A> MWQMSiteStartEndDate_AQuery = FillMWQMSiteStartEndDate_A();
 
-            MWQMSiteStartEndDateWebQuery = EnhanceQueryStatements<MWQMSiteStartEndDateWeb>(MWQMSiteStartEndDateWebQuery) as IQueryable<MWQMSiteStartEndDateWeb>;
+            MWQMSiteStartEndDate_AQuery = EnhanceQueryStatements<MWQMSiteStartEndDate_A>(MWQMSiteStartEndDate_AQuery) as IQueryable<MWQMSiteStartEndDate_A>;
 
-            return MWQMSiteStartEndDateWebQuery;
+            return MWQMSiteStartEndDate_AQuery;
         }
-        public MWQMSiteStartEndDateReport GetMWQMSiteStartEndDateReportWithMWQMSiteStartEndDateID(int MWQMSiteStartEndDateID)
+        public MWQMSiteStartEndDate_B GetMWQMSiteStartEndDate_BWithMWQMSiteStartEndDateID(int MWQMSiteStartEndDateID)
         {
-            return FillMWQMSiteStartEndDateReport().Where(c => c.MWQMSiteStartEndDateID == MWQMSiteStartEndDateID).FirstOrDefault();
+            return FillMWQMSiteStartEndDate_B().Where(c => c.MWQMSiteStartEndDateID == MWQMSiteStartEndDateID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMSiteStartEndDateReport> GetMWQMSiteStartEndDateReportList()
+        public IQueryable<MWQMSiteStartEndDate_B> GetMWQMSiteStartEndDate_BList()
         {
-            IQueryable<MWQMSiteStartEndDateReport> MWQMSiteStartEndDateReportQuery = FillMWQMSiteStartEndDateReport();
+            IQueryable<MWQMSiteStartEndDate_B> MWQMSiteStartEndDate_BQuery = FillMWQMSiteStartEndDate_B();
 
-            MWQMSiteStartEndDateReportQuery = EnhanceQueryStatements<MWQMSiteStartEndDateReport>(MWQMSiteStartEndDateReportQuery) as IQueryable<MWQMSiteStartEndDateReport>;
+            MWQMSiteStartEndDate_BQuery = EnhanceQueryStatements<MWQMSiteStartEndDate_B>(MWQMSiteStartEndDate_BQuery) as IQueryable<MWQMSiteStartEndDate_B>;
 
-            return MWQMSiteStartEndDateReportQuery;
+            return MWQMSiteStartEndDate_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -226,36 +226,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated MWQMSiteStartEndDateFillWeb
-        private IQueryable<MWQMSiteStartEndDateWeb> FillMWQMSiteStartEndDateWeb()
-        {
-             IQueryable<MWQMSiteStartEndDateWeb> MWQMSiteStartEndDateWebQuery = (from c in db.MWQMSiteStartEndDates
-                let MWQMSiteTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.MWQMSiteTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new MWQMSiteStartEndDateWeb
-                    {
-                        MWQMSiteTVItemLanguage = MWQMSiteTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        MWQMSiteStartEndDateID = c.MWQMSiteStartEndDateID,
-                        MWQMSiteTVItemID = c.MWQMSiteTVItemID,
-                        StartDate = c.StartDate,
-                        EndDate = c.EndDate,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return MWQMSiteStartEndDateWebQuery;
-        }
-        #endregion Functions private Generated MWQMSiteStartEndDateFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(MWQMSiteStartEndDate mwqmSiteStartEndDate)

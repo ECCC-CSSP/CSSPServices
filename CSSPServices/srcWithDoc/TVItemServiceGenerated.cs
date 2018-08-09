@@ -198,31 +198,31 @@ namespace CSSPServices
 
             return TVItemQuery;
         }
-        public TVItemWeb GetTVItemWebWithTVItemID(int TVItemID)
+        public TVItem_A GetTVItem_AWithTVItemID(int TVItemID)
         {
-            return FillTVItemWeb().Where(c => c.TVItemID == TVItemID).FirstOrDefault();
+            return FillTVItem_A().Where(c => c.TVItemID == TVItemID).FirstOrDefault();
 
         }
-        public IQueryable<TVItemWeb> GetTVItemWebList()
+        public IQueryable<TVItem_A> GetTVItem_AList()
         {
-            IQueryable<TVItemWeb> TVItemWebQuery = FillTVItemWeb();
+            IQueryable<TVItem_A> TVItem_AQuery = FillTVItem_A();
 
-            TVItemWebQuery = EnhanceQueryStatements<TVItemWeb>(TVItemWebQuery) as IQueryable<TVItemWeb>;
+            TVItem_AQuery = EnhanceQueryStatements<TVItem_A>(TVItem_AQuery) as IQueryable<TVItem_A>;
 
-            return TVItemWebQuery;
+            return TVItem_AQuery;
         }
-        public TVItemReport GetTVItemReportWithTVItemID(int TVItemID)
+        public TVItem_B GetTVItem_BWithTVItemID(int TVItemID)
         {
-            return FillTVItemReport().Where(c => c.TVItemID == TVItemID).FirstOrDefault();
+            return FillTVItem_B().Where(c => c.TVItemID == TVItemID).FirstOrDefault();
 
         }
-        public IQueryable<TVItemReport> GetTVItemReportList()
+        public IQueryable<TVItem_B> GetTVItem_BList()
         {
-            IQueryable<TVItemReport> TVItemReportQuery = FillTVItemReport();
+            IQueryable<TVItem_B> TVItem_BQuery = FillTVItem_B();
 
-            TVItemReportQuery = EnhanceQueryStatements<TVItemReport>(TVItemReportQuery) as IQueryable<TVItemReport>;
+            TVItem_BQuery = EnhanceQueryStatements<TVItem_B>(TVItem_BQuery) as IQueryable<TVItem_B>;
 
-            return TVItemReportQuery;
+            return TVItem_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -261,45 +261,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated TVItemFillWeb
-        private IQueryable<TVItemWeb> FillTVItemWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> TVTypeEnumList = enums.GetEnumTextOrderedList(typeof(TVTypeEnum));
-
-             IQueryable<TVItemWeb> TVItemWebQuery = (from c in db.TVItems
-                let TVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.TVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new TVItemWeb
-                    {
-                        TVItemLanguage = TVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        TVTypeText = (from e in TVTypeEnumList
-                                where e.EnumID == (int?)c.TVType
-                                select e.EnumText).FirstOrDefault(),
-                        TVItemID = c.TVItemID,
-                        TVLevel = c.TVLevel,
-                        TVPath = c.TVPath,
-                        TVType = c.TVType,
-                        ParentID = c.ParentID,
-                        IsActive = c.IsActive,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return TVItemWebQuery;
-        }
-        #endregion Functions private Generated TVItemFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(TVItem tvItem)

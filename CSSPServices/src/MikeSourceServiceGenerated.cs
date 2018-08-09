@@ -149,31 +149,31 @@ namespace CSSPServices
 
             return MikeSourceQuery;
         }
-        public MikeSourceWeb GetMikeSourceWebWithMikeSourceID(int MikeSourceID)
+        public MikeSource_A GetMikeSource_AWithMikeSourceID(int MikeSourceID)
         {
-            return FillMikeSourceWeb().Where(c => c.MikeSourceID == MikeSourceID).FirstOrDefault();
+            return FillMikeSource_A().Where(c => c.MikeSourceID == MikeSourceID).FirstOrDefault();
 
         }
-        public IQueryable<MikeSourceWeb> GetMikeSourceWebList()
+        public IQueryable<MikeSource_A> GetMikeSource_AList()
         {
-            IQueryable<MikeSourceWeb> MikeSourceWebQuery = FillMikeSourceWeb();
+            IQueryable<MikeSource_A> MikeSource_AQuery = FillMikeSource_A();
 
-            MikeSourceWebQuery = EnhanceQueryStatements<MikeSourceWeb>(MikeSourceWebQuery) as IQueryable<MikeSourceWeb>;
+            MikeSource_AQuery = EnhanceQueryStatements<MikeSource_A>(MikeSource_AQuery) as IQueryable<MikeSource_A>;
 
-            return MikeSourceWebQuery;
+            return MikeSource_AQuery;
         }
-        public MikeSourceReport GetMikeSourceReportWithMikeSourceID(int MikeSourceID)
+        public MikeSource_B GetMikeSource_BWithMikeSourceID(int MikeSourceID)
         {
-            return FillMikeSourceReport().Where(c => c.MikeSourceID == MikeSourceID).FirstOrDefault();
+            return FillMikeSource_B().Where(c => c.MikeSourceID == MikeSourceID).FirstOrDefault();
 
         }
-        public IQueryable<MikeSourceReport> GetMikeSourceReportList()
+        public IQueryable<MikeSource_B> GetMikeSource_BList()
         {
-            IQueryable<MikeSourceReport> MikeSourceReportQuery = FillMikeSourceReport();
+            IQueryable<MikeSource_B> MikeSource_BQuery = FillMikeSource_B();
 
-            MikeSourceReportQuery = EnhanceQueryStatements<MikeSourceReport>(MikeSourceReportQuery) as IQueryable<MikeSourceReport>;
+            MikeSource_BQuery = EnhanceQueryStatements<MikeSource_B>(MikeSource_BQuery) as IQueryable<MikeSource_B>;
 
-            return MikeSourceReportQuery;
+            return MikeSource_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -212,38 +212,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated MikeSourceFillWeb
-        private IQueryable<MikeSourceWeb> FillMikeSourceWeb()
-        {
-             IQueryable<MikeSourceWeb> MikeSourceWebQuery = (from c in db.MikeSources
-                let MikeSourceTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.MikeSourceTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new MikeSourceWeb
-                    {
-                        MikeSourceTVItemLanguage = MikeSourceTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        MikeSourceID = c.MikeSourceID,
-                        MikeSourceTVItemID = c.MikeSourceTVItemID,
-                        IsContinuous = c.IsContinuous,
-                        Include = c.Include,
-                        IsRiver = c.IsRiver,
-                        SourceNumberString = c.SourceNumberString,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return MikeSourceWebQuery;
-        }
-        #endregion Functions private Generated MikeSourceFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(MikeSource mikeSource)

@@ -161,31 +161,31 @@ namespace CSSPServices
 
             return VPResultQuery;
         }
-        public VPResultWeb GetVPResultWebWithVPResultID(int VPResultID)
+        public VPResult_A GetVPResult_AWithVPResultID(int VPResultID)
         {
-            return FillVPResultWeb().Where(c => c.VPResultID == VPResultID).FirstOrDefault();
+            return FillVPResult_A().Where(c => c.VPResultID == VPResultID).FirstOrDefault();
 
         }
-        public IQueryable<VPResultWeb> GetVPResultWebList()
+        public IQueryable<VPResult_A> GetVPResult_AList()
         {
-            IQueryable<VPResultWeb> VPResultWebQuery = FillVPResultWeb();
+            IQueryable<VPResult_A> VPResult_AQuery = FillVPResult_A();
 
-            VPResultWebQuery = EnhanceQueryStatements<VPResultWeb>(VPResultWebQuery) as IQueryable<VPResultWeb>;
+            VPResult_AQuery = EnhanceQueryStatements<VPResult_A>(VPResult_AQuery) as IQueryable<VPResult_A>;
 
-            return VPResultWebQuery;
+            return VPResult_AQuery;
         }
-        public VPResultReport GetVPResultReportWithVPResultID(int VPResultID)
+        public VPResult_B GetVPResult_BWithVPResultID(int VPResultID)
         {
-            return FillVPResultReport().Where(c => c.VPResultID == VPResultID).FirstOrDefault();
+            return FillVPResult_B().Where(c => c.VPResultID == VPResultID).FirstOrDefault();
 
         }
-        public IQueryable<VPResultReport> GetVPResultReportList()
+        public IQueryable<VPResult_B> GetVPResult_BList()
         {
-            IQueryable<VPResultReport> VPResultReportQuery = FillVPResultReport();
+            IQueryable<VPResult_B> VPResult_BQuery = FillVPResult_B();
 
-            VPResultReportQuery = EnhanceQueryStatements<VPResultReport>(VPResultReportQuery) as IQueryable<VPResultReport>;
+            VPResult_BQuery = EnhanceQueryStatements<VPResult_B>(VPResult_BQuery) as IQueryable<VPResult_B>;
 
-            return VPResultReportQuery;
+            return VPResult_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -224,35 +224,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated VPResultFillWeb
-        private IQueryable<VPResultWeb> FillVPResultWeb()
-        {
-             IQueryable<VPResultWeb> VPResultWebQuery = (from c in db.VPResults
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new VPResultWeb
-                    {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        VPResultID = c.VPResultID,
-                        VPScenarioID = c.VPScenarioID,
-                        Ordinal = c.Ordinal,
-                        Concentration_MPN_100ml = c.Concentration_MPN_100ml,
-                        Dilution = c.Dilution,
-                        FarFieldWidth_m = c.FarFieldWidth_m,
-                        DispersionDistance_m = c.DispersionDistance_m,
-                        TravelTime_hour = c.TravelTime_hour,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return VPResultWebQuery;
-        }
-        #endregion Functions private Generated VPResultFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(VPResult vpResult)

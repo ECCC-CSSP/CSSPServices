@@ -236,27 +236,27 @@ namespace CSSPServices.Tests
                     PolSourceObservationIssue polSourceObservationIssue = (from c in dbTestDB.PolSourceObservationIssues select c).FirstOrDefault();
                     Assert.IsNotNull(polSourceObservationIssue);
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        polSourceObservationIssueService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        polSourceObservationIssueService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             PolSourceObservationIssue polSourceObservationIssueRet = polSourceObservationIssueService.GetPolSourceObservationIssueWithPolSourceObservationIssueID(polSourceObservationIssue.PolSourceObservationIssueID);
                             CheckPolSourceObservationIssueFields(new List<PolSourceObservationIssue>() { polSourceObservationIssueRet });
                             Assert.AreEqual(polSourceObservationIssue.PolSourceObservationIssueID, polSourceObservationIssueRet.PolSourceObservationIssueID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            PolSourceObservationIssueWeb polSourceObservationIssueWebRet = polSourceObservationIssueService.GetPolSourceObservationIssueWebWithPolSourceObservationIssueID(polSourceObservationIssue.PolSourceObservationIssueID);
-                            CheckPolSourceObservationIssueWebFields(new List<PolSourceObservationIssueWeb>() { polSourceObservationIssueWebRet });
-                            Assert.AreEqual(polSourceObservationIssue.PolSourceObservationIssueID, polSourceObservationIssueWebRet.PolSourceObservationIssueID);
+                            PolSourceObservationIssue_A polSourceObservationIssue_ARet = polSourceObservationIssueService.GetPolSourceObservationIssue_AWithPolSourceObservationIssueID(polSourceObservationIssue.PolSourceObservationIssueID);
+                            CheckPolSourceObservationIssue_AFields(new List<PolSourceObservationIssue_A>() { polSourceObservationIssue_ARet });
+                            Assert.AreEqual(polSourceObservationIssue.PolSourceObservationIssueID, polSourceObservationIssue_ARet.PolSourceObservationIssueID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            PolSourceObservationIssueReport polSourceObservationIssueReportRet = polSourceObservationIssueService.GetPolSourceObservationIssueReportWithPolSourceObservationIssueID(polSourceObservationIssue.PolSourceObservationIssueID);
-                            CheckPolSourceObservationIssueReportFields(new List<PolSourceObservationIssueReport>() { polSourceObservationIssueReportRet });
-                            Assert.AreEqual(polSourceObservationIssue.PolSourceObservationIssueID, polSourceObservationIssueReportRet.PolSourceObservationIssueID);
+                            PolSourceObservationIssue_B polSourceObservationIssue_BRet = polSourceObservationIssueService.GetPolSourceObservationIssue_BWithPolSourceObservationIssueID(polSourceObservationIssue.PolSourceObservationIssueID);
+                            CheckPolSourceObservationIssue_BFields(new List<PolSourceObservationIssue_B>() { polSourceObservationIssue_BRet });
+                            Assert.AreEqual(polSourceObservationIssue.PolSourceObservationIssueID, polSourceObservationIssue_BRet.PolSourceObservationIssueID);
                         }
                         else
                         {
@@ -285,30 +285,29 @@ namespace CSSPServices.Tests
                     List<PolSourceObservationIssue> polSourceObservationIssueDirectQueryList = new List<PolSourceObservationIssue>();
                     polSourceObservationIssueDirectQueryList = (from c in dbTestDB.PolSourceObservationIssues select c).Take(200).ToList();
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        polSourceObservationIssueService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        polSourceObservationIssueService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<PolSourceObservationIssue> polSourceObservationIssueList = new List<PolSourceObservationIssue>();
                             polSourceObservationIssueList = polSourceObservationIssueService.GetPolSourceObservationIssueList().ToList();
                             CheckPolSourceObservationIssueFields(polSourceObservationIssueList);
-                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssueList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<PolSourceObservationIssueWeb> polSourceObservationIssueWebList = new List<PolSourceObservationIssueWeb>();
-                            polSourceObservationIssueWebList = polSourceObservationIssueService.GetPolSourceObservationIssueWebList().ToList();
-                            CheckPolSourceObservationIssueWebFields(polSourceObservationIssueWebList);
-                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssueWebList.Count);
+                            List<PolSourceObservationIssue_A> polSourceObservationIssue_AList = new List<PolSourceObservationIssue_A>();
+                            polSourceObservationIssue_AList = polSourceObservationIssueService.GetPolSourceObservationIssue_AList().ToList();
+                            CheckPolSourceObservationIssue_AFields(polSourceObservationIssue_AList);
+                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssue_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<PolSourceObservationIssueReport> polSourceObservationIssueReportList = new List<PolSourceObservationIssueReport>();
-                            polSourceObservationIssueReportList = polSourceObservationIssueService.GetPolSourceObservationIssueReportList().ToList();
-                            CheckPolSourceObservationIssueReportFields(polSourceObservationIssueReportList);
-                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssueReportList.Count);
+                            List<PolSourceObservationIssue_B> polSourceObservationIssue_BList = new List<PolSourceObservationIssue_B>();
+                            polSourceObservationIssue_BList = polSourceObservationIssueService.GetPolSourceObservationIssue_BList().ToList();
+                            CheckPolSourceObservationIssue_BFields(polSourceObservationIssue_BList);
+                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssue_BList.Count);
                         }
                         else
                         {
@@ -330,38 +329,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         PolSourceObservationIssueService polSourceObservationIssueService = new PolSourceObservationIssueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        polSourceObservationIssueService.Query = polSourceObservationIssueService.FillQuery(typeof(PolSourceObservationIssue), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        polSourceObservationIssueService.Query = polSourceObservationIssueService.FillQuery(typeof(PolSourceObservationIssue), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
 
                         List<PolSourceObservationIssue> polSourceObservationIssueDirectQueryList = new List<PolSourceObservationIssue>();
                         polSourceObservationIssueDirectQueryList = (from c in dbTestDB.PolSourceObservationIssues select c).Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<PolSourceObservationIssue> polSourceObservationIssueList = new List<PolSourceObservationIssue>();
                             polSourceObservationIssueList = polSourceObservationIssueService.GetPolSourceObservationIssueList().ToList();
                             CheckPolSourceObservationIssueFields(polSourceObservationIssueList);
                             Assert.AreEqual(polSourceObservationIssueDirectQueryList[0].PolSourceObservationIssueID, polSourceObservationIssueList[0].PolSourceObservationIssueID);
-                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssueList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<PolSourceObservationIssueWeb> polSourceObservationIssueWebList = new List<PolSourceObservationIssueWeb>();
-                            polSourceObservationIssueWebList = polSourceObservationIssueService.GetPolSourceObservationIssueWebList().ToList();
-                            CheckPolSourceObservationIssueWebFields(polSourceObservationIssueWebList);
-                            Assert.AreEqual(polSourceObservationIssueDirectQueryList[0].PolSourceObservationIssueID, polSourceObservationIssueWebList[0].PolSourceObservationIssueID);
-                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssueWebList.Count);
+                            List<PolSourceObservationIssue_A> polSourceObservationIssue_AList = new List<PolSourceObservationIssue_A>();
+                            polSourceObservationIssue_AList = polSourceObservationIssueService.GetPolSourceObservationIssue_AList().ToList();
+                            CheckPolSourceObservationIssue_AFields(polSourceObservationIssue_AList);
+                            Assert.AreEqual(polSourceObservationIssueDirectQueryList[0].PolSourceObservationIssueID, polSourceObservationIssue_AList[0].PolSourceObservationIssueID);
+                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssue_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<PolSourceObservationIssueReport> polSourceObservationIssueReportList = new List<PolSourceObservationIssueReport>();
-                            polSourceObservationIssueReportList = polSourceObservationIssueService.GetPolSourceObservationIssueReportList().ToList();
-                            CheckPolSourceObservationIssueReportFields(polSourceObservationIssueReportList);
-                            Assert.AreEqual(polSourceObservationIssueDirectQueryList[0].PolSourceObservationIssueID, polSourceObservationIssueReportList[0].PolSourceObservationIssueID);
-                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssueReportList.Count);
+                            List<PolSourceObservationIssue_B> polSourceObservationIssue_BList = new List<PolSourceObservationIssue_B>();
+                            polSourceObservationIssue_BList = polSourceObservationIssueService.GetPolSourceObservationIssue_BList().ToList();
+                            CheckPolSourceObservationIssue_BFields(polSourceObservationIssue_BList);
+                            Assert.AreEqual(polSourceObservationIssueDirectQueryList[0].PolSourceObservationIssueID, polSourceObservationIssue_BList[0].PolSourceObservationIssueID);
+                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssue_BList.Count);
                         }
                         else
                         {
@@ -383,38 +381,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         PolSourceObservationIssueService polSourceObservationIssueService = new PolSourceObservationIssueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        polSourceObservationIssueService.Query = polSourceObservationIssueService.FillQuery(typeof(PolSourceObservationIssue), culture.TwoLetterISOLanguageName, 1, 1,  "PolSourceObservationIssueID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        polSourceObservationIssueService.Query = polSourceObservationIssueService.FillQuery(typeof(PolSourceObservationIssue), culture.TwoLetterISOLanguageName, 1, 1,  "PolSourceObservationIssueID", "");
 
                         List<PolSourceObservationIssue> polSourceObservationIssueDirectQueryList = new List<PolSourceObservationIssue>();
                         polSourceObservationIssueDirectQueryList = (from c in dbTestDB.PolSourceObservationIssues select c).Skip(1).Take(1).OrderBy(c => c.PolSourceObservationIssueID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<PolSourceObservationIssue> polSourceObservationIssueList = new List<PolSourceObservationIssue>();
                             polSourceObservationIssueList = polSourceObservationIssueService.GetPolSourceObservationIssueList().ToList();
                             CheckPolSourceObservationIssueFields(polSourceObservationIssueList);
                             Assert.AreEqual(polSourceObservationIssueDirectQueryList[0].PolSourceObservationIssueID, polSourceObservationIssueList[0].PolSourceObservationIssueID);
-                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssueList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<PolSourceObservationIssueWeb> polSourceObservationIssueWebList = new List<PolSourceObservationIssueWeb>();
-                            polSourceObservationIssueWebList = polSourceObservationIssueService.GetPolSourceObservationIssueWebList().ToList();
-                            CheckPolSourceObservationIssueWebFields(polSourceObservationIssueWebList);
-                            Assert.AreEqual(polSourceObservationIssueDirectQueryList[0].PolSourceObservationIssueID, polSourceObservationIssueWebList[0].PolSourceObservationIssueID);
-                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssueWebList.Count);
+                            List<PolSourceObservationIssue_A> polSourceObservationIssue_AList = new List<PolSourceObservationIssue_A>();
+                            polSourceObservationIssue_AList = polSourceObservationIssueService.GetPolSourceObservationIssue_AList().ToList();
+                            CheckPolSourceObservationIssue_AFields(polSourceObservationIssue_AList);
+                            Assert.AreEqual(polSourceObservationIssueDirectQueryList[0].PolSourceObservationIssueID, polSourceObservationIssue_AList[0].PolSourceObservationIssueID);
+                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssue_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<PolSourceObservationIssueReport> polSourceObservationIssueReportList = new List<PolSourceObservationIssueReport>();
-                            polSourceObservationIssueReportList = polSourceObservationIssueService.GetPolSourceObservationIssueReportList().ToList();
-                            CheckPolSourceObservationIssueReportFields(polSourceObservationIssueReportList);
-                            Assert.AreEqual(polSourceObservationIssueDirectQueryList[0].PolSourceObservationIssueID, polSourceObservationIssueReportList[0].PolSourceObservationIssueID);
-                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssueReportList.Count);
+                            List<PolSourceObservationIssue_B> polSourceObservationIssue_BList = new List<PolSourceObservationIssue_B>();
+                            polSourceObservationIssue_BList = polSourceObservationIssueService.GetPolSourceObservationIssue_BList().ToList();
+                            CheckPolSourceObservationIssue_BFields(polSourceObservationIssue_BList);
+                            Assert.AreEqual(polSourceObservationIssueDirectQueryList[0].PolSourceObservationIssueID, polSourceObservationIssue_BList[0].PolSourceObservationIssueID);
+                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssue_BList.Count);
                         }
                         else
                         {
@@ -436,38 +433,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         PolSourceObservationIssueService polSourceObservationIssueService = new PolSourceObservationIssueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        polSourceObservationIssueService.Query = polSourceObservationIssueService.FillQuery(typeof(PolSourceObservationIssue), culture.TwoLetterISOLanguageName, 1, 1, "PolSourceObservationIssueID,PolSourceObservationID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        polSourceObservationIssueService.Query = polSourceObservationIssueService.FillQuery(typeof(PolSourceObservationIssue), culture.TwoLetterISOLanguageName, 1, 1, "PolSourceObservationIssueID,PolSourceObservationID", "");
 
                         List<PolSourceObservationIssue> polSourceObservationIssueDirectQueryList = new List<PolSourceObservationIssue>();
                         polSourceObservationIssueDirectQueryList = (from c in dbTestDB.PolSourceObservationIssues select c).Skip(1).Take(1).OrderBy(c => c.PolSourceObservationIssueID).ThenBy(c => c.PolSourceObservationID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<PolSourceObservationIssue> polSourceObservationIssueList = new List<PolSourceObservationIssue>();
                             polSourceObservationIssueList = polSourceObservationIssueService.GetPolSourceObservationIssueList().ToList();
                             CheckPolSourceObservationIssueFields(polSourceObservationIssueList);
                             Assert.AreEqual(polSourceObservationIssueDirectQueryList[0].PolSourceObservationIssueID, polSourceObservationIssueList[0].PolSourceObservationIssueID);
-                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssueList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<PolSourceObservationIssueWeb> polSourceObservationIssueWebList = new List<PolSourceObservationIssueWeb>();
-                            polSourceObservationIssueWebList = polSourceObservationIssueService.GetPolSourceObservationIssueWebList().ToList();
-                            CheckPolSourceObservationIssueWebFields(polSourceObservationIssueWebList);
-                            Assert.AreEqual(polSourceObservationIssueDirectQueryList[0].PolSourceObservationIssueID, polSourceObservationIssueWebList[0].PolSourceObservationIssueID);
-                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssueWebList.Count);
+                            List<PolSourceObservationIssue_A> polSourceObservationIssue_AList = new List<PolSourceObservationIssue_A>();
+                            polSourceObservationIssue_AList = polSourceObservationIssueService.GetPolSourceObservationIssue_AList().ToList();
+                            CheckPolSourceObservationIssue_AFields(polSourceObservationIssue_AList);
+                            Assert.AreEqual(polSourceObservationIssueDirectQueryList[0].PolSourceObservationIssueID, polSourceObservationIssue_AList[0].PolSourceObservationIssueID);
+                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssue_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<PolSourceObservationIssueReport> polSourceObservationIssueReportList = new List<PolSourceObservationIssueReport>();
-                            polSourceObservationIssueReportList = polSourceObservationIssueService.GetPolSourceObservationIssueReportList().ToList();
-                            CheckPolSourceObservationIssueReportFields(polSourceObservationIssueReportList);
-                            Assert.AreEqual(polSourceObservationIssueDirectQueryList[0].PolSourceObservationIssueID, polSourceObservationIssueReportList[0].PolSourceObservationIssueID);
-                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssueReportList.Count);
+                            List<PolSourceObservationIssue_B> polSourceObservationIssue_BList = new List<PolSourceObservationIssue_B>();
+                            polSourceObservationIssue_BList = polSourceObservationIssueService.GetPolSourceObservationIssue_BList().ToList();
+                            CheckPolSourceObservationIssue_BFields(polSourceObservationIssue_BList);
+                            Assert.AreEqual(polSourceObservationIssueDirectQueryList[0].PolSourceObservationIssueID, polSourceObservationIssue_BList[0].PolSourceObservationIssueID);
+                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssue_BList.Count);
                         }
                         else
                         {
@@ -489,38 +485,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         PolSourceObservationIssueService polSourceObservationIssueService = new PolSourceObservationIssueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        polSourceObservationIssueService.Query = polSourceObservationIssueService.FillQuery(typeof(PolSourceObservationIssue), culture.TwoLetterISOLanguageName, 0, 1, "PolSourceObservationIssueID", "PolSourceObservationIssueID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        polSourceObservationIssueService.Query = polSourceObservationIssueService.FillQuery(typeof(PolSourceObservationIssue), culture.TwoLetterISOLanguageName, 0, 1, "PolSourceObservationIssueID", "PolSourceObservationIssueID,EQ,4", "");
 
                         List<PolSourceObservationIssue> polSourceObservationIssueDirectQueryList = new List<PolSourceObservationIssue>();
                         polSourceObservationIssueDirectQueryList = (from c in dbTestDB.PolSourceObservationIssues select c).Where(c => c.PolSourceObservationIssueID == 4).Skip(0).Take(1).OrderBy(c => c.PolSourceObservationIssueID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<PolSourceObservationIssue> polSourceObservationIssueList = new List<PolSourceObservationIssue>();
                             polSourceObservationIssueList = polSourceObservationIssueService.GetPolSourceObservationIssueList().ToList();
                             CheckPolSourceObservationIssueFields(polSourceObservationIssueList);
                             Assert.AreEqual(polSourceObservationIssueDirectQueryList[0].PolSourceObservationIssueID, polSourceObservationIssueList[0].PolSourceObservationIssueID);
-                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssueList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<PolSourceObservationIssueWeb> polSourceObservationIssueWebList = new List<PolSourceObservationIssueWeb>();
-                            polSourceObservationIssueWebList = polSourceObservationIssueService.GetPolSourceObservationIssueWebList().ToList();
-                            CheckPolSourceObservationIssueWebFields(polSourceObservationIssueWebList);
-                            Assert.AreEqual(polSourceObservationIssueDirectQueryList[0].PolSourceObservationIssueID, polSourceObservationIssueWebList[0].PolSourceObservationIssueID);
-                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssueWebList.Count);
+                            List<PolSourceObservationIssue_A> polSourceObservationIssue_AList = new List<PolSourceObservationIssue_A>();
+                            polSourceObservationIssue_AList = polSourceObservationIssueService.GetPolSourceObservationIssue_AList().ToList();
+                            CheckPolSourceObservationIssue_AFields(polSourceObservationIssue_AList);
+                            Assert.AreEqual(polSourceObservationIssueDirectQueryList[0].PolSourceObservationIssueID, polSourceObservationIssue_AList[0].PolSourceObservationIssueID);
+                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssue_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<PolSourceObservationIssueReport> polSourceObservationIssueReportList = new List<PolSourceObservationIssueReport>();
-                            polSourceObservationIssueReportList = polSourceObservationIssueService.GetPolSourceObservationIssueReportList().ToList();
-                            CheckPolSourceObservationIssueReportFields(polSourceObservationIssueReportList);
-                            Assert.AreEqual(polSourceObservationIssueDirectQueryList[0].PolSourceObservationIssueID, polSourceObservationIssueReportList[0].PolSourceObservationIssueID);
-                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssueReportList.Count);
+                            List<PolSourceObservationIssue_B> polSourceObservationIssue_BList = new List<PolSourceObservationIssue_B>();
+                            polSourceObservationIssue_BList = polSourceObservationIssueService.GetPolSourceObservationIssue_BList().ToList();
+                            CheckPolSourceObservationIssue_BFields(polSourceObservationIssue_BList);
+                            Assert.AreEqual(polSourceObservationIssueDirectQueryList[0].PolSourceObservationIssueID, polSourceObservationIssue_BList[0].PolSourceObservationIssueID);
+                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssue_BList.Count);
                         }
                         else
                         {
@@ -542,38 +537,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         PolSourceObservationIssueService polSourceObservationIssueService = new PolSourceObservationIssueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        polSourceObservationIssueService.Query = polSourceObservationIssueService.FillQuery(typeof(PolSourceObservationIssue), culture.TwoLetterISOLanguageName, 0, 1, "PolSourceObservationIssueID", "PolSourceObservationIssueID,GT,2|PolSourceObservationIssueID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        polSourceObservationIssueService.Query = polSourceObservationIssueService.FillQuery(typeof(PolSourceObservationIssue), culture.TwoLetterISOLanguageName, 0, 1, "PolSourceObservationIssueID", "PolSourceObservationIssueID,GT,2|PolSourceObservationIssueID,LT,5", "");
 
                         List<PolSourceObservationIssue> polSourceObservationIssueDirectQueryList = new List<PolSourceObservationIssue>();
                         polSourceObservationIssueDirectQueryList = (from c in dbTestDB.PolSourceObservationIssues select c).Where(c => c.PolSourceObservationIssueID > 2 && c.PolSourceObservationIssueID < 5).Skip(0).Take(1).OrderBy(c => c.PolSourceObservationIssueID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<PolSourceObservationIssue> polSourceObservationIssueList = new List<PolSourceObservationIssue>();
                             polSourceObservationIssueList = polSourceObservationIssueService.GetPolSourceObservationIssueList().ToList();
                             CheckPolSourceObservationIssueFields(polSourceObservationIssueList);
                             Assert.AreEqual(polSourceObservationIssueDirectQueryList[0].PolSourceObservationIssueID, polSourceObservationIssueList[0].PolSourceObservationIssueID);
-                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssueList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<PolSourceObservationIssueWeb> polSourceObservationIssueWebList = new List<PolSourceObservationIssueWeb>();
-                            polSourceObservationIssueWebList = polSourceObservationIssueService.GetPolSourceObservationIssueWebList().ToList();
-                            CheckPolSourceObservationIssueWebFields(polSourceObservationIssueWebList);
-                            Assert.AreEqual(polSourceObservationIssueDirectQueryList[0].PolSourceObservationIssueID, polSourceObservationIssueWebList[0].PolSourceObservationIssueID);
-                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssueWebList.Count);
+                            List<PolSourceObservationIssue_A> polSourceObservationIssue_AList = new List<PolSourceObservationIssue_A>();
+                            polSourceObservationIssue_AList = polSourceObservationIssueService.GetPolSourceObservationIssue_AList().ToList();
+                            CheckPolSourceObservationIssue_AFields(polSourceObservationIssue_AList);
+                            Assert.AreEqual(polSourceObservationIssueDirectQueryList[0].PolSourceObservationIssueID, polSourceObservationIssue_AList[0].PolSourceObservationIssueID);
+                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssue_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<PolSourceObservationIssueReport> polSourceObservationIssueReportList = new List<PolSourceObservationIssueReport>();
-                            polSourceObservationIssueReportList = polSourceObservationIssueService.GetPolSourceObservationIssueReportList().ToList();
-                            CheckPolSourceObservationIssueReportFields(polSourceObservationIssueReportList);
-                            Assert.AreEqual(polSourceObservationIssueDirectQueryList[0].PolSourceObservationIssueID, polSourceObservationIssueReportList[0].PolSourceObservationIssueID);
-                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssueReportList.Count);
+                            List<PolSourceObservationIssue_B> polSourceObservationIssue_BList = new List<PolSourceObservationIssue_B>();
+                            polSourceObservationIssue_BList = polSourceObservationIssueService.GetPolSourceObservationIssue_BList().ToList();
+                            CheckPolSourceObservationIssue_BFields(polSourceObservationIssue_BList);
+                            Assert.AreEqual(polSourceObservationIssueDirectQueryList[0].PolSourceObservationIssueID, polSourceObservationIssue_BList[0].PolSourceObservationIssueID);
+                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssue_BList.Count);
                         }
                         else
                         {
@@ -595,38 +589,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         PolSourceObservationIssueService polSourceObservationIssueService = new PolSourceObservationIssueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        polSourceObservationIssueService.Query = polSourceObservationIssueService.FillQuery(typeof(PolSourceObservationIssue), culture.TwoLetterISOLanguageName, 0, 10000, "", "PolSourceObservationIssueID,GT,2|PolSourceObservationIssueID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        polSourceObservationIssueService.Query = polSourceObservationIssueService.FillQuery(typeof(PolSourceObservationIssue), culture.TwoLetterISOLanguageName, 0, 10000, "", "PolSourceObservationIssueID,GT,2|PolSourceObservationIssueID,LT,5", "");
 
                         List<PolSourceObservationIssue> polSourceObservationIssueDirectQueryList = new List<PolSourceObservationIssue>();
                         polSourceObservationIssueDirectQueryList = (from c in dbTestDB.PolSourceObservationIssues select c).Where(c => c.PolSourceObservationIssueID > 2 && c.PolSourceObservationIssueID < 5).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<PolSourceObservationIssue> polSourceObservationIssueList = new List<PolSourceObservationIssue>();
                             polSourceObservationIssueList = polSourceObservationIssueService.GetPolSourceObservationIssueList().ToList();
                             CheckPolSourceObservationIssueFields(polSourceObservationIssueList);
                             Assert.AreEqual(polSourceObservationIssueDirectQueryList[0].PolSourceObservationIssueID, polSourceObservationIssueList[0].PolSourceObservationIssueID);
-                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssueList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<PolSourceObservationIssueWeb> polSourceObservationIssueWebList = new List<PolSourceObservationIssueWeb>();
-                            polSourceObservationIssueWebList = polSourceObservationIssueService.GetPolSourceObservationIssueWebList().ToList();
-                            CheckPolSourceObservationIssueWebFields(polSourceObservationIssueWebList);
-                            Assert.AreEqual(polSourceObservationIssueDirectQueryList[0].PolSourceObservationIssueID, polSourceObservationIssueWebList[0].PolSourceObservationIssueID);
-                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssueWebList.Count);
+                            List<PolSourceObservationIssue_A> polSourceObservationIssue_AList = new List<PolSourceObservationIssue_A>();
+                            polSourceObservationIssue_AList = polSourceObservationIssueService.GetPolSourceObservationIssue_AList().ToList();
+                            CheckPolSourceObservationIssue_AFields(polSourceObservationIssue_AList);
+                            Assert.AreEqual(polSourceObservationIssueDirectQueryList[0].PolSourceObservationIssueID, polSourceObservationIssue_AList[0].PolSourceObservationIssueID);
+                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssue_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<PolSourceObservationIssueReport> polSourceObservationIssueReportList = new List<PolSourceObservationIssueReport>();
-                            polSourceObservationIssueReportList = polSourceObservationIssueService.GetPolSourceObservationIssueReportList().ToList();
-                            CheckPolSourceObservationIssueReportFields(polSourceObservationIssueReportList);
-                            Assert.AreEqual(polSourceObservationIssueDirectQueryList[0].PolSourceObservationIssueID, polSourceObservationIssueReportList[0].PolSourceObservationIssueID);
-                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssueReportList.Count);
+                            List<PolSourceObservationIssue_B> polSourceObservationIssue_BList = new List<PolSourceObservationIssue_B>();
+                            polSourceObservationIssue_BList = polSourceObservationIssueService.GetPolSourceObservationIssue_BList().ToList();
+                            CheckPolSourceObservationIssue_BFields(polSourceObservationIssue_BList);
+                            Assert.AreEqual(polSourceObservationIssueDirectQueryList[0].PolSourceObservationIssueID, polSourceObservationIssue_BList[0].PolSourceObservationIssueID);
+                            Assert.AreEqual(polSourceObservationIssueDirectQueryList.Count, polSourceObservationIssue_BList.Count);
                         }
                         else
                         {
@@ -653,39 +646,39 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(polSourceObservationIssueList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(polSourceObservationIssueList[0].HasErrors);
         }
-        private void CheckPolSourceObservationIssueWebFields(List<PolSourceObservationIssueWeb> polSourceObservationIssueWebList)
+        private void CheckPolSourceObservationIssue_AFields(List<PolSourceObservationIssue_A> polSourceObservationIssue_AList)
         {
-            Assert.IsNotNull(polSourceObservationIssueWebList[0].LastUpdateContactTVItemLanguage);
-            Assert.IsNotNull(polSourceObservationIssueWebList[0].PolSourceObservationIssueID);
-            Assert.IsNotNull(polSourceObservationIssueWebList[0].PolSourceObservationID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationIssueWebList[0].ObservationInfo));
-            Assert.IsNotNull(polSourceObservationIssueWebList[0].Ordinal);
-            if (!string.IsNullOrWhiteSpace(polSourceObservationIssueWebList[0].ExtraComment))
+            Assert.IsNotNull(polSourceObservationIssue_AList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(polSourceObservationIssue_AList[0].PolSourceObservationIssueID);
+            Assert.IsNotNull(polSourceObservationIssue_AList[0].PolSourceObservationID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationIssue_AList[0].ObservationInfo));
+            Assert.IsNotNull(polSourceObservationIssue_AList[0].Ordinal);
+            if (!string.IsNullOrWhiteSpace(polSourceObservationIssue_AList[0].ExtraComment))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationIssueWebList[0].ExtraComment));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationIssue_AList[0].ExtraComment));
             }
-            Assert.IsNotNull(polSourceObservationIssueWebList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(polSourceObservationIssueWebList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(polSourceObservationIssueWebList[0].HasErrors);
+            Assert.IsNotNull(polSourceObservationIssue_AList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(polSourceObservationIssue_AList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(polSourceObservationIssue_AList[0].HasErrors);
         }
-        private void CheckPolSourceObservationIssueReportFields(List<PolSourceObservationIssueReport> polSourceObservationIssueReportList)
+        private void CheckPolSourceObservationIssue_BFields(List<PolSourceObservationIssue_B> polSourceObservationIssue_BList)
         {
-            if (!string.IsNullOrWhiteSpace(polSourceObservationIssueReportList[0].PolSourceObservationIssueReportTest))
+            if (!string.IsNullOrWhiteSpace(polSourceObservationIssue_BList[0].PolSourceObservationIssueReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationIssueReportList[0].PolSourceObservationIssueReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationIssue_BList[0].PolSourceObservationIssueReportTest));
             }
-            Assert.IsNotNull(polSourceObservationIssueReportList[0].LastUpdateContactTVItemLanguage);
-            Assert.IsNotNull(polSourceObservationIssueReportList[0].PolSourceObservationIssueID);
-            Assert.IsNotNull(polSourceObservationIssueReportList[0].PolSourceObservationID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationIssueReportList[0].ObservationInfo));
-            Assert.IsNotNull(polSourceObservationIssueReportList[0].Ordinal);
-            if (!string.IsNullOrWhiteSpace(polSourceObservationIssueReportList[0].ExtraComment))
+            Assert.IsNotNull(polSourceObservationIssue_BList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(polSourceObservationIssue_BList[0].PolSourceObservationIssueID);
+            Assert.IsNotNull(polSourceObservationIssue_BList[0].PolSourceObservationID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationIssue_BList[0].ObservationInfo));
+            Assert.IsNotNull(polSourceObservationIssue_BList[0].Ordinal);
+            if (!string.IsNullOrWhiteSpace(polSourceObservationIssue_BList[0].ExtraComment))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationIssueReportList[0].ExtraComment));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationIssue_BList[0].ExtraComment));
             }
-            Assert.IsNotNull(polSourceObservationIssueReportList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(polSourceObservationIssueReportList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(polSourceObservationIssueReportList[0].HasErrors);
+            Assert.IsNotNull(polSourceObservationIssue_BList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(polSourceObservationIssue_BList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(polSourceObservationIssue_BList[0].HasErrors);
         }
         private PolSourceObservationIssue GetFilledRandomPolSourceObservationIssue(string OmitPropName)
         {

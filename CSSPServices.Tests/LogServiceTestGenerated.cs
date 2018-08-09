@@ -238,27 +238,27 @@ namespace CSSPServices.Tests
                     Log log = (from c in dbTestDB.Logs select c).FirstOrDefault();
                     Assert.IsNotNull(log);
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        logService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        logService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             Log logRet = logService.GetLogWithLogID(log.LogID);
                             CheckLogFields(new List<Log>() { logRet });
                             Assert.AreEqual(log.LogID, logRet.LogID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            LogWeb logWebRet = logService.GetLogWebWithLogID(log.LogID);
-                            CheckLogWebFields(new List<LogWeb>() { logWebRet });
-                            Assert.AreEqual(log.LogID, logWebRet.LogID);
+                            Log_A log_ARet = logService.GetLog_AWithLogID(log.LogID);
+                            CheckLog_AFields(new List<Log_A>() { log_ARet });
+                            Assert.AreEqual(log.LogID, log_ARet.LogID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            LogReport logReportRet = logService.GetLogReportWithLogID(log.LogID);
-                            CheckLogReportFields(new List<LogReport>() { logReportRet });
-                            Assert.AreEqual(log.LogID, logReportRet.LogID);
+                            Log_B log_BRet = logService.GetLog_BWithLogID(log.LogID);
+                            CheckLog_BFields(new List<Log_B>() { log_BRet });
+                            Assert.AreEqual(log.LogID, log_BRet.LogID);
                         }
                         else
                         {
@@ -287,30 +287,29 @@ namespace CSSPServices.Tests
                     List<Log> logDirectQueryList = new List<Log>();
                     logDirectQueryList = (from c in dbTestDB.Logs select c).Take(200).ToList();
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        logService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        logService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<Log> logList = new List<Log>();
                             logList = logService.GetLogList().ToList();
                             CheckLogFields(logList);
-                            Assert.AreEqual(logDirectQueryList.Count, logList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<LogWeb> logWebList = new List<LogWeb>();
-                            logWebList = logService.GetLogWebList().ToList();
-                            CheckLogWebFields(logWebList);
-                            Assert.AreEqual(logDirectQueryList.Count, logWebList.Count);
+                            List<Log_A> log_AList = new List<Log_A>();
+                            log_AList = logService.GetLog_AList().ToList();
+                            CheckLog_AFields(log_AList);
+                            Assert.AreEqual(logDirectQueryList.Count, log_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<LogReport> logReportList = new List<LogReport>();
-                            logReportList = logService.GetLogReportList().ToList();
-                            CheckLogReportFields(logReportList);
-                            Assert.AreEqual(logDirectQueryList.Count, logReportList.Count);
+                            List<Log_B> log_BList = new List<Log_B>();
+                            log_BList = logService.GetLog_BList().ToList();
+                            CheckLog_BFields(log_BList);
+                            Assert.AreEqual(logDirectQueryList.Count, log_BList.Count);
                         }
                         else
                         {
@@ -332,38 +331,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         LogService logService = new LogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
 
                         List<Log> logDirectQueryList = new List<Log>();
                         logDirectQueryList = (from c in dbTestDB.Logs select c).Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<Log> logList = new List<Log>();
                             logList = logService.GetLogList().ToList();
                             CheckLogFields(logList);
                             Assert.AreEqual(logDirectQueryList[0].LogID, logList[0].LogID);
-                            Assert.AreEqual(logDirectQueryList.Count, logList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<LogWeb> logWebList = new List<LogWeb>();
-                            logWebList = logService.GetLogWebList().ToList();
-                            CheckLogWebFields(logWebList);
-                            Assert.AreEqual(logDirectQueryList[0].LogID, logWebList[0].LogID);
-                            Assert.AreEqual(logDirectQueryList.Count, logWebList.Count);
+                            List<Log_A> log_AList = new List<Log_A>();
+                            log_AList = logService.GetLog_AList().ToList();
+                            CheckLog_AFields(log_AList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, log_AList[0].LogID);
+                            Assert.AreEqual(logDirectQueryList.Count, log_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<LogReport> logReportList = new List<LogReport>();
-                            logReportList = logService.GetLogReportList().ToList();
-                            CheckLogReportFields(logReportList);
-                            Assert.AreEqual(logDirectQueryList[0].LogID, logReportList[0].LogID);
-                            Assert.AreEqual(logDirectQueryList.Count, logReportList.Count);
+                            List<Log_B> log_BList = new List<Log_B>();
+                            log_BList = logService.GetLog_BList().ToList();
+                            CheckLog_BFields(log_BList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, log_BList[0].LogID);
+                            Assert.AreEqual(logDirectQueryList.Count, log_BList.Count);
                         }
                         else
                         {
@@ -385,38 +383,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         LogService logService = new LogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 1, 1,  "LogID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 1, 1,  "LogID", "");
 
                         List<Log> logDirectQueryList = new List<Log>();
                         logDirectQueryList = (from c in dbTestDB.Logs select c).Skip(1).Take(1).OrderBy(c => c.LogID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<Log> logList = new List<Log>();
                             logList = logService.GetLogList().ToList();
                             CheckLogFields(logList);
                             Assert.AreEqual(logDirectQueryList[0].LogID, logList[0].LogID);
-                            Assert.AreEqual(logDirectQueryList.Count, logList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<LogWeb> logWebList = new List<LogWeb>();
-                            logWebList = logService.GetLogWebList().ToList();
-                            CheckLogWebFields(logWebList);
-                            Assert.AreEqual(logDirectQueryList[0].LogID, logWebList[0].LogID);
-                            Assert.AreEqual(logDirectQueryList.Count, logWebList.Count);
+                            List<Log_A> log_AList = new List<Log_A>();
+                            log_AList = logService.GetLog_AList().ToList();
+                            CheckLog_AFields(log_AList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, log_AList[0].LogID);
+                            Assert.AreEqual(logDirectQueryList.Count, log_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<LogReport> logReportList = new List<LogReport>();
-                            logReportList = logService.GetLogReportList().ToList();
-                            CheckLogReportFields(logReportList);
-                            Assert.AreEqual(logDirectQueryList[0].LogID, logReportList[0].LogID);
-                            Assert.AreEqual(logDirectQueryList.Count, logReportList.Count);
+                            List<Log_B> log_BList = new List<Log_B>();
+                            log_BList = logService.GetLog_BList().ToList();
+                            CheckLog_BFields(log_BList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, log_BList[0].LogID);
+                            Assert.AreEqual(logDirectQueryList.Count, log_BList.Count);
                         }
                         else
                         {
@@ -438,38 +435,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         LogService logService = new LogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 1, 1, "LogID,TableName", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 1, 1, "LogID,TableName", "");
 
                         List<Log> logDirectQueryList = new List<Log>();
                         logDirectQueryList = (from c in dbTestDB.Logs select c).Skip(1).Take(1).OrderBy(c => c.LogID).ThenBy(c => c.TableName).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<Log> logList = new List<Log>();
                             logList = logService.GetLogList().ToList();
                             CheckLogFields(logList);
                             Assert.AreEqual(logDirectQueryList[0].LogID, logList[0].LogID);
-                            Assert.AreEqual(logDirectQueryList.Count, logList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<LogWeb> logWebList = new List<LogWeb>();
-                            logWebList = logService.GetLogWebList().ToList();
-                            CheckLogWebFields(logWebList);
-                            Assert.AreEqual(logDirectQueryList[0].LogID, logWebList[0].LogID);
-                            Assert.AreEqual(logDirectQueryList.Count, logWebList.Count);
+                            List<Log_A> log_AList = new List<Log_A>();
+                            log_AList = logService.GetLog_AList().ToList();
+                            CheckLog_AFields(log_AList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, log_AList[0].LogID);
+                            Assert.AreEqual(logDirectQueryList.Count, log_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<LogReport> logReportList = new List<LogReport>();
-                            logReportList = logService.GetLogReportList().ToList();
-                            CheckLogReportFields(logReportList);
-                            Assert.AreEqual(logDirectQueryList[0].LogID, logReportList[0].LogID);
-                            Assert.AreEqual(logDirectQueryList.Count, logReportList.Count);
+                            List<Log_B> log_BList = new List<Log_B>();
+                            log_BList = logService.GetLog_BList().ToList();
+                            CheckLog_BFields(log_BList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, log_BList[0].LogID);
+                            Assert.AreEqual(logDirectQueryList.Count, log_BList.Count);
                         }
                         else
                         {
@@ -491,38 +487,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         LogService logService = new LogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 0, 1, "LogID", "LogID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 0, 1, "LogID", "LogID,EQ,4", "");
 
                         List<Log> logDirectQueryList = new List<Log>();
                         logDirectQueryList = (from c in dbTestDB.Logs select c).Where(c => c.LogID == 4).Skip(0).Take(1).OrderBy(c => c.LogID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<Log> logList = new List<Log>();
                             logList = logService.GetLogList().ToList();
                             CheckLogFields(logList);
                             Assert.AreEqual(logDirectQueryList[0].LogID, logList[0].LogID);
-                            Assert.AreEqual(logDirectQueryList.Count, logList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<LogWeb> logWebList = new List<LogWeb>();
-                            logWebList = logService.GetLogWebList().ToList();
-                            CheckLogWebFields(logWebList);
-                            Assert.AreEqual(logDirectQueryList[0].LogID, logWebList[0].LogID);
-                            Assert.AreEqual(logDirectQueryList.Count, logWebList.Count);
+                            List<Log_A> log_AList = new List<Log_A>();
+                            log_AList = logService.GetLog_AList().ToList();
+                            CheckLog_AFields(log_AList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, log_AList[0].LogID);
+                            Assert.AreEqual(logDirectQueryList.Count, log_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<LogReport> logReportList = new List<LogReport>();
-                            logReportList = logService.GetLogReportList().ToList();
-                            CheckLogReportFields(logReportList);
-                            Assert.AreEqual(logDirectQueryList[0].LogID, logReportList[0].LogID);
-                            Assert.AreEqual(logDirectQueryList.Count, logReportList.Count);
+                            List<Log_B> log_BList = new List<Log_B>();
+                            log_BList = logService.GetLog_BList().ToList();
+                            CheckLog_BFields(log_BList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, log_BList[0].LogID);
+                            Assert.AreEqual(logDirectQueryList.Count, log_BList.Count);
                         }
                         else
                         {
@@ -544,38 +539,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         LogService logService = new LogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 0, 1, "LogID", "LogID,GT,2|LogID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 0, 1, "LogID", "LogID,GT,2|LogID,LT,5", "");
 
                         List<Log> logDirectQueryList = new List<Log>();
                         logDirectQueryList = (from c in dbTestDB.Logs select c).Where(c => c.LogID > 2 && c.LogID < 5).Skip(0).Take(1).OrderBy(c => c.LogID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<Log> logList = new List<Log>();
                             logList = logService.GetLogList().ToList();
                             CheckLogFields(logList);
                             Assert.AreEqual(logDirectQueryList[0].LogID, logList[0].LogID);
-                            Assert.AreEqual(logDirectQueryList.Count, logList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<LogWeb> logWebList = new List<LogWeb>();
-                            logWebList = logService.GetLogWebList().ToList();
-                            CheckLogWebFields(logWebList);
-                            Assert.AreEqual(logDirectQueryList[0].LogID, logWebList[0].LogID);
-                            Assert.AreEqual(logDirectQueryList.Count, logWebList.Count);
+                            List<Log_A> log_AList = new List<Log_A>();
+                            log_AList = logService.GetLog_AList().ToList();
+                            CheckLog_AFields(log_AList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, log_AList[0].LogID);
+                            Assert.AreEqual(logDirectQueryList.Count, log_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<LogReport> logReportList = new List<LogReport>();
-                            logReportList = logService.GetLogReportList().ToList();
-                            CheckLogReportFields(logReportList);
-                            Assert.AreEqual(logDirectQueryList[0].LogID, logReportList[0].LogID);
-                            Assert.AreEqual(logDirectQueryList.Count, logReportList.Count);
+                            List<Log_B> log_BList = new List<Log_B>();
+                            log_BList = logService.GetLog_BList().ToList();
+                            CheckLog_BFields(log_BList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, log_BList[0].LogID);
+                            Assert.AreEqual(logDirectQueryList.Count, log_BList.Count);
                         }
                         else
                         {
@@ -597,38 +591,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         LogService logService = new LogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 0, 10000, "", "LogID,GT,2|LogID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 0, 10000, "", "LogID,GT,2|LogID,LT,5", "");
 
                         List<Log> logDirectQueryList = new List<Log>();
                         logDirectQueryList = (from c in dbTestDB.Logs select c).Where(c => c.LogID > 2 && c.LogID < 5).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<Log> logList = new List<Log>();
                             logList = logService.GetLogList().ToList();
                             CheckLogFields(logList);
                             Assert.AreEqual(logDirectQueryList[0].LogID, logList[0].LogID);
-                            Assert.AreEqual(logDirectQueryList.Count, logList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<LogWeb> logWebList = new List<LogWeb>();
-                            logWebList = logService.GetLogWebList().ToList();
-                            CheckLogWebFields(logWebList);
-                            Assert.AreEqual(logDirectQueryList[0].LogID, logWebList[0].LogID);
-                            Assert.AreEqual(logDirectQueryList.Count, logWebList.Count);
+                            List<Log_A> log_AList = new List<Log_A>();
+                            log_AList = logService.GetLog_AList().ToList();
+                            CheckLog_AFields(log_AList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, log_AList[0].LogID);
+                            Assert.AreEqual(logDirectQueryList.Count, log_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<LogReport> logReportList = new List<LogReport>();
-                            logReportList = logService.GetLogReportList().ToList();
-                            CheckLogReportFields(logReportList);
-                            Assert.AreEqual(logDirectQueryList[0].LogID, logReportList[0].LogID);
-                            Assert.AreEqual(logDirectQueryList.Count, logReportList.Count);
+                            List<Log_B> log_BList = new List<Log_B>();
+                            log_BList = logService.GetLog_BList().ToList();
+                            CheckLog_BFields(log_BList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, log_BList[0].LogID);
+                            Assert.AreEqual(logDirectQueryList.Count, log_BList.Count);
                         }
                         else
                         {
@@ -652,41 +645,41 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(logList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(logList[0].HasErrors);
         }
-        private void CheckLogWebFields(List<LogWeb> logWebList)
+        private void CheckLog_AFields(List<Log_A> log_AList)
         {
-            Assert.IsNotNull(logWebList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(logWebList[0].LogCommandText))
+            Assert.IsNotNull(log_AList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(log_AList[0].LogCommandText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(logWebList[0].LogCommandText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(log_AList[0].LogCommandText));
             }
-            Assert.IsNotNull(logWebList[0].LogID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(logWebList[0].TableName));
-            Assert.IsNotNull(logWebList[0].ID);
-            Assert.IsNotNull(logWebList[0].LogCommand);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(logWebList[0].Information));
-            Assert.IsNotNull(logWebList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(logWebList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(logWebList[0].HasErrors);
+            Assert.IsNotNull(log_AList[0].LogID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(log_AList[0].TableName));
+            Assert.IsNotNull(log_AList[0].ID);
+            Assert.IsNotNull(log_AList[0].LogCommand);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(log_AList[0].Information));
+            Assert.IsNotNull(log_AList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(log_AList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(log_AList[0].HasErrors);
         }
-        private void CheckLogReportFields(List<LogReport> logReportList)
+        private void CheckLog_BFields(List<Log_B> log_BList)
         {
-            if (!string.IsNullOrWhiteSpace(logReportList[0].LogReportTest))
+            if (!string.IsNullOrWhiteSpace(log_BList[0].LogReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(logReportList[0].LogReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(log_BList[0].LogReportTest));
             }
-            Assert.IsNotNull(logReportList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(logReportList[0].LogCommandText))
+            Assert.IsNotNull(log_BList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(log_BList[0].LogCommandText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(logReportList[0].LogCommandText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(log_BList[0].LogCommandText));
             }
-            Assert.IsNotNull(logReportList[0].LogID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(logReportList[0].TableName));
-            Assert.IsNotNull(logReportList[0].ID);
-            Assert.IsNotNull(logReportList[0].LogCommand);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(logReportList[0].Information));
-            Assert.IsNotNull(logReportList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(logReportList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(logReportList[0].HasErrors);
+            Assert.IsNotNull(log_BList[0].LogID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(log_BList[0].TableName));
+            Assert.IsNotNull(log_BList[0].ID);
+            Assert.IsNotNull(log_BList[0].LogCommand);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(log_BList[0].Information));
+            Assert.IsNotNull(log_BList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(log_BList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(log_BList[0].HasErrors);
         }
         private Log GetFilledRandomLog(string OmitPropName)
         {

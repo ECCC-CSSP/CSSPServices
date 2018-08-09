@@ -641,27 +641,27 @@ namespace CSSPServices.Tests
                     MikeScenario mikeScenario = (from c in dbTestDB.MikeScenarios select c).FirstOrDefault();
                     Assert.IsNotNull(mikeScenario);
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        mikeScenarioService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        mikeScenarioService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             MikeScenario mikeScenarioRet = mikeScenarioService.GetMikeScenarioWithMikeScenarioID(mikeScenario.MikeScenarioID);
                             CheckMikeScenarioFields(new List<MikeScenario>() { mikeScenarioRet });
                             Assert.AreEqual(mikeScenario.MikeScenarioID, mikeScenarioRet.MikeScenarioID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            MikeScenarioWeb mikeScenarioWebRet = mikeScenarioService.GetMikeScenarioWebWithMikeScenarioID(mikeScenario.MikeScenarioID);
-                            CheckMikeScenarioWebFields(new List<MikeScenarioWeb>() { mikeScenarioWebRet });
-                            Assert.AreEqual(mikeScenario.MikeScenarioID, mikeScenarioWebRet.MikeScenarioID);
+                            MikeScenario_A mikeScenario_ARet = mikeScenarioService.GetMikeScenario_AWithMikeScenarioID(mikeScenario.MikeScenarioID);
+                            CheckMikeScenario_AFields(new List<MikeScenario_A>() { mikeScenario_ARet });
+                            Assert.AreEqual(mikeScenario.MikeScenarioID, mikeScenario_ARet.MikeScenarioID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            MikeScenarioReport mikeScenarioReportRet = mikeScenarioService.GetMikeScenarioReportWithMikeScenarioID(mikeScenario.MikeScenarioID);
-                            CheckMikeScenarioReportFields(new List<MikeScenarioReport>() { mikeScenarioReportRet });
-                            Assert.AreEqual(mikeScenario.MikeScenarioID, mikeScenarioReportRet.MikeScenarioID);
+                            MikeScenario_B mikeScenario_BRet = mikeScenarioService.GetMikeScenario_BWithMikeScenarioID(mikeScenario.MikeScenarioID);
+                            CheckMikeScenario_BFields(new List<MikeScenario_B>() { mikeScenario_BRet });
+                            Assert.AreEqual(mikeScenario.MikeScenarioID, mikeScenario_BRet.MikeScenarioID);
                         }
                         else
                         {
@@ -690,30 +690,29 @@ namespace CSSPServices.Tests
                     List<MikeScenario> mikeScenarioDirectQueryList = new List<MikeScenario>();
                     mikeScenarioDirectQueryList = (from c in dbTestDB.MikeScenarios select c).Take(200).ToList();
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        mikeScenarioService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        mikeScenarioService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MikeScenario> mikeScenarioList = new List<MikeScenario>();
                             mikeScenarioList = mikeScenarioService.GetMikeScenarioList().ToList();
                             CheckMikeScenarioFields(mikeScenarioList);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MikeScenarioWeb> mikeScenarioWebList = new List<MikeScenarioWeb>();
-                            mikeScenarioWebList = mikeScenarioService.GetMikeScenarioWebList().ToList();
-                            CheckMikeScenarioWebFields(mikeScenarioWebList);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioWebList.Count);
+                            List<MikeScenario_A> mikeScenario_AList = new List<MikeScenario_A>();
+                            mikeScenario_AList = mikeScenarioService.GetMikeScenario_AList().ToList();
+                            CheckMikeScenario_AFields(mikeScenario_AList);
+                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenario_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MikeScenarioReport> mikeScenarioReportList = new List<MikeScenarioReport>();
-                            mikeScenarioReportList = mikeScenarioService.GetMikeScenarioReportList().ToList();
-                            CheckMikeScenarioReportFields(mikeScenarioReportList);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioReportList.Count);
+                            List<MikeScenario_B> mikeScenario_BList = new List<MikeScenario_B>();
+                            mikeScenario_BList = mikeScenarioService.GetMikeScenario_BList().ToList();
+                            CheckMikeScenario_BFields(mikeScenario_BList);
+                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenario_BList.Count);
                         }
                         else
                         {
@@ -735,38 +734,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MikeScenarioService mikeScenarioService = new MikeScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mikeScenarioService.Query = mikeScenarioService.FillQuery(typeof(MikeScenario), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mikeScenarioService.Query = mikeScenarioService.FillQuery(typeof(MikeScenario), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
 
                         List<MikeScenario> mikeScenarioDirectQueryList = new List<MikeScenario>();
                         mikeScenarioDirectQueryList = (from c in dbTestDB.MikeScenarios select c).Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MikeScenario> mikeScenarioList = new List<MikeScenario>();
                             mikeScenarioList = mikeScenarioService.GetMikeScenarioList().ToList();
                             CheckMikeScenarioFields(mikeScenarioList);
                             Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioList[0].MikeScenarioID);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MikeScenarioWeb> mikeScenarioWebList = new List<MikeScenarioWeb>();
-                            mikeScenarioWebList = mikeScenarioService.GetMikeScenarioWebList().ToList();
-                            CheckMikeScenarioWebFields(mikeScenarioWebList);
-                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioWebList[0].MikeScenarioID);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioWebList.Count);
+                            List<MikeScenario_A> mikeScenario_AList = new List<MikeScenario_A>();
+                            mikeScenario_AList = mikeScenarioService.GetMikeScenario_AList().ToList();
+                            CheckMikeScenario_AFields(mikeScenario_AList);
+                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenario_AList[0].MikeScenarioID);
+                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenario_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MikeScenarioReport> mikeScenarioReportList = new List<MikeScenarioReport>();
-                            mikeScenarioReportList = mikeScenarioService.GetMikeScenarioReportList().ToList();
-                            CheckMikeScenarioReportFields(mikeScenarioReportList);
-                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioReportList[0].MikeScenarioID);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioReportList.Count);
+                            List<MikeScenario_B> mikeScenario_BList = new List<MikeScenario_B>();
+                            mikeScenario_BList = mikeScenarioService.GetMikeScenario_BList().ToList();
+                            CheckMikeScenario_BFields(mikeScenario_BList);
+                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenario_BList[0].MikeScenarioID);
+                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenario_BList.Count);
                         }
                         else
                         {
@@ -788,38 +786,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MikeScenarioService mikeScenarioService = new MikeScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mikeScenarioService.Query = mikeScenarioService.FillQuery(typeof(MikeScenario), culture.TwoLetterISOLanguageName, 1, 1,  "MikeScenarioID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mikeScenarioService.Query = mikeScenarioService.FillQuery(typeof(MikeScenario), culture.TwoLetterISOLanguageName, 1, 1,  "MikeScenarioID", "");
 
                         List<MikeScenario> mikeScenarioDirectQueryList = new List<MikeScenario>();
                         mikeScenarioDirectQueryList = (from c in dbTestDB.MikeScenarios select c).Skip(1).Take(1).OrderBy(c => c.MikeScenarioID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MikeScenario> mikeScenarioList = new List<MikeScenario>();
                             mikeScenarioList = mikeScenarioService.GetMikeScenarioList().ToList();
                             CheckMikeScenarioFields(mikeScenarioList);
                             Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioList[0].MikeScenarioID);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MikeScenarioWeb> mikeScenarioWebList = new List<MikeScenarioWeb>();
-                            mikeScenarioWebList = mikeScenarioService.GetMikeScenarioWebList().ToList();
-                            CheckMikeScenarioWebFields(mikeScenarioWebList);
-                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioWebList[0].MikeScenarioID);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioWebList.Count);
+                            List<MikeScenario_A> mikeScenario_AList = new List<MikeScenario_A>();
+                            mikeScenario_AList = mikeScenarioService.GetMikeScenario_AList().ToList();
+                            CheckMikeScenario_AFields(mikeScenario_AList);
+                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenario_AList[0].MikeScenarioID);
+                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenario_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MikeScenarioReport> mikeScenarioReportList = new List<MikeScenarioReport>();
-                            mikeScenarioReportList = mikeScenarioService.GetMikeScenarioReportList().ToList();
-                            CheckMikeScenarioReportFields(mikeScenarioReportList);
-                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioReportList[0].MikeScenarioID);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioReportList.Count);
+                            List<MikeScenario_B> mikeScenario_BList = new List<MikeScenario_B>();
+                            mikeScenario_BList = mikeScenarioService.GetMikeScenario_BList().ToList();
+                            CheckMikeScenario_BFields(mikeScenario_BList);
+                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenario_BList[0].MikeScenarioID);
+                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenario_BList.Count);
                         }
                         else
                         {
@@ -841,38 +838,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MikeScenarioService mikeScenarioService = new MikeScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mikeScenarioService.Query = mikeScenarioService.FillQuery(typeof(MikeScenario), culture.TwoLetterISOLanguageName, 1, 1, "MikeScenarioID,MikeScenarioTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mikeScenarioService.Query = mikeScenarioService.FillQuery(typeof(MikeScenario), culture.TwoLetterISOLanguageName, 1, 1, "MikeScenarioID,MikeScenarioTVItemID", "");
 
                         List<MikeScenario> mikeScenarioDirectQueryList = new List<MikeScenario>();
                         mikeScenarioDirectQueryList = (from c in dbTestDB.MikeScenarios select c).Skip(1).Take(1).OrderBy(c => c.MikeScenarioID).ThenBy(c => c.MikeScenarioTVItemID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MikeScenario> mikeScenarioList = new List<MikeScenario>();
                             mikeScenarioList = mikeScenarioService.GetMikeScenarioList().ToList();
                             CheckMikeScenarioFields(mikeScenarioList);
                             Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioList[0].MikeScenarioID);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MikeScenarioWeb> mikeScenarioWebList = new List<MikeScenarioWeb>();
-                            mikeScenarioWebList = mikeScenarioService.GetMikeScenarioWebList().ToList();
-                            CheckMikeScenarioWebFields(mikeScenarioWebList);
-                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioWebList[0].MikeScenarioID);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioWebList.Count);
+                            List<MikeScenario_A> mikeScenario_AList = new List<MikeScenario_A>();
+                            mikeScenario_AList = mikeScenarioService.GetMikeScenario_AList().ToList();
+                            CheckMikeScenario_AFields(mikeScenario_AList);
+                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenario_AList[0].MikeScenarioID);
+                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenario_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MikeScenarioReport> mikeScenarioReportList = new List<MikeScenarioReport>();
-                            mikeScenarioReportList = mikeScenarioService.GetMikeScenarioReportList().ToList();
-                            CheckMikeScenarioReportFields(mikeScenarioReportList);
-                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioReportList[0].MikeScenarioID);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioReportList.Count);
+                            List<MikeScenario_B> mikeScenario_BList = new List<MikeScenario_B>();
+                            mikeScenario_BList = mikeScenarioService.GetMikeScenario_BList().ToList();
+                            CheckMikeScenario_BFields(mikeScenario_BList);
+                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenario_BList[0].MikeScenarioID);
+                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenario_BList.Count);
                         }
                         else
                         {
@@ -894,38 +890,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MikeScenarioService mikeScenarioService = new MikeScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mikeScenarioService.Query = mikeScenarioService.FillQuery(typeof(MikeScenario), culture.TwoLetterISOLanguageName, 0, 1, "MikeScenarioID", "MikeScenarioID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mikeScenarioService.Query = mikeScenarioService.FillQuery(typeof(MikeScenario), culture.TwoLetterISOLanguageName, 0, 1, "MikeScenarioID", "MikeScenarioID,EQ,4", "");
 
                         List<MikeScenario> mikeScenarioDirectQueryList = new List<MikeScenario>();
                         mikeScenarioDirectQueryList = (from c in dbTestDB.MikeScenarios select c).Where(c => c.MikeScenarioID == 4).Skip(0).Take(1).OrderBy(c => c.MikeScenarioID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MikeScenario> mikeScenarioList = new List<MikeScenario>();
                             mikeScenarioList = mikeScenarioService.GetMikeScenarioList().ToList();
                             CheckMikeScenarioFields(mikeScenarioList);
                             Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioList[0].MikeScenarioID);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MikeScenarioWeb> mikeScenarioWebList = new List<MikeScenarioWeb>();
-                            mikeScenarioWebList = mikeScenarioService.GetMikeScenarioWebList().ToList();
-                            CheckMikeScenarioWebFields(mikeScenarioWebList);
-                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioWebList[0].MikeScenarioID);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioWebList.Count);
+                            List<MikeScenario_A> mikeScenario_AList = new List<MikeScenario_A>();
+                            mikeScenario_AList = mikeScenarioService.GetMikeScenario_AList().ToList();
+                            CheckMikeScenario_AFields(mikeScenario_AList);
+                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenario_AList[0].MikeScenarioID);
+                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenario_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MikeScenarioReport> mikeScenarioReportList = new List<MikeScenarioReport>();
-                            mikeScenarioReportList = mikeScenarioService.GetMikeScenarioReportList().ToList();
-                            CheckMikeScenarioReportFields(mikeScenarioReportList);
-                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioReportList[0].MikeScenarioID);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioReportList.Count);
+                            List<MikeScenario_B> mikeScenario_BList = new List<MikeScenario_B>();
+                            mikeScenario_BList = mikeScenarioService.GetMikeScenario_BList().ToList();
+                            CheckMikeScenario_BFields(mikeScenario_BList);
+                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenario_BList[0].MikeScenarioID);
+                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenario_BList.Count);
                         }
                         else
                         {
@@ -947,38 +942,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MikeScenarioService mikeScenarioService = new MikeScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mikeScenarioService.Query = mikeScenarioService.FillQuery(typeof(MikeScenario), culture.TwoLetterISOLanguageName, 0, 1, "MikeScenarioID", "MikeScenarioID,GT,2|MikeScenarioID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mikeScenarioService.Query = mikeScenarioService.FillQuery(typeof(MikeScenario), culture.TwoLetterISOLanguageName, 0, 1, "MikeScenarioID", "MikeScenarioID,GT,2|MikeScenarioID,LT,5", "");
 
                         List<MikeScenario> mikeScenarioDirectQueryList = new List<MikeScenario>();
                         mikeScenarioDirectQueryList = (from c in dbTestDB.MikeScenarios select c).Where(c => c.MikeScenarioID > 2 && c.MikeScenarioID < 5).Skip(0).Take(1).OrderBy(c => c.MikeScenarioID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MikeScenario> mikeScenarioList = new List<MikeScenario>();
                             mikeScenarioList = mikeScenarioService.GetMikeScenarioList().ToList();
                             CheckMikeScenarioFields(mikeScenarioList);
                             Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioList[0].MikeScenarioID);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MikeScenarioWeb> mikeScenarioWebList = new List<MikeScenarioWeb>();
-                            mikeScenarioWebList = mikeScenarioService.GetMikeScenarioWebList().ToList();
-                            CheckMikeScenarioWebFields(mikeScenarioWebList);
-                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioWebList[0].MikeScenarioID);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioWebList.Count);
+                            List<MikeScenario_A> mikeScenario_AList = new List<MikeScenario_A>();
+                            mikeScenario_AList = mikeScenarioService.GetMikeScenario_AList().ToList();
+                            CheckMikeScenario_AFields(mikeScenario_AList);
+                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenario_AList[0].MikeScenarioID);
+                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenario_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MikeScenarioReport> mikeScenarioReportList = new List<MikeScenarioReport>();
-                            mikeScenarioReportList = mikeScenarioService.GetMikeScenarioReportList().ToList();
-                            CheckMikeScenarioReportFields(mikeScenarioReportList);
-                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioReportList[0].MikeScenarioID);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioReportList.Count);
+                            List<MikeScenario_B> mikeScenario_BList = new List<MikeScenario_B>();
+                            mikeScenario_BList = mikeScenarioService.GetMikeScenario_BList().ToList();
+                            CheckMikeScenario_BFields(mikeScenario_BList);
+                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenario_BList[0].MikeScenarioID);
+                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenario_BList.Count);
                         }
                         else
                         {
@@ -1000,38 +994,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MikeScenarioService mikeScenarioService = new MikeScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mikeScenarioService.Query = mikeScenarioService.FillQuery(typeof(MikeScenario), culture.TwoLetterISOLanguageName, 0, 10000, "", "MikeScenarioID,GT,2|MikeScenarioID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mikeScenarioService.Query = mikeScenarioService.FillQuery(typeof(MikeScenario), culture.TwoLetterISOLanguageName, 0, 10000, "", "MikeScenarioID,GT,2|MikeScenarioID,LT,5", "");
 
                         List<MikeScenario> mikeScenarioDirectQueryList = new List<MikeScenario>();
                         mikeScenarioDirectQueryList = (from c in dbTestDB.MikeScenarios select c).Where(c => c.MikeScenarioID > 2 && c.MikeScenarioID < 5).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MikeScenario> mikeScenarioList = new List<MikeScenario>();
                             mikeScenarioList = mikeScenarioService.GetMikeScenarioList().ToList();
                             CheckMikeScenarioFields(mikeScenarioList);
                             Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioList[0].MikeScenarioID);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MikeScenarioWeb> mikeScenarioWebList = new List<MikeScenarioWeb>();
-                            mikeScenarioWebList = mikeScenarioService.GetMikeScenarioWebList().ToList();
-                            CheckMikeScenarioWebFields(mikeScenarioWebList);
-                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioWebList[0].MikeScenarioID);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioWebList.Count);
+                            List<MikeScenario_A> mikeScenario_AList = new List<MikeScenario_A>();
+                            mikeScenario_AList = mikeScenarioService.GetMikeScenario_AList().ToList();
+                            CheckMikeScenario_AFields(mikeScenario_AList);
+                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenario_AList[0].MikeScenarioID);
+                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenario_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MikeScenarioReport> mikeScenarioReportList = new List<MikeScenarioReport>();
-                            mikeScenarioReportList = mikeScenarioService.GetMikeScenarioReportList().ToList();
-                            CheckMikeScenarioReportFields(mikeScenarioReportList);
-                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioReportList[0].MikeScenarioID);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioReportList.Count);
+                            List<MikeScenario_B> mikeScenario_BList = new List<MikeScenario_B>();
+                            mikeScenario_BList = mikeScenarioService.GetMikeScenario_BList().ToList();
+                            CheckMikeScenario_BFields(mikeScenario_BList);
+                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenario_BList[0].MikeScenarioID);
+                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenario_BList.Count);
                         }
                         else
                         {
@@ -1112,157 +1105,157 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(mikeScenarioList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(mikeScenarioList[0].HasErrors);
         }
-        private void CheckMikeScenarioWebFields(List<MikeScenarioWeb> mikeScenarioWebList)
+        private void CheckMikeScenario_AFields(List<MikeScenario_A> mikeScenario_AList)
         {
-            Assert.IsNotNull(mikeScenarioWebList[0].MikeScenarioTVItemLanguage);
-            Assert.IsNotNull(mikeScenarioWebList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(mikeScenarioWebList[0].ScenarioStatusText))
+            Assert.IsNotNull(mikeScenario_AList[0].MikeScenarioTVItemLanguage);
+            Assert.IsNotNull(mikeScenario_AList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(mikeScenario_AList[0].ScenarioStatusText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioWebList[0].ScenarioStatusText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenario_AList[0].ScenarioStatusText));
             }
-            Assert.IsNotNull(mikeScenarioWebList[0].MikeScenarioID);
-            Assert.IsNotNull(mikeScenarioWebList[0].MikeScenarioTVItemID);
-            if (mikeScenarioWebList[0].ParentMikeScenarioID != null)
+            Assert.IsNotNull(mikeScenario_AList[0].MikeScenarioID);
+            Assert.IsNotNull(mikeScenario_AList[0].MikeScenarioTVItemID);
+            if (mikeScenario_AList[0].ParentMikeScenarioID != null)
             {
-                Assert.IsNotNull(mikeScenarioWebList[0].ParentMikeScenarioID);
+                Assert.IsNotNull(mikeScenario_AList[0].ParentMikeScenarioID);
             }
-            Assert.IsNotNull(mikeScenarioWebList[0].ScenarioStatus);
-            if (!string.IsNullOrWhiteSpace(mikeScenarioWebList[0].ErrorInfo))
+            Assert.IsNotNull(mikeScenario_AList[0].ScenarioStatus);
+            if (!string.IsNullOrWhiteSpace(mikeScenario_AList[0].ErrorInfo))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioWebList[0].ErrorInfo));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenario_AList[0].ErrorInfo));
             }
-            Assert.IsNotNull(mikeScenarioWebList[0].MikeScenarioStartDateTime_Local);
-            Assert.IsNotNull(mikeScenarioWebList[0].MikeScenarioEndDateTime_Local);
-            if (mikeScenarioWebList[0].MikeScenarioStartExecutionDateTime_Local != null)
+            Assert.IsNotNull(mikeScenario_AList[0].MikeScenarioStartDateTime_Local);
+            Assert.IsNotNull(mikeScenario_AList[0].MikeScenarioEndDateTime_Local);
+            if (mikeScenario_AList[0].MikeScenarioStartExecutionDateTime_Local != null)
             {
-                Assert.IsNotNull(mikeScenarioWebList[0].MikeScenarioStartExecutionDateTime_Local);
+                Assert.IsNotNull(mikeScenario_AList[0].MikeScenarioStartExecutionDateTime_Local);
             }
-            if (mikeScenarioWebList[0].MikeScenarioExecutionTime_min != null)
+            if (mikeScenario_AList[0].MikeScenarioExecutionTime_min != null)
             {
-                Assert.IsNotNull(mikeScenarioWebList[0].MikeScenarioExecutionTime_min);
+                Assert.IsNotNull(mikeScenario_AList[0].MikeScenarioExecutionTime_min);
             }
-            Assert.IsNotNull(mikeScenarioWebList[0].WindSpeed_km_h);
-            Assert.IsNotNull(mikeScenarioWebList[0].WindDirection_deg);
-            Assert.IsNotNull(mikeScenarioWebList[0].DecayFactor_per_day);
-            Assert.IsNotNull(mikeScenarioWebList[0].DecayIsConstant);
-            Assert.IsNotNull(mikeScenarioWebList[0].DecayFactorAmplitude);
-            Assert.IsNotNull(mikeScenarioWebList[0].ResultFrequency_min);
-            Assert.IsNotNull(mikeScenarioWebList[0].AmbientTemperature_C);
-            Assert.IsNotNull(mikeScenarioWebList[0].AmbientSalinity_PSU);
-            Assert.IsNotNull(mikeScenarioWebList[0].ManningNumber);
-            if (mikeScenarioWebList[0].NumberOfElements != null)
+            Assert.IsNotNull(mikeScenario_AList[0].WindSpeed_km_h);
+            Assert.IsNotNull(mikeScenario_AList[0].WindDirection_deg);
+            Assert.IsNotNull(mikeScenario_AList[0].DecayFactor_per_day);
+            Assert.IsNotNull(mikeScenario_AList[0].DecayIsConstant);
+            Assert.IsNotNull(mikeScenario_AList[0].DecayFactorAmplitude);
+            Assert.IsNotNull(mikeScenario_AList[0].ResultFrequency_min);
+            Assert.IsNotNull(mikeScenario_AList[0].AmbientTemperature_C);
+            Assert.IsNotNull(mikeScenario_AList[0].AmbientSalinity_PSU);
+            Assert.IsNotNull(mikeScenario_AList[0].ManningNumber);
+            if (mikeScenario_AList[0].NumberOfElements != null)
             {
-                Assert.IsNotNull(mikeScenarioWebList[0].NumberOfElements);
+                Assert.IsNotNull(mikeScenario_AList[0].NumberOfElements);
             }
-            if (mikeScenarioWebList[0].NumberOfTimeSteps != null)
+            if (mikeScenario_AList[0].NumberOfTimeSteps != null)
             {
-                Assert.IsNotNull(mikeScenarioWebList[0].NumberOfTimeSteps);
+                Assert.IsNotNull(mikeScenario_AList[0].NumberOfTimeSteps);
             }
-            if (mikeScenarioWebList[0].NumberOfSigmaLayers != null)
+            if (mikeScenario_AList[0].NumberOfSigmaLayers != null)
             {
-                Assert.IsNotNull(mikeScenarioWebList[0].NumberOfSigmaLayers);
+                Assert.IsNotNull(mikeScenario_AList[0].NumberOfSigmaLayers);
             }
-            if (mikeScenarioWebList[0].NumberOfZLayers != null)
+            if (mikeScenario_AList[0].NumberOfZLayers != null)
             {
-                Assert.IsNotNull(mikeScenarioWebList[0].NumberOfZLayers);
+                Assert.IsNotNull(mikeScenario_AList[0].NumberOfZLayers);
             }
-            if (mikeScenarioWebList[0].NumberOfHydroOutputParameters != null)
+            if (mikeScenario_AList[0].NumberOfHydroOutputParameters != null)
             {
-                Assert.IsNotNull(mikeScenarioWebList[0].NumberOfHydroOutputParameters);
+                Assert.IsNotNull(mikeScenario_AList[0].NumberOfHydroOutputParameters);
             }
-            if (mikeScenarioWebList[0].NumberOfTransOutputParameters != null)
+            if (mikeScenario_AList[0].NumberOfTransOutputParameters != null)
             {
-                Assert.IsNotNull(mikeScenarioWebList[0].NumberOfTransOutputParameters);
+                Assert.IsNotNull(mikeScenario_AList[0].NumberOfTransOutputParameters);
             }
-            if (mikeScenarioWebList[0].EstimatedHydroFileSize != null)
+            if (mikeScenario_AList[0].EstimatedHydroFileSize != null)
             {
-                Assert.IsNotNull(mikeScenarioWebList[0].EstimatedHydroFileSize);
+                Assert.IsNotNull(mikeScenario_AList[0].EstimatedHydroFileSize);
             }
-            if (mikeScenarioWebList[0].EstimatedTransFileSize != null)
+            if (mikeScenario_AList[0].EstimatedTransFileSize != null)
             {
-                Assert.IsNotNull(mikeScenarioWebList[0].EstimatedTransFileSize);
+                Assert.IsNotNull(mikeScenario_AList[0].EstimatedTransFileSize);
             }
-            Assert.IsNotNull(mikeScenarioWebList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(mikeScenarioWebList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(mikeScenarioWebList[0].HasErrors);
+            Assert.IsNotNull(mikeScenario_AList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(mikeScenario_AList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(mikeScenario_AList[0].HasErrors);
         }
-        private void CheckMikeScenarioReportFields(List<MikeScenarioReport> mikeScenarioReportList)
+        private void CheckMikeScenario_BFields(List<MikeScenario_B> mikeScenario_BList)
         {
-            if (!string.IsNullOrWhiteSpace(mikeScenarioReportList[0].MikeScenarioReportTest))
+            if (!string.IsNullOrWhiteSpace(mikeScenario_BList[0].MikeScenarioReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioReportList[0].MikeScenarioReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenario_BList[0].MikeScenarioReportTest));
             }
-            Assert.IsNotNull(mikeScenarioReportList[0].MikeScenarioTVItemLanguage);
-            Assert.IsNotNull(mikeScenarioReportList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(mikeScenarioReportList[0].ScenarioStatusText))
+            Assert.IsNotNull(mikeScenario_BList[0].MikeScenarioTVItemLanguage);
+            Assert.IsNotNull(mikeScenario_BList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(mikeScenario_BList[0].ScenarioStatusText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioReportList[0].ScenarioStatusText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenario_BList[0].ScenarioStatusText));
             }
-            Assert.IsNotNull(mikeScenarioReportList[0].MikeScenarioID);
-            Assert.IsNotNull(mikeScenarioReportList[0].MikeScenarioTVItemID);
-            if (mikeScenarioReportList[0].ParentMikeScenarioID != null)
+            Assert.IsNotNull(mikeScenario_BList[0].MikeScenarioID);
+            Assert.IsNotNull(mikeScenario_BList[0].MikeScenarioTVItemID);
+            if (mikeScenario_BList[0].ParentMikeScenarioID != null)
             {
-                Assert.IsNotNull(mikeScenarioReportList[0].ParentMikeScenarioID);
+                Assert.IsNotNull(mikeScenario_BList[0].ParentMikeScenarioID);
             }
-            Assert.IsNotNull(mikeScenarioReportList[0].ScenarioStatus);
-            if (!string.IsNullOrWhiteSpace(mikeScenarioReportList[0].ErrorInfo))
+            Assert.IsNotNull(mikeScenario_BList[0].ScenarioStatus);
+            if (!string.IsNullOrWhiteSpace(mikeScenario_BList[0].ErrorInfo))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioReportList[0].ErrorInfo));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenario_BList[0].ErrorInfo));
             }
-            Assert.IsNotNull(mikeScenarioReportList[0].MikeScenarioStartDateTime_Local);
-            Assert.IsNotNull(mikeScenarioReportList[0].MikeScenarioEndDateTime_Local);
-            if (mikeScenarioReportList[0].MikeScenarioStartExecutionDateTime_Local != null)
+            Assert.IsNotNull(mikeScenario_BList[0].MikeScenarioStartDateTime_Local);
+            Assert.IsNotNull(mikeScenario_BList[0].MikeScenarioEndDateTime_Local);
+            if (mikeScenario_BList[0].MikeScenarioStartExecutionDateTime_Local != null)
             {
-                Assert.IsNotNull(mikeScenarioReportList[0].MikeScenarioStartExecutionDateTime_Local);
+                Assert.IsNotNull(mikeScenario_BList[0].MikeScenarioStartExecutionDateTime_Local);
             }
-            if (mikeScenarioReportList[0].MikeScenarioExecutionTime_min != null)
+            if (mikeScenario_BList[0].MikeScenarioExecutionTime_min != null)
             {
-                Assert.IsNotNull(mikeScenarioReportList[0].MikeScenarioExecutionTime_min);
+                Assert.IsNotNull(mikeScenario_BList[0].MikeScenarioExecutionTime_min);
             }
-            Assert.IsNotNull(mikeScenarioReportList[0].WindSpeed_km_h);
-            Assert.IsNotNull(mikeScenarioReportList[0].WindDirection_deg);
-            Assert.IsNotNull(mikeScenarioReportList[0].DecayFactor_per_day);
-            Assert.IsNotNull(mikeScenarioReportList[0].DecayIsConstant);
-            Assert.IsNotNull(mikeScenarioReportList[0].DecayFactorAmplitude);
-            Assert.IsNotNull(mikeScenarioReportList[0].ResultFrequency_min);
-            Assert.IsNotNull(mikeScenarioReportList[0].AmbientTemperature_C);
-            Assert.IsNotNull(mikeScenarioReportList[0].AmbientSalinity_PSU);
-            Assert.IsNotNull(mikeScenarioReportList[0].ManningNumber);
-            if (mikeScenarioReportList[0].NumberOfElements != null)
+            Assert.IsNotNull(mikeScenario_BList[0].WindSpeed_km_h);
+            Assert.IsNotNull(mikeScenario_BList[0].WindDirection_deg);
+            Assert.IsNotNull(mikeScenario_BList[0].DecayFactor_per_day);
+            Assert.IsNotNull(mikeScenario_BList[0].DecayIsConstant);
+            Assert.IsNotNull(mikeScenario_BList[0].DecayFactorAmplitude);
+            Assert.IsNotNull(mikeScenario_BList[0].ResultFrequency_min);
+            Assert.IsNotNull(mikeScenario_BList[0].AmbientTemperature_C);
+            Assert.IsNotNull(mikeScenario_BList[0].AmbientSalinity_PSU);
+            Assert.IsNotNull(mikeScenario_BList[0].ManningNumber);
+            if (mikeScenario_BList[0].NumberOfElements != null)
             {
-                Assert.IsNotNull(mikeScenarioReportList[0].NumberOfElements);
+                Assert.IsNotNull(mikeScenario_BList[0].NumberOfElements);
             }
-            if (mikeScenarioReportList[0].NumberOfTimeSteps != null)
+            if (mikeScenario_BList[0].NumberOfTimeSteps != null)
             {
-                Assert.IsNotNull(mikeScenarioReportList[0].NumberOfTimeSteps);
+                Assert.IsNotNull(mikeScenario_BList[0].NumberOfTimeSteps);
             }
-            if (mikeScenarioReportList[0].NumberOfSigmaLayers != null)
+            if (mikeScenario_BList[0].NumberOfSigmaLayers != null)
             {
-                Assert.IsNotNull(mikeScenarioReportList[0].NumberOfSigmaLayers);
+                Assert.IsNotNull(mikeScenario_BList[0].NumberOfSigmaLayers);
             }
-            if (mikeScenarioReportList[0].NumberOfZLayers != null)
+            if (mikeScenario_BList[0].NumberOfZLayers != null)
             {
-                Assert.IsNotNull(mikeScenarioReportList[0].NumberOfZLayers);
+                Assert.IsNotNull(mikeScenario_BList[0].NumberOfZLayers);
             }
-            if (mikeScenarioReportList[0].NumberOfHydroOutputParameters != null)
+            if (mikeScenario_BList[0].NumberOfHydroOutputParameters != null)
             {
-                Assert.IsNotNull(mikeScenarioReportList[0].NumberOfHydroOutputParameters);
+                Assert.IsNotNull(mikeScenario_BList[0].NumberOfHydroOutputParameters);
             }
-            if (mikeScenarioReportList[0].NumberOfTransOutputParameters != null)
+            if (mikeScenario_BList[0].NumberOfTransOutputParameters != null)
             {
-                Assert.IsNotNull(mikeScenarioReportList[0].NumberOfTransOutputParameters);
+                Assert.IsNotNull(mikeScenario_BList[0].NumberOfTransOutputParameters);
             }
-            if (mikeScenarioReportList[0].EstimatedHydroFileSize != null)
+            if (mikeScenario_BList[0].EstimatedHydroFileSize != null)
             {
-                Assert.IsNotNull(mikeScenarioReportList[0].EstimatedHydroFileSize);
+                Assert.IsNotNull(mikeScenario_BList[0].EstimatedHydroFileSize);
             }
-            if (mikeScenarioReportList[0].EstimatedTransFileSize != null)
+            if (mikeScenario_BList[0].EstimatedTransFileSize != null)
             {
-                Assert.IsNotNull(mikeScenarioReportList[0].EstimatedTransFileSize);
+                Assert.IsNotNull(mikeScenario_BList[0].EstimatedTransFileSize);
             }
-            Assert.IsNotNull(mikeScenarioReportList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(mikeScenarioReportList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(mikeScenarioReportList[0].HasErrors);
+            Assert.IsNotNull(mikeScenario_BList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(mikeScenario_BList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(mikeScenario_BList[0].HasErrors);
         }
         private MikeScenario GetFilledRandomMikeScenario(string OmitPropName)
         {

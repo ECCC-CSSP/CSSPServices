@@ -235,27 +235,27 @@ namespace CSSPServices.Tests
                     MikeSource mikeSource = (from c in dbTestDB.MikeSources select c).FirstOrDefault();
                     Assert.IsNotNull(mikeSource);
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        mikeSourceService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        mikeSourceService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             MikeSource mikeSourceRet = mikeSourceService.GetMikeSourceWithMikeSourceID(mikeSource.MikeSourceID);
                             CheckMikeSourceFields(new List<MikeSource>() { mikeSourceRet });
                             Assert.AreEqual(mikeSource.MikeSourceID, mikeSourceRet.MikeSourceID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            MikeSourceWeb mikeSourceWebRet = mikeSourceService.GetMikeSourceWebWithMikeSourceID(mikeSource.MikeSourceID);
-                            CheckMikeSourceWebFields(new List<MikeSourceWeb>() { mikeSourceWebRet });
-                            Assert.AreEqual(mikeSource.MikeSourceID, mikeSourceWebRet.MikeSourceID);
+                            MikeSource_A mikeSource_ARet = mikeSourceService.GetMikeSource_AWithMikeSourceID(mikeSource.MikeSourceID);
+                            CheckMikeSource_AFields(new List<MikeSource_A>() { mikeSource_ARet });
+                            Assert.AreEqual(mikeSource.MikeSourceID, mikeSource_ARet.MikeSourceID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            MikeSourceReport mikeSourceReportRet = mikeSourceService.GetMikeSourceReportWithMikeSourceID(mikeSource.MikeSourceID);
-                            CheckMikeSourceReportFields(new List<MikeSourceReport>() { mikeSourceReportRet });
-                            Assert.AreEqual(mikeSource.MikeSourceID, mikeSourceReportRet.MikeSourceID);
+                            MikeSource_B mikeSource_BRet = mikeSourceService.GetMikeSource_BWithMikeSourceID(mikeSource.MikeSourceID);
+                            CheckMikeSource_BFields(new List<MikeSource_B>() { mikeSource_BRet });
+                            Assert.AreEqual(mikeSource.MikeSourceID, mikeSource_BRet.MikeSourceID);
                         }
                         else
                         {
@@ -284,30 +284,29 @@ namespace CSSPServices.Tests
                     List<MikeSource> mikeSourceDirectQueryList = new List<MikeSource>();
                     mikeSourceDirectQueryList = (from c in dbTestDB.MikeSources select c).Take(200).ToList();
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        mikeSourceService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        mikeSourceService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MikeSource> mikeSourceList = new List<MikeSource>();
                             mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
                             CheckMikeSourceFields(mikeSourceList);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MikeSourceWeb> mikeSourceWebList = new List<MikeSourceWeb>();
-                            mikeSourceWebList = mikeSourceService.GetMikeSourceWebList().ToList();
-                            CheckMikeSourceWebFields(mikeSourceWebList);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceWebList.Count);
+                            List<MikeSource_A> mikeSource_AList = new List<MikeSource_A>();
+                            mikeSource_AList = mikeSourceService.GetMikeSource_AList().ToList();
+                            CheckMikeSource_AFields(mikeSource_AList);
+                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSource_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MikeSourceReport> mikeSourceReportList = new List<MikeSourceReport>();
-                            mikeSourceReportList = mikeSourceService.GetMikeSourceReportList().ToList();
-                            CheckMikeSourceReportFields(mikeSourceReportList);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceReportList.Count);
+                            List<MikeSource_B> mikeSource_BList = new List<MikeSource_B>();
+                            mikeSource_BList = mikeSourceService.GetMikeSource_BList().ToList();
+                            CheckMikeSource_BFields(mikeSource_BList);
+                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSource_BList.Count);
                         }
                         else
                         {
@@ -329,38 +328,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MikeSourceService mikeSourceService = new MikeSourceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mikeSourceService.Query = mikeSourceService.FillQuery(typeof(MikeSource), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mikeSourceService.Query = mikeSourceService.FillQuery(typeof(MikeSource), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
 
                         List<MikeSource> mikeSourceDirectQueryList = new List<MikeSource>();
                         mikeSourceDirectQueryList = (from c in dbTestDB.MikeSources select c).Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MikeSource> mikeSourceList = new List<MikeSource>();
                             mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
                             CheckMikeSourceFields(mikeSourceList);
                             Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MikeSourceWeb> mikeSourceWebList = new List<MikeSourceWeb>();
-                            mikeSourceWebList = mikeSourceService.GetMikeSourceWebList().ToList();
-                            CheckMikeSourceWebFields(mikeSourceWebList);
-                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceWebList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceWebList.Count);
+                            List<MikeSource_A> mikeSource_AList = new List<MikeSource_A>();
+                            mikeSource_AList = mikeSourceService.GetMikeSource_AList().ToList();
+                            CheckMikeSource_AFields(mikeSource_AList);
+                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSource_AList[0].MikeSourceID);
+                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSource_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MikeSourceReport> mikeSourceReportList = new List<MikeSourceReport>();
-                            mikeSourceReportList = mikeSourceService.GetMikeSourceReportList().ToList();
-                            CheckMikeSourceReportFields(mikeSourceReportList);
-                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceReportList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceReportList.Count);
+                            List<MikeSource_B> mikeSource_BList = new List<MikeSource_B>();
+                            mikeSource_BList = mikeSourceService.GetMikeSource_BList().ToList();
+                            CheckMikeSource_BFields(mikeSource_BList);
+                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSource_BList[0].MikeSourceID);
+                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSource_BList.Count);
                         }
                         else
                         {
@@ -382,38 +380,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MikeSourceService mikeSourceService = new MikeSourceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mikeSourceService.Query = mikeSourceService.FillQuery(typeof(MikeSource), culture.TwoLetterISOLanguageName, 1, 1,  "MikeSourceID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mikeSourceService.Query = mikeSourceService.FillQuery(typeof(MikeSource), culture.TwoLetterISOLanguageName, 1, 1,  "MikeSourceID", "");
 
                         List<MikeSource> mikeSourceDirectQueryList = new List<MikeSource>();
                         mikeSourceDirectQueryList = (from c in dbTestDB.MikeSources select c).Skip(1).Take(1).OrderBy(c => c.MikeSourceID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MikeSource> mikeSourceList = new List<MikeSource>();
                             mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
                             CheckMikeSourceFields(mikeSourceList);
                             Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MikeSourceWeb> mikeSourceWebList = new List<MikeSourceWeb>();
-                            mikeSourceWebList = mikeSourceService.GetMikeSourceWebList().ToList();
-                            CheckMikeSourceWebFields(mikeSourceWebList);
-                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceWebList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceWebList.Count);
+                            List<MikeSource_A> mikeSource_AList = new List<MikeSource_A>();
+                            mikeSource_AList = mikeSourceService.GetMikeSource_AList().ToList();
+                            CheckMikeSource_AFields(mikeSource_AList);
+                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSource_AList[0].MikeSourceID);
+                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSource_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MikeSourceReport> mikeSourceReportList = new List<MikeSourceReport>();
-                            mikeSourceReportList = mikeSourceService.GetMikeSourceReportList().ToList();
-                            CheckMikeSourceReportFields(mikeSourceReportList);
-                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceReportList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceReportList.Count);
+                            List<MikeSource_B> mikeSource_BList = new List<MikeSource_B>();
+                            mikeSource_BList = mikeSourceService.GetMikeSource_BList().ToList();
+                            CheckMikeSource_BFields(mikeSource_BList);
+                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSource_BList[0].MikeSourceID);
+                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSource_BList.Count);
                         }
                         else
                         {
@@ -435,38 +432,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MikeSourceService mikeSourceService = new MikeSourceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mikeSourceService.Query = mikeSourceService.FillQuery(typeof(MikeSource), culture.TwoLetterISOLanguageName, 1, 1, "MikeSourceID,MikeSourceTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mikeSourceService.Query = mikeSourceService.FillQuery(typeof(MikeSource), culture.TwoLetterISOLanguageName, 1, 1, "MikeSourceID,MikeSourceTVItemID", "");
 
                         List<MikeSource> mikeSourceDirectQueryList = new List<MikeSource>();
                         mikeSourceDirectQueryList = (from c in dbTestDB.MikeSources select c).Skip(1).Take(1).OrderBy(c => c.MikeSourceID).ThenBy(c => c.MikeSourceTVItemID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MikeSource> mikeSourceList = new List<MikeSource>();
                             mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
                             CheckMikeSourceFields(mikeSourceList);
                             Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MikeSourceWeb> mikeSourceWebList = new List<MikeSourceWeb>();
-                            mikeSourceWebList = mikeSourceService.GetMikeSourceWebList().ToList();
-                            CheckMikeSourceWebFields(mikeSourceWebList);
-                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceWebList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceWebList.Count);
+                            List<MikeSource_A> mikeSource_AList = new List<MikeSource_A>();
+                            mikeSource_AList = mikeSourceService.GetMikeSource_AList().ToList();
+                            CheckMikeSource_AFields(mikeSource_AList);
+                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSource_AList[0].MikeSourceID);
+                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSource_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MikeSourceReport> mikeSourceReportList = new List<MikeSourceReport>();
-                            mikeSourceReportList = mikeSourceService.GetMikeSourceReportList().ToList();
-                            CheckMikeSourceReportFields(mikeSourceReportList);
-                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceReportList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceReportList.Count);
+                            List<MikeSource_B> mikeSource_BList = new List<MikeSource_B>();
+                            mikeSource_BList = mikeSourceService.GetMikeSource_BList().ToList();
+                            CheckMikeSource_BFields(mikeSource_BList);
+                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSource_BList[0].MikeSourceID);
+                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSource_BList.Count);
                         }
                         else
                         {
@@ -488,38 +484,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MikeSourceService mikeSourceService = new MikeSourceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mikeSourceService.Query = mikeSourceService.FillQuery(typeof(MikeSource), culture.TwoLetterISOLanguageName, 0, 1, "MikeSourceID", "MikeSourceID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mikeSourceService.Query = mikeSourceService.FillQuery(typeof(MikeSource), culture.TwoLetterISOLanguageName, 0, 1, "MikeSourceID", "MikeSourceID,EQ,4", "");
 
                         List<MikeSource> mikeSourceDirectQueryList = new List<MikeSource>();
                         mikeSourceDirectQueryList = (from c in dbTestDB.MikeSources select c).Where(c => c.MikeSourceID == 4).Skip(0).Take(1).OrderBy(c => c.MikeSourceID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MikeSource> mikeSourceList = new List<MikeSource>();
                             mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
                             CheckMikeSourceFields(mikeSourceList);
                             Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MikeSourceWeb> mikeSourceWebList = new List<MikeSourceWeb>();
-                            mikeSourceWebList = mikeSourceService.GetMikeSourceWebList().ToList();
-                            CheckMikeSourceWebFields(mikeSourceWebList);
-                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceWebList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceWebList.Count);
+                            List<MikeSource_A> mikeSource_AList = new List<MikeSource_A>();
+                            mikeSource_AList = mikeSourceService.GetMikeSource_AList().ToList();
+                            CheckMikeSource_AFields(mikeSource_AList);
+                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSource_AList[0].MikeSourceID);
+                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSource_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MikeSourceReport> mikeSourceReportList = new List<MikeSourceReport>();
-                            mikeSourceReportList = mikeSourceService.GetMikeSourceReportList().ToList();
-                            CheckMikeSourceReportFields(mikeSourceReportList);
-                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceReportList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceReportList.Count);
+                            List<MikeSource_B> mikeSource_BList = new List<MikeSource_B>();
+                            mikeSource_BList = mikeSourceService.GetMikeSource_BList().ToList();
+                            CheckMikeSource_BFields(mikeSource_BList);
+                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSource_BList[0].MikeSourceID);
+                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSource_BList.Count);
                         }
                         else
                         {
@@ -541,38 +536,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MikeSourceService mikeSourceService = new MikeSourceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mikeSourceService.Query = mikeSourceService.FillQuery(typeof(MikeSource), culture.TwoLetterISOLanguageName, 0, 1, "MikeSourceID", "MikeSourceID,GT,2|MikeSourceID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mikeSourceService.Query = mikeSourceService.FillQuery(typeof(MikeSource), culture.TwoLetterISOLanguageName, 0, 1, "MikeSourceID", "MikeSourceID,GT,2|MikeSourceID,LT,5", "");
 
                         List<MikeSource> mikeSourceDirectQueryList = new List<MikeSource>();
                         mikeSourceDirectQueryList = (from c in dbTestDB.MikeSources select c).Where(c => c.MikeSourceID > 2 && c.MikeSourceID < 5).Skip(0).Take(1).OrderBy(c => c.MikeSourceID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MikeSource> mikeSourceList = new List<MikeSource>();
                             mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
                             CheckMikeSourceFields(mikeSourceList);
                             Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MikeSourceWeb> mikeSourceWebList = new List<MikeSourceWeb>();
-                            mikeSourceWebList = mikeSourceService.GetMikeSourceWebList().ToList();
-                            CheckMikeSourceWebFields(mikeSourceWebList);
-                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceWebList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceWebList.Count);
+                            List<MikeSource_A> mikeSource_AList = new List<MikeSource_A>();
+                            mikeSource_AList = mikeSourceService.GetMikeSource_AList().ToList();
+                            CheckMikeSource_AFields(mikeSource_AList);
+                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSource_AList[0].MikeSourceID);
+                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSource_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MikeSourceReport> mikeSourceReportList = new List<MikeSourceReport>();
-                            mikeSourceReportList = mikeSourceService.GetMikeSourceReportList().ToList();
-                            CheckMikeSourceReportFields(mikeSourceReportList);
-                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceReportList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceReportList.Count);
+                            List<MikeSource_B> mikeSource_BList = new List<MikeSource_B>();
+                            mikeSource_BList = mikeSourceService.GetMikeSource_BList().ToList();
+                            CheckMikeSource_BFields(mikeSource_BList);
+                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSource_BList[0].MikeSourceID);
+                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSource_BList.Count);
                         }
                         else
                         {
@@ -594,38 +588,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MikeSourceService mikeSourceService = new MikeSourceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mikeSourceService.Query = mikeSourceService.FillQuery(typeof(MikeSource), culture.TwoLetterISOLanguageName, 0, 10000, "", "MikeSourceID,GT,2|MikeSourceID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mikeSourceService.Query = mikeSourceService.FillQuery(typeof(MikeSource), culture.TwoLetterISOLanguageName, 0, 10000, "", "MikeSourceID,GT,2|MikeSourceID,LT,5", "");
 
                         List<MikeSource> mikeSourceDirectQueryList = new List<MikeSource>();
                         mikeSourceDirectQueryList = (from c in dbTestDB.MikeSources select c).Where(c => c.MikeSourceID > 2 && c.MikeSourceID < 5).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MikeSource> mikeSourceList = new List<MikeSource>();
                             mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
                             CheckMikeSourceFields(mikeSourceList);
                             Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MikeSourceWeb> mikeSourceWebList = new List<MikeSourceWeb>();
-                            mikeSourceWebList = mikeSourceService.GetMikeSourceWebList().ToList();
-                            CheckMikeSourceWebFields(mikeSourceWebList);
-                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceWebList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceWebList.Count);
+                            List<MikeSource_A> mikeSource_AList = new List<MikeSource_A>();
+                            mikeSource_AList = mikeSourceService.GetMikeSource_AList().ToList();
+                            CheckMikeSource_AFields(mikeSource_AList);
+                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSource_AList[0].MikeSourceID);
+                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSource_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MikeSourceReport> mikeSourceReportList = new List<MikeSourceReport>();
-                            mikeSourceReportList = mikeSourceService.GetMikeSourceReportList().ToList();
-                            CheckMikeSourceReportFields(mikeSourceReportList);
-                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceReportList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceReportList.Count);
+                            List<MikeSource_B> mikeSource_BList = new List<MikeSource_B>();
+                            mikeSource_BList = mikeSourceService.GetMikeSource_BList().ToList();
+                            CheckMikeSource_BFields(mikeSource_BList);
+                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSource_BList[0].MikeSourceID);
+                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSource_BList.Count);
                         }
                         else
                         {
@@ -650,37 +643,37 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(mikeSourceList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(mikeSourceList[0].HasErrors);
         }
-        private void CheckMikeSourceWebFields(List<MikeSourceWeb> mikeSourceWebList)
+        private void CheckMikeSource_AFields(List<MikeSource_A> mikeSource_AList)
         {
-            Assert.IsNotNull(mikeSourceWebList[0].MikeSourceTVItemLanguage);
-            Assert.IsNotNull(mikeSourceWebList[0].LastUpdateContactTVItemLanguage);
-            Assert.IsNotNull(mikeSourceWebList[0].MikeSourceID);
-            Assert.IsNotNull(mikeSourceWebList[0].MikeSourceTVItemID);
-            Assert.IsNotNull(mikeSourceWebList[0].IsContinuous);
-            Assert.IsNotNull(mikeSourceWebList[0].Include);
-            Assert.IsNotNull(mikeSourceWebList[0].IsRiver);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceWebList[0].SourceNumberString));
-            Assert.IsNotNull(mikeSourceWebList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(mikeSourceWebList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(mikeSourceWebList[0].HasErrors);
+            Assert.IsNotNull(mikeSource_AList[0].MikeSourceTVItemLanguage);
+            Assert.IsNotNull(mikeSource_AList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(mikeSource_AList[0].MikeSourceID);
+            Assert.IsNotNull(mikeSource_AList[0].MikeSourceTVItemID);
+            Assert.IsNotNull(mikeSource_AList[0].IsContinuous);
+            Assert.IsNotNull(mikeSource_AList[0].Include);
+            Assert.IsNotNull(mikeSource_AList[0].IsRiver);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSource_AList[0].SourceNumberString));
+            Assert.IsNotNull(mikeSource_AList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(mikeSource_AList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(mikeSource_AList[0].HasErrors);
         }
-        private void CheckMikeSourceReportFields(List<MikeSourceReport> mikeSourceReportList)
+        private void CheckMikeSource_BFields(List<MikeSource_B> mikeSource_BList)
         {
-            if (!string.IsNullOrWhiteSpace(mikeSourceReportList[0].MikeSourceReportTest))
+            if (!string.IsNullOrWhiteSpace(mikeSource_BList[0].MikeSourceReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceReportList[0].MikeSourceReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSource_BList[0].MikeSourceReportTest));
             }
-            Assert.IsNotNull(mikeSourceReportList[0].MikeSourceTVItemLanguage);
-            Assert.IsNotNull(mikeSourceReportList[0].LastUpdateContactTVItemLanguage);
-            Assert.IsNotNull(mikeSourceReportList[0].MikeSourceID);
-            Assert.IsNotNull(mikeSourceReportList[0].MikeSourceTVItemID);
-            Assert.IsNotNull(mikeSourceReportList[0].IsContinuous);
-            Assert.IsNotNull(mikeSourceReportList[0].Include);
-            Assert.IsNotNull(mikeSourceReportList[0].IsRiver);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceReportList[0].SourceNumberString));
-            Assert.IsNotNull(mikeSourceReportList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(mikeSourceReportList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(mikeSourceReportList[0].HasErrors);
+            Assert.IsNotNull(mikeSource_BList[0].MikeSourceTVItemLanguage);
+            Assert.IsNotNull(mikeSource_BList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(mikeSource_BList[0].MikeSourceID);
+            Assert.IsNotNull(mikeSource_BList[0].MikeSourceTVItemID);
+            Assert.IsNotNull(mikeSource_BList[0].IsContinuous);
+            Assert.IsNotNull(mikeSource_BList[0].Include);
+            Assert.IsNotNull(mikeSource_BList[0].IsRiver);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSource_BList[0].SourceNumberString));
+            Assert.IsNotNull(mikeSource_BList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(mikeSource_BList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(mikeSource_BList[0].HasErrors);
         }
         private MikeSource GetFilledRandomMikeSource(string OmitPropName)
         {

@@ -143,31 +143,31 @@ namespace CSSPServices
 
             return ReportTypeQuery;
         }
-        public ReportTypeWeb GetReportTypeWebWithReportTypeID(int ReportTypeID)
+        public ReportType_A GetReportType_AWithReportTypeID(int ReportTypeID)
         {
-            return FillReportTypeWeb().Where(c => c.ReportTypeID == ReportTypeID).FirstOrDefault();
+            return FillReportType_A().Where(c => c.ReportTypeID == ReportTypeID).FirstOrDefault();
 
         }
-        public IQueryable<ReportTypeWeb> GetReportTypeWebList()
+        public IQueryable<ReportType_A> GetReportType_AList()
         {
-            IQueryable<ReportTypeWeb> ReportTypeWebQuery = FillReportTypeWeb();
+            IQueryable<ReportType_A> ReportType_AQuery = FillReportType_A();
 
-            ReportTypeWebQuery = EnhanceQueryStatements<ReportTypeWeb>(ReportTypeWebQuery) as IQueryable<ReportTypeWeb>;
+            ReportType_AQuery = EnhanceQueryStatements<ReportType_A>(ReportType_AQuery) as IQueryable<ReportType_A>;
 
-            return ReportTypeWebQuery;
+            return ReportType_AQuery;
         }
-        public ReportTypeReport GetReportTypeReportWithReportTypeID(int ReportTypeID)
+        public ReportType_B GetReportType_BWithReportTypeID(int ReportTypeID)
         {
-            return FillReportTypeReport().Where(c => c.ReportTypeID == ReportTypeID).FirstOrDefault();
+            return FillReportType_B().Where(c => c.ReportTypeID == ReportTypeID).FirstOrDefault();
 
         }
-        public IQueryable<ReportTypeReport> GetReportTypeReportList()
+        public IQueryable<ReportType_B> GetReportType_BList()
         {
-            IQueryable<ReportTypeReport> ReportTypeReportQuery = FillReportTypeReport();
+            IQueryable<ReportType_B> ReportType_BQuery = FillReportType_B();
 
-            ReportTypeReportQuery = EnhanceQueryStatements<ReportTypeReport>(ReportTypeReportQuery) as IQueryable<ReportTypeReport>;
+            ReportType_BQuery = EnhanceQueryStatements<ReportType_B>(ReportType_BQuery) as IQueryable<ReportType_B>;
 
-            return ReportTypeReportQuery;
+            return ReportType_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -206,34 +206,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated ReportTypeFillWeb
-        private IQueryable<ReportTypeWeb> FillReportTypeWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-
-             IQueryable<ReportTypeWeb> ReportTypeWebQuery = (from c in db.ReportTypes
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new ReportTypeWeb
-                    {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        ReportTypeID = c.ReportTypeID,
-                        TVType = c.TVType,
-                        FileType = c.FileType,
-                        UniqueCode = c.UniqueCode,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return ReportTypeWebQuery;
-        }
-        #endregion Functions private Generated ReportTypeFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(ReportType reportType)

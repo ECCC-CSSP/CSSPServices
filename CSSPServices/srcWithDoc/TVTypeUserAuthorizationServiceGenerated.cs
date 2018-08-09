@@ -151,31 +151,31 @@ namespace CSSPServices
 
             return TVTypeUserAuthorizationQuery;
         }
-        public TVTypeUserAuthorizationWeb GetTVTypeUserAuthorizationWebWithTVTypeUserAuthorizationID(int TVTypeUserAuthorizationID)
+        public TVTypeUserAuthorization_A GetTVTypeUserAuthorization_AWithTVTypeUserAuthorizationID(int TVTypeUserAuthorizationID)
         {
-            return FillTVTypeUserAuthorizationWeb().Where(c => c.TVTypeUserAuthorizationID == TVTypeUserAuthorizationID).FirstOrDefault();
+            return FillTVTypeUserAuthorization_A().Where(c => c.TVTypeUserAuthorizationID == TVTypeUserAuthorizationID).FirstOrDefault();
 
         }
-        public IQueryable<TVTypeUserAuthorizationWeb> GetTVTypeUserAuthorizationWebList()
+        public IQueryable<TVTypeUserAuthorization_A> GetTVTypeUserAuthorization_AList()
         {
-            IQueryable<TVTypeUserAuthorizationWeb> TVTypeUserAuthorizationWebQuery = FillTVTypeUserAuthorizationWeb();
+            IQueryable<TVTypeUserAuthorization_A> TVTypeUserAuthorization_AQuery = FillTVTypeUserAuthorization_A();
 
-            TVTypeUserAuthorizationWebQuery = EnhanceQueryStatements<TVTypeUserAuthorizationWeb>(TVTypeUserAuthorizationWebQuery) as IQueryable<TVTypeUserAuthorizationWeb>;
+            TVTypeUserAuthorization_AQuery = EnhanceQueryStatements<TVTypeUserAuthorization_A>(TVTypeUserAuthorization_AQuery) as IQueryable<TVTypeUserAuthorization_A>;
 
-            return TVTypeUserAuthorizationWebQuery;
+            return TVTypeUserAuthorization_AQuery;
         }
-        public TVTypeUserAuthorizationReport GetTVTypeUserAuthorizationReportWithTVTypeUserAuthorizationID(int TVTypeUserAuthorizationID)
+        public TVTypeUserAuthorization_B GetTVTypeUserAuthorization_BWithTVTypeUserAuthorizationID(int TVTypeUserAuthorizationID)
         {
-            return FillTVTypeUserAuthorizationReport().Where(c => c.TVTypeUserAuthorizationID == TVTypeUserAuthorizationID).FirstOrDefault();
+            return FillTVTypeUserAuthorization_B().Where(c => c.TVTypeUserAuthorizationID == TVTypeUserAuthorizationID).FirstOrDefault();
 
         }
-        public IQueryable<TVTypeUserAuthorizationReport> GetTVTypeUserAuthorizationReportList()
+        public IQueryable<TVTypeUserAuthorization_B> GetTVTypeUserAuthorization_BList()
         {
-            IQueryable<TVTypeUserAuthorizationReport> TVTypeUserAuthorizationReportQuery = FillTVTypeUserAuthorizationReport();
+            IQueryable<TVTypeUserAuthorization_B> TVTypeUserAuthorization_BQuery = FillTVTypeUserAuthorization_B();
 
-            TVTypeUserAuthorizationReportQuery = EnhanceQueryStatements<TVTypeUserAuthorizationReport>(TVTypeUserAuthorizationReportQuery) as IQueryable<TVTypeUserAuthorizationReport>;
+            TVTypeUserAuthorization_BQuery = EnhanceQueryStatements<TVTypeUserAuthorization_B>(TVTypeUserAuthorization_BQuery) as IQueryable<TVTypeUserAuthorization_B>;
 
-            return TVTypeUserAuthorizationReportQuery;
+            return TVTypeUserAuthorization_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -214,47 +214,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated TVTypeUserAuthorizationFillWeb
-        private IQueryable<TVTypeUserAuthorizationWeb> FillTVTypeUserAuthorizationWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> TVTypeEnumList = enums.GetEnumTextOrderedList(typeof(TVTypeEnum));
-            List<EnumIDAndText> TVAuthEnumList = enums.GetEnumTextOrderedList(typeof(TVAuthEnum));
-
-             IQueryable<TVTypeUserAuthorizationWeb> TVTypeUserAuthorizationWebQuery = (from c in db.TVTypeUserAuthorizations
-                let ContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.ContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new TVTypeUserAuthorizationWeb
-                    {
-                        ContactTVItemLanguage = ContactTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        TVTypeText = (from e in TVTypeEnumList
-                                where e.EnumID == (int?)c.TVType
-                                select e.EnumText).FirstOrDefault(),
-                        TVAuthText = (from e in TVAuthEnumList
-                                where e.EnumID == (int?)c.TVAuth
-                                select e.EnumText).FirstOrDefault(),
-                        TVTypeUserAuthorizationID = c.TVTypeUserAuthorizationID,
-                        ContactTVItemID = c.ContactTVItemID,
-                        TVType = c.TVType,
-                        TVAuth = c.TVAuth,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return TVTypeUserAuthorizationWebQuery;
-        }
-        #endregion Functions private Generated TVTypeUserAuthorizationFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(TVTypeUserAuthorization tvTypeUserAuthorization)

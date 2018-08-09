@@ -183,31 +183,31 @@ namespace CSSPServices
 
             return TVItemStatQuery;
         }
-        public TVItemStatWeb GetTVItemStatWebWithTVItemStatID(int TVItemStatID)
+        public TVItemStat_A GetTVItemStat_AWithTVItemStatID(int TVItemStatID)
         {
-            return FillTVItemStatWeb().Where(c => c.TVItemStatID == TVItemStatID).FirstOrDefault();
+            return FillTVItemStat_A().Where(c => c.TVItemStatID == TVItemStatID).FirstOrDefault();
 
         }
-        public IQueryable<TVItemStatWeb> GetTVItemStatWebList()
+        public IQueryable<TVItemStat_A> GetTVItemStat_AList()
         {
-            IQueryable<TVItemStatWeb> TVItemStatWebQuery = FillTVItemStatWeb();
+            IQueryable<TVItemStat_A> TVItemStat_AQuery = FillTVItemStat_A();
 
-            TVItemStatWebQuery = EnhanceQueryStatements<TVItemStatWeb>(TVItemStatWebQuery) as IQueryable<TVItemStatWeb>;
+            TVItemStat_AQuery = EnhanceQueryStatements<TVItemStat_A>(TVItemStat_AQuery) as IQueryable<TVItemStat_A>;
 
-            return TVItemStatWebQuery;
+            return TVItemStat_AQuery;
         }
-        public TVItemStatReport GetTVItemStatReportWithTVItemStatID(int TVItemStatID)
+        public TVItemStat_B GetTVItemStat_BWithTVItemStatID(int TVItemStatID)
         {
-            return FillTVItemStatReport().Where(c => c.TVItemStatID == TVItemStatID).FirstOrDefault();
+            return FillTVItemStat_B().Where(c => c.TVItemStatID == TVItemStatID).FirstOrDefault();
 
         }
-        public IQueryable<TVItemStatReport> GetTVItemStatReportList()
+        public IQueryable<TVItemStat_B> GetTVItemStat_BList()
         {
-            IQueryable<TVItemStatReport> TVItemStatReportQuery = FillTVItemStatReport();
+            IQueryable<TVItemStat_B> TVItemStat_BQuery = FillTVItemStat_B();
 
-            TVItemStatReportQuery = EnhanceQueryStatements<TVItemStatReport>(TVItemStatReportQuery) as IQueryable<TVItemStatReport>;
+            TVItemStat_BQuery = EnhanceQueryStatements<TVItemStat_B>(TVItemStat_BQuery) as IQueryable<TVItemStat_B>;
 
-            return TVItemStatReportQuery;
+            return TVItemStat_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -246,43 +246,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated TVItemStatFillWeb
-        private IQueryable<TVItemStatWeb> FillTVItemStatWeb()
-        {
-            Enums enums = new Enums(LanguageRequest);
-
-            List<EnumIDAndText> TVTypeEnumList = enums.GetEnumTextOrderedList(typeof(TVTypeEnum));
-
-             IQueryable<TVItemStatWeb> TVItemStatWebQuery = (from c in db.TVItemStats
-                let TVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.TVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new TVItemStatWeb
-                    {
-                        TVItemLanguage = TVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        TVTypeText = (from e in TVTypeEnumList
-                                where e.EnumID == (int?)c.TVType
-                                select e.EnumText).FirstOrDefault(),
-                        TVItemStatID = c.TVItemStatID,
-                        TVItemID = c.TVItemID,
-                        TVType = c.TVType,
-                        ChildCount = c.ChildCount,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return TVItemStatWebQuery;
-        }
-        #endregion Functions private Generated TVItemStatFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(TVItemStat tvItemStat)

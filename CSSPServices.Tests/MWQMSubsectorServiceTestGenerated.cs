@@ -230,27 +230,27 @@ namespace CSSPServices.Tests
                     MWQMSubsector mwqmSubsector = (from c in dbTestDB.MWQMSubsectors select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmSubsector);
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        mwqmSubsectorService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        mwqmSubsectorService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             MWQMSubsector mwqmSubsectorRet = mwqmSubsectorService.GetMWQMSubsectorWithMWQMSubsectorID(mwqmSubsector.MWQMSubsectorID);
                             CheckMWQMSubsectorFields(new List<MWQMSubsector>() { mwqmSubsectorRet });
                             Assert.AreEqual(mwqmSubsector.MWQMSubsectorID, mwqmSubsectorRet.MWQMSubsectorID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            MWQMSubsectorWeb mwqmSubsectorWebRet = mwqmSubsectorService.GetMWQMSubsectorWebWithMWQMSubsectorID(mwqmSubsector.MWQMSubsectorID);
-                            CheckMWQMSubsectorWebFields(new List<MWQMSubsectorWeb>() { mwqmSubsectorWebRet });
-                            Assert.AreEqual(mwqmSubsector.MWQMSubsectorID, mwqmSubsectorWebRet.MWQMSubsectorID);
+                            MWQMSubsector_A mwqmSubsector_ARet = mwqmSubsectorService.GetMWQMSubsector_AWithMWQMSubsectorID(mwqmSubsector.MWQMSubsectorID);
+                            CheckMWQMSubsector_AFields(new List<MWQMSubsector_A>() { mwqmSubsector_ARet });
+                            Assert.AreEqual(mwqmSubsector.MWQMSubsectorID, mwqmSubsector_ARet.MWQMSubsectorID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            MWQMSubsectorReport mwqmSubsectorReportRet = mwqmSubsectorService.GetMWQMSubsectorReportWithMWQMSubsectorID(mwqmSubsector.MWQMSubsectorID);
-                            CheckMWQMSubsectorReportFields(new List<MWQMSubsectorReport>() { mwqmSubsectorReportRet });
-                            Assert.AreEqual(mwqmSubsector.MWQMSubsectorID, mwqmSubsectorReportRet.MWQMSubsectorID);
+                            MWQMSubsector_B mwqmSubsector_BRet = mwqmSubsectorService.GetMWQMSubsector_BWithMWQMSubsectorID(mwqmSubsector.MWQMSubsectorID);
+                            CheckMWQMSubsector_BFields(new List<MWQMSubsector_B>() { mwqmSubsector_BRet });
+                            Assert.AreEqual(mwqmSubsector.MWQMSubsectorID, mwqmSubsector_BRet.MWQMSubsectorID);
                         }
                         else
                         {
@@ -279,30 +279,29 @@ namespace CSSPServices.Tests
                     List<MWQMSubsector> mwqmSubsectorDirectQueryList = new List<MWQMSubsector>();
                     mwqmSubsectorDirectQueryList = (from c in dbTestDB.MWQMSubsectors select c).Take(200).ToList();
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        mwqmSubsectorService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        mwqmSubsectorService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MWQMSubsector> mwqmSubsectorList = new List<MWQMSubsector>();
                             mwqmSubsectorList = mwqmSubsectorService.GetMWQMSubsectorList().ToList();
                             CheckMWQMSubsectorFields(mwqmSubsectorList);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MWQMSubsectorWeb> mwqmSubsectorWebList = new List<MWQMSubsectorWeb>();
-                            mwqmSubsectorWebList = mwqmSubsectorService.GetMWQMSubsectorWebList().ToList();
-                            CheckMWQMSubsectorWebFields(mwqmSubsectorWebList);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorWebList.Count);
+                            List<MWQMSubsector_A> mwqmSubsector_AList = new List<MWQMSubsector_A>();
+                            mwqmSubsector_AList = mwqmSubsectorService.GetMWQMSubsector_AList().ToList();
+                            CheckMWQMSubsector_AFields(mwqmSubsector_AList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsector_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MWQMSubsectorReport> mwqmSubsectorReportList = new List<MWQMSubsectorReport>();
-                            mwqmSubsectorReportList = mwqmSubsectorService.GetMWQMSubsectorReportList().ToList();
-                            CheckMWQMSubsectorReportFields(mwqmSubsectorReportList);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorReportList.Count);
+                            List<MWQMSubsector_B> mwqmSubsector_BList = new List<MWQMSubsector_B>();
+                            mwqmSubsector_BList = mwqmSubsectorService.GetMWQMSubsector_BList().ToList();
+                            CheckMWQMSubsector_BFields(mwqmSubsector_BList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsector_BList.Count);
                         }
                         else
                         {
@@ -324,38 +323,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmSubsectorService.Query = mwqmSubsectorService.FillQuery(typeof(MWQMSubsector), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mwqmSubsectorService.Query = mwqmSubsectorService.FillQuery(typeof(MWQMSubsector), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
 
                         List<MWQMSubsector> mwqmSubsectorDirectQueryList = new List<MWQMSubsector>();
                         mwqmSubsectorDirectQueryList = (from c in dbTestDB.MWQMSubsectors select c).Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MWQMSubsector> mwqmSubsectorList = new List<MWQMSubsector>();
                             mwqmSubsectorList = mwqmSubsectorService.GetMWQMSubsectorList().ToList();
                             CheckMWQMSubsectorFields(mwqmSubsectorList);
                             Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorList[0].MWQMSubsectorID);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MWQMSubsectorWeb> mwqmSubsectorWebList = new List<MWQMSubsectorWeb>();
-                            mwqmSubsectorWebList = mwqmSubsectorService.GetMWQMSubsectorWebList().ToList();
-                            CheckMWQMSubsectorWebFields(mwqmSubsectorWebList);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorWebList[0].MWQMSubsectorID);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorWebList.Count);
+                            List<MWQMSubsector_A> mwqmSubsector_AList = new List<MWQMSubsector_A>();
+                            mwqmSubsector_AList = mwqmSubsectorService.GetMWQMSubsector_AList().ToList();
+                            CheckMWQMSubsector_AFields(mwqmSubsector_AList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsector_AList[0].MWQMSubsectorID);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsector_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MWQMSubsectorReport> mwqmSubsectorReportList = new List<MWQMSubsectorReport>();
-                            mwqmSubsectorReportList = mwqmSubsectorService.GetMWQMSubsectorReportList().ToList();
-                            CheckMWQMSubsectorReportFields(mwqmSubsectorReportList);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorReportList[0].MWQMSubsectorID);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorReportList.Count);
+                            List<MWQMSubsector_B> mwqmSubsector_BList = new List<MWQMSubsector_B>();
+                            mwqmSubsector_BList = mwqmSubsectorService.GetMWQMSubsector_BList().ToList();
+                            CheckMWQMSubsector_BFields(mwqmSubsector_BList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsector_BList[0].MWQMSubsectorID);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsector_BList.Count);
                         }
                         else
                         {
@@ -377,38 +375,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmSubsectorService.Query = mwqmSubsectorService.FillQuery(typeof(MWQMSubsector), culture.TwoLetterISOLanguageName, 1, 1,  "MWQMSubsectorID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mwqmSubsectorService.Query = mwqmSubsectorService.FillQuery(typeof(MWQMSubsector), culture.TwoLetterISOLanguageName, 1, 1,  "MWQMSubsectorID", "");
 
                         List<MWQMSubsector> mwqmSubsectorDirectQueryList = new List<MWQMSubsector>();
                         mwqmSubsectorDirectQueryList = (from c in dbTestDB.MWQMSubsectors select c).Skip(1).Take(1).OrderBy(c => c.MWQMSubsectorID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MWQMSubsector> mwqmSubsectorList = new List<MWQMSubsector>();
                             mwqmSubsectorList = mwqmSubsectorService.GetMWQMSubsectorList().ToList();
                             CheckMWQMSubsectorFields(mwqmSubsectorList);
                             Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorList[0].MWQMSubsectorID);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MWQMSubsectorWeb> mwqmSubsectorWebList = new List<MWQMSubsectorWeb>();
-                            mwqmSubsectorWebList = mwqmSubsectorService.GetMWQMSubsectorWebList().ToList();
-                            CheckMWQMSubsectorWebFields(mwqmSubsectorWebList);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorWebList[0].MWQMSubsectorID);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorWebList.Count);
+                            List<MWQMSubsector_A> mwqmSubsector_AList = new List<MWQMSubsector_A>();
+                            mwqmSubsector_AList = mwqmSubsectorService.GetMWQMSubsector_AList().ToList();
+                            CheckMWQMSubsector_AFields(mwqmSubsector_AList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsector_AList[0].MWQMSubsectorID);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsector_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MWQMSubsectorReport> mwqmSubsectorReportList = new List<MWQMSubsectorReport>();
-                            mwqmSubsectorReportList = mwqmSubsectorService.GetMWQMSubsectorReportList().ToList();
-                            CheckMWQMSubsectorReportFields(mwqmSubsectorReportList);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorReportList[0].MWQMSubsectorID);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorReportList.Count);
+                            List<MWQMSubsector_B> mwqmSubsector_BList = new List<MWQMSubsector_B>();
+                            mwqmSubsector_BList = mwqmSubsectorService.GetMWQMSubsector_BList().ToList();
+                            CheckMWQMSubsector_BFields(mwqmSubsector_BList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsector_BList[0].MWQMSubsectorID);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsector_BList.Count);
                         }
                         else
                         {
@@ -430,38 +427,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmSubsectorService.Query = mwqmSubsectorService.FillQuery(typeof(MWQMSubsector), culture.TwoLetterISOLanguageName, 1, 1, "MWQMSubsectorID,MWQMSubsectorTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mwqmSubsectorService.Query = mwqmSubsectorService.FillQuery(typeof(MWQMSubsector), culture.TwoLetterISOLanguageName, 1, 1, "MWQMSubsectorID,MWQMSubsectorTVItemID", "");
 
                         List<MWQMSubsector> mwqmSubsectorDirectQueryList = new List<MWQMSubsector>();
                         mwqmSubsectorDirectQueryList = (from c in dbTestDB.MWQMSubsectors select c).Skip(1).Take(1).OrderBy(c => c.MWQMSubsectorID).ThenBy(c => c.MWQMSubsectorTVItemID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MWQMSubsector> mwqmSubsectorList = new List<MWQMSubsector>();
                             mwqmSubsectorList = mwqmSubsectorService.GetMWQMSubsectorList().ToList();
                             CheckMWQMSubsectorFields(mwqmSubsectorList);
                             Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorList[0].MWQMSubsectorID);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MWQMSubsectorWeb> mwqmSubsectorWebList = new List<MWQMSubsectorWeb>();
-                            mwqmSubsectorWebList = mwqmSubsectorService.GetMWQMSubsectorWebList().ToList();
-                            CheckMWQMSubsectorWebFields(mwqmSubsectorWebList);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorWebList[0].MWQMSubsectorID);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorWebList.Count);
+                            List<MWQMSubsector_A> mwqmSubsector_AList = new List<MWQMSubsector_A>();
+                            mwqmSubsector_AList = mwqmSubsectorService.GetMWQMSubsector_AList().ToList();
+                            CheckMWQMSubsector_AFields(mwqmSubsector_AList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsector_AList[0].MWQMSubsectorID);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsector_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MWQMSubsectorReport> mwqmSubsectorReportList = new List<MWQMSubsectorReport>();
-                            mwqmSubsectorReportList = mwqmSubsectorService.GetMWQMSubsectorReportList().ToList();
-                            CheckMWQMSubsectorReportFields(mwqmSubsectorReportList);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorReportList[0].MWQMSubsectorID);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorReportList.Count);
+                            List<MWQMSubsector_B> mwqmSubsector_BList = new List<MWQMSubsector_B>();
+                            mwqmSubsector_BList = mwqmSubsectorService.GetMWQMSubsector_BList().ToList();
+                            CheckMWQMSubsector_BFields(mwqmSubsector_BList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsector_BList[0].MWQMSubsectorID);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsector_BList.Count);
                         }
                         else
                         {
@@ -483,38 +479,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmSubsectorService.Query = mwqmSubsectorService.FillQuery(typeof(MWQMSubsector), culture.TwoLetterISOLanguageName, 0, 1, "MWQMSubsectorID", "MWQMSubsectorID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mwqmSubsectorService.Query = mwqmSubsectorService.FillQuery(typeof(MWQMSubsector), culture.TwoLetterISOLanguageName, 0, 1, "MWQMSubsectorID", "MWQMSubsectorID,EQ,4", "");
 
                         List<MWQMSubsector> mwqmSubsectorDirectQueryList = new List<MWQMSubsector>();
                         mwqmSubsectorDirectQueryList = (from c in dbTestDB.MWQMSubsectors select c).Where(c => c.MWQMSubsectorID == 4).Skip(0).Take(1).OrderBy(c => c.MWQMSubsectorID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MWQMSubsector> mwqmSubsectorList = new List<MWQMSubsector>();
                             mwqmSubsectorList = mwqmSubsectorService.GetMWQMSubsectorList().ToList();
                             CheckMWQMSubsectorFields(mwqmSubsectorList);
                             Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorList[0].MWQMSubsectorID);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MWQMSubsectorWeb> mwqmSubsectorWebList = new List<MWQMSubsectorWeb>();
-                            mwqmSubsectorWebList = mwqmSubsectorService.GetMWQMSubsectorWebList().ToList();
-                            CheckMWQMSubsectorWebFields(mwqmSubsectorWebList);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorWebList[0].MWQMSubsectorID);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorWebList.Count);
+                            List<MWQMSubsector_A> mwqmSubsector_AList = new List<MWQMSubsector_A>();
+                            mwqmSubsector_AList = mwqmSubsectorService.GetMWQMSubsector_AList().ToList();
+                            CheckMWQMSubsector_AFields(mwqmSubsector_AList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsector_AList[0].MWQMSubsectorID);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsector_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MWQMSubsectorReport> mwqmSubsectorReportList = new List<MWQMSubsectorReport>();
-                            mwqmSubsectorReportList = mwqmSubsectorService.GetMWQMSubsectorReportList().ToList();
-                            CheckMWQMSubsectorReportFields(mwqmSubsectorReportList);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorReportList[0].MWQMSubsectorID);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorReportList.Count);
+                            List<MWQMSubsector_B> mwqmSubsector_BList = new List<MWQMSubsector_B>();
+                            mwqmSubsector_BList = mwqmSubsectorService.GetMWQMSubsector_BList().ToList();
+                            CheckMWQMSubsector_BFields(mwqmSubsector_BList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsector_BList[0].MWQMSubsectorID);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsector_BList.Count);
                         }
                         else
                         {
@@ -536,38 +531,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmSubsectorService.Query = mwqmSubsectorService.FillQuery(typeof(MWQMSubsector), culture.TwoLetterISOLanguageName, 0, 1, "MWQMSubsectorID", "MWQMSubsectorID,GT,2|MWQMSubsectorID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mwqmSubsectorService.Query = mwqmSubsectorService.FillQuery(typeof(MWQMSubsector), culture.TwoLetterISOLanguageName, 0, 1, "MWQMSubsectorID", "MWQMSubsectorID,GT,2|MWQMSubsectorID,LT,5", "");
 
                         List<MWQMSubsector> mwqmSubsectorDirectQueryList = new List<MWQMSubsector>();
                         mwqmSubsectorDirectQueryList = (from c in dbTestDB.MWQMSubsectors select c).Where(c => c.MWQMSubsectorID > 2 && c.MWQMSubsectorID < 5).Skip(0).Take(1).OrderBy(c => c.MWQMSubsectorID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MWQMSubsector> mwqmSubsectorList = new List<MWQMSubsector>();
                             mwqmSubsectorList = mwqmSubsectorService.GetMWQMSubsectorList().ToList();
                             CheckMWQMSubsectorFields(mwqmSubsectorList);
                             Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorList[0].MWQMSubsectorID);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MWQMSubsectorWeb> mwqmSubsectorWebList = new List<MWQMSubsectorWeb>();
-                            mwqmSubsectorWebList = mwqmSubsectorService.GetMWQMSubsectorWebList().ToList();
-                            CheckMWQMSubsectorWebFields(mwqmSubsectorWebList);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorWebList[0].MWQMSubsectorID);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorWebList.Count);
+                            List<MWQMSubsector_A> mwqmSubsector_AList = new List<MWQMSubsector_A>();
+                            mwqmSubsector_AList = mwqmSubsectorService.GetMWQMSubsector_AList().ToList();
+                            CheckMWQMSubsector_AFields(mwqmSubsector_AList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsector_AList[0].MWQMSubsectorID);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsector_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MWQMSubsectorReport> mwqmSubsectorReportList = new List<MWQMSubsectorReport>();
-                            mwqmSubsectorReportList = mwqmSubsectorService.GetMWQMSubsectorReportList().ToList();
-                            CheckMWQMSubsectorReportFields(mwqmSubsectorReportList);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorReportList[0].MWQMSubsectorID);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorReportList.Count);
+                            List<MWQMSubsector_B> mwqmSubsector_BList = new List<MWQMSubsector_B>();
+                            mwqmSubsector_BList = mwqmSubsectorService.GetMWQMSubsector_BList().ToList();
+                            CheckMWQMSubsector_BFields(mwqmSubsector_BList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsector_BList[0].MWQMSubsectorID);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsector_BList.Count);
                         }
                         else
                         {
@@ -589,38 +583,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmSubsectorService.Query = mwqmSubsectorService.FillQuery(typeof(MWQMSubsector), culture.TwoLetterISOLanguageName, 0, 10000, "", "MWQMSubsectorID,GT,2|MWQMSubsectorID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mwqmSubsectorService.Query = mwqmSubsectorService.FillQuery(typeof(MWQMSubsector), culture.TwoLetterISOLanguageName, 0, 10000, "", "MWQMSubsectorID,GT,2|MWQMSubsectorID,LT,5", "");
 
                         List<MWQMSubsector> mwqmSubsectorDirectQueryList = new List<MWQMSubsector>();
                         mwqmSubsectorDirectQueryList = (from c in dbTestDB.MWQMSubsectors select c).Where(c => c.MWQMSubsectorID > 2 && c.MWQMSubsectorID < 5).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MWQMSubsector> mwqmSubsectorList = new List<MWQMSubsector>();
                             mwqmSubsectorList = mwqmSubsectorService.GetMWQMSubsectorList().ToList();
                             CheckMWQMSubsectorFields(mwqmSubsectorList);
                             Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorList[0].MWQMSubsectorID);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MWQMSubsectorWeb> mwqmSubsectorWebList = new List<MWQMSubsectorWeb>();
-                            mwqmSubsectorWebList = mwqmSubsectorService.GetMWQMSubsectorWebList().ToList();
-                            CheckMWQMSubsectorWebFields(mwqmSubsectorWebList);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorWebList[0].MWQMSubsectorID);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorWebList.Count);
+                            List<MWQMSubsector_A> mwqmSubsector_AList = new List<MWQMSubsector_A>();
+                            mwqmSubsector_AList = mwqmSubsectorService.GetMWQMSubsector_AList().ToList();
+                            CheckMWQMSubsector_AFields(mwqmSubsector_AList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsector_AList[0].MWQMSubsectorID);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsector_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MWQMSubsectorReport> mwqmSubsectorReportList = new List<MWQMSubsectorReport>();
-                            mwqmSubsectorReportList = mwqmSubsectorService.GetMWQMSubsectorReportList().ToList();
-                            CheckMWQMSubsectorReportFields(mwqmSubsectorReportList);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorReportList[0].MWQMSubsectorID);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorReportList.Count);
+                            List<MWQMSubsector_B> mwqmSubsector_BList = new List<MWQMSubsector_B>();
+                            mwqmSubsector_BList = mwqmSubsectorService.GetMWQMSubsector_BList().ToList();
+                            CheckMWQMSubsector_BFields(mwqmSubsector_BList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsector_BList[0].MWQMSubsectorID);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsector_BList.Count);
                         }
                         else
                         {
@@ -646,39 +639,39 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(mwqmSubsectorList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(mwqmSubsectorList[0].HasErrors);
         }
-        private void CheckMWQMSubsectorWebFields(List<MWQMSubsectorWeb> mwqmSubsectorWebList)
+        private void CheckMWQMSubsector_AFields(List<MWQMSubsector_A> mwqmSubsector_AList)
         {
-            Assert.IsNotNull(mwqmSubsectorWebList[0].SubsectorTVItemLanguage);
-            Assert.IsNotNull(mwqmSubsectorWebList[0].LastUpdateContactTVItemLanguage);
-            Assert.IsNotNull(mwqmSubsectorWebList[0].MWQMSubsectorID);
-            Assert.IsNotNull(mwqmSubsectorWebList[0].MWQMSubsectorTVItemID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorWebList[0].SubsectorHistoricKey));
-            if (!string.IsNullOrWhiteSpace(mwqmSubsectorWebList[0].TideLocationSIDText))
+            Assert.IsNotNull(mwqmSubsector_AList[0].SubsectorTVItemLanguage);
+            Assert.IsNotNull(mwqmSubsector_AList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(mwqmSubsector_AList[0].MWQMSubsectorID);
+            Assert.IsNotNull(mwqmSubsector_AList[0].MWQMSubsectorTVItemID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsector_AList[0].SubsectorHistoricKey));
+            if (!string.IsNullOrWhiteSpace(mwqmSubsector_AList[0].TideLocationSIDText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorWebList[0].TideLocationSIDText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsector_AList[0].TideLocationSIDText));
             }
-            Assert.IsNotNull(mwqmSubsectorWebList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(mwqmSubsectorWebList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(mwqmSubsectorWebList[0].HasErrors);
+            Assert.IsNotNull(mwqmSubsector_AList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(mwqmSubsector_AList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(mwqmSubsector_AList[0].HasErrors);
         }
-        private void CheckMWQMSubsectorReportFields(List<MWQMSubsectorReport> mwqmSubsectorReportList)
+        private void CheckMWQMSubsector_BFields(List<MWQMSubsector_B> mwqmSubsector_BList)
         {
-            if (!string.IsNullOrWhiteSpace(mwqmSubsectorReportList[0].MWQMSubsectorReportTest))
+            if (!string.IsNullOrWhiteSpace(mwqmSubsector_BList[0].MWQMSubsectorReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorReportList[0].MWQMSubsectorReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsector_BList[0].MWQMSubsectorReportTest));
             }
-            Assert.IsNotNull(mwqmSubsectorReportList[0].SubsectorTVItemLanguage);
-            Assert.IsNotNull(mwqmSubsectorReportList[0].LastUpdateContactTVItemLanguage);
-            Assert.IsNotNull(mwqmSubsectorReportList[0].MWQMSubsectorID);
-            Assert.IsNotNull(mwqmSubsectorReportList[0].MWQMSubsectorTVItemID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorReportList[0].SubsectorHistoricKey));
-            if (!string.IsNullOrWhiteSpace(mwqmSubsectorReportList[0].TideLocationSIDText))
+            Assert.IsNotNull(mwqmSubsector_BList[0].SubsectorTVItemLanguage);
+            Assert.IsNotNull(mwqmSubsector_BList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(mwqmSubsector_BList[0].MWQMSubsectorID);
+            Assert.IsNotNull(mwqmSubsector_BList[0].MWQMSubsectorTVItemID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsector_BList[0].SubsectorHistoricKey));
+            if (!string.IsNullOrWhiteSpace(mwqmSubsector_BList[0].TideLocationSIDText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorReportList[0].TideLocationSIDText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsector_BList[0].TideLocationSIDText));
             }
-            Assert.IsNotNull(mwqmSubsectorReportList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(mwqmSubsectorReportList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(mwqmSubsectorReportList[0].HasErrors);
+            Assert.IsNotNull(mwqmSubsector_BList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(mwqmSubsector_BList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(mwqmSubsector_BList[0].HasErrors);
         }
         private MWQMSubsector GetFilledRandomMWQMSubsector(string OmitPropName)
         {

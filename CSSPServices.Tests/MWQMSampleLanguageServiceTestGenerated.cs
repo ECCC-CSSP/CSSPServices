@@ -230,27 +230,27 @@ namespace CSSPServices.Tests
                     MWQMSampleLanguage mwqmSampleLanguage = (from c in dbTestDB.MWQMSampleLanguages select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmSampleLanguage);
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        mwqmSampleLanguageService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        mwqmSampleLanguageService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             MWQMSampleLanguage mwqmSampleLanguageRet = mwqmSampleLanguageService.GetMWQMSampleLanguageWithMWQMSampleLanguageID(mwqmSampleLanguage.MWQMSampleLanguageID);
                             CheckMWQMSampleLanguageFields(new List<MWQMSampleLanguage>() { mwqmSampleLanguageRet });
                             Assert.AreEqual(mwqmSampleLanguage.MWQMSampleLanguageID, mwqmSampleLanguageRet.MWQMSampleLanguageID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            MWQMSampleLanguageWeb mwqmSampleLanguageWebRet = mwqmSampleLanguageService.GetMWQMSampleLanguageWebWithMWQMSampleLanguageID(mwqmSampleLanguage.MWQMSampleLanguageID);
-                            CheckMWQMSampleLanguageWebFields(new List<MWQMSampleLanguageWeb>() { mwqmSampleLanguageWebRet });
-                            Assert.AreEqual(mwqmSampleLanguage.MWQMSampleLanguageID, mwqmSampleLanguageWebRet.MWQMSampleLanguageID);
+                            MWQMSampleLanguage_A mwqmSampleLanguage_ARet = mwqmSampleLanguageService.GetMWQMSampleLanguage_AWithMWQMSampleLanguageID(mwqmSampleLanguage.MWQMSampleLanguageID);
+                            CheckMWQMSampleLanguage_AFields(new List<MWQMSampleLanguage_A>() { mwqmSampleLanguage_ARet });
+                            Assert.AreEqual(mwqmSampleLanguage.MWQMSampleLanguageID, mwqmSampleLanguage_ARet.MWQMSampleLanguageID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            MWQMSampleLanguageReport mwqmSampleLanguageReportRet = mwqmSampleLanguageService.GetMWQMSampleLanguageReportWithMWQMSampleLanguageID(mwqmSampleLanguage.MWQMSampleLanguageID);
-                            CheckMWQMSampleLanguageReportFields(new List<MWQMSampleLanguageReport>() { mwqmSampleLanguageReportRet });
-                            Assert.AreEqual(mwqmSampleLanguage.MWQMSampleLanguageID, mwqmSampleLanguageReportRet.MWQMSampleLanguageID);
+                            MWQMSampleLanguage_B mwqmSampleLanguage_BRet = mwqmSampleLanguageService.GetMWQMSampleLanguage_BWithMWQMSampleLanguageID(mwqmSampleLanguage.MWQMSampleLanguageID);
+                            CheckMWQMSampleLanguage_BFields(new List<MWQMSampleLanguage_B>() { mwqmSampleLanguage_BRet });
+                            Assert.AreEqual(mwqmSampleLanguage.MWQMSampleLanguageID, mwqmSampleLanguage_BRet.MWQMSampleLanguageID);
                         }
                         else
                         {
@@ -279,30 +279,29 @@ namespace CSSPServices.Tests
                     List<MWQMSampleLanguage> mwqmSampleLanguageDirectQueryList = new List<MWQMSampleLanguage>();
                     mwqmSampleLanguageDirectQueryList = (from c in dbTestDB.MWQMSampleLanguages select c).Take(200).ToList();
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        mwqmSampleLanguageService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        mwqmSampleLanguageService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MWQMSampleLanguage> mwqmSampleLanguageList = new List<MWQMSampleLanguage>();
                             mwqmSampleLanguageList = mwqmSampleLanguageService.GetMWQMSampleLanguageList().ToList();
                             CheckMWQMSampleLanguageFields(mwqmSampleLanguageList);
-                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MWQMSampleLanguageWeb> mwqmSampleLanguageWebList = new List<MWQMSampleLanguageWeb>();
-                            mwqmSampleLanguageWebList = mwqmSampleLanguageService.GetMWQMSampleLanguageWebList().ToList();
-                            CheckMWQMSampleLanguageWebFields(mwqmSampleLanguageWebList);
-                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguageWebList.Count);
+                            List<MWQMSampleLanguage_A> mwqmSampleLanguage_AList = new List<MWQMSampleLanguage_A>();
+                            mwqmSampleLanguage_AList = mwqmSampleLanguageService.GetMWQMSampleLanguage_AList().ToList();
+                            CheckMWQMSampleLanguage_AFields(mwqmSampleLanguage_AList);
+                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MWQMSampleLanguageReport> mwqmSampleLanguageReportList = new List<MWQMSampleLanguageReport>();
-                            mwqmSampleLanguageReportList = mwqmSampleLanguageService.GetMWQMSampleLanguageReportList().ToList();
-                            CheckMWQMSampleLanguageReportFields(mwqmSampleLanguageReportList);
-                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguageReportList.Count);
+                            List<MWQMSampleLanguage_B> mwqmSampleLanguage_BList = new List<MWQMSampleLanguage_B>();
+                            mwqmSampleLanguage_BList = mwqmSampleLanguageService.GetMWQMSampleLanguage_BList().ToList();
+                            CheckMWQMSampleLanguage_BFields(mwqmSampleLanguage_BList);
+                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguage_BList.Count);
                         }
                         else
                         {
@@ -324,38 +323,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MWQMSampleLanguageService mwqmSampleLanguageService = new MWQMSampleLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmSampleLanguageService.Query = mwqmSampleLanguageService.FillQuery(typeof(MWQMSampleLanguage), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mwqmSampleLanguageService.Query = mwqmSampleLanguageService.FillQuery(typeof(MWQMSampleLanguage), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
 
                         List<MWQMSampleLanguage> mwqmSampleLanguageDirectQueryList = new List<MWQMSampleLanguage>();
                         mwqmSampleLanguageDirectQueryList = (from c in dbTestDB.MWQMSampleLanguages select c).Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MWQMSampleLanguage> mwqmSampleLanguageList = new List<MWQMSampleLanguage>();
                             mwqmSampleLanguageList = mwqmSampleLanguageService.GetMWQMSampleLanguageList().ToList();
                             CheckMWQMSampleLanguageFields(mwqmSampleLanguageList);
                             Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguageList[0].MWQMSampleLanguageID);
-                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MWQMSampleLanguageWeb> mwqmSampleLanguageWebList = new List<MWQMSampleLanguageWeb>();
-                            mwqmSampleLanguageWebList = mwqmSampleLanguageService.GetMWQMSampleLanguageWebList().ToList();
-                            CheckMWQMSampleLanguageWebFields(mwqmSampleLanguageWebList);
-                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguageWebList[0].MWQMSampleLanguageID);
-                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguageWebList.Count);
+                            List<MWQMSampleLanguage_A> mwqmSampleLanguage_AList = new List<MWQMSampleLanguage_A>();
+                            mwqmSampleLanguage_AList = mwqmSampleLanguageService.GetMWQMSampleLanguage_AList().ToList();
+                            CheckMWQMSampleLanguage_AFields(mwqmSampleLanguage_AList);
+                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguage_AList[0].MWQMSampleLanguageID);
+                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MWQMSampleLanguageReport> mwqmSampleLanguageReportList = new List<MWQMSampleLanguageReport>();
-                            mwqmSampleLanguageReportList = mwqmSampleLanguageService.GetMWQMSampleLanguageReportList().ToList();
-                            CheckMWQMSampleLanguageReportFields(mwqmSampleLanguageReportList);
-                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguageReportList[0].MWQMSampleLanguageID);
-                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguageReportList.Count);
+                            List<MWQMSampleLanguage_B> mwqmSampleLanguage_BList = new List<MWQMSampleLanguage_B>();
+                            mwqmSampleLanguage_BList = mwqmSampleLanguageService.GetMWQMSampleLanguage_BList().ToList();
+                            CheckMWQMSampleLanguage_BFields(mwqmSampleLanguage_BList);
+                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguage_BList[0].MWQMSampleLanguageID);
+                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguage_BList.Count);
                         }
                         else
                         {
@@ -377,38 +375,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MWQMSampleLanguageService mwqmSampleLanguageService = new MWQMSampleLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmSampleLanguageService.Query = mwqmSampleLanguageService.FillQuery(typeof(MWQMSampleLanguage), culture.TwoLetterISOLanguageName, 1, 1,  "MWQMSampleLanguageID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mwqmSampleLanguageService.Query = mwqmSampleLanguageService.FillQuery(typeof(MWQMSampleLanguage), culture.TwoLetterISOLanguageName, 1, 1,  "MWQMSampleLanguageID", "");
 
                         List<MWQMSampleLanguage> mwqmSampleLanguageDirectQueryList = new List<MWQMSampleLanguage>();
                         mwqmSampleLanguageDirectQueryList = (from c in dbTestDB.MWQMSampleLanguages select c).Skip(1).Take(1).OrderBy(c => c.MWQMSampleLanguageID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MWQMSampleLanguage> mwqmSampleLanguageList = new List<MWQMSampleLanguage>();
                             mwqmSampleLanguageList = mwqmSampleLanguageService.GetMWQMSampleLanguageList().ToList();
                             CheckMWQMSampleLanguageFields(mwqmSampleLanguageList);
                             Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguageList[0].MWQMSampleLanguageID);
-                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MWQMSampleLanguageWeb> mwqmSampleLanguageWebList = new List<MWQMSampleLanguageWeb>();
-                            mwqmSampleLanguageWebList = mwqmSampleLanguageService.GetMWQMSampleLanguageWebList().ToList();
-                            CheckMWQMSampleLanguageWebFields(mwqmSampleLanguageWebList);
-                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguageWebList[0].MWQMSampleLanguageID);
-                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguageWebList.Count);
+                            List<MWQMSampleLanguage_A> mwqmSampleLanguage_AList = new List<MWQMSampleLanguage_A>();
+                            mwqmSampleLanguage_AList = mwqmSampleLanguageService.GetMWQMSampleLanguage_AList().ToList();
+                            CheckMWQMSampleLanguage_AFields(mwqmSampleLanguage_AList);
+                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguage_AList[0].MWQMSampleLanguageID);
+                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MWQMSampleLanguageReport> mwqmSampleLanguageReportList = new List<MWQMSampleLanguageReport>();
-                            mwqmSampleLanguageReportList = mwqmSampleLanguageService.GetMWQMSampleLanguageReportList().ToList();
-                            CheckMWQMSampleLanguageReportFields(mwqmSampleLanguageReportList);
-                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguageReportList[0].MWQMSampleLanguageID);
-                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguageReportList.Count);
+                            List<MWQMSampleLanguage_B> mwqmSampleLanguage_BList = new List<MWQMSampleLanguage_B>();
+                            mwqmSampleLanguage_BList = mwqmSampleLanguageService.GetMWQMSampleLanguage_BList().ToList();
+                            CheckMWQMSampleLanguage_BFields(mwqmSampleLanguage_BList);
+                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguage_BList[0].MWQMSampleLanguageID);
+                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguage_BList.Count);
                         }
                         else
                         {
@@ -430,38 +427,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MWQMSampleLanguageService mwqmSampleLanguageService = new MWQMSampleLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmSampleLanguageService.Query = mwqmSampleLanguageService.FillQuery(typeof(MWQMSampleLanguage), culture.TwoLetterISOLanguageName, 1, 1, "MWQMSampleLanguageID,MWQMSampleID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mwqmSampleLanguageService.Query = mwqmSampleLanguageService.FillQuery(typeof(MWQMSampleLanguage), culture.TwoLetterISOLanguageName, 1, 1, "MWQMSampleLanguageID,MWQMSampleID", "");
 
                         List<MWQMSampleLanguage> mwqmSampleLanguageDirectQueryList = new List<MWQMSampleLanguage>();
                         mwqmSampleLanguageDirectQueryList = (from c in dbTestDB.MWQMSampleLanguages select c).Skip(1).Take(1).OrderBy(c => c.MWQMSampleLanguageID).ThenBy(c => c.MWQMSampleID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MWQMSampleLanguage> mwqmSampleLanguageList = new List<MWQMSampleLanguage>();
                             mwqmSampleLanguageList = mwqmSampleLanguageService.GetMWQMSampleLanguageList().ToList();
                             CheckMWQMSampleLanguageFields(mwqmSampleLanguageList);
                             Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguageList[0].MWQMSampleLanguageID);
-                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MWQMSampleLanguageWeb> mwqmSampleLanguageWebList = new List<MWQMSampleLanguageWeb>();
-                            mwqmSampleLanguageWebList = mwqmSampleLanguageService.GetMWQMSampleLanguageWebList().ToList();
-                            CheckMWQMSampleLanguageWebFields(mwqmSampleLanguageWebList);
-                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguageWebList[0].MWQMSampleLanguageID);
-                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguageWebList.Count);
+                            List<MWQMSampleLanguage_A> mwqmSampleLanguage_AList = new List<MWQMSampleLanguage_A>();
+                            mwqmSampleLanguage_AList = mwqmSampleLanguageService.GetMWQMSampleLanguage_AList().ToList();
+                            CheckMWQMSampleLanguage_AFields(mwqmSampleLanguage_AList);
+                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguage_AList[0].MWQMSampleLanguageID);
+                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MWQMSampleLanguageReport> mwqmSampleLanguageReportList = new List<MWQMSampleLanguageReport>();
-                            mwqmSampleLanguageReportList = mwqmSampleLanguageService.GetMWQMSampleLanguageReportList().ToList();
-                            CheckMWQMSampleLanguageReportFields(mwqmSampleLanguageReportList);
-                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguageReportList[0].MWQMSampleLanguageID);
-                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguageReportList.Count);
+                            List<MWQMSampleLanguage_B> mwqmSampleLanguage_BList = new List<MWQMSampleLanguage_B>();
+                            mwqmSampleLanguage_BList = mwqmSampleLanguageService.GetMWQMSampleLanguage_BList().ToList();
+                            CheckMWQMSampleLanguage_BFields(mwqmSampleLanguage_BList);
+                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguage_BList[0].MWQMSampleLanguageID);
+                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguage_BList.Count);
                         }
                         else
                         {
@@ -483,38 +479,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MWQMSampleLanguageService mwqmSampleLanguageService = new MWQMSampleLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmSampleLanguageService.Query = mwqmSampleLanguageService.FillQuery(typeof(MWQMSampleLanguage), culture.TwoLetterISOLanguageName, 0, 1, "MWQMSampleLanguageID", "MWQMSampleLanguageID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mwqmSampleLanguageService.Query = mwqmSampleLanguageService.FillQuery(typeof(MWQMSampleLanguage), culture.TwoLetterISOLanguageName, 0, 1, "MWQMSampleLanguageID", "MWQMSampleLanguageID,EQ,4", "");
 
                         List<MWQMSampleLanguage> mwqmSampleLanguageDirectQueryList = new List<MWQMSampleLanguage>();
                         mwqmSampleLanguageDirectQueryList = (from c in dbTestDB.MWQMSampleLanguages select c).Where(c => c.MWQMSampleLanguageID == 4).Skip(0).Take(1).OrderBy(c => c.MWQMSampleLanguageID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MWQMSampleLanguage> mwqmSampleLanguageList = new List<MWQMSampleLanguage>();
                             mwqmSampleLanguageList = mwqmSampleLanguageService.GetMWQMSampleLanguageList().ToList();
                             CheckMWQMSampleLanguageFields(mwqmSampleLanguageList);
                             Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguageList[0].MWQMSampleLanguageID);
-                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MWQMSampleLanguageWeb> mwqmSampleLanguageWebList = new List<MWQMSampleLanguageWeb>();
-                            mwqmSampleLanguageWebList = mwqmSampleLanguageService.GetMWQMSampleLanguageWebList().ToList();
-                            CheckMWQMSampleLanguageWebFields(mwqmSampleLanguageWebList);
-                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguageWebList[0].MWQMSampleLanguageID);
-                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguageWebList.Count);
+                            List<MWQMSampleLanguage_A> mwqmSampleLanguage_AList = new List<MWQMSampleLanguage_A>();
+                            mwqmSampleLanguage_AList = mwqmSampleLanguageService.GetMWQMSampleLanguage_AList().ToList();
+                            CheckMWQMSampleLanguage_AFields(mwqmSampleLanguage_AList);
+                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguage_AList[0].MWQMSampleLanguageID);
+                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MWQMSampleLanguageReport> mwqmSampleLanguageReportList = new List<MWQMSampleLanguageReport>();
-                            mwqmSampleLanguageReportList = mwqmSampleLanguageService.GetMWQMSampleLanguageReportList().ToList();
-                            CheckMWQMSampleLanguageReportFields(mwqmSampleLanguageReportList);
-                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguageReportList[0].MWQMSampleLanguageID);
-                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguageReportList.Count);
+                            List<MWQMSampleLanguage_B> mwqmSampleLanguage_BList = new List<MWQMSampleLanguage_B>();
+                            mwqmSampleLanguage_BList = mwqmSampleLanguageService.GetMWQMSampleLanguage_BList().ToList();
+                            CheckMWQMSampleLanguage_BFields(mwqmSampleLanguage_BList);
+                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguage_BList[0].MWQMSampleLanguageID);
+                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguage_BList.Count);
                         }
                         else
                         {
@@ -536,38 +531,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MWQMSampleLanguageService mwqmSampleLanguageService = new MWQMSampleLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmSampleLanguageService.Query = mwqmSampleLanguageService.FillQuery(typeof(MWQMSampleLanguage), culture.TwoLetterISOLanguageName, 0, 1, "MWQMSampleLanguageID", "MWQMSampleLanguageID,GT,2|MWQMSampleLanguageID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mwqmSampleLanguageService.Query = mwqmSampleLanguageService.FillQuery(typeof(MWQMSampleLanguage), culture.TwoLetterISOLanguageName, 0, 1, "MWQMSampleLanguageID", "MWQMSampleLanguageID,GT,2|MWQMSampleLanguageID,LT,5", "");
 
                         List<MWQMSampleLanguage> mwqmSampleLanguageDirectQueryList = new List<MWQMSampleLanguage>();
                         mwqmSampleLanguageDirectQueryList = (from c in dbTestDB.MWQMSampleLanguages select c).Where(c => c.MWQMSampleLanguageID > 2 && c.MWQMSampleLanguageID < 5).Skip(0).Take(1).OrderBy(c => c.MWQMSampleLanguageID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MWQMSampleLanguage> mwqmSampleLanguageList = new List<MWQMSampleLanguage>();
                             mwqmSampleLanguageList = mwqmSampleLanguageService.GetMWQMSampleLanguageList().ToList();
                             CheckMWQMSampleLanguageFields(mwqmSampleLanguageList);
                             Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguageList[0].MWQMSampleLanguageID);
-                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MWQMSampleLanguageWeb> mwqmSampleLanguageWebList = new List<MWQMSampleLanguageWeb>();
-                            mwqmSampleLanguageWebList = mwqmSampleLanguageService.GetMWQMSampleLanguageWebList().ToList();
-                            CheckMWQMSampleLanguageWebFields(mwqmSampleLanguageWebList);
-                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguageWebList[0].MWQMSampleLanguageID);
-                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguageWebList.Count);
+                            List<MWQMSampleLanguage_A> mwqmSampleLanguage_AList = new List<MWQMSampleLanguage_A>();
+                            mwqmSampleLanguage_AList = mwqmSampleLanguageService.GetMWQMSampleLanguage_AList().ToList();
+                            CheckMWQMSampleLanguage_AFields(mwqmSampleLanguage_AList);
+                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguage_AList[0].MWQMSampleLanguageID);
+                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MWQMSampleLanguageReport> mwqmSampleLanguageReportList = new List<MWQMSampleLanguageReport>();
-                            mwqmSampleLanguageReportList = mwqmSampleLanguageService.GetMWQMSampleLanguageReportList().ToList();
-                            CheckMWQMSampleLanguageReportFields(mwqmSampleLanguageReportList);
-                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguageReportList[0].MWQMSampleLanguageID);
-                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguageReportList.Count);
+                            List<MWQMSampleLanguage_B> mwqmSampleLanguage_BList = new List<MWQMSampleLanguage_B>();
+                            mwqmSampleLanguage_BList = mwqmSampleLanguageService.GetMWQMSampleLanguage_BList().ToList();
+                            CheckMWQMSampleLanguage_BFields(mwqmSampleLanguage_BList);
+                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguage_BList[0].MWQMSampleLanguageID);
+                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguage_BList.Count);
                         }
                         else
                         {
@@ -589,38 +583,37 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         MWQMSampleLanguageService mwqmSampleLanguageService = new MWQMSampleLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmSampleLanguageService.Query = mwqmSampleLanguageService.FillQuery(typeof(MWQMSampleLanguage), culture.TwoLetterISOLanguageName, 0, 10000, "", "MWQMSampleLanguageID,GT,2|MWQMSampleLanguageID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        mwqmSampleLanguageService.Query = mwqmSampleLanguageService.FillQuery(typeof(MWQMSampleLanguage), culture.TwoLetterISOLanguageName, 0, 10000, "", "MWQMSampleLanguageID,GT,2|MWQMSampleLanguageID,LT,5", "");
 
                         List<MWQMSampleLanguage> mwqmSampleLanguageDirectQueryList = new List<MWQMSampleLanguage>();
                         mwqmSampleLanguageDirectQueryList = (from c in dbTestDB.MWQMSampleLanguages select c).Where(c => c.MWQMSampleLanguageID > 2 && c.MWQMSampleLanguageID < 5).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<MWQMSampleLanguage> mwqmSampleLanguageList = new List<MWQMSampleLanguage>();
                             mwqmSampleLanguageList = mwqmSampleLanguageService.GetMWQMSampleLanguageList().ToList();
                             CheckMWQMSampleLanguageFields(mwqmSampleLanguageList);
                             Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguageList[0].MWQMSampleLanguageID);
-                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguageList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<MWQMSampleLanguageWeb> mwqmSampleLanguageWebList = new List<MWQMSampleLanguageWeb>();
-                            mwqmSampleLanguageWebList = mwqmSampleLanguageService.GetMWQMSampleLanguageWebList().ToList();
-                            CheckMWQMSampleLanguageWebFields(mwqmSampleLanguageWebList);
-                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguageWebList[0].MWQMSampleLanguageID);
-                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguageWebList.Count);
+                            List<MWQMSampleLanguage_A> mwqmSampleLanguage_AList = new List<MWQMSampleLanguage_A>();
+                            mwqmSampleLanguage_AList = mwqmSampleLanguageService.GetMWQMSampleLanguage_AList().ToList();
+                            CheckMWQMSampleLanguage_AFields(mwqmSampleLanguage_AList);
+                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguage_AList[0].MWQMSampleLanguageID);
+                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguage_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<MWQMSampleLanguageReport> mwqmSampleLanguageReportList = new List<MWQMSampleLanguageReport>();
-                            mwqmSampleLanguageReportList = mwqmSampleLanguageService.GetMWQMSampleLanguageReportList().ToList();
-                            CheckMWQMSampleLanguageReportFields(mwqmSampleLanguageReportList);
-                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguageReportList[0].MWQMSampleLanguageID);
-                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguageReportList.Count);
+                            List<MWQMSampleLanguage_B> mwqmSampleLanguage_BList = new List<MWQMSampleLanguage_B>();
+                            mwqmSampleLanguage_BList = mwqmSampleLanguageService.GetMWQMSampleLanguage_BList().ToList();
+                            CheckMWQMSampleLanguage_BFields(mwqmSampleLanguage_BList);
+                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguage_BList[0].MWQMSampleLanguageID);
+                            Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguage_BList.Count);
                         }
                         else
                         {
@@ -644,49 +637,49 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(mwqmSampleLanguageList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(mwqmSampleLanguageList[0].HasErrors);
         }
-        private void CheckMWQMSampleLanguageWebFields(List<MWQMSampleLanguageWeb> mwqmSampleLanguageWebList)
+        private void CheckMWQMSampleLanguage_AFields(List<MWQMSampleLanguage_A> mwqmSampleLanguage_AList)
         {
-            Assert.IsNotNull(mwqmSampleLanguageWebList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(mwqmSampleLanguageWebList[0].LanguageText))
+            Assert.IsNotNull(mwqmSampleLanguage_AList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(mwqmSampleLanguage_AList[0].LanguageText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleLanguageWebList[0].LanguageText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleLanguage_AList[0].LanguageText));
             }
-            if (!string.IsNullOrWhiteSpace(mwqmSampleLanguageWebList[0].TranslationStatusText))
+            if (!string.IsNullOrWhiteSpace(mwqmSampleLanguage_AList[0].TranslationStatusText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleLanguageWebList[0].TranslationStatusText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleLanguage_AList[0].TranslationStatusText));
             }
-            Assert.IsNotNull(mwqmSampleLanguageWebList[0].MWQMSampleLanguageID);
-            Assert.IsNotNull(mwqmSampleLanguageWebList[0].MWQMSampleID);
-            Assert.IsNotNull(mwqmSampleLanguageWebList[0].Language);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleLanguageWebList[0].MWQMSampleNote));
-            Assert.IsNotNull(mwqmSampleLanguageWebList[0].TranslationStatus);
-            Assert.IsNotNull(mwqmSampleLanguageWebList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(mwqmSampleLanguageWebList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(mwqmSampleLanguageWebList[0].HasErrors);
+            Assert.IsNotNull(mwqmSampleLanguage_AList[0].MWQMSampleLanguageID);
+            Assert.IsNotNull(mwqmSampleLanguage_AList[0].MWQMSampleID);
+            Assert.IsNotNull(mwqmSampleLanguage_AList[0].Language);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleLanguage_AList[0].MWQMSampleNote));
+            Assert.IsNotNull(mwqmSampleLanguage_AList[0].TranslationStatus);
+            Assert.IsNotNull(mwqmSampleLanguage_AList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(mwqmSampleLanguage_AList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(mwqmSampleLanguage_AList[0].HasErrors);
         }
-        private void CheckMWQMSampleLanguageReportFields(List<MWQMSampleLanguageReport> mwqmSampleLanguageReportList)
+        private void CheckMWQMSampleLanguage_BFields(List<MWQMSampleLanguage_B> mwqmSampleLanguage_BList)
         {
-            if (!string.IsNullOrWhiteSpace(mwqmSampleLanguageReportList[0].MWQMSampleLanguageReportTest))
+            if (!string.IsNullOrWhiteSpace(mwqmSampleLanguage_BList[0].MWQMSampleLanguageReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleLanguageReportList[0].MWQMSampleLanguageReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleLanguage_BList[0].MWQMSampleLanguageReportTest));
             }
-            Assert.IsNotNull(mwqmSampleLanguageReportList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(mwqmSampleLanguageReportList[0].LanguageText))
+            Assert.IsNotNull(mwqmSampleLanguage_BList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(mwqmSampleLanguage_BList[0].LanguageText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleLanguageReportList[0].LanguageText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleLanguage_BList[0].LanguageText));
             }
-            if (!string.IsNullOrWhiteSpace(mwqmSampleLanguageReportList[0].TranslationStatusText))
+            if (!string.IsNullOrWhiteSpace(mwqmSampleLanguage_BList[0].TranslationStatusText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleLanguageReportList[0].TranslationStatusText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleLanguage_BList[0].TranslationStatusText));
             }
-            Assert.IsNotNull(mwqmSampleLanguageReportList[0].MWQMSampleLanguageID);
-            Assert.IsNotNull(mwqmSampleLanguageReportList[0].MWQMSampleID);
-            Assert.IsNotNull(mwqmSampleLanguageReportList[0].Language);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleLanguageReportList[0].MWQMSampleNote));
-            Assert.IsNotNull(mwqmSampleLanguageReportList[0].TranslationStatus);
-            Assert.IsNotNull(mwqmSampleLanguageReportList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(mwqmSampleLanguageReportList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(mwqmSampleLanguageReportList[0].HasErrors);
+            Assert.IsNotNull(mwqmSampleLanguage_BList[0].MWQMSampleLanguageID);
+            Assert.IsNotNull(mwqmSampleLanguage_BList[0].MWQMSampleID);
+            Assert.IsNotNull(mwqmSampleLanguage_BList[0].Language);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleLanguage_BList[0].MWQMSampleNote));
+            Assert.IsNotNull(mwqmSampleLanguage_BList[0].TranslationStatus);
+            Assert.IsNotNull(mwqmSampleLanguage_BList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(mwqmSampleLanguage_BList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(mwqmSampleLanguage_BList[0].HasErrors);
         }
         private MWQMSampleLanguage GetFilledRandomMWQMSampleLanguage(string OmitPropName)
         {

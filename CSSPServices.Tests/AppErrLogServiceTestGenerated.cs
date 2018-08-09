@@ -256,27 +256,39 @@ namespace CSSPServices.Tests
                     AppErrLog appErrLog = (from c in dbTestDB.AppErrLogs select c).FirstOrDefault();
                     Assert.IsNotNull(appErrLog);
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        appErrLogService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        appErrLogService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             AppErrLog appErrLogRet = appErrLogService.GetAppErrLogWithAppErrLogID(appErrLog.AppErrLogID);
                             CheckAppErrLogFields(new List<AppErrLog>() { appErrLogRet });
                             Assert.AreEqual(appErrLog.AppErrLogID, appErrLogRet.AppErrLogID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            AppErrLogWeb appErrLogWebRet = appErrLogService.GetAppErrLogWebWithAppErrLogID(appErrLog.AppErrLogID);
-                            CheckAppErrLogWebFields(new List<AppErrLogWeb>() { appErrLogWebRet });
-                            Assert.AreEqual(appErrLog.AppErrLogID, appErrLogWebRet.AppErrLogID);
+                            AppErrLog_A appErrLog_ARet = appErrLogService.GetAppErrLog_AWithAppErrLogID(appErrLog.AppErrLogID);
+                            CheckAppErrLog_AFields(new List<AppErrLog_A>() { appErrLog_ARet });
+                            Assert.AreEqual(appErrLog.AppErrLogID, appErrLog_ARet.AppErrLogID);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            AppErrLogReport appErrLogReportRet = appErrLogService.GetAppErrLogReportWithAppErrLogID(appErrLog.AppErrLogID);
-                            CheckAppErrLogReportFields(new List<AppErrLogReport>() { appErrLogReportRet });
-                            Assert.AreEqual(appErrLog.AppErrLogID, appErrLogReportRet.AppErrLogID);
+                            AppErrLog_B appErrLog_BRet = appErrLogService.GetAppErrLog_BWithAppErrLogID(appErrLog.AppErrLogID);
+                            CheckAppErrLog_BFields(new List<AppErrLog_B>() { appErrLog_BRet });
+                            Assert.AreEqual(appErrLog.AppErrLogID, appErrLog_BRet.AppErrLogID);
+                        }
+                        else if (detail == "C")
+                        {
+                            AppErrLog_C appErrLog_CRet = appErrLogService.GetAppErrLog_CWithAppErrLogID(appErrLog.AppErrLogID);
+                            CheckAppErrLog_CFields(new List<AppErrLog_C>() { appErrLog_CRet });
+                            Assert.AreEqual(appErrLog.AppErrLogID, appErrLog_CRet.AppErrLogID);
+                        }
+                        else if (detail == "D")
+                        {
+                            AppErrLog_D appErrLog_DRet = appErrLogService.GetAppErrLog_DWithAppErrLogID(appErrLog.AppErrLogID);
+                            CheckAppErrLog_DFields(new List<AppErrLog_D>() { appErrLog_DRet });
+                            Assert.AreEqual(appErrLog.AppErrLogID, appErrLog_DRet.AppErrLogID);
                         }
                         else
                         {
@@ -305,30 +317,43 @@ namespace CSSPServices.Tests
                     List<AppErrLog> appErrLogDirectQueryList = new List<AppErrLog>();
                     appErrLogDirectQueryList = (from c in dbTestDB.AppErrLogs select c).Take(200).ToList();
 
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
-                        appErrLogService.Query.EntityQueryDetailType = entityQueryDetailType;
+                        appErrLogService.Query.Detail = detail;
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<AppErrLog> appErrLogList = new List<AppErrLog>();
                             appErrLogList = appErrLogService.GetAppErrLogList().ToList();
                             CheckAppErrLogFields(appErrLogList);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<AppErrLogWeb> appErrLogWebList = new List<AppErrLogWeb>();
-                            appErrLogWebList = appErrLogService.GetAppErrLogWebList().ToList();
-                            CheckAppErrLogWebFields(appErrLogWebList);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogWebList.Count);
+                            List<AppErrLog_A> appErrLog_AList = new List<AppErrLog_A>();
+                            appErrLog_AList = appErrLogService.GetAppErrLog_AList().ToList();
+                            CheckAppErrLog_AFields(appErrLog_AList);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLog_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<AppErrLogReport> appErrLogReportList = new List<AppErrLogReport>();
-                            appErrLogReportList = appErrLogService.GetAppErrLogReportList().ToList();
-                            CheckAppErrLogReportFields(appErrLogReportList);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogReportList.Count);
+                            List<AppErrLog_B> appErrLog_BList = new List<AppErrLog_B>();
+                            appErrLog_BList = appErrLogService.GetAppErrLog_BList().ToList();
+                            CheckAppErrLog_BFields(appErrLog_BList);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLog_BList.Count);
+                        }
+                        else if (detail == "C")
+                        {
+                            List<AppErrLog_C> appErrLog_CList = new List<AppErrLog_C>();
+                            appErrLog_CList = appErrLogService.GetAppErrLog_CList().ToList();
+                            CheckAppErrLog_CFields(appErrLog_CList);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLog_CList.Count);
+                        }
+                        else if (detail == "D")
+                        {
+                            List<AppErrLog_D> appErrLog_DList = new List<AppErrLog_D>();
+                            appErrLog_DList = appErrLogService.GetAppErrLog_DList().ToList();
+                            CheckAppErrLog_DFields(appErrLog_DList);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLog_DList.Count);
                         }
                         else
                         {
@@ -350,38 +375,53 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         AppErrLogService appErrLogService = new AppErrLogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
 
                         List<AppErrLog> appErrLogDirectQueryList = new List<AppErrLog>();
                         appErrLogDirectQueryList = (from c in dbTestDB.AppErrLogs select c).Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<AppErrLog> appErrLogList = new List<AppErrLog>();
                             appErrLogList = appErrLogService.GetAppErrLogList().ToList();
                             CheckAppErrLogFields(appErrLogList);
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<AppErrLogWeb> appErrLogWebList = new List<AppErrLogWeb>();
-                            appErrLogWebList = appErrLogService.GetAppErrLogWebList().ToList();
-                            CheckAppErrLogWebFields(appErrLogWebList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogWebList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogWebList.Count);
+                            List<AppErrLog_A> appErrLog_AList = new List<AppErrLog_A>();
+                            appErrLog_AList = appErrLogService.GetAppErrLog_AList().ToList();
+                            CheckAppErrLog_AFields(appErrLog_AList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLog_AList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLog_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<AppErrLogReport> appErrLogReportList = new List<AppErrLogReport>();
-                            appErrLogReportList = appErrLogService.GetAppErrLogReportList().ToList();
-                            CheckAppErrLogReportFields(appErrLogReportList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogReportList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogReportList.Count);
+                            List<AppErrLog_B> appErrLog_BList = new List<AppErrLog_B>();
+                            appErrLog_BList = appErrLogService.GetAppErrLog_BList().ToList();
+                            CheckAppErrLog_BFields(appErrLog_BList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLog_BList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLog_BList.Count);
+                        }
+                        else if (detail == "C")
+                        {
+                            List<AppErrLog_C> appErrLog_CList = new List<AppErrLog_C>();
+                            appErrLog_CList = appErrLogService.GetAppErrLog_CList().ToList();
+                            CheckAppErrLog_CFields(appErrLog_CList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLog_CList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLog_CList.Count);
+                        }
+                        else if (detail == "D")
+                        {
+                            List<AppErrLog_D> appErrLog_DList = new List<AppErrLog_D>();
+                            appErrLog_DList = appErrLogService.GetAppErrLog_DList().ToList();
+                            CheckAppErrLog_DFields(appErrLog_DList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLog_DList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLog_DList.Count);
                         }
                         else
                         {
@@ -403,38 +443,53 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         AppErrLogService appErrLogService = new AppErrLogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 1, 1,  "AppErrLogID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 1, 1,  "AppErrLogID", "");
 
                         List<AppErrLog> appErrLogDirectQueryList = new List<AppErrLog>();
                         appErrLogDirectQueryList = (from c in dbTestDB.AppErrLogs select c).Skip(1).Take(1).OrderBy(c => c.AppErrLogID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<AppErrLog> appErrLogList = new List<AppErrLog>();
                             appErrLogList = appErrLogService.GetAppErrLogList().ToList();
                             CheckAppErrLogFields(appErrLogList);
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<AppErrLogWeb> appErrLogWebList = new List<AppErrLogWeb>();
-                            appErrLogWebList = appErrLogService.GetAppErrLogWebList().ToList();
-                            CheckAppErrLogWebFields(appErrLogWebList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogWebList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogWebList.Count);
+                            List<AppErrLog_A> appErrLog_AList = new List<AppErrLog_A>();
+                            appErrLog_AList = appErrLogService.GetAppErrLog_AList().ToList();
+                            CheckAppErrLog_AFields(appErrLog_AList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLog_AList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLog_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<AppErrLogReport> appErrLogReportList = new List<AppErrLogReport>();
-                            appErrLogReportList = appErrLogService.GetAppErrLogReportList().ToList();
-                            CheckAppErrLogReportFields(appErrLogReportList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogReportList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogReportList.Count);
+                            List<AppErrLog_B> appErrLog_BList = new List<AppErrLog_B>();
+                            appErrLog_BList = appErrLogService.GetAppErrLog_BList().ToList();
+                            CheckAppErrLog_BFields(appErrLog_BList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLog_BList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLog_BList.Count);
+                        }
+                        else if (detail == "C")
+                        {
+                            List<AppErrLog_C> appErrLog_CList = new List<AppErrLog_C>();
+                            appErrLog_CList = appErrLogService.GetAppErrLog_CList().ToList();
+                            CheckAppErrLog_CFields(appErrLog_CList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLog_CList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLog_CList.Count);
+                        }
+                        else if (detail == "D")
+                        {
+                            List<AppErrLog_D> appErrLog_DList = new List<AppErrLog_D>();
+                            appErrLog_DList = appErrLogService.GetAppErrLog_DList().ToList();
+                            CheckAppErrLog_DFields(appErrLog_DList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLog_DList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLog_DList.Count);
                         }
                         else
                         {
@@ -456,38 +511,53 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         AppErrLogService appErrLogService = new AppErrLogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 1, 1, "AppErrLogID,Tag", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 1, 1, "AppErrLogID,Tag", "");
 
                         List<AppErrLog> appErrLogDirectQueryList = new List<AppErrLog>();
                         appErrLogDirectQueryList = (from c in dbTestDB.AppErrLogs select c).Skip(1).Take(1).OrderBy(c => c.AppErrLogID).ThenBy(c => c.Tag).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<AppErrLog> appErrLogList = new List<AppErrLog>();
                             appErrLogList = appErrLogService.GetAppErrLogList().ToList();
                             CheckAppErrLogFields(appErrLogList);
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<AppErrLogWeb> appErrLogWebList = new List<AppErrLogWeb>();
-                            appErrLogWebList = appErrLogService.GetAppErrLogWebList().ToList();
-                            CheckAppErrLogWebFields(appErrLogWebList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogWebList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogWebList.Count);
+                            List<AppErrLog_A> appErrLog_AList = new List<AppErrLog_A>();
+                            appErrLog_AList = appErrLogService.GetAppErrLog_AList().ToList();
+                            CheckAppErrLog_AFields(appErrLog_AList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLog_AList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLog_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<AppErrLogReport> appErrLogReportList = new List<AppErrLogReport>();
-                            appErrLogReportList = appErrLogService.GetAppErrLogReportList().ToList();
-                            CheckAppErrLogReportFields(appErrLogReportList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogReportList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogReportList.Count);
+                            List<AppErrLog_B> appErrLog_BList = new List<AppErrLog_B>();
+                            appErrLog_BList = appErrLogService.GetAppErrLog_BList().ToList();
+                            CheckAppErrLog_BFields(appErrLog_BList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLog_BList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLog_BList.Count);
+                        }
+                        else if (detail == "C")
+                        {
+                            List<AppErrLog_C> appErrLog_CList = new List<AppErrLog_C>();
+                            appErrLog_CList = appErrLogService.GetAppErrLog_CList().ToList();
+                            CheckAppErrLog_CFields(appErrLog_CList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLog_CList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLog_CList.Count);
+                        }
+                        else if (detail == "D")
+                        {
+                            List<AppErrLog_D> appErrLog_DList = new List<AppErrLog_D>();
+                            appErrLog_DList = appErrLogService.GetAppErrLog_DList().ToList();
+                            CheckAppErrLog_DFields(appErrLog_DList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLog_DList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLog_DList.Count);
                         }
                         else
                         {
@@ -509,38 +579,53 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         AppErrLogService appErrLogService = new AppErrLogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 0, 1, "AppErrLogID", "AppErrLogID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 0, 1, "AppErrLogID", "AppErrLogID,EQ,4", "");
 
                         List<AppErrLog> appErrLogDirectQueryList = new List<AppErrLog>();
                         appErrLogDirectQueryList = (from c in dbTestDB.AppErrLogs select c).Where(c => c.AppErrLogID == 4).Skip(0).Take(1).OrderBy(c => c.AppErrLogID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<AppErrLog> appErrLogList = new List<AppErrLog>();
                             appErrLogList = appErrLogService.GetAppErrLogList().ToList();
                             CheckAppErrLogFields(appErrLogList);
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<AppErrLogWeb> appErrLogWebList = new List<AppErrLogWeb>();
-                            appErrLogWebList = appErrLogService.GetAppErrLogWebList().ToList();
-                            CheckAppErrLogWebFields(appErrLogWebList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogWebList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogWebList.Count);
+                            List<AppErrLog_A> appErrLog_AList = new List<AppErrLog_A>();
+                            appErrLog_AList = appErrLogService.GetAppErrLog_AList().ToList();
+                            CheckAppErrLog_AFields(appErrLog_AList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLog_AList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLog_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<AppErrLogReport> appErrLogReportList = new List<AppErrLogReport>();
-                            appErrLogReportList = appErrLogService.GetAppErrLogReportList().ToList();
-                            CheckAppErrLogReportFields(appErrLogReportList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogReportList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogReportList.Count);
+                            List<AppErrLog_B> appErrLog_BList = new List<AppErrLog_B>();
+                            appErrLog_BList = appErrLogService.GetAppErrLog_BList().ToList();
+                            CheckAppErrLog_BFields(appErrLog_BList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLog_BList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLog_BList.Count);
+                        }
+                        else if (detail == "C")
+                        {
+                            List<AppErrLog_C> appErrLog_CList = new List<AppErrLog_C>();
+                            appErrLog_CList = appErrLogService.GetAppErrLog_CList().ToList();
+                            CheckAppErrLog_CFields(appErrLog_CList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLog_CList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLog_CList.Count);
+                        }
+                        else if (detail == "D")
+                        {
+                            List<AppErrLog_D> appErrLog_DList = new List<AppErrLog_D>();
+                            appErrLog_DList = appErrLogService.GetAppErrLog_DList().ToList();
+                            CheckAppErrLog_DFields(appErrLog_DList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLog_DList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLog_DList.Count);
                         }
                         else
                         {
@@ -562,38 +647,53 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         AppErrLogService appErrLogService = new AppErrLogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 0, 1, "AppErrLogID", "AppErrLogID,GT,2|AppErrLogID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 0, 1, "AppErrLogID", "AppErrLogID,GT,2|AppErrLogID,LT,5", "");
 
                         List<AppErrLog> appErrLogDirectQueryList = new List<AppErrLog>();
                         appErrLogDirectQueryList = (from c in dbTestDB.AppErrLogs select c).Where(c => c.AppErrLogID > 2 && c.AppErrLogID < 5).Skip(0).Take(1).OrderBy(c => c.AppErrLogID).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<AppErrLog> appErrLogList = new List<AppErrLog>();
                             appErrLogList = appErrLogService.GetAppErrLogList().ToList();
                             CheckAppErrLogFields(appErrLogList);
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<AppErrLogWeb> appErrLogWebList = new List<AppErrLogWeb>();
-                            appErrLogWebList = appErrLogService.GetAppErrLogWebList().ToList();
-                            CheckAppErrLogWebFields(appErrLogWebList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogWebList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogWebList.Count);
+                            List<AppErrLog_A> appErrLog_AList = new List<AppErrLog_A>();
+                            appErrLog_AList = appErrLogService.GetAppErrLog_AList().ToList();
+                            CheckAppErrLog_AFields(appErrLog_AList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLog_AList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLog_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<AppErrLogReport> appErrLogReportList = new List<AppErrLogReport>();
-                            appErrLogReportList = appErrLogService.GetAppErrLogReportList().ToList();
-                            CheckAppErrLogReportFields(appErrLogReportList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogReportList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogReportList.Count);
+                            List<AppErrLog_B> appErrLog_BList = new List<AppErrLog_B>();
+                            appErrLog_BList = appErrLogService.GetAppErrLog_BList().ToList();
+                            CheckAppErrLog_BFields(appErrLog_BList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLog_BList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLog_BList.Count);
+                        }
+                        else if (detail == "C")
+                        {
+                            List<AppErrLog_C> appErrLog_CList = new List<AppErrLog_C>();
+                            appErrLog_CList = appErrLogService.GetAppErrLog_CList().ToList();
+                            CheckAppErrLog_CFields(appErrLog_CList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLog_CList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLog_CList.Count);
+                        }
+                        else if (detail == "D")
+                        {
+                            List<AppErrLog_D> appErrLog_DList = new List<AppErrLog_D>();
+                            appErrLog_DList = appErrLogService.GetAppErrLog_DList().ToList();
+                            CheckAppErrLog_DFields(appErrLog_DList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLog_DList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLog_DList.Count);
                         }
                         else
                         {
@@ -615,38 +715,53 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
                         AppErrLogService appErrLogService = new AppErrLogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 0, 10000, "", "AppErrLogID,GT,2|AppErrLogID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 0, 10000, "", "AppErrLogID,GT,2|AppErrLogID,LT,5", "");
 
                         List<AppErrLog> appErrLogDirectQueryList = new List<AppErrLog>();
                         appErrLogDirectQueryList = (from c in dbTestDB.AppErrLogs select c).Where(c => c.AppErrLogID > 2 && c.AppErrLogID < 5).ToList();
 
-                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (string.IsNullOrWhiteSpace(detail))
                         {
                             List<AppErrLog> appErrLogList = new List<AppErrLog>();
                             appErrLogList = appErrLogService.GetAppErrLogList().ToList();
                             CheckAppErrLogFields(appErrLogList);
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (detail == "A")
                         {
-                            List<AppErrLogWeb> appErrLogWebList = new List<AppErrLogWeb>();
-                            appErrLogWebList = appErrLogService.GetAppErrLogWebList().ToList();
-                            CheckAppErrLogWebFields(appErrLogWebList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogWebList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogWebList.Count);
+                            List<AppErrLog_A> appErrLog_AList = new List<AppErrLog_A>();
+                            appErrLog_AList = appErrLogService.GetAppErrLog_AList().ToList();
+                            CheckAppErrLog_AFields(appErrLog_AList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLog_AList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLog_AList.Count);
                         }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (detail == "B")
                         {
-                            List<AppErrLogReport> appErrLogReportList = new List<AppErrLogReport>();
-                            appErrLogReportList = appErrLogService.GetAppErrLogReportList().ToList();
-                            CheckAppErrLogReportFields(appErrLogReportList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogReportList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogReportList.Count);
+                            List<AppErrLog_B> appErrLog_BList = new List<AppErrLog_B>();
+                            appErrLog_BList = appErrLogService.GetAppErrLog_BList().ToList();
+                            CheckAppErrLog_BFields(appErrLog_BList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLog_BList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLog_BList.Count);
+                        }
+                        else if (detail == "C")
+                        {
+                            List<AppErrLog_C> appErrLog_CList = new List<AppErrLog_C>();
+                            appErrLog_CList = appErrLogService.GetAppErrLog_CList().ToList();
+                            CheckAppErrLog_CFields(appErrLog_CList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLog_CList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLog_CList.Count);
+                        }
+                        else if (detail == "D")
+                        {
+                            List<AppErrLog_D> appErrLog_DList = new List<AppErrLog_D>();
+                            appErrLog_DList = appErrLogService.GetAppErrLog_DList().ToList();
+                            CheckAppErrLog_DFields(appErrLog_DList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLog_DList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLog_DList.Count);
                         }
                         else
                         {
@@ -671,35 +786,113 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(appErrLogList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(appErrLogList[0].HasErrors);
         }
-        private void CheckAppErrLogWebFields(List<AppErrLogWeb> appErrLogWebList)
+        private void CheckAppErrLog_AFields(List<AppErrLog_A> appErrLog_AList)
         {
-            Assert.IsNotNull(appErrLogWebList[0].LastUpdateContactTVItemLanguage);
-            Assert.IsNotNull(appErrLogWebList[0].AppErrLogID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogWebList[0].Tag));
-            Assert.IsNotNull(appErrLogWebList[0].LineNumber);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogWebList[0].Source));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogWebList[0].Message));
-            Assert.IsNotNull(appErrLogWebList[0].DateTime_UTC);
-            Assert.IsNotNull(appErrLogWebList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(appErrLogWebList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(appErrLogWebList[0].HasErrors);
+            Assert.IsNotNull(appErrLog_AList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(appErrLog_AList[0].AppErrLogID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLog_AList[0].Tag));
+            Assert.IsNotNull(appErrLog_AList[0].LineNumber);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLog_AList[0].Source));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLog_AList[0].Message));
+            Assert.IsNotNull(appErrLog_AList[0].DateTime_UTC);
+            Assert.IsNotNull(appErrLog_AList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(appErrLog_AList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(appErrLog_AList[0].HasErrors);
         }
-        private void CheckAppErrLogReportFields(List<AppErrLogReport> appErrLogReportList)
+        private void CheckAppErrLog_BFields(List<AppErrLog_B> appErrLog_BList)
         {
-            if (!string.IsNullOrWhiteSpace(appErrLogReportList[0].AppErrLogReportTest))
+            if (!string.IsNullOrWhiteSpace(appErrLog_BList[0].AppErrLogReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogReportList[0].AppErrLogReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLog_BList[0].AppErrLogReportTest));
             }
-            Assert.IsNotNull(appErrLogReportList[0].LastUpdateContactTVItemLanguage);
-            Assert.IsNotNull(appErrLogReportList[0].AppErrLogID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogReportList[0].Tag));
-            Assert.IsNotNull(appErrLogReportList[0].LineNumber);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogReportList[0].Source));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogReportList[0].Message));
-            Assert.IsNotNull(appErrLogReportList[0].DateTime_UTC);
-            Assert.IsNotNull(appErrLogReportList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(appErrLogReportList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(appErrLogReportList[0].HasErrors);
+            Assert.IsNotNull(appErrLog_BList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(appErrLog_BList[0].AppErrLogID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLog_BList[0].Tag));
+            Assert.IsNotNull(appErrLog_BList[0].LineNumber);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLog_BList[0].Source));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLog_BList[0].Message));
+            Assert.IsNotNull(appErrLog_BList[0].DateTime_UTC);
+            Assert.IsNotNull(appErrLog_BList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(appErrLog_BList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(appErrLog_BList[0].HasErrors);
+        }
+        private void CheckAppErrLog_CFields(List<AppErrLog_C> appErrLog_CList)
+        {
+            if (!string.IsNullOrWhiteSpace(appErrLog_CList[0].AppErrLogReportTest2))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLog_CList[0].AppErrLogReportTest2));
+            }
+            if (!string.IsNullOrWhiteSpace(appErrLog_CList[0].AppErrLogReportTest))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLog_CList[0].AppErrLogReportTest));
+            }
+            Assert.IsNotNull(appErrLog_CList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(appErrLog_CList[0].AppErrLogID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLog_CList[0].Tag));
+            Assert.IsNotNull(appErrLog_CList[0].LineNumber);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLog_CList[0].Source));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLog_CList[0].Message));
+            Assert.IsNotNull(appErrLog_CList[0].DateTime_UTC);
+            Assert.IsNotNull(appErrLog_CList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(appErrLog_CList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(appErrLog_CList[0].HasErrors);
+        }
+        private void CheckAppErrLog_DFields(List<AppErrLog_D> appErrLog_DList)
+        {
+            if (!string.IsNullOrWhiteSpace(appErrLog_DList[0].AppErrLogReportTest2K))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLog_DList[0].AppErrLogReportTest2K));
+            }
+            if (!string.IsNullOrWhiteSpace(appErrLog_DList[0].AppErrLogReportTest2H))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLog_DList[0].AppErrLogReportTest2H));
+            }
+            if (!string.IsNullOrWhiteSpace(appErrLog_DList[0].AppErrLogReportTest2D))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLog_DList[0].AppErrLogReportTest2D));
+            }
+            if (!string.IsNullOrWhiteSpace(appErrLog_DList[0].AppErrLogReportTest2G))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLog_DList[0].AppErrLogReportTest2G));
+            }
+            if (!string.IsNullOrWhiteSpace(appErrLog_DList[0].AppErrLogReportTest2S))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLog_DList[0].AppErrLogReportTest2S));
+            }
+            if (!string.IsNullOrWhiteSpace(appErrLog_DList[0].AppErrLogReportTest2L))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLog_DList[0].AppErrLogReportTest2L));
+            }
+            if (!string.IsNullOrWhiteSpace(appErrLog_DList[0].AppErrLogReportTest2C))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLog_DList[0].AppErrLogReportTest2C));
+            }
+            if (!string.IsNullOrWhiteSpace(appErrLog_DList[0].AppErrLogReportTest2B))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLog_DList[0].AppErrLogReportTest2B));
+            }
+            if (!string.IsNullOrWhiteSpace(appErrLog_DList[0].AppErrLogReportTest2A))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLog_DList[0].AppErrLogReportTest2A));
+            }
+            if (!string.IsNullOrWhiteSpace(appErrLog_DList[0].AppErrLogReportTest2))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLog_DList[0].AppErrLogReportTest2));
+            }
+            if (!string.IsNullOrWhiteSpace(appErrLog_DList[0].AppErrLogReportTest))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLog_DList[0].AppErrLogReportTest));
+            }
+            Assert.IsNotNull(appErrLog_DList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(appErrLog_DList[0].AppErrLogID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLog_DList[0].Tag));
+            Assert.IsNotNull(appErrLog_DList[0].LineNumber);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLog_DList[0].Source));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLog_DList[0].Message));
+            Assert.IsNotNull(appErrLog_DList[0].DateTime_UTC);
+            Assert.IsNotNull(appErrLog_DList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(appErrLog_DList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(appErrLog_DList[0].HasErrors);
         }
         private AppErrLog GetFilledRandomAppErrLog(string OmitPropName)
         {

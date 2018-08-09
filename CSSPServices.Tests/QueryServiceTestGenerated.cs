@@ -44,8 +44,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Take") query.Take = GetRandomInt(1, 1000000);
             if (OmitPropName != "Order") query.Order = GetRandomString("", 5);
             if (OmitPropName != "Where") query.Where = GetRandomString("", 5);
-            if (OmitPropName != "EntityQueryDetailType") query.EntityQueryDetailType = (EntityQueryDetailTypeEnum)GetRandomEnumType(typeof(EntityQueryDetailTypeEnum));
-            if (OmitPropName != "EntityQueryType") query.EntityQueryType = (EntityQueryTypeEnum)GetRandomEnumType(typeof(EntityQueryTypeEnum));
+            if (OmitPropName != "Detail") query.Detail = GetRandomString("", 1);
             if (OmitPropName != "OrderList") query.OrderList = new List<string>() { GetRandomString("", 20), GetRandomString("", 20) };
             //Error: property [WhereInfoList] and type [Query] is  not implemented
 

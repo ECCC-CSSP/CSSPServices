@@ -145,31 +145,31 @@ namespace CSSPServices
 
             return SamplingPlanSubsectorSiteQuery;
         }
-        public SamplingPlanSubsectorSiteWeb GetSamplingPlanSubsectorSiteWebWithSamplingPlanSubsectorSiteID(int SamplingPlanSubsectorSiteID)
+        public SamplingPlanSubsectorSite_A GetSamplingPlanSubsectorSite_AWithSamplingPlanSubsectorSiteID(int SamplingPlanSubsectorSiteID)
         {
-            return FillSamplingPlanSubsectorSiteWeb().Where(c => c.SamplingPlanSubsectorSiteID == SamplingPlanSubsectorSiteID).FirstOrDefault();
+            return FillSamplingPlanSubsectorSite_A().Where(c => c.SamplingPlanSubsectorSiteID == SamplingPlanSubsectorSiteID).FirstOrDefault();
 
         }
-        public IQueryable<SamplingPlanSubsectorSiteWeb> GetSamplingPlanSubsectorSiteWebList()
+        public IQueryable<SamplingPlanSubsectorSite_A> GetSamplingPlanSubsectorSite_AList()
         {
-            IQueryable<SamplingPlanSubsectorSiteWeb> SamplingPlanSubsectorSiteWebQuery = FillSamplingPlanSubsectorSiteWeb();
+            IQueryable<SamplingPlanSubsectorSite_A> SamplingPlanSubsectorSite_AQuery = FillSamplingPlanSubsectorSite_A();
 
-            SamplingPlanSubsectorSiteWebQuery = EnhanceQueryStatements<SamplingPlanSubsectorSiteWeb>(SamplingPlanSubsectorSiteWebQuery) as IQueryable<SamplingPlanSubsectorSiteWeb>;
+            SamplingPlanSubsectorSite_AQuery = EnhanceQueryStatements<SamplingPlanSubsectorSite_A>(SamplingPlanSubsectorSite_AQuery) as IQueryable<SamplingPlanSubsectorSite_A>;
 
-            return SamplingPlanSubsectorSiteWebQuery;
+            return SamplingPlanSubsectorSite_AQuery;
         }
-        public SamplingPlanSubsectorSiteReport GetSamplingPlanSubsectorSiteReportWithSamplingPlanSubsectorSiteID(int SamplingPlanSubsectorSiteID)
+        public SamplingPlanSubsectorSite_B GetSamplingPlanSubsectorSite_BWithSamplingPlanSubsectorSiteID(int SamplingPlanSubsectorSiteID)
         {
-            return FillSamplingPlanSubsectorSiteReport().Where(c => c.SamplingPlanSubsectorSiteID == SamplingPlanSubsectorSiteID).FirstOrDefault();
+            return FillSamplingPlanSubsectorSite_B().Where(c => c.SamplingPlanSubsectorSiteID == SamplingPlanSubsectorSiteID).FirstOrDefault();
 
         }
-        public IQueryable<SamplingPlanSubsectorSiteReport> GetSamplingPlanSubsectorSiteReportList()
+        public IQueryable<SamplingPlanSubsectorSite_B> GetSamplingPlanSubsectorSite_BList()
         {
-            IQueryable<SamplingPlanSubsectorSiteReport> SamplingPlanSubsectorSiteReportQuery = FillSamplingPlanSubsectorSiteReport();
+            IQueryable<SamplingPlanSubsectorSite_B> SamplingPlanSubsectorSite_BQuery = FillSamplingPlanSubsectorSite_B();
 
-            SamplingPlanSubsectorSiteReportQuery = EnhanceQueryStatements<SamplingPlanSubsectorSiteReport>(SamplingPlanSubsectorSiteReportQuery) as IQueryable<SamplingPlanSubsectorSiteReport>;
+            SamplingPlanSubsectorSite_BQuery = EnhanceQueryStatements<SamplingPlanSubsectorSite_B>(SamplingPlanSubsectorSite_BQuery) as IQueryable<SamplingPlanSubsectorSite_B>;
 
-            return SamplingPlanSubsectorSiteReportQuery;
+            return SamplingPlanSubsectorSite_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -208,36 +208,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated SamplingPlanSubsectorSiteFillWeb
-        private IQueryable<SamplingPlanSubsectorSiteWeb> FillSamplingPlanSubsectorSiteWeb()
-        {
-             IQueryable<SamplingPlanSubsectorSiteWeb> SamplingPlanSubsectorSiteWebQuery = (from c in db.SamplingPlanSubsectorSites
-                let MWQMSiteTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.MWQMSiteTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new SamplingPlanSubsectorSiteWeb
-                    {
-                        MWQMSiteTVItemLanguage = MWQMSiteTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        SamplingPlanSubsectorSiteID = c.SamplingPlanSubsectorSiteID,
-                        SamplingPlanSubsectorID = c.SamplingPlanSubsectorID,
-                        MWQMSiteTVItemID = c.MWQMSiteTVItemID,
-                        IsDuplicate = c.IsDuplicate,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return SamplingPlanSubsectorSiteWebQuery;
-        }
-        #endregion Functions private Generated SamplingPlanSubsectorSiteFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(SamplingPlanSubsectorSite samplingPlanSubsectorSite)

@@ -155,31 +155,31 @@ namespace CSSPServices
 
             return MWQMSubsectorQuery;
         }
-        public MWQMSubsectorWeb GetMWQMSubsectorWebWithMWQMSubsectorID(int MWQMSubsectorID)
+        public MWQMSubsector_A GetMWQMSubsector_AWithMWQMSubsectorID(int MWQMSubsectorID)
         {
-            return FillMWQMSubsectorWeb().Where(c => c.MWQMSubsectorID == MWQMSubsectorID).FirstOrDefault();
+            return FillMWQMSubsector_A().Where(c => c.MWQMSubsectorID == MWQMSubsectorID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMSubsectorWeb> GetMWQMSubsectorWebList()
+        public IQueryable<MWQMSubsector_A> GetMWQMSubsector_AList()
         {
-            IQueryable<MWQMSubsectorWeb> MWQMSubsectorWebQuery = FillMWQMSubsectorWeb();
+            IQueryable<MWQMSubsector_A> MWQMSubsector_AQuery = FillMWQMSubsector_A();
 
-            MWQMSubsectorWebQuery = EnhanceQueryStatements<MWQMSubsectorWeb>(MWQMSubsectorWebQuery) as IQueryable<MWQMSubsectorWeb>;
+            MWQMSubsector_AQuery = EnhanceQueryStatements<MWQMSubsector_A>(MWQMSubsector_AQuery) as IQueryable<MWQMSubsector_A>;
 
-            return MWQMSubsectorWebQuery;
+            return MWQMSubsector_AQuery;
         }
-        public MWQMSubsectorReport GetMWQMSubsectorReportWithMWQMSubsectorID(int MWQMSubsectorID)
+        public MWQMSubsector_B GetMWQMSubsector_BWithMWQMSubsectorID(int MWQMSubsectorID)
         {
-            return FillMWQMSubsectorReport().Where(c => c.MWQMSubsectorID == MWQMSubsectorID).FirstOrDefault();
+            return FillMWQMSubsector_B().Where(c => c.MWQMSubsectorID == MWQMSubsectorID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMSubsectorReport> GetMWQMSubsectorReportList()
+        public IQueryable<MWQMSubsector_B> GetMWQMSubsector_BList()
         {
-            IQueryable<MWQMSubsectorReport> MWQMSubsectorReportQuery = FillMWQMSubsectorReport();
+            IQueryable<MWQMSubsector_B> MWQMSubsector_BQuery = FillMWQMSubsector_B();
 
-            MWQMSubsectorReportQuery = EnhanceQueryStatements<MWQMSubsectorReport>(MWQMSubsectorReportQuery) as IQueryable<MWQMSubsectorReport>;
+            MWQMSubsector_BQuery = EnhanceQueryStatements<MWQMSubsector_B>(MWQMSubsector_BQuery) as IQueryable<MWQMSubsector_B>;
 
-            return MWQMSubsectorReportQuery;
+            return MWQMSubsector_BQuery;
         }
         #endregion Functions public Generated Get
 
@@ -218,36 +218,6 @@ namespace CSSPServices
             return true;
         }
         #endregion Functions public Generated CRUD
-
-        #region Functions private Generated MWQMSubsectorFillWeb
-        private IQueryable<MWQMSubsectorWeb> FillMWQMSubsectorWeb()
-        {
-             IQueryable<MWQMSubsectorWeb> MWQMSubsectorWebQuery = (from c in db.MWQMSubsectors
-                let SubsectorTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.MWQMSubsectorTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                    select new MWQMSubsectorWeb
-                    {
-                        SubsectorTVItemLanguage = SubsectorTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        MWQMSubsectorID = c.MWQMSubsectorID,
-                        MWQMSubsectorTVItemID = c.MWQMSubsectorTVItemID,
-                        SubsectorHistoricKey = c.SubsectorHistoricKey,
-                        TideLocationSIDText = c.TideLocationSIDText,
-                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HasErrors = false,
-                        ValidationResults = null,
-                    }).AsNoTracking();
-
-            return MWQMSubsectorWebQuery;
-        }
-        #endregion Functions private Generated MWQMSubsectorFillWeb
 
         #region Functions private Generated TryToSave
         private bool TryToSave(MWQMSubsector mwqmSubsector)
