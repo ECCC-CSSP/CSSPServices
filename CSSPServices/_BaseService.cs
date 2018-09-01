@@ -246,12 +246,12 @@ namespace CSSPServices
                                                 string EnumTypeName = propertyInfo.PropertyType.FullName.Substring(propertyInfo.PropertyType.FullName.IndexOf("CSSPEnums.") + "CSSPEnums.".Length);
                                                 EnumTypeName = EnumTypeName.Substring(0, EnumTypeName.IndexOf(","));
 
-                                                FileInfo fiDLL = new FileInfo(@"C:\CSSP Code\CSSPEnums\CSSPEnums\bin\Debug\CSSPEnums.dll");
+                                                FileInfo fiDLL = new FileInfo(@"C:\CSSPCode\CSSPEnums\CSSPEnums\bin\Debug\CSSPEnums.dll");
 
                                                 if (!fiDLL.Exists)
                                                 {
                                                     query.HasErrors = true;
-                                                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFindFile_, @"C:\CSSP Code\CSSPEnums\CSSPEnums\bin\Debug\CSSPEnums.dll"), new[] { "Where" });
+                                                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFindFile_, @"C:\CSSPCode\CSSPEnums\CSSPEnums\bin\Debug\CSSPEnums.dll"), new[] { "Where" });
                                                 }
 
                                                 var importAssembly = Assembly.LoadFile(fiDLL.FullName);

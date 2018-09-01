@@ -118,6 +118,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "ApprovalDay") labSheetA1Sheet.ApprovalDay = GetRandomString("", 20);
             if (OmitPropName != "ApprovedBySupervisorInitials") labSheetA1Sheet.ApprovedBySupervisorInitials = GetRandomString("", 20);
             if (OmitPropName != "IncludeLaboratoryQAQC") labSheetA1Sheet.IncludeLaboratoryQAQC = true;
+            if (OmitPropName != "BackupDirectory") labSheetA1Sheet.BackupDirectory = GetRandomString("", 20);
             if (OmitPropName != "Log") labSheetA1Sheet.Log = GetRandomString("", 20);
             if (OmitPropName != "SamplingPlanTypeText") labSheetA1Sheet.SamplingPlanTypeText = GetRandomString("", 5);
             if (OmitPropName != "SampleTypeText") labSheetA1Sheet.SampleTypeText = GetRandomString("", 5);

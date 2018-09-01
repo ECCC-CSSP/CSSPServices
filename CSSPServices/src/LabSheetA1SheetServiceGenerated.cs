@@ -659,6 +659,14 @@ namespace CSSPServices
 
             //ApprovedBySupervisorInitials has no StringLength Attribute
 
+            if (string.IsNullOrWhiteSpace(labSheetA1Sheet.BackupDirectory))
+            {
+                labSheetA1Sheet.HasErrors = true;
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LabSheetA1SheetBackupDirectory"), new[] { "BackupDirectory" });
+            }
+
+            //BackupDirectory has no StringLength Attribute
+
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.Log))
             {
                 labSheetA1Sheet.HasErrors = true;
