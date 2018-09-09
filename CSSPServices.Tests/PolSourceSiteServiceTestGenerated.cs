@@ -819,14 +819,14 @@ namespace CSSPServices.Tests
         {
             PolSourceSite polSourceSite = new PolSourceSite();
 
-            if (OmitPropName != "PolSourceSiteTVItemID") polSourceSite.PolSourceSiteTVItemID = 43;
+            if (OmitPropName != "PolSourceSiteTVItemID") polSourceSite.PolSourceSiteTVItemID = 46;
             if (OmitPropName != "Temp_Locator_CanDelete") polSourceSite.Temp_Locator_CanDelete = GetRandomString("", 5);
             if (OmitPropName != "Oldsiteid") polSourceSite.Oldsiteid = GetRandomInt(0, 1000);
             if (OmitPropName != "Site") polSourceSite.Site = GetRandomInt(0, 1000);
             if (OmitPropName != "SiteID") polSourceSite.SiteID = GetRandomInt(0, 1000);
             if (OmitPropName != "IsPointSource") polSourceSite.IsPointSource = true;
             if (OmitPropName != "InactiveReason") polSourceSite.InactiveReason = (PolSourceInactiveReasonEnum)GetRandomEnumType(typeof(PolSourceInactiveReasonEnum));
-            if (OmitPropName != "CivicAddressTVItemID") polSourceSite.CivicAddressTVItemID = 42;
+            if (OmitPropName != "CivicAddressTVItemID") polSourceSite.CivicAddressTVItemID = 45;
             if (OmitPropName != "LastUpdateDate_UTC") polSourceSite.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") polSourceSite.LastUpdateContactTVItemID = 2;
 

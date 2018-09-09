@@ -679,7 +679,7 @@ namespace CSSPServices.Tests
         {
             MikeSource mikeSource = new MikeSource();
 
-            if (OmitPropName != "MikeSourceTVItemID") mikeSource.MikeSourceTVItemID = 49;
+            if (OmitPropName != "MikeSourceTVItemID") mikeSource.MikeSourceTVItemID = 52;
             if (OmitPropName != "IsContinuous") mikeSource.IsContinuous = true;
             if (OmitPropName != "Include") mikeSource.Include = true;
             if (OmitPropName != "IsRiver") mikeSource.IsRiver = true;

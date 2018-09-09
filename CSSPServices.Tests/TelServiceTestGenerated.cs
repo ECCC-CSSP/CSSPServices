@@ -676,7 +676,7 @@ namespace CSSPServices.Tests
         {
             Tel tel = new Tel();
 
-            if (OmitPropName != "TelTVItemID") tel.TelTVItemID = 51;
+            if (OmitPropName != "TelTVItemID") tel.TelTVItemID = 54;
             if (OmitPropName != "TelNumber") tel.TelNumber = GetRandomString("", 5);
             if (OmitPropName != "TelType") tel.TelType = (TelTypeEnum)GetRandomEnumType(typeof(TelTypeEnum));
             if (OmitPropName != "LastUpdateDate_UTC") tel.LastUpdateDate_UTC = new DateTime(2005, 3, 6);

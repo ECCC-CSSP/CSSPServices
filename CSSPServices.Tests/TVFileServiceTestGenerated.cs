@@ -958,7 +958,7 @@ namespace CSSPServices.Tests
         {
             TVFile tvFile = new TVFile();
 
-            if (OmitPropName != "TVFileTVItemID") tvFile.TVFileTVItemID = 38;
+            if (OmitPropName != "TVFileTVItemID") tvFile.TVFileTVItemID = 41;
             if (OmitPropName != "TemplateTVType") tvFile.TemplateTVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
             if (OmitPropName != "ReportTypeID") tvFile.ReportTypeID = 1;
             if (OmitPropName != "Parameters") tvFile.Parameters = GetRandomString("", 20);

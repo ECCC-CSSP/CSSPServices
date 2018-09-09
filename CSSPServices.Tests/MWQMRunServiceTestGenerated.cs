@@ -1788,7 +1788,7 @@ namespace CSSPServices.Tests
             MWQMRun mwqmRun = new MWQMRun();
 
             if (OmitPropName != "SubsectorTVItemID") mwqmRun.SubsectorTVItemID = 11;
-            if (OmitPropName != "MWQMRunTVItemID") mwqmRun.MWQMRunTVItemID = 46;
+            if (OmitPropName != "MWQMRunTVItemID") mwqmRun.MWQMRunTVItemID = 49;
             if (OmitPropName != "RunSampleType") mwqmRun.RunSampleType = (SampleTypeEnum)GetRandomEnumType(typeof(SampleTypeEnum));
             if (OmitPropName != "DateTime_Local") mwqmRun.DateTime_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "RunNumber") mwqmRun.RunNumber = GetRandomInt(1, 1000);

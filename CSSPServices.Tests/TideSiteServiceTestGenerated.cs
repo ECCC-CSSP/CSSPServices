@@ -678,7 +678,7 @@ namespace CSSPServices.Tests
         {
             TideSite tideSite = new TideSite();
 
-            if (OmitPropName != "TideSiteTVItemID") tideSite.TideSiteTVItemID = 34;
+            if (OmitPropName != "TideSiteTVItemID") tideSite.TideSiteTVItemID = 37;
             if (OmitPropName != "WebTideModel") tideSite.WebTideModel = GetRandomString("", 5);
             if (OmitPropName != "WebTideDatum_m") tideSite.WebTideDatum_m = GetRandomDouble(-100.0D, 100.0D);
             if (OmitPropName != "LastUpdateDate_UTC") tideSite.LastUpdateDate_UTC = new DateTime(2005, 3, 6);

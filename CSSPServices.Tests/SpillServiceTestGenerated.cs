@@ -732,8 +732,8 @@ namespace CSSPServices.Tests
         {
             Spill spill = new Spill();
 
-            if (OmitPropName != "MunicipalityTVItemID") spill.MunicipalityTVItemID = 35;
-            if (OmitPropName != "InfrastructureTVItemID") spill.InfrastructureTVItemID = 37;
+            if (OmitPropName != "MunicipalityTVItemID") spill.MunicipalityTVItemID = 38;
+            if (OmitPropName != "InfrastructureTVItemID") spill.InfrastructureTVItemID = 40;
             if (OmitPropName != "StartDateTime_Local") spill.StartDateTime_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "EndDateTime_Local") spill.EndDateTime_Local = new DateTime(2005, 3, 7);
             if (OmitPropName != "AverageFlow_m3_day") spill.AverageFlow_m3_day = GetRandomDouble(0.0D, 1000000.0D);

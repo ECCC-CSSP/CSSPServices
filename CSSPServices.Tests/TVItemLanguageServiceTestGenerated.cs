@@ -121,7 +121,7 @@ namespace CSSPServices.Tests
 
                     tvItemLanguage = null;
                     tvItemLanguage = GetFilledRandomTVItemLanguage("");
-                    tvItemLanguage.TVItemID = 34;
+                    tvItemLanguage.TVItemID = 37;
                     tvItemLanguageService.Add(tvItemLanguage);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, "TVItemLanguageTVItemID", "Root,Address,Area,ClimateSite,Contact,Country,Email,HydrometricSite,Infrastructure,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeScenario,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,Tel,MWQMRun,Classification"), tvItemLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 

@@ -866,7 +866,7 @@ namespace CSSPServices.Tests
         {
             BoxModel boxModel = new BoxModel();
 
-            if (OmitPropName != "InfrastructureTVItemID") boxModel.InfrastructureTVItemID = 37;
+            if (OmitPropName != "InfrastructureTVItemID") boxModel.InfrastructureTVItemID = 40;
             if (OmitPropName != "Flow_m3_day") boxModel.Flow_m3_day = GetRandomDouble(0.0D, 10000.0D);
             if (OmitPropName != "Depth_m") boxModel.Depth_m = GetRandomDouble(0.0D, 1000.0D);
             if (OmitPropName != "Temperature_C") boxModel.Temperature_C = GetRandomDouble(-15.0D, 40.0D);

@@ -194,6 +194,52 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeScenarioAmbientSalinity_PSU", "0", "40"), new[] { "AmbientSalinity_PSU" });
             }
 
+            if (mikeScenario.UseSalinityAndTemperatureInitialConditionFromTVFileTVItemID != null)
+            {
+                TVItem TVItemUseSalinityAndTemperatureInitialConditionFromTVFileTVItemID = (from c in db.TVItems where c.TVItemID == mikeScenario.UseSalinityAndTemperatureInitialConditionFromTVFileTVItemID select c).FirstOrDefault();
+
+                if (TVItemUseSalinityAndTemperatureInitialConditionFromTVFileTVItemID == null)
+                {
+                    mikeScenario.HasErrors = true;
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MikeScenarioUseSalinityAndTemperatureInitialConditionFromTVFileTVItemID", (mikeScenario.UseSalinityAndTemperatureInitialConditionFromTVFileTVItemID == null ? "" : mikeScenario.UseSalinityAndTemperatureInitialConditionFromTVFileTVItemID.ToString())), new[] { "UseSalinityAndTemperatureInitialConditionFromTVFileTVItemID" });
+                }
+                else
+                {
+                    List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                    {
+                        TVTypeEnum.File,
+                    };
+                    if (!AllowableTVTypes.Contains(TVItemUseSalinityAndTemperatureInitialConditionFromTVFileTVItemID.TVType))
+                    {
+                        mikeScenario.HasErrors = true;
+                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MikeScenarioUseSalinityAndTemperatureInitialConditionFromTVFileTVItemID", "File"), new[] { "UseSalinityAndTemperatureInitialConditionFromTVFileTVItemID" });
+                    }
+                }
+            }
+
+            if (mikeScenario.ForSimulatingMWQMRunTVItemID != null)
+            {
+                TVItem TVItemForSimulatingMWQMRunTVItemID = (from c in db.TVItems where c.TVItemID == mikeScenario.ForSimulatingMWQMRunTVItemID select c).FirstOrDefault();
+
+                if (TVItemForSimulatingMWQMRunTVItemID == null)
+                {
+                    mikeScenario.HasErrors = true;
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MikeScenarioForSimulatingMWQMRunTVItemID", (mikeScenario.ForSimulatingMWQMRunTVItemID == null ? "" : mikeScenario.ForSimulatingMWQMRunTVItemID.ToString())), new[] { "ForSimulatingMWQMRunTVItemID" });
+                }
+                else
+                {
+                    List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                    {
+                        TVTypeEnum.MWQMRun,
+                    };
+                    if (!AllowableTVTypes.Contains(TVItemForSimulatingMWQMRunTVItemID.TVType))
+                    {
+                        mikeScenario.HasErrors = true;
+                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MikeScenarioForSimulatingMWQMRunTVItemID", "MWQMRun"), new[] { "ForSimulatingMWQMRunTVItemID" });
+                    }
+                }
+            }
+
             if (mikeScenario.ManningNumber < 0 || mikeScenario.ManningNumber > 100)
             {
                 mikeScenario.HasErrors = true;

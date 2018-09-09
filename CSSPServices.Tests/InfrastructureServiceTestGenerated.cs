@@ -2055,7 +2055,7 @@ namespace CSSPServices.Tests
         {
             Infrastructure infrastructure = new Infrastructure();
 
-            if (OmitPropName != "InfrastructureTVItemID") infrastructure.InfrastructureTVItemID = 37;
+            if (OmitPropName != "InfrastructureTVItemID") infrastructure.InfrastructureTVItemID = 40;
             if (OmitPropName != "PrismID") infrastructure.PrismID = GetRandomInt(0, 100000);
             if (OmitPropName != "TPID") infrastructure.TPID = GetRandomInt(0, 100000);
             if (OmitPropName != "LSID") infrastructure.LSID = GetRandomInt(0, 100000);
@@ -2098,8 +2098,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "ReceivingWaterTemperature_C") infrastructure.ReceivingWaterTemperature_C = GetRandomDouble(-10.0D, 40.0D);
             if (OmitPropName != "ReceivingWater_MPN_per_100ml") infrastructure.ReceivingWater_MPN_per_100ml = GetRandomInt(0, 10000000);
             if (OmitPropName != "DistanceFromShore_m") infrastructure.DistanceFromShore_m = GetRandomDouble(0.0D, 1000.0D);
-            if (OmitPropName != "SeeOtherTVItemID") infrastructure.SeeOtherTVItemID = 37;
-            if (OmitPropName != "CivicAddressTVItemID") infrastructure.CivicAddressTVItemID = 42;
+            if (OmitPropName != "SeeOtherTVItemID") infrastructure.SeeOtherTVItemID = 40;
+            if (OmitPropName != "CivicAddressTVItemID") infrastructure.CivicAddressTVItemID = 45;
             if (OmitPropName != "LastUpdateDate_UTC") infrastructure.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") infrastructure.LastUpdateContactTVItemID = 2;
 

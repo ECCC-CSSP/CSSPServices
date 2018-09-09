@@ -694,8 +694,8 @@ namespace CSSPServices.Tests
         {
             MWQMSitePolSourceSite mwqmSitePolSourceSite = new MWQMSitePolSourceSite();
 
-            if (OmitPropName != "MWQMSiteTVItemID") mwqmSitePolSourceSite.MWQMSiteTVItemID = 40;
-            if (OmitPropName != "PolSourceSiteTVItemID") mwqmSitePolSourceSite.PolSourceSiteTVItemID = 43;
+            if (OmitPropName != "MWQMSiteTVItemID") mwqmSitePolSourceSite.MWQMSiteTVItemID = 43;
+            if (OmitPropName != "PolSourceSiteTVItemID") mwqmSitePolSourceSite.PolSourceSiteTVItemID = 46;
             if (OmitPropName != "TVType") mwqmSitePolSourceSite.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
             if (OmitPropName != "LinkReasons") mwqmSitePolSourceSite.LinkReasons = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") mwqmSitePolSourceSite.LastUpdateDate_UTC = new DateTime(2005, 3, 6);

@@ -1196,7 +1196,7 @@ namespace CSSPServices.Tests
         {
             VPScenario vpScenario = new VPScenario();
 
-            if (OmitPropName != "InfrastructureTVItemID") vpScenario.InfrastructureTVItemID = 37;
+            if (OmitPropName != "InfrastructureTVItemID") vpScenario.InfrastructureTVItemID = 40;
             if (OmitPropName != "VPScenarioStatus") vpScenario.VPScenarioStatus = (ScenarioStatusEnum)GetRandomEnumType(typeof(ScenarioStatusEnum));
             if (OmitPropName != "UseAsBestEstimate") vpScenario.UseAsBestEstimate = true;
             if (OmitPropName != "EffluentFlow_m3_s") vpScenario.EffluentFlow_m3_s = GetRandomDouble(0.0D, 1000.0D);

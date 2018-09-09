@@ -174,7 +174,7 @@ namespace CSSPServices.Tests
 
                     tvItem = null;
                     tvItem = GetFilledRandomTVItem("");
-                    tvItem.ParentID = 34;
+                    tvItem.ParentID = 37;
                     tvItemService.Add(tvItem);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, "TVItemParentID", "Root,Address,Area,ClimateSite,Contact,Country,Email,HydrometricSite,Infrastructure,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeScenario,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,Tel,MWQMRun,Classification"), tvItem.ValidationResults.FirstOrDefault().ErrorMessage);
 

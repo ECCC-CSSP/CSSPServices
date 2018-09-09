@@ -18,14 +18,18 @@ namespace CSSPServices
 {
     public partial class MikeScenarioService
     {
-        #region Functions private Generated FillMikeScenario_A
-        private IQueryable<MikeScenario_A> FillMikeScenario_A()
+        #region Functions private Generated FillMikeScenario_B
+        private IQueryable<MikeScenario_B> FillMikeScenario_B()
         {
             Enums enums = new Enums(LanguageRequest);
 
             List<EnumIDAndText> ScenarioStatusEnumList = enums.GetEnumTextOrderedList(typeof(ScenarioStatusEnum));
 
-             IQueryable<MikeScenario_A> MikeScenario_AQuery = (from c in db.MikeScenarios
+             IQueryable<MikeScenario_B> MikeScenario_BQuery = (from c in db.MikeScenarios
+                let MikeScenarioReportTest = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
                 let MikeScenarioTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MikeScenarioTVItemID
                     && cl.Language == LanguageRequest
@@ -34,8 +38,9 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new MikeScenario_A
+                    select new MikeScenario_B
                     {
+                        MikeScenarioReportTest = MikeScenarioReportTest,
                         MikeScenarioTVItemLanguage = MikeScenarioTVItemLanguage,
                         LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         ScenarioStatusText = (from e in ScenarioStatusEnumList
@@ -58,6 +63,10 @@ namespace CSSPServices
                         ResultFrequency_min = c.ResultFrequency_min,
                         AmbientTemperature_C = c.AmbientTemperature_C,
                         AmbientSalinity_PSU = c.AmbientSalinity_PSU,
+                        GenerateDecouplingFiles = c.GenerateDecouplingFiles,
+                        UseDecouplingFiles = c.UseDecouplingFiles,
+                        UseSalinityAndTemperatureInitialConditionFromTVFileTVItemID = c.UseSalinityAndTemperatureInitialConditionFromTVFileTVItemID,
+                        ForSimulatingMWQMRunTVItemID = c.ForSimulatingMWQMRunTVItemID,
                         ManningNumber = c.ManningNumber,
                         NumberOfElements = c.NumberOfElements,
                         NumberOfTimeSteps = c.NumberOfTimeSteps,
@@ -73,9 +82,9 @@ namespace CSSPServices
                         ValidationResults = null,
                     }).AsNoTracking();
 
-            return MikeScenario_AQuery;
+            return MikeScenario_BQuery;
         }
-        #endregion Functions private Generated FillMikeScenario_A
+        #endregion Functions private Generated FillMikeScenario_B
 
     }
 }

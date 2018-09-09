@@ -1050,7 +1050,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Day") labSheet.Day = GetRandomInt(1, 31);
             if (OmitPropName != "RunNumber") labSheet.RunNumber = GetRandomInt(1, 100);
             if (OmitPropName != "SubsectorTVItemID") labSheet.SubsectorTVItemID = 11;
-            if (OmitPropName != "MWQMRunTVItemID") labSheet.MWQMRunTVItemID = 46;
+            if (OmitPropName != "MWQMRunTVItemID") labSheet.MWQMRunTVItemID = 49;
             if (OmitPropName != "SamplingPlanType") labSheet.SamplingPlanType = (SamplingPlanTypeEnum)GetRandomEnumType(typeof(SamplingPlanTypeEnum));
             if (OmitPropName != "SampleType") labSheet.SampleType = (SampleTypeEnum)GetRandomEnumType(typeof(SampleTypeEnum));
             if (OmitPropName != "LabSheetType") labSheet.LabSheetType = (LabSheetTypeEnum)GetRandomEnumType(typeof(LabSheetTypeEnum));

@@ -700,7 +700,7 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "Language") docTemplate.Language = LanguageRequest;
             if (OmitPropName != "TVType") docTemplate.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
-            if (OmitPropName != "TVFileTVItemID") docTemplate.TVFileTVItemID = 38;
+            if (OmitPropName != "TVFileTVItemID") docTemplate.TVFileTVItemID = 41;
             if (OmitPropName != "FileName") docTemplate.FileName = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") docTemplate.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") docTemplate.LastUpdateContactTVItemID = 2;

@@ -397,6 +397,56 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, mikeScenarioService.GetMikeScenarioList().Count());
 
                     // -----------------------------------
+                    // Is Nullable
+                    // mikeScenario.GenerateDecouplingFiles   (Boolean)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // mikeScenario.UseDecouplingFiles   (Boolean)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = File)]
+                    // mikeScenario.UseSalinityAndTemperatureInitialConditionFromTVFileTVItemID   (Int32)
+                    // -----------------------------------
+
+                    mikeScenario = null;
+                    mikeScenario = GetFilledRandomMikeScenario("");
+                    mikeScenario.UseSalinityAndTemperatureInitialConditionFromTVFileTVItemID = 0;
+                    mikeScenarioService.Add(mikeScenario);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MikeScenarioUseSalinityAndTemperatureInitialConditionFromTVFileTVItemID", mikeScenario.UseSalinityAndTemperatureInitialConditionFromTVFileTVItemID.ToString()), mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    mikeScenario = null;
+                    mikeScenario = GetFilledRandomMikeScenario("");
+                    mikeScenario.UseSalinityAndTemperatureInitialConditionFromTVFileTVItemID = 1;
+                    mikeScenarioService.Add(mikeScenario);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, "MikeScenarioUseSalinityAndTemperatureInitialConditionFromTVFileTVItemID", "File"), mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = MWQMRun)]
+                    // mikeScenario.ForSimulatingMWQMRunTVItemID   (Int32)
+                    // -----------------------------------
+
+                    mikeScenario = null;
+                    mikeScenario = GetFilledRandomMikeScenario("");
+                    mikeScenario.ForSimulatingMWQMRunTVItemID = 0;
+                    mikeScenarioService.Add(mikeScenario);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MikeScenarioForSimulatingMWQMRunTVItemID", mikeScenario.ForSimulatingMWQMRunTVItemID.ToString()), mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    mikeScenario = null;
+                    mikeScenario = GetFilledRandomMikeScenario("");
+                    mikeScenario.ForSimulatingMWQMRunTVItemID = 1;
+                    mikeScenarioService.Add(mikeScenario);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, "MikeScenarioForSimulatingMWQMRunTVItemID", "MWQMRun"), mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [Range(0, 100)]
                     // mikeScenario.ManningNumber   (Double)
@@ -1068,6 +1118,22 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(mikeScenarioList[0].ResultFrequency_min);
             Assert.IsNotNull(mikeScenarioList[0].AmbientTemperature_C);
             Assert.IsNotNull(mikeScenarioList[0].AmbientSalinity_PSU);
+            if (mikeScenarioList[0].GenerateDecouplingFiles != null)
+            {
+                Assert.IsNotNull(mikeScenarioList[0].GenerateDecouplingFiles);
+            }
+            if (mikeScenarioList[0].UseDecouplingFiles != null)
+            {
+                Assert.IsNotNull(mikeScenarioList[0].UseDecouplingFiles);
+            }
+            if (mikeScenarioList[0].UseSalinityAndTemperatureInitialConditionFromTVFileTVItemID != null)
+            {
+                Assert.IsNotNull(mikeScenarioList[0].UseSalinityAndTemperatureInitialConditionFromTVFileTVItemID);
+            }
+            if (mikeScenarioList[0].ForSimulatingMWQMRunTVItemID != null)
+            {
+                Assert.IsNotNull(mikeScenarioList[0].ForSimulatingMWQMRunTVItemID);
+            }
             Assert.IsNotNull(mikeScenarioList[0].ManningNumber);
             if (mikeScenarioList[0].NumberOfElements != null)
             {
@@ -1142,6 +1208,22 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(mikeScenario_AList[0].ResultFrequency_min);
             Assert.IsNotNull(mikeScenario_AList[0].AmbientTemperature_C);
             Assert.IsNotNull(mikeScenario_AList[0].AmbientSalinity_PSU);
+            if (mikeScenario_AList[0].GenerateDecouplingFiles != null)
+            {
+                Assert.IsNotNull(mikeScenario_AList[0].GenerateDecouplingFiles);
+            }
+            if (mikeScenario_AList[0].UseDecouplingFiles != null)
+            {
+                Assert.IsNotNull(mikeScenario_AList[0].UseDecouplingFiles);
+            }
+            if (mikeScenario_AList[0].UseSalinityAndTemperatureInitialConditionFromTVFileTVItemID != null)
+            {
+                Assert.IsNotNull(mikeScenario_AList[0].UseSalinityAndTemperatureInitialConditionFromTVFileTVItemID);
+            }
+            if (mikeScenario_AList[0].ForSimulatingMWQMRunTVItemID != null)
+            {
+                Assert.IsNotNull(mikeScenario_AList[0].ForSimulatingMWQMRunTVItemID);
+            }
             Assert.IsNotNull(mikeScenario_AList[0].ManningNumber);
             if (mikeScenario_AList[0].NumberOfElements != null)
             {
@@ -1220,6 +1302,22 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(mikeScenario_BList[0].ResultFrequency_min);
             Assert.IsNotNull(mikeScenario_BList[0].AmbientTemperature_C);
             Assert.IsNotNull(mikeScenario_BList[0].AmbientSalinity_PSU);
+            if (mikeScenario_BList[0].GenerateDecouplingFiles != null)
+            {
+                Assert.IsNotNull(mikeScenario_BList[0].GenerateDecouplingFiles);
+            }
+            if (mikeScenario_BList[0].UseDecouplingFiles != null)
+            {
+                Assert.IsNotNull(mikeScenario_BList[0].UseDecouplingFiles);
+            }
+            if (mikeScenario_BList[0].UseSalinityAndTemperatureInitialConditionFromTVFileTVItemID != null)
+            {
+                Assert.IsNotNull(mikeScenario_BList[0].UseSalinityAndTemperatureInitialConditionFromTVFileTVItemID);
+            }
+            if (mikeScenario_BList[0].ForSimulatingMWQMRunTVItemID != null)
+            {
+                Assert.IsNotNull(mikeScenario_BList[0].ForSimulatingMWQMRunTVItemID);
+            }
             Assert.IsNotNull(mikeScenario_BList[0].ManningNumber);
             if (mikeScenario_BList[0].NumberOfElements != null)
             {
@@ -1261,7 +1359,7 @@ namespace CSSPServices.Tests
         {
             MikeScenario mikeScenario = new MikeScenario();
 
-            if (OmitPropName != "MikeScenarioTVItemID") mikeScenario.MikeScenarioTVItemID = 47;
+            if (OmitPropName != "MikeScenarioTVItemID") mikeScenario.MikeScenarioTVItemID = 50;
             if (OmitPropName != "ParentMikeScenarioID") mikeScenario.ParentMikeScenarioID = null;
             if (OmitPropName != "ScenarioStatus") mikeScenario.ScenarioStatus = (ScenarioStatusEnum)GetRandomEnumType(typeof(ScenarioStatusEnum));
             if (OmitPropName != "ErrorInfo") mikeScenario.ErrorInfo = GetRandomString("", 20);
@@ -1277,6 +1375,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "ResultFrequency_min") mikeScenario.ResultFrequency_min = GetRandomInt(0, 100);
             if (OmitPropName != "AmbientTemperature_C") mikeScenario.AmbientTemperature_C = GetRandomDouble(-10.0D, 40.0D);
             if (OmitPropName != "AmbientSalinity_PSU") mikeScenario.AmbientSalinity_PSU = GetRandomDouble(0.0D, 40.0D);
+            if (OmitPropName != "GenerateDecouplingFiles") mikeScenario.GenerateDecouplingFiles = true;
+            if (OmitPropName != "UseDecouplingFiles") mikeScenario.UseDecouplingFiles = true;
+            if (OmitPropName != "UseSalinityAndTemperatureInitialConditionFromTVFileTVItemID") mikeScenario.UseSalinityAndTemperatureInitialConditionFromTVFileTVItemID = 41;
+            if (OmitPropName != "ForSimulatingMWQMRunTVItemID") mikeScenario.ForSimulatingMWQMRunTVItemID = 49;
             if (OmitPropName != "ManningNumber") mikeScenario.ManningNumber = GetRandomDouble(0.0D, 100.0D);
             if (OmitPropName != "NumberOfElements") mikeScenario.NumberOfElements = GetRandomInt(1, 1000000);
             if (OmitPropName != "NumberOfTimeSteps") mikeScenario.NumberOfTimeSteps = GetRandomInt(1, 1000000);

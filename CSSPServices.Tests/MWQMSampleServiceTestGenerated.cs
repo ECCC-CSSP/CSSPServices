@@ -1018,8 +1018,8 @@ namespace CSSPServices.Tests
         {
             MWQMSample mwqmSample = new MWQMSample();
 
-            if (OmitPropName != "MWQMSiteTVItemID") mwqmSample.MWQMSiteTVItemID = 40;
-            if (OmitPropName != "MWQMRunTVItemID") mwqmSample.MWQMRunTVItemID = 46;
+            if (OmitPropName != "MWQMSiteTVItemID") mwqmSample.MWQMSiteTVItemID = 43;
+            if (OmitPropName != "MWQMRunTVItemID") mwqmSample.MWQMRunTVItemID = 49;
             if (OmitPropName != "SampleDateTime_Local") mwqmSample.SampleDateTime_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "Depth_m") mwqmSample.Depth_m = GetRandomDouble(0.0D, 1000.0D);
             if (OmitPropName != "FecCol_MPN_100ml") mwqmSample.FecCol_MPN_100ml = GetRandomInt(0, 10000000);
