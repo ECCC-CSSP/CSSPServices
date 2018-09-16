@@ -333,6 +333,18 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is Nullable
+                    // hydrometricSite.HasDischarge   (Boolean)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // hydrometricSite.HasLevel   (Boolean)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is Nullable
                     // hydrometricSite.HasRatingCurve   (Boolean)
                     // -----------------------------------
 
@@ -861,6 +873,14 @@ namespace CSSPServices.Tests
             {
                 Assert.IsNotNull(hydrometricSiteList[0].RealTime);
             }
+            if (hydrometricSiteList[0].HasDischarge != null)
+            {
+                Assert.IsNotNull(hydrometricSiteList[0].HasDischarge);
+            }
+            if (hydrometricSiteList[0].HasLevel != null)
+            {
+                Assert.IsNotNull(hydrometricSiteList[0].HasLevel);
+            }
             if (hydrometricSiteList[0].HasRatingCurve != null)
             {
                 Assert.IsNotNull(hydrometricSiteList[0].HasRatingCurve);
@@ -928,6 +948,14 @@ namespace CSSPServices.Tests
             if (hydrometricSite_AList[0].RealTime != null)
             {
                 Assert.IsNotNull(hydrometricSite_AList[0].RealTime);
+            }
+            if (hydrometricSite_AList[0].HasDischarge != null)
+            {
+                Assert.IsNotNull(hydrometricSite_AList[0].HasDischarge);
+            }
+            if (hydrometricSite_AList[0].HasLevel != null)
+            {
+                Assert.IsNotNull(hydrometricSite_AList[0].HasLevel);
             }
             if (hydrometricSite_AList[0].HasRatingCurve != null)
             {
@@ -1001,6 +1029,14 @@ namespace CSSPServices.Tests
             {
                 Assert.IsNotNull(hydrometricSite_BList[0].RealTime);
             }
+            if (hydrometricSite_BList[0].HasDischarge != null)
+            {
+                Assert.IsNotNull(hydrometricSite_BList[0].HasDischarge);
+            }
+            if (hydrometricSite_BList[0].HasLevel != null)
+            {
+                Assert.IsNotNull(hydrometricSite_BList[0].HasLevel);
+            }
             if (hydrometricSite_BList[0].HasRatingCurve != null)
             {
                 Assert.IsNotNull(hydrometricSite_BList[0].HasRatingCurve);
@@ -1029,6 +1065,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Sediment") hydrometricSite.Sediment = true;
             if (OmitPropName != "RHBN") hydrometricSite.RHBN = true;
             if (OmitPropName != "RealTime") hydrometricSite.RealTime = true;
+            if (OmitPropName != "HasDischarge") hydrometricSite.HasDischarge = true;
+            if (OmitPropName != "HasLevel") hydrometricSite.HasLevel = true;
             if (OmitPropName != "HasRatingCurve") hydrometricSite.HasRatingCurve = true;
             if (OmitPropName != "LastUpdateDate_UTC") hydrometricSite.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") hydrometricSite.LastUpdateContactTVItemID = 2;

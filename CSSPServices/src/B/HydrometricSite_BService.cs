@@ -56,6 +56,8 @@ namespace CSSPServices
                         Sediment = c.Sediment,
                         RHBN = c.RHBN,
                         RealTime = c.RealTime,
+                        HasDischarge = c.HasDischarge,
+                        HasLevel = c.HasLevel,
                         HasRatingCurve = c.HasRatingCurve,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,

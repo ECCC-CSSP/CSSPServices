@@ -158,7 +158,13 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is NOT Nullable
-                    // [Range(0, 10000)]
+                    // hydrometricDataValue.HasBeenRead   (Boolean)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [Range(0, 100000)]
                     // hydrometricDataValue.Flow_m3_s   (Double)
                     // -----------------------------------
 
@@ -170,13 +176,36 @@ namespace CSSPServices.Tests
                     hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
                     hydrometricDataValue.Flow_m3_s = -1.0D;
                     Assert.AreEqual(false, hydrometricDataValueService.Add(hydrometricDataValue));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "HydrometricDataValueFlow_m3_s", "0", "10000"), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "HydrometricDataValueFlow_m3_s", "0", "100000"), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, hydrometricDataValueService.GetHydrometricDataValueList().Count());
                     hydrometricDataValue = null;
                     hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
-                    hydrometricDataValue.Flow_m3_s = 10001.0D;
+                    hydrometricDataValue.Flow_m3_s = 100001.0D;
                     Assert.AreEqual(false, hydrometricDataValueService.Add(hydrometricDataValue));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "HydrometricDataValueFlow_m3_s", "0", "10000"), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "HydrometricDataValueFlow_m3_s", "0", "100000"), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, hydrometricDataValueService.GetHydrometricDataValueList().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [Range(0, 10000)]
+                    // hydrometricDataValue.Level_m   (Double)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [Level_m]
+
+                    //Error: Type not implemented [Level_m]
+
+                    hydrometricDataValue = null;
+                    hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
+                    hydrometricDataValue.Level_m = -1.0D;
+                    Assert.AreEqual(false, hydrometricDataValueService.Add(hydrometricDataValue));
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "HydrometricDataValueLevel_m", "0", "10000"), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, hydrometricDataValueService.GetHydrometricDataValueList().Count());
+                    hydrometricDataValue = null;
+                    hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
+                    hydrometricDataValue.Level_m = 10001.0D;
+                    Assert.AreEqual(false, hydrometricDataValueService.Add(hydrometricDataValue));
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "HydrometricDataValueLevel_m", "0", "10000"), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, hydrometricDataValueService.GetHydrometricDataValueList().Count());
 
                     // -----------------------------------
@@ -658,7 +687,15 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(hydrometricDataValueList[0].DateTime_Local);
             Assert.IsNotNull(hydrometricDataValueList[0].Keep);
             Assert.IsNotNull(hydrometricDataValueList[0].StorageDataType);
-            Assert.IsNotNull(hydrometricDataValueList[0].Flow_m3_s);
+            Assert.IsNotNull(hydrometricDataValueList[0].HasBeenRead);
+            if (hydrometricDataValueList[0].Flow_m3_s != null)
+            {
+                Assert.IsNotNull(hydrometricDataValueList[0].Flow_m3_s);
+            }
+            if (hydrometricDataValueList[0].Level_m != null)
+            {
+                Assert.IsNotNull(hydrometricDataValueList[0].Level_m);
+            }
             if (!string.IsNullOrWhiteSpace(hydrometricDataValueList[0].HourlyValues))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueList[0].HourlyValues));
@@ -679,7 +716,15 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(hydrometricDataValue_AList[0].DateTime_Local);
             Assert.IsNotNull(hydrometricDataValue_AList[0].Keep);
             Assert.IsNotNull(hydrometricDataValue_AList[0].StorageDataType);
-            Assert.IsNotNull(hydrometricDataValue_AList[0].Flow_m3_s);
+            Assert.IsNotNull(hydrometricDataValue_AList[0].HasBeenRead);
+            if (hydrometricDataValue_AList[0].Flow_m3_s != null)
+            {
+                Assert.IsNotNull(hydrometricDataValue_AList[0].Flow_m3_s);
+            }
+            if (hydrometricDataValue_AList[0].Level_m != null)
+            {
+                Assert.IsNotNull(hydrometricDataValue_AList[0].Level_m);
+            }
             if (!string.IsNullOrWhiteSpace(hydrometricDataValue_AList[0].HourlyValues))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValue_AList[0].HourlyValues));
@@ -704,7 +749,15 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(hydrometricDataValue_BList[0].DateTime_Local);
             Assert.IsNotNull(hydrometricDataValue_BList[0].Keep);
             Assert.IsNotNull(hydrometricDataValue_BList[0].StorageDataType);
-            Assert.IsNotNull(hydrometricDataValue_BList[0].Flow_m3_s);
+            Assert.IsNotNull(hydrometricDataValue_BList[0].HasBeenRead);
+            if (hydrometricDataValue_BList[0].Flow_m3_s != null)
+            {
+                Assert.IsNotNull(hydrometricDataValue_BList[0].Flow_m3_s);
+            }
+            if (hydrometricDataValue_BList[0].Level_m != null)
+            {
+                Assert.IsNotNull(hydrometricDataValue_BList[0].Level_m);
+            }
             if (!string.IsNullOrWhiteSpace(hydrometricDataValue_BList[0].HourlyValues))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValue_BList[0].HourlyValues));
@@ -721,7 +774,9 @@ namespace CSSPServices.Tests
             if (OmitPropName != "DateTime_Local") hydrometricDataValue.DateTime_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "Keep") hydrometricDataValue.Keep = true;
             if (OmitPropName != "StorageDataType") hydrometricDataValue.StorageDataType = (StorageDataTypeEnum)GetRandomEnumType(typeof(StorageDataTypeEnum));
-            if (OmitPropName != "Flow_m3_s") hydrometricDataValue.Flow_m3_s = GetRandomDouble(0.0D, 10000.0D);
+            if (OmitPropName != "HasBeenRead") hydrometricDataValue.HasBeenRead = true;
+            if (OmitPropName != "Flow_m3_s") hydrometricDataValue.Flow_m3_s = GetRandomDouble(0.0D, 100000.0D);
+            if (OmitPropName != "Level_m") hydrometricDataValue.Level_m = GetRandomDouble(0.0D, 10000.0D);
             if (OmitPropName != "HourlyValues") hydrometricDataValue.HourlyValues = GetRandomString("", 20);
             if (OmitPropName != "LastUpdateDate_UTC") hydrometricDataValue.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") hydrometricDataValue.LastUpdateContactTVItemID = 2;

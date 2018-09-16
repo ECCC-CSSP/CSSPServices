@@ -86,10 +86,22 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "HydrometricDataValueStorageDataType"), new[] { "StorageDataType" });
             }
 
-            if (hydrometricDataValue.Flow_m3_s < 0 || hydrometricDataValue.Flow_m3_s > 10000)
+            if (hydrometricDataValue.Flow_m3_s != null)
             {
-                hydrometricDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "HydrometricDataValueFlow_m3_s", "0", "10000"), new[] { "Flow_m3_s" });
+                if (hydrometricDataValue.Flow_m3_s < 0 || hydrometricDataValue.Flow_m3_s > 100000)
+                {
+                    hydrometricDataValue.HasErrors = true;
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "HydrometricDataValueFlow_m3_s", "0", "100000"), new[] { "Flow_m3_s" });
+                }
+            }
+
+            if (hydrometricDataValue.Level_m != null)
+            {
+                if (hydrometricDataValue.Level_m < 0 || hydrometricDataValue.Level_m > 10000)
+                {
+                    hydrometricDataValue.HasErrors = true;
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "HydrometricDataValueLevel_m", "0", "10000"), new[] { "Level_m" });
+                }
             }
 
             //HourlyValues has no StringLength Attribute
