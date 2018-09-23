@@ -146,6 +146,77 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is NOT Nullable
+                    // mikeSource.UseHydrometric   (Boolean)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = HydrometricSite)]
+                    // mikeSource.HydrometricTVItemID   (Int32)
+                    // -----------------------------------
+
+                    mikeSource = null;
+                    mikeSource = GetFilledRandomMikeSource("");
+                    mikeSource.HydrometricTVItemID = 0;
+                    mikeSourceService.Add(mikeSource);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MikeSourceHydrometricTVItemID", mikeSource.HydrometricTVItemID.ToString()), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    mikeSource = null;
+                    mikeSource = GetFilledRandomMikeSource("");
+                    mikeSource.HydrometricTVItemID = 1;
+                    mikeSourceService.Add(mikeSource);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, "MikeSourceHydrometricTVItemID", "HydrometricSite"), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [Range(0, 1000000)]
+                    // mikeSource.DrainageArea_km2   (Double)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [DrainageArea_km2]
+
+                    //Error: Type not implemented [DrainageArea_km2]
+
+                    mikeSource = null;
+                    mikeSource = GetFilledRandomMikeSource("");
+                    mikeSource.DrainageArea_km2 = -1.0D;
+                    Assert.AreEqual(false, mikeSourceService.Add(mikeSource));
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeSourceDrainageArea_km2", "0", "1000000"), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mikeSourceService.GetMikeSourceList().Count());
+                    mikeSource = null;
+                    mikeSource = GetFilledRandomMikeSource("");
+                    mikeSource.DrainageArea_km2 = 1000001.0D;
+                    Assert.AreEqual(false, mikeSourceService.Add(mikeSource));
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeSourceDrainageArea_km2", "0", "1000000"), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mikeSourceService.GetMikeSourceList().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [Range(0, 1000000)]
+                    // mikeSource.Factor   (Double)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [Factor]
+
+                    //Error: Type not implemented [Factor]
+
+                    mikeSource = null;
+                    mikeSource = GetFilledRandomMikeSource("");
+                    mikeSource.Factor = -1.0D;
+                    Assert.AreEqual(false, mikeSourceService.Add(mikeSource));
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeSourceFactor", "0", "1000000"), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mikeSourceService.GetMikeSourceList().Count());
+                    mikeSource = null;
+                    mikeSource = GetFilledRandomMikeSource("");
+                    mikeSource.Factor = 1000001.0D;
+                    Assert.AreEqual(false, mikeSourceService.Add(mikeSource));
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeSourceFactor", "0", "1000000"), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mikeSourceService.GetMikeSourceList().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
                     // [StringLength(50))]
                     // mikeSource.SourceNumberString   (String)
                     // -----------------------------------
@@ -638,6 +709,19 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(mikeSourceList[0].IsContinuous);
             Assert.IsNotNull(mikeSourceList[0].Include);
             Assert.IsNotNull(mikeSourceList[0].IsRiver);
+            Assert.IsNotNull(mikeSourceList[0].UseHydrometric);
+            if (mikeSourceList[0].HydrometricTVItemID != null)
+            {
+                Assert.IsNotNull(mikeSourceList[0].HydrometricTVItemID);
+            }
+            if (mikeSourceList[0].DrainageArea_km2 != null)
+            {
+                Assert.IsNotNull(mikeSourceList[0].DrainageArea_km2);
+            }
+            if (mikeSourceList[0].Factor != null)
+            {
+                Assert.IsNotNull(mikeSourceList[0].Factor);
+            }
             Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceList[0].SourceNumberString));
             Assert.IsNotNull(mikeSourceList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(mikeSourceList[0].LastUpdateContactTVItemID);
@@ -652,6 +736,19 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(mikeSource_AList[0].IsContinuous);
             Assert.IsNotNull(mikeSource_AList[0].Include);
             Assert.IsNotNull(mikeSource_AList[0].IsRiver);
+            Assert.IsNotNull(mikeSource_AList[0].UseHydrometric);
+            if (mikeSource_AList[0].HydrometricTVItemID != null)
+            {
+                Assert.IsNotNull(mikeSource_AList[0].HydrometricTVItemID);
+            }
+            if (mikeSource_AList[0].DrainageArea_km2 != null)
+            {
+                Assert.IsNotNull(mikeSource_AList[0].DrainageArea_km2);
+            }
+            if (mikeSource_AList[0].Factor != null)
+            {
+                Assert.IsNotNull(mikeSource_AList[0].Factor);
+            }
             Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSource_AList[0].SourceNumberString));
             Assert.IsNotNull(mikeSource_AList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(mikeSource_AList[0].LastUpdateContactTVItemID);
@@ -670,6 +767,19 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(mikeSource_BList[0].IsContinuous);
             Assert.IsNotNull(mikeSource_BList[0].Include);
             Assert.IsNotNull(mikeSource_BList[0].IsRiver);
+            Assert.IsNotNull(mikeSource_BList[0].UseHydrometric);
+            if (mikeSource_BList[0].HydrometricTVItemID != null)
+            {
+                Assert.IsNotNull(mikeSource_BList[0].HydrometricTVItemID);
+            }
+            if (mikeSource_BList[0].DrainageArea_km2 != null)
+            {
+                Assert.IsNotNull(mikeSource_BList[0].DrainageArea_km2);
+            }
+            if (mikeSource_BList[0].Factor != null)
+            {
+                Assert.IsNotNull(mikeSource_BList[0].Factor);
+            }
             Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSource_BList[0].SourceNumberString));
             Assert.IsNotNull(mikeSource_BList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(mikeSource_BList[0].LastUpdateContactTVItemID);
@@ -683,6 +793,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "IsContinuous") mikeSource.IsContinuous = true;
             if (OmitPropName != "Include") mikeSource.Include = true;
             if (OmitPropName != "IsRiver") mikeSource.IsRiver = true;
+            if (OmitPropName != "UseHydrometric") mikeSource.UseHydrometric = true;
+            if (OmitPropName != "HydrometricTVItemID") mikeSource.HydrometricTVItemID = 8;
+            if (OmitPropName != "DrainageArea_km2") mikeSource.DrainageArea_km2 = GetRandomDouble(0.0D, 1000000.0D);
+            if (OmitPropName != "Factor") mikeSource.Factor = GetRandomDouble(0.0D, 1000000.0D);
             if (OmitPropName != "SourceNumberString") mikeSource.SourceNumberString = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") mikeSource.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mikeSource.LastUpdateContactTVItemID = 2;

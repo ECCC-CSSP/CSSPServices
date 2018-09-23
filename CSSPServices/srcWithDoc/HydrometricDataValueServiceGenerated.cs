@@ -86,12 +86,21 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "HydrometricDataValueStorageDataType"), new[] { "StorageDataType" });
             }
 
-            if (hydrometricDataValue.Flow_m3_s != null)
+            if (hydrometricDataValue.Discharge_m3_s != null)
             {
-                if (hydrometricDataValue.Flow_m3_s < 0 || hydrometricDataValue.Flow_m3_s > 100000)
+                if (hydrometricDataValue.Discharge_m3_s < 0 || hydrometricDataValue.Discharge_m3_s > 100000)
                 {
                     hydrometricDataValue.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "HydrometricDataValueFlow_m3_s", "0", "100000"), new[] { "Flow_m3_s" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "HydrometricDataValueDischarge_m3_s", "0", "100000"), new[] { "Discharge_m3_s" });
+                }
+            }
+
+            if (hydrometricDataValue.DischargeEntered_m3_s != null)
+            {
+                if (hydrometricDataValue.DischargeEntered_m3_s < 0 || hydrometricDataValue.DischargeEntered_m3_s > 100000)
+                {
+                    hydrometricDataValue.HasErrors = true;
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "HydrometricDataValueDischargeEntered_m3_s", "0", "100000"), new[] { "DischargeEntered_m3_s" });
                 }
             }
 

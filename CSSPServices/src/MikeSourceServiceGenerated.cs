@@ -77,6 +77,47 @@ namespace CSSPServices
                 }
             }
 
+            if (mikeSource.HydrometricTVItemID != null)
+            {
+                TVItem TVItemHydrometricTVItemID = (from c in db.TVItems where c.TVItemID == mikeSource.HydrometricTVItemID select c).FirstOrDefault();
+
+                if (TVItemHydrometricTVItemID == null)
+                {
+                    mikeSource.HasErrors = true;
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MikeSourceHydrometricTVItemID", (mikeSource.HydrometricTVItemID == null ? "" : mikeSource.HydrometricTVItemID.ToString())), new[] { "HydrometricTVItemID" });
+                }
+                else
+                {
+                    List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                    {
+                        TVTypeEnum.HydrometricSite,
+                    };
+                    if (!AllowableTVTypes.Contains(TVItemHydrometricTVItemID.TVType))
+                    {
+                        mikeSource.HasErrors = true;
+                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MikeSourceHydrometricTVItemID", "HydrometricSite"), new[] { "HydrometricTVItemID" });
+                    }
+                }
+            }
+
+            if (mikeSource.DrainageArea_km2 != null)
+            {
+                if (mikeSource.DrainageArea_km2 < 0 || mikeSource.DrainageArea_km2 > 1000000)
+                {
+                    mikeSource.HasErrors = true;
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeSourceDrainageArea_km2", "0", "1000000"), new[] { "DrainageArea_km2" });
+                }
+            }
+
+            if (mikeSource.Factor != null)
+            {
+                if (mikeSource.Factor < 0 || mikeSource.Factor > 1000000)
+                {
+                    mikeSource.HasErrors = true;
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeSourceFactor", "0", "1000000"), new[] { "Factor" });
+                }
+            }
+
             if (string.IsNullOrWhiteSpace(mikeSource.SourceNumberString))
             {
                 mikeSource.HasErrors = true;
