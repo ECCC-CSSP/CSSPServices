@@ -512,13 +512,9 @@ namespace CSSPServices
             else
             {
                 string PropertyName = "";
-                if (typeof(T).Name.EndsWith("Web"))
+                if (typeof(T).Name.EndsWith("_A") || typeof(T).Name.EndsWith("_B") || typeof(T).Name.EndsWith("_C") || typeof(T).Name.EndsWith("_D"))
                 {
-                    PropertyName = typeof(T).Name.Substring(0, typeof(T).Name.Length - 3) + "ID";
-                }
-                else if (typeof(T).Name.EndsWith("Report"))
-                {
-                    PropertyName = typeof(T).Name.Substring(0, typeof(T).Name.Length - 6) + "ID";
+                    PropertyName = typeof(T).Name.Substring(0, typeof(T).Name.Length - 2) + "ID";
                 }
                 else
                 {
