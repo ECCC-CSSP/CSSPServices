@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public MikeSourceStartEndService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public MikeSourceStartEndService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

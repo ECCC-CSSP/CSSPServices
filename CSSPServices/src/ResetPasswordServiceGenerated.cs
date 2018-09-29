@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public ResetPasswordService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public ResetPasswordService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }
@@ -67,6 +67,16 @@ namespace CSSPServices
             {
                 resetPassword.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ResetPasswordEmail", "256"), new[] { "Email" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(resetPassword.Email))
+            {
+                Regex regex = new Regex(@"^([\w\!\#$\%\&\'*\+\-\/\=\?\^`{\|\}\~]+\.)*[\w\!\#$\%\&\'‌​*\+\-\/\=\?\^`{\|\}\~]+@((((([a-zA-Z0-9]{1}[a-zA-Z0-9\-]{0,62}[a-zA-Z0-9]{1})|[‌​a-zA-Z])\.)+[a-zA-Z]{2,6})|(\d{1,3}\.){3}\d{1,3}(\:\d{1,5})?)$");
+                if (!regex.IsMatch(resetPassword.Email))
+                {
+                    resetPassword.HasErrors = true;
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotAValidEmail, "ResetPasswordEmail"), new[] { "Email" });
+                }
             }
 
             if (resetPassword.ExpireDate_Local.Year == 1)

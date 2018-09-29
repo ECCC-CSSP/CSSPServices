@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public SamplingPlanEmailService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public SamplingPlanEmailService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }
@@ -75,6 +75,16 @@ namespace CSSPServices
             {
                 samplingPlanEmail.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "SamplingPlanEmailEmail", "150"), new[] { "Email" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(samplingPlanEmail.Email))
+            {
+                Regex regex = new Regex(@"^([\w\!\#$\%\&\'*\+\-\/\=\?\^`{\|\}\~]+\.)*[\w\!\#$\%\&\'‌​*\+\-\/\=\?\^`{\|\}\~]+@((((([a-zA-Z0-9]{1}[a-zA-Z0-9\-]{0,62}[a-zA-Z0-9]{1})|[‌​a-zA-Z])\.)+[a-zA-Z]{2,6})|(\d{1,3}\.){3}\d{1,3}(\:\d{1,5})?)$");
+                if (!regex.IsMatch(samplingPlanEmail.Email))
+                {
+                    samplingPlanEmail.HasErrors = true;
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotAValidEmail, "SamplingPlanEmailEmail"), new[] { "Email" });
+                }
             }
 
             if (samplingPlanEmail.LastUpdateDate_UTC.Year == 1)

@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public MapInfoPointService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public MapInfoPointService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

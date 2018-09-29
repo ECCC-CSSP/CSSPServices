@@ -37,7 +37,6 @@ namespace CSSPServices.Tests
         {
             ContactOK contactOK = new ContactOK();
 
-            if (OmitPropName != "Error") contactOK.Error = GetRandomString("", 5);
             if (OmitPropName != "ContactID") contactOK.ContactID = GetRandomInt(1, 11);
             if (OmitPropName != "ContactTVItemID") contactOK.ContactTVItemID = GetRandomInt(1, 11);
 

@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     ResetPasswordService resetPasswordService = new ResetPasswordService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -109,6 +109,7 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is NOT Nullable
+                    // [DataType(DataType.EmailAddress)]
                     // [StringLength(256))]
                     // resetPassword.Email   (String)
                     // -----------------------------------
@@ -230,7 +231,7 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     ResetPasswordService resetPasswordService = new ResetPasswordService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     ResetPassword resetPassword = (from c in dbTestDB.ResetPasswords select c).FirstOrDefault();
@@ -276,7 +277,7 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     ResetPasswordService resetPasswordService = new ResetPasswordService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     ResetPassword resetPassword = (from c in dbTestDB.ResetPasswords select c).FirstOrDefault();
@@ -327,7 +328,7 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
@@ -379,7 +380,7 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
@@ -431,7 +432,7 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
@@ -483,7 +484,7 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
@@ -535,7 +536,7 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
@@ -587,7 +588,7 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
@@ -672,7 +673,7 @@ namespace CSSPServices.Tests
         {
             ResetPassword resetPassword = new ResetPassword();
 
-            if (OmitPropName != "Email") resetPassword.Email = GetRandomString("", 5);
+            if (OmitPropName != "Email") resetPassword.Email = GetRandomEmail();
             if (OmitPropName != "ExpireDate_Local") resetPassword.ExpireDate_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "Code") resetPassword.Code = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") resetPassword.LastUpdateDate_UTC = new DateTime(2005, 3, 6);

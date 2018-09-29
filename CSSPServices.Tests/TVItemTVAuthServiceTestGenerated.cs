@@ -37,7 +37,6 @@ namespace CSSPServices.Tests
         {
             TVItemTVAuth tvItemTVAuth = new TVItemTVAuth();
 
-            if (OmitPropName != "Error") tvItemTVAuth.Error = GetRandomString("", 20);
             if (OmitPropName != "TVItemUserAuthID") tvItemTVAuth.TVItemUserAuthID = GetRandomInt(1, 11);
             if (OmitPropName != "TVText") tvItemTVAuth.TVText = GetRandomString("", 6);
             if (OmitPropName != "TVItemID1") tvItemTVAuth.TVItemID1 = GetRandomInt(1, 11);

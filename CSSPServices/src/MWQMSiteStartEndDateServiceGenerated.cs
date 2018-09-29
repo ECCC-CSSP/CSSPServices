@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public MWQMSiteStartEndDateService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public MWQMSiteStartEndDateService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public RainExceedanceService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public RainExceedanceService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

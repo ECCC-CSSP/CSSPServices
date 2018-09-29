@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public FileItemListService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public FileItemListService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

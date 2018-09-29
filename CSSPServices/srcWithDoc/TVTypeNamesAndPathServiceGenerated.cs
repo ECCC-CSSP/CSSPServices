@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public TVTypeNamesAndPathService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public TVTypeNamesAndPathService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public VPAmbientService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public VPAmbientService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

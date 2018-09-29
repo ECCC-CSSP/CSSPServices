@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public PolSourceObsInfoChildService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public PolSourceObsInfoChildService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

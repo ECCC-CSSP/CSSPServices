@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public PolSourceObsInfoEnumTextAndIDService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public PolSourceObsInfoEnumTextAndIDService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

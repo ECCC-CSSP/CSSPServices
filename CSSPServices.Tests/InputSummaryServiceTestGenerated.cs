@@ -37,7 +37,6 @@ namespace CSSPServices.Tests
         {
             InputSummary inputSummary = new InputSummary();
 
-            if (OmitPropName != "Error") inputSummary.Error = GetRandomString("", 20);
             if (OmitPropName != "Summary") inputSummary.Summary = GetRandomString("", 20);
 
             return inputSummary;

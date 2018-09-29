@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public OtherFilesToUploadService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public OtherFilesToUploadService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }
@@ -41,14 +41,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             OtherFilesToUpload otherFilesToUpload = validationContext.ObjectInstance as OtherFilesToUpload;
             otherFilesToUpload.HasErrors = false;
-
-            if (string.IsNullOrWhiteSpace(otherFilesToUpload.Error))
-            {
-                otherFilesToUpload.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "OtherFilesToUploadError"), new[] { "Error" });
-            }
-
-            //Error has no StringLength Attribute
 
             if (otherFilesToUpload.MikeScenarioID < 1)
             {

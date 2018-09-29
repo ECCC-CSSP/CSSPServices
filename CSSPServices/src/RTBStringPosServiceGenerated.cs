@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public RTBStringPosService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public RTBStringPosService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

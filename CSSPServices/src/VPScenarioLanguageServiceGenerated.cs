@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public VPScenarioLanguageService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public VPScenarioLanguageService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

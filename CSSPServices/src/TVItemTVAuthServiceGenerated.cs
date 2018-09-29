@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public TVItemTVAuthService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public TVItemTVAuthService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }
@@ -41,14 +41,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             TVItemTVAuth tvItemTVAuth = validationContext.ObjectInstance as TVItemTVAuth;
             tvItemTVAuth.HasErrors = false;
-
-            if (string.IsNullOrWhiteSpace(tvItemTVAuth.Error))
-            {
-                tvItemTVAuth.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVItemTVAuthError"), new[] { "Error" });
-            }
-
-            //Error has no StringLength Attribute
 
             if (tvItemTVAuth.TVItemUserAuthID < 1)
             {

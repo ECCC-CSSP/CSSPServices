@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public ContactOKService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public ContactOKService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }
@@ -41,18 +41,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             ContactOK contactOK = validationContext.ObjectInstance as ContactOK;
             contactOK.HasErrors = false;
-
-            if (string.IsNullOrWhiteSpace(contactOK.Error))
-            {
-                contactOK.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ContactOKError"), new[] { "Error" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(contactOK.Error) && contactOK.Error.Length > 255)
-            {
-                contactOK.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ContactOKError", "255"), new[] { "Error" });
-            }
 
             if (contactOK.ContactID < 1)
             {

@@ -23,8 +23,8 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        public CSSPWebToolsDBContext dbTestDB { get; set; }
-        public CSSPWebToolsDBContext dbMemoryTestDB { get; set; }
+        public CSSPDBContext dbTestDB { get; set; }
+        public CSSPDBContext dbMemoryTestDB { get; set; }
         public LanguageEnum LanguageRequest { get; set; }
         public List<CultureInfo> AllowableCulture { get; set; }
         public int ContactID = 2;
@@ -39,8 +39,8 @@ namespace CSSPServices.Tests
 
             ChangeCulture(new CultureInfo("en-CA"));
 
-            //dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB);
-            //dbMemoryTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.MemoryTestDB);
+            //dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB);
+            //dbMemoryTestDB = new CSSPDBContext(DatabaseTypeEnum.MemoryTestDB);
             random = new Random();
 
             //FillMemoryTestDBWithTestDBData();

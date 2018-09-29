@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public MWQMSubsectorLanguageService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public MWQMSubsectorLanguageService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

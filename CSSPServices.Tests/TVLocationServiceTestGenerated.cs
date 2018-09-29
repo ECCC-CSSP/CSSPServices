@@ -37,7 +37,6 @@ namespace CSSPServices.Tests
         {
             TVLocation tvLocation = new TVLocation();
 
-            if (OmitPropName != "Error") tvLocation.Error = GetRandomString("", 20);
             if (OmitPropName != "TVItemID") tvLocation.TVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "TVText") tvLocation.TVText = GetRandomString("", 6);
             if (OmitPropName != "TVType") tvLocation.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));

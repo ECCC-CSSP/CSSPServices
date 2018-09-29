@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public DocTemplateService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public DocTemplateService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

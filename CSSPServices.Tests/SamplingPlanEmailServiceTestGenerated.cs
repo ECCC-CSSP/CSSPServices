@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     SamplingPlanEmailService samplingPlanEmailService = new SamplingPlanEmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -122,6 +122,7 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is NOT Nullable
+                    // [DataType(DataType.EmailAddress)]
                     // [StringLength(150))]
                     // samplingPlanEmail.Email   (String)
                     // -----------------------------------
@@ -235,7 +236,7 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     SamplingPlanEmailService samplingPlanEmailService = new SamplingPlanEmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     SamplingPlanEmail samplingPlanEmail = (from c in dbTestDB.SamplingPlanEmails select c).FirstOrDefault();
@@ -281,7 +282,7 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     SamplingPlanEmailService samplingPlanEmailService = new SamplingPlanEmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     SamplingPlanEmail samplingPlanEmail = (from c in dbTestDB.SamplingPlanEmails select c).FirstOrDefault();
@@ -332,7 +333,7 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
@@ -384,7 +385,7 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
@@ -436,7 +437,7 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
@@ -488,7 +489,7 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
@@ -540,7 +541,7 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
@@ -592,7 +593,7 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
@@ -690,7 +691,7 @@ namespace CSSPServices.Tests
             SamplingPlanEmail samplingPlanEmail = new SamplingPlanEmail();
 
             if (OmitPropName != "SamplingPlanID") samplingPlanEmail.SamplingPlanID = 1;
-            if (OmitPropName != "Email") samplingPlanEmail.Email = GetRandomString("", 5);
+            if (OmitPropName != "Email") samplingPlanEmail.Email = GetRandomEmail();
             if (OmitPropName != "IsContractor") samplingPlanEmail.IsContractor = true;
             if (OmitPropName != "LabSheetHasValueOver500") samplingPlanEmail.LabSheetHasValueOver500 = true;
             if (OmitPropName != "LabSheetReceived") samplingPlanEmail.LabSheetReceived = true;

@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public TideSiteService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public TideSiteService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

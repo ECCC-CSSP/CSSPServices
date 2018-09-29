@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public SearchTagAndTermsService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public SearchTagAndTermsService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

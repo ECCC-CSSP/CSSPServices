@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public LabSheetTubeMPNDetailService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public LabSheetTubeMPNDetailService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

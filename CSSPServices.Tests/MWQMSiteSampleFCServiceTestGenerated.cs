@@ -37,7 +37,6 @@ namespace CSSPServices.Tests
         {
             MWQMSiteSampleFC mwqmSiteSampleFC = new MWQMSiteSampleFC();
 
-            if (OmitPropName != "Error") mwqmSiteSampleFC.Error = GetRandomString("", 20);
             if (OmitPropName != "SampleDate") mwqmSiteSampleFC.SampleDate = new DateTime(2005, 3, 6);
             if (OmitPropName != "FC") mwqmSiteSampleFC.FC = GetRandomInt(1, 100000000);
             // should implement a Range for the property Sal and type MWQMSiteSampleFC

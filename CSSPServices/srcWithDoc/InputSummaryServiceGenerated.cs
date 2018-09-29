@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public InputSummaryService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public InputSummaryService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }
@@ -41,14 +41,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             InputSummary inputSummary = validationContext.ObjectInstance as InputSummary;
             inputSummary.HasErrors = false;
-
-            if (string.IsNullOrWhiteSpace(inputSummary.Error))
-            {
-                inputSummary.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "InputSummaryError"), new[] { "Error" });
-            }
-
-            //Error has no StringLength Attribute
 
             if (string.IsNullOrWhiteSpace(inputSummary.Summary))
             {

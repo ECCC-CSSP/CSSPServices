@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public TVFileService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public TVFileService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

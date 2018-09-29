@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public LastUpdateAndContactService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public LastUpdateAndContactService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }
@@ -41,14 +41,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             LastUpdateAndContact lastUpdateAndContact = validationContext.ObjectInstance as LastUpdateAndContact;
             lastUpdateAndContact.HasErrors = false;
-
-            if (string.IsNullOrWhiteSpace(lastUpdateAndContact.Err))
-            {
-                lastUpdateAndContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LastUpdateAndContactErr"), new[] { "Err" });
-            }
-
-            //Err has no StringLength Attribute
 
             if (lastUpdateAndContact.LastUpdateAndContactDate_UTC.Year == 1)
             {

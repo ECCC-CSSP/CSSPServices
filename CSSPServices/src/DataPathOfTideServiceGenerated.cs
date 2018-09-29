@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public DataPathOfTideService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public DataPathOfTideService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

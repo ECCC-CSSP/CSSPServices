@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public MikeBoundaryConditionService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public MikeBoundaryConditionService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

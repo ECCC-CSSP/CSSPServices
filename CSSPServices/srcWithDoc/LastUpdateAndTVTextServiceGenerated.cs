@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public LastUpdateAndTVTextService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public LastUpdateAndTVTextService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }
@@ -41,14 +41,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             LastUpdateAndTVText lastUpdateAndTVText = validationContext.ObjectInstance as LastUpdateAndTVText;
             lastUpdateAndTVText.HasErrors = false;
-
-            if (string.IsNullOrWhiteSpace(lastUpdateAndTVText.Error))
-            {
-                lastUpdateAndTVText.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LastUpdateAndTVTextError"), new[] { "Error" });
-            }
-
-            //Error has no StringLength Attribute
 
             if (lastUpdateAndTVText.LastUpdateAndTVTextDate_UTC.Year == 1)
             {

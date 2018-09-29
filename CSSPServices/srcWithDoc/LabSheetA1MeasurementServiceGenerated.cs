@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public LabSheetA1MeasurementService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public LabSheetA1MeasurementService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

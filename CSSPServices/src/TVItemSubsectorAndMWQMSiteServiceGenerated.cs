@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public TVItemSubsectorAndMWQMSiteService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public TVItemSubsectorAndMWQMSiteService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

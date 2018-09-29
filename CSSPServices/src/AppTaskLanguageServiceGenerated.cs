@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public AppTaskLanguageService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public AppTaskLanguageService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public TVLocationService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public TVLocationService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }
@@ -41,14 +41,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             TVLocation tvLocation = validationContext.ObjectInstance as TVLocation;
             tvLocation.HasErrors = false;
-
-            if (string.IsNullOrWhiteSpace(tvLocation.Error))
-            {
-                tvLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVLocationError"), new[] { "Error" });
-            }
-
-            //Error has no StringLength Attribute
 
             if (tvLocation.TVItemID < 1)
             {

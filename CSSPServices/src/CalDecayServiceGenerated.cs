@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public CalDecayService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public CalDecayService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }
@@ -41,12 +41,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             CalDecay calDecay = validationContext.ObjectInstance as CalDecay;
             calDecay.HasErrors = false;
-
-            if (!string.IsNullOrWhiteSpace(calDecay.Error) && calDecay.Error.Length > 255)
-            {
-                calDecay.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "CalDecayError", "255"), new[] { "Error" });
-            }
 
             if (calDecay.Decay < 0)
             {

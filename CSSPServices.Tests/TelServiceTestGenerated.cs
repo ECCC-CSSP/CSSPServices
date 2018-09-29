@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     TelService telService = new TelService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -224,7 +224,7 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     TelService telService = new TelService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     Tel tel = (from c in dbTestDB.Tels select c).FirstOrDefault();
@@ -270,7 +270,7 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     TelService telService = new TelService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     Tel tel = (from c in dbTestDB.Tels select c).FirstOrDefault();
@@ -321,7 +321,7 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
@@ -373,7 +373,7 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
@@ -425,7 +425,7 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
@@ -477,7 +477,7 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
@@ -529,7 +529,7 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {
@@ -581,7 +581,7 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
                     {

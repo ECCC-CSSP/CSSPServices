@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public ContourPolygonService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public ContourPolygonService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }
@@ -54,10 +54,10 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ContourPolygonLayer", "1", "100"), new[] { "Layer" });
             }
 
-            if (contourPolygon.Depth < 1 || contourPolygon.Depth > 10000)
+            if (contourPolygon.Depth_m < 1 || contourPolygon.Depth_m > 10000)
             {
                 contourPolygon.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ContourPolygonDepth", "1", "10000"), new[] { "Depth" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ContourPolygonDepth_m", "1", "10000"), new[] { "Depth_m" });
             }
 
                 //Error: Type not implemented [ContourNodeList] of type [List`1]

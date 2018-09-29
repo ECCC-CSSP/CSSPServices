@@ -37,7 +37,6 @@ namespace CSSPServices.Tests
         {
             LabSheetA1Sheet labSheetA1Sheet = new LabSheetA1Sheet();
 
-            if (OmitPropName != "Error") labSheetA1Sheet.Error = GetRandomString("", 20);
             if (OmitPropName != "Version") labSheetA1Sheet.Version = GetRandomInt(1, 100);
             if (OmitPropName != "SamplingPlanType") labSheetA1Sheet.SamplingPlanType = (SamplingPlanTypeEnum)GetRandomEnumType(typeof(SamplingPlanTypeEnum));
             if (OmitPropName != "SampleType") labSheetA1Sheet.SampleType = (SampleTypeEnum)GetRandomEnumType(typeof(SampleTypeEnum));

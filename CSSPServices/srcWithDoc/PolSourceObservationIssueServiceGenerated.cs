@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public PolSourceObservationIssueService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public PolSourceObservationIssueService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public MWQMSitePolSourceSiteService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public MWQMSitePolSourceSiteService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

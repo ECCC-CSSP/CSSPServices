@@ -24,7 +24,7 @@ namespace CSSPServices
         #region Variables public
         public List<LanguageEnum> LanguageListAllowable = new List<LanguageEnum>() { LanguageEnum.en, LanguageEnum.fr };
         //public int TakeMax = 1000000;
-        public string BasePath = @"E:\inetpub\wwwroot\csspwebtools\App_Data\";
+        public string BasePath = @"E:\inetpub\wwwroot\cssp\App_Data\";
         public double R = 6378137.0;
         public double d2r = Math.PI / 180;
         public double r2d = 180 / Math.PI;
@@ -34,7 +34,7 @@ namespace CSSPServices
         #endregion Variables public
 
         #region Properties
-        public CSSPWebToolsDBContext db { get; set; }
+        public CSSPDBContext db { get; set; }
         public bool CanSendEmail { get; set; }
         public int ContactID { get; set; }
         public string FromEmail { get; set; }
@@ -43,7 +43,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public BaseService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public BaseService(Query query, CSSPDBContext db, int ContactID)
         {
             if (!LanguageListAllowable.Contains((LanguageEnum)query.Language))
             {

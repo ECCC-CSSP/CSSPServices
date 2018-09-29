@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public SamplingPlanAndFilesLabSheetCountService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public SamplingPlanAndFilesLabSheetCountService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

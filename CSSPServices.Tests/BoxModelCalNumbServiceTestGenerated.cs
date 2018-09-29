@@ -37,7 +37,6 @@ namespace CSSPServices.Tests
         {
             BoxModelCalNumb boxModelCalNumb = new BoxModelCalNumb();
 
-            if (OmitPropName != "Error") boxModelCalNumb.Error = GetRandomString("", 5);
             if (OmitPropName != "BoxModelResultType") boxModelCalNumb.BoxModelResultType = (BoxModelResultTypeEnum)GetRandomEnumType(typeof(BoxModelResultTypeEnum));
             if (OmitPropName != "CalLength_m") boxModelCalNumb.CalLength_m = GetRandomDouble(0.0D, 10.0D);
             if (OmitPropName != "CalRadius_m") boxModelCalNumb.CalRadius_m = GetRandomDouble(0.0D, 10.0D);

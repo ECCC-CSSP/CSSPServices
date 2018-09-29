@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public HydrometricSiteService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public HydrometricSiteService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

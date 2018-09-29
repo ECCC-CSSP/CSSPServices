@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public EmailDistributionListService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public EmailDistributionListService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

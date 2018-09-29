@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public LabSheetA1SheetService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public LabSheetA1SheetService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }
@@ -41,14 +41,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             LabSheetA1Sheet labSheetA1Sheet = validationContext.ObjectInstance as LabSheetA1Sheet;
             labSheetA1Sheet.HasErrors = false;
-
-            if (string.IsNullOrWhiteSpace(labSheetA1Sheet.Error))
-            {
-                labSheetA1Sheet.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LabSheetA1SheetError"), new[] { "Error" });
-            }
-
-            //Error has no StringLength Attribute
 
             if (labSheetA1Sheet.Version < 1 || labSheetA1Sheet.Version > 100)
             {

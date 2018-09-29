@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public MWQMSampleDuplicateItemService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public MWQMSampleDuplicateItemService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

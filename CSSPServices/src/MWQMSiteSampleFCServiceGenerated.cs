@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public MWQMSiteSampleFCService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public MWQMSiteSampleFCService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }
@@ -41,14 +41,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             MWQMSiteSampleFC mwqmSiteSampleFC = validationContext.ObjectInstance as MWQMSiteSampleFC;
             mwqmSiteSampleFC.HasErrors = false;
-
-            if (string.IsNullOrWhiteSpace(mwqmSiteSampleFC.Error))
-            {
-                mwqmSiteSampleFC.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSiteSampleFCError"), new[] { "Error" });
-            }
-
-            //Error has no StringLength Attribute
 
             if (mwqmSiteSampleFC.SampleDate.Year == 1)
             {

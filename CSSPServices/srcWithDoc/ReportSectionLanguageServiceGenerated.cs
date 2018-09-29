@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public ReportSectionLanguageService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public ReportSectionLanguageService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

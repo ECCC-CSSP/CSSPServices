@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public BoxModelCalNumbService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public BoxModelCalNumbService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }
@@ -41,18 +41,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             BoxModelCalNumb boxModelCalNumb = validationContext.ObjectInstance as BoxModelCalNumb;
             boxModelCalNumb.HasErrors = false;
-
-            if (string.IsNullOrWhiteSpace(boxModelCalNumb.Error))
-            {
-                boxModelCalNumb.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "BoxModelCalNumbError"), new[] { "Error" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(boxModelCalNumb.Error) && boxModelCalNumb.Error.Length > 255)
-            {
-                boxModelCalNumb.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "BoxModelCalNumbError", "255"), new[] { "Error" });
-            }
 
             retStr = enums.EnumTypeOK(typeof(BoxModelResultTypeEnum), (int?)boxModelCalNumb.BoxModelResultType);
             if (boxModelCalNumb.BoxModelResultType == null || !string.IsNullOrWhiteSpace(retStr))

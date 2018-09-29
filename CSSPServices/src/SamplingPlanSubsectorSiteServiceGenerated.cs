@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public SamplingPlanSubsectorSiteService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public SamplingPlanSubsectorSiteService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

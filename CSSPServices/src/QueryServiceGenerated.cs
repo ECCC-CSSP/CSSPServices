@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public QueryService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public QueryService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

@@ -45,12 +45,12 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     BaseService baseService = new BaseService(new Query { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     // Variables
-                    Assert.AreEqual(@"E:\inetpub\wwwroot\csspwebtools\App_Data\", baseService.BasePath);
+                    Assert.AreEqual(@"E:\inetpub\wwwroot\cssp\App_Data\", baseService.BasePath);
                     Assert.AreEqual(6378137.0D, baseService.R);
                     Assert.AreEqual(Math.PI / 180.0D, baseService.d2r);
                     Assert.AreEqual(180.0D / Math.PI, baseService.r2d);
@@ -80,7 +80,7 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     BaseService baseService = new BaseService(new Query(), dbTestDB, ContactID);
 
@@ -412,7 +412,7 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     BaseService baseService = new BaseService(new Query(), dbTestDB, ContactID);
 

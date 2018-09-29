@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public RatingCurveValueService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public RatingCurveValueService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

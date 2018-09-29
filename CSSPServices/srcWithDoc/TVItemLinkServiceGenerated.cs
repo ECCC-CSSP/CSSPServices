@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public TVItemLinkService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public TVItemLinkService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

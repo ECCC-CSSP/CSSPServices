@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public SpillService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public SpillService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

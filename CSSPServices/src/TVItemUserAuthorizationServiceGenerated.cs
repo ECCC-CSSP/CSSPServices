@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public TVItemUserAuthorizationService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public TVItemUserAuthorizationService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }

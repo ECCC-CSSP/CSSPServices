@@ -28,7 +28,7 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public URLNumberOfSamplesService(Query query, CSSPWebToolsDBContext db, int ContactID)
+        public URLNumberOfSamplesService(Query query, CSSPDBContext db, int ContactID)
             : base(query, db, ContactID)
         {
         }
