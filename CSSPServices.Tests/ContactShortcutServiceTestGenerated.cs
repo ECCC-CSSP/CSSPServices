@@ -232,7 +232,7 @@ namespace CSSPServices.Tests
                     ContactShortcut contactShortcut = (from c in dbTestDB.ContactShortcuts select c).FirstOrDefault();
                     Assert.IsNotNull(contactShortcut);
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         contactShortcutService.Query.Detail = detail;
 
@@ -242,17 +242,17 @@ namespace CSSPServices.Tests
                             CheckContactShortcutFields(new List<ContactShortcut>() { contactShortcutRet });
                             Assert.AreEqual(contactShortcut.ContactShortcutID, contactShortcutRet.ContactShortcutID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            ContactShortcut_A contactShortcut_ARet = contactShortcutService.GetContactShortcut_AWithContactShortcutID(contactShortcut.ContactShortcutID);
-                            CheckContactShortcut_AFields(new List<ContactShortcut_A>() { contactShortcut_ARet });
-                            Assert.AreEqual(contactShortcut.ContactShortcutID, contactShortcut_ARet.ContactShortcutID);
+                            ContactShortcutExtraA contactShortcutExtraARet = contactShortcutService.GetContactShortcutExtraAWithContactShortcutID(contactShortcut.ContactShortcutID);
+                            CheckContactShortcutExtraAFields(new List<ContactShortcutExtraA>() { contactShortcutExtraARet });
+                            Assert.AreEqual(contactShortcut.ContactShortcutID, contactShortcutExtraARet.ContactShortcutID);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            ContactShortcut_B contactShortcut_BRet = contactShortcutService.GetContactShortcut_BWithContactShortcutID(contactShortcut.ContactShortcutID);
-                            CheckContactShortcut_BFields(new List<ContactShortcut_B>() { contactShortcut_BRet });
-                            Assert.AreEqual(contactShortcut.ContactShortcutID, contactShortcut_BRet.ContactShortcutID);
+                            ContactShortcutExtraB contactShortcutExtraBRet = contactShortcutService.GetContactShortcutExtraBWithContactShortcutID(contactShortcut.ContactShortcutID);
+                            CheckContactShortcutExtraBFields(new List<ContactShortcutExtraB>() { contactShortcutExtraBRet });
+                            Assert.AreEqual(contactShortcut.ContactShortcutID, contactShortcutExtraBRet.ContactShortcutID);
                         }
                         else
                         {
@@ -281,7 +281,7 @@ namespace CSSPServices.Tests
                     List<ContactShortcut> contactShortcutDirectQueryList = new List<ContactShortcut>();
                     contactShortcutDirectQueryList = (from c in dbTestDB.ContactShortcuts select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         contactShortcutService.Query.Detail = detail;
 
@@ -291,19 +291,19 @@ namespace CSSPServices.Tests
                             contactShortcutList = contactShortcutService.GetContactShortcutList().ToList();
                             CheckContactShortcutFields(contactShortcutList);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<ContactShortcut_A> contactShortcut_AList = new List<ContactShortcut_A>();
-                            contactShortcut_AList = contactShortcutService.GetContactShortcut_AList().ToList();
-                            CheckContactShortcut_AFields(contactShortcut_AList);
-                            Assert.AreEqual(contactShortcutDirectQueryList.Count, contactShortcut_AList.Count);
+                            List<ContactShortcutExtraA> contactShortcutExtraAList = new List<ContactShortcutExtraA>();
+                            contactShortcutExtraAList = contactShortcutService.GetContactShortcutExtraAList().ToList();
+                            CheckContactShortcutExtraAFields(contactShortcutExtraAList);
+                            Assert.AreEqual(contactShortcutDirectQueryList.Count, contactShortcutExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<ContactShortcut_B> contactShortcut_BList = new List<ContactShortcut_B>();
-                            contactShortcut_BList = contactShortcutService.GetContactShortcut_BList().ToList();
-                            CheckContactShortcut_BFields(contactShortcut_BList);
-                            Assert.AreEqual(contactShortcutDirectQueryList.Count, contactShortcut_BList.Count);
+                            List<ContactShortcutExtraB> contactShortcutExtraBList = new List<ContactShortcutExtraB>();
+                            contactShortcutExtraBList = contactShortcutService.GetContactShortcutExtraBList().ToList();
+                            CheckContactShortcutExtraBFields(contactShortcutExtraBList);
+                            Assert.AreEqual(contactShortcutDirectQueryList.Count, contactShortcutExtraBList.Count);
                         }
                         else
                         {
@@ -325,7 +325,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ContactShortcutService contactShortcutService = new ContactShortcutService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -341,21 +341,21 @@ namespace CSSPServices.Tests
                             CheckContactShortcutFields(contactShortcutList);
                             Assert.AreEqual(contactShortcutDirectQueryList[0].ContactShortcutID, contactShortcutList[0].ContactShortcutID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<ContactShortcut_A> contactShortcut_AList = new List<ContactShortcut_A>();
-                            contactShortcut_AList = contactShortcutService.GetContactShortcut_AList().ToList();
-                            CheckContactShortcut_AFields(contactShortcut_AList);
-                            Assert.AreEqual(contactShortcutDirectQueryList[0].ContactShortcutID, contactShortcut_AList[0].ContactShortcutID);
-                            Assert.AreEqual(contactShortcutDirectQueryList.Count, contactShortcut_AList.Count);
+                            List<ContactShortcutExtraA> contactShortcutExtraAList = new List<ContactShortcutExtraA>();
+                            contactShortcutExtraAList = contactShortcutService.GetContactShortcutExtraAList().ToList();
+                            CheckContactShortcutExtraAFields(contactShortcutExtraAList);
+                            Assert.AreEqual(contactShortcutDirectQueryList[0].ContactShortcutID, contactShortcutExtraAList[0].ContactShortcutID);
+                            Assert.AreEqual(contactShortcutDirectQueryList.Count, contactShortcutExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<ContactShortcut_B> contactShortcut_BList = new List<ContactShortcut_B>();
-                            contactShortcut_BList = contactShortcutService.GetContactShortcut_BList().ToList();
-                            CheckContactShortcut_BFields(contactShortcut_BList);
-                            Assert.AreEqual(contactShortcutDirectQueryList[0].ContactShortcutID, contactShortcut_BList[0].ContactShortcutID);
-                            Assert.AreEqual(contactShortcutDirectQueryList.Count, contactShortcut_BList.Count);
+                            List<ContactShortcutExtraB> contactShortcutExtraBList = new List<ContactShortcutExtraB>();
+                            contactShortcutExtraBList = contactShortcutService.GetContactShortcutExtraBList().ToList();
+                            CheckContactShortcutExtraBFields(contactShortcutExtraBList);
+                            Assert.AreEqual(contactShortcutDirectQueryList[0].ContactShortcutID, contactShortcutExtraBList[0].ContactShortcutID);
+                            Assert.AreEqual(contactShortcutDirectQueryList.Count, contactShortcutExtraBList.Count);
                         }
                         else
                         {
@@ -377,7 +377,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ContactShortcutService contactShortcutService = new ContactShortcutService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -393,21 +393,21 @@ namespace CSSPServices.Tests
                             CheckContactShortcutFields(contactShortcutList);
                             Assert.AreEqual(contactShortcutDirectQueryList[0].ContactShortcutID, contactShortcutList[0].ContactShortcutID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<ContactShortcut_A> contactShortcut_AList = new List<ContactShortcut_A>();
-                            contactShortcut_AList = contactShortcutService.GetContactShortcut_AList().ToList();
-                            CheckContactShortcut_AFields(contactShortcut_AList);
-                            Assert.AreEqual(contactShortcutDirectQueryList[0].ContactShortcutID, contactShortcut_AList[0].ContactShortcutID);
-                            Assert.AreEqual(contactShortcutDirectQueryList.Count, contactShortcut_AList.Count);
+                            List<ContactShortcutExtraA> contactShortcutExtraAList = new List<ContactShortcutExtraA>();
+                            contactShortcutExtraAList = contactShortcutService.GetContactShortcutExtraAList().ToList();
+                            CheckContactShortcutExtraAFields(contactShortcutExtraAList);
+                            Assert.AreEqual(contactShortcutDirectQueryList[0].ContactShortcutID, contactShortcutExtraAList[0].ContactShortcutID);
+                            Assert.AreEqual(contactShortcutDirectQueryList.Count, contactShortcutExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<ContactShortcut_B> contactShortcut_BList = new List<ContactShortcut_B>();
-                            contactShortcut_BList = contactShortcutService.GetContactShortcut_BList().ToList();
-                            CheckContactShortcut_BFields(contactShortcut_BList);
-                            Assert.AreEqual(contactShortcutDirectQueryList[0].ContactShortcutID, contactShortcut_BList[0].ContactShortcutID);
-                            Assert.AreEqual(contactShortcutDirectQueryList.Count, contactShortcut_BList.Count);
+                            List<ContactShortcutExtraB> contactShortcutExtraBList = new List<ContactShortcutExtraB>();
+                            contactShortcutExtraBList = contactShortcutService.GetContactShortcutExtraBList().ToList();
+                            CheckContactShortcutExtraBFields(contactShortcutExtraBList);
+                            Assert.AreEqual(contactShortcutDirectQueryList[0].ContactShortcutID, contactShortcutExtraBList[0].ContactShortcutID);
+                            Assert.AreEqual(contactShortcutDirectQueryList.Count, contactShortcutExtraBList.Count);
                         }
                         else
                         {
@@ -429,7 +429,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ContactShortcutService contactShortcutService = new ContactShortcutService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -445,21 +445,21 @@ namespace CSSPServices.Tests
                             CheckContactShortcutFields(contactShortcutList);
                             Assert.AreEqual(contactShortcutDirectQueryList[0].ContactShortcutID, contactShortcutList[0].ContactShortcutID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<ContactShortcut_A> contactShortcut_AList = new List<ContactShortcut_A>();
-                            contactShortcut_AList = contactShortcutService.GetContactShortcut_AList().ToList();
-                            CheckContactShortcut_AFields(contactShortcut_AList);
-                            Assert.AreEqual(contactShortcutDirectQueryList[0].ContactShortcutID, contactShortcut_AList[0].ContactShortcutID);
-                            Assert.AreEqual(contactShortcutDirectQueryList.Count, contactShortcut_AList.Count);
+                            List<ContactShortcutExtraA> contactShortcutExtraAList = new List<ContactShortcutExtraA>();
+                            contactShortcutExtraAList = contactShortcutService.GetContactShortcutExtraAList().ToList();
+                            CheckContactShortcutExtraAFields(contactShortcutExtraAList);
+                            Assert.AreEqual(contactShortcutDirectQueryList[0].ContactShortcutID, contactShortcutExtraAList[0].ContactShortcutID);
+                            Assert.AreEqual(contactShortcutDirectQueryList.Count, contactShortcutExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<ContactShortcut_B> contactShortcut_BList = new List<ContactShortcut_B>();
-                            contactShortcut_BList = contactShortcutService.GetContactShortcut_BList().ToList();
-                            CheckContactShortcut_BFields(contactShortcut_BList);
-                            Assert.AreEqual(contactShortcutDirectQueryList[0].ContactShortcutID, contactShortcut_BList[0].ContactShortcutID);
-                            Assert.AreEqual(contactShortcutDirectQueryList.Count, contactShortcut_BList.Count);
+                            List<ContactShortcutExtraB> contactShortcutExtraBList = new List<ContactShortcutExtraB>();
+                            contactShortcutExtraBList = contactShortcutService.GetContactShortcutExtraBList().ToList();
+                            CheckContactShortcutExtraBFields(contactShortcutExtraBList);
+                            Assert.AreEqual(contactShortcutDirectQueryList[0].ContactShortcutID, contactShortcutExtraBList[0].ContactShortcutID);
+                            Assert.AreEqual(contactShortcutDirectQueryList.Count, contactShortcutExtraBList.Count);
                         }
                         else
                         {
@@ -481,7 +481,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ContactShortcutService contactShortcutService = new ContactShortcutService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -497,21 +497,21 @@ namespace CSSPServices.Tests
                             CheckContactShortcutFields(contactShortcutList);
                             Assert.AreEqual(contactShortcutDirectQueryList[0].ContactShortcutID, contactShortcutList[0].ContactShortcutID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<ContactShortcut_A> contactShortcut_AList = new List<ContactShortcut_A>();
-                            contactShortcut_AList = contactShortcutService.GetContactShortcut_AList().ToList();
-                            CheckContactShortcut_AFields(contactShortcut_AList);
-                            Assert.AreEqual(contactShortcutDirectQueryList[0].ContactShortcutID, contactShortcut_AList[0].ContactShortcutID);
-                            Assert.AreEqual(contactShortcutDirectQueryList.Count, contactShortcut_AList.Count);
+                            List<ContactShortcutExtraA> contactShortcutExtraAList = new List<ContactShortcutExtraA>();
+                            contactShortcutExtraAList = contactShortcutService.GetContactShortcutExtraAList().ToList();
+                            CheckContactShortcutExtraAFields(contactShortcutExtraAList);
+                            Assert.AreEqual(contactShortcutDirectQueryList[0].ContactShortcutID, contactShortcutExtraAList[0].ContactShortcutID);
+                            Assert.AreEqual(contactShortcutDirectQueryList.Count, contactShortcutExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<ContactShortcut_B> contactShortcut_BList = new List<ContactShortcut_B>();
-                            contactShortcut_BList = contactShortcutService.GetContactShortcut_BList().ToList();
-                            CheckContactShortcut_BFields(contactShortcut_BList);
-                            Assert.AreEqual(contactShortcutDirectQueryList[0].ContactShortcutID, contactShortcut_BList[0].ContactShortcutID);
-                            Assert.AreEqual(contactShortcutDirectQueryList.Count, contactShortcut_BList.Count);
+                            List<ContactShortcutExtraB> contactShortcutExtraBList = new List<ContactShortcutExtraB>();
+                            contactShortcutExtraBList = contactShortcutService.GetContactShortcutExtraBList().ToList();
+                            CheckContactShortcutExtraBFields(contactShortcutExtraBList);
+                            Assert.AreEqual(contactShortcutDirectQueryList[0].ContactShortcutID, contactShortcutExtraBList[0].ContactShortcutID);
+                            Assert.AreEqual(contactShortcutDirectQueryList.Count, contactShortcutExtraBList.Count);
                         }
                         else
                         {
@@ -533,7 +533,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ContactShortcutService contactShortcutService = new ContactShortcutService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -549,21 +549,21 @@ namespace CSSPServices.Tests
                             CheckContactShortcutFields(contactShortcutList);
                             Assert.AreEqual(contactShortcutDirectQueryList[0].ContactShortcutID, contactShortcutList[0].ContactShortcutID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<ContactShortcut_A> contactShortcut_AList = new List<ContactShortcut_A>();
-                            contactShortcut_AList = contactShortcutService.GetContactShortcut_AList().ToList();
-                            CheckContactShortcut_AFields(contactShortcut_AList);
-                            Assert.AreEqual(contactShortcutDirectQueryList[0].ContactShortcutID, contactShortcut_AList[0].ContactShortcutID);
-                            Assert.AreEqual(contactShortcutDirectQueryList.Count, contactShortcut_AList.Count);
+                            List<ContactShortcutExtraA> contactShortcutExtraAList = new List<ContactShortcutExtraA>();
+                            contactShortcutExtraAList = contactShortcutService.GetContactShortcutExtraAList().ToList();
+                            CheckContactShortcutExtraAFields(contactShortcutExtraAList);
+                            Assert.AreEqual(contactShortcutDirectQueryList[0].ContactShortcutID, contactShortcutExtraAList[0].ContactShortcutID);
+                            Assert.AreEqual(contactShortcutDirectQueryList.Count, contactShortcutExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<ContactShortcut_B> contactShortcut_BList = new List<ContactShortcut_B>();
-                            contactShortcut_BList = contactShortcutService.GetContactShortcut_BList().ToList();
-                            CheckContactShortcut_BFields(contactShortcut_BList);
-                            Assert.AreEqual(contactShortcutDirectQueryList[0].ContactShortcutID, contactShortcut_BList[0].ContactShortcutID);
-                            Assert.AreEqual(contactShortcutDirectQueryList.Count, contactShortcut_BList.Count);
+                            List<ContactShortcutExtraB> contactShortcutExtraBList = new List<ContactShortcutExtraB>();
+                            contactShortcutExtraBList = contactShortcutService.GetContactShortcutExtraBList().ToList();
+                            CheckContactShortcutExtraBFields(contactShortcutExtraBList);
+                            Assert.AreEqual(contactShortcutDirectQueryList[0].ContactShortcutID, contactShortcutExtraBList[0].ContactShortcutID);
+                            Assert.AreEqual(contactShortcutDirectQueryList.Count, contactShortcutExtraBList.Count);
                         }
                         else
                         {
@@ -585,7 +585,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ContactShortcutService contactShortcutService = new ContactShortcutService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -601,21 +601,21 @@ namespace CSSPServices.Tests
                             CheckContactShortcutFields(contactShortcutList);
                             Assert.AreEqual(contactShortcutDirectQueryList[0].ContactShortcutID, contactShortcutList[0].ContactShortcutID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<ContactShortcut_A> contactShortcut_AList = new List<ContactShortcut_A>();
-                            contactShortcut_AList = contactShortcutService.GetContactShortcut_AList().ToList();
-                            CheckContactShortcut_AFields(contactShortcut_AList);
-                            Assert.AreEqual(contactShortcutDirectQueryList[0].ContactShortcutID, contactShortcut_AList[0].ContactShortcutID);
-                            Assert.AreEqual(contactShortcutDirectQueryList.Count, contactShortcut_AList.Count);
+                            List<ContactShortcutExtraA> contactShortcutExtraAList = new List<ContactShortcutExtraA>();
+                            contactShortcutExtraAList = contactShortcutService.GetContactShortcutExtraAList().ToList();
+                            CheckContactShortcutExtraAFields(contactShortcutExtraAList);
+                            Assert.AreEqual(contactShortcutDirectQueryList[0].ContactShortcutID, contactShortcutExtraAList[0].ContactShortcutID);
+                            Assert.AreEqual(contactShortcutDirectQueryList.Count, contactShortcutExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<ContactShortcut_B> contactShortcut_BList = new List<ContactShortcut_B>();
-                            contactShortcut_BList = contactShortcutService.GetContactShortcut_BList().ToList();
-                            CheckContactShortcut_BFields(contactShortcut_BList);
-                            Assert.AreEqual(contactShortcutDirectQueryList[0].ContactShortcutID, contactShortcut_BList[0].ContactShortcutID);
-                            Assert.AreEqual(contactShortcutDirectQueryList.Count, contactShortcut_BList.Count);
+                            List<ContactShortcutExtraB> contactShortcutExtraBList = new List<ContactShortcutExtraB>();
+                            contactShortcutExtraBList = contactShortcutService.GetContactShortcutExtraBList().ToList();
+                            CheckContactShortcutExtraBFields(contactShortcutExtraBList);
+                            Assert.AreEqual(contactShortcutDirectQueryList[0].ContactShortcutID, contactShortcutExtraBList[0].ContactShortcutID);
+                            Assert.AreEqual(contactShortcutDirectQueryList.Count, contactShortcutExtraBList.Count);
                         }
                         else
                         {
@@ -638,31 +638,31 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(contactShortcutList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(contactShortcutList[0].HasErrors);
         }
-        private void CheckContactShortcut_AFields(List<ContactShortcut_A> contactShortcut_AList)
+        private void CheckContactShortcutExtraAFields(List<ContactShortcutExtraA> contactShortcutExtraAList)
         {
-            Assert.IsNotNull(contactShortcut_AList[0].LastUpdateContactTVItemLanguage);
-            Assert.IsNotNull(contactShortcut_AList[0].ContactShortcutID);
-            Assert.IsNotNull(contactShortcut_AList[0].ContactID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(contactShortcut_AList[0].ShortCutText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(contactShortcut_AList[0].ShortCutAddress));
-            Assert.IsNotNull(contactShortcut_AList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(contactShortcut_AList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(contactShortcut_AList[0].HasErrors);
+            Assert.IsNotNull(contactShortcutExtraAList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(contactShortcutExtraAList[0].ContactShortcutID);
+            Assert.IsNotNull(contactShortcutExtraAList[0].ContactID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(contactShortcutExtraAList[0].ShortCutText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(contactShortcutExtraAList[0].ShortCutAddress));
+            Assert.IsNotNull(contactShortcutExtraAList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(contactShortcutExtraAList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(contactShortcutExtraAList[0].HasErrors);
         }
-        private void CheckContactShortcut_BFields(List<ContactShortcut_B> contactShortcut_BList)
+        private void CheckContactShortcutExtraBFields(List<ContactShortcutExtraB> contactShortcutExtraBList)
         {
-            if (!string.IsNullOrWhiteSpace(contactShortcut_BList[0].ContactShortcutReportTest))
+            if (!string.IsNullOrWhiteSpace(contactShortcutExtraBList[0].ContactShortcutReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(contactShortcut_BList[0].ContactShortcutReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(contactShortcutExtraBList[0].ContactShortcutReportTest));
             }
-            Assert.IsNotNull(contactShortcut_BList[0].LastUpdateContactTVItemLanguage);
-            Assert.IsNotNull(contactShortcut_BList[0].ContactShortcutID);
-            Assert.IsNotNull(contactShortcut_BList[0].ContactID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(contactShortcut_BList[0].ShortCutText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(contactShortcut_BList[0].ShortCutAddress));
-            Assert.IsNotNull(contactShortcut_BList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(contactShortcut_BList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(contactShortcut_BList[0].HasErrors);
+            Assert.IsNotNull(contactShortcutExtraBList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(contactShortcutExtraBList[0].ContactShortcutID);
+            Assert.IsNotNull(contactShortcutExtraBList[0].ContactID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(contactShortcutExtraBList[0].ShortCutText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(contactShortcutExtraBList[0].ShortCutAddress));
+            Assert.IsNotNull(contactShortcutExtraBList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(contactShortcutExtraBList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(contactShortcutExtraBList[0].HasErrors);
         }
         private ContactShortcut GetFilledRandomContactShortcut(string OmitPropName)
         {

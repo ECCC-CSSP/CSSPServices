@@ -343,7 +343,7 @@ namespace CSSPServices.Tests
                     Address address = (from c in dbTestDB.Addresses select c).FirstOrDefault();
                     Assert.IsNotNull(address);
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         addressService.Query.Detail = detail;
 
@@ -353,17 +353,17 @@ namespace CSSPServices.Tests
                             CheckAddressFields(new List<Address>() { addressRet });
                             Assert.AreEqual(address.AddressID, addressRet.AddressID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            Address_A address_ARet = addressService.GetAddress_AWithAddressID(address.AddressID);
-                            CheckAddress_AFields(new List<Address_A>() { address_ARet });
-                            Assert.AreEqual(address.AddressID, address_ARet.AddressID);
+                            AddressExtraA addressExtraARet = addressService.GetAddressExtraAWithAddressID(address.AddressID);
+                            CheckAddressExtraAFields(new List<AddressExtraA>() { addressExtraARet });
+                            Assert.AreEqual(address.AddressID, addressExtraARet.AddressID);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            Address_B address_BRet = addressService.GetAddress_BWithAddressID(address.AddressID);
-                            CheckAddress_BFields(new List<Address_B>() { address_BRet });
-                            Assert.AreEqual(address.AddressID, address_BRet.AddressID);
+                            AddressExtraB addressExtraBRet = addressService.GetAddressExtraBWithAddressID(address.AddressID);
+                            CheckAddressExtraBFields(new List<AddressExtraB>() { addressExtraBRet });
+                            Assert.AreEqual(address.AddressID, addressExtraBRet.AddressID);
                         }
                         else
                         {
@@ -392,7 +392,7 @@ namespace CSSPServices.Tests
                     List<Address> addressDirectQueryList = new List<Address>();
                     addressDirectQueryList = (from c in dbTestDB.Addresses select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         addressService.Query.Detail = detail;
 
@@ -402,19 +402,19 @@ namespace CSSPServices.Tests
                             addressList = addressService.GetAddressList().ToList();
                             CheckAddressFields(addressList);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<Address_A> address_AList = new List<Address_A>();
-                            address_AList = addressService.GetAddress_AList().ToList();
-                            CheckAddress_AFields(address_AList);
-                            Assert.AreEqual(addressDirectQueryList.Count, address_AList.Count);
+                            List<AddressExtraA> addressExtraAList = new List<AddressExtraA>();
+                            addressExtraAList = addressService.GetAddressExtraAList().ToList();
+                            CheckAddressExtraAFields(addressExtraAList);
+                            Assert.AreEqual(addressDirectQueryList.Count, addressExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<Address_B> address_BList = new List<Address_B>();
-                            address_BList = addressService.GetAddress_BList().ToList();
-                            CheckAddress_BFields(address_BList);
-                            Assert.AreEqual(addressDirectQueryList.Count, address_BList.Count);
+                            List<AddressExtraB> addressExtraBList = new List<AddressExtraB>();
+                            addressExtraBList = addressService.GetAddressExtraBList().ToList();
+                            CheckAddressExtraBFields(addressExtraBList);
+                            Assert.AreEqual(addressDirectQueryList.Count, addressExtraBList.Count);
                         }
                         else
                         {
@@ -436,7 +436,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         AddressService addressService = new AddressService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -452,21 +452,21 @@ namespace CSSPServices.Tests
                             CheckAddressFields(addressList);
                             Assert.AreEqual(addressDirectQueryList[0].AddressID, addressList[0].AddressID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<Address_A> address_AList = new List<Address_A>();
-                            address_AList = addressService.GetAddress_AList().ToList();
-                            CheckAddress_AFields(address_AList);
-                            Assert.AreEqual(addressDirectQueryList[0].AddressID, address_AList[0].AddressID);
-                            Assert.AreEqual(addressDirectQueryList.Count, address_AList.Count);
+                            List<AddressExtraA> addressExtraAList = new List<AddressExtraA>();
+                            addressExtraAList = addressService.GetAddressExtraAList().ToList();
+                            CheckAddressExtraAFields(addressExtraAList);
+                            Assert.AreEqual(addressDirectQueryList[0].AddressID, addressExtraAList[0].AddressID);
+                            Assert.AreEqual(addressDirectQueryList.Count, addressExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<Address_B> address_BList = new List<Address_B>();
-                            address_BList = addressService.GetAddress_BList().ToList();
-                            CheckAddress_BFields(address_BList);
-                            Assert.AreEqual(addressDirectQueryList[0].AddressID, address_BList[0].AddressID);
-                            Assert.AreEqual(addressDirectQueryList.Count, address_BList.Count);
+                            List<AddressExtraB> addressExtraBList = new List<AddressExtraB>();
+                            addressExtraBList = addressService.GetAddressExtraBList().ToList();
+                            CheckAddressExtraBFields(addressExtraBList);
+                            Assert.AreEqual(addressDirectQueryList[0].AddressID, addressExtraBList[0].AddressID);
+                            Assert.AreEqual(addressDirectQueryList.Count, addressExtraBList.Count);
                         }
                         else
                         {
@@ -488,7 +488,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         AddressService addressService = new AddressService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -504,21 +504,21 @@ namespace CSSPServices.Tests
                             CheckAddressFields(addressList);
                             Assert.AreEqual(addressDirectQueryList[0].AddressID, addressList[0].AddressID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<Address_A> address_AList = new List<Address_A>();
-                            address_AList = addressService.GetAddress_AList().ToList();
-                            CheckAddress_AFields(address_AList);
-                            Assert.AreEqual(addressDirectQueryList[0].AddressID, address_AList[0].AddressID);
-                            Assert.AreEqual(addressDirectQueryList.Count, address_AList.Count);
+                            List<AddressExtraA> addressExtraAList = new List<AddressExtraA>();
+                            addressExtraAList = addressService.GetAddressExtraAList().ToList();
+                            CheckAddressExtraAFields(addressExtraAList);
+                            Assert.AreEqual(addressDirectQueryList[0].AddressID, addressExtraAList[0].AddressID);
+                            Assert.AreEqual(addressDirectQueryList.Count, addressExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<Address_B> address_BList = new List<Address_B>();
-                            address_BList = addressService.GetAddress_BList().ToList();
-                            CheckAddress_BFields(address_BList);
-                            Assert.AreEqual(addressDirectQueryList[0].AddressID, address_BList[0].AddressID);
-                            Assert.AreEqual(addressDirectQueryList.Count, address_BList.Count);
+                            List<AddressExtraB> addressExtraBList = new List<AddressExtraB>();
+                            addressExtraBList = addressService.GetAddressExtraBList().ToList();
+                            CheckAddressExtraBFields(addressExtraBList);
+                            Assert.AreEqual(addressDirectQueryList[0].AddressID, addressExtraBList[0].AddressID);
+                            Assert.AreEqual(addressDirectQueryList.Count, addressExtraBList.Count);
                         }
                         else
                         {
@@ -540,7 +540,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         AddressService addressService = new AddressService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -556,21 +556,21 @@ namespace CSSPServices.Tests
                             CheckAddressFields(addressList);
                             Assert.AreEqual(addressDirectQueryList[0].AddressID, addressList[0].AddressID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<Address_A> address_AList = new List<Address_A>();
-                            address_AList = addressService.GetAddress_AList().ToList();
-                            CheckAddress_AFields(address_AList);
-                            Assert.AreEqual(addressDirectQueryList[0].AddressID, address_AList[0].AddressID);
-                            Assert.AreEqual(addressDirectQueryList.Count, address_AList.Count);
+                            List<AddressExtraA> addressExtraAList = new List<AddressExtraA>();
+                            addressExtraAList = addressService.GetAddressExtraAList().ToList();
+                            CheckAddressExtraAFields(addressExtraAList);
+                            Assert.AreEqual(addressDirectQueryList[0].AddressID, addressExtraAList[0].AddressID);
+                            Assert.AreEqual(addressDirectQueryList.Count, addressExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<Address_B> address_BList = new List<Address_B>();
-                            address_BList = addressService.GetAddress_BList().ToList();
-                            CheckAddress_BFields(address_BList);
-                            Assert.AreEqual(addressDirectQueryList[0].AddressID, address_BList[0].AddressID);
-                            Assert.AreEqual(addressDirectQueryList.Count, address_BList.Count);
+                            List<AddressExtraB> addressExtraBList = new List<AddressExtraB>();
+                            addressExtraBList = addressService.GetAddressExtraBList().ToList();
+                            CheckAddressExtraBFields(addressExtraBList);
+                            Assert.AreEqual(addressDirectQueryList[0].AddressID, addressExtraBList[0].AddressID);
+                            Assert.AreEqual(addressDirectQueryList.Count, addressExtraBList.Count);
                         }
                         else
                         {
@@ -592,7 +592,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         AddressService addressService = new AddressService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -608,21 +608,21 @@ namespace CSSPServices.Tests
                             CheckAddressFields(addressList);
                             Assert.AreEqual(addressDirectQueryList[0].AddressID, addressList[0].AddressID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<Address_A> address_AList = new List<Address_A>();
-                            address_AList = addressService.GetAddress_AList().ToList();
-                            CheckAddress_AFields(address_AList);
-                            Assert.AreEqual(addressDirectQueryList[0].AddressID, address_AList[0].AddressID);
-                            Assert.AreEqual(addressDirectQueryList.Count, address_AList.Count);
+                            List<AddressExtraA> addressExtraAList = new List<AddressExtraA>();
+                            addressExtraAList = addressService.GetAddressExtraAList().ToList();
+                            CheckAddressExtraAFields(addressExtraAList);
+                            Assert.AreEqual(addressDirectQueryList[0].AddressID, addressExtraAList[0].AddressID);
+                            Assert.AreEqual(addressDirectQueryList.Count, addressExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<Address_B> address_BList = new List<Address_B>();
-                            address_BList = addressService.GetAddress_BList().ToList();
-                            CheckAddress_BFields(address_BList);
-                            Assert.AreEqual(addressDirectQueryList[0].AddressID, address_BList[0].AddressID);
-                            Assert.AreEqual(addressDirectQueryList.Count, address_BList.Count);
+                            List<AddressExtraB> addressExtraBList = new List<AddressExtraB>();
+                            addressExtraBList = addressService.GetAddressExtraBList().ToList();
+                            CheckAddressExtraBFields(addressExtraBList);
+                            Assert.AreEqual(addressDirectQueryList[0].AddressID, addressExtraBList[0].AddressID);
+                            Assert.AreEqual(addressDirectQueryList.Count, addressExtraBList.Count);
                         }
                         else
                         {
@@ -644,7 +644,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         AddressService addressService = new AddressService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -660,21 +660,21 @@ namespace CSSPServices.Tests
                             CheckAddressFields(addressList);
                             Assert.AreEqual(addressDirectQueryList[0].AddressID, addressList[0].AddressID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<Address_A> address_AList = new List<Address_A>();
-                            address_AList = addressService.GetAddress_AList().ToList();
-                            CheckAddress_AFields(address_AList);
-                            Assert.AreEqual(addressDirectQueryList[0].AddressID, address_AList[0].AddressID);
-                            Assert.AreEqual(addressDirectQueryList.Count, address_AList.Count);
+                            List<AddressExtraA> addressExtraAList = new List<AddressExtraA>();
+                            addressExtraAList = addressService.GetAddressExtraAList().ToList();
+                            CheckAddressExtraAFields(addressExtraAList);
+                            Assert.AreEqual(addressDirectQueryList[0].AddressID, addressExtraAList[0].AddressID);
+                            Assert.AreEqual(addressDirectQueryList.Count, addressExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<Address_B> address_BList = new List<Address_B>();
-                            address_BList = addressService.GetAddress_BList().ToList();
-                            CheckAddress_BFields(address_BList);
-                            Assert.AreEqual(addressDirectQueryList[0].AddressID, address_BList[0].AddressID);
-                            Assert.AreEqual(addressDirectQueryList.Count, address_BList.Count);
+                            List<AddressExtraB> addressExtraBList = new List<AddressExtraB>();
+                            addressExtraBList = addressService.GetAddressExtraBList().ToList();
+                            CheckAddressExtraBFields(addressExtraBList);
+                            Assert.AreEqual(addressDirectQueryList[0].AddressID, addressExtraBList[0].AddressID);
+                            Assert.AreEqual(addressDirectQueryList.Count, addressExtraBList.Count);
                         }
                         else
                         {
@@ -696,7 +696,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         AddressService addressService = new AddressService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -712,21 +712,21 @@ namespace CSSPServices.Tests
                             CheckAddressFields(addressList);
                             Assert.AreEqual(addressDirectQueryList[0].AddressID, addressList[0].AddressID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<Address_A> address_AList = new List<Address_A>();
-                            address_AList = addressService.GetAddress_AList().ToList();
-                            CheckAddress_AFields(address_AList);
-                            Assert.AreEqual(addressDirectQueryList[0].AddressID, address_AList[0].AddressID);
-                            Assert.AreEqual(addressDirectQueryList.Count, address_AList.Count);
+                            List<AddressExtraA> addressExtraAList = new List<AddressExtraA>();
+                            addressExtraAList = addressService.GetAddressExtraAList().ToList();
+                            CheckAddressExtraAFields(addressExtraAList);
+                            Assert.AreEqual(addressDirectQueryList[0].AddressID, addressExtraAList[0].AddressID);
+                            Assert.AreEqual(addressDirectQueryList.Count, addressExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<Address_B> address_BList = new List<Address_B>();
-                            address_BList = addressService.GetAddress_BList().ToList();
-                            CheckAddress_BFields(address_BList);
-                            Assert.AreEqual(addressDirectQueryList[0].AddressID, address_BList[0].AddressID);
-                            Assert.AreEqual(addressDirectQueryList.Count, address_BList.Count);
+                            List<AddressExtraB> addressExtraBList = new List<AddressExtraB>();
+                            addressExtraBList = addressService.GetAddressExtraBList().ToList();
+                            CheckAddressExtraBFields(addressExtraBList);
+                            Assert.AreEqual(addressDirectQueryList[0].AddressID, addressExtraBList[0].AddressID);
+                            Assert.AreEqual(addressDirectQueryList.Count, addressExtraBList.Count);
                         }
                         else
                         {
@@ -771,99 +771,99 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(addressList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(addressList[0].HasErrors);
         }
-        private void CheckAddress_AFields(List<Address_A> address_AList)
+        private void CheckAddressExtraAFields(List<AddressExtraA> addressExtraAList)
         {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(address_AList[0].AddressText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(address_AList[0].CountryText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(address_AList[0].ProvinceText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(address_AList[0].MunicipalityText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(address_AList[0].LastUpdateContactText));
-            if (!string.IsNullOrWhiteSpace(address_AList[0].AddressTypeText))
+            Assert.IsFalse(string.IsNullOrWhiteSpace(addressExtraAList[0].AddressText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(addressExtraAList[0].CountryText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(addressExtraAList[0].ProvinceText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(addressExtraAList[0].MunicipalityText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(addressExtraAList[0].LastUpdateContactText));
+            if (!string.IsNullOrWhiteSpace(addressExtraAList[0].AddressTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(address_AList[0].AddressTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(addressExtraAList[0].AddressTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(address_AList[0].StreetTypeText))
+            if (!string.IsNullOrWhiteSpace(addressExtraAList[0].StreetTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(address_AList[0].StreetTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(addressExtraAList[0].StreetTypeText));
             }
-            Assert.IsNotNull(address_AList[0].AddressID);
-            Assert.IsNotNull(address_AList[0].AddressTVItemID);
-            Assert.IsNotNull(address_AList[0].AddressType);
-            Assert.IsNotNull(address_AList[0].CountryTVItemID);
-            Assert.IsNotNull(address_AList[0].ProvinceTVItemID);
-            Assert.IsNotNull(address_AList[0].MunicipalityTVItemID);
-            if (!string.IsNullOrWhiteSpace(address_AList[0].StreetName))
+            Assert.IsNotNull(addressExtraAList[0].AddressID);
+            Assert.IsNotNull(addressExtraAList[0].AddressTVItemID);
+            Assert.IsNotNull(addressExtraAList[0].AddressType);
+            Assert.IsNotNull(addressExtraAList[0].CountryTVItemID);
+            Assert.IsNotNull(addressExtraAList[0].ProvinceTVItemID);
+            Assert.IsNotNull(addressExtraAList[0].MunicipalityTVItemID);
+            if (!string.IsNullOrWhiteSpace(addressExtraAList[0].StreetName))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(address_AList[0].StreetName));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(addressExtraAList[0].StreetName));
             }
-            if (!string.IsNullOrWhiteSpace(address_AList[0].StreetNumber))
+            if (!string.IsNullOrWhiteSpace(addressExtraAList[0].StreetNumber))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(address_AList[0].StreetNumber));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(addressExtraAList[0].StreetNumber));
             }
-            if (address_AList[0].StreetType != null)
+            if (addressExtraAList[0].StreetType != null)
             {
-                Assert.IsNotNull(address_AList[0].StreetType);
+                Assert.IsNotNull(addressExtraAList[0].StreetType);
             }
-            if (!string.IsNullOrWhiteSpace(address_AList[0].PostalCode))
+            if (!string.IsNullOrWhiteSpace(addressExtraAList[0].PostalCode))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(address_AList[0].PostalCode));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(addressExtraAList[0].PostalCode));
             }
-            if (!string.IsNullOrWhiteSpace(address_AList[0].GoogleAddressText))
+            if (!string.IsNullOrWhiteSpace(addressExtraAList[0].GoogleAddressText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(address_AList[0].GoogleAddressText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(addressExtraAList[0].GoogleAddressText));
             }
-            Assert.IsNotNull(address_AList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(address_AList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(address_AList[0].HasErrors);
+            Assert.IsNotNull(addressExtraAList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(addressExtraAList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(addressExtraAList[0].HasErrors);
         }
-        private void CheckAddress_BFields(List<Address_B> address_BList)
+        private void CheckAddressExtraBFields(List<AddressExtraB> addressExtraBList)
         {
-            if (!string.IsNullOrWhiteSpace(address_BList[0].AddressReportTest))
+            if (!string.IsNullOrWhiteSpace(addressExtraBList[0].AddressReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(address_BList[0].AddressReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(addressExtraBList[0].AddressReportTest));
             }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(address_BList[0].AddressText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(address_BList[0].CountryText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(address_BList[0].ProvinceText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(address_BList[0].MunicipalityText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(address_BList[0].LastUpdateContactText));
-            if (!string.IsNullOrWhiteSpace(address_BList[0].AddressTypeText))
+            Assert.IsFalse(string.IsNullOrWhiteSpace(addressExtraBList[0].AddressText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(addressExtraBList[0].CountryText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(addressExtraBList[0].ProvinceText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(addressExtraBList[0].MunicipalityText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(addressExtraBList[0].LastUpdateContactText));
+            if (!string.IsNullOrWhiteSpace(addressExtraBList[0].AddressTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(address_BList[0].AddressTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(addressExtraBList[0].AddressTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(address_BList[0].StreetTypeText))
+            if (!string.IsNullOrWhiteSpace(addressExtraBList[0].StreetTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(address_BList[0].StreetTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(addressExtraBList[0].StreetTypeText));
             }
-            Assert.IsNotNull(address_BList[0].AddressID);
-            Assert.IsNotNull(address_BList[0].AddressTVItemID);
-            Assert.IsNotNull(address_BList[0].AddressType);
-            Assert.IsNotNull(address_BList[0].CountryTVItemID);
-            Assert.IsNotNull(address_BList[0].ProvinceTVItemID);
-            Assert.IsNotNull(address_BList[0].MunicipalityTVItemID);
-            if (!string.IsNullOrWhiteSpace(address_BList[0].StreetName))
+            Assert.IsNotNull(addressExtraBList[0].AddressID);
+            Assert.IsNotNull(addressExtraBList[0].AddressTVItemID);
+            Assert.IsNotNull(addressExtraBList[0].AddressType);
+            Assert.IsNotNull(addressExtraBList[0].CountryTVItemID);
+            Assert.IsNotNull(addressExtraBList[0].ProvinceTVItemID);
+            Assert.IsNotNull(addressExtraBList[0].MunicipalityTVItemID);
+            if (!string.IsNullOrWhiteSpace(addressExtraBList[0].StreetName))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(address_BList[0].StreetName));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(addressExtraBList[0].StreetName));
             }
-            if (!string.IsNullOrWhiteSpace(address_BList[0].StreetNumber))
+            if (!string.IsNullOrWhiteSpace(addressExtraBList[0].StreetNumber))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(address_BList[0].StreetNumber));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(addressExtraBList[0].StreetNumber));
             }
-            if (address_BList[0].StreetType != null)
+            if (addressExtraBList[0].StreetType != null)
             {
-                Assert.IsNotNull(address_BList[0].StreetType);
+                Assert.IsNotNull(addressExtraBList[0].StreetType);
             }
-            if (!string.IsNullOrWhiteSpace(address_BList[0].PostalCode))
+            if (!string.IsNullOrWhiteSpace(addressExtraBList[0].PostalCode))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(address_BList[0].PostalCode));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(addressExtraBList[0].PostalCode));
             }
-            if (!string.IsNullOrWhiteSpace(address_BList[0].GoogleAddressText))
+            if (!string.IsNullOrWhiteSpace(addressExtraBList[0].GoogleAddressText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(address_BList[0].GoogleAddressText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(addressExtraBList[0].GoogleAddressText));
             }
-            Assert.IsNotNull(address_BList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(address_BList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(address_BList[0].HasErrors);
+            Assert.IsNotNull(addressExtraBList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(addressExtraBList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(addressExtraBList[0].HasErrors);
         }
         private Address GetFilledRandomAddress(string OmitPropName)
         {

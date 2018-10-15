@@ -238,31 +238,31 @@ namespace CSSPServices
 
             return AddressQuery;
         }
-        public Address_A GetAddress_AWithAddressID(int AddressID)
+        public AddressExtraA GetAddressExtraAWithAddressID(int AddressID)
         {
-            return FillAddress_A().Where(c => c.AddressID == AddressID).FirstOrDefault();
+            return FillAddressExtraA().Where(c => c.AddressID == AddressID).FirstOrDefault();
 
         }
-        public IQueryable<Address_A> GetAddress_AList()
+        public IQueryable<AddressExtraA> GetAddressExtraAList()
         {
-            IQueryable<Address_A> Address_AQuery = FillAddress_A();
+            IQueryable<AddressExtraA> AddressExtraAQuery = FillAddressExtraA();
 
-            Address_AQuery = EnhanceQueryStatements<Address_A>(Address_AQuery) as IQueryable<Address_A>;
+            AddressExtraAQuery = EnhanceQueryStatements<AddressExtraA>(AddressExtraAQuery) as IQueryable<AddressExtraA>;
 
-            return Address_AQuery;
+            return AddressExtraAQuery;
         }
-        public Address_B GetAddress_BWithAddressID(int AddressID)
+        public AddressExtraB GetAddressExtraBWithAddressID(int AddressID)
         {
-            return FillAddress_B().Where(c => c.AddressID == AddressID).FirstOrDefault();
+            return FillAddressExtraB().Where(c => c.AddressID == AddressID).FirstOrDefault();
 
         }
-        public IQueryable<Address_B> GetAddress_BList()
+        public IQueryable<AddressExtraB> GetAddressExtraBList()
         {
-            IQueryable<Address_B> Address_BQuery = FillAddress_B();
+            IQueryable<AddressExtraB> AddressExtraBQuery = FillAddressExtraB();
 
-            Address_BQuery = EnhanceQueryStatements<Address_B>(Address_BQuery) as IQueryable<Address_B>;
+            AddressExtraBQuery = EnhanceQueryStatements<AddressExtraB>(AddressExtraBQuery) as IQueryable<AddressExtraB>;
 
-            return Address_BQuery;
+            return AddressExtraBQuery;
         }
         #endregion Functions public Generated Get
 

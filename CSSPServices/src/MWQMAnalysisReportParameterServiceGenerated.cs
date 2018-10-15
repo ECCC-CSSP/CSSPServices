@@ -319,31 +319,31 @@ namespace CSSPServices
 
             return MWQMAnalysisReportParameterQuery;
         }
-        public MWQMAnalysisReportParameter_A GetMWQMAnalysisReportParameter_AWithMWQMAnalysisReportParameterID(int MWQMAnalysisReportParameterID)
+        public MWQMAnalysisReportParameterExtraA GetMWQMAnalysisReportParameterExtraAWithMWQMAnalysisReportParameterID(int MWQMAnalysisReportParameterID)
         {
-            return FillMWQMAnalysisReportParameter_A().Where(c => c.MWQMAnalysisReportParameterID == MWQMAnalysisReportParameterID).FirstOrDefault();
+            return FillMWQMAnalysisReportParameterExtraA().Where(c => c.MWQMAnalysisReportParameterID == MWQMAnalysisReportParameterID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMAnalysisReportParameter_A> GetMWQMAnalysisReportParameter_AList()
+        public IQueryable<MWQMAnalysisReportParameterExtraA> GetMWQMAnalysisReportParameterExtraAList()
         {
-            IQueryable<MWQMAnalysisReportParameter_A> MWQMAnalysisReportParameter_AQuery = FillMWQMAnalysisReportParameter_A();
+            IQueryable<MWQMAnalysisReportParameterExtraA> MWQMAnalysisReportParameterExtraAQuery = FillMWQMAnalysisReportParameterExtraA();
 
-            MWQMAnalysisReportParameter_AQuery = EnhanceQueryStatements<MWQMAnalysisReportParameter_A>(MWQMAnalysisReportParameter_AQuery) as IQueryable<MWQMAnalysisReportParameter_A>;
+            MWQMAnalysisReportParameterExtraAQuery = EnhanceQueryStatements<MWQMAnalysisReportParameterExtraA>(MWQMAnalysisReportParameterExtraAQuery) as IQueryable<MWQMAnalysisReportParameterExtraA>;
 
-            return MWQMAnalysisReportParameter_AQuery;
+            return MWQMAnalysisReportParameterExtraAQuery;
         }
-        public MWQMAnalysisReportParameter_B GetMWQMAnalysisReportParameter_BWithMWQMAnalysisReportParameterID(int MWQMAnalysisReportParameterID)
+        public MWQMAnalysisReportParameterExtraB GetMWQMAnalysisReportParameterExtraBWithMWQMAnalysisReportParameterID(int MWQMAnalysisReportParameterID)
         {
-            return FillMWQMAnalysisReportParameter_B().Where(c => c.MWQMAnalysisReportParameterID == MWQMAnalysisReportParameterID).FirstOrDefault();
+            return FillMWQMAnalysisReportParameterExtraB().Where(c => c.MWQMAnalysisReportParameterID == MWQMAnalysisReportParameterID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMAnalysisReportParameter_B> GetMWQMAnalysisReportParameter_BList()
+        public IQueryable<MWQMAnalysisReportParameterExtraB> GetMWQMAnalysisReportParameterExtraBList()
         {
-            IQueryable<MWQMAnalysisReportParameter_B> MWQMAnalysisReportParameter_BQuery = FillMWQMAnalysisReportParameter_B();
+            IQueryable<MWQMAnalysisReportParameterExtraB> MWQMAnalysisReportParameterExtraBQuery = FillMWQMAnalysisReportParameterExtraB();
 
-            MWQMAnalysisReportParameter_BQuery = EnhanceQueryStatements<MWQMAnalysisReportParameter_B>(MWQMAnalysisReportParameter_BQuery) as IQueryable<MWQMAnalysisReportParameter_B>;
+            MWQMAnalysisReportParameterExtraBQuery = EnhanceQueryStatements<MWQMAnalysisReportParameterExtraB>(MWQMAnalysisReportParameterExtraBQuery) as IQueryable<MWQMAnalysisReportParameterExtraB>;
 
-            return MWQMAnalysisReportParameter_BQuery;
+            return MWQMAnalysisReportParameterExtraBQuery;
         }
         #endregion Functions public Generated Get
 

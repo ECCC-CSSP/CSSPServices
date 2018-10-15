@@ -176,31 +176,31 @@ namespace CSSPServices
 
             return MWQMSitePolSourceSiteQuery;
         }
-        public MWQMSitePolSourceSite_A GetMWQMSitePolSourceSite_AWithMWQMSitePolSourceSiteID(int MWQMSitePolSourceSiteID)
+        public MWQMSitePolSourceSiteExtraA GetMWQMSitePolSourceSiteExtraAWithMWQMSitePolSourceSiteID(int MWQMSitePolSourceSiteID)
         {
-            return FillMWQMSitePolSourceSite_A().Where(c => c.MWQMSitePolSourceSiteID == MWQMSitePolSourceSiteID).FirstOrDefault();
+            return FillMWQMSitePolSourceSiteExtraA().Where(c => c.MWQMSitePolSourceSiteID == MWQMSitePolSourceSiteID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMSitePolSourceSite_A> GetMWQMSitePolSourceSite_AList()
+        public IQueryable<MWQMSitePolSourceSiteExtraA> GetMWQMSitePolSourceSiteExtraAList()
         {
-            IQueryable<MWQMSitePolSourceSite_A> MWQMSitePolSourceSite_AQuery = FillMWQMSitePolSourceSite_A();
+            IQueryable<MWQMSitePolSourceSiteExtraA> MWQMSitePolSourceSiteExtraAQuery = FillMWQMSitePolSourceSiteExtraA();
 
-            MWQMSitePolSourceSite_AQuery = EnhanceQueryStatements<MWQMSitePolSourceSite_A>(MWQMSitePolSourceSite_AQuery) as IQueryable<MWQMSitePolSourceSite_A>;
+            MWQMSitePolSourceSiteExtraAQuery = EnhanceQueryStatements<MWQMSitePolSourceSiteExtraA>(MWQMSitePolSourceSiteExtraAQuery) as IQueryable<MWQMSitePolSourceSiteExtraA>;
 
-            return MWQMSitePolSourceSite_AQuery;
+            return MWQMSitePolSourceSiteExtraAQuery;
         }
-        public MWQMSitePolSourceSite_B GetMWQMSitePolSourceSite_BWithMWQMSitePolSourceSiteID(int MWQMSitePolSourceSiteID)
+        public MWQMSitePolSourceSiteExtraB GetMWQMSitePolSourceSiteExtraBWithMWQMSitePolSourceSiteID(int MWQMSitePolSourceSiteID)
         {
-            return FillMWQMSitePolSourceSite_B().Where(c => c.MWQMSitePolSourceSiteID == MWQMSitePolSourceSiteID).FirstOrDefault();
+            return FillMWQMSitePolSourceSiteExtraB().Where(c => c.MWQMSitePolSourceSiteID == MWQMSitePolSourceSiteID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMSitePolSourceSite_B> GetMWQMSitePolSourceSite_BList()
+        public IQueryable<MWQMSitePolSourceSiteExtraB> GetMWQMSitePolSourceSiteExtraBList()
         {
-            IQueryable<MWQMSitePolSourceSite_B> MWQMSitePolSourceSite_BQuery = FillMWQMSitePolSourceSite_B();
+            IQueryable<MWQMSitePolSourceSiteExtraB> MWQMSitePolSourceSiteExtraBQuery = FillMWQMSitePolSourceSiteExtraB();
 
-            MWQMSitePolSourceSite_BQuery = EnhanceQueryStatements<MWQMSitePolSourceSite_B>(MWQMSitePolSourceSite_BQuery) as IQueryable<MWQMSitePolSourceSite_B>;
+            MWQMSitePolSourceSiteExtraBQuery = EnhanceQueryStatements<MWQMSitePolSourceSiteExtraB>(MWQMSitePolSourceSiteExtraBQuery) as IQueryable<MWQMSitePolSourceSiteExtraB>;
 
-            return MWQMSitePolSourceSite_BQuery;
+            return MWQMSitePolSourceSiteExtraBQuery;
         }
         #endregion Functions public Generated Get
 

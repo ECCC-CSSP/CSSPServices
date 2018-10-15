@@ -207,31 +207,31 @@ namespace CSSPServices
 
             return RainExceedanceQuery;
         }
-        public RainExceedance_A GetRainExceedance_AWithRainExceedanceID(int RainExceedanceID)
+        public RainExceedanceExtraA GetRainExceedanceExtraAWithRainExceedanceID(int RainExceedanceID)
         {
-            return FillRainExceedance_A().Where(c => c.RainExceedanceID == RainExceedanceID).FirstOrDefault();
+            return FillRainExceedanceExtraA().Where(c => c.RainExceedanceID == RainExceedanceID).FirstOrDefault();
 
         }
-        public IQueryable<RainExceedance_A> GetRainExceedance_AList()
+        public IQueryable<RainExceedanceExtraA> GetRainExceedanceExtraAList()
         {
-            IQueryable<RainExceedance_A> RainExceedance_AQuery = FillRainExceedance_A();
+            IQueryable<RainExceedanceExtraA> RainExceedanceExtraAQuery = FillRainExceedanceExtraA();
 
-            RainExceedance_AQuery = EnhanceQueryStatements<RainExceedance_A>(RainExceedance_AQuery) as IQueryable<RainExceedance_A>;
+            RainExceedanceExtraAQuery = EnhanceQueryStatements<RainExceedanceExtraA>(RainExceedanceExtraAQuery) as IQueryable<RainExceedanceExtraA>;
 
-            return RainExceedance_AQuery;
+            return RainExceedanceExtraAQuery;
         }
-        public RainExceedance_B GetRainExceedance_BWithRainExceedanceID(int RainExceedanceID)
+        public RainExceedanceExtraB GetRainExceedanceExtraBWithRainExceedanceID(int RainExceedanceID)
         {
-            return FillRainExceedance_B().Where(c => c.RainExceedanceID == RainExceedanceID).FirstOrDefault();
+            return FillRainExceedanceExtraB().Where(c => c.RainExceedanceID == RainExceedanceID).FirstOrDefault();
 
         }
-        public IQueryable<RainExceedance_B> GetRainExceedance_BList()
+        public IQueryable<RainExceedanceExtraB> GetRainExceedanceExtraBList()
         {
-            IQueryable<RainExceedance_B> RainExceedance_BQuery = FillRainExceedance_B();
+            IQueryable<RainExceedanceExtraB> RainExceedanceExtraBQuery = FillRainExceedanceExtraB();
 
-            RainExceedance_BQuery = EnhanceQueryStatements<RainExceedance_B>(RainExceedance_BQuery) as IQueryable<RainExceedance_B>;
+            RainExceedanceExtraBQuery = EnhanceQueryStatements<RainExceedanceExtraB>(RainExceedanceExtraBQuery) as IQueryable<RainExceedanceExtraB>;
 
-            return RainExceedance_BQuery;
+            return RainExceedanceExtraBQuery;
         }
         #endregion Functions public Generated Get
 

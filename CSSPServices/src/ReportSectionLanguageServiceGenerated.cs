@@ -170,31 +170,31 @@ namespace CSSPServices
 
             return ReportSectionLanguageQuery;
         }
-        public ReportSectionLanguage_A GetReportSectionLanguage_AWithReportSectionLanguageID(int ReportSectionLanguageID)
+        public ReportSectionLanguageExtraA GetReportSectionLanguageExtraAWithReportSectionLanguageID(int ReportSectionLanguageID)
         {
-            return FillReportSectionLanguage_A().Where(c => c.ReportSectionLanguageID == ReportSectionLanguageID).FirstOrDefault();
+            return FillReportSectionLanguageExtraA().Where(c => c.ReportSectionLanguageID == ReportSectionLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<ReportSectionLanguage_A> GetReportSectionLanguage_AList()
+        public IQueryable<ReportSectionLanguageExtraA> GetReportSectionLanguageExtraAList()
         {
-            IQueryable<ReportSectionLanguage_A> ReportSectionLanguage_AQuery = FillReportSectionLanguage_A();
+            IQueryable<ReportSectionLanguageExtraA> ReportSectionLanguageExtraAQuery = FillReportSectionLanguageExtraA();
 
-            ReportSectionLanguage_AQuery = EnhanceQueryStatements<ReportSectionLanguage_A>(ReportSectionLanguage_AQuery) as IQueryable<ReportSectionLanguage_A>;
+            ReportSectionLanguageExtraAQuery = EnhanceQueryStatements<ReportSectionLanguageExtraA>(ReportSectionLanguageExtraAQuery) as IQueryable<ReportSectionLanguageExtraA>;
 
-            return ReportSectionLanguage_AQuery;
+            return ReportSectionLanguageExtraAQuery;
         }
-        public ReportSectionLanguage_B GetReportSectionLanguage_BWithReportSectionLanguageID(int ReportSectionLanguageID)
+        public ReportSectionLanguageExtraB GetReportSectionLanguageExtraBWithReportSectionLanguageID(int ReportSectionLanguageID)
         {
-            return FillReportSectionLanguage_B().Where(c => c.ReportSectionLanguageID == ReportSectionLanguageID).FirstOrDefault();
+            return FillReportSectionLanguageExtraB().Where(c => c.ReportSectionLanguageID == ReportSectionLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<ReportSectionLanguage_B> GetReportSectionLanguage_BList()
+        public IQueryable<ReportSectionLanguageExtraB> GetReportSectionLanguageExtraBList()
         {
-            IQueryable<ReportSectionLanguage_B> ReportSectionLanguage_BQuery = FillReportSectionLanguage_B();
+            IQueryable<ReportSectionLanguageExtraB> ReportSectionLanguageExtraBQuery = FillReportSectionLanguageExtraB();
 
-            ReportSectionLanguage_BQuery = EnhanceQueryStatements<ReportSectionLanguage_B>(ReportSectionLanguage_BQuery) as IQueryable<ReportSectionLanguage_B>;
+            ReportSectionLanguageExtraBQuery = EnhanceQueryStatements<ReportSectionLanguageExtraB>(ReportSectionLanguageExtraBQuery) as IQueryable<ReportSectionLanguageExtraB>;
 
-            return ReportSectionLanguage_BQuery;
+            return ReportSectionLanguageExtraBQuery;
         }
         #endregion Functions public Generated Get
 

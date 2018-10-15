@@ -183,31 +183,31 @@ namespace CSSPServices
 
             return TVItemStatQuery;
         }
-        public TVItemStat_A GetTVItemStat_AWithTVItemStatID(int TVItemStatID)
+        public TVItemStatExtraA GetTVItemStatExtraAWithTVItemStatID(int TVItemStatID)
         {
-            return FillTVItemStat_A().Where(c => c.TVItemStatID == TVItemStatID).FirstOrDefault();
+            return FillTVItemStatExtraA().Where(c => c.TVItemStatID == TVItemStatID).FirstOrDefault();
 
         }
-        public IQueryable<TVItemStat_A> GetTVItemStat_AList()
+        public IQueryable<TVItemStatExtraA> GetTVItemStatExtraAList()
         {
-            IQueryable<TVItemStat_A> TVItemStat_AQuery = FillTVItemStat_A();
+            IQueryable<TVItemStatExtraA> TVItemStatExtraAQuery = FillTVItemStatExtraA();
 
-            TVItemStat_AQuery = EnhanceQueryStatements<TVItemStat_A>(TVItemStat_AQuery) as IQueryable<TVItemStat_A>;
+            TVItemStatExtraAQuery = EnhanceQueryStatements<TVItemStatExtraA>(TVItemStatExtraAQuery) as IQueryable<TVItemStatExtraA>;
 
-            return TVItemStat_AQuery;
+            return TVItemStatExtraAQuery;
         }
-        public TVItemStat_B GetTVItemStat_BWithTVItemStatID(int TVItemStatID)
+        public TVItemStatExtraB GetTVItemStatExtraBWithTVItemStatID(int TVItemStatID)
         {
-            return FillTVItemStat_B().Where(c => c.TVItemStatID == TVItemStatID).FirstOrDefault();
+            return FillTVItemStatExtraB().Where(c => c.TVItemStatID == TVItemStatID).FirstOrDefault();
 
         }
-        public IQueryable<TVItemStat_B> GetTVItemStat_BList()
+        public IQueryable<TVItemStatExtraB> GetTVItemStatExtraBList()
         {
-            IQueryable<TVItemStat_B> TVItemStat_BQuery = FillTVItemStat_B();
+            IQueryable<TVItemStatExtraB> TVItemStatExtraBQuery = FillTVItemStatExtraB();
 
-            TVItemStat_BQuery = EnhanceQueryStatements<TVItemStat_B>(TVItemStat_BQuery) as IQueryable<TVItemStat_B>;
+            TVItemStatExtraBQuery = EnhanceQueryStatements<TVItemStatExtraB>(TVItemStatExtraBQuery) as IQueryable<TVItemStatExtraB>;
 
-            return TVItemStat_BQuery;
+            return TVItemStatExtraBQuery;
         }
         #endregion Functions public Generated Get
 

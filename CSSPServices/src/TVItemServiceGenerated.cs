@@ -198,31 +198,31 @@ namespace CSSPServices
 
             return TVItemQuery;
         }
-        public TVItem_A GetTVItem_AWithTVItemID(int TVItemID)
+        public TVItemExtraA GetTVItemExtraAWithTVItemID(int TVItemID)
         {
-            return FillTVItem_A().Where(c => c.TVItemID == TVItemID).FirstOrDefault();
+            return FillTVItemExtraA().Where(c => c.TVItemID == TVItemID).FirstOrDefault();
 
         }
-        public IQueryable<TVItem_A> GetTVItem_AList()
+        public IQueryable<TVItemExtraA> GetTVItemExtraAList()
         {
-            IQueryable<TVItem_A> TVItem_AQuery = FillTVItem_A();
+            IQueryable<TVItemExtraA> TVItemExtraAQuery = FillTVItemExtraA();
 
-            TVItem_AQuery = EnhanceQueryStatements<TVItem_A>(TVItem_AQuery) as IQueryable<TVItem_A>;
+            TVItemExtraAQuery = EnhanceQueryStatements<TVItemExtraA>(TVItemExtraAQuery) as IQueryable<TVItemExtraA>;
 
-            return TVItem_AQuery;
+            return TVItemExtraAQuery;
         }
-        public TVItem_B GetTVItem_BWithTVItemID(int TVItemID)
+        public TVItemExtraB GetTVItemExtraBWithTVItemID(int TVItemID)
         {
-            return FillTVItem_B().Where(c => c.TVItemID == TVItemID).FirstOrDefault();
+            return FillTVItemExtraB().Where(c => c.TVItemID == TVItemID).FirstOrDefault();
 
         }
-        public IQueryable<TVItem_B> GetTVItem_BList()
+        public IQueryable<TVItemExtraB> GetTVItemExtraBList()
         {
-            IQueryable<TVItem_B> TVItem_BQuery = FillTVItem_B();
+            IQueryable<TVItemExtraB> TVItemExtraBQuery = FillTVItemExtraB();
 
-            TVItem_BQuery = EnhanceQueryStatements<TVItem_B>(TVItem_BQuery) as IQueryable<TVItem_B>;
+            TVItemExtraBQuery = EnhanceQueryStatements<TVItemExtraB>(TVItemExtraBQuery) as IQueryable<TVItemExtraB>;
 
-            return TVItem_BQuery;
+            return TVItemExtraBQuery;
         }
         #endregion Functions public Generated Get
 

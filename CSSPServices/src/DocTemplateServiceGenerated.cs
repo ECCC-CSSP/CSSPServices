@@ -163,31 +163,31 @@ namespace CSSPServices
 
             return DocTemplateQuery;
         }
-        public DocTemplate_A GetDocTemplate_AWithDocTemplateID(int DocTemplateID)
+        public DocTemplateExtraA GetDocTemplateExtraAWithDocTemplateID(int DocTemplateID)
         {
-            return FillDocTemplate_A().Where(c => c.DocTemplateID == DocTemplateID).FirstOrDefault();
+            return FillDocTemplateExtraA().Where(c => c.DocTemplateID == DocTemplateID).FirstOrDefault();
 
         }
-        public IQueryable<DocTemplate_A> GetDocTemplate_AList()
+        public IQueryable<DocTemplateExtraA> GetDocTemplateExtraAList()
         {
-            IQueryable<DocTemplate_A> DocTemplate_AQuery = FillDocTemplate_A();
+            IQueryable<DocTemplateExtraA> DocTemplateExtraAQuery = FillDocTemplateExtraA();
 
-            DocTemplate_AQuery = EnhanceQueryStatements<DocTemplate_A>(DocTemplate_AQuery) as IQueryable<DocTemplate_A>;
+            DocTemplateExtraAQuery = EnhanceQueryStatements<DocTemplateExtraA>(DocTemplateExtraAQuery) as IQueryable<DocTemplateExtraA>;
 
-            return DocTemplate_AQuery;
+            return DocTemplateExtraAQuery;
         }
-        public DocTemplate_B GetDocTemplate_BWithDocTemplateID(int DocTemplateID)
+        public DocTemplateExtraB GetDocTemplateExtraBWithDocTemplateID(int DocTemplateID)
         {
-            return FillDocTemplate_B().Where(c => c.DocTemplateID == DocTemplateID).FirstOrDefault();
+            return FillDocTemplateExtraB().Where(c => c.DocTemplateID == DocTemplateID).FirstOrDefault();
 
         }
-        public IQueryable<DocTemplate_B> GetDocTemplate_BList()
+        public IQueryable<DocTemplateExtraB> GetDocTemplateExtraBList()
         {
-            IQueryable<DocTemplate_B> DocTemplate_BQuery = FillDocTemplate_B();
+            IQueryable<DocTemplateExtraB> DocTemplateExtraBQuery = FillDocTemplateExtraB();
 
-            DocTemplate_BQuery = EnhanceQueryStatements<DocTemplate_B>(DocTemplate_BQuery) as IQueryable<DocTemplate_B>;
+            DocTemplateExtraBQuery = EnhanceQueryStatements<DocTemplateExtraB>(DocTemplateExtraBQuery) as IQueryable<DocTemplateExtraB>;
 
-            return DocTemplate_BQuery;
+            return DocTemplateExtraBQuery;
         }
         #endregion Functions public Generated Get
 

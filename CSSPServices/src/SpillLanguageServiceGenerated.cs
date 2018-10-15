@@ -147,31 +147,31 @@ namespace CSSPServices
 
             return SpillLanguageQuery;
         }
-        public SpillLanguage_A GetSpillLanguage_AWithSpillLanguageID(int SpillLanguageID)
+        public SpillLanguageExtraA GetSpillLanguageExtraAWithSpillLanguageID(int SpillLanguageID)
         {
-            return FillSpillLanguage_A().Where(c => c.SpillLanguageID == SpillLanguageID).FirstOrDefault();
+            return FillSpillLanguageExtraA().Where(c => c.SpillLanguageID == SpillLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<SpillLanguage_A> GetSpillLanguage_AList()
+        public IQueryable<SpillLanguageExtraA> GetSpillLanguageExtraAList()
         {
-            IQueryable<SpillLanguage_A> SpillLanguage_AQuery = FillSpillLanguage_A();
+            IQueryable<SpillLanguageExtraA> SpillLanguageExtraAQuery = FillSpillLanguageExtraA();
 
-            SpillLanguage_AQuery = EnhanceQueryStatements<SpillLanguage_A>(SpillLanguage_AQuery) as IQueryable<SpillLanguage_A>;
+            SpillLanguageExtraAQuery = EnhanceQueryStatements<SpillLanguageExtraA>(SpillLanguageExtraAQuery) as IQueryable<SpillLanguageExtraA>;
 
-            return SpillLanguage_AQuery;
+            return SpillLanguageExtraAQuery;
         }
-        public SpillLanguage_B GetSpillLanguage_BWithSpillLanguageID(int SpillLanguageID)
+        public SpillLanguageExtraB GetSpillLanguageExtraBWithSpillLanguageID(int SpillLanguageID)
         {
-            return FillSpillLanguage_B().Where(c => c.SpillLanguageID == SpillLanguageID).FirstOrDefault();
+            return FillSpillLanguageExtraB().Where(c => c.SpillLanguageID == SpillLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<SpillLanguage_B> GetSpillLanguage_BList()
+        public IQueryable<SpillLanguageExtraB> GetSpillLanguageExtraBList()
         {
-            IQueryable<SpillLanguage_B> SpillLanguage_BQuery = FillSpillLanguage_B();
+            IQueryable<SpillLanguageExtraB> SpillLanguageExtraBQuery = FillSpillLanguageExtraB();
 
-            SpillLanguage_BQuery = EnhanceQueryStatements<SpillLanguage_B>(SpillLanguage_BQuery) as IQueryable<SpillLanguage_B>;
+            SpillLanguageExtraBQuery = EnhanceQueryStatements<SpillLanguageExtraB>(SpillLanguageExtraBQuery) as IQueryable<SpillLanguageExtraB>;
 
-            return SpillLanguage_BQuery;
+            return SpillLanguageExtraBQuery;
         }
         #endregion Functions public Generated Get
 

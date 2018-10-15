@@ -149,31 +149,31 @@ namespace CSSPServices
 
             return ContactShortcutQuery;
         }
-        public ContactShortcut_A GetContactShortcut_AWithContactShortcutID(int ContactShortcutID)
+        public ContactShortcutExtraA GetContactShortcutExtraAWithContactShortcutID(int ContactShortcutID)
         {
-            return FillContactShortcut_A().Where(c => c.ContactShortcutID == ContactShortcutID).FirstOrDefault();
+            return FillContactShortcutExtraA().Where(c => c.ContactShortcutID == ContactShortcutID).FirstOrDefault();
 
         }
-        public IQueryable<ContactShortcut_A> GetContactShortcut_AList()
+        public IQueryable<ContactShortcutExtraA> GetContactShortcutExtraAList()
         {
-            IQueryable<ContactShortcut_A> ContactShortcut_AQuery = FillContactShortcut_A();
+            IQueryable<ContactShortcutExtraA> ContactShortcutExtraAQuery = FillContactShortcutExtraA();
 
-            ContactShortcut_AQuery = EnhanceQueryStatements<ContactShortcut_A>(ContactShortcut_AQuery) as IQueryable<ContactShortcut_A>;
+            ContactShortcutExtraAQuery = EnhanceQueryStatements<ContactShortcutExtraA>(ContactShortcutExtraAQuery) as IQueryable<ContactShortcutExtraA>;
 
-            return ContactShortcut_AQuery;
+            return ContactShortcutExtraAQuery;
         }
-        public ContactShortcut_B GetContactShortcut_BWithContactShortcutID(int ContactShortcutID)
+        public ContactShortcutExtraB GetContactShortcutExtraBWithContactShortcutID(int ContactShortcutID)
         {
-            return FillContactShortcut_B().Where(c => c.ContactShortcutID == ContactShortcutID).FirstOrDefault();
+            return FillContactShortcutExtraB().Where(c => c.ContactShortcutID == ContactShortcutID).FirstOrDefault();
 
         }
-        public IQueryable<ContactShortcut_B> GetContactShortcut_BList()
+        public IQueryable<ContactShortcutExtraB> GetContactShortcutExtraBList()
         {
-            IQueryable<ContactShortcut_B> ContactShortcut_BQuery = FillContactShortcut_B();
+            IQueryable<ContactShortcutExtraB> ContactShortcutExtraBQuery = FillContactShortcutExtraB();
 
-            ContactShortcut_BQuery = EnhanceQueryStatements<ContactShortcut_B>(ContactShortcut_BQuery) as IQueryable<ContactShortcut_B>;
+            ContactShortcutExtraBQuery = EnhanceQueryStatements<ContactShortcutExtraB>(ContactShortcutExtraBQuery) as IQueryable<ContactShortcutExtraB>;
 
-            return ContactShortcut_BQuery;
+            return ContactShortcutExtraBQuery;
         }
         #endregion Functions public Generated Get
 

@@ -389,7 +389,7 @@ namespace CSSPServices.Tests
                     TVFile tvFile = (from c in dbTestDB.TVFiles select c).FirstOrDefault();
                     Assert.IsNotNull(tvFile);
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         tvFileService.Query.Detail = detail;
 
@@ -399,17 +399,17 @@ namespace CSSPServices.Tests
                             CheckTVFileFields(new List<TVFile>() { tvFileRet });
                             Assert.AreEqual(tvFile.TVFileID, tvFileRet.TVFileID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            TVFile_A tvFile_ARet = tvFileService.GetTVFile_AWithTVFileID(tvFile.TVFileID);
-                            CheckTVFile_AFields(new List<TVFile_A>() { tvFile_ARet });
-                            Assert.AreEqual(tvFile.TVFileID, tvFile_ARet.TVFileID);
+                            TVFileExtraA tvFileExtraARet = tvFileService.GetTVFileExtraAWithTVFileID(tvFile.TVFileID);
+                            CheckTVFileExtraAFields(new List<TVFileExtraA>() { tvFileExtraARet });
+                            Assert.AreEqual(tvFile.TVFileID, tvFileExtraARet.TVFileID);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            TVFile_B tvFile_BRet = tvFileService.GetTVFile_BWithTVFileID(tvFile.TVFileID);
-                            CheckTVFile_BFields(new List<TVFile_B>() { tvFile_BRet });
-                            Assert.AreEqual(tvFile.TVFileID, tvFile_BRet.TVFileID);
+                            TVFileExtraB tvFileExtraBRet = tvFileService.GetTVFileExtraBWithTVFileID(tvFile.TVFileID);
+                            CheckTVFileExtraBFields(new List<TVFileExtraB>() { tvFileExtraBRet });
+                            Assert.AreEqual(tvFile.TVFileID, tvFileExtraBRet.TVFileID);
                         }
                         else
                         {
@@ -438,7 +438,7 @@ namespace CSSPServices.Tests
                     List<TVFile> tvFileDirectQueryList = new List<TVFile>();
                     tvFileDirectQueryList = (from c in dbTestDB.TVFiles select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         tvFileService.Query.Detail = detail;
 
@@ -448,19 +448,19 @@ namespace CSSPServices.Tests
                             tvFileList = tvFileService.GetTVFileList().ToList();
                             CheckTVFileFields(tvFileList);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<TVFile_A> tvFile_AList = new List<TVFile_A>();
-                            tvFile_AList = tvFileService.GetTVFile_AList().ToList();
-                            CheckTVFile_AFields(tvFile_AList);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFile_AList.Count);
+                            List<TVFileExtraA> tvFileExtraAList = new List<TVFileExtraA>();
+                            tvFileExtraAList = tvFileService.GetTVFileExtraAList().ToList();
+                            CheckTVFileExtraAFields(tvFileExtraAList);
+                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<TVFile_B> tvFile_BList = new List<TVFile_B>();
-                            tvFile_BList = tvFileService.GetTVFile_BList().ToList();
-                            CheckTVFile_BFields(tvFile_BList);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFile_BList.Count);
+                            List<TVFileExtraB> tvFileExtraBList = new List<TVFileExtraB>();
+                            tvFileExtraBList = tvFileService.GetTVFileExtraBList().ToList();
+                            CheckTVFileExtraBFields(tvFileExtraBList);
+                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraBList.Count);
                         }
                         else
                         {
@@ -482,7 +482,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TVFileService tvFileService = new TVFileService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -498,21 +498,21 @@ namespace CSSPServices.Tests
                             CheckTVFileFields(tvFileList);
                             Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileList[0].TVFileID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<TVFile_A> tvFile_AList = new List<TVFile_A>();
-                            tvFile_AList = tvFileService.GetTVFile_AList().ToList();
-                            CheckTVFile_AFields(tvFile_AList);
-                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFile_AList[0].TVFileID);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFile_AList.Count);
+                            List<TVFileExtraA> tvFileExtraAList = new List<TVFileExtraA>();
+                            tvFileExtraAList = tvFileService.GetTVFileExtraAList().ToList();
+                            CheckTVFileExtraAFields(tvFileExtraAList);
+                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraAList[0].TVFileID);
+                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<TVFile_B> tvFile_BList = new List<TVFile_B>();
-                            tvFile_BList = tvFileService.GetTVFile_BList().ToList();
-                            CheckTVFile_BFields(tvFile_BList);
-                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFile_BList[0].TVFileID);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFile_BList.Count);
+                            List<TVFileExtraB> tvFileExtraBList = new List<TVFileExtraB>();
+                            tvFileExtraBList = tvFileService.GetTVFileExtraBList().ToList();
+                            CheckTVFileExtraBFields(tvFileExtraBList);
+                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraBList[0].TVFileID);
+                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraBList.Count);
                         }
                         else
                         {
@@ -534,7 +534,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TVFileService tvFileService = new TVFileService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -550,21 +550,21 @@ namespace CSSPServices.Tests
                             CheckTVFileFields(tvFileList);
                             Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileList[0].TVFileID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<TVFile_A> tvFile_AList = new List<TVFile_A>();
-                            tvFile_AList = tvFileService.GetTVFile_AList().ToList();
-                            CheckTVFile_AFields(tvFile_AList);
-                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFile_AList[0].TVFileID);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFile_AList.Count);
+                            List<TVFileExtraA> tvFileExtraAList = new List<TVFileExtraA>();
+                            tvFileExtraAList = tvFileService.GetTVFileExtraAList().ToList();
+                            CheckTVFileExtraAFields(tvFileExtraAList);
+                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraAList[0].TVFileID);
+                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<TVFile_B> tvFile_BList = new List<TVFile_B>();
-                            tvFile_BList = tvFileService.GetTVFile_BList().ToList();
-                            CheckTVFile_BFields(tvFile_BList);
-                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFile_BList[0].TVFileID);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFile_BList.Count);
+                            List<TVFileExtraB> tvFileExtraBList = new List<TVFileExtraB>();
+                            tvFileExtraBList = tvFileService.GetTVFileExtraBList().ToList();
+                            CheckTVFileExtraBFields(tvFileExtraBList);
+                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraBList[0].TVFileID);
+                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraBList.Count);
                         }
                         else
                         {
@@ -586,7 +586,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TVFileService tvFileService = new TVFileService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -602,21 +602,21 @@ namespace CSSPServices.Tests
                             CheckTVFileFields(tvFileList);
                             Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileList[0].TVFileID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<TVFile_A> tvFile_AList = new List<TVFile_A>();
-                            tvFile_AList = tvFileService.GetTVFile_AList().ToList();
-                            CheckTVFile_AFields(tvFile_AList);
-                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFile_AList[0].TVFileID);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFile_AList.Count);
+                            List<TVFileExtraA> tvFileExtraAList = new List<TVFileExtraA>();
+                            tvFileExtraAList = tvFileService.GetTVFileExtraAList().ToList();
+                            CheckTVFileExtraAFields(tvFileExtraAList);
+                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraAList[0].TVFileID);
+                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<TVFile_B> tvFile_BList = new List<TVFile_B>();
-                            tvFile_BList = tvFileService.GetTVFile_BList().ToList();
-                            CheckTVFile_BFields(tvFile_BList);
-                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFile_BList[0].TVFileID);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFile_BList.Count);
+                            List<TVFileExtraB> tvFileExtraBList = new List<TVFileExtraB>();
+                            tvFileExtraBList = tvFileService.GetTVFileExtraBList().ToList();
+                            CheckTVFileExtraBFields(tvFileExtraBList);
+                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraBList[0].TVFileID);
+                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraBList.Count);
                         }
                         else
                         {
@@ -638,7 +638,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TVFileService tvFileService = new TVFileService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -654,21 +654,21 @@ namespace CSSPServices.Tests
                             CheckTVFileFields(tvFileList);
                             Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileList[0].TVFileID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<TVFile_A> tvFile_AList = new List<TVFile_A>();
-                            tvFile_AList = tvFileService.GetTVFile_AList().ToList();
-                            CheckTVFile_AFields(tvFile_AList);
-                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFile_AList[0].TVFileID);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFile_AList.Count);
+                            List<TVFileExtraA> tvFileExtraAList = new List<TVFileExtraA>();
+                            tvFileExtraAList = tvFileService.GetTVFileExtraAList().ToList();
+                            CheckTVFileExtraAFields(tvFileExtraAList);
+                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraAList[0].TVFileID);
+                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<TVFile_B> tvFile_BList = new List<TVFile_B>();
-                            tvFile_BList = tvFileService.GetTVFile_BList().ToList();
-                            CheckTVFile_BFields(tvFile_BList);
-                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFile_BList[0].TVFileID);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFile_BList.Count);
+                            List<TVFileExtraB> tvFileExtraBList = new List<TVFileExtraB>();
+                            tvFileExtraBList = tvFileService.GetTVFileExtraBList().ToList();
+                            CheckTVFileExtraBFields(tvFileExtraBList);
+                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraBList[0].TVFileID);
+                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraBList.Count);
                         }
                         else
                         {
@@ -690,7 +690,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TVFileService tvFileService = new TVFileService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -706,21 +706,21 @@ namespace CSSPServices.Tests
                             CheckTVFileFields(tvFileList);
                             Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileList[0].TVFileID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<TVFile_A> tvFile_AList = new List<TVFile_A>();
-                            tvFile_AList = tvFileService.GetTVFile_AList().ToList();
-                            CheckTVFile_AFields(tvFile_AList);
-                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFile_AList[0].TVFileID);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFile_AList.Count);
+                            List<TVFileExtraA> tvFileExtraAList = new List<TVFileExtraA>();
+                            tvFileExtraAList = tvFileService.GetTVFileExtraAList().ToList();
+                            CheckTVFileExtraAFields(tvFileExtraAList);
+                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraAList[0].TVFileID);
+                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<TVFile_B> tvFile_BList = new List<TVFile_B>();
-                            tvFile_BList = tvFileService.GetTVFile_BList().ToList();
-                            CheckTVFile_BFields(tvFile_BList);
-                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFile_BList[0].TVFileID);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFile_BList.Count);
+                            List<TVFileExtraB> tvFileExtraBList = new List<TVFileExtraB>();
+                            tvFileExtraBList = tvFileService.GetTVFileExtraBList().ToList();
+                            CheckTVFileExtraBFields(tvFileExtraBList);
+                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraBList[0].TVFileID);
+                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraBList.Count);
                         }
                         else
                         {
@@ -742,7 +742,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TVFileService tvFileService = new TVFileService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -758,21 +758,21 @@ namespace CSSPServices.Tests
                             CheckTVFileFields(tvFileList);
                             Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileList[0].TVFileID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<TVFile_A> tvFile_AList = new List<TVFile_A>();
-                            tvFile_AList = tvFileService.GetTVFile_AList().ToList();
-                            CheckTVFile_AFields(tvFile_AList);
-                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFile_AList[0].TVFileID);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFile_AList.Count);
+                            List<TVFileExtraA> tvFileExtraAList = new List<TVFileExtraA>();
+                            tvFileExtraAList = tvFileService.GetTVFileExtraAList().ToList();
+                            CheckTVFileExtraAFields(tvFileExtraAList);
+                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraAList[0].TVFileID);
+                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<TVFile_B> tvFile_BList = new List<TVFile_B>();
-                            tvFile_BList = tvFileService.GetTVFile_BList().ToList();
-                            CheckTVFile_BFields(tvFile_BList);
-                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFile_BList[0].TVFileID);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFile_BList.Count);
+                            List<TVFileExtraB> tvFileExtraBList = new List<TVFileExtraB>();
+                            tvFileExtraBList = tvFileService.GetTVFileExtraBList().ToList();
+                            CheckTVFileExtraBFields(tvFileExtraBList);
+                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraBList[0].TVFileID);
+                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraBList.Count);
                         }
                         else
                         {
@@ -828,131 +828,131 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(tvFileList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(tvFileList[0].HasErrors);
         }
-        private void CheckTVFile_AFields(List<TVFile_A> tvFile_AList)
+        private void CheckTVFileExtraAFields(List<TVFileExtraA> tvFileExtraAList)
         {
-            Assert.IsNotNull(tvFile_AList[0].TVFileTVItemLanguage);
-            Assert.IsNotNull(tvFile_AList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(tvFile_AList[0].TemplateTVTypeText))
+            Assert.IsNotNull(tvFileExtraAList[0].TVFileTVItemLanguage);
+            Assert.IsNotNull(tvFileExtraAList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(tvFileExtraAList[0].TemplateTVTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFile_AList[0].TemplateTVTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraAList[0].TemplateTVTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(tvFile_AList[0].LanguageText))
+            if (!string.IsNullOrWhiteSpace(tvFileExtraAList[0].LanguageText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFile_AList[0].LanguageText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraAList[0].LanguageText));
             }
-            if (!string.IsNullOrWhiteSpace(tvFile_AList[0].FilePurposeText))
+            if (!string.IsNullOrWhiteSpace(tvFileExtraAList[0].FilePurposeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFile_AList[0].FilePurposeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraAList[0].FilePurposeText));
             }
-            if (!string.IsNullOrWhiteSpace(tvFile_AList[0].FileTypeText))
+            if (!string.IsNullOrWhiteSpace(tvFileExtraAList[0].FileTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFile_AList[0].FileTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraAList[0].FileTypeText));
             }
-            Assert.IsNotNull(tvFile_AList[0].TVFileID);
-            Assert.IsNotNull(tvFile_AList[0].TVFileTVItemID);
-            if (tvFile_AList[0].TemplateTVType != null)
+            Assert.IsNotNull(tvFileExtraAList[0].TVFileID);
+            Assert.IsNotNull(tvFileExtraAList[0].TVFileTVItemID);
+            if (tvFileExtraAList[0].TemplateTVType != null)
             {
-                Assert.IsNotNull(tvFile_AList[0].TemplateTVType);
+                Assert.IsNotNull(tvFileExtraAList[0].TemplateTVType);
             }
-            if (tvFile_AList[0].ReportTypeID != null)
+            if (tvFileExtraAList[0].ReportTypeID != null)
             {
-                Assert.IsNotNull(tvFile_AList[0].ReportTypeID);
+                Assert.IsNotNull(tvFileExtraAList[0].ReportTypeID);
             }
-            if (!string.IsNullOrWhiteSpace(tvFile_AList[0].Parameters))
+            if (!string.IsNullOrWhiteSpace(tvFileExtraAList[0].Parameters))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFile_AList[0].Parameters));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraAList[0].Parameters));
             }
-            if (tvFile_AList[0].Year != null)
+            if (tvFileExtraAList[0].Year != null)
             {
-                Assert.IsNotNull(tvFile_AList[0].Year);
+                Assert.IsNotNull(tvFileExtraAList[0].Year);
             }
-            Assert.IsNotNull(tvFile_AList[0].Language);
-            Assert.IsNotNull(tvFile_AList[0].FilePurpose);
-            Assert.IsNotNull(tvFile_AList[0].FileType);
-            Assert.IsNotNull(tvFile_AList[0].FileSize_kb);
-            if (!string.IsNullOrWhiteSpace(tvFile_AList[0].FileInfo))
+            Assert.IsNotNull(tvFileExtraAList[0].Language);
+            Assert.IsNotNull(tvFileExtraAList[0].FilePurpose);
+            Assert.IsNotNull(tvFileExtraAList[0].FileType);
+            Assert.IsNotNull(tvFileExtraAList[0].FileSize_kb);
+            if (!string.IsNullOrWhiteSpace(tvFileExtraAList[0].FileInfo))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFile_AList[0].FileInfo));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraAList[0].FileInfo));
             }
-            Assert.IsNotNull(tvFile_AList[0].FileCreatedDate_UTC);
-            if (tvFile_AList[0].FromWater != null)
+            Assert.IsNotNull(tvFileExtraAList[0].FileCreatedDate_UTC);
+            if (tvFileExtraAList[0].FromWater != null)
             {
-                Assert.IsNotNull(tvFile_AList[0].FromWater);
+                Assert.IsNotNull(tvFileExtraAList[0].FromWater);
             }
-            if (!string.IsNullOrWhiteSpace(tvFile_AList[0].ClientFilePath))
+            if (!string.IsNullOrWhiteSpace(tvFileExtraAList[0].ClientFilePath))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFile_AList[0].ClientFilePath));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraAList[0].ClientFilePath));
             }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tvFile_AList[0].ServerFileName));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tvFile_AList[0].ServerFilePath));
-            Assert.IsNotNull(tvFile_AList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(tvFile_AList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(tvFile_AList[0].HasErrors);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraAList[0].ServerFileName));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraAList[0].ServerFilePath));
+            Assert.IsNotNull(tvFileExtraAList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(tvFileExtraAList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(tvFileExtraAList[0].HasErrors);
         }
-        private void CheckTVFile_BFields(List<TVFile_B> tvFile_BList)
+        private void CheckTVFileExtraBFields(List<TVFileExtraB> tvFileExtraBList)
         {
-            if (!string.IsNullOrWhiteSpace(tvFile_BList[0].TVFileReportTest))
+            if (!string.IsNullOrWhiteSpace(tvFileExtraBList[0].TVFileReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFile_BList[0].TVFileReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraBList[0].TVFileReportTest));
             }
-            Assert.IsNotNull(tvFile_BList[0].TVFileTVItemLanguage);
-            Assert.IsNotNull(tvFile_BList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(tvFile_BList[0].TemplateTVTypeText))
+            Assert.IsNotNull(tvFileExtraBList[0].TVFileTVItemLanguage);
+            Assert.IsNotNull(tvFileExtraBList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(tvFileExtraBList[0].TemplateTVTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFile_BList[0].TemplateTVTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraBList[0].TemplateTVTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(tvFile_BList[0].LanguageText))
+            if (!string.IsNullOrWhiteSpace(tvFileExtraBList[0].LanguageText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFile_BList[0].LanguageText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraBList[0].LanguageText));
             }
-            if (!string.IsNullOrWhiteSpace(tvFile_BList[0].FilePurposeText))
+            if (!string.IsNullOrWhiteSpace(tvFileExtraBList[0].FilePurposeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFile_BList[0].FilePurposeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraBList[0].FilePurposeText));
             }
-            if (!string.IsNullOrWhiteSpace(tvFile_BList[0].FileTypeText))
+            if (!string.IsNullOrWhiteSpace(tvFileExtraBList[0].FileTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFile_BList[0].FileTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraBList[0].FileTypeText));
             }
-            Assert.IsNotNull(tvFile_BList[0].TVFileID);
-            Assert.IsNotNull(tvFile_BList[0].TVFileTVItemID);
-            if (tvFile_BList[0].TemplateTVType != null)
+            Assert.IsNotNull(tvFileExtraBList[0].TVFileID);
+            Assert.IsNotNull(tvFileExtraBList[0].TVFileTVItemID);
+            if (tvFileExtraBList[0].TemplateTVType != null)
             {
-                Assert.IsNotNull(tvFile_BList[0].TemplateTVType);
+                Assert.IsNotNull(tvFileExtraBList[0].TemplateTVType);
             }
-            if (tvFile_BList[0].ReportTypeID != null)
+            if (tvFileExtraBList[0].ReportTypeID != null)
             {
-                Assert.IsNotNull(tvFile_BList[0].ReportTypeID);
+                Assert.IsNotNull(tvFileExtraBList[0].ReportTypeID);
             }
-            if (!string.IsNullOrWhiteSpace(tvFile_BList[0].Parameters))
+            if (!string.IsNullOrWhiteSpace(tvFileExtraBList[0].Parameters))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFile_BList[0].Parameters));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraBList[0].Parameters));
             }
-            if (tvFile_BList[0].Year != null)
+            if (tvFileExtraBList[0].Year != null)
             {
-                Assert.IsNotNull(tvFile_BList[0].Year);
+                Assert.IsNotNull(tvFileExtraBList[0].Year);
             }
-            Assert.IsNotNull(tvFile_BList[0].Language);
-            Assert.IsNotNull(tvFile_BList[0].FilePurpose);
-            Assert.IsNotNull(tvFile_BList[0].FileType);
-            Assert.IsNotNull(tvFile_BList[0].FileSize_kb);
-            if (!string.IsNullOrWhiteSpace(tvFile_BList[0].FileInfo))
+            Assert.IsNotNull(tvFileExtraBList[0].Language);
+            Assert.IsNotNull(tvFileExtraBList[0].FilePurpose);
+            Assert.IsNotNull(tvFileExtraBList[0].FileType);
+            Assert.IsNotNull(tvFileExtraBList[0].FileSize_kb);
+            if (!string.IsNullOrWhiteSpace(tvFileExtraBList[0].FileInfo))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFile_BList[0].FileInfo));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraBList[0].FileInfo));
             }
-            Assert.IsNotNull(tvFile_BList[0].FileCreatedDate_UTC);
-            if (tvFile_BList[0].FromWater != null)
+            Assert.IsNotNull(tvFileExtraBList[0].FileCreatedDate_UTC);
+            if (tvFileExtraBList[0].FromWater != null)
             {
-                Assert.IsNotNull(tvFile_BList[0].FromWater);
+                Assert.IsNotNull(tvFileExtraBList[0].FromWater);
             }
-            if (!string.IsNullOrWhiteSpace(tvFile_BList[0].ClientFilePath))
+            if (!string.IsNullOrWhiteSpace(tvFileExtraBList[0].ClientFilePath))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFile_BList[0].ClientFilePath));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraBList[0].ClientFilePath));
             }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tvFile_BList[0].ServerFileName));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tvFile_BList[0].ServerFilePath));
-            Assert.IsNotNull(tvFile_BList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(tvFile_BList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(tvFile_BList[0].HasErrors);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraBList[0].ServerFileName));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraBList[0].ServerFilePath));
+            Assert.IsNotNull(tvFileExtraBList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(tvFileExtraBList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(tvFileExtraBList[0].HasErrors);
         }
         private TVFile GetFilledRandomTVFile(string OmitPropName)
         {

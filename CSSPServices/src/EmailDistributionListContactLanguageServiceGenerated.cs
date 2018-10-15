@@ -151,31 +151,31 @@ namespace CSSPServices
 
             return EmailDistributionListContactLanguageQuery;
         }
-        public EmailDistributionListContactLanguage_A GetEmailDistributionListContactLanguage_AWithEmailDistributionListContactLanguageID(int EmailDistributionListContactLanguageID)
+        public EmailDistributionListContactLanguageExtraA GetEmailDistributionListContactLanguageExtraAWithEmailDistributionListContactLanguageID(int EmailDistributionListContactLanguageID)
         {
-            return FillEmailDistributionListContactLanguage_A().Where(c => c.EmailDistributionListContactLanguageID == EmailDistributionListContactLanguageID).FirstOrDefault();
+            return FillEmailDistributionListContactLanguageExtraA().Where(c => c.EmailDistributionListContactLanguageID == EmailDistributionListContactLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<EmailDistributionListContactLanguage_A> GetEmailDistributionListContactLanguage_AList()
+        public IQueryable<EmailDistributionListContactLanguageExtraA> GetEmailDistributionListContactLanguageExtraAList()
         {
-            IQueryable<EmailDistributionListContactLanguage_A> EmailDistributionListContactLanguage_AQuery = FillEmailDistributionListContactLanguage_A();
+            IQueryable<EmailDistributionListContactLanguageExtraA> EmailDistributionListContactLanguageExtraAQuery = FillEmailDistributionListContactLanguageExtraA();
 
-            EmailDistributionListContactLanguage_AQuery = EnhanceQueryStatements<EmailDistributionListContactLanguage_A>(EmailDistributionListContactLanguage_AQuery) as IQueryable<EmailDistributionListContactLanguage_A>;
+            EmailDistributionListContactLanguageExtraAQuery = EnhanceQueryStatements<EmailDistributionListContactLanguageExtraA>(EmailDistributionListContactLanguageExtraAQuery) as IQueryable<EmailDistributionListContactLanguageExtraA>;
 
-            return EmailDistributionListContactLanguage_AQuery;
+            return EmailDistributionListContactLanguageExtraAQuery;
         }
-        public EmailDistributionListContactLanguage_B GetEmailDistributionListContactLanguage_BWithEmailDistributionListContactLanguageID(int EmailDistributionListContactLanguageID)
+        public EmailDistributionListContactLanguageExtraB GetEmailDistributionListContactLanguageExtraBWithEmailDistributionListContactLanguageID(int EmailDistributionListContactLanguageID)
         {
-            return FillEmailDistributionListContactLanguage_B().Where(c => c.EmailDistributionListContactLanguageID == EmailDistributionListContactLanguageID).FirstOrDefault();
+            return FillEmailDistributionListContactLanguageExtraB().Where(c => c.EmailDistributionListContactLanguageID == EmailDistributionListContactLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<EmailDistributionListContactLanguage_B> GetEmailDistributionListContactLanguage_BList()
+        public IQueryable<EmailDistributionListContactLanguageExtraB> GetEmailDistributionListContactLanguageExtraBList()
         {
-            IQueryable<EmailDistributionListContactLanguage_B> EmailDistributionListContactLanguage_BQuery = FillEmailDistributionListContactLanguage_B();
+            IQueryable<EmailDistributionListContactLanguageExtraB> EmailDistributionListContactLanguageExtraBQuery = FillEmailDistributionListContactLanguageExtraB();
 
-            EmailDistributionListContactLanguage_BQuery = EnhanceQueryStatements<EmailDistributionListContactLanguage_B>(EmailDistributionListContactLanguage_BQuery) as IQueryable<EmailDistributionListContactLanguage_B>;
+            EmailDistributionListContactLanguageExtraBQuery = EnhanceQueryStatements<EmailDistributionListContactLanguageExtraB>(EmailDistributionListContactLanguageExtraBQuery) as IQueryable<EmailDistributionListContactLanguageExtraB>;
 
-            return EmailDistributionListContactLanguage_BQuery;
+            return EmailDistributionListContactLanguageExtraBQuery;
         }
         #endregion Functions public Generated Get
 

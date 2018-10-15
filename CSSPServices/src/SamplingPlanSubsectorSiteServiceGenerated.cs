@@ -145,31 +145,31 @@ namespace CSSPServices
 
             return SamplingPlanSubsectorSiteQuery;
         }
-        public SamplingPlanSubsectorSite_A GetSamplingPlanSubsectorSite_AWithSamplingPlanSubsectorSiteID(int SamplingPlanSubsectorSiteID)
+        public SamplingPlanSubsectorSiteExtraA GetSamplingPlanSubsectorSiteExtraAWithSamplingPlanSubsectorSiteID(int SamplingPlanSubsectorSiteID)
         {
-            return FillSamplingPlanSubsectorSite_A().Where(c => c.SamplingPlanSubsectorSiteID == SamplingPlanSubsectorSiteID).FirstOrDefault();
+            return FillSamplingPlanSubsectorSiteExtraA().Where(c => c.SamplingPlanSubsectorSiteID == SamplingPlanSubsectorSiteID).FirstOrDefault();
 
         }
-        public IQueryable<SamplingPlanSubsectorSite_A> GetSamplingPlanSubsectorSite_AList()
+        public IQueryable<SamplingPlanSubsectorSiteExtraA> GetSamplingPlanSubsectorSiteExtraAList()
         {
-            IQueryable<SamplingPlanSubsectorSite_A> SamplingPlanSubsectorSite_AQuery = FillSamplingPlanSubsectorSite_A();
+            IQueryable<SamplingPlanSubsectorSiteExtraA> SamplingPlanSubsectorSiteExtraAQuery = FillSamplingPlanSubsectorSiteExtraA();
 
-            SamplingPlanSubsectorSite_AQuery = EnhanceQueryStatements<SamplingPlanSubsectorSite_A>(SamplingPlanSubsectorSite_AQuery) as IQueryable<SamplingPlanSubsectorSite_A>;
+            SamplingPlanSubsectorSiteExtraAQuery = EnhanceQueryStatements<SamplingPlanSubsectorSiteExtraA>(SamplingPlanSubsectorSiteExtraAQuery) as IQueryable<SamplingPlanSubsectorSiteExtraA>;
 
-            return SamplingPlanSubsectorSite_AQuery;
+            return SamplingPlanSubsectorSiteExtraAQuery;
         }
-        public SamplingPlanSubsectorSite_B GetSamplingPlanSubsectorSite_BWithSamplingPlanSubsectorSiteID(int SamplingPlanSubsectorSiteID)
+        public SamplingPlanSubsectorSiteExtraB GetSamplingPlanSubsectorSiteExtraBWithSamplingPlanSubsectorSiteID(int SamplingPlanSubsectorSiteID)
         {
-            return FillSamplingPlanSubsectorSite_B().Where(c => c.SamplingPlanSubsectorSiteID == SamplingPlanSubsectorSiteID).FirstOrDefault();
+            return FillSamplingPlanSubsectorSiteExtraB().Where(c => c.SamplingPlanSubsectorSiteID == SamplingPlanSubsectorSiteID).FirstOrDefault();
 
         }
-        public IQueryable<SamplingPlanSubsectorSite_B> GetSamplingPlanSubsectorSite_BList()
+        public IQueryable<SamplingPlanSubsectorSiteExtraB> GetSamplingPlanSubsectorSiteExtraBList()
         {
-            IQueryable<SamplingPlanSubsectorSite_B> SamplingPlanSubsectorSite_BQuery = FillSamplingPlanSubsectorSite_B();
+            IQueryable<SamplingPlanSubsectorSiteExtraB> SamplingPlanSubsectorSiteExtraBQuery = FillSamplingPlanSubsectorSiteExtraB();
 
-            SamplingPlanSubsectorSite_BQuery = EnhanceQueryStatements<SamplingPlanSubsectorSite_B>(SamplingPlanSubsectorSite_BQuery) as IQueryable<SamplingPlanSubsectorSite_B>;
+            SamplingPlanSubsectorSiteExtraBQuery = EnhanceQueryStatements<SamplingPlanSubsectorSiteExtraB>(SamplingPlanSubsectorSiteExtraBQuery) as IQueryable<SamplingPlanSubsectorSiteExtraB>;
 
-            return SamplingPlanSubsectorSite_BQuery;
+            return SamplingPlanSubsectorSiteExtraBQuery;
         }
         #endregion Functions public Generated Get
 

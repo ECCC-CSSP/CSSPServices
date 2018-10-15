@@ -147,31 +147,31 @@ namespace CSSPServices
 
             return InfrastructureLanguageQuery;
         }
-        public InfrastructureLanguage_A GetInfrastructureLanguage_AWithInfrastructureLanguageID(int InfrastructureLanguageID)
+        public InfrastructureLanguageExtraA GetInfrastructureLanguageExtraAWithInfrastructureLanguageID(int InfrastructureLanguageID)
         {
-            return FillInfrastructureLanguage_A().Where(c => c.InfrastructureLanguageID == InfrastructureLanguageID).FirstOrDefault();
+            return FillInfrastructureLanguageExtraA().Where(c => c.InfrastructureLanguageID == InfrastructureLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<InfrastructureLanguage_A> GetInfrastructureLanguage_AList()
+        public IQueryable<InfrastructureLanguageExtraA> GetInfrastructureLanguageExtraAList()
         {
-            IQueryable<InfrastructureLanguage_A> InfrastructureLanguage_AQuery = FillInfrastructureLanguage_A();
+            IQueryable<InfrastructureLanguageExtraA> InfrastructureLanguageExtraAQuery = FillInfrastructureLanguageExtraA();
 
-            InfrastructureLanguage_AQuery = EnhanceQueryStatements<InfrastructureLanguage_A>(InfrastructureLanguage_AQuery) as IQueryable<InfrastructureLanguage_A>;
+            InfrastructureLanguageExtraAQuery = EnhanceQueryStatements<InfrastructureLanguageExtraA>(InfrastructureLanguageExtraAQuery) as IQueryable<InfrastructureLanguageExtraA>;
 
-            return InfrastructureLanguage_AQuery;
+            return InfrastructureLanguageExtraAQuery;
         }
-        public InfrastructureLanguage_B GetInfrastructureLanguage_BWithInfrastructureLanguageID(int InfrastructureLanguageID)
+        public InfrastructureLanguageExtraB GetInfrastructureLanguageExtraBWithInfrastructureLanguageID(int InfrastructureLanguageID)
         {
-            return FillInfrastructureLanguage_B().Where(c => c.InfrastructureLanguageID == InfrastructureLanguageID).FirstOrDefault();
+            return FillInfrastructureLanguageExtraB().Where(c => c.InfrastructureLanguageID == InfrastructureLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<InfrastructureLanguage_B> GetInfrastructureLanguage_BList()
+        public IQueryable<InfrastructureLanguageExtraB> GetInfrastructureLanguageExtraBList()
         {
-            IQueryable<InfrastructureLanguage_B> InfrastructureLanguage_BQuery = FillInfrastructureLanguage_B();
+            IQueryable<InfrastructureLanguageExtraB> InfrastructureLanguageExtraBQuery = FillInfrastructureLanguageExtraB();
 
-            InfrastructureLanguage_BQuery = EnhanceQueryStatements<InfrastructureLanguage_B>(InfrastructureLanguage_BQuery) as IQueryable<InfrastructureLanguage_B>;
+            InfrastructureLanguageExtraBQuery = EnhanceQueryStatements<InfrastructureLanguageExtraB>(InfrastructureLanguageExtraBQuery) as IQueryable<InfrastructureLanguageExtraB>;
 
-            return InfrastructureLanguage_BQuery;
+            return InfrastructureLanguageExtraBQuery;
         }
         #endregion Functions public Generated Get
 

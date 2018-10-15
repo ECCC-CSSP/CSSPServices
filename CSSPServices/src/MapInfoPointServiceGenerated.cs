@@ -143,31 +143,31 @@ namespace CSSPServices
 
             return MapInfoPointQuery;
         }
-        public MapInfoPoint_A GetMapInfoPoint_AWithMapInfoPointID(int MapInfoPointID)
+        public MapInfoPointExtraA GetMapInfoPointExtraAWithMapInfoPointID(int MapInfoPointID)
         {
-            return FillMapInfoPoint_A().Where(c => c.MapInfoPointID == MapInfoPointID).FirstOrDefault();
+            return FillMapInfoPointExtraA().Where(c => c.MapInfoPointID == MapInfoPointID).FirstOrDefault();
 
         }
-        public IQueryable<MapInfoPoint_A> GetMapInfoPoint_AList()
+        public IQueryable<MapInfoPointExtraA> GetMapInfoPointExtraAList()
         {
-            IQueryable<MapInfoPoint_A> MapInfoPoint_AQuery = FillMapInfoPoint_A();
+            IQueryable<MapInfoPointExtraA> MapInfoPointExtraAQuery = FillMapInfoPointExtraA();
 
-            MapInfoPoint_AQuery = EnhanceQueryStatements<MapInfoPoint_A>(MapInfoPoint_AQuery) as IQueryable<MapInfoPoint_A>;
+            MapInfoPointExtraAQuery = EnhanceQueryStatements<MapInfoPointExtraA>(MapInfoPointExtraAQuery) as IQueryable<MapInfoPointExtraA>;
 
-            return MapInfoPoint_AQuery;
+            return MapInfoPointExtraAQuery;
         }
-        public MapInfoPoint_B GetMapInfoPoint_BWithMapInfoPointID(int MapInfoPointID)
+        public MapInfoPointExtraB GetMapInfoPointExtraBWithMapInfoPointID(int MapInfoPointID)
         {
-            return FillMapInfoPoint_B().Where(c => c.MapInfoPointID == MapInfoPointID).FirstOrDefault();
+            return FillMapInfoPointExtraB().Where(c => c.MapInfoPointID == MapInfoPointID).FirstOrDefault();
 
         }
-        public IQueryable<MapInfoPoint_B> GetMapInfoPoint_BList()
+        public IQueryable<MapInfoPointExtraB> GetMapInfoPointExtraBList()
         {
-            IQueryable<MapInfoPoint_B> MapInfoPoint_BQuery = FillMapInfoPoint_B();
+            IQueryable<MapInfoPointExtraB> MapInfoPointExtraBQuery = FillMapInfoPointExtraB();
 
-            MapInfoPoint_BQuery = EnhanceQueryStatements<MapInfoPoint_B>(MapInfoPoint_BQuery) as IQueryable<MapInfoPoint_B>;
+            MapInfoPointExtraBQuery = EnhanceQueryStatements<MapInfoPointExtraB>(MapInfoPointExtraBQuery) as IQueryable<MapInfoPointExtraB>;
 
-            return MapInfoPoint_BQuery;
+            return MapInfoPointExtraBQuery;
         }
         #endregion Functions public Generated Get
 

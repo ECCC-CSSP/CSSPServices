@@ -190,31 +190,31 @@ namespace CSSPServices
 
             return MikeSourceQuery;
         }
-        public MikeSource_A GetMikeSource_AWithMikeSourceID(int MikeSourceID)
+        public MikeSourceExtraA GetMikeSourceExtraAWithMikeSourceID(int MikeSourceID)
         {
-            return FillMikeSource_A().Where(c => c.MikeSourceID == MikeSourceID).FirstOrDefault();
+            return FillMikeSourceExtraA().Where(c => c.MikeSourceID == MikeSourceID).FirstOrDefault();
 
         }
-        public IQueryable<MikeSource_A> GetMikeSource_AList()
+        public IQueryable<MikeSourceExtraA> GetMikeSourceExtraAList()
         {
-            IQueryable<MikeSource_A> MikeSource_AQuery = FillMikeSource_A();
+            IQueryable<MikeSourceExtraA> MikeSourceExtraAQuery = FillMikeSourceExtraA();
 
-            MikeSource_AQuery = EnhanceQueryStatements<MikeSource_A>(MikeSource_AQuery) as IQueryable<MikeSource_A>;
+            MikeSourceExtraAQuery = EnhanceQueryStatements<MikeSourceExtraA>(MikeSourceExtraAQuery) as IQueryable<MikeSourceExtraA>;
 
-            return MikeSource_AQuery;
+            return MikeSourceExtraAQuery;
         }
-        public MikeSource_B GetMikeSource_BWithMikeSourceID(int MikeSourceID)
+        public MikeSourceExtraB GetMikeSourceExtraBWithMikeSourceID(int MikeSourceID)
         {
-            return FillMikeSource_B().Where(c => c.MikeSourceID == MikeSourceID).FirstOrDefault();
+            return FillMikeSourceExtraB().Where(c => c.MikeSourceID == MikeSourceID).FirstOrDefault();
 
         }
-        public IQueryable<MikeSource_B> GetMikeSource_BList()
+        public IQueryable<MikeSourceExtraB> GetMikeSourceExtraBList()
         {
-            IQueryable<MikeSource_B> MikeSource_BQuery = FillMikeSource_B();
+            IQueryable<MikeSourceExtraB> MikeSourceExtraBQuery = FillMikeSourceExtraB();
 
-            MikeSource_BQuery = EnhanceQueryStatements<MikeSource_B>(MikeSource_BQuery) as IQueryable<MikeSource_B>;
+            MikeSourceExtraBQuery = EnhanceQueryStatements<MikeSourceExtraB>(MikeSourceExtraBQuery) as IQueryable<MikeSourceExtraB>;
 
-            return MikeSource_BQuery;
+            return MikeSourceExtraBQuery;
         }
         #endregion Functions public Generated Get
 

@@ -165,31 +165,31 @@ namespace CSSPServices
 
             return TideLocationQuery;
         }
-        public TideLocation_A GetTideLocation_AWithTideLocationID(int TideLocationID)
+        public TideLocationExtraA GetTideLocationExtraAWithTideLocationID(int TideLocationID)
         {
-            return FillTideLocation_A().Where(c => c.TideLocationID == TideLocationID).FirstOrDefault();
+            return FillTideLocationExtraA().Where(c => c.TideLocationID == TideLocationID).FirstOrDefault();
 
         }
-        public IQueryable<TideLocation_A> GetTideLocation_AList()
+        public IQueryable<TideLocationExtraA> GetTideLocationExtraAList()
         {
-            IQueryable<TideLocation_A> TideLocation_AQuery = FillTideLocation_A();
+            IQueryable<TideLocationExtraA> TideLocationExtraAQuery = FillTideLocationExtraA();
 
-            TideLocation_AQuery = EnhanceQueryStatements<TideLocation_A>(TideLocation_AQuery) as IQueryable<TideLocation_A>;
+            TideLocationExtraAQuery = EnhanceQueryStatements<TideLocationExtraA>(TideLocationExtraAQuery) as IQueryable<TideLocationExtraA>;
 
-            return TideLocation_AQuery;
+            return TideLocationExtraAQuery;
         }
-        public TideLocation_B GetTideLocation_BWithTideLocationID(int TideLocationID)
+        public TideLocationExtraB GetTideLocationExtraBWithTideLocationID(int TideLocationID)
         {
-            return FillTideLocation_B().Where(c => c.TideLocationID == TideLocationID).FirstOrDefault();
+            return FillTideLocationExtraB().Where(c => c.TideLocationID == TideLocationID).FirstOrDefault();
 
         }
-        public IQueryable<TideLocation_B> GetTideLocation_BList()
+        public IQueryable<TideLocationExtraB> GetTideLocationExtraBList()
         {
-            IQueryable<TideLocation_B> TideLocation_BQuery = FillTideLocation_B();
+            IQueryable<TideLocationExtraB> TideLocationExtraBQuery = FillTideLocationExtraB();
 
-            TideLocation_BQuery = EnhanceQueryStatements<TideLocation_B>(TideLocation_BQuery) as IQueryable<TideLocation_B>;
+            TideLocationExtraBQuery = EnhanceQueryStatements<TideLocationExtraB>(TideLocationExtraBQuery) as IQueryable<TideLocationExtraB>;
 
-            return TideLocation_BQuery;
+            return TideLocationExtraBQuery;
         }
         #endregion Functions public Generated Get
 

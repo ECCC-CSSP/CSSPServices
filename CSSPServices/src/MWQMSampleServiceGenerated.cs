@@ -268,31 +268,31 @@ namespace CSSPServices
 
             return MWQMSampleQuery;
         }
-        public MWQMSample_A GetMWQMSample_AWithMWQMSampleID(int MWQMSampleID)
+        public MWQMSampleExtraA GetMWQMSampleExtraAWithMWQMSampleID(int MWQMSampleID)
         {
-            return FillMWQMSample_A().Where(c => c.MWQMSampleID == MWQMSampleID).FirstOrDefault();
+            return FillMWQMSampleExtraA().Where(c => c.MWQMSampleID == MWQMSampleID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMSample_A> GetMWQMSample_AList()
+        public IQueryable<MWQMSampleExtraA> GetMWQMSampleExtraAList()
         {
-            IQueryable<MWQMSample_A> MWQMSample_AQuery = FillMWQMSample_A();
+            IQueryable<MWQMSampleExtraA> MWQMSampleExtraAQuery = FillMWQMSampleExtraA();
 
-            MWQMSample_AQuery = EnhanceQueryStatements<MWQMSample_A>(MWQMSample_AQuery) as IQueryable<MWQMSample_A>;
+            MWQMSampleExtraAQuery = EnhanceQueryStatements<MWQMSampleExtraA>(MWQMSampleExtraAQuery) as IQueryable<MWQMSampleExtraA>;
 
-            return MWQMSample_AQuery;
+            return MWQMSampleExtraAQuery;
         }
-        public MWQMSample_B GetMWQMSample_BWithMWQMSampleID(int MWQMSampleID)
+        public MWQMSampleExtraB GetMWQMSampleExtraBWithMWQMSampleID(int MWQMSampleID)
         {
-            return FillMWQMSample_B().Where(c => c.MWQMSampleID == MWQMSampleID).FirstOrDefault();
+            return FillMWQMSampleExtraB().Where(c => c.MWQMSampleID == MWQMSampleID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMSample_B> GetMWQMSample_BList()
+        public IQueryable<MWQMSampleExtraB> GetMWQMSampleExtraBList()
         {
-            IQueryable<MWQMSample_B> MWQMSample_BQuery = FillMWQMSample_B();
+            IQueryable<MWQMSampleExtraB> MWQMSampleExtraBQuery = FillMWQMSampleExtraB();
 
-            MWQMSample_BQuery = EnhanceQueryStatements<MWQMSample_B>(MWQMSample_BQuery) as IQueryable<MWQMSample_B>;
+            MWQMSampleExtraBQuery = EnhanceQueryStatements<MWQMSampleExtraB>(MWQMSampleExtraBQuery) as IQueryable<MWQMSampleExtraB>;
 
-            return MWQMSample_BQuery;
+            return MWQMSampleExtraBQuery;
         }
         #endregion Functions public Generated Get
 

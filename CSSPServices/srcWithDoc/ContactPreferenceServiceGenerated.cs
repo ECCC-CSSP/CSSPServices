@@ -138,31 +138,31 @@ namespace CSSPServices
 
             return ContactPreferenceQuery;
         }
-        public ContactPreference_A GetContactPreference_AWithContactPreferenceID(int ContactPreferenceID)
+        public ContactPreferenceExtraA GetContactPreferenceExtraAWithContactPreferenceID(int ContactPreferenceID)
         {
-            return FillContactPreference_A().Where(c => c.ContactPreferenceID == ContactPreferenceID).FirstOrDefault();
+            return FillContactPreferenceExtraA().Where(c => c.ContactPreferenceID == ContactPreferenceID).FirstOrDefault();
 
         }
-        public IQueryable<ContactPreference_A> GetContactPreference_AList()
+        public IQueryable<ContactPreferenceExtraA> GetContactPreferenceExtraAList()
         {
-            IQueryable<ContactPreference_A> ContactPreference_AQuery = FillContactPreference_A();
+            IQueryable<ContactPreferenceExtraA> ContactPreferenceExtraAQuery = FillContactPreferenceExtraA();
 
-            ContactPreference_AQuery = EnhanceQueryStatements<ContactPreference_A>(ContactPreference_AQuery) as IQueryable<ContactPreference_A>;
+            ContactPreferenceExtraAQuery = EnhanceQueryStatements<ContactPreferenceExtraA>(ContactPreferenceExtraAQuery) as IQueryable<ContactPreferenceExtraA>;
 
-            return ContactPreference_AQuery;
+            return ContactPreferenceExtraAQuery;
         }
-        public ContactPreference_B GetContactPreference_BWithContactPreferenceID(int ContactPreferenceID)
+        public ContactPreferenceExtraB GetContactPreferenceExtraBWithContactPreferenceID(int ContactPreferenceID)
         {
-            return FillContactPreference_B().Where(c => c.ContactPreferenceID == ContactPreferenceID).FirstOrDefault();
+            return FillContactPreferenceExtraB().Where(c => c.ContactPreferenceID == ContactPreferenceID).FirstOrDefault();
 
         }
-        public IQueryable<ContactPreference_B> GetContactPreference_BList()
+        public IQueryable<ContactPreferenceExtraB> GetContactPreferenceExtraBList()
         {
-            IQueryable<ContactPreference_B> ContactPreference_BQuery = FillContactPreference_B();
+            IQueryable<ContactPreferenceExtraB> ContactPreferenceExtraBQuery = FillContactPreferenceExtraB();
 
-            ContactPreference_BQuery = EnhanceQueryStatements<ContactPreference_B>(ContactPreference_BQuery) as IQueryable<ContactPreference_B>;
+            ContactPreferenceExtraBQuery = EnhanceQueryStatements<ContactPreferenceExtraB>(ContactPreferenceExtraBQuery) as IQueryable<ContactPreferenceExtraB>;
 
-            return ContactPreference_BQuery;
+            return ContactPreferenceExtraBQuery;
         }
         #endregion Functions public Generated Get
 

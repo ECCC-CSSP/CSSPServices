@@ -558,7 +558,7 @@ namespace CSSPServices.Tests
                     VPScenario vpScenario = (from c in dbTestDB.VPScenarios select c).FirstOrDefault();
                     Assert.IsNotNull(vpScenario);
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         vpScenarioService.Query.Detail = detail;
 
@@ -568,17 +568,17 @@ namespace CSSPServices.Tests
                             CheckVPScenarioFields(new List<VPScenario>() { vpScenarioRet });
                             Assert.AreEqual(vpScenario.VPScenarioID, vpScenarioRet.VPScenarioID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            VPScenario_A vpScenario_ARet = vpScenarioService.GetVPScenario_AWithVPScenarioID(vpScenario.VPScenarioID);
-                            CheckVPScenario_AFields(new List<VPScenario_A>() { vpScenario_ARet });
-                            Assert.AreEqual(vpScenario.VPScenarioID, vpScenario_ARet.VPScenarioID);
+                            VPScenarioExtraA vpScenarioExtraARet = vpScenarioService.GetVPScenarioExtraAWithVPScenarioID(vpScenario.VPScenarioID);
+                            CheckVPScenarioExtraAFields(new List<VPScenarioExtraA>() { vpScenarioExtraARet });
+                            Assert.AreEqual(vpScenario.VPScenarioID, vpScenarioExtraARet.VPScenarioID);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            VPScenario_B vpScenario_BRet = vpScenarioService.GetVPScenario_BWithVPScenarioID(vpScenario.VPScenarioID);
-                            CheckVPScenario_BFields(new List<VPScenario_B>() { vpScenario_BRet });
-                            Assert.AreEqual(vpScenario.VPScenarioID, vpScenario_BRet.VPScenarioID);
+                            VPScenarioExtraB vpScenarioExtraBRet = vpScenarioService.GetVPScenarioExtraBWithVPScenarioID(vpScenario.VPScenarioID);
+                            CheckVPScenarioExtraBFields(new List<VPScenarioExtraB>() { vpScenarioExtraBRet });
+                            Assert.AreEqual(vpScenario.VPScenarioID, vpScenarioExtraBRet.VPScenarioID);
                         }
                         else
                         {
@@ -607,7 +607,7 @@ namespace CSSPServices.Tests
                     List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
                     vpScenarioDirectQueryList = (from c in dbTestDB.VPScenarios select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         vpScenarioService.Query.Detail = detail;
 
@@ -617,19 +617,19 @@ namespace CSSPServices.Tests
                             vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
                             CheckVPScenarioFields(vpScenarioList);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<VPScenario_A> vpScenario_AList = new List<VPScenario_A>();
-                            vpScenario_AList = vpScenarioService.GetVPScenario_AList().ToList();
-                            CheckVPScenario_AFields(vpScenario_AList);
-                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenario_AList.Count);
+                            List<VPScenarioExtraA> vpScenarioExtraAList = new List<VPScenarioExtraA>();
+                            vpScenarioExtraAList = vpScenarioService.GetVPScenarioExtraAList().ToList();
+                            CheckVPScenarioExtraAFields(vpScenarioExtraAList);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<VPScenario_B> vpScenario_BList = new List<VPScenario_B>();
-                            vpScenario_BList = vpScenarioService.GetVPScenario_BList().ToList();
-                            CheckVPScenario_BFields(vpScenario_BList);
-                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenario_BList.Count);
+                            List<VPScenarioExtraB> vpScenarioExtraBList = new List<VPScenarioExtraB>();
+                            vpScenarioExtraBList = vpScenarioService.GetVPScenarioExtraBList().ToList();
+                            CheckVPScenarioExtraBFields(vpScenarioExtraBList);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioExtraBList.Count);
                         }
                         else
                         {
@@ -651,7 +651,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -667,21 +667,21 @@ namespace CSSPServices.Tests
                             CheckVPScenarioFields(vpScenarioList);
                             Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<VPScenario_A> vpScenario_AList = new List<VPScenario_A>();
-                            vpScenario_AList = vpScenarioService.GetVPScenario_AList().ToList();
-                            CheckVPScenario_AFields(vpScenario_AList);
-                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenario_AList[0].VPScenarioID);
-                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenario_AList.Count);
+                            List<VPScenarioExtraA> vpScenarioExtraAList = new List<VPScenarioExtraA>();
+                            vpScenarioExtraAList = vpScenarioService.GetVPScenarioExtraAList().ToList();
+                            CheckVPScenarioExtraAFields(vpScenarioExtraAList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioExtraAList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<VPScenario_B> vpScenario_BList = new List<VPScenario_B>();
-                            vpScenario_BList = vpScenarioService.GetVPScenario_BList().ToList();
-                            CheckVPScenario_BFields(vpScenario_BList);
-                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenario_BList[0].VPScenarioID);
-                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenario_BList.Count);
+                            List<VPScenarioExtraB> vpScenarioExtraBList = new List<VPScenarioExtraB>();
+                            vpScenarioExtraBList = vpScenarioService.GetVPScenarioExtraBList().ToList();
+                            CheckVPScenarioExtraBFields(vpScenarioExtraBList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioExtraBList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioExtraBList.Count);
                         }
                         else
                         {
@@ -703,7 +703,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -719,21 +719,21 @@ namespace CSSPServices.Tests
                             CheckVPScenarioFields(vpScenarioList);
                             Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<VPScenario_A> vpScenario_AList = new List<VPScenario_A>();
-                            vpScenario_AList = vpScenarioService.GetVPScenario_AList().ToList();
-                            CheckVPScenario_AFields(vpScenario_AList);
-                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenario_AList[0].VPScenarioID);
-                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenario_AList.Count);
+                            List<VPScenarioExtraA> vpScenarioExtraAList = new List<VPScenarioExtraA>();
+                            vpScenarioExtraAList = vpScenarioService.GetVPScenarioExtraAList().ToList();
+                            CheckVPScenarioExtraAFields(vpScenarioExtraAList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioExtraAList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<VPScenario_B> vpScenario_BList = new List<VPScenario_B>();
-                            vpScenario_BList = vpScenarioService.GetVPScenario_BList().ToList();
-                            CheckVPScenario_BFields(vpScenario_BList);
-                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenario_BList[0].VPScenarioID);
-                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenario_BList.Count);
+                            List<VPScenarioExtraB> vpScenarioExtraBList = new List<VPScenarioExtraB>();
+                            vpScenarioExtraBList = vpScenarioService.GetVPScenarioExtraBList().ToList();
+                            CheckVPScenarioExtraBFields(vpScenarioExtraBList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioExtraBList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioExtraBList.Count);
                         }
                         else
                         {
@@ -755,7 +755,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -771,21 +771,21 @@ namespace CSSPServices.Tests
                             CheckVPScenarioFields(vpScenarioList);
                             Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<VPScenario_A> vpScenario_AList = new List<VPScenario_A>();
-                            vpScenario_AList = vpScenarioService.GetVPScenario_AList().ToList();
-                            CheckVPScenario_AFields(vpScenario_AList);
-                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenario_AList[0].VPScenarioID);
-                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenario_AList.Count);
+                            List<VPScenarioExtraA> vpScenarioExtraAList = new List<VPScenarioExtraA>();
+                            vpScenarioExtraAList = vpScenarioService.GetVPScenarioExtraAList().ToList();
+                            CheckVPScenarioExtraAFields(vpScenarioExtraAList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioExtraAList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<VPScenario_B> vpScenario_BList = new List<VPScenario_B>();
-                            vpScenario_BList = vpScenarioService.GetVPScenario_BList().ToList();
-                            CheckVPScenario_BFields(vpScenario_BList);
-                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenario_BList[0].VPScenarioID);
-                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenario_BList.Count);
+                            List<VPScenarioExtraB> vpScenarioExtraBList = new List<VPScenarioExtraB>();
+                            vpScenarioExtraBList = vpScenarioService.GetVPScenarioExtraBList().ToList();
+                            CheckVPScenarioExtraBFields(vpScenarioExtraBList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioExtraBList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioExtraBList.Count);
                         }
                         else
                         {
@@ -807,7 +807,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -823,21 +823,21 @@ namespace CSSPServices.Tests
                             CheckVPScenarioFields(vpScenarioList);
                             Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<VPScenario_A> vpScenario_AList = new List<VPScenario_A>();
-                            vpScenario_AList = vpScenarioService.GetVPScenario_AList().ToList();
-                            CheckVPScenario_AFields(vpScenario_AList);
-                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenario_AList[0].VPScenarioID);
-                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenario_AList.Count);
+                            List<VPScenarioExtraA> vpScenarioExtraAList = new List<VPScenarioExtraA>();
+                            vpScenarioExtraAList = vpScenarioService.GetVPScenarioExtraAList().ToList();
+                            CheckVPScenarioExtraAFields(vpScenarioExtraAList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioExtraAList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<VPScenario_B> vpScenario_BList = new List<VPScenario_B>();
-                            vpScenario_BList = vpScenarioService.GetVPScenario_BList().ToList();
-                            CheckVPScenario_BFields(vpScenario_BList);
-                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenario_BList[0].VPScenarioID);
-                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenario_BList.Count);
+                            List<VPScenarioExtraB> vpScenarioExtraBList = new List<VPScenarioExtraB>();
+                            vpScenarioExtraBList = vpScenarioService.GetVPScenarioExtraBList().ToList();
+                            CheckVPScenarioExtraBFields(vpScenarioExtraBList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioExtraBList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioExtraBList.Count);
                         }
                         else
                         {
@@ -859,7 +859,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -875,21 +875,21 @@ namespace CSSPServices.Tests
                             CheckVPScenarioFields(vpScenarioList);
                             Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<VPScenario_A> vpScenario_AList = new List<VPScenario_A>();
-                            vpScenario_AList = vpScenarioService.GetVPScenario_AList().ToList();
-                            CheckVPScenario_AFields(vpScenario_AList);
-                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenario_AList[0].VPScenarioID);
-                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenario_AList.Count);
+                            List<VPScenarioExtraA> vpScenarioExtraAList = new List<VPScenarioExtraA>();
+                            vpScenarioExtraAList = vpScenarioService.GetVPScenarioExtraAList().ToList();
+                            CheckVPScenarioExtraAFields(vpScenarioExtraAList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioExtraAList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<VPScenario_B> vpScenario_BList = new List<VPScenario_B>();
-                            vpScenario_BList = vpScenarioService.GetVPScenario_BList().ToList();
-                            CheckVPScenario_BFields(vpScenario_BList);
-                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenario_BList[0].VPScenarioID);
-                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenario_BList.Count);
+                            List<VPScenarioExtraB> vpScenarioExtraBList = new List<VPScenarioExtraB>();
+                            vpScenarioExtraBList = vpScenarioService.GetVPScenarioExtraBList().ToList();
+                            CheckVPScenarioExtraBFields(vpScenarioExtraBList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioExtraBList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioExtraBList.Count);
                         }
                         else
                         {
@@ -911,7 +911,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -927,21 +927,21 @@ namespace CSSPServices.Tests
                             CheckVPScenarioFields(vpScenarioList);
                             Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<VPScenario_A> vpScenario_AList = new List<VPScenario_A>();
-                            vpScenario_AList = vpScenarioService.GetVPScenario_AList().ToList();
-                            CheckVPScenario_AFields(vpScenario_AList);
-                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenario_AList[0].VPScenarioID);
-                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenario_AList.Count);
+                            List<VPScenarioExtraA> vpScenarioExtraAList = new List<VPScenarioExtraA>();
+                            vpScenarioExtraAList = vpScenarioService.GetVPScenarioExtraAList().ToList();
+                            CheckVPScenarioExtraAFields(vpScenarioExtraAList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioExtraAList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<VPScenario_B> vpScenario_BList = new List<VPScenario_B>();
-                            vpScenario_BList = vpScenarioService.GetVPScenario_BList().ToList();
-                            CheckVPScenario_BFields(vpScenario_BList);
-                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenario_BList[0].VPScenarioID);
-                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenario_BList.Count);
+                            List<VPScenarioExtraB> vpScenarioExtraBList = new List<VPScenarioExtraB>();
+                            vpScenarioExtraBList = vpScenarioService.GetVPScenarioExtraBList().ToList();
+                            CheckVPScenarioExtraBFields(vpScenarioExtraBList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioExtraBList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioExtraBList.Count);
                         }
                         else
                         {
@@ -1028,169 +1028,169 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(vpScenarioList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(vpScenarioList[0].HasErrors);
         }
-        private void CheckVPScenario_AFields(List<VPScenario_A> vpScenario_AList)
+        private void CheckVPScenarioExtraAFields(List<VPScenarioExtraA> vpScenarioExtraAList)
         {
-            Assert.IsNotNull(vpScenario_AList[0].SubsectorTVItemLanguage);
-            Assert.IsNotNull(vpScenario_AList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(vpScenario_AList[0].VPScenarioStatusText))
+            Assert.IsNotNull(vpScenarioExtraAList[0].SubsectorTVItemLanguage);
+            Assert.IsNotNull(vpScenarioExtraAList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(vpScenarioExtraAList[0].VPScenarioStatusText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenario_AList[0].VPScenarioStatusText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioExtraAList[0].VPScenarioStatusText));
             }
-            Assert.IsNotNull(vpScenario_AList[0].VPScenarioID);
-            Assert.IsNotNull(vpScenario_AList[0].InfrastructureTVItemID);
-            Assert.IsNotNull(vpScenario_AList[0].VPScenarioStatus);
-            Assert.IsNotNull(vpScenario_AList[0].UseAsBestEstimate);
-            if (vpScenario_AList[0].EffluentFlow_m3_s != null)
+            Assert.IsNotNull(vpScenarioExtraAList[0].VPScenarioID);
+            Assert.IsNotNull(vpScenarioExtraAList[0].InfrastructureTVItemID);
+            Assert.IsNotNull(vpScenarioExtraAList[0].VPScenarioStatus);
+            Assert.IsNotNull(vpScenarioExtraAList[0].UseAsBestEstimate);
+            if (vpScenarioExtraAList[0].EffluentFlow_m3_s != null)
             {
-                Assert.IsNotNull(vpScenario_AList[0].EffluentFlow_m3_s);
+                Assert.IsNotNull(vpScenarioExtraAList[0].EffluentFlow_m3_s);
             }
-            if (vpScenario_AList[0].EffluentConcentration_MPN_100ml != null)
+            if (vpScenarioExtraAList[0].EffluentConcentration_MPN_100ml != null)
             {
-                Assert.IsNotNull(vpScenario_AList[0].EffluentConcentration_MPN_100ml);
+                Assert.IsNotNull(vpScenarioExtraAList[0].EffluentConcentration_MPN_100ml);
             }
-            if (vpScenario_AList[0].FroudeNumber != null)
+            if (vpScenarioExtraAList[0].FroudeNumber != null)
             {
-                Assert.IsNotNull(vpScenario_AList[0].FroudeNumber);
+                Assert.IsNotNull(vpScenarioExtraAList[0].FroudeNumber);
             }
-            if (vpScenario_AList[0].PortDiameter_m != null)
+            if (vpScenarioExtraAList[0].PortDiameter_m != null)
             {
-                Assert.IsNotNull(vpScenario_AList[0].PortDiameter_m);
+                Assert.IsNotNull(vpScenarioExtraAList[0].PortDiameter_m);
             }
-            if (vpScenario_AList[0].PortDepth_m != null)
+            if (vpScenarioExtraAList[0].PortDepth_m != null)
             {
-                Assert.IsNotNull(vpScenario_AList[0].PortDepth_m);
+                Assert.IsNotNull(vpScenarioExtraAList[0].PortDepth_m);
             }
-            if (vpScenario_AList[0].PortElevation_m != null)
+            if (vpScenarioExtraAList[0].PortElevation_m != null)
             {
-                Assert.IsNotNull(vpScenario_AList[0].PortElevation_m);
+                Assert.IsNotNull(vpScenarioExtraAList[0].PortElevation_m);
             }
-            if (vpScenario_AList[0].VerticalAngle_deg != null)
+            if (vpScenarioExtraAList[0].VerticalAngle_deg != null)
             {
-                Assert.IsNotNull(vpScenario_AList[0].VerticalAngle_deg);
+                Assert.IsNotNull(vpScenarioExtraAList[0].VerticalAngle_deg);
             }
-            if (vpScenario_AList[0].HorizontalAngle_deg != null)
+            if (vpScenarioExtraAList[0].HorizontalAngle_deg != null)
             {
-                Assert.IsNotNull(vpScenario_AList[0].HorizontalAngle_deg);
+                Assert.IsNotNull(vpScenarioExtraAList[0].HorizontalAngle_deg);
             }
-            if (vpScenario_AList[0].NumberOfPorts != null)
+            if (vpScenarioExtraAList[0].NumberOfPorts != null)
             {
-                Assert.IsNotNull(vpScenario_AList[0].NumberOfPorts);
+                Assert.IsNotNull(vpScenarioExtraAList[0].NumberOfPorts);
             }
-            if (vpScenario_AList[0].PortSpacing_m != null)
+            if (vpScenarioExtraAList[0].PortSpacing_m != null)
             {
-                Assert.IsNotNull(vpScenario_AList[0].PortSpacing_m);
+                Assert.IsNotNull(vpScenarioExtraAList[0].PortSpacing_m);
             }
-            if (vpScenario_AList[0].AcuteMixZone_m != null)
+            if (vpScenarioExtraAList[0].AcuteMixZone_m != null)
             {
-                Assert.IsNotNull(vpScenario_AList[0].AcuteMixZone_m);
+                Assert.IsNotNull(vpScenarioExtraAList[0].AcuteMixZone_m);
             }
-            if (vpScenario_AList[0].ChronicMixZone_m != null)
+            if (vpScenarioExtraAList[0].ChronicMixZone_m != null)
             {
-                Assert.IsNotNull(vpScenario_AList[0].ChronicMixZone_m);
+                Assert.IsNotNull(vpScenarioExtraAList[0].ChronicMixZone_m);
             }
-            if (vpScenario_AList[0].EffluentSalinity_PSU != null)
+            if (vpScenarioExtraAList[0].EffluentSalinity_PSU != null)
             {
-                Assert.IsNotNull(vpScenario_AList[0].EffluentSalinity_PSU);
+                Assert.IsNotNull(vpScenarioExtraAList[0].EffluentSalinity_PSU);
             }
-            if (vpScenario_AList[0].EffluentTemperature_C != null)
+            if (vpScenarioExtraAList[0].EffluentTemperature_C != null)
             {
-                Assert.IsNotNull(vpScenario_AList[0].EffluentTemperature_C);
+                Assert.IsNotNull(vpScenarioExtraAList[0].EffluentTemperature_C);
             }
-            if (vpScenario_AList[0].EffluentVelocity_m_s != null)
+            if (vpScenarioExtraAList[0].EffluentVelocity_m_s != null)
             {
-                Assert.IsNotNull(vpScenario_AList[0].EffluentVelocity_m_s);
+                Assert.IsNotNull(vpScenarioExtraAList[0].EffluentVelocity_m_s);
             }
-            if (!string.IsNullOrWhiteSpace(vpScenario_AList[0].RawResults))
+            if (!string.IsNullOrWhiteSpace(vpScenarioExtraAList[0].RawResults))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenario_AList[0].RawResults));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioExtraAList[0].RawResults));
             }
-            Assert.IsNotNull(vpScenario_AList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(vpScenario_AList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(vpScenario_AList[0].HasErrors);
+            Assert.IsNotNull(vpScenarioExtraAList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(vpScenarioExtraAList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(vpScenarioExtraAList[0].HasErrors);
         }
-        private void CheckVPScenario_BFields(List<VPScenario_B> vpScenario_BList)
+        private void CheckVPScenarioExtraBFields(List<VPScenarioExtraB> vpScenarioExtraBList)
         {
-            if (!string.IsNullOrWhiteSpace(vpScenario_BList[0].VPScenarioReportTest))
+            if (!string.IsNullOrWhiteSpace(vpScenarioExtraBList[0].VPScenarioReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenario_BList[0].VPScenarioReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioExtraBList[0].VPScenarioReportTest));
             }
-            Assert.IsNotNull(vpScenario_BList[0].SubsectorTVItemLanguage);
-            Assert.IsNotNull(vpScenario_BList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(vpScenario_BList[0].VPScenarioStatusText))
+            Assert.IsNotNull(vpScenarioExtraBList[0].SubsectorTVItemLanguage);
+            Assert.IsNotNull(vpScenarioExtraBList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(vpScenarioExtraBList[0].VPScenarioStatusText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenario_BList[0].VPScenarioStatusText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioExtraBList[0].VPScenarioStatusText));
             }
-            Assert.IsNotNull(vpScenario_BList[0].VPScenarioID);
-            Assert.IsNotNull(vpScenario_BList[0].InfrastructureTVItemID);
-            Assert.IsNotNull(vpScenario_BList[0].VPScenarioStatus);
-            Assert.IsNotNull(vpScenario_BList[0].UseAsBestEstimate);
-            if (vpScenario_BList[0].EffluentFlow_m3_s != null)
+            Assert.IsNotNull(vpScenarioExtraBList[0].VPScenarioID);
+            Assert.IsNotNull(vpScenarioExtraBList[0].InfrastructureTVItemID);
+            Assert.IsNotNull(vpScenarioExtraBList[0].VPScenarioStatus);
+            Assert.IsNotNull(vpScenarioExtraBList[0].UseAsBestEstimate);
+            if (vpScenarioExtraBList[0].EffluentFlow_m3_s != null)
             {
-                Assert.IsNotNull(vpScenario_BList[0].EffluentFlow_m3_s);
+                Assert.IsNotNull(vpScenarioExtraBList[0].EffluentFlow_m3_s);
             }
-            if (vpScenario_BList[0].EffluentConcentration_MPN_100ml != null)
+            if (vpScenarioExtraBList[0].EffluentConcentration_MPN_100ml != null)
             {
-                Assert.IsNotNull(vpScenario_BList[0].EffluentConcentration_MPN_100ml);
+                Assert.IsNotNull(vpScenarioExtraBList[0].EffluentConcentration_MPN_100ml);
             }
-            if (vpScenario_BList[0].FroudeNumber != null)
+            if (vpScenarioExtraBList[0].FroudeNumber != null)
             {
-                Assert.IsNotNull(vpScenario_BList[0].FroudeNumber);
+                Assert.IsNotNull(vpScenarioExtraBList[0].FroudeNumber);
             }
-            if (vpScenario_BList[0].PortDiameter_m != null)
+            if (vpScenarioExtraBList[0].PortDiameter_m != null)
             {
-                Assert.IsNotNull(vpScenario_BList[0].PortDiameter_m);
+                Assert.IsNotNull(vpScenarioExtraBList[0].PortDiameter_m);
             }
-            if (vpScenario_BList[0].PortDepth_m != null)
+            if (vpScenarioExtraBList[0].PortDepth_m != null)
             {
-                Assert.IsNotNull(vpScenario_BList[0].PortDepth_m);
+                Assert.IsNotNull(vpScenarioExtraBList[0].PortDepth_m);
             }
-            if (vpScenario_BList[0].PortElevation_m != null)
+            if (vpScenarioExtraBList[0].PortElevation_m != null)
             {
-                Assert.IsNotNull(vpScenario_BList[0].PortElevation_m);
+                Assert.IsNotNull(vpScenarioExtraBList[0].PortElevation_m);
             }
-            if (vpScenario_BList[0].VerticalAngle_deg != null)
+            if (vpScenarioExtraBList[0].VerticalAngle_deg != null)
             {
-                Assert.IsNotNull(vpScenario_BList[0].VerticalAngle_deg);
+                Assert.IsNotNull(vpScenarioExtraBList[0].VerticalAngle_deg);
             }
-            if (vpScenario_BList[0].HorizontalAngle_deg != null)
+            if (vpScenarioExtraBList[0].HorizontalAngle_deg != null)
             {
-                Assert.IsNotNull(vpScenario_BList[0].HorizontalAngle_deg);
+                Assert.IsNotNull(vpScenarioExtraBList[0].HorizontalAngle_deg);
             }
-            if (vpScenario_BList[0].NumberOfPorts != null)
+            if (vpScenarioExtraBList[0].NumberOfPorts != null)
             {
-                Assert.IsNotNull(vpScenario_BList[0].NumberOfPorts);
+                Assert.IsNotNull(vpScenarioExtraBList[0].NumberOfPorts);
             }
-            if (vpScenario_BList[0].PortSpacing_m != null)
+            if (vpScenarioExtraBList[0].PortSpacing_m != null)
             {
-                Assert.IsNotNull(vpScenario_BList[0].PortSpacing_m);
+                Assert.IsNotNull(vpScenarioExtraBList[0].PortSpacing_m);
             }
-            if (vpScenario_BList[0].AcuteMixZone_m != null)
+            if (vpScenarioExtraBList[0].AcuteMixZone_m != null)
             {
-                Assert.IsNotNull(vpScenario_BList[0].AcuteMixZone_m);
+                Assert.IsNotNull(vpScenarioExtraBList[0].AcuteMixZone_m);
             }
-            if (vpScenario_BList[0].ChronicMixZone_m != null)
+            if (vpScenarioExtraBList[0].ChronicMixZone_m != null)
             {
-                Assert.IsNotNull(vpScenario_BList[0].ChronicMixZone_m);
+                Assert.IsNotNull(vpScenarioExtraBList[0].ChronicMixZone_m);
             }
-            if (vpScenario_BList[0].EffluentSalinity_PSU != null)
+            if (vpScenarioExtraBList[0].EffluentSalinity_PSU != null)
             {
-                Assert.IsNotNull(vpScenario_BList[0].EffluentSalinity_PSU);
+                Assert.IsNotNull(vpScenarioExtraBList[0].EffluentSalinity_PSU);
             }
-            if (vpScenario_BList[0].EffluentTemperature_C != null)
+            if (vpScenarioExtraBList[0].EffluentTemperature_C != null)
             {
-                Assert.IsNotNull(vpScenario_BList[0].EffluentTemperature_C);
+                Assert.IsNotNull(vpScenarioExtraBList[0].EffluentTemperature_C);
             }
-            if (vpScenario_BList[0].EffluentVelocity_m_s != null)
+            if (vpScenarioExtraBList[0].EffluentVelocity_m_s != null)
             {
-                Assert.IsNotNull(vpScenario_BList[0].EffluentVelocity_m_s);
+                Assert.IsNotNull(vpScenarioExtraBList[0].EffluentVelocity_m_s);
             }
-            if (!string.IsNullOrWhiteSpace(vpScenario_BList[0].RawResults))
+            if (!string.IsNullOrWhiteSpace(vpScenarioExtraBList[0].RawResults))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenario_BList[0].RawResults));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioExtraBList[0].RawResults));
             }
-            Assert.IsNotNull(vpScenario_BList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(vpScenario_BList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(vpScenario_BList[0].HasErrors);
+            Assert.IsNotNull(vpScenarioExtraBList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(vpScenarioExtraBList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(vpScenarioExtraBList[0].HasErrors);
         }
         private VPScenario GetFilledRandomVPScenario(string OmitPropName)
         {

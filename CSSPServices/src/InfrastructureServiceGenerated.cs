@@ -544,31 +544,31 @@ namespace CSSPServices
 
             return InfrastructureQuery;
         }
-        public Infrastructure_A GetInfrastructure_AWithInfrastructureID(int InfrastructureID)
+        public InfrastructureExtraA GetInfrastructureExtraAWithInfrastructureID(int InfrastructureID)
         {
-            return FillInfrastructure_A().Where(c => c.InfrastructureID == InfrastructureID).FirstOrDefault();
+            return FillInfrastructureExtraA().Where(c => c.InfrastructureID == InfrastructureID).FirstOrDefault();
 
         }
-        public IQueryable<Infrastructure_A> GetInfrastructure_AList()
+        public IQueryable<InfrastructureExtraA> GetInfrastructureExtraAList()
         {
-            IQueryable<Infrastructure_A> Infrastructure_AQuery = FillInfrastructure_A();
+            IQueryable<InfrastructureExtraA> InfrastructureExtraAQuery = FillInfrastructureExtraA();
 
-            Infrastructure_AQuery = EnhanceQueryStatements<Infrastructure_A>(Infrastructure_AQuery) as IQueryable<Infrastructure_A>;
+            InfrastructureExtraAQuery = EnhanceQueryStatements<InfrastructureExtraA>(InfrastructureExtraAQuery) as IQueryable<InfrastructureExtraA>;
 
-            return Infrastructure_AQuery;
+            return InfrastructureExtraAQuery;
         }
-        public Infrastructure_B GetInfrastructure_BWithInfrastructureID(int InfrastructureID)
+        public InfrastructureExtraB GetInfrastructureExtraBWithInfrastructureID(int InfrastructureID)
         {
-            return FillInfrastructure_B().Where(c => c.InfrastructureID == InfrastructureID).FirstOrDefault();
+            return FillInfrastructureExtraB().Where(c => c.InfrastructureID == InfrastructureID).FirstOrDefault();
 
         }
-        public IQueryable<Infrastructure_B> GetInfrastructure_BList()
+        public IQueryable<InfrastructureExtraB> GetInfrastructureExtraBList()
         {
-            IQueryable<Infrastructure_B> Infrastructure_BQuery = FillInfrastructure_B();
+            IQueryable<InfrastructureExtraB> InfrastructureExtraBQuery = FillInfrastructureExtraB();
 
-            Infrastructure_BQuery = EnhanceQueryStatements<Infrastructure_B>(Infrastructure_BQuery) as IQueryable<Infrastructure_B>;
+            InfrastructureExtraBQuery = EnhanceQueryStatements<InfrastructureExtraB>(InfrastructureExtraBQuery) as IQueryable<InfrastructureExtraB>;
 
-            return Infrastructure_BQuery;
+            return InfrastructureExtraBQuery;
         }
         #endregion Functions public Generated Get
 

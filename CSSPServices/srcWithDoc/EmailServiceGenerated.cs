@@ -166,31 +166,31 @@ namespace CSSPServices
 
             return EmailQuery;
         }
-        public Email_A GetEmail_AWithEmailID(int EmailID)
+        public EmailExtraA GetEmailExtraAWithEmailID(int EmailID)
         {
-            return FillEmail_A().Where(c => c.EmailID == EmailID).FirstOrDefault();
+            return FillEmailExtraA().Where(c => c.EmailID == EmailID).FirstOrDefault();
 
         }
-        public IQueryable<Email_A> GetEmail_AList()
+        public IQueryable<EmailExtraA> GetEmailExtraAList()
         {
-            IQueryable<Email_A> Email_AQuery = FillEmail_A();
+            IQueryable<EmailExtraA> EmailExtraAQuery = FillEmailExtraA();
 
-            Email_AQuery = EnhanceQueryStatements<Email_A>(Email_AQuery) as IQueryable<Email_A>;
+            EmailExtraAQuery = EnhanceQueryStatements<EmailExtraA>(EmailExtraAQuery) as IQueryable<EmailExtraA>;
 
-            return Email_AQuery;
+            return EmailExtraAQuery;
         }
-        public Email_B GetEmail_BWithEmailID(int EmailID)
+        public EmailExtraB GetEmailExtraBWithEmailID(int EmailID)
         {
-            return FillEmail_B().Where(c => c.EmailID == EmailID).FirstOrDefault();
+            return FillEmailExtraB().Where(c => c.EmailID == EmailID).FirstOrDefault();
 
         }
-        public IQueryable<Email_B> GetEmail_BList()
+        public IQueryable<EmailExtraB> GetEmailExtraBList()
         {
-            IQueryable<Email_B> Email_BQuery = FillEmail_B();
+            IQueryable<EmailExtraB> EmailExtraBQuery = FillEmailExtraB();
 
-            Email_BQuery = EnhanceQueryStatements<Email_B>(Email_BQuery) as IQueryable<Email_B>;
+            EmailExtraBQuery = EnhanceQueryStatements<EmailExtraB>(EmailExtraBQuery) as IQueryable<EmailExtraB>;
 
-            return Email_BQuery;
+            return EmailExtraBQuery;
         }
         #endregion Functions public Generated Get
 

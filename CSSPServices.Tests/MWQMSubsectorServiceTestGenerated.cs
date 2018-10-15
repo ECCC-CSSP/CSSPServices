@@ -230,7 +230,7 @@ namespace CSSPServices.Tests
                     MWQMSubsector mwqmSubsector = (from c in dbTestDB.MWQMSubsectors select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmSubsector);
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         mwqmSubsectorService.Query.Detail = detail;
 
@@ -240,17 +240,17 @@ namespace CSSPServices.Tests
                             CheckMWQMSubsectorFields(new List<MWQMSubsector>() { mwqmSubsectorRet });
                             Assert.AreEqual(mwqmSubsector.MWQMSubsectorID, mwqmSubsectorRet.MWQMSubsectorID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            MWQMSubsector_A mwqmSubsector_ARet = mwqmSubsectorService.GetMWQMSubsector_AWithMWQMSubsectorID(mwqmSubsector.MWQMSubsectorID);
-                            CheckMWQMSubsector_AFields(new List<MWQMSubsector_A>() { mwqmSubsector_ARet });
-                            Assert.AreEqual(mwqmSubsector.MWQMSubsectorID, mwqmSubsector_ARet.MWQMSubsectorID);
+                            MWQMSubsectorExtraA mwqmSubsectorExtraARet = mwqmSubsectorService.GetMWQMSubsectorExtraAWithMWQMSubsectorID(mwqmSubsector.MWQMSubsectorID);
+                            CheckMWQMSubsectorExtraAFields(new List<MWQMSubsectorExtraA>() { mwqmSubsectorExtraARet });
+                            Assert.AreEqual(mwqmSubsector.MWQMSubsectorID, mwqmSubsectorExtraARet.MWQMSubsectorID);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            MWQMSubsector_B mwqmSubsector_BRet = mwqmSubsectorService.GetMWQMSubsector_BWithMWQMSubsectorID(mwqmSubsector.MWQMSubsectorID);
-                            CheckMWQMSubsector_BFields(new List<MWQMSubsector_B>() { mwqmSubsector_BRet });
-                            Assert.AreEqual(mwqmSubsector.MWQMSubsectorID, mwqmSubsector_BRet.MWQMSubsectorID);
+                            MWQMSubsectorExtraB mwqmSubsectorExtraBRet = mwqmSubsectorService.GetMWQMSubsectorExtraBWithMWQMSubsectorID(mwqmSubsector.MWQMSubsectorID);
+                            CheckMWQMSubsectorExtraBFields(new List<MWQMSubsectorExtraB>() { mwqmSubsectorExtraBRet });
+                            Assert.AreEqual(mwqmSubsector.MWQMSubsectorID, mwqmSubsectorExtraBRet.MWQMSubsectorID);
                         }
                         else
                         {
@@ -279,7 +279,7 @@ namespace CSSPServices.Tests
                     List<MWQMSubsector> mwqmSubsectorDirectQueryList = new List<MWQMSubsector>();
                     mwqmSubsectorDirectQueryList = (from c in dbTestDB.MWQMSubsectors select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         mwqmSubsectorService.Query.Detail = detail;
 
@@ -289,19 +289,19 @@ namespace CSSPServices.Tests
                             mwqmSubsectorList = mwqmSubsectorService.GetMWQMSubsectorList().ToList();
                             CheckMWQMSubsectorFields(mwqmSubsectorList);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MWQMSubsector_A> mwqmSubsector_AList = new List<MWQMSubsector_A>();
-                            mwqmSubsector_AList = mwqmSubsectorService.GetMWQMSubsector_AList().ToList();
-                            CheckMWQMSubsector_AFields(mwqmSubsector_AList);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsector_AList.Count);
+                            List<MWQMSubsectorExtraA> mwqmSubsectorExtraAList = new List<MWQMSubsectorExtraA>();
+                            mwqmSubsectorExtraAList = mwqmSubsectorService.GetMWQMSubsectorExtraAList().ToList();
+                            CheckMWQMSubsectorExtraAFields(mwqmSubsectorExtraAList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MWQMSubsector_B> mwqmSubsector_BList = new List<MWQMSubsector_B>();
-                            mwqmSubsector_BList = mwqmSubsectorService.GetMWQMSubsector_BList().ToList();
-                            CheckMWQMSubsector_BFields(mwqmSubsector_BList);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsector_BList.Count);
+                            List<MWQMSubsectorExtraB> mwqmSubsectorExtraBList = new List<MWQMSubsectorExtraB>();
+                            mwqmSubsectorExtraBList = mwqmSubsectorService.GetMWQMSubsectorExtraBList().ToList();
+                            CheckMWQMSubsectorExtraBFields(mwqmSubsectorExtraBList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorExtraBList.Count);
                         }
                         else
                         {
@@ -323,7 +323,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -339,21 +339,21 @@ namespace CSSPServices.Tests
                             CheckMWQMSubsectorFields(mwqmSubsectorList);
                             Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorList[0].MWQMSubsectorID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MWQMSubsector_A> mwqmSubsector_AList = new List<MWQMSubsector_A>();
-                            mwqmSubsector_AList = mwqmSubsectorService.GetMWQMSubsector_AList().ToList();
-                            CheckMWQMSubsector_AFields(mwqmSubsector_AList);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsector_AList[0].MWQMSubsectorID);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsector_AList.Count);
+                            List<MWQMSubsectorExtraA> mwqmSubsectorExtraAList = new List<MWQMSubsectorExtraA>();
+                            mwqmSubsectorExtraAList = mwqmSubsectorService.GetMWQMSubsectorExtraAList().ToList();
+                            CheckMWQMSubsectorExtraAFields(mwqmSubsectorExtraAList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorExtraAList[0].MWQMSubsectorID);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MWQMSubsector_B> mwqmSubsector_BList = new List<MWQMSubsector_B>();
-                            mwqmSubsector_BList = mwqmSubsectorService.GetMWQMSubsector_BList().ToList();
-                            CheckMWQMSubsector_BFields(mwqmSubsector_BList);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsector_BList[0].MWQMSubsectorID);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsector_BList.Count);
+                            List<MWQMSubsectorExtraB> mwqmSubsectorExtraBList = new List<MWQMSubsectorExtraB>();
+                            mwqmSubsectorExtraBList = mwqmSubsectorService.GetMWQMSubsectorExtraBList().ToList();
+                            CheckMWQMSubsectorExtraBFields(mwqmSubsectorExtraBList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorExtraBList[0].MWQMSubsectorID);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorExtraBList.Count);
                         }
                         else
                         {
@@ -375,7 +375,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -391,21 +391,21 @@ namespace CSSPServices.Tests
                             CheckMWQMSubsectorFields(mwqmSubsectorList);
                             Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorList[0].MWQMSubsectorID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MWQMSubsector_A> mwqmSubsector_AList = new List<MWQMSubsector_A>();
-                            mwqmSubsector_AList = mwqmSubsectorService.GetMWQMSubsector_AList().ToList();
-                            CheckMWQMSubsector_AFields(mwqmSubsector_AList);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsector_AList[0].MWQMSubsectorID);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsector_AList.Count);
+                            List<MWQMSubsectorExtraA> mwqmSubsectorExtraAList = new List<MWQMSubsectorExtraA>();
+                            mwqmSubsectorExtraAList = mwqmSubsectorService.GetMWQMSubsectorExtraAList().ToList();
+                            CheckMWQMSubsectorExtraAFields(mwqmSubsectorExtraAList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorExtraAList[0].MWQMSubsectorID);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MWQMSubsector_B> mwqmSubsector_BList = new List<MWQMSubsector_B>();
-                            mwqmSubsector_BList = mwqmSubsectorService.GetMWQMSubsector_BList().ToList();
-                            CheckMWQMSubsector_BFields(mwqmSubsector_BList);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsector_BList[0].MWQMSubsectorID);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsector_BList.Count);
+                            List<MWQMSubsectorExtraB> mwqmSubsectorExtraBList = new List<MWQMSubsectorExtraB>();
+                            mwqmSubsectorExtraBList = mwqmSubsectorService.GetMWQMSubsectorExtraBList().ToList();
+                            CheckMWQMSubsectorExtraBFields(mwqmSubsectorExtraBList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorExtraBList[0].MWQMSubsectorID);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorExtraBList.Count);
                         }
                         else
                         {
@@ -427,7 +427,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -443,21 +443,21 @@ namespace CSSPServices.Tests
                             CheckMWQMSubsectorFields(mwqmSubsectorList);
                             Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorList[0].MWQMSubsectorID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MWQMSubsector_A> mwqmSubsector_AList = new List<MWQMSubsector_A>();
-                            mwqmSubsector_AList = mwqmSubsectorService.GetMWQMSubsector_AList().ToList();
-                            CheckMWQMSubsector_AFields(mwqmSubsector_AList);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsector_AList[0].MWQMSubsectorID);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsector_AList.Count);
+                            List<MWQMSubsectorExtraA> mwqmSubsectorExtraAList = new List<MWQMSubsectorExtraA>();
+                            mwqmSubsectorExtraAList = mwqmSubsectorService.GetMWQMSubsectorExtraAList().ToList();
+                            CheckMWQMSubsectorExtraAFields(mwqmSubsectorExtraAList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorExtraAList[0].MWQMSubsectorID);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MWQMSubsector_B> mwqmSubsector_BList = new List<MWQMSubsector_B>();
-                            mwqmSubsector_BList = mwqmSubsectorService.GetMWQMSubsector_BList().ToList();
-                            CheckMWQMSubsector_BFields(mwqmSubsector_BList);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsector_BList[0].MWQMSubsectorID);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsector_BList.Count);
+                            List<MWQMSubsectorExtraB> mwqmSubsectorExtraBList = new List<MWQMSubsectorExtraB>();
+                            mwqmSubsectorExtraBList = mwqmSubsectorService.GetMWQMSubsectorExtraBList().ToList();
+                            CheckMWQMSubsectorExtraBFields(mwqmSubsectorExtraBList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorExtraBList[0].MWQMSubsectorID);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorExtraBList.Count);
                         }
                         else
                         {
@@ -479,7 +479,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -495,21 +495,21 @@ namespace CSSPServices.Tests
                             CheckMWQMSubsectorFields(mwqmSubsectorList);
                             Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorList[0].MWQMSubsectorID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MWQMSubsector_A> mwqmSubsector_AList = new List<MWQMSubsector_A>();
-                            mwqmSubsector_AList = mwqmSubsectorService.GetMWQMSubsector_AList().ToList();
-                            CheckMWQMSubsector_AFields(mwqmSubsector_AList);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsector_AList[0].MWQMSubsectorID);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsector_AList.Count);
+                            List<MWQMSubsectorExtraA> mwqmSubsectorExtraAList = new List<MWQMSubsectorExtraA>();
+                            mwqmSubsectorExtraAList = mwqmSubsectorService.GetMWQMSubsectorExtraAList().ToList();
+                            CheckMWQMSubsectorExtraAFields(mwqmSubsectorExtraAList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorExtraAList[0].MWQMSubsectorID);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MWQMSubsector_B> mwqmSubsector_BList = new List<MWQMSubsector_B>();
-                            mwqmSubsector_BList = mwqmSubsectorService.GetMWQMSubsector_BList().ToList();
-                            CheckMWQMSubsector_BFields(mwqmSubsector_BList);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsector_BList[0].MWQMSubsectorID);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsector_BList.Count);
+                            List<MWQMSubsectorExtraB> mwqmSubsectorExtraBList = new List<MWQMSubsectorExtraB>();
+                            mwqmSubsectorExtraBList = mwqmSubsectorService.GetMWQMSubsectorExtraBList().ToList();
+                            CheckMWQMSubsectorExtraBFields(mwqmSubsectorExtraBList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorExtraBList[0].MWQMSubsectorID);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorExtraBList.Count);
                         }
                         else
                         {
@@ -531,7 +531,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -547,21 +547,21 @@ namespace CSSPServices.Tests
                             CheckMWQMSubsectorFields(mwqmSubsectorList);
                             Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorList[0].MWQMSubsectorID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MWQMSubsector_A> mwqmSubsector_AList = new List<MWQMSubsector_A>();
-                            mwqmSubsector_AList = mwqmSubsectorService.GetMWQMSubsector_AList().ToList();
-                            CheckMWQMSubsector_AFields(mwqmSubsector_AList);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsector_AList[0].MWQMSubsectorID);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsector_AList.Count);
+                            List<MWQMSubsectorExtraA> mwqmSubsectorExtraAList = new List<MWQMSubsectorExtraA>();
+                            mwqmSubsectorExtraAList = mwqmSubsectorService.GetMWQMSubsectorExtraAList().ToList();
+                            CheckMWQMSubsectorExtraAFields(mwqmSubsectorExtraAList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorExtraAList[0].MWQMSubsectorID);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MWQMSubsector_B> mwqmSubsector_BList = new List<MWQMSubsector_B>();
-                            mwqmSubsector_BList = mwqmSubsectorService.GetMWQMSubsector_BList().ToList();
-                            CheckMWQMSubsector_BFields(mwqmSubsector_BList);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsector_BList[0].MWQMSubsectorID);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsector_BList.Count);
+                            List<MWQMSubsectorExtraB> mwqmSubsectorExtraBList = new List<MWQMSubsectorExtraB>();
+                            mwqmSubsectorExtraBList = mwqmSubsectorService.GetMWQMSubsectorExtraBList().ToList();
+                            CheckMWQMSubsectorExtraBFields(mwqmSubsectorExtraBList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorExtraBList[0].MWQMSubsectorID);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorExtraBList.Count);
                         }
                         else
                         {
@@ -583,7 +583,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -599,21 +599,21 @@ namespace CSSPServices.Tests
                             CheckMWQMSubsectorFields(mwqmSubsectorList);
                             Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorList[0].MWQMSubsectorID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MWQMSubsector_A> mwqmSubsector_AList = new List<MWQMSubsector_A>();
-                            mwqmSubsector_AList = mwqmSubsectorService.GetMWQMSubsector_AList().ToList();
-                            CheckMWQMSubsector_AFields(mwqmSubsector_AList);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsector_AList[0].MWQMSubsectorID);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsector_AList.Count);
+                            List<MWQMSubsectorExtraA> mwqmSubsectorExtraAList = new List<MWQMSubsectorExtraA>();
+                            mwqmSubsectorExtraAList = mwqmSubsectorService.GetMWQMSubsectorExtraAList().ToList();
+                            CheckMWQMSubsectorExtraAFields(mwqmSubsectorExtraAList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorExtraAList[0].MWQMSubsectorID);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MWQMSubsector_B> mwqmSubsector_BList = new List<MWQMSubsector_B>();
-                            mwqmSubsector_BList = mwqmSubsectorService.GetMWQMSubsector_BList().ToList();
-                            CheckMWQMSubsector_BFields(mwqmSubsector_BList);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsector_BList[0].MWQMSubsectorID);
-                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsector_BList.Count);
+                            List<MWQMSubsectorExtraB> mwqmSubsectorExtraBList = new List<MWQMSubsectorExtraB>();
+                            mwqmSubsectorExtraBList = mwqmSubsectorService.GetMWQMSubsectorExtraBList().ToList();
+                            CheckMWQMSubsectorExtraBFields(mwqmSubsectorExtraBList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorExtraBList[0].MWQMSubsectorID);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorExtraBList.Count);
                         }
                         else
                         {
@@ -639,39 +639,39 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(mwqmSubsectorList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(mwqmSubsectorList[0].HasErrors);
         }
-        private void CheckMWQMSubsector_AFields(List<MWQMSubsector_A> mwqmSubsector_AList)
+        private void CheckMWQMSubsectorExtraAFields(List<MWQMSubsectorExtraA> mwqmSubsectorExtraAList)
         {
-            Assert.IsNotNull(mwqmSubsector_AList[0].SubsectorTVItemLanguage);
-            Assert.IsNotNull(mwqmSubsector_AList[0].LastUpdateContactTVItemLanguage);
-            Assert.IsNotNull(mwqmSubsector_AList[0].MWQMSubsectorID);
-            Assert.IsNotNull(mwqmSubsector_AList[0].MWQMSubsectorTVItemID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsector_AList[0].SubsectorHistoricKey));
-            if (!string.IsNullOrWhiteSpace(mwqmSubsector_AList[0].TideLocationSIDText))
+            Assert.IsNotNull(mwqmSubsectorExtraAList[0].SubsectorTVItemLanguage);
+            Assert.IsNotNull(mwqmSubsectorExtraAList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(mwqmSubsectorExtraAList[0].MWQMSubsectorID);
+            Assert.IsNotNull(mwqmSubsectorExtraAList[0].MWQMSubsectorTVItemID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorExtraAList[0].SubsectorHistoricKey));
+            if (!string.IsNullOrWhiteSpace(mwqmSubsectorExtraAList[0].TideLocationSIDText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsector_AList[0].TideLocationSIDText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorExtraAList[0].TideLocationSIDText));
             }
-            Assert.IsNotNull(mwqmSubsector_AList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(mwqmSubsector_AList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(mwqmSubsector_AList[0].HasErrors);
+            Assert.IsNotNull(mwqmSubsectorExtraAList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(mwqmSubsectorExtraAList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(mwqmSubsectorExtraAList[0].HasErrors);
         }
-        private void CheckMWQMSubsector_BFields(List<MWQMSubsector_B> mwqmSubsector_BList)
+        private void CheckMWQMSubsectorExtraBFields(List<MWQMSubsectorExtraB> mwqmSubsectorExtraBList)
         {
-            if (!string.IsNullOrWhiteSpace(mwqmSubsector_BList[0].MWQMSubsectorReportTest))
+            if (!string.IsNullOrWhiteSpace(mwqmSubsectorExtraBList[0].MWQMSubsectorReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsector_BList[0].MWQMSubsectorReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorExtraBList[0].MWQMSubsectorReportTest));
             }
-            Assert.IsNotNull(mwqmSubsector_BList[0].SubsectorTVItemLanguage);
-            Assert.IsNotNull(mwqmSubsector_BList[0].LastUpdateContactTVItemLanguage);
-            Assert.IsNotNull(mwqmSubsector_BList[0].MWQMSubsectorID);
-            Assert.IsNotNull(mwqmSubsector_BList[0].MWQMSubsectorTVItemID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsector_BList[0].SubsectorHistoricKey));
-            if (!string.IsNullOrWhiteSpace(mwqmSubsector_BList[0].TideLocationSIDText))
+            Assert.IsNotNull(mwqmSubsectorExtraBList[0].SubsectorTVItemLanguage);
+            Assert.IsNotNull(mwqmSubsectorExtraBList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(mwqmSubsectorExtraBList[0].MWQMSubsectorID);
+            Assert.IsNotNull(mwqmSubsectorExtraBList[0].MWQMSubsectorTVItemID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorExtraBList[0].SubsectorHistoricKey));
+            if (!string.IsNullOrWhiteSpace(mwqmSubsectorExtraBList[0].TideLocationSIDText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsector_BList[0].TideLocationSIDText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorExtraBList[0].TideLocationSIDText));
             }
-            Assert.IsNotNull(mwqmSubsector_BList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(mwqmSubsector_BList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(mwqmSubsector_BList[0].HasErrors);
+            Assert.IsNotNull(mwqmSubsectorExtraBList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(mwqmSubsectorExtraBList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(mwqmSubsectorExtraBList[0].HasErrors);
         }
         private MWQMSubsector GetFilledRandomMWQMSubsector(string OmitPropName)
         {

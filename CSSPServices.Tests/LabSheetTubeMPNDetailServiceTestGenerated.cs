@@ -401,7 +401,7 @@ namespace CSSPServices.Tests
                     LabSheetTubeMPNDetail labSheetTubeMPNDetail = (from c in dbTestDB.LabSheetTubeMPNDetails select c).FirstOrDefault();
                     Assert.IsNotNull(labSheetTubeMPNDetail);
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         labSheetTubeMPNDetailService.Query.Detail = detail;
 
@@ -411,17 +411,17 @@ namespace CSSPServices.Tests
                             CheckLabSheetTubeMPNDetailFields(new List<LabSheetTubeMPNDetail>() { labSheetTubeMPNDetailRet });
                             Assert.AreEqual(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID, labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            LabSheetTubeMPNDetail_A labSheetTubeMPNDetail_ARet = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetail_AWithLabSheetTubeMPNDetailID(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID);
-                            CheckLabSheetTubeMPNDetail_AFields(new List<LabSheetTubeMPNDetail_A>() { labSheetTubeMPNDetail_ARet });
-                            Assert.AreEqual(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID, labSheetTubeMPNDetail_ARet.LabSheetTubeMPNDetailID);
+                            LabSheetTubeMPNDetailExtraA labSheetTubeMPNDetailExtraARet = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraAWithLabSheetTubeMPNDetailID(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID);
+                            CheckLabSheetTubeMPNDetailExtraAFields(new List<LabSheetTubeMPNDetailExtraA>() { labSheetTubeMPNDetailExtraARet });
+                            Assert.AreEqual(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID, labSheetTubeMPNDetailExtraARet.LabSheetTubeMPNDetailID);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            LabSheetTubeMPNDetail_B labSheetTubeMPNDetail_BRet = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetail_BWithLabSheetTubeMPNDetailID(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID);
-                            CheckLabSheetTubeMPNDetail_BFields(new List<LabSheetTubeMPNDetail_B>() { labSheetTubeMPNDetail_BRet });
-                            Assert.AreEqual(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID, labSheetTubeMPNDetail_BRet.LabSheetTubeMPNDetailID);
+                            LabSheetTubeMPNDetailExtraB labSheetTubeMPNDetailExtraBRet = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraBWithLabSheetTubeMPNDetailID(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID);
+                            CheckLabSheetTubeMPNDetailExtraBFields(new List<LabSheetTubeMPNDetailExtraB>() { labSheetTubeMPNDetailExtraBRet });
+                            Assert.AreEqual(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID, labSheetTubeMPNDetailExtraBRet.LabSheetTubeMPNDetailID);
                         }
                         else
                         {
@@ -450,7 +450,7 @@ namespace CSSPServices.Tests
                     List<LabSheetTubeMPNDetail> labSheetTubeMPNDetailDirectQueryList = new List<LabSheetTubeMPNDetail>();
                     labSheetTubeMPNDetailDirectQueryList = (from c in dbTestDB.LabSheetTubeMPNDetails select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         labSheetTubeMPNDetailService.Query.Detail = detail;
 
@@ -460,19 +460,19 @@ namespace CSSPServices.Tests
                             labSheetTubeMPNDetailList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailList().ToList();
                             CheckLabSheetTubeMPNDetailFields(labSheetTubeMPNDetailList);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<LabSheetTubeMPNDetail_A> labSheetTubeMPNDetail_AList = new List<LabSheetTubeMPNDetail_A>();
-                            labSheetTubeMPNDetail_AList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetail_AList().ToList();
-                            CheckLabSheetTubeMPNDetail_AFields(labSheetTubeMPNDetail_AList);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetail_AList.Count);
+                            List<LabSheetTubeMPNDetailExtraA> labSheetTubeMPNDetailExtraAList = new List<LabSheetTubeMPNDetailExtraA>();
+                            labSheetTubeMPNDetailExtraAList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraAList().ToList();
+                            CheckLabSheetTubeMPNDetailExtraAFields(labSheetTubeMPNDetailExtraAList);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<LabSheetTubeMPNDetail_B> labSheetTubeMPNDetail_BList = new List<LabSheetTubeMPNDetail_B>();
-                            labSheetTubeMPNDetail_BList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetail_BList().ToList();
-                            CheckLabSheetTubeMPNDetail_BFields(labSheetTubeMPNDetail_BList);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetail_BList.Count);
+                            List<LabSheetTubeMPNDetailExtraB> labSheetTubeMPNDetailExtraBList = new List<LabSheetTubeMPNDetailExtraB>();
+                            labSheetTubeMPNDetailExtraBList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraBList().ToList();
+                            CheckLabSheetTubeMPNDetailExtraBFields(labSheetTubeMPNDetailExtraBList);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailExtraBList.Count);
                         }
                         else
                         {
@@ -494,7 +494,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         LabSheetTubeMPNDetailService labSheetTubeMPNDetailService = new LabSheetTubeMPNDetailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -510,21 +510,21 @@ namespace CSSPServices.Tests
                             CheckLabSheetTubeMPNDetailFields(labSheetTubeMPNDetailList);
                             Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<LabSheetTubeMPNDetail_A> labSheetTubeMPNDetail_AList = new List<LabSheetTubeMPNDetail_A>();
-                            labSheetTubeMPNDetail_AList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetail_AList().ToList();
-                            CheckLabSheetTubeMPNDetail_AFields(labSheetTubeMPNDetail_AList);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetail_AList[0].LabSheetTubeMPNDetailID);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetail_AList.Count);
+                            List<LabSheetTubeMPNDetailExtraA> labSheetTubeMPNDetailExtraAList = new List<LabSheetTubeMPNDetailExtraA>();
+                            labSheetTubeMPNDetailExtraAList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraAList().ToList();
+                            CheckLabSheetTubeMPNDetailExtraAFields(labSheetTubeMPNDetailExtraAList);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailExtraAList[0].LabSheetTubeMPNDetailID);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<LabSheetTubeMPNDetail_B> labSheetTubeMPNDetail_BList = new List<LabSheetTubeMPNDetail_B>();
-                            labSheetTubeMPNDetail_BList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetail_BList().ToList();
-                            CheckLabSheetTubeMPNDetail_BFields(labSheetTubeMPNDetail_BList);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetail_BList[0].LabSheetTubeMPNDetailID);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetail_BList.Count);
+                            List<LabSheetTubeMPNDetailExtraB> labSheetTubeMPNDetailExtraBList = new List<LabSheetTubeMPNDetailExtraB>();
+                            labSheetTubeMPNDetailExtraBList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraBList().ToList();
+                            CheckLabSheetTubeMPNDetailExtraBFields(labSheetTubeMPNDetailExtraBList);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailExtraBList[0].LabSheetTubeMPNDetailID);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailExtraBList.Count);
                         }
                         else
                         {
@@ -546,7 +546,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         LabSheetTubeMPNDetailService labSheetTubeMPNDetailService = new LabSheetTubeMPNDetailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -562,21 +562,21 @@ namespace CSSPServices.Tests
                             CheckLabSheetTubeMPNDetailFields(labSheetTubeMPNDetailList);
                             Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<LabSheetTubeMPNDetail_A> labSheetTubeMPNDetail_AList = new List<LabSheetTubeMPNDetail_A>();
-                            labSheetTubeMPNDetail_AList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetail_AList().ToList();
-                            CheckLabSheetTubeMPNDetail_AFields(labSheetTubeMPNDetail_AList);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetail_AList[0].LabSheetTubeMPNDetailID);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetail_AList.Count);
+                            List<LabSheetTubeMPNDetailExtraA> labSheetTubeMPNDetailExtraAList = new List<LabSheetTubeMPNDetailExtraA>();
+                            labSheetTubeMPNDetailExtraAList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraAList().ToList();
+                            CheckLabSheetTubeMPNDetailExtraAFields(labSheetTubeMPNDetailExtraAList);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailExtraAList[0].LabSheetTubeMPNDetailID);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<LabSheetTubeMPNDetail_B> labSheetTubeMPNDetail_BList = new List<LabSheetTubeMPNDetail_B>();
-                            labSheetTubeMPNDetail_BList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetail_BList().ToList();
-                            CheckLabSheetTubeMPNDetail_BFields(labSheetTubeMPNDetail_BList);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetail_BList[0].LabSheetTubeMPNDetailID);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetail_BList.Count);
+                            List<LabSheetTubeMPNDetailExtraB> labSheetTubeMPNDetailExtraBList = new List<LabSheetTubeMPNDetailExtraB>();
+                            labSheetTubeMPNDetailExtraBList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraBList().ToList();
+                            CheckLabSheetTubeMPNDetailExtraBFields(labSheetTubeMPNDetailExtraBList);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailExtraBList[0].LabSheetTubeMPNDetailID);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailExtraBList.Count);
                         }
                         else
                         {
@@ -598,7 +598,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         LabSheetTubeMPNDetailService labSheetTubeMPNDetailService = new LabSheetTubeMPNDetailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -614,21 +614,21 @@ namespace CSSPServices.Tests
                             CheckLabSheetTubeMPNDetailFields(labSheetTubeMPNDetailList);
                             Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<LabSheetTubeMPNDetail_A> labSheetTubeMPNDetail_AList = new List<LabSheetTubeMPNDetail_A>();
-                            labSheetTubeMPNDetail_AList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetail_AList().ToList();
-                            CheckLabSheetTubeMPNDetail_AFields(labSheetTubeMPNDetail_AList);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetail_AList[0].LabSheetTubeMPNDetailID);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetail_AList.Count);
+                            List<LabSheetTubeMPNDetailExtraA> labSheetTubeMPNDetailExtraAList = new List<LabSheetTubeMPNDetailExtraA>();
+                            labSheetTubeMPNDetailExtraAList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraAList().ToList();
+                            CheckLabSheetTubeMPNDetailExtraAFields(labSheetTubeMPNDetailExtraAList);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailExtraAList[0].LabSheetTubeMPNDetailID);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<LabSheetTubeMPNDetail_B> labSheetTubeMPNDetail_BList = new List<LabSheetTubeMPNDetail_B>();
-                            labSheetTubeMPNDetail_BList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetail_BList().ToList();
-                            CheckLabSheetTubeMPNDetail_BFields(labSheetTubeMPNDetail_BList);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetail_BList[0].LabSheetTubeMPNDetailID);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetail_BList.Count);
+                            List<LabSheetTubeMPNDetailExtraB> labSheetTubeMPNDetailExtraBList = new List<LabSheetTubeMPNDetailExtraB>();
+                            labSheetTubeMPNDetailExtraBList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraBList().ToList();
+                            CheckLabSheetTubeMPNDetailExtraBFields(labSheetTubeMPNDetailExtraBList);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailExtraBList[0].LabSheetTubeMPNDetailID);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailExtraBList.Count);
                         }
                         else
                         {
@@ -650,7 +650,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         LabSheetTubeMPNDetailService labSheetTubeMPNDetailService = new LabSheetTubeMPNDetailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -666,21 +666,21 @@ namespace CSSPServices.Tests
                             CheckLabSheetTubeMPNDetailFields(labSheetTubeMPNDetailList);
                             Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<LabSheetTubeMPNDetail_A> labSheetTubeMPNDetail_AList = new List<LabSheetTubeMPNDetail_A>();
-                            labSheetTubeMPNDetail_AList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetail_AList().ToList();
-                            CheckLabSheetTubeMPNDetail_AFields(labSheetTubeMPNDetail_AList);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetail_AList[0].LabSheetTubeMPNDetailID);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetail_AList.Count);
+                            List<LabSheetTubeMPNDetailExtraA> labSheetTubeMPNDetailExtraAList = new List<LabSheetTubeMPNDetailExtraA>();
+                            labSheetTubeMPNDetailExtraAList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraAList().ToList();
+                            CheckLabSheetTubeMPNDetailExtraAFields(labSheetTubeMPNDetailExtraAList);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailExtraAList[0].LabSheetTubeMPNDetailID);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<LabSheetTubeMPNDetail_B> labSheetTubeMPNDetail_BList = new List<LabSheetTubeMPNDetail_B>();
-                            labSheetTubeMPNDetail_BList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetail_BList().ToList();
-                            CheckLabSheetTubeMPNDetail_BFields(labSheetTubeMPNDetail_BList);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetail_BList[0].LabSheetTubeMPNDetailID);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetail_BList.Count);
+                            List<LabSheetTubeMPNDetailExtraB> labSheetTubeMPNDetailExtraBList = new List<LabSheetTubeMPNDetailExtraB>();
+                            labSheetTubeMPNDetailExtraBList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraBList().ToList();
+                            CheckLabSheetTubeMPNDetailExtraBFields(labSheetTubeMPNDetailExtraBList);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailExtraBList[0].LabSheetTubeMPNDetailID);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailExtraBList.Count);
                         }
                         else
                         {
@@ -702,7 +702,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         LabSheetTubeMPNDetailService labSheetTubeMPNDetailService = new LabSheetTubeMPNDetailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -718,21 +718,21 @@ namespace CSSPServices.Tests
                             CheckLabSheetTubeMPNDetailFields(labSheetTubeMPNDetailList);
                             Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<LabSheetTubeMPNDetail_A> labSheetTubeMPNDetail_AList = new List<LabSheetTubeMPNDetail_A>();
-                            labSheetTubeMPNDetail_AList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetail_AList().ToList();
-                            CheckLabSheetTubeMPNDetail_AFields(labSheetTubeMPNDetail_AList);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetail_AList[0].LabSheetTubeMPNDetailID);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetail_AList.Count);
+                            List<LabSheetTubeMPNDetailExtraA> labSheetTubeMPNDetailExtraAList = new List<LabSheetTubeMPNDetailExtraA>();
+                            labSheetTubeMPNDetailExtraAList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraAList().ToList();
+                            CheckLabSheetTubeMPNDetailExtraAFields(labSheetTubeMPNDetailExtraAList);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailExtraAList[0].LabSheetTubeMPNDetailID);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<LabSheetTubeMPNDetail_B> labSheetTubeMPNDetail_BList = new List<LabSheetTubeMPNDetail_B>();
-                            labSheetTubeMPNDetail_BList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetail_BList().ToList();
-                            CheckLabSheetTubeMPNDetail_BFields(labSheetTubeMPNDetail_BList);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetail_BList[0].LabSheetTubeMPNDetailID);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetail_BList.Count);
+                            List<LabSheetTubeMPNDetailExtraB> labSheetTubeMPNDetailExtraBList = new List<LabSheetTubeMPNDetailExtraB>();
+                            labSheetTubeMPNDetailExtraBList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraBList().ToList();
+                            CheckLabSheetTubeMPNDetailExtraBFields(labSheetTubeMPNDetailExtraBList);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailExtraBList[0].LabSheetTubeMPNDetailID);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailExtraBList.Count);
                         }
                         else
                         {
@@ -754,7 +754,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         LabSheetTubeMPNDetailService labSheetTubeMPNDetailService = new LabSheetTubeMPNDetailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -770,21 +770,21 @@ namespace CSSPServices.Tests
                             CheckLabSheetTubeMPNDetailFields(labSheetTubeMPNDetailList);
                             Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<LabSheetTubeMPNDetail_A> labSheetTubeMPNDetail_AList = new List<LabSheetTubeMPNDetail_A>();
-                            labSheetTubeMPNDetail_AList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetail_AList().ToList();
-                            CheckLabSheetTubeMPNDetail_AFields(labSheetTubeMPNDetail_AList);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetail_AList[0].LabSheetTubeMPNDetailID);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetail_AList.Count);
+                            List<LabSheetTubeMPNDetailExtraA> labSheetTubeMPNDetailExtraAList = new List<LabSheetTubeMPNDetailExtraA>();
+                            labSheetTubeMPNDetailExtraAList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraAList().ToList();
+                            CheckLabSheetTubeMPNDetailExtraAFields(labSheetTubeMPNDetailExtraAList);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailExtraAList[0].LabSheetTubeMPNDetailID);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<LabSheetTubeMPNDetail_B> labSheetTubeMPNDetail_BList = new List<LabSheetTubeMPNDetail_B>();
-                            labSheetTubeMPNDetail_BList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetail_BList().ToList();
-                            CheckLabSheetTubeMPNDetail_BFields(labSheetTubeMPNDetail_BList);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetail_BList[0].LabSheetTubeMPNDetailID);
-                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetail_BList.Count);
+                            List<LabSheetTubeMPNDetailExtraB> labSheetTubeMPNDetailExtraBList = new List<LabSheetTubeMPNDetailExtraB>();
+                            labSheetTubeMPNDetailExtraBList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraBList().ToList();
+                            CheckLabSheetTubeMPNDetailExtraBFields(labSheetTubeMPNDetailExtraBList);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailExtraBList[0].LabSheetTubeMPNDetailID);
+                            Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailExtraBList.Count);
                         }
                         else
                         {
@@ -844,115 +844,115 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(labSheetTubeMPNDetailList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(labSheetTubeMPNDetailList[0].HasErrors);
         }
-        private void CheckLabSheetTubeMPNDetail_AFields(List<LabSheetTubeMPNDetail_A> labSheetTubeMPNDetail_AList)
+        private void CheckLabSheetTubeMPNDetailExtraAFields(List<LabSheetTubeMPNDetailExtraA> labSheetTubeMPNDetailExtraAList)
         {
-            Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].MWQMSiteTVItemLanguage);
-            Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetail_AList[0].SampleTypeText))
+            Assert.IsNotNull(labSheetTubeMPNDetailExtraAList[0].MWQMSiteTVItemLanguage);
+            Assert.IsNotNull(labSheetTubeMPNDetailExtraAList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetailExtraAList[0].SampleTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetail_AList[0].SampleTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailExtraAList[0].SampleTypeText));
             }
-            Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].LabSheetTubeMPNDetailID);
-            Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].LabSheetDetailID);
-            Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].Ordinal);
-            Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].MWQMSiteTVItemID);
-            if (labSheetTubeMPNDetail_AList[0].SampleDateTime != null)
+            Assert.IsNotNull(labSheetTubeMPNDetailExtraAList[0].LabSheetTubeMPNDetailID);
+            Assert.IsNotNull(labSheetTubeMPNDetailExtraAList[0].LabSheetDetailID);
+            Assert.IsNotNull(labSheetTubeMPNDetailExtraAList[0].Ordinal);
+            Assert.IsNotNull(labSheetTubeMPNDetailExtraAList[0].MWQMSiteTVItemID);
+            if (labSheetTubeMPNDetailExtraAList[0].SampleDateTime != null)
             {
-                Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].SampleDateTime);
+                Assert.IsNotNull(labSheetTubeMPNDetailExtraAList[0].SampleDateTime);
             }
-            if (labSheetTubeMPNDetail_AList[0].MPN != null)
+            if (labSheetTubeMPNDetailExtraAList[0].MPN != null)
             {
-                Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].MPN);
+                Assert.IsNotNull(labSheetTubeMPNDetailExtraAList[0].MPN);
             }
-            if (labSheetTubeMPNDetail_AList[0].Tube10 != null)
+            if (labSheetTubeMPNDetailExtraAList[0].Tube10 != null)
             {
-                Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].Tube10);
+                Assert.IsNotNull(labSheetTubeMPNDetailExtraAList[0].Tube10);
             }
-            if (labSheetTubeMPNDetail_AList[0].Tube1_0 != null)
+            if (labSheetTubeMPNDetailExtraAList[0].Tube1_0 != null)
             {
-                Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].Tube1_0);
+                Assert.IsNotNull(labSheetTubeMPNDetailExtraAList[0].Tube1_0);
             }
-            if (labSheetTubeMPNDetail_AList[0].Tube0_1 != null)
+            if (labSheetTubeMPNDetailExtraAList[0].Tube0_1 != null)
             {
-                Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].Tube0_1);
+                Assert.IsNotNull(labSheetTubeMPNDetailExtraAList[0].Tube0_1);
             }
-            if (labSheetTubeMPNDetail_AList[0].Salinity != null)
+            if (labSheetTubeMPNDetailExtraAList[0].Salinity != null)
             {
-                Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].Salinity);
+                Assert.IsNotNull(labSheetTubeMPNDetailExtraAList[0].Salinity);
             }
-            if (labSheetTubeMPNDetail_AList[0].Temperature != null)
+            if (labSheetTubeMPNDetailExtraAList[0].Temperature != null)
             {
-                Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].Temperature);
+                Assert.IsNotNull(labSheetTubeMPNDetailExtraAList[0].Temperature);
             }
-            if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetail_AList[0].ProcessedBy))
+            if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetailExtraAList[0].ProcessedBy))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetail_AList[0].ProcessedBy));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailExtraAList[0].ProcessedBy));
             }
-            Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].SampleType);
-            if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetail_AList[0].SiteComment))
+            Assert.IsNotNull(labSheetTubeMPNDetailExtraAList[0].SampleType);
+            if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetailExtraAList[0].SiteComment))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetail_AList[0].SiteComment));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailExtraAList[0].SiteComment));
             }
-            Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(labSheetTubeMPNDetail_AList[0].HasErrors);
+            Assert.IsNotNull(labSheetTubeMPNDetailExtraAList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(labSheetTubeMPNDetailExtraAList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(labSheetTubeMPNDetailExtraAList[0].HasErrors);
         }
-        private void CheckLabSheetTubeMPNDetail_BFields(List<LabSheetTubeMPNDetail_B> labSheetTubeMPNDetail_BList)
+        private void CheckLabSheetTubeMPNDetailExtraBFields(List<LabSheetTubeMPNDetailExtraB> labSheetTubeMPNDetailExtraBList)
         {
-            if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetail_BList[0].LabSheetTubeMPNDetailReportTest))
+            if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetailExtraBList[0].LabSheetTubeMPNDetailReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetail_BList[0].LabSheetTubeMPNDetailReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailExtraBList[0].LabSheetTubeMPNDetailReportTest));
             }
-            Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].MWQMSiteTVItemLanguage);
-            Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetail_BList[0].SampleTypeText))
+            Assert.IsNotNull(labSheetTubeMPNDetailExtraBList[0].MWQMSiteTVItemLanguage);
+            Assert.IsNotNull(labSheetTubeMPNDetailExtraBList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetailExtraBList[0].SampleTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetail_BList[0].SampleTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailExtraBList[0].SampleTypeText));
             }
-            Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].LabSheetTubeMPNDetailID);
-            Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].LabSheetDetailID);
-            Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].Ordinal);
-            Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].MWQMSiteTVItemID);
-            if (labSheetTubeMPNDetail_BList[0].SampleDateTime != null)
+            Assert.IsNotNull(labSheetTubeMPNDetailExtraBList[0].LabSheetTubeMPNDetailID);
+            Assert.IsNotNull(labSheetTubeMPNDetailExtraBList[0].LabSheetDetailID);
+            Assert.IsNotNull(labSheetTubeMPNDetailExtraBList[0].Ordinal);
+            Assert.IsNotNull(labSheetTubeMPNDetailExtraBList[0].MWQMSiteTVItemID);
+            if (labSheetTubeMPNDetailExtraBList[0].SampleDateTime != null)
             {
-                Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].SampleDateTime);
+                Assert.IsNotNull(labSheetTubeMPNDetailExtraBList[0].SampleDateTime);
             }
-            if (labSheetTubeMPNDetail_BList[0].MPN != null)
+            if (labSheetTubeMPNDetailExtraBList[0].MPN != null)
             {
-                Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].MPN);
+                Assert.IsNotNull(labSheetTubeMPNDetailExtraBList[0].MPN);
             }
-            if (labSheetTubeMPNDetail_BList[0].Tube10 != null)
+            if (labSheetTubeMPNDetailExtraBList[0].Tube10 != null)
             {
-                Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].Tube10);
+                Assert.IsNotNull(labSheetTubeMPNDetailExtraBList[0].Tube10);
             }
-            if (labSheetTubeMPNDetail_BList[0].Tube1_0 != null)
+            if (labSheetTubeMPNDetailExtraBList[0].Tube1_0 != null)
             {
-                Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].Tube1_0);
+                Assert.IsNotNull(labSheetTubeMPNDetailExtraBList[0].Tube1_0);
             }
-            if (labSheetTubeMPNDetail_BList[0].Tube0_1 != null)
+            if (labSheetTubeMPNDetailExtraBList[0].Tube0_1 != null)
             {
-                Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].Tube0_1);
+                Assert.IsNotNull(labSheetTubeMPNDetailExtraBList[0].Tube0_1);
             }
-            if (labSheetTubeMPNDetail_BList[0].Salinity != null)
+            if (labSheetTubeMPNDetailExtraBList[0].Salinity != null)
             {
-                Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].Salinity);
+                Assert.IsNotNull(labSheetTubeMPNDetailExtraBList[0].Salinity);
             }
-            if (labSheetTubeMPNDetail_BList[0].Temperature != null)
+            if (labSheetTubeMPNDetailExtraBList[0].Temperature != null)
             {
-                Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].Temperature);
+                Assert.IsNotNull(labSheetTubeMPNDetailExtraBList[0].Temperature);
             }
-            if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetail_BList[0].ProcessedBy))
+            if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetailExtraBList[0].ProcessedBy))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetail_BList[0].ProcessedBy));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailExtraBList[0].ProcessedBy));
             }
-            Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].SampleType);
-            if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetail_BList[0].SiteComment))
+            Assert.IsNotNull(labSheetTubeMPNDetailExtraBList[0].SampleType);
+            if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetailExtraBList[0].SiteComment))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetail_BList[0].SiteComment));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailExtraBList[0].SiteComment));
             }
-            Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(labSheetTubeMPNDetail_BList[0].HasErrors);
+            Assert.IsNotNull(labSheetTubeMPNDetailExtraBList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(labSheetTubeMPNDetailExtraBList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(labSheetTubeMPNDetailExtraBList[0].HasErrors);
         }
         private LabSheetTubeMPNDetail GetFilledRandomLabSheetTubeMPNDetail(string OmitPropName)
         {

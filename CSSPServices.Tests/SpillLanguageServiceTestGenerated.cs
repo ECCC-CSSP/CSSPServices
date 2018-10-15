@@ -230,7 +230,7 @@ namespace CSSPServices.Tests
                     SpillLanguage spillLanguage = (from c in dbTestDB.SpillLanguages select c).FirstOrDefault();
                     Assert.IsNotNull(spillLanguage);
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         spillLanguageService.Query.Detail = detail;
 
@@ -240,17 +240,17 @@ namespace CSSPServices.Tests
                             CheckSpillLanguageFields(new List<SpillLanguage>() { spillLanguageRet });
                             Assert.AreEqual(spillLanguage.SpillLanguageID, spillLanguageRet.SpillLanguageID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            SpillLanguage_A spillLanguage_ARet = spillLanguageService.GetSpillLanguage_AWithSpillLanguageID(spillLanguage.SpillLanguageID);
-                            CheckSpillLanguage_AFields(new List<SpillLanguage_A>() { spillLanguage_ARet });
-                            Assert.AreEqual(spillLanguage.SpillLanguageID, spillLanguage_ARet.SpillLanguageID);
+                            SpillLanguageExtraA spillLanguageExtraARet = spillLanguageService.GetSpillLanguageExtraAWithSpillLanguageID(spillLanguage.SpillLanguageID);
+                            CheckSpillLanguageExtraAFields(new List<SpillLanguageExtraA>() { spillLanguageExtraARet });
+                            Assert.AreEqual(spillLanguage.SpillLanguageID, spillLanguageExtraARet.SpillLanguageID);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            SpillLanguage_B spillLanguage_BRet = spillLanguageService.GetSpillLanguage_BWithSpillLanguageID(spillLanguage.SpillLanguageID);
-                            CheckSpillLanguage_BFields(new List<SpillLanguage_B>() { spillLanguage_BRet });
-                            Assert.AreEqual(spillLanguage.SpillLanguageID, spillLanguage_BRet.SpillLanguageID);
+                            SpillLanguageExtraB spillLanguageExtraBRet = spillLanguageService.GetSpillLanguageExtraBWithSpillLanguageID(spillLanguage.SpillLanguageID);
+                            CheckSpillLanguageExtraBFields(new List<SpillLanguageExtraB>() { spillLanguageExtraBRet });
+                            Assert.AreEqual(spillLanguage.SpillLanguageID, spillLanguageExtraBRet.SpillLanguageID);
                         }
                         else
                         {
@@ -279,7 +279,7 @@ namespace CSSPServices.Tests
                     List<SpillLanguage> spillLanguageDirectQueryList = new List<SpillLanguage>();
                     spillLanguageDirectQueryList = (from c in dbTestDB.SpillLanguages select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         spillLanguageService.Query.Detail = detail;
 
@@ -289,19 +289,19 @@ namespace CSSPServices.Tests
                             spillLanguageList = spillLanguageService.GetSpillLanguageList().ToList();
                             CheckSpillLanguageFields(spillLanguageList);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<SpillLanguage_A> spillLanguage_AList = new List<SpillLanguage_A>();
-                            spillLanguage_AList = spillLanguageService.GetSpillLanguage_AList().ToList();
-                            CheckSpillLanguage_AFields(spillLanguage_AList);
-                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguage_AList.Count);
+                            List<SpillLanguageExtraA> spillLanguageExtraAList = new List<SpillLanguageExtraA>();
+                            spillLanguageExtraAList = spillLanguageService.GetSpillLanguageExtraAList().ToList();
+                            CheckSpillLanguageExtraAFields(spillLanguageExtraAList);
+                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguageExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<SpillLanguage_B> spillLanguage_BList = new List<SpillLanguage_B>();
-                            spillLanguage_BList = spillLanguageService.GetSpillLanguage_BList().ToList();
-                            CheckSpillLanguage_BFields(spillLanguage_BList);
-                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguage_BList.Count);
+                            List<SpillLanguageExtraB> spillLanguageExtraBList = new List<SpillLanguageExtraB>();
+                            spillLanguageExtraBList = spillLanguageService.GetSpillLanguageExtraBList().ToList();
+                            CheckSpillLanguageExtraBFields(spillLanguageExtraBList);
+                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -323,7 +323,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         SpillLanguageService spillLanguageService = new SpillLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -339,21 +339,21 @@ namespace CSSPServices.Tests
                             CheckSpillLanguageFields(spillLanguageList);
                             Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageList[0].SpillLanguageID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<SpillLanguage_A> spillLanguage_AList = new List<SpillLanguage_A>();
-                            spillLanguage_AList = spillLanguageService.GetSpillLanguage_AList().ToList();
-                            CheckSpillLanguage_AFields(spillLanguage_AList);
-                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguage_AList[0].SpillLanguageID);
-                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguage_AList.Count);
+                            List<SpillLanguageExtraA> spillLanguageExtraAList = new List<SpillLanguageExtraA>();
+                            spillLanguageExtraAList = spillLanguageService.GetSpillLanguageExtraAList().ToList();
+                            CheckSpillLanguageExtraAFields(spillLanguageExtraAList);
+                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageExtraAList[0].SpillLanguageID);
+                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguageExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<SpillLanguage_B> spillLanguage_BList = new List<SpillLanguage_B>();
-                            spillLanguage_BList = spillLanguageService.GetSpillLanguage_BList().ToList();
-                            CheckSpillLanguage_BFields(spillLanguage_BList);
-                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguage_BList[0].SpillLanguageID);
-                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguage_BList.Count);
+                            List<SpillLanguageExtraB> spillLanguageExtraBList = new List<SpillLanguageExtraB>();
+                            spillLanguageExtraBList = spillLanguageService.GetSpillLanguageExtraBList().ToList();
+                            CheckSpillLanguageExtraBFields(spillLanguageExtraBList);
+                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageExtraBList[0].SpillLanguageID);
+                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -375,7 +375,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         SpillLanguageService spillLanguageService = new SpillLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -391,21 +391,21 @@ namespace CSSPServices.Tests
                             CheckSpillLanguageFields(spillLanguageList);
                             Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageList[0].SpillLanguageID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<SpillLanguage_A> spillLanguage_AList = new List<SpillLanguage_A>();
-                            spillLanguage_AList = spillLanguageService.GetSpillLanguage_AList().ToList();
-                            CheckSpillLanguage_AFields(spillLanguage_AList);
-                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguage_AList[0].SpillLanguageID);
-                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguage_AList.Count);
+                            List<SpillLanguageExtraA> spillLanguageExtraAList = new List<SpillLanguageExtraA>();
+                            spillLanguageExtraAList = spillLanguageService.GetSpillLanguageExtraAList().ToList();
+                            CheckSpillLanguageExtraAFields(spillLanguageExtraAList);
+                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageExtraAList[0].SpillLanguageID);
+                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguageExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<SpillLanguage_B> spillLanguage_BList = new List<SpillLanguage_B>();
-                            spillLanguage_BList = spillLanguageService.GetSpillLanguage_BList().ToList();
-                            CheckSpillLanguage_BFields(spillLanguage_BList);
-                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguage_BList[0].SpillLanguageID);
-                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguage_BList.Count);
+                            List<SpillLanguageExtraB> spillLanguageExtraBList = new List<SpillLanguageExtraB>();
+                            spillLanguageExtraBList = spillLanguageService.GetSpillLanguageExtraBList().ToList();
+                            CheckSpillLanguageExtraBFields(spillLanguageExtraBList);
+                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageExtraBList[0].SpillLanguageID);
+                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -427,7 +427,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         SpillLanguageService spillLanguageService = new SpillLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -443,21 +443,21 @@ namespace CSSPServices.Tests
                             CheckSpillLanguageFields(spillLanguageList);
                             Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageList[0].SpillLanguageID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<SpillLanguage_A> spillLanguage_AList = new List<SpillLanguage_A>();
-                            spillLanguage_AList = spillLanguageService.GetSpillLanguage_AList().ToList();
-                            CheckSpillLanguage_AFields(spillLanguage_AList);
-                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguage_AList[0].SpillLanguageID);
-                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguage_AList.Count);
+                            List<SpillLanguageExtraA> spillLanguageExtraAList = new List<SpillLanguageExtraA>();
+                            spillLanguageExtraAList = spillLanguageService.GetSpillLanguageExtraAList().ToList();
+                            CheckSpillLanguageExtraAFields(spillLanguageExtraAList);
+                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageExtraAList[0].SpillLanguageID);
+                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguageExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<SpillLanguage_B> spillLanguage_BList = new List<SpillLanguage_B>();
-                            spillLanguage_BList = spillLanguageService.GetSpillLanguage_BList().ToList();
-                            CheckSpillLanguage_BFields(spillLanguage_BList);
-                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguage_BList[0].SpillLanguageID);
-                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguage_BList.Count);
+                            List<SpillLanguageExtraB> spillLanguageExtraBList = new List<SpillLanguageExtraB>();
+                            spillLanguageExtraBList = spillLanguageService.GetSpillLanguageExtraBList().ToList();
+                            CheckSpillLanguageExtraBFields(spillLanguageExtraBList);
+                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageExtraBList[0].SpillLanguageID);
+                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -479,7 +479,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         SpillLanguageService spillLanguageService = new SpillLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -495,21 +495,21 @@ namespace CSSPServices.Tests
                             CheckSpillLanguageFields(spillLanguageList);
                             Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageList[0].SpillLanguageID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<SpillLanguage_A> spillLanguage_AList = new List<SpillLanguage_A>();
-                            spillLanguage_AList = spillLanguageService.GetSpillLanguage_AList().ToList();
-                            CheckSpillLanguage_AFields(spillLanguage_AList);
-                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguage_AList[0].SpillLanguageID);
-                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguage_AList.Count);
+                            List<SpillLanguageExtraA> spillLanguageExtraAList = new List<SpillLanguageExtraA>();
+                            spillLanguageExtraAList = spillLanguageService.GetSpillLanguageExtraAList().ToList();
+                            CheckSpillLanguageExtraAFields(spillLanguageExtraAList);
+                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageExtraAList[0].SpillLanguageID);
+                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguageExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<SpillLanguage_B> spillLanguage_BList = new List<SpillLanguage_B>();
-                            spillLanguage_BList = spillLanguageService.GetSpillLanguage_BList().ToList();
-                            CheckSpillLanguage_BFields(spillLanguage_BList);
-                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguage_BList[0].SpillLanguageID);
-                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguage_BList.Count);
+                            List<SpillLanguageExtraB> spillLanguageExtraBList = new List<SpillLanguageExtraB>();
+                            spillLanguageExtraBList = spillLanguageService.GetSpillLanguageExtraBList().ToList();
+                            CheckSpillLanguageExtraBFields(spillLanguageExtraBList);
+                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageExtraBList[0].SpillLanguageID);
+                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -531,7 +531,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         SpillLanguageService spillLanguageService = new SpillLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -547,21 +547,21 @@ namespace CSSPServices.Tests
                             CheckSpillLanguageFields(spillLanguageList);
                             Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageList[0].SpillLanguageID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<SpillLanguage_A> spillLanguage_AList = new List<SpillLanguage_A>();
-                            spillLanguage_AList = spillLanguageService.GetSpillLanguage_AList().ToList();
-                            CheckSpillLanguage_AFields(spillLanguage_AList);
-                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguage_AList[0].SpillLanguageID);
-                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguage_AList.Count);
+                            List<SpillLanguageExtraA> spillLanguageExtraAList = new List<SpillLanguageExtraA>();
+                            spillLanguageExtraAList = spillLanguageService.GetSpillLanguageExtraAList().ToList();
+                            CheckSpillLanguageExtraAFields(spillLanguageExtraAList);
+                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageExtraAList[0].SpillLanguageID);
+                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguageExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<SpillLanguage_B> spillLanguage_BList = new List<SpillLanguage_B>();
-                            spillLanguage_BList = spillLanguageService.GetSpillLanguage_BList().ToList();
-                            CheckSpillLanguage_BFields(spillLanguage_BList);
-                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguage_BList[0].SpillLanguageID);
-                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguage_BList.Count);
+                            List<SpillLanguageExtraB> spillLanguageExtraBList = new List<SpillLanguageExtraB>();
+                            spillLanguageExtraBList = spillLanguageService.GetSpillLanguageExtraBList().ToList();
+                            CheckSpillLanguageExtraBFields(spillLanguageExtraBList);
+                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageExtraBList[0].SpillLanguageID);
+                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -583,7 +583,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         SpillLanguageService spillLanguageService = new SpillLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -599,21 +599,21 @@ namespace CSSPServices.Tests
                             CheckSpillLanguageFields(spillLanguageList);
                             Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageList[0].SpillLanguageID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<SpillLanguage_A> spillLanguage_AList = new List<SpillLanguage_A>();
-                            spillLanguage_AList = spillLanguageService.GetSpillLanguage_AList().ToList();
-                            CheckSpillLanguage_AFields(spillLanguage_AList);
-                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguage_AList[0].SpillLanguageID);
-                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguage_AList.Count);
+                            List<SpillLanguageExtraA> spillLanguageExtraAList = new List<SpillLanguageExtraA>();
+                            spillLanguageExtraAList = spillLanguageService.GetSpillLanguageExtraAList().ToList();
+                            CheckSpillLanguageExtraAFields(spillLanguageExtraAList);
+                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageExtraAList[0].SpillLanguageID);
+                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguageExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<SpillLanguage_B> spillLanguage_BList = new List<SpillLanguage_B>();
-                            spillLanguage_BList = spillLanguageService.GetSpillLanguage_BList().ToList();
-                            CheckSpillLanguage_BFields(spillLanguage_BList);
-                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguage_BList[0].SpillLanguageID);
-                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguage_BList.Count);
+                            List<SpillLanguageExtraB> spillLanguageExtraBList = new List<SpillLanguageExtraB>();
+                            spillLanguageExtraBList = spillLanguageService.GetSpillLanguageExtraBList().ToList();
+                            CheckSpillLanguageExtraBFields(spillLanguageExtraBList);
+                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageExtraBList[0].SpillLanguageID);
+                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -637,49 +637,49 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(spillLanguageList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(spillLanguageList[0].HasErrors);
         }
-        private void CheckSpillLanguage_AFields(List<SpillLanguage_A> spillLanguage_AList)
+        private void CheckSpillLanguageExtraAFields(List<SpillLanguageExtraA> spillLanguageExtraAList)
         {
-            Assert.IsNotNull(spillLanguage_AList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(spillLanguage_AList[0].LanguageText))
+            Assert.IsNotNull(spillLanguageExtraAList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(spillLanguageExtraAList[0].LanguageText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguage_AList[0].LanguageText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageExtraAList[0].LanguageText));
             }
-            if (!string.IsNullOrWhiteSpace(spillLanguage_AList[0].TranslationStatusText))
+            if (!string.IsNullOrWhiteSpace(spillLanguageExtraAList[0].TranslationStatusText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguage_AList[0].TranslationStatusText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageExtraAList[0].TranslationStatusText));
             }
-            Assert.IsNotNull(spillLanguage_AList[0].SpillLanguageID);
-            Assert.IsNotNull(spillLanguage_AList[0].SpillID);
-            Assert.IsNotNull(spillLanguage_AList[0].Language);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguage_AList[0].SpillComment));
-            Assert.IsNotNull(spillLanguage_AList[0].TranslationStatus);
-            Assert.IsNotNull(spillLanguage_AList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(spillLanguage_AList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(spillLanguage_AList[0].HasErrors);
+            Assert.IsNotNull(spillLanguageExtraAList[0].SpillLanguageID);
+            Assert.IsNotNull(spillLanguageExtraAList[0].SpillID);
+            Assert.IsNotNull(spillLanguageExtraAList[0].Language);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageExtraAList[0].SpillComment));
+            Assert.IsNotNull(spillLanguageExtraAList[0].TranslationStatus);
+            Assert.IsNotNull(spillLanguageExtraAList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(spillLanguageExtraAList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(spillLanguageExtraAList[0].HasErrors);
         }
-        private void CheckSpillLanguage_BFields(List<SpillLanguage_B> spillLanguage_BList)
+        private void CheckSpillLanguageExtraBFields(List<SpillLanguageExtraB> spillLanguageExtraBList)
         {
-            if (!string.IsNullOrWhiteSpace(spillLanguage_BList[0].SpillLanguageReportTest))
+            if (!string.IsNullOrWhiteSpace(spillLanguageExtraBList[0].SpillLanguageReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguage_BList[0].SpillLanguageReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageExtraBList[0].SpillLanguageReportTest));
             }
-            Assert.IsNotNull(spillLanguage_BList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(spillLanguage_BList[0].LanguageText))
+            Assert.IsNotNull(spillLanguageExtraBList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(spillLanguageExtraBList[0].LanguageText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguage_BList[0].LanguageText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageExtraBList[0].LanguageText));
             }
-            if (!string.IsNullOrWhiteSpace(spillLanguage_BList[0].TranslationStatusText))
+            if (!string.IsNullOrWhiteSpace(spillLanguageExtraBList[0].TranslationStatusText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguage_BList[0].TranslationStatusText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageExtraBList[0].TranslationStatusText));
             }
-            Assert.IsNotNull(spillLanguage_BList[0].SpillLanguageID);
-            Assert.IsNotNull(spillLanguage_BList[0].SpillID);
-            Assert.IsNotNull(spillLanguage_BList[0].Language);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguage_BList[0].SpillComment));
-            Assert.IsNotNull(spillLanguage_BList[0].TranslationStatus);
-            Assert.IsNotNull(spillLanguage_BList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(spillLanguage_BList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(spillLanguage_BList[0].HasErrors);
+            Assert.IsNotNull(spillLanguageExtraBList[0].SpillLanguageID);
+            Assert.IsNotNull(spillLanguageExtraBList[0].SpillID);
+            Assert.IsNotNull(spillLanguageExtraBList[0].Language);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageExtraBList[0].SpillComment));
+            Assert.IsNotNull(spillLanguageExtraBList[0].TranslationStatus);
+            Assert.IsNotNull(spillLanguageExtraBList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(spillLanguageExtraBList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(spillLanguageExtraBList[0].HasErrors);
         }
         private SpillLanguage GetFilledRandomSpillLanguage(string OmitPropName)
         {

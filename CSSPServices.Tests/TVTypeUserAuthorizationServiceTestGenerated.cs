@@ -222,7 +222,7 @@ namespace CSSPServices.Tests
                     TVTypeUserAuthorization tvTypeUserAuthorization = (from c in dbTestDB.TVTypeUserAuthorizations select c).FirstOrDefault();
                     Assert.IsNotNull(tvTypeUserAuthorization);
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         tvTypeUserAuthorizationService.Query.Detail = detail;
 
@@ -232,17 +232,17 @@ namespace CSSPServices.Tests
                             CheckTVTypeUserAuthorizationFields(new List<TVTypeUserAuthorization>() { tvTypeUserAuthorizationRet });
                             Assert.AreEqual(tvTypeUserAuthorization.TVTypeUserAuthorizationID, tvTypeUserAuthorizationRet.TVTypeUserAuthorizationID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            TVTypeUserAuthorization_A tvTypeUserAuthorization_ARet = tvTypeUserAuthorizationService.GetTVTypeUserAuthorization_AWithTVTypeUserAuthorizationID(tvTypeUserAuthorization.TVTypeUserAuthorizationID);
-                            CheckTVTypeUserAuthorization_AFields(new List<TVTypeUserAuthorization_A>() { tvTypeUserAuthorization_ARet });
-                            Assert.AreEqual(tvTypeUserAuthorization.TVTypeUserAuthorizationID, tvTypeUserAuthorization_ARet.TVTypeUserAuthorizationID);
+                            TVTypeUserAuthorizationExtraA tvTypeUserAuthorizationExtraARet = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraAWithTVTypeUserAuthorizationID(tvTypeUserAuthorization.TVTypeUserAuthorizationID);
+                            CheckTVTypeUserAuthorizationExtraAFields(new List<TVTypeUserAuthorizationExtraA>() { tvTypeUserAuthorizationExtraARet });
+                            Assert.AreEqual(tvTypeUserAuthorization.TVTypeUserAuthorizationID, tvTypeUserAuthorizationExtraARet.TVTypeUserAuthorizationID);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            TVTypeUserAuthorization_B tvTypeUserAuthorization_BRet = tvTypeUserAuthorizationService.GetTVTypeUserAuthorization_BWithTVTypeUserAuthorizationID(tvTypeUserAuthorization.TVTypeUserAuthorizationID);
-                            CheckTVTypeUserAuthorization_BFields(new List<TVTypeUserAuthorization_B>() { tvTypeUserAuthorization_BRet });
-                            Assert.AreEqual(tvTypeUserAuthorization.TVTypeUserAuthorizationID, tvTypeUserAuthorization_BRet.TVTypeUserAuthorizationID);
+                            TVTypeUserAuthorizationExtraB tvTypeUserAuthorizationExtraBRet = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraBWithTVTypeUserAuthorizationID(tvTypeUserAuthorization.TVTypeUserAuthorizationID);
+                            CheckTVTypeUserAuthorizationExtraBFields(new List<TVTypeUserAuthorizationExtraB>() { tvTypeUserAuthorizationExtraBRet });
+                            Assert.AreEqual(tvTypeUserAuthorization.TVTypeUserAuthorizationID, tvTypeUserAuthorizationExtraBRet.TVTypeUserAuthorizationID);
                         }
                         else
                         {
@@ -271,7 +271,7 @@ namespace CSSPServices.Tests
                     List<TVTypeUserAuthorization> tvTypeUserAuthorizationDirectQueryList = new List<TVTypeUserAuthorization>();
                     tvTypeUserAuthorizationDirectQueryList = (from c in dbTestDB.TVTypeUserAuthorizations select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         tvTypeUserAuthorizationService.Query.Detail = detail;
 
@@ -281,19 +281,19 @@ namespace CSSPServices.Tests
                             tvTypeUserAuthorizationList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationList().ToList();
                             CheckTVTypeUserAuthorizationFields(tvTypeUserAuthorizationList);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<TVTypeUserAuthorization_A> tvTypeUserAuthorization_AList = new List<TVTypeUserAuthorization_A>();
-                            tvTypeUserAuthorization_AList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorization_AList().ToList();
-                            CheckTVTypeUserAuthorization_AFields(tvTypeUserAuthorization_AList);
-                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorization_AList.Count);
+                            List<TVTypeUserAuthorizationExtraA> tvTypeUserAuthorizationExtraAList = new List<TVTypeUserAuthorizationExtraA>();
+                            tvTypeUserAuthorizationExtraAList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraAList().ToList();
+                            CheckTVTypeUserAuthorizationExtraAFields(tvTypeUserAuthorizationExtraAList);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorizationExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<TVTypeUserAuthorization_B> tvTypeUserAuthorization_BList = new List<TVTypeUserAuthorization_B>();
-                            tvTypeUserAuthorization_BList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorization_BList().ToList();
-                            CheckTVTypeUserAuthorization_BFields(tvTypeUserAuthorization_BList);
-                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorization_BList.Count);
+                            List<TVTypeUserAuthorizationExtraB> tvTypeUserAuthorizationExtraBList = new List<TVTypeUserAuthorizationExtraB>();
+                            tvTypeUserAuthorizationExtraBList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraBList().ToList();
+                            CheckTVTypeUserAuthorizationExtraBFields(tvTypeUserAuthorizationExtraBList);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorizationExtraBList.Count);
                         }
                         else
                         {
@@ -315,7 +315,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -331,21 +331,21 @@ namespace CSSPServices.Tests
                             CheckTVTypeUserAuthorizationFields(tvTypeUserAuthorizationList);
                             Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<TVTypeUserAuthorization_A> tvTypeUserAuthorization_AList = new List<TVTypeUserAuthorization_A>();
-                            tvTypeUserAuthorization_AList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorization_AList().ToList();
-                            CheckTVTypeUserAuthorization_AFields(tvTypeUserAuthorization_AList);
-                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorization_AList[0].TVTypeUserAuthorizationID);
-                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorization_AList.Count);
+                            List<TVTypeUserAuthorizationExtraA> tvTypeUserAuthorizationExtraAList = new List<TVTypeUserAuthorizationExtraA>();
+                            tvTypeUserAuthorizationExtraAList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraAList().ToList();
+                            CheckTVTypeUserAuthorizationExtraAFields(tvTypeUserAuthorizationExtraAList);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationExtraAList[0].TVTypeUserAuthorizationID);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorizationExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<TVTypeUserAuthorization_B> tvTypeUserAuthorization_BList = new List<TVTypeUserAuthorization_B>();
-                            tvTypeUserAuthorization_BList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorization_BList().ToList();
-                            CheckTVTypeUserAuthorization_BFields(tvTypeUserAuthorization_BList);
-                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorization_BList[0].TVTypeUserAuthorizationID);
-                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorization_BList.Count);
+                            List<TVTypeUserAuthorizationExtraB> tvTypeUserAuthorizationExtraBList = new List<TVTypeUserAuthorizationExtraB>();
+                            tvTypeUserAuthorizationExtraBList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraBList().ToList();
+                            CheckTVTypeUserAuthorizationExtraBFields(tvTypeUserAuthorizationExtraBList);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationExtraBList[0].TVTypeUserAuthorizationID);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorizationExtraBList.Count);
                         }
                         else
                         {
@@ -367,7 +367,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -383,21 +383,21 @@ namespace CSSPServices.Tests
                             CheckTVTypeUserAuthorizationFields(tvTypeUserAuthorizationList);
                             Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<TVTypeUserAuthorization_A> tvTypeUserAuthorization_AList = new List<TVTypeUserAuthorization_A>();
-                            tvTypeUserAuthorization_AList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorization_AList().ToList();
-                            CheckTVTypeUserAuthorization_AFields(tvTypeUserAuthorization_AList);
-                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorization_AList[0].TVTypeUserAuthorizationID);
-                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorization_AList.Count);
+                            List<TVTypeUserAuthorizationExtraA> tvTypeUserAuthorizationExtraAList = new List<TVTypeUserAuthorizationExtraA>();
+                            tvTypeUserAuthorizationExtraAList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraAList().ToList();
+                            CheckTVTypeUserAuthorizationExtraAFields(tvTypeUserAuthorizationExtraAList);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationExtraAList[0].TVTypeUserAuthorizationID);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorizationExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<TVTypeUserAuthorization_B> tvTypeUserAuthorization_BList = new List<TVTypeUserAuthorization_B>();
-                            tvTypeUserAuthorization_BList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorization_BList().ToList();
-                            CheckTVTypeUserAuthorization_BFields(tvTypeUserAuthorization_BList);
-                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorization_BList[0].TVTypeUserAuthorizationID);
-                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorization_BList.Count);
+                            List<TVTypeUserAuthorizationExtraB> tvTypeUserAuthorizationExtraBList = new List<TVTypeUserAuthorizationExtraB>();
+                            tvTypeUserAuthorizationExtraBList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraBList().ToList();
+                            CheckTVTypeUserAuthorizationExtraBFields(tvTypeUserAuthorizationExtraBList);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationExtraBList[0].TVTypeUserAuthorizationID);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorizationExtraBList.Count);
                         }
                         else
                         {
@@ -419,7 +419,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -435,21 +435,21 @@ namespace CSSPServices.Tests
                             CheckTVTypeUserAuthorizationFields(tvTypeUserAuthorizationList);
                             Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<TVTypeUserAuthorization_A> tvTypeUserAuthorization_AList = new List<TVTypeUserAuthorization_A>();
-                            tvTypeUserAuthorization_AList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorization_AList().ToList();
-                            CheckTVTypeUserAuthorization_AFields(tvTypeUserAuthorization_AList);
-                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorization_AList[0].TVTypeUserAuthorizationID);
-                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorization_AList.Count);
+                            List<TVTypeUserAuthorizationExtraA> tvTypeUserAuthorizationExtraAList = new List<TVTypeUserAuthorizationExtraA>();
+                            tvTypeUserAuthorizationExtraAList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraAList().ToList();
+                            CheckTVTypeUserAuthorizationExtraAFields(tvTypeUserAuthorizationExtraAList);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationExtraAList[0].TVTypeUserAuthorizationID);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorizationExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<TVTypeUserAuthorization_B> tvTypeUserAuthorization_BList = new List<TVTypeUserAuthorization_B>();
-                            tvTypeUserAuthorization_BList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorization_BList().ToList();
-                            CheckTVTypeUserAuthorization_BFields(tvTypeUserAuthorization_BList);
-                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorization_BList[0].TVTypeUserAuthorizationID);
-                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorization_BList.Count);
+                            List<TVTypeUserAuthorizationExtraB> tvTypeUserAuthorizationExtraBList = new List<TVTypeUserAuthorizationExtraB>();
+                            tvTypeUserAuthorizationExtraBList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraBList().ToList();
+                            CheckTVTypeUserAuthorizationExtraBFields(tvTypeUserAuthorizationExtraBList);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationExtraBList[0].TVTypeUserAuthorizationID);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorizationExtraBList.Count);
                         }
                         else
                         {
@@ -471,7 +471,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -487,21 +487,21 @@ namespace CSSPServices.Tests
                             CheckTVTypeUserAuthorizationFields(tvTypeUserAuthorizationList);
                             Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<TVTypeUserAuthorization_A> tvTypeUserAuthorization_AList = new List<TVTypeUserAuthorization_A>();
-                            tvTypeUserAuthorization_AList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorization_AList().ToList();
-                            CheckTVTypeUserAuthorization_AFields(tvTypeUserAuthorization_AList);
-                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorization_AList[0].TVTypeUserAuthorizationID);
-                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorization_AList.Count);
+                            List<TVTypeUserAuthorizationExtraA> tvTypeUserAuthorizationExtraAList = new List<TVTypeUserAuthorizationExtraA>();
+                            tvTypeUserAuthorizationExtraAList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraAList().ToList();
+                            CheckTVTypeUserAuthorizationExtraAFields(tvTypeUserAuthorizationExtraAList);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationExtraAList[0].TVTypeUserAuthorizationID);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorizationExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<TVTypeUserAuthorization_B> tvTypeUserAuthorization_BList = new List<TVTypeUserAuthorization_B>();
-                            tvTypeUserAuthorization_BList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorization_BList().ToList();
-                            CheckTVTypeUserAuthorization_BFields(tvTypeUserAuthorization_BList);
-                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorization_BList[0].TVTypeUserAuthorizationID);
-                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorization_BList.Count);
+                            List<TVTypeUserAuthorizationExtraB> tvTypeUserAuthorizationExtraBList = new List<TVTypeUserAuthorizationExtraB>();
+                            tvTypeUserAuthorizationExtraBList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraBList().ToList();
+                            CheckTVTypeUserAuthorizationExtraBFields(tvTypeUserAuthorizationExtraBList);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationExtraBList[0].TVTypeUserAuthorizationID);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorizationExtraBList.Count);
                         }
                         else
                         {
@@ -523,7 +523,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -539,21 +539,21 @@ namespace CSSPServices.Tests
                             CheckTVTypeUserAuthorizationFields(tvTypeUserAuthorizationList);
                             Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<TVTypeUserAuthorization_A> tvTypeUserAuthorization_AList = new List<TVTypeUserAuthorization_A>();
-                            tvTypeUserAuthorization_AList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorization_AList().ToList();
-                            CheckTVTypeUserAuthorization_AFields(tvTypeUserAuthorization_AList);
-                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorization_AList[0].TVTypeUserAuthorizationID);
-                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorization_AList.Count);
+                            List<TVTypeUserAuthorizationExtraA> tvTypeUserAuthorizationExtraAList = new List<TVTypeUserAuthorizationExtraA>();
+                            tvTypeUserAuthorizationExtraAList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraAList().ToList();
+                            CheckTVTypeUserAuthorizationExtraAFields(tvTypeUserAuthorizationExtraAList);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationExtraAList[0].TVTypeUserAuthorizationID);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorizationExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<TVTypeUserAuthorization_B> tvTypeUserAuthorization_BList = new List<TVTypeUserAuthorization_B>();
-                            tvTypeUserAuthorization_BList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorization_BList().ToList();
-                            CheckTVTypeUserAuthorization_BFields(tvTypeUserAuthorization_BList);
-                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorization_BList[0].TVTypeUserAuthorizationID);
-                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorization_BList.Count);
+                            List<TVTypeUserAuthorizationExtraB> tvTypeUserAuthorizationExtraBList = new List<TVTypeUserAuthorizationExtraB>();
+                            tvTypeUserAuthorizationExtraBList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraBList().ToList();
+                            CheckTVTypeUserAuthorizationExtraBFields(tvTypeUserAuthorizationExtraBList);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationExtraBList[0].TVTypeUserAuthorizationID);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorizationExtraBList.Count);
                         }
                         else
                         {
@@ -575,7 +575,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -591,21 +591,21 @@ namespace CSSPServices.Tests
                             CheckTVTypeUserAuthorizationFields(tvTypeUserAuthorizationList);
                             Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<TVTypeUserAuthorization_A> tvTypeUserAuthorization_AList = new List<TVTypeUserAuthorization_A>();
-                            tvTypeUserAuthorization_AList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorization_AList().ToList();
-                            CheckTVTypeUserAuthorization_AFields(tvTypeUserAuthorization_AList);
-                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorization_AList[0].TVTypeUserAuthorizationID);
-                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorization_AList.Count);
+                            List<TVTypeUserAuthorizationExtraA> tvTypeUserAuthorizationExtraAList = new List<TVTypeUserAuthorizationExtraA>();
+                            tvTypeUserAuthorizationExtraAList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraAList().ToList();
+                            CheckTVTypeUserAuthorizationExtraAFields(tvTypeUserAuthorizationExtraAList);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationExtraAList[0].TVTypeUserAuthorizationID);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorizationExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<TVTypeUserAuthorization_B> tvTypeUserAuthorization_BList = new List<TVTypeUserAuthorization_B>();
-                            tvTypeUserAuthorization_BList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorization_BList().ToList();
-                            CheckTVTypeUserAuthorization_BFields(tvTypeUserAuthorization_BList);
-                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorization_BList[0].TVTypeUserAuthorizationID);
-                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorization_BList.Count);
+                            List<TVTypeUserAuthorizationExtraB> tvTypeUserAuthorizationExtraBList = new List<TVTypeUserAuthorizationExtraB>();
+                            tvTypeUserAuthorizationExtraBList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraBList().ToList();
+                            CheckTVTypeUserAuthorizationExtraBFields(tvTypeUserAuthorizationExtraBList);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationExtraBList[0].TVTypeUserAuthorizationID);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorizationExtraBList.Count);
                         }
                         else
                         {
@@ -628,49 +628,49 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(tvTypeUserAuthorizationList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(tvTypeUserAuthorizationList[0].HasErrors);
         }
-        private void CheckTVTypeUserAuthorization_AFields(List<TVTypeUserAuthorization_A> tvTypeUserAuthorization_AList)
+        private void CheckTVTypeUserAuthorizationExtraAFields(List<TVTypeUserAuthorizationExtraA> tvTypeUserAuthorizationExtraAList)
         {
-            Assert.IsNotNull(tvTypeUserAuthorization_AList[0].ContactTVItemLanguage);
-            Assert.IsNotNull(tvTypeUserAuthorization_AList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(tvTypeUserAuthorization_AList[0].TVTypeText))
+            Assert.IsNotNull(tvTypeUserAuthorizationExtraAList[0].ContactTVItemLanguage);
+            Assert.IsNotNull(tvTypeUserAuthorizationExtraAList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(tvTypeUserAuthorizationExtraAList[0].TVTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorization_AList[0].TVTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationExtraAList[0].TVTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(tvTypeUserAuthorization_AList[0].TVAuthText))
+            if (!string.IsNullOrWhiteSpace(tvTypeUserAuthorizationExtraAList[0].TVAuthText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorization_AList[0].TVAuthText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationExtraAList[0].TVAuthText));
             }
-            Assert.IsNotNull(tvTypeUserAuthorization_AList[0].TVTypeUserAuthorizationID);
-            Assert.IsNotNull(tvTypeUserAuthorization_AList[0].ContactTVItemID);
-            Assert.IsNotNull(tvTypeUserAuthorization_AList[0].TVType);
-            Assert.IsNotNull(tvTypeUserAuthorization_AList[0].TVAuth);
-            Assert.IsNotNull(tvTypeUserAuthorization_AList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(tvTypeUserAuthorization_AList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(tvTypeUserAuthorization_AList[0].HasErrors);
+            Assert.IsNotNull(tvTypeUserAuthorizationExtraAList[0].TVTypeUserAuthorizationID);
+            Assert.IsNotNull(tvTypeUserAuthorizationExtraAList[0].ContactTVItemID);
+            Assert.IsNotNull(tvTypeUserAuthorizationExtraAList[0].TVType);
+            Assert.IsNotNull(tvTypeUserAuthorizationExtraAList[0].TVAuth);
+            Assert.IsNotNull(tvTypeUserAuthorizationExtraAList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(tvTypeUserAuthorizationExtraAList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(tvTypeUserAuthorizationExtraAList[0].HasErrors);
         }
-        private void CheckTVTypeUserAuthorization_BFields(List<TVTypeUserAuthorization_B> tvTypeUserAuthorization_BList)
+        private void CheckTVTypeUserAuthorizationExtraBFields(List<TVTypeUserAuthorizationExtraB> tvTypeUserAuthorizationExtraBList)
         {
-            if (!string.IsNullOrWhiteSpace(tvTypeUserAuthorization_BList[0].TVTypeUserAuthorizationReportTest))
+            if (!string.IsNullOrWhiteSpace(tvTypeUserAuthorizationExtraBList[0].TVTypeUserAuthorizationReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorization_BList[0].TVTypeUserAuthorizationReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationExtraBList[0].TVTypeUserAuthorizationReportTest));
             }
-            Assert.IsNotNull(tvTypeUserAuthorization_BList[0].ContactTVItemLanguage);
-            Assert.IsNotNull(tvTypeUserAuthorization_BList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(tvTypeUserAuthorization_BList[0].TVTypeText))
+            Assert.IsNotNull(tvTypeUserAuthorizationExtraBList[0].ContactTVItemLanguage);
+            Assert.IsNotNull(tvTypeUserAuthorizationExtraBList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(tvTypeUserAuthorizationExtraBList[0].TVTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorization_BList[0].TVTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationExtraBList[0].TVTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(tvTypeUserAuthorization_BList[0].TVAuthText))
+            if (!string.IsNullOrWhiteSpace(tvTypeUserAuthorizationExtraBList[0].TVAuthText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorization_BList[0].TVAuthText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationExtraBList[0].TVAuthText));
             }
-            Assert.IsNotNull(tvTypeUserAuthorization_BList[0].TVTypeUserAuthorizationID);
-            Assert.IsNotNull(tvTypeUserAuthorization_BList[0].ContactTVItemID);
-            Assert.IsNotNull(tvTypeUserAuthorization_BList[0].TVType);
-            Assert.IsNotNull(tvTypeUserAuthorization_BList[0].TVAuth);
-            Assert.IsNotNull(tvTypeUserAuthorization_BList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(tvTypeUserAuthorization_BList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(tvTypeUserAuthorization_BList[0].HasErrors);
+            Assert.IsNotNull(tvTypeUserAuthorizationExtraBList[0].TVTypeUserAuthorizationID);
+            Assert.IsNotNull(tvTypeUserAuthorizationExtraBList[0].ContactTVItemID);
+            Assert.IsNotNull(tvTypeUserAuthorizationExtraBList[0].TVType);
+            Assert.IsNotNull(tvTypeUserAuthorizationExtraBList[0].TVAuth);
+            Assert.IsNotNull(tvTypeUserAuthorizationExtraBList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(tvTypeUserAuthorizationExtraBList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(tvTypeUserAuthorizationExtraBList[0].HasErrors);
         }
         private TVTypeUserAuthorization GetFilledRandomTVTypeUserAuthorization(string OmitPropName)
         {

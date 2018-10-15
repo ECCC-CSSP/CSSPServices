@@ -512,9 +512,9 @@ namespace CSSPServices
             else
             {
                 string PropertyName = "";
-                if (typeof(T).Name.EndsWith("_A") || typeof(T).Name.EndsWith("_B") || typeof(T).Name.EndsWith("_C") || typeof(T).Name.EndsWith("_D"))
+                if (typeof(T).Name.EndsWith("ExtraA") || typeof(T).Name.EndsWith("ExtraB") || typeof(T).Name.EndsWith("ExtraC") || typeof(T).Name.EndsWith("ExtraD") || typeof(T).Name.EndsWith("ExtraE"))
                 {
-                    PropertyName = typeof(T).Name.Substring(0, typeof(T).Name.Length - 2) + "ID";
+                    PropertyName = typeof(T).Name.Substring(0, typeof(T).Name.Length - 6) + "ID";
                 }
                 else
                 {

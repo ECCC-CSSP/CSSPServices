@@ -150,31 +150,31 @@ namespace CSSPServices
 
             return ClassificationQuery;
         }
-        public Classification_A GetClassification_AWithClassificationID(int ClassificationID)
+        public ClassificationExtraA GetClassificationExtraAWithClassificationID(int ClassificationID)
         {
-            return FillClassification_A().Where(c => c.ClassificationID == ClassificationID).FirstOrDefault();
+            return FillClassificationExtraA().Where(c => c.ClassificationID == ClassificationID).FirstOrDefault();
 
         }
-        public IQueryable<Classification_A> GetClassification_AList()
+        public IQueryable<ClassificationExtraA> GetClassificationExtraAList()
         {
-            IQueryable<Classification_A> Classification_AQuery = FillClassification_A();
+            IQueryable<ClassificationExtraA> ClassificationExtraAQuery = FillClassificationExtraA();
 
-            Classification_AQuery = EnhanceQueryStatements<Classification_A>(Classification_AQuery) as IQueryable<Classification_A>;
+            ClassificationExtraAQuery = EnhanceQueryStatements<ClassificationExtraA>(ClassificationExtraAQuery) as IQueryable<ClassificationExtraA>;
 
-            return Classification_AQuery;
+            return ClassificationExtraAQuery;
         }
-        public Classification_B GetClassification_BWithClassificationID(int ClassificationID)
+        public ClassificationExtraB GetClassificationExtraBWithClassificationID(int ClassificationID)
         {
-            return FillClassification_B().Where(c => c.ClassificationID == ClassificationID).FirstOrDefault();
+            return FillClassificationExtraB().Where(c => c.ClassificationID == ClassificationID).FirstOrDefault();
 
         }
-        public IQueryable<Classification_B> GetClassification_BList()
+        public IQueryable<ClassificationExtraB> GetClassificationExtraBList()
         {
-            IQueryable<Classification_B> Classification_BQuery = FillClassification_B();
+            IQueryable<ClassificationExtraB> ClassificationExtraBQuery = FillClassificationExtraB();
 
-            Classification_BQuery = EnhanceQueryStatements<Classification_B>(Classification_BQuery) as IQueryable<Classification_B>;
+            ClassificationExtraBQuery = EnhanceQueryStatements<ClassificationExtraB>(ClassificationExtraBQuery) as IQueryable<ClassificationExtraB>;
 
-            return Classification_BQuery;
+            return ClassificationExtraBQuery;
         }
         #endregion Functions public Generated Get
 

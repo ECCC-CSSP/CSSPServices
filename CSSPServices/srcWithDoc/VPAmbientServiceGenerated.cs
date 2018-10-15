@@ -221,31 +221,31 @@ namespace CSSPServices
 
             return VPAmbientQuery;
         }
-        public VPAmbient_A GetVPAmbient_AWithVPAmbientID(int VPAmbientID)
+        public VPAmbientExtraA GetVPAmbientExtraAWithVPAmbientID(int VPAmbientID)
         {
-            return FillVPAmbient_A().Where(c => c.VPAmbientID == VPAmbientID).FirstOrDefault();
+            return FillVPAmbientExtraA().Where(c => c.VPAmbientID == VPAmbientID).FirstOrDefault();
 
         }
-        public IQueryable<VPAmbient_A> GetVPAmbient_AList()
+        public IQueryable<VPAmbientExtraA> GetVPAmbientExtraAList()
         {
-            IQueryable<VPAmbient_A> VPAmbient_AQuery = FillVPAmbient_A();
+            IQueryable<VPAmbientExtraA> VPAmbientExtraAQuery = FillVPAmbientExtraA();
 
-            VPAmbient_AQuery = EnhanceQueryStatements<VPAmbient_A>(VPAmbient_AQuery) as IQueryable<VPAmbient_A>;
+            VPAmbientExtraAQuery = EnhanceQueryStatements<VPAmbientExtraA>(VPAmbientExtraAQuery) as IQueryable<VPAmbientExtraA>;
 
-            return VPAmbient_AQuery;
+            return VPAmbientExtraAQuery;
         }
-        public VPAmbient_B GetVPAmbient_BWithVPAmbientID(int VPAmbientID)
+        public VPAmbientExtraB GetVPAmbientExtraBWithVPAmbientID(int VPAmbientID)
         {
-            return FillVPAmbient_B().Where(c => c.VPAmbientID == VPAmbientID).FirstOrDefault();
+            return FillVPAmbientExtraB().Where(c => c.VPAmbientID == VPAmbientID).FirstOrDefault();
 
         }
-        public IQueryable<VPAmbient_B> GetVPAmbient_BList()
+        public IQueryable<VPAmbientExtraB> GetVPAmbientExtraBList()
         {
-            IQueryable<VPAmbient_B> VPAmbient_BQuery = FillVPAmbient_B();
+            IQueryable<VPAmbientExtraB> VPAmbientExtraBQuery = FillVPAmbientExtraB();
 
-            VPAmbient_BQuery = EnhanceQueryStatements<VPAmbient_B>(VPAmbient_BQuery) as IQueryable<VPAmbient_B>;
+            VPAmbientExtraBQuery = EnhanceQueryStatements<VPAmbientExtraB>(VPAmbientExtraBQuery) as IQueryable<VPAmbientExtraB>;
 
-            return VPAmbient_BQuery;
+            return VPAmbientExtraBQuery;
         }
         #endregion Functions public Generated Get
 

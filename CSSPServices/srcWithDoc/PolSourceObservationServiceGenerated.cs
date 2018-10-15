@@ -167,31 +167,31 @@ namespace CSSPServices
 
             return PolSourceObservationQuery;
         }
-        public PolSourceObservation_A GetPolSourceObservation_AWithPolSourceObservationID(int PolSourceObservationID)
+        public PolSourceObservationExtraA GetPolSourceObservationExtraAWithPolSourceObservationID(int PolSourceObservationID)
         {
-            return FillPolSourceObservation_A().Where(c => c.PolSourceObservationID == PolSourceObservationID).FirstOrDefault();
+            return FillPolSourceObservationExtraA().Where(c => c.PolSourceObservationID == PolSourceObservationID).FirstOrDefault();
 
         }
-        public IQueryable<PolSourceObservation_A> GetPolSourceObservation_AList()
+        public IQueryable<PolSourceObservationExtraA> GetPolSourceObservationExtraAList()
         {
-            IQueryable<PolSourceObservation_A> PolSourceObservation_AQuery = FillPolSourceObservation_A();
+            IQueryable<PolSourceObservationExtraA> PolSourceObservationExtraAQuery = FillPolSourceObservationExtraA();
 
-            PolSourceObservation_AQuery = EnhanceQueryStatements<PolSourceObservation_A>(PolSourceObservation_AQuery) as IQueryable<PolSourceObservation_A>;
+            PolSourceObservationExtraAQuery = EnhanceQueryStatements<PolSourceObservationExtraA>(PolSourceObservationExtraAQuery) as IQueryable<PolSourceObservationExtraA>;
 
-            return PolSourceObservation_AQuery;
+            return PolSourceObservationExtraAQuery;
         }
-        public PolSourceObservation_B GetPolSourceObservation_BWithPolSourceObservationID(int PolSourceObservationID)
+        public PolSourceObservationExtraB GetPolSourceObservationExtraBWithPolSourceObservationID(int PolSourceObservationID)
         {
-            return FillPolSourceObservation_B().Where(c => c.PolSourceObservationID == PolSourceObservationID).FirstOrDefault();
+            return FillPolSourceObservationExtraB().Where(c => c.PolSourceObservationID == PolSourceObservationID).FirstOrDefault();
 
         }
-        public IQueryable<PolSourceObservation_B> GetPolSourceObservation_BList()
+        public IQueryable<PolSourceObservationExtraB> GetPolSourceObservationExtraBList()
         {
-            IQueryable<PolSourceObservation_B> PolSourceObservation_BQuery = FillPolSourceObservation_B();
+            IQueryable<PolSourceObservationExtraB> PolSourceObservationExtraBQuery = FillPolSourceObservationExtraB();
 
-            PolSourceObservation_BQuery = EnhanceQueryStatements<PolSourceObservation_B>(PolSourceObservation_BQuery) as IQueryable<PolSourceObservation_B>;
+            PolSourceObservationExtraBQuery = EnhanceQueryStatements<PolSourceObservationExtraB>(PolSourceObservationExtraBQuery) as IQueryable<PolSourceObservationExtraB>;
 
-            return PolSourceObservation_BQuery;
+            return PolSourceObservationExtraBQuery;
         }
         #endregion Functions public Generated Get
 

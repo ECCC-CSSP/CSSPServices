@@ -156,31 +156,31 @@ namespace CSSPServices
 
             return TelQuery;
         }
-        public Tel_A GetTel_AWithTelID(int TelID)
+        public TelExtraA GetTelExtraAWithTelID(int TelID)
         {
-            return FillTel_A().Where(c => c.TelID == TelID).FirstOrDefault();
+            return FillTelExtraA().Where(c => c.TelID == TelID).FirstOrDefault();
 
         }
-        public IQueryable<Tel_A> GetTel_AList()
+        public IQueryable<TelExtraA> GetTelExtraAList()
         {
-            IQueryable<Tel_A> Tel_AQuery = FillTel_A();
+            IQueryable<TelExtraA> TelExtraAQuery = FillTelExtraA();
 
-            Tel_AQuery = EnhanceQueryStatements<Tel_A>(Tel_AQuery) as IQueryable<Tel_A>;
+            TelExtraAQuery = EnhanceQueryStatements<TelExtraA>(TelExtraAQuery) as IQueryable<TelExtraA>;
 
-            return Tel_AQuery;
+            return TelExtraAQuery;
         }
-        public Tel_B GetTel_BWithTelID(int TelID)
+        public TelExtraB GetTelExtraBWithTelID(int TelID)
         {
-            return FillTel_B().Where(c => c.TelID == TelID).FirstOrDefault();
+            return FillTelExtraB().Where(c => c.TelID == TelID).FirstOrDefault();
 
         }
-        public IQueryable<Tel_B> GetTel_BList()
+        public IQueryable<TelExtraB> GetTelExtraBList()
         {
-            IQueryable<Tel_B> Tel_BQuery = FillTel_B();
+            IQueryable<TelExtraB> TelExtraBQuery = FillTelExtraB();
 
-            Tel_BQuery = EnhanceQueryStatements<Tel_B>(Tel_BQuery) as IQueryable<Tel_B>;
+            TelExtraBQuery = EnhanceQueryStatements<TelExtraB>(TelExtraBQuery) as IQueryable<TelExtraB>;
 
-            return Tel_BQuery;
+            return TelExtraBQuery;
         }
         #endregion Functions public Generated Get
 

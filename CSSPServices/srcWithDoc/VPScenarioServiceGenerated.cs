@@ -281,31 +281,31 @@ namespace CSSPServices
 
             return VPScenarioQuery;
         }
-        public VPScenario_A GetVPScenario_AWithVPScenarioID(int VPScenarioID)
+        public VPScenarioExtraA GetVPScenarioExtraAWithVPScenarioID(int VPScenarioID)
         {
-            return FillVPScenario_A().Where(c => c.VPScenarioID == VPScenarioID).FirstOrDefault();
+            return FillVPScenarioExtraA().Where(c => c.VPScenarioID == VPScenarioID).FirstOrDefault();
 
         }
-        public IQueryable<VPScenario_A> GetVPScenario_AList()
+        public IQueryable<VPScenarioExtraA> GetVPScenarioExtraAList()
         {
-            IQueryable<VPScenario_A> VPScenario_AQuery = FillVPScenario_A();
+            IQueryable<VPScenarioExtraA> VPScenarioExtraAQuery = FillVPScenarioExtraA();
 
-            VPScenario_AQuery = EnhanceQueryStatements<VPScenario_A>(VPScenario_AQuery) as IQueryable<VPScenario_A>;
+            VPScenarioExtraAQuery = EnhanceQueryStatements<VPScenarioExtraA>(VPScenarioExtraAQuery) as IQueryable<VPScenarioExtraA>;
 
-            return VPScenario_AQuery;
+            return VPScenarioExtraAQuery;
         }
-        public VPScenario_B GetVPScenario_BWithVPScenarioID(int VPScenarioID)
+        public VPScenarioExtraB GetVPScenarioExtraBWithVPScenarioID(int VPScenarioID)
         {
-            return FillVPScenario_B().Where(c => c.VPScenarioID == VPScenarioID).FirstOrDefault();
+            return FillVPScenarioExtraB().Where(c => c.VPScenarioID == VPScenarioID).FirstOrDefault();
 
         }
-        public IQueryable<VPScenario_B> GetVPScenario_BList()
+        public IQueryable<VPScenarioExtraB> GetVPScenarioExtraBList()
         {
-            IQueryable<VPScenario_B> VPScenario_BQuery = FillVPScenario_B();
+            IQueryable<VPScenarioExtraB> VPScenarioExtraBQuery = FillVPScenarioExtraB();
 
-            VPScenario_BQuery = EnhanceQueryStatements<VPScenario_B>(VPScenario_BQuery) as IQueryable<VPScenario_B>;
+            VPScenarioExtraBQuery = EnhanceQueryStatements<VPScenarioExtraB>(VPScenarioExtraBQuery) as IQueryable<VPScenarioExtraB>;
 
-            return VPScenario_BQuery;
+            return VPScenarioExtraBQuery;
         }
         #endregion Functions public Generated Get
 

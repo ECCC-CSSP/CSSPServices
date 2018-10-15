@@ -242,31 +242,31 @@ namespace CSSPServices
 
             return TVFileQuery;
         }
-        public TVFile_A GetTVFile_AWithTVFileID(int TVFileID)
+        public TVFileExtraA GetTVFileExtraAWithTVFileID(int TVFileID)
         {
-            return FillTVFile_A().Where(c => c.TVFileID == TVFileID).FirstOrDefault();
+            return FillTVFileExtraA().Where(c => c.TVFileID == TVFileID).FirstOrDefault();
 
         }
-        public IQueryable<TVFile_A> GetTVFile_AList()
+        public IQueryable<TVFileExtraA> GetTVFileExtraAList()
         {
-            IQueryable<TVFile_A> TVFile_AQuery = FillTVFile_A();
+            IQueryable<TVFileExtraA> TVFileExtraAQuery = FillTVFileExtraA();
 
-            TVFile_AQuery = EnhanceQueryStatements<TVFile_A>(TVFile_AQuery) as IQueryable<TVFile_A>;
+            TVFileExtraAQuery = EnhanceQueryStatements<TVFileExtraA>(TVFileExtraAQuery) as IQueryable<TVFileExtraA>;
 
-            return TVFile_AQuery;
+            return TVFileExtraAQuery;
         }
-        public TVFile_B GetTVFile_BWithTVFileID(int TVFileID)
+        public TVFileExtraB GetTVFileExtraBWithTVFileID(int TVFileID)
         {
-            return FillTVFile_B().Where(c => c.TVFileID == TVFileID).FirstOrDefault();
+            return FillTVFileExtraB().Where(c => c.TVFileID == TVFileID).FirstOrDefault();
 
         }
-        public IQueryable<TVFile_B> GetTVFile_BList()
+        public IQueryable<TVFileExtraB> GetTVFileExtraBList()
         {
-            IQueryable<TVFile_B> TVFile_BQuery = FillTVFile_B();
+            IQueryable<TVFileExtraB> TVFileExtraBQuery = FillTVFileExtraB();
 
-            TVFile_BQuery = EnhanceQueryStatements<TVFile_B>(TVFile_BQuery) as IQueryable<TVFile_B>;
+            TVFileExtraBQuery = EnhanceQueryStatements<TVFileExtraB>(TVFileExtraBQuery) as IQueryable<TVFileExtraB>;
 
-            return TVFile_BQuery;
+            return TVFileExtraBQuery;
         }
         #endregion Functions public Generated Get
 

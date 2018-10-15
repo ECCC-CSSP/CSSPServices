@@ -197,31 +197,31 @@ namespace CSSPServices
 
             return BoxModelQuery;
         }
-        public BoxModel_A GetBoxModel_AWithBoxModelID(int BoxModelID)
+        public BoxModelExtraA GetBoxModelExtraAWithBoxModelID(int BoxModelID)
         {
-            return FillBoxModel_A().Where(c => c.BoxModelID == BoxModelID).FirstOrDefault();
+            return FillBoxModelExtraA().Where(c => c.BoxModelID == BoxModelID).FirstOrDefault();
 
         }
-        public IQueryable<BoxModel_A> GetBoxModel_AList()
+        public IQueryable<BoxModelExtraA> GetBoxModelExtraAList()
         {
-            IQueryable<BoxModel_A> BoxModel_AQuery = FillBoxModel_A();
+            IQueryable<BoxModelExtraA> BoxModelExtraAQuery = FillBoxModelExtraA();
 
-            BoxModel_AQuery = EnhanceQueryStatements<BoxModel_A>(BoxModel_AQuery) as IQueryable<BoxModel_A>;
+            BoxModelExtraAQuery = EnhanceQueryStatements<BoxModelExtraA>(BoxModelExtraAQuery) as IQueryable<BoxModelExtraA>;
 
-            return BoxModel_AQuery;
+            return BoxModelExtraAQuery;
         }
-        public BoxModel_B GetBoxModel_BWithBoxModelID(int BoxModelID)
+        public BoxModelExtraB GetBoxModelExtraBWithBoxModelID(int BoxModelID)
         {
-            return FillBoxModel_B().Where(c => c.BoxModelID == BoxModelID).FirstOrDefault();
+            return FillBoxModelExtraB().Where(c => c.BoxModelID == BoxModelID).FirstOrDefault();
 
         }
-        public IQueryable<BoxModel_B> GetBoxModel_BList()
+        public IQueryable<BoxModelExtraB> GetBoxModelExtraBList()
         {
-            IQueryable<BoxModel_B> BoxModel_BQuery = FillBoxModel_B();
+            IQueryable<BoxModelExtraB> BoxModelExtraBQuery = FillBoxModelExtraB();
 
-            BoxModel_BQuery = EnhanceQueryStatements<BoxModel_B>(BoxModel_BQuery) as IQueryable<BoxModel_B>;
+            BoxModelExtraBQuery = EnhanceQueryStatements<BoxModelExtraB>(BoxModelExtraBQuery) as IQueryable<BoxModelExtraB>;
 
-            return BoxModel_BQuery;
+            return BoxModelExtraBQuery;
         }
         #endregion Functions public Generated Get
 

@@ -163,31 +163,31 @@ namespace CSSPServices
 
             return MWQMSubsectorLanguageQuery;
         }
-        public MWQMSubsectorLanguage_A GetMWQMSubsectorLanguage_AWithMWQMSubsectorLanguageID(int MWQMSubsectorLanguageID)
+        public MWQMSubsectorLanguageExtraA GetMWQMSubsectorLanguageExtraAWithMWQMSubsectorLanguageID(int MWQMSubsectorLanguageID)
         {
-            return FillMWQMSubsectorLanguage_A().Where(c => c.MWQMSubsectorLanguageID == MWQMSubsectorLanguageID).FirstOrDefault();
+            return FillMWQMSubsectorLanguageExtraA().Where(c => c.MWQMSubsectorLanguageID == MWQMSubsectorLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMSubsectorLanguage_A> GetMWQMSubsectorLanguage_AList()
+        public IQueryable<MWQMSubsectorLanguageExtraA> GetMWQMSubsectorLanguageExtraAList()
         {
-            IQueryable<MWQMSubsectorLanguage_A> MWQMSubsectorLanguage_AQuery = FillMWQMSubsectorLanguage_A();
+            IQueryable<MWQMSubsectorLanguageExtraA> MWQMSubsectorLanguageExtraAQuery = FillMWQMSubsectorLanguageExtraA();
 
-            MWQMSubsectorLanguage_AQuery = EnhanceQueryStatements<MWQMSubsectorLanguage_A>(MWQMSubsectorLanguage_AQuery) as IQueryable<MWQMSubsectorLanguage_A>;
+            MWQMSubsectorLanguageExtraAQuery = EnhanceQueryStatements<MWQMSubsectorLanguageExtraA>(MWQMSubsectorLanguageExtraAQuery) as IQueryable<MWQMSubsectorLanguageExtraA>;
 
-            return MWQMSubsectorLanguage_AQuery;
+            return MWQMSubsectorLanguageExtraAQuery;
         }
-        public MWQMSubsectorLanguage_B GetMWQMSubsectorLanguage_BWithMWQMSubsectorLanguageID(int MWQMSubsectorLanguageID)
+        public MWQMSubsectorLanguageExtraB GetMWQMSubsectorLanguageExtraBWithMWQMSubsectorLanguageID(int MWQMSubsectorLanguageID)
         {
-            return FillMWQMSubsectorLanguage_B().Where(c => c.MWQMSubsectorLanguageID == MWQMSubsectorLanguageID).FirstOrDefault();
+            return FillMWQMSubsectorLanguageExtraB().Where(c => c.MWQMSubsectorLanguageID == MWQMSubsectorLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMSubsectorLanguage_B> GetMWQMSubsectorLanguage_BList()
+        public IQueryable<MWQMSubsectorLanguageExtraB> GetMWQMSubsectorLanguageExtraBList()
         {
-            IQueryable<MWQMSubsectorLanguage_B> MWQMSubsectorLanguage_BQuery = FillMWQMSubsectorLanguage_B();
+            IQueryable<MWQMSubsectorLanguageExtraB> MWQMSubsectorLanguageExtraBQuery = FillMWQMSubsectorLanguageExtraB();
 
-            MWQMSubsectorLanguage_BQuery = EnhanceQueryStatements<MWQMSubsectorLanguage_B>(MWQMSubsectorLanguage_BQuery) as IQueryable<MWQMSubsectorLanguage_B>;
+            MWQMSubsectorLanguageExtraBQuery = EnhanceQueryStatements<MWQMSubsectorLanguageExtraB>(MWQMSubsectorLanguageExtraBQuery) as IQueryable<MWQMSubsectorLanguageExtraB>;
 
-            return MWQMSubsectorLanguage_BQuery;
+            return MWQMSubsectorLanguageExtraBQuery;
         }
         #endregion Functions public Generated Get
 

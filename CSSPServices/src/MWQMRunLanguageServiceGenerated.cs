@@ -162,31 +162,31 @@ namespace CSSPServices
 
             return MWQMRunLanguageQuery;
         }
-        public MWQMRunLanguage_A GetMWQMRunLanguage_AWithMWQMRunLanguageID(int MWQMRunLanguageID)
+        public MWQMRunLanguageExtraA GetMWQMRunLanguageExtraAWithMWQMRunLanguageID(int MWQMRunLanguageID)
         {
-            return FillMWQMRunLanguage_A().Where(c => c.MWQMRunLanguageID == MWQMRunLanguageID).FirstOrDefault();
+            return FillMWQMRunLanguageExtraA().Where(c => c.MWQMRunLanguageID == MWQMRunLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMRunLanguage_A> GetMWQMRunLanguage_AList()
+        public IQueryable<MWQMRunLanguageExtraA> GetMWQMRunLanguageExtraAList()
         {
-            IQueryable<MWQMRunLanguage_A> MWQMRunLanguage_AQuery = FillMWQMRunLanguage_A();
+            IQueryable<MWQMRunLanguageExtraA> MWQMRunLanguageExtraAQuery = FillMWQMRunLanguageExtraA();
 
-            MWQMRunLanguage_AQuery = EnhanceQueryStatements<MWQMRunLanguage_A>(MWQMRunLanguage_AQuery) as IQueryable<MWQMRunLanguage_A>;
+            MWQMRunLanguageExtraAQuery = EnhanceQueryStatements<MWQMRunLanguageExtraA>(MWQMRunLanguageExtraAQuery) as IQueryable<MWQMRunLanguageExtraA>;
 
-            return MWQMRunLanguage_AQuery;
+            return MWQMRunLanguageExtraAQuery;
         }
-        public MWQMRunLanguage_B GetMWQMRunLanguage_BWithMWQMRunLanguageID(int MWQMRunLanguageID)
+        public MWQMRunLanguageExtraB GetMWQMRunLanguageExtraBWithMWQMRunLanguageID(int MWQMRunLanguageID)
         {
-            return FillMWQMRunLanguage_B().Where(c => c.MWQMRunLanguageID == MWQMRunLanguageID).FirstOrDefault();
+            return FillMWQMRunLanguageExtraB().Where(c => c.MWQMRunLanguageID == MWQMRunLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMRunLanguage_B> GetMWQMRunLanguage_BList()
+        public IQueryable<MWQMRunLanguageExtraB> GetMWQMRunLanguageExtraBList()
         {
-            IQueryable<MWQMRunLanguage_B> MWQMRunLanguage_BQuery = FillMWQMRunLanguage_B();
+            IQueryable<MWQMRunLanguageExtraB> MWQMRunLanguageExtraBQuery = FillMWQMRunLanguageExtraB();
 
-            MWQMRunLanguage_BQuery = EnhanceQueryStatements<MWQMRunLanguage_B>(MWQMRunLanguage_BQuery) as IQueryable<MWQMRunLanguage_B>;
+            MWQMRunLanguageExtraBQuery = EnhanceQueryStatements<MWQMRunLanguageExtraB>(MWQMRunLanguageExtraBQuery) as IQueryable<MWQMRunLanguageExtraB>;
 
-            return MWQMRunLanguage_BQuery;
+            return MWQMRunLanguageExtraBQuery;
         }
         #endregion Functions public Generated Get
 

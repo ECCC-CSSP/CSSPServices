@@ -282,31 +282,31 @@ namespace CSSPServices
 
             return AppTaskQuery;
         }
-        public AppTask_A GetAppTask_AWithAppTaskID(int AppTaskID)
+        public AppTaskExtraA GetAppTaskExtraAWithAppTaskID(int AppTaskID)
         {
-            return FillAppTask_A().Where(c => c.AppTaskID == AppTaskID).FirstOrDefault();
+            return FillAppTaskExtraA().Where(c => c.AppTaskID == AppTaskID).FirstOrDefault();
 
         }
-        public IQueryable<AppTask_A> GetAppTask_AList()
+        public IQueryable<AppTaskExtraA> GetAppTaskExtraAList()
         {
-            IQueryable<AppTask_A> AppTask_AQuery = FillAppTask_A();
+            IQueryable<AppTaskExtraA> AppTaskExtraAQuery = FillAppTaskExtraA();
 
-            AppTask_AQuery = EnhanceQueryStatements<AppTask_A>(AppTask_AQuery) as IQueryable<AppTask_A>;
+            AppTaskExtraAQuery = EnhanceQueryStatements<AppTaskExtraA>(AppTaskExtraAQuery) as IQueryable<AppTaskExtraA>;
 
-            return AppTask_AQuery;
+            return AppTaskExtraAQuery;
         }
-        public AppTask_B GetAppTask_BWithAppTaskID(int AppTaskID)
+        public AppTaskExtraB GetAppTaskExtraBWithAppTaskID(int AppTaskID)
         {
-            return FillAppTask_B().Where(c => c.AppTaskID == AppTaskID).FirstOrDefault();
+            return FillAppTaskExtraB().Where(c => c.AppTaskID == AppTaskID).FirstOrDefault();
 
         }
-        public IQueryable<AppTask_B> GetAppTask_BList()
+        public IQueryable<AppTaskExtraB> GetAppTaskExtraBList()
         {
-            IQueryable<AppTask_B> AppTask_BQuery = FillAppTask_B();
+            IQueryable<AppTaskExtraB> AppTaskExtraBQuery = FillAppTaskExtraB();
 
-            AppTask_BQuery = EnhanceQueryStatements<AppTask_B>(AppTask_BQuery) as IQueryable<AppTask_B>;
+            AppTaskExtraBQuery = EnhanceQueryStatements<AppTaskExtraB>(AppTaskExtraBQuery) as IQueryable<AppTaskExtraB>;
 
-            return AppTask_BQuery;
+            return AppTaskExtraBQuery;
         }
         #endregion Functions public Generated Get
 

@@ -257,7 +257,7 @@ namespace CSSPServices.Tests
                     MWQMRunLanguage mwqmRunLanguage = (from c in dbTestDB.MWQMRunLanguages select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmRunLanguage);
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         mwqmRunLanguageService.Query.Detail = detail;
 
@@ -267,17 +267,17 @@ namespace CSSPServices.Tests
                             CheckMWQMRunLanguageFields(new List<MWQMRunLanguage>() { mwqmRunLanguageRet });
                             Assert.AreEqual(mwqmRunLanguage.MWQMRunLanguageID, mwqmRunLanguageRet.MWQMRunLanguageID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            MWQMRunLanguage_A mwqmRunLanguage_ARet = mwqmRunLanguageService.GetMWQMRunLanguage_AWithMWQMRunLanguageID(mwqmRunLanguage.MWQMRunLanguageID);
-                            CheckMWQMRunLanguage_AFields(new List<MWQMRunLanguage_A>() { mwqmRunLanguage_ARet });
-                            Assert.AreEqual(mwqmRunLanguage.MWQMRunLanguageID, mwqmRunLanguage_ARet.MWQMRunLanguageID);
+                            MWQMRunLanguageExtraA mwqmRunLanguageExtraARet = mwqmRunLanguageService.GetMWQMRunLanguageExtraAWithMWQMRunLanguageID(mwqmRunLanguage.MWQMRunLanguageID);
+                            CheckMWQMRunLanguageExtraAFields(new List<MWQMRunLanguageExtraA>() { mwqmRunLanguageExtraARet });
+                            Assert.AreEqual(mwqmRunLanguage.MWQMRunLanguageID, mwqmRunLanguageExtraARet.MWQMRunLanguageID);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            MWQMRunLanguage_B mwqmRunLanguage_BRet = mwqmRunLanguageService.GetMWQMRunLanguage_BWithMWQMRunLanguageID(mwqmRunLanguage.MWQMRunLanguageID);
-                            CheckMWQMRunLanguage_BFields(new List<MWQMRunLanguage_B>() { mwqmRunLanguage_BRet });
-                            Assert.AreEqual(mwqmRunLanguage.MWQMRunLanguageID, mwqmRunLanguage_BRet.MWQMRunLanguageID);
+                            MWQMRunLanguageExtraB mwqmRunLanguageExtraBRet = mwqmRunLanguageService.GetMWQMRunLanguageExtraBWithMWQMRunLanguageID(mwqmRunLanguage.MWQMRunLanguageID);
+                            CheckMWQMRunLanguageExtraBFields(new List<MWQMRunLanguageExtraB>() { mwqmRunLanguageExtraBRet });
+                            Assert.AreEqual(mwqmRunLanguage.MWQMRunLanguageID, mwqmRunLanguageExtraBRet.MWQMRunLanguageID);
                         }
                         else
                         {
@@ -306,7 +306,7 @@ namespace CSSPServices.Tests
                     List<MWQMRunLanguage> mwqmRunLanguageDirectQueryList = new List<MWQMRunLanguage>();
                     mwqmRunLanguageDirectQueryList = (from c in dbTestDB.MWQMRunLanguages select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         mwqmRunLanguageService.Query.Detail = detail;
 
@@ -316,19 +316,19 @@ namespace CSSPServices.Tests
                             mwqmRunLanguageList = mwqmRunLanguageService.GetMWQMRunLanguageList().ToList();
                             CheckMWQMRunLanguageFields(mwqmRunLanguageList);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MWQMRunLanguage_A> mwqmRunLanguage_AList = new List<MWQMRunLanguage_A>();
-                            mwqmRunLanguage_AList = mwqmRunLanguageService.GetMWQMRunLanguage_AList().ToList();
-                            CheckMWQMRunLanguage_AFields(mwqmRunLanguage_AList);
-                            Assert.AreEqual(mwqmRunLanguageDirectQueryList.Count, mwqmRunLanguage_AList.Count);
+                            List<MWQMRunLanguageExtraA> mwqmRunLanguageExtraAList = new List<MWQMRunLanguageExtraA>();
+                            mwqmRunLanguageExtraAList = mwqmRunLanguageService.GetMWQMRunLanguageExtraAList().ToList();
+                            CheckMWQMRunLanguageExtraAFields(mwqmRunLanguageExtraAList);
+                            Assert.AreEqual(mwqmRunLanguageDirectQueryList.Count, mwqmRunLanguageExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MWQMRunLanguage_B> mwqmRunLanguage_BList = new List<MWQMRunLanguage_B>();
-                            mwqmRunLanguage_BList = mwqmRunLanguageService.GetMWQMRunLanguage_BList().ToList();
-                            CheckMWQMRunLanguage_BFields(mwqmRunLanguage_BList);
-                            Assert.AreEqual(mwqmRunLanguageDirectQueryList.Count, mwqmRunLanguage_BList.Count);
+                            List<MWQMRunLanguageExtraB> mwqmRunLanguageExtraBList = new List<MWQMRunLanguageExtraB>();
+                            mwqmRunLanguageExtraBList = mwqmRunLanguageService.GetMWQMRunLanguageExtraBList().ToList();
+                            CheckMWQMRunLanguageExtraBFields(mwqmRunLanguageExtraBList);
+                            Assert.AreEqual(mwqmRunLanguageDirectQueryList.Count, mwqmRunLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -350,7 +350,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMRunLanguageService mwqmRunLanguageService = new MWQMRunLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -366,21 +366,21 @@ namespace CSSPServices.Tests
                             CheckMWQMRunLanguageFields(mwqmRunLanguageList);
                             Assert.AreEqual(mwqmRunLanguageDirectQueryList[0].MWQMRunLanguageID, mwqmRunLanguageList[0].MWQMRunLanguageID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MWQMRunLanguage_A> mwqmRunLanguage_AList = new List<MWQMRunLanguage_A>();
-                            mwqmRunLanguage_AList = mwqmRunLanguageService.GetMWQMRunLanguage_AList().ToList();
-                            CheckMWQMRunLanguage_AFields(mwqmRunLanguage_AList);
-                            Assert.AreEqual(mwqmRunLanguageDirectQueryList[0].MWQMRunLanguageID, mwqmRunLanguage_AList[0].MWQMRunLanguageID);
-                            Assert.AreEqual(mwqmRunLanguageDirectQueryList.Count, mwqmRunLanguage_AList.Count);
+                            List<MWQMRunLanguageExtraA> mwqmRunLanguageExtraAList = new List<MWQMRunLanguageExtraA>();
+                            mwqmRunLanguageExtraAList = mwqmRunLanguageService.GetMWQMRunLanguageExtraAList().ToList();
+                            CheckMWQMRunLanguageExtraAFields(mwqmRunLanguageExtraAList);
+                            Assert.AreEqual(mwqmRunLanguageDirectQueryList[0].MWQMRunLanguageID, mwqmRunLanguageExtraAList[0].MWQMRunLanguageID);
+                            Assert.AreEqual(mwqmRunLanguageDirectQueryList.Count, mwqmRunLanguageExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MWQMRunLanguage_B> mwqmRunLanguage_BList = new List<MWQMRunLanguage_B>();
-                            mwqmRunLanguage_BList = mwqmRunLanguageService.GetMWQMRunLanguage_BList().ToList();
-                            CheckMWQMRunLanguage_BFields(mwqmRunLanguage_BList);
-                            Assert.AreEqual(mwqmRunLanguageDirectQueryList[0].MWQMRunLanguageID, mwqmRunLanguage_BList[0].MWQMRunLanguageID);
-                            Assert.AreEqual(mwqmRunLanguageDirectQueryList.Count, mwqmRunLanguage_BList.Count);
+                            List<MWQMRunLanguageExtraB> mwqmRunLanguageExtraBList = new List<MWQMRunLanguageExtraB>();
+                            mwqmRunLanguageExtraBList = mwqmRunLanguageService.GetMWQMRunLanguageExtraBList().ToList();
+                            CheckMWQMRunLanguageExtraBFields(mwqmRunLanguageExtraBList);
+                            Assert.AreEqual(mwqmRunLanguageDirectQueryList[0].MWQMRunLanguageID, mwqmRunLanguageExtraBList[0].MWQMRunLanguageID);
+                            Assert.AreEqual(mwqmRunLanguageDirectQueryList.Count, mwqmRunLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -402,7 +402,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMRunLanguageService mwqmRunLanguageService = new MWQMRunLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -418,21 +418,21 @@ namespace CSSPServices.Tests
                             CheckMWQMRunLanguageFields(mwqmRunLanguageList);
                             Assert.AreEqual(mwqmRunLanguageDirectQueryList[0].MWQMRunLanguageID, mwqmRunLanguageList[0].MWQMRunLanguageID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MWQMRunLanguage_A> mwqmRunLanguage_AList = new List<MWQMRunLanguage_A>();
-                            mwqmRunLanguage_AList = mwqmRunLanguageService.GetMWQMRunLanguage_AList().ToList();
-                            CheckMWQMRunLanguage_AFields(mwqmRunLanguage_AList);
-                            Assert.AreEqual(mwqmRunLanguageDirectQueryList[0].MWQMRunLanguageID, mwqmRunLanguage_AList[0].MWQMRunLanguageID);
-                            Assert.AreEqual(mwqmRunLanguageDirectQueryList.Count, mwqmRunLanguage_AList.Count);
+                            List<MWQMRunLanguageExtraA> mwqmRunLanguageExtraAList = new List<MWQMRunLanguageExtraA>();
+                            mwqmRunLanguageExtraAList = mwqmRunLanguageService.GetMWQMRunLanguageExtraAList().ToList();
+                            CheckMWQMRunLanguageExtraAFields(mwqmRunLanguageExtraAList);
+                            Assert.AreEqual(mwqmRunLanguageDirectQueryList[0].MWQMRunLanguageID, mwqmRunLanguageExtraAList[0].MWQMRunLanguageID);
+                            Assert.AreEqual(mwqmRunLanguageDirectQueryList.Count, mwqmRunLanguageExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MWQMRunLanguage_B> mwqmRunLanguage_BList = new List<MWQMRunLanguage_B>();
-                            mwqmRunLanguage_BList = mwqmRunLanguageService.GetMWQMRunLanguage_BList().ToList();
-                            CheckMWQMRunLanguage_BFields(mwqmRunLanguage_BList);
-                            Assert.AreEqual(mwqmRunLanguageDirectQueryList[0].MWQMRunLanguageID, mwqmRunLanguage_BList[0].MWQMRunLanguageID);
-                            Assert.AreEqual(mwqmRunLanguageDirectQueryList.Count, mwqmRunLanguage_BList.Count);
+                            List<MWQMRunLanguageExtraB> mwqmRunLanguageExtraBList = new List<MWQMRunLanguageExtraB>();
+                            mwqmRunLanguageExtraBList = mwqmRunLanguageService.GetMWQMRunLanguageExtraBList().ToList();
+                            CheckMWQMRunLanguageExtraBFields(mwqmRunLanguageExtraBList);
+                            Assert.AreEqual(mwqmRunLanguageDirectQueryList[0].MWQMRunLanguageID, mwqmRunLanguageExtraBList[0].MWQMRunLanguageID);
+                            Assert.AreEqual(mwqmRunLanguageDirectQueryList.Count, mwqmRunLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -454,7 +454,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMRunLanguageService mwqmRunLanguageService = new MWQMRunLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -470,21 +470,21 @@ namespace CSSPServices.Tests
                             CheckMWQMRunLanguageFields(mwqmRunLanguageList);
                             Assert.AreEqual(mwqmRunLanguageDirectQueryList[0].MWQMRunLanguageID, mwqmRunLanguageList[0].MWQMRunLanguageID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MWQMRunLanguage_A> mwqmRunLanguage_AList = new List<MWQMRunLanguage_A>();
-                            mwqmRunLanguage_AList = mwqmRunLanguageService.GetMWQMRunLanguage_AList().ToList();
-                            CheckMWQMRunLanguage_AFields(mwqmRunLanguage_AList);
-                            Assert.AreEqual(mwqmRunLanguageDirectQueryList[0].MWQMRunLanguageID, mwqmRunLanguage_AList[0].MWQMRunLanguageID);
-                            Assert.AreEqual(mwqmRunLanguageDirectQueryList.Count, mwqmRunLanguage_AList.Count);
+                            List<MWQMRunLanguageExtraA> mwqmRunLanguageExtraAList = new List<MWQMRunLanguageExtraA>();
+                            mwqmRunLanguageExtraAList = mwqmRunLanguageService.GetMWQMRunLanguageExtraAList().ToList();
+                            CheckMWQMRunLanguageExtraAFields(mwqmRunLanguageExtraAList);
+                            Assert.AreEqual(mwqmRunLanguageDirectQueryList[0].MWQMRunLanguageID, mwqmRunLanguageExtraAList[0].MWQMRunLanguageID);
+                            Assert.AreEqual(mwqmRunLanguageDirectQueryList.Count, mwqmRunLanguageExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MWQMRunLanguage_B> mwqmRunLanguage_BList = new List<MWQMRunLanguage_B>();
-                            mwqmRunLanguage_BList = mwqmRunLanguageService.GetMWQMRunLanguage_BList().ToList();
-                            CheckMWQMRunLanguage_BFields(mwqmRunLanguage_BList);
-                            Assert.AreEqual(mwqmRunLanguageDirectQueryList[0].MWQMRunLanguageID, mwqmRunLanguage_BList[0].MWQMRunLanguageID);
-                            Assert.AreEqual(mwqmRunLanguageDirectQueryList.Count, mwqmRunLanguage_BList.Count);
+                            List<MWQMRunLanguageExtraB> mwqmRunLanguageExtraBList = new List<MWQMRunLanguageExtraB>();
+                            mwqmRunLanguageExtraBList = mwqmRunLanguageService.GetMWQMRunLanguageExtraBList().ToList();
+                            CheckMWQMRunLanguageExtraBFields(mwqmRunLanguageExtraBList);
+                            Assert.AreEqual(mwqmRunLanguageDirectQueryList[0].MWQMRunLanguageID, mwqmRunLanguageExtraBList[0].MWQMRunLanguageID);
+                            Assert.AreEqual(mwqmRunLanguageDirectQueryList.Count, mwqmRunLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -506,7 +506,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMRunLanguageService mwqmRunLanguageService = new MWQMRunLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -522,21 +522,21 @@ namespace CSSPServices.Tests
                             CheckMWQMRunLanguageFields(mwqmRunLanguageList);
                             Assert.AreEqual(mwqmRunLanguageDirectQueryList[0].MWQMRunLanguageID, mwqmRunLanguageList[0].MWQMRunLanguageID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MWQMRunLanguage_A> mwqmRunLanguage_AList = new List<MWQMRunLanguage_A>();
-                            mwqmRunLanguage_AList = mwqmRunLanguageService.GetMWQMRunLanguage_AList().ToList();
-                            CheckMWQMRunLanguage_AFields(mwqmRunLanguage_AList);
-                            Assert.AreEqual(mwqmRunLanguageDirectQueryList[0].MWQMRunLanguageID, mwqmRunLanguage_AList[0].MWQMRunLanguageID);
-                            Assert.AreEqual(mwqmRunLanguageDirectQueryList.Count, mwqmRunLanguage_AList.Count);
+                            List<MWQMRunLanguageExtraA> mwqmRunLanguageExtraAList = new List<MWQMRunLanguageExtraA>();
+                            mwqmRunLanguageExtraAList = mwqmRunLanguageService.GetMWQMRunLanguageExtraAList().ToList();
+                            CheckMWQMRunLanguageExtraAFields(mwqmRunLanguageExtraAList);
+                            Assert.AreEqual(mwqmRunLanguageDirectQueryList[0].MWQMRunLanguageID, mwqmRunLanguageExtraAList[0].MWQMRunLanguageID);
+                            Assert.AreEqual(mwqmRunLanguageDirectQueryList.Count, mwqmRunLanguageExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MWQMRunLanguage_B> mwqmRunLanguage_BList = new List<MWQMRunLanguage_B>();
-                            mwqmRunLanguage_BList = mwqmRunLanguageService.GetMWQMRunLanguage_BList().ToList();
-                            CheckMWQMRunLanguage_BFields(mwqmRunLanguage_BList);
-                            Assert.AreEqual(mwqmRunLanguageDirectQueryList[0].MWQMRunLanguageID, mwqmRunLanguage_BList[0].MWQMRunLanguageID);
-                            Assert.AreEqual(mwqmRunLanguageDirectQueryList.Count, mwqmRunLanguage_BList.Count);
+                            List<MWQMRunLanguageExtraB> mwqmRunLanguageExtraBList = new List<MWQMRunLanguageExtraB>();
+                            mwqmRunLanguageExtraBList = mwqmRunLanguageService.GetMWQMRunLanguageExtraBList().ToList();
+                            CheckMWQMRunLanguageExtraBFields(mwqmRunLanguageExtraBList);
+                            Assert.AreEqual(mwqmRunLanguageDirectQueryList[0].MWQMRunLanguageID, mwqmRunLanguageExtraBList[0].MWQMRunLanguageID);
+                            Assert.AreEqual(mwqmRunLanguageDirectQueryList.Count, mwqmRunLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -558,7 +558,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMRunLanguageService mwqmRunLanguageService = new MWQMRunLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -574,21 +574,21 @@ namespace CSSPServices.Tests
                             CheckMWQMRunLanguageFields(mwqmRunLanguageList);
                             Assert.AreEqual(mwqmRunLanguageDirectQueryList[0].MWQMRunLanguageID, mwqmRunLanguageList[0].MWQMRunLanguageID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MWQMRunLanguage_A> mwqmRunLanguage_AList = new List<MWQMRunLanguage_A>();
-                            mwqmRunLanguage_AList = mwqmRunLanguageService.GetMWQMRunLanguage_AList().ToList();
-                            CheckMWQMRunLanguage_AFields(mwqmRunLanguage_AList);
-                            Assert.AreEqual(mwqmRunLanguageDirectQueryList[0].MWQMRunLanguageID, mwqmRunLanguage_AList[0].MWQMRunLanguageID);
-                            Assert.AreEqual(mwqmRunLanguageDirectQueryList.Count, mwqmRunLanguage_AList.Count);
+                            List<MWQMRunLanguageExtraA> mwqmRunLanguageExtraAList = new List<MWQMRunLanguageExtraA>();
+                            mwqmRunLanguageExtraAList = mwqmRunLanguageService.GetMWQMRunLanguageExtraAList().ToList();
+                            CheckMWQMRunLanguageExtraAFields(mwqmRunLanguageExtraAList);
+                            Assert.AreEqual(mwqmRunLanguageDirectQueryList[0].MWQMRunLanguageID, mwqmRunLanguageExtraAList[0].MWQMRunLanguageID);
+                            Assert.AreEqual(mwqmRunLanguageDirectQueryList.Count, mwqmRunLanguageExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MWQMRunLanguage_B> mwqmRunLanguage_BList = new List<MWQMRunLanguage_B>();
-                            mwqmRunLanguage_BList = mwqmRunLanguageService.GetMWQMRunLanguage_BList().ToList();
-                            CheckMWQMRunLanguage_BFields(mwqmRunLanguage_BList);
-                            Assert.AreEqual(mwqmRunLanguageDirectQueryList[0].MWQMRunLanguageID, mwqmRunLanguage_BList[0].MWQMRunLanguageID);
-                            Assert.AreEqual(mwqmRunLanguageDirectQueryList.Count, mwqmRunLanguage_BList.Count);
+                            List<MWQMRunLanguageExtraB> mwqmRunLanguageExtraBList = new List<MWQMRunLanguageExtraB>();
+                            mwqmRunLanguageExtraBList = mwqmRunLanguageService.GetMWQMRunLanguageExtraBList().ToList();
+                            CheckMWQMRunLanguageExtraBFields(mwqmRunLanguageExtraBList);
+                            Assert.AreEqual(mwqmRunLanguageDirectQueryList[0].MWQMRunLanguageID, mwqmRunLanguageExtraBList[0].MWQMRunLanguageID);
+                            Assert.AreEqual(mwqmRunLanguageDirectQueryList.Count, mwqmRunLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -610,7 +610,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMRunLanguageService mwqmRunLanguageService = new MWQMRunLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -626,21 +626,21 @@ namespace CSSPServices.Tests
                             CheckMWQMRunLanguageFields(mwqmRunLanguageList);
                             Assert.AreEqual(mwqmRunLanguageDirectQueryList[0].MWQMRunLanguageID, mwqmRunLanguageList[0].MWQMRunLanguageID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MWQMRunLanguage_A> mwqmRunLanguage_AList = new List<MWQMRunLanguage_A>();
-                            mwqmRunLanguage_AList = mwqmRunLanguageService.GetMWQMRunLanguage_AList().ToList();
-                            CheckMWQMRunLanguage_AFields(mwqmRunLanguage_AList);
-                            Assert.AreEqual(mwqmRunLanguageDirectQueryList[0].MWQMRunLanguageID, mwqmRunLanguage_AList[0].MWQMRunLanguageID);
-                            Assert.AreEqual(mwqmRunLanguageDirectQueryList.Count, mwqmRunLanguage_AList.Count);
+                            List<MWQMRunLanguageExtraA> mwqmRunLanguageExtraAList = new List<MWQMRunLanguageExtraA>();
+                            mwqmRunLanguageExtraAList = mwqmRunLanguageService.GetMWQMRunLanguageExtraAList().ToList();
+                            CheckMWQMRunLanguageExtraAFields(mwqmRunLanguageExtraAList);
+                            Assert.AreEqual(mwqmRunLanguageDirectQueryList[0].MWQMRunLanguageID, mwqmRunLanguageExtraAList[0].MWQMRunLanguageID);
+                            Assert.AreEqual(mwqmRunLanguageDirectQueryList.Count, mwqmRunLanguageExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MWQMRunLanguage_B> mwqmRunLanguage_BList = new List<MWQMRunLanguage_B>();
-                            mwqmRunLanguage_BList = mwqmRunLanguageService.GetMWQMRunLanguage_BList().ToList();
-                            CheckMWQMRunLanguage_BFields(mwqmRunLanguage_BList);
-                            Assert.AreEqual(mwqmRunLanguageDirectQueryList[0].MWQMRunLanguageID, mwqmRunLanguage_BList[0].MWQMRunLanguageID);
-                            Assert.AreEqual(mwqmRunLanguageDirectQueryList.Count, mwqmRunLanguage_BList.Count);
+                            List<MWQMRunLanguageExtraB> mwqmRunLanguageExtraBList = new List<MWQMRunLanguageExtraB>();
+                            mwqmRunLanguageExtraBList = mwqmRunLanguageService.GetMWQMRunLanguageExtraBList().ToList();
+                            CheckMWQMRunLanguageExtraBFields(mwqmRunLanguageExtraBList);
+                            Assert.AreEqual(mwqmRunLanguageDirectQueryList[0].MWQMRunLanguageID, mwqmRunLanguageExtraBList[0].MWQMRunLanguageID);
+                            Assert.AreEqual(mwqmRunLanguageDirectQueryList.Count, mwqmRunLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -666,61 +666,61 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(mwqmRunLanguageList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(mwqmRunLanguageList[0].HasErrors);
         }
-        private void CheckMWQMRunLanguage_AFields(List<MWQMRunLanguage_A> mwqmRunLanguage_AList)
+        private void CheckMWQMRunLanguageExtraAFields(List<MWQMRunLanguageExtraA> mwqmRunLanguageExtraAList)
         {
-            Assert.IsNotNull(mwqmRunLanguage_AList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(mwqmRunLanguage_AList[0].LanguageText))
+            Assert.IsNotNull(mwqmRunLanguageExtraAList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(mwqmRunLanguageExtraAList[0].LanguageText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunLanguage_AList[0].LanguageText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunLanguageExtraAList[0].LanguageText));
             }
-            if (!string.IsNullOrWhiteSpace(mwqmRunLanguage_AList[0].TranslationStatusRunCommentText))
+            if (!string.IsNullOrWhiteSpace(mwqmRunLanguageExtraAList[0].TranslationStatusRunCommentText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunLanguage_AList[0].TranslationStatusRunCommentText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunLanguageExtraAList[0].TranslationStatusRunCommentText));
             }
-            if (!string.IsNullOrWhiteSpace(mwqmRunLanguage_AList[0].TranslationStatusRunWeatherCommentText))
+            if (!string.IsNullOrWhiteSpace(mwqmRunLanguageExtraAList[0].TranslationStatusRunWeatherCommentText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunLanguage_AList[0].TranslationStatusRunWeatherCommentText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunLanguageExtraAList[0].TranslationStatusRunWeatherCommentText));
             }
-            Assert.IsNotNull(mwqmRunLanguage_AList[0].MWQMRunLanguageID);
-            Assert.IsNotNull(mwqmRunLanguage_AList[0].MWQMRunID);
-            Assert.IsNotNull(mwqmRunLanguage_AList[0].Language);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunLanguage_AList[0].RunComment));
-            Assert.IsNotNull(mwqmRunLanguage_AList[0].TranslationStatusRunComment);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunLanguage_AList[0].RunWeatherComment));
-            Assert.IsNotNull(mwqmRunLanguage_AList[0].TranslationStatusRunWeatherComment);
-            Assert.IsNotNull(mwqmRunLanguage_AList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(mwqmRunLanguage_AList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(mwqmRunLanguage_AList[0].HasErrors);
+            Assert.IsNotNull(mwqmRunLanguageExtraAList[0].MWQMRunLanguageID);
+            Assert.IsNotNull(mwqmRunLanguageExtraAList[0].MWQMRunID);
+            Assert.IsNotNull(mwqmRunLanguageExtraAList[0].Language);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunLanguageExtraAList[0].RunComment));
+            Assert.IsNotNull(mwqmRunLanguageExtraAList[0].TranslationStatusRunComment);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunLanguageExtraAList[0].RunWeatherComment));
+            Assert.IsNotNull(mwqmRunLanguageExtraAList[0].TranslationStatusRunWeatherComment);
+            Assert.IsNotNull(mwqmRunLanguageExtraAList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(mwqmRunLanguageExtraAList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(mwqmRunLanguageExtraAList[0].HasErrors);
         }
-        private void CheckMWQMRunLanguage_BFields(List<MWQMRunLanguage_B> mwqmRunLanguage_BList)
+        private void CheckMWQMRunLanguageExtraBFields(List<MWQMRunLanguageExtraB> mwqmRunLanguageExtraBList)
         {
-            if (!string.IsNullOrWhiteSpace(mwqmRunLanguage_BList[0].MWQMRunLanguageReportTest))
+            if (!string.IsNullOrWhiteSpace(mwqmRunLanguageExtraBList[0].MWQMRunLanguageReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunLanguage_BList[0].MWQMRunLanguageReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunLanguageExtraBList[0].MWQMRunLanguageReportTest));
             }
-            Assert.IsNotNull(mwqmRunLanguage_BList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(mwqmRunLanguage_BList[0].LanguageText))
+            Assert.IsNotNull(mwqmRunLanguageExtraBList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(mwqmRunLanguageExtraBList[0].LanguageText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunLanguage_BList[0].LanguageText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunLanguageExtraBList[0].LanguageText));
             }
-            if (!string.IsNullOrWhiteSpace(mwqmRunLanguage_BList[0].TranslationStatusRunCommentText))
+            if (!string.IsNullOrWhiteSpace(mwqmRunLanguageExtraBList[0].TranslationStatusRunCommentText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunLanguage_BList[0].TranslationStatusRunCommentText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunLanguageExtraBList[0].TranslationStatusRunCommentText));
             }
-            if (!string.IsNullOrWhiteSpace(mwqmRunLanguage_BList[0].TranslationStatusRunWeatherCommentText))
+            if (!string.IsNullOrWhiteSpace(mwqmRunLanguageExtraBList[0].TranslationStatusRunWeatherCommentText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunLanguage_BList[0].TranslationStatusRunWeatherCommentText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunLanguageExtraBList[0].TranslationStatusRunWeatherCommentText));
             }
-            Assert.IsNotNull(mwqmRunLanguage_BList[0].MWQMRunLanguageID);
-            Assert.IsNotNull(mwqmRunLanguage_BList[0].MWQMRunID);
-            Assert.IsNotNull(mwqmRunLanguage_BList[0].Language);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunLanguage_BList[0].RunComment));
-            Assert.IsNotNull(mwqmRunLanguage_BList[0].TranslationStatusRunComment);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunLanguage_BList[0].RunWeatherComment));
-            Assert.IsNotNull(mwqmRunLanguage_BList[0].TranslationStatusRunWeatherComment);
-            Assert.IsNotNull(mwqmRunLanguage_BList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(mwqmRunLanguage_BList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(mwqmRunLanguage_BList[0].HasErrors);
+            Assert.IsNotNull(mwqmRunLanguageExtraBList[0].MWQMRunLanguageID);
+            Assert.IsNotNull(mwqmRunLanguageExtraBList[0].MWQMRunID);
+            Assert.IsNotNull(mwqmRunLanguageExtraBList[0].Language);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunLanguageExtraBList[0].RunComment));
+            Assert.IsNotNull(mwqmRunLanguageExtraBList[0].TranslationStatusRunComment);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunLanguageExtraBList[0].RunWeatherComment));
+            Assert.IsNotNull(mwqmRunLanguageExtraBList[0].TranslationStatusRunWeatherComment);
+            Assert.IsNotNull(mwqmRunLanguageExtraBList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(mwqmRunLanguageExtraBList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(mwqmRunLanguageExtraBList[0].HasErrors);
         }
         private MWQMRunLanguage GetFilledRandomMWQMRunLanguage(string OmitPropName)
         {

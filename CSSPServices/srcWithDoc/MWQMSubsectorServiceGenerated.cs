@@ -155,31 +155,31 @@ namespace CSSPServices
 
             return MWQMSubsectorQuery;
         }
-        public MWQMSubsector_A GetMWQMSubsector_AWithMWQMSubsectorID(int MWQMSubsectorID)
+        public MWQMSubsectorExtraA GetMWQMSubsectorExtraAWithMWQMSubsectorID(int MWQMSubsectorID)
         {
-            return FillMWQMSubsector_A().Where(c => c.MWQMSubsectorID == MWQMSubsectorID).FirstOrDefault();
+            return FillMWQMSubsectorExtraA().Where(c => c.MWQMSubsectorID == MWQMSubsectorID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMSubsector_A> GetMWQMSubsector_AList()
+        public IQueryable<MWQMSubsectorExtraA> GetMWQMSubsectorExtraAList()
         {
-            IQueryable<MWQMSubsector_A> MWQMSubsector_AQuery = FillMWQMSubsector_A();
+            IQueryable<MWQMSubsectorExtraA> MWQMSubsectorExtraAQuery = FillMWQMSubsectorExtraA();
 
-            MWQMSubsector_AQuery = EnhanceQueryStatements<MWQMSubsector_A>(MWQMSubsector_AQuery) as IQueryable<MWQMSubsector_A>;
+            MWQMSubsectorExtraAQuery = EnhanceQueryStatements<MWQMSubsectorExtraA>(MWQMSubsectorExtraAQuery) as IQueryable<MWQMSubsectorExtraA>;
 
-            return MWQMSubsector_AQuery;
+            return MWQMSubsectorExtraAQuery;
         }
-        public MWQMSubsector_B GetMWQMSubsector_BWithMWQMSubsectorID(int MWQMSubsectorID)
+        public MWQMSubsectorExtraB GetMWQMSubsectorExtraBWithMWQMSubsectorID(int MWQMSubsectorID)
         {
-            return FillMWQMSubsector_B().Where(c => c.MWQMSubsectorID == MWQMSubsectorID).FirstOrDefault();
+            return FillMWQMSubsectorExtraB().Where(c => c.MWQMSubsectorID == MWQMSubsectorID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMSubsector_B> GetMWQMSubsector_BList()
+        public IQueryable<MWQMSubsectorExtraB> GetMWQMSubsectorExtraBList()
         {
-            IQueryable<MWQMSubsector_B> MWQMSubsector_BQuery = FillMWQMSubsector_B();
+            IQueryable<MWQMSubsectorExtraB> MWQMSubsectorExtraBQuery = FillMWQMSubsectorExtraB();
 
-            MWQMSubsector_BQuery = EnhanceQueryStatements<MWQMSubsector_B>(MWQMSubsector_BQuery) as IQueryable<MWQMSubsector_B>;
+            MWQMSubsectorExtraBQuery = EnhanceQueryStatements<MWQMSubsectorExtraB>(MWQMSubsectorExtraBQuery) as IQueryable<MWQMSubsectorExtraB>;
 
-            return MWQMSubsector_BQuery;
+            return MWQMSubsectorExtraBQuery;
         }
         #endregion Functions public Generated Get
 

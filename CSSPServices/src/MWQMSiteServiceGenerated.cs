@@ -174,31 +174,31 @@ namespace CSSPServices
 
             return MWQMSiteQuery;
         }
-        public MWQMSite_A GetMWQMSite_AWithMWQMSiteID(int MWQMSiteID)
+        public MWQMSiteExtraA GetMWQMSiteExtraAWithMWQMSiteID(int MWQMSiteID)
         {
-            return FillMWQMSite_A().Where(c => c.MWQMSiteID == MWQMSiteID).FirstOrDefault();
+            return FillMWQMSiteExtraA().Where(c => c.MWQMSiteID == MWQMSiteID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMSite_A> GetMWQMSite_AList()
+        public IQueryable<MWQMSiteExtraA> GetMWQMSiteExtraAList()
         {
-            IQueryable<MWQMSite_A> MWQMSite_AQuery = FillMWQMSite_A();
+            IQueryable<MWQMSiteExtraA> MWQMSiteExtraAQuery = FillMWQMSiteExtraA();
 
-            MWQMSite_AQuery = EnhanceQueryStatements<MWQMSite_A>(MWQMSite_AQuery) as IQueryable<MWQMSite_A>;
+            MWQMSiteExtraAQuery = EnhanceQueryStatements<MWQMSiteExtraA>(MWQMSiteExtraAQuery) as IQueryable<MWQMSiteExtraA>;
 
-            return MWQMSite_AQuery;
+            return MWQMSiteExtraAQuery;
         }
-        public MWQMSite_B GetMWQMSite_BWithMWQMSiteID(int MWQMSiteID)
+        public MWQMSiteExtraB GetMWQMSiteExtraBWithMWQMSiteID(int MWQMSiteID)
         {
-            return FillMWQMSite_B().Where(c => c.MWQMSiteID == MWQMSiteID).FirstOrDefault();
+            return FillMWQMSiteExtraB().Where(c => c.MWQMSiteID == MWQMSiteID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMSite_B> GetMWQMSite_BList()
+        public IQueryable<MWQMSiteExtraB> GetMWQMSiteExtraBList()
         {
-            IQueryable<MWQMSite_B> MWQMSite_BQuery = FillMWQMSite_B();
+            IQueryable<MWQMSiteExtraB> MWQMSiteExtraBQuery = FillMWQMSiteExtraB();
 
-            MWQMSite_BQuery = EnhanceQueryStatements<MWQMSite_B>(MWQMSite_BQuery) as IQueryable<MWQMSite_B>;
+            MWQMSiteExtraBQuery = EnhanceQueryStatements<MWQMSiteExtraB>(MWQMSiteExtraBQuery) as IQueryable<MWQMSiteExtraB>;
 
-            return MWQMSite_BQuery;
+            return MWQMSiteExtraBQuery;
         }
         #endregion Functions public Generated Get
 

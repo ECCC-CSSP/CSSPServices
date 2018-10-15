@@ -189,31 +189,31 @@ namespace CSSPServices
 
             return ReportTypeLanguageQuery;
         }
-        public ReportTypeLanguage_A GetReportTypeLanguage_AWithReportTypeLanguageID(int ReportTypeLanguageID)
+        public ReportTypeLanguageExtraA GetReportTypeLanguageExtraAWithReportTypeLanguageID(int ReportTypeLanguageID)
         {
-            return FillReportTypeLanguage_A().Where(c => c.ReportTypeLanguageID == ReportTypeLanguageID).FirstOrDefault();
+            return FillReportTypeLanguageExtraA().Where(c => c.ReportTypeLanguageID == ReportTypeLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<ReportTypeLanguage_A> GetReportTypeLanguage_AList()
+        public IQueryable<ReportTypeLanguageExtraA> GetReportTypeLanguageExtraAList()
         {
-            IQueryable<ReportTypeLanguage_A> ReportTypeLanguage_AQuery = FillReportTypeLanguage_A();
+            IQueryable<ReportTypeLanguageExtraA> ReportTypeLanguageExtraAQuery = FillReportTypeLanguageExtraA();
 
-            ReportTypeLanguage_AQuery = EnhanceQueryStatements<ReportTypeLanguage_A>(ReportTypeLanguage_AQuery) as IQueryable<ReportTypeLanguage_A>;
+            ReportTypeLanguageExtraAQuery = EnhanceQueryStatements<ReportTypeLanguageExtraA>(ReportTypeLanguageExtraAQuery) as IQueryable<ReportTypeLanguageExtraA>;
 
-            return ReportTypeLanguage_AQuery;
+            return ReportTypeLanguageExtraAQuery;
         }
-        public ReportTypeLanguage_B GetReportTypeLanguage_BWithReportTypeLanguageID(int ReportTypeLanguageID)
+        public ReportTypeLanguageExtraB GetReportTypeLanguageExtraBWithReportTypeLanguageID(int ReportTypeLanguageID)
         {
-            return FillReportTypeLanguage_B().Where(c => c.ReportTypeLanguageID == ReportTypeLanguageID).FirstOrDefault();
+            return FillReportTypeLanguageExtraB().Where(c => c.ReportTypeLanguageID == ReportTypeLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<ReportTypeLanguage_B> GetReportTypeLanguage_BList()
+        public IQueryable<ReportTypeLanguageExtraB> GetReportTypeLanguageExtraBList()
         {
-            IQueryable<ReportTypeLanguage_B> ReportTypeLanguage_BQuery = FillReportTypeLanguage_B();
+            IQueryable<ReportTypeLanguageExtraB> ReportTypeLanguageExtraBQuery = FillReportTypeLanguageExtraB();
 
-            ReportTypeLanguage_BQuery = EnhanceQueryStatements<ReportTypeLanguage_B>(ReportTypeLanguage_BQuery) as IQueryable<ReportTypeLanguage_B>;
+            ReportTypeLanguageExtraBQuery = EnhanceQueryStatements<ReportTypeLanguageExtraB>(ReportTypeLanguageExtraBQuery) as IQueryable<ReportTypeLanguageExtraB>;
 
-            return ReportTypeLanguage_BQuery;
+            return ReportTypeLanguageExtraBQuery;
         }
         #endregion Functions public Generated Get
 

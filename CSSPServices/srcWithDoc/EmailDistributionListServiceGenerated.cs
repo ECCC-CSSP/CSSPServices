@@ -143,31 +143,31 @@ namespace CSSPServices
 
             return EmailDistributionListQuery;
         }
-        public EmailDistributionList_A GetEmailDistributionList_AWithEmailDistributionListID(int EmailDistributionListID)
+        public EmailDistributionListExtraA GetEmailDistributionListExtraAWithEmailDistributionListID(int EmailDistributionListID)
         {
-            return FillEmailDistributionList_A().Where(c => c.EmailDistributionListID == EmailDistributionListID).FirstOrDefault();
+            return FillEmailDistributionListExtraA().Where(c => c.EmailDistributionListID == EmailDistributionListID).FirstOrDefault();
 
         }
-        public IQueryable<EmailDistributionList_A> GetEmailDistributionList_AList()
+        public IQueryable<EmailDistributionListExtraA> GetEmailDistributionListExtraAList()
         {
-            IQueryable<EmailDistributionList_A> EmailDistributionList_AQuery = FillEmailDistributionList_A();
+            IQueryable<EmailDistributionListExtraA> EmailDistributionListExtraAQuery = FillEmailDistributionListExtraA();
 
-            EmailDistributionList_AQuery = EnhanceQueryStatements<EmailDistributionList_A>(EmailDistributionList_AQuery) as IQueryable<EmailDistributionList_A>;
+            EmailDistributionListExtraAQuery = EnhanceQueryStatements<EmailDistributionListExtraA>(EmailDistributionListExtraAQuery) as IQueryable<EmailDistributionListExtraA>;
 
-            return EmailDistributionList_AQuery;
+            return EmailDistributionListExtraAQuery;
         }
-        public EmailDistributionList_B GetEmailDistributionList_BWithEmailDistributionListID(int EmailDistributionListID)
+        public EmailDistributionListExtraB GetEmailDistributionListExtraBWithEmailDistributionListID(int EmailDistributionListID)
         {
-            return FillEmailDistributionList_B().Where(c => c.EmailDistributionListID == EmailDistributionListID).FirstOrDefault();
+            return FillEmailDistributionListExtraB().Where(c => c.EmailDistributionListID == EmailDistributionListID).FirstOrDefault();
 
         }
-        public IQueryable<EmailDistributionList_B> GetEmailDistributionList_BList()
+        public IQueryable<EmailDistributionListExtraB> GetEmailDistributionListExtraBList()
         {
-            IQueryable<EmailDistributionList_B> EmailDistributionList_BQuery = FillEmailDistributionList_B();
+            IQueryable<EmailDistributionListExtraB> EmailDistributionListExtraBQuery = FillEmailDistributionListExtraB();
 
-            EmailDistributionList_BQuery = EnhanceQueryStatements<EmailDistributionList_B>(EmailDistributionList_BQuery) as IQueryable<EmailDistributionList_B>;
+            EmailDistributionListExtraBQuery = EnhanceQueryStatements<EmailDistributionListExtraB>(EmailDistributionListExtraBQuery) as IQueryable<EmailDistributionListExtraB>;
 
-            return EmailDistributionList_BQuery;
+            return EmailDistributionListExtraBQuery;
         }
         #endregion Functions public Generated Get
 

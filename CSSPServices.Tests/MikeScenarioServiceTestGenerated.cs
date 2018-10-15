@@ -691,7 +691,7 @@ namespace CSSPServices.Tests
                     MikeScenario mikeScenario = (from c in dbTestDB.MikeScenarios select c).FirstOrDefault();
                     Assert.IsNotNull(mikeScenario);
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         mikeScenarioService.Query.Detail = detail;
 
@@ -701,17 +701,17 @@ namespace CSSPServices.Tests
                             CheckMikeScenarioFields(new List<MikeScenario>() { mikeScenarioRet });
                             Assert.AreEqual(mikeScenario.MikeScenarioID, mikeScenarioRet.MikeScenarioID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            MikeScenario_A mikeScenario_ARet = mikeScenarioService.GetMikeScenario_AWithMikeScenarioID(mikeScenario.MikeScenarioID);
-                            CheckMikeScenario_AFields(new List<MikeScenario_A>() { mikeScenario_ARet });
-                            Assert.AreEqual(mikeScenario.MikeScenarioID, mikeScenario_ARet.MikeScenarioID);
+                            MikeScenarioExtraA mikeScenarioExtraARet = mikeScenarioService.GetMikeScenarioExtraAWithMikeScenarioID(mikeScenario.MikeScenarioID);
+                            CheckMikeScenarioExtraAFields(new List<MikeScenarioExtraA>() { mikeScenarioExtraARet });
+                            Assert.AreEqual(mikeScenario.MikeScenarioID, mikeScenarioExtraARet.MikeScenarioID);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            MikeScenario_B mikeScenario_BRet = mikeScenarioService.GetMikeScenario_BWithMikeScenarioID(mikeScenario.MikeScenarioID);
-                            CheckMikeScenario_BFields(new List<MikeScenario_B>() { mikeScenario_BRet });
-                            Assert.AreEqual(mikeScenario.MikeScenarioID, mikeScenario_BRet.MikeScenarioID);
+                            MikeScenarioExtraB mikeScenarioExtraBRet = mikeScenarioService.GetMikeScenarioExtraBWithMikeScenarioID(mikeScenario.MikeScenarioID);
+                            CheckMikeScenarioExtraBFields(new List<MikeScenarioExtraB>() { mikeScenarioExtraBRet });
+                            Assert.AreEqual(mikeScenario.MikeScenarioID, mikeScenarioExtraBRet.MikeScenarioID);
                         }
                         else
                         {
@@ -740,7 +740,7 @@ namespace CSSPServices.Tests
                     List<MikeScenario> mikeScenarioDirectQueryList = new List<MikeScenario>();
                     mikeScenarioDirectQueryList = (from c in dbTestDB.MikeScenarios select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         mikeScenarioService.Query.Detail = detail;
 
@@ -750,19 +750,19 @@ namespace CSSPServices.Tests
                             mikeScenarioList = mikeScenarioService.GetMikeScenarioList().ToList();
                             CheckMikeScenarioFields(mikeScenarioList);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MikeScenario_A> mikeScenario_AList = new List<MikeScenario_A>();
-                            mikeScenario_AList = mikeScenarioService.GetMikeScenario_AList().ToList();
-                            CheckMikeScenario_AFields(mikeScenario_AList);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenario_AList.Count);
+                            List<MikeScenarioExtraA> mikeScenarioExtraAList = new List<MikeScenarioExtraA>();
+                            mikeScenarioExtraAList = mikeScenarioService.GetMikeScenarioExtraAList().ToList();
+                            CheckMikeScenarioExtraAFields(mikeScenarioExtraAList);
+                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MikeScenario_B> mikeScenario_BList = new List<MikeScenario_B>();
-                            mikeScenario_BList = mikeScenarioService.GetMikeScenario_BList().ToList();
-                            CheckMikeScenario_BFields(mikeScenario_BList);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenario_BList.Count);
+                            List<MikeScenarioExtraB> mikeScenarioExtraBList = new List<MikeScenarioExtraB>();
+                            mikeScenarioExtraBList = mikeScenarioService.GetMikeScenarioExtraBList().ToList();
+                            CheckMikeScenarioExtraBFields(mikeScenarioExtraBList);
+                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioExtraBList.Count);
                         }
                         else
                         {
@@ -784,7 +784,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MikeScenarioService mikeScenarioService = new MikeScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -800,21 +800,21 @@ namespace CSSPServices.Tests
                             CheckMikeScenarioFields(mikeScenarioList);
                             Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioList[0].MikeScenarioID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MikeScenario_A> mikeScenario_AList = new List<MikeScenario_A>();
-                            mikeScenario_AList = mikeScenarioService.GetMikeScenario_AList().ToList();
-                            CheckMikeScenario_AFields(mikeScenario_AList);
-                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenario_AList[0].MikeScenarioID);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenario_AList.Count);
+                            List<MikeScenarioExtraA> mikeScenarioExtraAList = new List<MikeScenarioExtraA>();
+                            mikeScenarioExtraAList = mikeScenarioService.GetMikeScenarioExtraAList().ToList();
+                            CheckMikeScenarioExtraAFields(mikeScenarioExtraAList);
+                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioExtraAList[0].MikeScenarioID);
+                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MikeScenario_B> mikeScenario_BList = new List<MikeScenario_B>();
-                            mikeScenario_BList = mikeScenarioService.GetMikeScenario_BList().ToList();
-                            CheckMikeScenario_BFields(mikeScenario_BList);
-                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenario_BList[0].MikeScenarioID);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenario_BList.Count);
+                            List<MikeScenarioExtraB> mikeScenarioExtraBList = new List<MikeScenarioExtraB>();
+                            mikeScenarioExtraBList = mikeScenarioService.GetMikeScenarioExtraBList().ToList();
+                            CheckMikeScenarioExtraBFields(mikeScenarioExtraBList);
+                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioExtraBList[0].MikeScenarioID);
+                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioExtraBList.Count);
                         }
                         else
                         {
@@ -836,7 +836,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MikeScenarioService mikeScenarioService = new MikeScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -852,21 +852,21 @@ namespace CSSPServices.Tests
                             CheckMikeScenarioFields(mikeScenarioList);
                             Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioList[0].MikeScenarioID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MikeScenario_A> mikeScenario_AList = new List<MikeScenario_A>();
-                            mikeScenario_AList = mikeScenarioService.GetMikeScenario_AList().ToList();
-                            CheckMikeScenario_AFields(mikeScenario_AList);
-                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenario_AList[0].MikeScenarioID);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenario_AList.Count);
+                            List<MikeScenarioExtraA> mikeScenarioExtraAList = new List<MikeScenarioExtraA>();
+                            mikeScenarioExtraAList = mikeScenarioService.GetMikeScenarioExtraAList().ToList();
+                            CheckMikeScenarioExtraAFields(mikeScenarioExtraAList);
+                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioExtraAList[0].MikeScenarioID);
+                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MikeScenario_B> mikeScenario_BList = new List<MikeScenario_B>();
-                            mikeScenario_BList = mikeScenarioService.GetMikeScenario_BList().ToList();
-                            CheckMikeScenario_BFields(mikeScenario_BList);
-                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenario_BList[0].MikeScenarioID);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenario_BList.Count);
+                            List<MikeScenarioExtraB> mikeScenarioExtraBList = new List<MikeScenarioExtraB>();
+                            mikeScenarioExtraBList = mikeScenarioService.GetMikeScenarioExtraBList().ToList();
+                            CheckMikeScenarioExtraBFields(mikeScenarioExtraBList);
+                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioExtraBList[0].MikeScenarioID);
+                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioExtraBList.Count);
                         }
                         else
                         {
@@ -888,7 +888,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MikeScenarioService mikeScenarioService = new MikeScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -904,21 +904,21 @@ namespace CSSPServices.Tests
                             CheckMikeScenarioFields(mikeScenarioList);
                             Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioList[0].MikeScenarioID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MikeScenario_A> mikeScenario_AList = new List<MikeScenario_A>();
-                            mikeScenario_AList = mikeScenarioService.GetMikeScenario_AList().ToList();
-                            CheckMikeScenario_AFields(mikeScenario_AList);
-                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenario_AList[0].MikeScenarioID);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenario_AList.Count);
+                            List<MikeScenarioExtraA> mikeScenarioExtraAList = new List<MikeScenarioExtraA>();
+                            mikeScenarioExtraAList = mikeScenarioService.GetMikeScenarioExtraAList().ToList();
+                            CheckMikeScenarioExtraAFields(mikeScenarioExtraAList);
+                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioExtraAList[0].MikeScenarioID);
+                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MikeScenario_B> mikeScenario_BList = new List<MikeScenario_B>();
-                            mikeScenario_BList = mikeScenarioService.GetMikeScenario_BList().ToList();
-                            CheckMikeScenario_BFields(mikeScenario_BList);
-                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenario_BList[0].MikeScenarioID);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenario_BList.Count);
+                            List<MikeScenarioExtraB> mikeScenarioExtraBList = new List<MikeScenarioExtraB>();
+                            mikeScenarioExtraBList = mikeScenarioService.GetMikeScenarioExtraBList().ToList();
+                            CheckMikeScenarioExtraBFields(mikeScenarioExtraBList);
+                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioExtraBList[0].MikeScenarioID);
+                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioExtraBList.Count);
                         }
                         else
                         {
@@ -940,7 +940,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MikeScenarioService mikeScenarioService = new MikeScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -956,21 +956,21 @@ namespace CSSPServices.Tests
                             CheckMikeScenarioFields(mikeScenarioList);
                             Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioList[0].MikeScenarioID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MikeScenario_A> mikeScenario_AList = new List<MikeScenario_A>();
-                            mikeScenario_AList = mikeScenarioService.GetMikeScenario_AList().ToList();
-                            CheckMikeScenario_AFields(mikeScenario_AList);
-                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenario_AList[0].MikeScenarioID);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenario_AList.Count);
+                            List<MikeScenarioExtraA> mikeScenarioExtraAList = new List<MikeScenarioExtraA>();
+                            mikeScenarioExtraAList = mikeScenarioService.GetMikeScenarioExtraAList().ToList();
+                            CheckMikeScenarioExtraAFields(mikeScenarioExtraAList);
+                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioExtraAList[0].MikeScenarioID);
+                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MikeScenario_B> mikeScenario_BList = new List<MikeScenario_B>();
-                            mikeScenario_BList = mikeScenarioService.GetMikeScenario_BList().ToList();
-                            CheckMikeScenario_BFields(mikeScenario_BList);
-                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenario_BList[0].MikeScenarioID);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenario_BList.Count);
+                            List<MikeScenarioExtraB> mikeScenarioExtraBList = new List<MikeScenarioExtraB>();
+                            mikeScenarioExtraBList = mikeScenarioService.GetMikeScenarioExtraBList().ToList();
+                            CheckMikeScenarioExtraBFields(mikeScenarioExtraBList);
+                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioExtraBList[0].MikeScenarioID);
+                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioExtraBList.Count);
                         }
                         else
                         {
@@ -992,7 +992,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MikeScenarioService mikeScenarioService = new MikeScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1008,21 +1008,21 @@ namespace CSSPServices.Tests
                             CheckMikeScenarioFields(mikeScenarioList);
                             Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioList[0].MikeScenarioID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MikeScenario_A> mikeScenario_AList = new List<MikeScenario_A>();
-                            mikeScenario_AList = mikeScenarioService.GetMikeScenario_AList().ToList();
-                            CheckMikeScenario_AFields(mikeScenario_AList);
-                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenario_AList[0].MikeScenarioID);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenario_AList.Count);
+                            List<MikeScenarioExtraA> mikeScenarioExtraAList = new List<MikeScenarioExtraA>();
+                            mikeScenarioExtraAList = mikeScenarioService.GetMikeScenarioExtraAList().ToList();
+                            CheckMikeScenarioExtraAFields(mikeScenarioExtraAList);
+                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioExtraAList[0].MikeScenarioID);
+                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MikeScenario_B> mikeScenario_BList = new List<MikeScenario_B>();
-                            mikeScenario_BList = mikeScenarioService.GetMikeScenario_BList().ToList();
-                            CheckMikeScenario_BFields(mikeScenario_BList);
-                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenario_BList[0].MikeScenarioID);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenario_BList.Count);
+                            List<MikeScenarioExtraB> mikeScenarioExtraBList = new List<MikeScenarioExtraB>();
+                            mikeScenarioExtraBList = mikeScenarioService.GetMikeScenarioExtraBList().ToList();
+                            CheckMikeScenarioExtraBFields(mikeScenarioExtraBList);
+                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioExtraBList[0].MikeScenarioID);
+                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioExtraBList.Count);
                         }
                         else
                         {
@@ -1044,7 +1044,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MikeScenarioService mikeScenarioService = new MikeScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1060,21 +1060,21 @@ namespace CSSPServices.Tests
                             CheckMikeScenarioFields(mikeScenarioList);
                             Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioList[0].MikeScenarioID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MikeScenario_A> mikeScenario_AList = new List<MikeScenario_A>();
-                            mikeScenario_AList = mikeScenarioService.GetMikeScenario_AList().ToList();
-                            CheckMikeScenario_AFields(mikeScenario_AList);
-                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenario_AList[0].MikeScenarioID);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenario_AList.Count);
+                            List<MikeScenarioExtraA> mikeScenarioExtraAList = new List<MikeScenarioExtraA>();
+                            mikeScenarioExtraAList = mikeScenarioService.GetMikeScenarioExtraAList().ToList();
+                            CheckMikeScenarioExtraAFields(mikeScenarioExtraAList);
+                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioExtraAList[0].MikeScenarioID);
+                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MikeScenario_B> mikeScenario_BList = new List<MikeScenario_B>();
-                            mikeScenario_BList = mikeScenarioService.GetMikeScenario_BList().ToList();
-                            CheckMikeScenario_BFields(mikeScenario_BList);
-                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenario_BList[0].MikeScenarioID);
-                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenario_BList.Count);
+                            List<MikeScenarioExtraB> mikeScenarioExtraBList = new List<MikeScenarioExtraB>();
+                            mikeScenarioExtraBList = mikeScenarioService.GetMikeScenarioExtraBList().ToList();
+                            CheckMikeScenarioExtraBFields(mikeScenarioExtraBList);
+                            Assert.AreEqual(mikeScenarioDirectQueryList[0].MikeScenarioID, mikeScenarioExtraBList[0].MikeScenarioID);
+                            Assert.AreEqual(mikeScenarioDirectQueryList.Count, mikeScenarioExtraBList.Count);
                         }
                         else
                         {
@@ -1171,189 +1171,189 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(mikeScenarioList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(mikeScenarioList[0].HasErrors);
         }
-        private void CheckMikeScenario_AFields(List<MikeScenario_A> mikeScenario_AList)
+        private void CheckMikeScenarioExtraAFields(List<MikeScenarioExtraA> mikeScenarioExtraAList)
         {
-            Assert.IsNotNull(mikeScenario_AList[0].MikeScenarioTVItemLanguage);
-            Assert.IsNotNull(mikeScenario_AList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(mikeScenario_AList[0].ScenarioStatusText))
+            Assert.IsNotNull(mikeScenarioExtraAList[0].MikeScenarioTVItemLanguage);
+            Assert.IsNotNull(mikeScenarioExtraAList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(mikeScenarioExtraAList[0].ScenarioStatusText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenario_AList[0].ScenarioStatusText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioExtraAList[0].ScenarioStatusText));
             }
-            Assert.IsNotNull(mikeScenario_AList[0].MikeScenarioID);
-            Assert.IsNotNull(mikeScenario_AList[0].MikeScenarioTVItemID);
-            if (mikeScenario_AList[0].ParentMikeScenarioID != null)
+            Assert.IsNotNull(mikeScenarioExtraAList[0].MikeScenarioID);
+            Assert.IsNotNull(mikeScenarioExtraAList[0].MikeScenarioTVItemID);
+            if (mikeScenarioExtraAList[0].ParentMikeScenarioID != null)
             {
-                Assert.IsNotNull(mikeScenario_AList[0].ParentMikeScenarioID);
+                Assert.IsNotNull(mikeScenarioExtraAList[0].ParentMikeScenarioID);
             }
-            Assert.IsNotNull(mikeScenario_AList[0].ScenarioStatus);
-            if (!string.IsNullOrWhiteSpace(mikeScenario_AList[0].ErrorInfo))
+            Assert.IsNotNull(mikeScenarioExtraAList[0].ScenarioStatus);
+            if (!string.IsNullOrWhiteSpace(mikeScenarioExtraAList[0].ErrorInfo))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenario_AList[0].ErrorInfo));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioExtraAList[0].ErrorInfo));
             }
-            Assert.IsNotNull(mikeScenario_AList[0].MikeScenarioStartDateTime_Local);
-            Assert.IsNotNull(mikeScenario_AList[0].MikeScenarioEndDateTime_Local);
-            if (mikeScenario_AList[0].MikeScenarioStartExecutionDateTime_Local != null)
+            Assert.IsNotNull(mikeScenarioExtraAList[0].MikeScenarioStartDateTime_Local);
+            Assert.IsNotNull(mikeScenarioExtraAList[0].MikeScenarioEndDateTime_Local);
+            if (mikeScenarioExtraAList[0].MikeScenarioStartExecutionDateTime_Local != null)
             {
-                Assert.IsNotNull(mikeScenario_AList[0].MikeScenarioStartExecutionDateTime_Local);
+                Assert.IsNotNull(mikeScenarioExtraAList[0].MikeScenarioStartExecutionDateTime_Local);
             }
-            if (mikeScenario_AList[0].MikeScenarioExecutionTime_min != null)
+            if (mikeScenarioExtraAList[0].MikeScenarioExecutionTime_min != null)
             {
-                Assert.IsNotNull(mikeScenario_AList[0].MikeScenarioExecutionTime_min);
+                Assert.IsNotNull(mikeScenarioExtraAList[0].MikeScenarioExecutionTime_min);
             }
-            Assert.IsNotNull(mikeScenario_AList[0].WindSpeed_km_h);
-            Assert.IsNotNull(mikeScenario_AList[0].WindDirection_deg);
-            Assert.IsNotNull(mikeScenario_AList[0].DecayFactor_per_day);
-            Assert.IsNotNull(mikeScenario_AList[0].DecayIsConstant);
-            Assert.IsNotNull(mikeScenario_AList[0].DecayFactorAmplitude);
-            Assert.IsNotNull(mikeScenario_AList[0].ResultFrequency_min);
-            Assert.IsNotNull(mikeScenario_AList[0].AmbientTemperature_C);
-            Assert.IsNotNull(mikeScenario_AList[0].AmbientSalinity_PSU);
-            if (mikeScenario_AList[0].GenerateDecouplingFiles != null)
+            Assert.IsNotNull(mikeScenarioExtraAList[0].WindSpeed_km_h);
+            Assert.IsNotNull(mikeScenarioExtraAList[0].WindDirection_deg);
+            Assert.IsNotNull(mikeScenarioExtraAList[0].DecayFactor_per_day);
+            Assert.IsNotNull(mikeScenarioExtraAList[0].DecayIsConstant);
+            Assert.IsNotNull(mikeScenarioExtraAList[0].DecayFactorAmplitude);
+            Assert.IsNotNull(mikeScenarioExtraAList[0].ResultFrequency_min);
+            Assert.IsNotNull(mikeScenarioExtraAList[0].AmbientTemperature_C);
+            Assert.IsNotNull(mikeScenarioExtraAList[0].AmbientSalinity_PSU);
+            if (mikeScenarioExtraAList[0].GenerateDecouplingFiles != null)
             {
-                Assert.IsNotNull(mikeScenario_AList[0].GenerateDecouplingFiles);
+                Assert.IsNotNull(mikeScenarioExtraAList[0].GenerateDecouplingFiles);
             }
-            if (mikeScenario_AList[0].UseDecouplingFiles != null)
+            if (mikeScenarioExtraAList[0].UseDecouplingFiles != null)
             {
-                Assert.IsNotNull(mikeScenario_AList[0].UseDecouplingFiles);
+                Assert.IsNotNull(mikeScenarioExtraAList[0].UseDecouplingFiles);
             }
-            if (mikeScenario_AList[0].UseSalinityAndTemperatureInitialConditionFromTVFileTVItemID != null)
+            if (mikeScenarioExtraAList[0].UseSalinityAndTemperatureInitialConditionFromTVFileTVItemID != null)
             {
-                Assert.IsNotNull(mikeScenario_AList[0].UseSalinityAndTemperatureInitialConditionFromTVFileTVItemID);
+                Assert.IsNotNull(mikeScenarioExtraAList[0].UseSalinityAndTemperatureInitialConditionFromTVFileTVItemID);
             }
-            if (mikeScenario_AList[0].ForSimulatingMWQMRunTVItemID != null)
+            if (mikeScenarioExtraAList[0].ForSimulatingMWQMRunTVItemID != null)
             {
-                Assert.IsNotNull(mikeScenario_AList[0].ForSimulatingMWQMRunTVItemID);
+                Assert.IsNotNull(mikeScenarioExtraAList[0].ForSimulatingMWQMRunTVItemID);
             }
-            Assert.IsNotNull(mikeScenario_AList[0].ManningNumber);
-            if (mikeScenario_AList[0].NumberOfElements != null)
+            Assert.IsNotNull(mikeScenarioExtraAList[0].ManningNumber);
+            if (mikeScenarioExtraAList[0].NumberOfElements != null)
             {
-                Assert.IsNotNull(mikeScenario_AList[0].NumberOfElements);
+                Assert.IsNotNull(mikeScenarioExtraAList[0].NumberOfElements);
             }
-            if (mikeScenario_AList[0].NumberOfTimeSteps != null)
+            if (mikeScenarioExtraAList[0].NumberOfTimeSteps != null)
             {
-                Assert.IsNotNull(mikeScenario_AList[0].NumberOfTimeSteps);
+                Assert.IsNotNull(mikeScenarioExtraAList[0].NumberOfTimeSteps);
             }
-            if (mikeScenario_AList[0].NumberOfSigmaLayers != null)
+            if (mikeScenarioExtraAList[0].NumberOfSigmaLayers != null)
             {
-                Assert.IsNotNull(mikeScenario_AList[0].NumberOfSigmaLayers);
+                Assert.IsNotNull(mikeScenarioExtraAList[0].NumberOfSigmaLayers);
             }
-            if (mikeScenario_AList[0].NumberOfZLayers != null)
+            if (mikeScenarioExtraAList[0].NumberOfZLayers != null)
             {
-                Assert.IsNotNull(mikeScenario_AList[0].NumberOfZLayers);
+                Assert.IsNotNull(mikeScenarioExtraAList[0].NumberOfZLayers);
             }
-            if (mikeScenario_AList[0].NumberOfHydroOutputParameters != null)
+            if (mikeScenarioExtraAList[0].NumberOfHydroOutputParameters != null)
             {
-                Assert.IsNotNull(mikeScenario_AList[0].NumberOfHydroOutputParameters);
+                Assert.IsNotNull(mikeScenarioExtraAList[0].NumberOfHydroOutputParameters);
             }
-            if (mikeScenario_AList[0].NumberOfTransOutputParameters != null)
+            if (mikeScenarioExtraAList[0].NumberOfTransOutputParameters != null)
             {
-                Assert.IsNotNull(mikeScenario_AList[0].NumberOfTransOutputParameters);
+                Assert.IsNotNull(mikeScenarioExtraAList[0].NumberOfTransOutputParameters);
             }
-            if (mikeScenario_AList[0].EstimatedHydroFileSize != null)
+            if (mikeScenarioExtraAList[0].EstimatedHydroFileSize != null)
             {
-                Assert.IsNotNull(mikeScenario_AList[0].EstimatedHydroFileSize);
+                Assert.IsNotNull(mikeScenarioExtraAList[0].EstimatedHydroFileSize);
             }
-            if (mikeScenario_AList[0].EstimatedTransFileSize != null)
+            if (mikeScenarioExtraAList[0].EstimatedTransFileSize != null)
             {
-                Assert.IsNotNull(mikeScenario_AList[0].EstimatedTransFileSize);
+                Assert.IsNotNull(mikeScenarioExtraAList[0].EstimatedTransFileSize);
             }
-            Assert.IsNotNull(mikeScenario_AList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(mikeScenario_AList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(mikeScenario_AList[0].HasErrors);
+            Assert.IsNotNull(mikeScenarioExtraAList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(mikeScenarioExtraAList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(mikeScenarioExtraAList[0].HasErrors);
         }
-        private void CheckMikeScenario_BFields(List<MikeScenario_B> mikeScenario_BList)
+        private void CheckMikeScenarioExtraBFields(List<MikeScenarioExtraB> mikeScenarioExtraBList)
         {
-            if (!string.IsNullOrWhiteSpace(mikeScenario_BList[0].MikeScenarioReportTest))
+            if (!string.IsNullOrWhiteSpace(mikeScenarioExtraBList[0].MikeScenarioReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenario_BList[0].MikeScenarioReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioExtraBList[0].MikeScenarioReportTest));
             }
-            Assert.IsNotNull(mikeScenario_BList[0].MikeScenarioTVItemLanguage);
-            Assert.IsNotNull(mikeScenario_BList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(mikeScenario_BList[0].ScenarioStatusText))
+            Assert.IsNotNull(mikeScenarioExtraBList[0].MikeScenarioTVItemLanguage);
+            Assert.IsNotNull(mikeScenarioExtraBList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(mikeScenarioExtraBList[0].ScenarioStatusText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenario_BList[0].ScenarioStatusText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioExtraBList[0].ScenarioStatusText));
             }
-            Assert.IsNotNull(mikeScenario_BList[0].MikeScenarioID);
-            Assert.IsNotNull(mikeScenario_BList[0].MikeScenarioTVItemID);
-            if (mikeScenario_BList[0].ParentMikeScenarioID != null)
+            Assert.IsNotNull(mikeScenarioExtraBList[0].MikeScenarioID);
+            Assert.IsNotNull(mikeScenarioExtraBList[0].MikeScenarioTVItemID);
+            if (mikeScenarioExtraBList[0].ParentMikeScenarioID != null)
             {
-                Assert.IsNotNull(mikeScenario_BList[0].ParentMikeScenarioID);
+                Assert.IsNotNull(mikeScenarioExtraBList[0].ParentMikeScenarioID);
             }
-            Assert.IsNotNull(mikeScenario_BList[0].ScenarioStatus);
-            if (!string.IsNullOrWhiteSpace(mikeScenario_BList[0].ErrorInfo))
+            Assert.IsNotNull(mikeScenarioExtraBList[0].ScenarioStatus);
+            if (!string.IsNullOrWhiteSpace(mikeScenarioExtraBList[0].ErrorInfo))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenario_BList[0].ErrorInfo));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioExtraBList[0].ErrorInfo));
             }
-            Assert.IsNotNull(mikeScenario_BList[0].MikeScenarioStartDateTime_Local);
-            Assert.IsNotNull(mikeScenario_BList[0].MikeScenarioEndDateTime_Local);
-            if (mikeScenario_BList[0].MikeScenarioStartExecutionDateTime_Local != null)
+            Assert.IsNotNull(mikeScenarioExtraBList[0].MikeScenarioStartDateTime_Local);
+            Assert.IsNotNull(mikeScenarioExtraBList[0].MikeScenarioEndDateTime_Local);
+            if (mikeScenarioExtraBList[0].MikeScenarioStartExecutionDateTime_Local != null)
             {
-                Assert.IsNotNull(mikeScenario_BList[0].MikeScenarioStartExecutionDateTime_Local);
+                Assert.IsNotNull(mikeScenarioExtraBList[0].MikeScenarioStartExecutionDateTime_Local);
             }
-            if (mikeScenario_BList[0].MikeScenarioExecutionTime_min != null)
+            if (mikeScenarioExtraBList[0].MikeScenarioExecutionTime_min != null)
             {
-                Assert.IsNotNull(mikeScenario_BList[0].MikeScenarioExecutionTime_min);
+                Assert.IsNotNull(mikeScenarioExtraBList[0].MikeScenarioExecutionTime_min);
             }
-            Assert.IsNotNull(mikeScenario_BList[0].WindSpeed_km_h);
-            Assert.IsNotNull(mikeScenario_BList[0].WindDirection_deg);
-            Assert.IsNotNull(mikeScenario_BList[0].DecayFactor_per_day);
-            Assert.IsNotNull(mikeScenario_BList[0].DecayIsConstant);
-            Assert.IsNotNull(mikeScenario_BList[0].DecayFactorAmplitude);
-            Assert.IsNotNull(mikeScenario_BList[0].ResultFrequency_min);
-            Assert.IsNotNull(mikeScenario_BList[0].AmbientTemperature_C);
-            Assert.IsNotNull(mikeScenario_BList[0].AmbientSalinity_PSU);
-            if (mikeScenario_BList[0].GenerateDecouplingFiles != null)
+            Assert.IsNotNull(mikeScenarioExtraBList[0].WindSpeed_km_h);
+            Assert.IsNotNull(mikeScenarioExtraBList[0].WindDirection_deg);
+            Assert.IsNotNull(mikeScenarioExtraBList[0].DecayFactor_per_day);
+            Assert.IsNotNull(mikeScenarioExtraBList[0].DecayIsConstant);
+            Assert.IsNotNull(mikeScenarioExtraBList[0].DecayFactorAmplitude);
+            Assert.IsNotNull(mikeScenarioExtraBList[0].ResultFrequency_min);
+            Assert.IsNotNull(mikeScenarioExtraBList[0].AmbientTemperature_C);
+            Assert.IsNotNull(mikeScenarioExtraBList[0].AmbientSalinity_PSU);
+            if (mikeScenarioExtraBList[0].GenerateDecouplingFiles != null)
             {
-                Assert.IsNotNull(mikeScenario_BList[0].GenerateDecouplingFiles);
+                Assert.IsNotNull(mikeScenarioExtraBList[0].GenerateDecouplingFiles);
             }
-            if (mikeScenario_BList[0].UseDecouplingFiles != null)
+            if (mikeScenarioExtraBList[0].UseDecouplingFiles != null)
             {
-                Assert.IsNotNull(mikeScenario_BList[0].UseDecouplingFiles);
+                Assert.IsNotNull(mikeScenarioExtraBList[0].UseDecouplingFiles);
             }
-            if (mikeScenario_BList[0].UseSalinityAndTemperatureInitialConditionFromTVFileTVItemID != null)
+            if (mikeScenarioExtraBList[0].UseSalinityAndTemperatureInitialConditionFromTVFileTVItemID != null)
             {
-                Assert.IsNotNull(mikeScenario_BList[0].UseSalinityAndTemperatureInitialConditionFromTVFileTVItemID);
+                Assert.IsNotNull(mikeScenarioExtraBList[0].UseSalinityAndTemperatureInitialConditionFromTVFileTVItemID);
             }
-            if (mikeScenario_BList[0].ForSimulatingMWQMRunTVItemID != null)
+            if (mikeScenarioExtraBList[0].ForSimulatingMWQMRunTVItemID != null)
             {
-                Assert.IsNotNull(mikeScenario_BList[0].ForSimulatingMWQMRunTVItemID);
+                Assert.IsNotNull(mikeScenarioExtraBList[0].ForSimulatingMWQMRunTVItemID);
             }
-            Assert.IsNotNull(mikeScenario_BList[0].ManningNumber);
-            if (mikeScenario_BList[0].NumberOfElements != null)
+            Assert.IsNotNull(mikeScenarioExtraBList[0].ManningNumber);
+            if (mikeScenarioExtraBList[0].NumberOfElements != null)
             {
-                Assert.IsNotNull(mikeScenario_BList[0].NumberOfElements);
+                Assert.IsNotNull(mikeScenarioExtraBList[0].NumberOfElements);
             }
-            if (mikeScenario_BList[0].NumberOfTimeSteps != null)
+            if (mikeScenarioExtraBList[0].NumberOfTimeSteps != null)
             {
-                Assert.IsNotNull(mikeScenario_BList[0].NumberOfTimeSteps);
+                Assert.IsNotNull(mikeScenarioExtraBList[0].NumberOfTimeSteps);
             }
-            if (mikeScenario_BList[0].NumberOfSigmaLayers != null)
+            if (mikeScenarioExtraBList[0].NumberOfSigmaLayers != null)
             {
-                Assert.IsNotNull(mikeScenario_BList[0].NumberOfSigmaLayers);
+                Assert.IsNotNull(mikeScenarioExtraBList[0].NumberOfSigmaLayers);
             }
-            if (mikeScenario_BList[0].NumberOfZLayers != null)
+            if (mikeScenarioExtraBList[0].NumberOfZLayers != null)
             {
-                Assert.IsNotNull(mikeScenario_BList[0].NumberOfZLayers);
+                Assert.IsNotNull(mikeScenarioExtraBList[0].NumberOfZLayers);
             }
-            if (mikeScenario_BList[0].NumberOfHydroOutputParameters != null)
+            if (mikeScenarioExtraBList[0].NumberOfHydroOutputParameters != null)
             {
-                Assert.IsNotNull(mikeScenario_BList[0].NumberOfHydroOutputParameters);
+                Assert.IsNotNull(mikeScenarioExtraBList[0].NumberOfHydroOutputParameters);
             }
-            if (mikeScenario_BList[0].NumberOfTransOutputParameters != null)
+            if (mikeScenarioExtraBList[0].NumberOfTransOutputParameters != null)
             {
-                Assert.IsNotNull(mikeScenario_BList[0].NumberOfTransOutputParameters);
+                Assert.IsNotNull(mikeScenarioExtraBList[0].NumberOfTransOutputParameters);
             }
-            if (mikeScenario_BList[0].EstimatedHydroFileSize != null)
+            if (mikeScenarioExtraBList[0].EstimatedHydroFileSize != null)
             {
-                Assert.IsNotNull(mikeScenario_BList[0].EstimatedHydroFileSize);
+                Assert.IsNotNull(mikeScenarioExtraBList[0].EstimatedHydroFileSize);
             }
-            if (mikeScenario_BList[0].EstimatedTransFileSize != null)
+            if (mikeScenarioExtraBList[0].EstimatedTransFileSize != null)
             {
-                Assert.IsNotNull(mikeScenario_BList[0].EstimatedTransFileSize);
+                Assert.IsNotNull(mikeScenarioExtraBList[0].EstimatedTransFileSize);
             }
-            Assert.IsNotNull(mikeScenario_BList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(mikeScenario_BList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(mikeScenario_BList[0].HasErrors);
+            Assert.IsNotNull(mikeScenarioExtraBList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(mikeScenarioExtraBList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(mikeScenarioExtraBList[0].HasErrors);
         }
         private MikeScenario GetFilledRandomMikeScenario(string OmitPropName)
         {

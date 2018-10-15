@@ -151,31 +151,31 @@ namespace CSSPServices
 
             return AppTaskLanguageQuery;
         }
-        public AppTaskLanguage_A GetAppTaskLanguage_AWithAppTaskLanguageID(int AppTaskLanguageID)
+        public AppTaskLanguageExtraA GetAppTaskLanguageExtraAWithAppTaskLanguageID(int AppTaskLanguageID)
         {
-            return FillAppTaskLanguage_A().Where(c => c.AppTaskLanguageID == AppTaskLanguageID).FirstOrDefault();
+            return FillAppTaskLanguageExtraA().Where(c => c.AppTaskLanguageID == AppTaskLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<AppTaskLanguage_A> GetAppTaskLanguage_AList()
+        public IQueryable<AppTaskLanguageExtraA> GetAppTaskLanguageExtraAList()
         {
-            IQueryable<AppTaskLanguage_A> AppTaskLanguage_AQuery = FillAppTaskLanguage_A();
+            IQueryable<AppTaskLanguageExtraA> AppTaskLanguageExtraAQuery = FillAppTaskLanguageExtraA();
 
-            AppTaskLanguage_AQuery = EnhanceQueryStatements<AppTaskLanguage_A>(AppTaskLanguage_AQuery) as IQueryable<AppTaskLanguage_A>;
+            AppTaskLanguageExtraAQuery = EnhanceQueryStatements<AppTaskLanguageExtraA>(AppTaskLanguageExtraAQuery) as IQueryable<AppTaskLanguageExtraA>;
 
-            return AppTaskLanguage_AQuery;
+            return AppTaskLanguageExtraAQuery;
         }
-        public AppTaskLanguage_B GetAppTaskLanguage_BWithAppTaskLanguageID(int AppTaskLanguageID)
+        public AppTaskLanguageExtraB GetAppTaskLanguageExtraBWithAppTaskLanguageID(int AppTaskLanguageID)
         {
-            return FillAppTaskLanguage_B().Where(c => c.AppTaskLanguageID == AppTaskLanguageID).FirstOrDefault();
+            return FillAppTaskLanguageExtraB().Where(c => c.AppTaskLanguageID == AppTaskLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<AppTaskLanguage_B> GetAppTaskLanguage_BList()
+        public IQueryable<AppTaskLanguageExtraB> GetAppTaskLanguageExtraBList()
         {
-            IQueryable<AppTaskLanguage_B> AppTaskLanguage_BQuery = FillAppTaskLanguage_B();
+            IQueryable<AppTaskLanguageExtraB> AppTaskLanguageExtraBQuery = FillAppTaskLanguageExtraB();
 
-            AppTaskLanguage_BQuery = EnhanceQueryStatements<AppTaskLanguage_B>(AppTaskLanguage_BQuery) as IQueryable<AppTaskLanguage_B>;
+            AppTaskLanguageExtraBQuery = EnhanceQueryStatements<AppTaskLanguageExtraB>(AppTaskLanguageExtraBQuery) as IQueryable<AppTaskLanguageExtraB>;
 
-            return AppTaskLanguage_BQuery;
+            return AppTaskLanguageExtraBQuery;
         }
         #endregion Functions public Generated Get
 

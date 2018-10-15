@@ -247,31 +247,31 @@ namespace CSSPServices
 
             return ClimateDataValueQuery;
         }
-        public ClimateDataValue_A GetClimateDataValue_AWithClimateDataValueID(int ClimateDataValueID)
+        public ClimateDataValueExtraA GetClimateDataValueExtraAWithClimateDataValueID(int ClimateDataValueID)
         {
-            return FillClimateDataValue_A().Where(c => c.ClimateDataValueID == ClimateDataValueID).FirstOrDefault();
+            return FillClimateDataValueExtraA().Where(c => c.ClimateDataValueID == ClimateDataValueID).FirstOrDefault();
 
         }
-        public IQueryable<ClimateDataValue_A> GetClimateDataValue_AList()
+        public IQueryable<ClimateDataValueExtraA> GetClimateDataValueExtraAList()
         {
-            IQueryable<ClimateDataValue_A> ClimateDataValue_AQuery = FillClimateDataValue_A();
+            IQueryable<ClimateDataValueExtraA> ClimateDataValueExtraAQuery = FillClimateDataValueExtraA();
 
-            ClimateDataValue_AQuery = EnhanceQueryStatements<ClimateDataValue_A>(ClimateDataValue_AQuery) as IQueryable<ClimateDataValue_A>;
+            ClimateDataValueExtraAQuery = EnhanceQueryStatements<ClimateDataValueExtraA>(ClimateDataValueExtraAQuery) as IQueryable<ClimateDataValueExtraA>;
 
-            return ClimateDataValue_AQuery;
+            return ClimateDataValueExtraAQuery;
         }
-        public ClimateDataValue_B GetClimateDataValue_BWithClimateDataValueID(int ClimateDataValueID)
+        public ClimateDataValueExtraB GetClimateDataValueExtraBWithClimateDataValueID(int ClimateDataValueID)
         {
-            return FillClimateDataValue_B().Where(c => c.ClimateDataValueID == ClimateDataValueID).FirstOrDefault();
+            return FillClimateDataValueExtraB().Where(c => c.ClimateDataValueID == ClimateDataValueID).FirstOrDefault();
 
         }
-        public IQueryable<ClimateDataValue_B> GetClimateDataValue_BList()
+        public IQueryable<ClimateDataValueExtraB> GetClimateDataValueExtraBList()
         {
-            IQueryable<ClimateDataValue_B> ClimateDataValue_BQuery = FillClimateDataValue_B();
+            IQueryable<ClimateDataValueExtraB> ClimateDataValueExtraBQuery = FillClimateDataValueExtraB();
 
-            ClimateDataValue_BQuery = EnhanceQueryStatements<ClimateDataValue_B>(ClimateDataValue_BQuery) as IQueryable<ClimateDataValue_B>;
+            ClimateDataValueExtraBQuery = EnhanceQueryStatements<ClimateDataValueExtraB>(ClimateDataValueExtraBQuery) as IQueryable<ClimateDataValueExtraB>;
 
-            return ClimateDataValue_BQuery;
+            return ClimateDataValueExtraBQuery;
         }
         #endregion Functions public Generated Get
 

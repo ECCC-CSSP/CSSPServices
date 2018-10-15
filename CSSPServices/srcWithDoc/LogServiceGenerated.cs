@@ -150,31 +150,31 @@ namespace CSSPServices
 
             return LogQuery;
         }
-        public Log_A GetLog_AWithLogID(int LogID)
+        public LogExtraA GetLogExtraAWithLogID(int LogID)
         {
-            return FillLog_A().Where(c => c.LogID == LogID).FirstOrDefault();
+            return FillLogExtraA().Where(c => c.LogID == LogID).FirstOrDefault();
 
         }
-        public IQueryable<Log_A> GetLog_AList()
+        public IQueryable<LogExtraA> GetLogExtraAList()
         {
-            IQueryable<Log_A> Log_AQuery = FillLog_A();
+            IQueryable<LogExtraA> LogExtraAQuery = FillLogExtraA();
 
-            Log_AQuery = EnhanceQueryStatements<Log_A>(Log_AQuery) as IQueryable<Log_A>;
+            LogExtraAQuery = EnhanceQueryStatements<LogExtraA>(LogExtraAQuery) as IQueryable<LogExtraA>;
 
-            return Log_AQuery;
+            return LogExtraAQuery;
         }
-        public Log_B GetLog_BWithLogID(int LogID)
+        public LogExtraB GetLogExtraBWithLogID(int LogID)
         {
-            return FillLog_B().Where(c => c.LogID == LogID).FirstOrDefault();
+            return FillLogExtraB().Where(c => c.LogID == LogID).FirstOrDefault();
 
         }
-        public IQueryable<Log_B> GetLog_BList()
+        public IQueryable<LogExtraB> GetLogExtraBList()
         {
-            IQueryable<Log_B> Log_BQuery = FillLog_B();
+            IQueryable<LogExtraB> LogExtraBQuery = FillLogExtraB();
 
-            Log_BQuery = EnhanceQueryStatements<Log_B>(Log_BQuery) as IQueryable<Log_B>;
+            LogExtraBQuery = EnhanceQueryStatements<LogExtraB>(LogExtraBQuery) as IQueryable<LogExtraB>;
 
-            return Log_BQuery;
+            return LogExtraBQuery;
         }
         #endregion Functions public Generated Get
 

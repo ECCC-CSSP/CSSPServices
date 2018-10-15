@@ -165,31 +165,31 @@ namespace CSSPServices
 
             return ResetPasswordQuery;
         }
-        public ResetPassword_A GetResetPassword_AWithResetPasswordID(int ResetPasswordID)
+        public ResetPasswordExtraA GetResetPasswordExtraAWithResetPasswordID(int ResetPasswordID)
         {
-            return FillResetPassword_A().Where(c => c.ResetPasswordID == ResetPasswordID).FirstOrDefault();
+            return FillResetPasswordExtraA().Where(c => c.ResetPasswordID == ResetPasswordID).FirstOrDefault();
 
         }
-        public IQueryable<ResetPassword_A> GetResetPassword_AList()
+        public IQueryable<ResetPasswordExtraA> GetResetPasswordExtraAList()
         {
-            IQueryable<ResetPassword_A> ResetPassword_AQuery = FillResetPassword_A();
+            IQueryable<ResetPasswordExtraA> ResetPasswordExtraAQuery = FillResetPasswordExtraA();
 
-            ResetPassword_AQuery = EnhanceQueryStatements<ResetPassword_A>(ResetPassword_AQuery) as IQueryable<ResetPassword_A>;
+            ResetPasswordExtraAQuery = EnhanceQueryStatements<ResetPasswordExtraA>(ResetPasswordExtraAQuery) as IQueryable<ResetPasswordExtraA>;
 
-            return ResetPassword_AQuery;
+            return ResetPasswordExtraAQuery;
         }
-        public ResetPassword_B GetResetPassword_BWithResetPasswordID(int ResetPasswordID)
+        public ResetPasswordExtraB GetResetPasswordExtraBWithResetPasswordID(int ResetPasswordID)
         {
-            return FillResetPassword_B().Where(c => c.ResetPasswordID == ResetPasswordID).FirstOrDefault();
+            return FillResetPasswordExtraB().Where(c => c.ResetPasswordID == ResetPasswordID).FirstOrDefault();
 
         }
-        public IQueryable<ResetPassword_B> GetResetPassword_BList()
+        public IQueryable<ResetPasswordExtraB> GetResetPasswordExtraBList()
         {
-            IQueryable<ResetPassword_B> ResetPassword_BQuery = FillResetPassword_B();
+            IQueryable<ResetPasswordExtraB> ResetPasswordExtraBQuery = FillResetPasswordExtraB();
 
-            ResetPassword_BQuery = EnhanceQueryStatements<ResetPassword_B>(ResetPassword_BQuery) as IQueryable<ResetPassword_B>;
+            ResetPasswordExtraBQuery = EnhanceQueryStatements<ResetPasswordExtraB>(ResetPasswordExtraBQuery) as IQueryable<ResetPasswordExtraB>;
 
-            return ResetPassword_BQuery;
+            return ResetPasswordExtraBQuery;
         }
         #endregion Functions public Generated Get
 

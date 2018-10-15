@@ -165,57 +165,57 @@ namespace CSSPServices
 
             return AppErrLogQuery;
         }
-        public AppErrLog_A GetAppErrLog_AWithAppErrLogID(int AppErrLogID)
+        public AppErrLogExtraA GetAppErrLogExtraAWithAppErrLogID(int AppErrLogID)
         {
-            return FillAppErrLog_A().Where(c => c.AppErrLogID == AppErrLogID).FirstOrDefault();
+            return FillAppErrLogExtraA().Where(c => c.AppErrLogID == AppErrLogID).FirstOrDefault();
 
         }
-        public IQueryable<AppErrLog_A> GetAppErrLog_AList()
+        public IQueryable<AppErrLogExtraA> GetAppErrLogExtraAList()
         {
-            IQueryable<AppErrLog_A> AppErrLog_AQuery = FillAppErrLog_A();
+            IQueryable<AppErrLogExtraA> AppErrLogExtraAQuery = FillAppErrLogExtraA();
 
-            AppErrLog_AQuery = EnhanceQueryStatements<AppErrLog_A>(AppErrLog_AQuery) as IQueryable<AppErrLog_A>;
+            AppErrLogExtraAQuery = EnhanceQueryStatements<AppErrLogExtraA>(AppErrLogExtraAQuery) as IQueryable<AppErrLogExtraA>;
 
-            return AppErrLog_AQuery;
+            return AppErrLogExtraAQuery;
         }
-        public AppErrLog_B GetAppErrLog_BWithAppErrLogID(int AppErrLogID)
+        public AppErrLogExtraB GetAppErrLogExtraBWithAppErrLogID(int AppErrLogID)
         {
-            return FillAppErrLog_B().Where(c => c.AppErrLogID == AppErrLogID).FirstOrDefault();
-
-        }
-        public IQueryable<AppErrLog_B> GetAppErrLog_BList()
-        {
-            IQueryable<AppErrLog_B> AppErrLog_BQuery = FillAppErrLog_B();
-
-            AppErrLog_BQuery = EnhanceQueryStatements<AppErrLog_B>(AppErrLog_BQuery) as IQueryable<AppErrLog_B>;
-
-            return AppErrLog_BQuery;
-        }
-        public AppErrLog_C GetAppErrLog_CWithAppErrLogID(int AppErrLogID)
-        {
-            return FillAppErrLog_C().Where(c => c.AppErrLogID == AppErrLogID).FirstOrDefault();
+            return FillAppErrLogExtraB().Where(c => c.AppErrLogID == AppErrLogID).FirstOrDefault();
 
         }
-        public IQueryable<AppErrLog_C> GetAppErrLog_CList()
+        public IQueryable<AppErrLogExtraB> GetAppErrLogExtraBList()
         {
-            IQueryable<AppErrLog_C> AppErrLog_CQuery = FillAppErrLog_C();
+            IQueryable<AppErrLogExtraB> AppErrLogExtraBQuery = FillAppErrLogExtraB();
 
-            AppErrLog_CQuery = EnhanceQueryStatements<AppErrLog_C>(AppErrLog_CQuery) as IQueryable<AppErrLog_C>;
+            AppErrLogExtraBQuery = EnhanceQueryStatements<AppErrLogExtraB>(AppErrLogExtraBQuery) as IQueryable<AppErrLogExtraB>;
 
-            return AppErrLog_CQuery;
+            return AppErrLogExtraBQuery;
         }
-        public AppErrLog_D GetAppErrLog_DWithAppErrLogID(int AppErrLogID)
+        public AppErrLogExtraC GetAppErrLogExtraCWithAppErrLogID(int AppErrLogID)
         {
-            return FillAppErrLog_D().Where(c => c.AppErrLogID == AppErrLogID).FirstOrDefault();
+            return FillAppErrLogExtraC().Where(c => c.AppErrLogID == AppErrLogID).FirstOrDefault();
 
         }
-        public IQueryable<AppErrLog_D> GetAppErrLog_DList()
+        public IQueryable<AppErrLogExtraC> GetAppErrLogExtraCList()
         {
-            IQueryable<AppErrLog_D> AppErrLog_DQuery = FillAppErrLog_D();
+            IQueryable<AppErrLogExtraC> AppErrLogExtraCQuery = FillAppErrLogExtraC();
 
-            AppErrLog_DQuery = EnhanceQueryStatements<AppErrLog_D>(AppErrLog_DQuery) as IQueryable<AppErrLog_D>;
+            AppErrLogExtraCQuery = EnhanceQueryStatements<AppErrLogExtraC>(AppErrLogExtraCQuery) as IQueryable<AppErrLogExtraC>;
 
-            return AppErrLog_DQuery;
+            return AppErrLogExtraCQuery;
+        }
+        public AppErrLogExtraD GetAppErrLogExtraDWithAppErrLogID(int AppErrLogID)
+        {
+            return FillAppErrLogExtraD().Where(c => c.AppErrLogID == AppErrLogID).FirstOrDefault();
+
+        }
+        public IQueryable<AppErrLogExtraD> GetAppErrLogExtraDList()
+        {
+            IQueryable<AppErrLogExtraD> AppErrLogExtraDQuery = FillAppErrLogExtraD();
+
+            AppErrLogExtraDQuery = EnhanceQueryStatements<AppErrLogExtraD>(AppErrLogExtraDQuery) as IQueryable<AppErrLogExtraD>;
+
+            return AppErrLogExtraDQuery;
         }
         #endregion Functions public Generated Get
 

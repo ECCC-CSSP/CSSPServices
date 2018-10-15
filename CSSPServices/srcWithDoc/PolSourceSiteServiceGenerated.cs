@@ -203,31 +203,31 @@ namespace CSSPServices
 
             return PolSourceSiteQuery;
         }
-        public PolSourceSite_A GetPolSourceSite_AWithPolSourceSiteID(int PolSourceSiteID)
+        public PolSourceSiteExtraA GetPolSourceSiteExtraAWithPolSourceSiteID(int PolSourceSiteID)
         {
-            return FillPolSourceSite_A().Where(c => c.PolSourceSiteID == PolSourceSiteID).FirstOrDefault();
+            return FillPolSourceSiteExtraA().Where(c => c.PolSourceSiteID == PolSourceSiteID).FirstOrDefault();
 
         }
-        public IQueryable<PolSourceSite_A> GetPolSourceSite_AList()
+        public IQueryable<PolSourceSiteExtraA> GetPolSourceSiteExtraAList()
         {
-            IQueryable<PolSourceSite_A> PolSourceSite_AQuery = FillPolSourceSite_A();
+            IQueryable<PolSourceSiteExtraA> PolSourceSiteExtraAQuery = FillPolSourceSiteExtraA();
 
-            PolSourceSite_AQuery = EnhanceQueryStatements<PolSourceSite_A>(PolSourceSite_AQuery) as IQueryable<PolSourceSite_A>;
+            PolSourceSiteExtraAQuery = EnhanceQueryStatements<PolSourceSiteExtraA>(PolSourceSiteExtraAQuery) as IQueryable<PolSourceSiteExtraA>;
 
-            return PolSourceSite_AQuery;
+            return PolSourceSiteExtraAQuery;
         }
-        public PolSourceSite_B GetPolSourceSite_BWithPolSourceSiteID(int PolSourceSiteID)
+        public PolSourceSiteExtraB GetPolSourceSiteExtraBWithPolSourceSiteID(int PolSourceSiteID)
         {
-            return FillPolSourceSite_B().Where(c => c.PolSourceSiteID == PolSourceSiteID).FirstOrDefault();
+            return FillPolSourceSiteExtraB().Where(c => c.PolSourceSiteID == PolSourceSiteID).FirstOrDefault();
 
         }
-        public IQueryable<PolSourceSite_B> GetPolSourceSite_BList()
+        public IQueryable<PolSourceSiteExtraB> GetPolSourceSiteExtraBList()
         {
-            IQueryable<PolSourceSite_B> PolSourceSite_BQuery = FillPolSourceSite_B();
+            IQueryable<PolSourceSiteExtraB> PolSourceSiteExtraBQuery = FillPolSourceSiteExtraB();
 
-            PolSourceSite_BQuery = EnhanceQueryStatements<PolSourceSite_B>(PolSourceSite_BQuery) as IQueryable<PolSourceSite_B>;
+            PolSourceSiteExtraBQuery = EnhanceQueryStatements<PolSourceSiteExtraB>(PolSourceSiteExtraBQuery) as IQueryable<PolSourceSiteExtraB>;
 
-            return PolSourceSite_BQuery;
+            return PolSourceSiteExtraBQuery;
         }
         #endregion Functions public Generated Get
 

@@ -254,31 +254,31 @@ namespace CSSPServices
 
             return ClimateSiteQuery;
         }
-        public ClimateSite_A GetClimateSite_AWithClimateSiteID(int ClimateSiteID)
+        public ClimateSiteExtraA GetClimateSiteExtraAWithClimateSiteID(int ClimateSiteID)
         {
-            return FillClimateSite_A().Where(c => c.ClimateSiteID == ClimateSiteID).FirstOrDefault();
+            return FillClimateSiteExtraA().Where(c => c.ClimateSiteID == ClimateSiteID).FirstOrDefault();
 
         }
-        public IQueryable<ClimateSite_A> GetClimateSite_AList()
+        public IQueryable<ClimateSiteExtraA> GetClimateSiteExtraAList()
         {
-            IQueryable<ClimateSite_A> ClimateSite_AQuery = FillClimateSite_A();
+            IQueryable<ClimateSiteExtraA> ClimateSiteExtraAQuery = FillClimateSiteExtraA();
 
-            ClimateSite_AQuery = EnhanceQueryStatements<ClimateSite_A>(ClimateSite_AQuery) as IQueryable<ClimateSite_A>;
+            ClimateSiteExtraAQuery = EnhanceQueryStatements<ClimateSiteExtraA>(ClimateSiteExtraAQuery) as IQueryable<ClimateSiteExtraA>;
 
-            return ClimateSite_AQuery;
+            return ClimateSiteExtraAQuery;
         }
-        public ClimateSite_B GetClimateSite_BWithClimateSiteID(int ClimateSiteID)
+        public ClimateSiteExtraB GetClimateSiteExtraBWithClimateSiteID(int ClimateSiteID)
         {
-            return FillClimateSite_B().Where(c => c.ClimateSiteID == ClimateSiteID).FirstOrDefault();
+            return FillClimateSiteExtraB().Where(c => c.ClimateSiteID == ClimateSiteID).FirstOrDefault();
 
         }
-        public IQueryable<ClimateSite_B> GetClimateSite_BList()
+        public IQueryable<ClimateSiteExtraB> GetClimateSiteExtraBList()
         {
-            IQueryable<ClimateSite_B> ClimateSite_BQuery = FillClimateSite_B();
+            IQueryable<ClimateSiteExtraB> ClimateSiteExtraBQuery = FillClimateSiteExtraB();
 
-            ClimateSite_BQuery = EnhanceQueryStatements<ClimateSite_B>(ClimateSite_BQuery) as IQueryable<ClimateSite_B>;
+            ClimateSiteExtraBQuery = EnhanceQueryStatements<ClimateSiteExtraB>(ClimateSiteExtraBQuery) as IQueryable<ClimateSiteExtraB>;
 
-            return ClimateSite_BQuery;
+            return ClimateSiteExtraBQuery;
         }
         #endregion Functions public Generated Get
 

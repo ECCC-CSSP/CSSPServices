@@ -141,31 +141,31 @@ namespace CSSPServices
 
             return TVFileLanguageQuery;
         }
-        public TVFileLanguage_A GetTVFileLanguage_AWithTVFileLanguageID(int TVFileLanguageID)
+        public TVFileLanguageExtraA GetTVFileLanguageExtraAWithTVFileLanguageID(int TVFileLanguageID)
         {
-            return FillTVFileLanguage_A().Where(c => c.TVFileLanguageID == TVFileLanguageID).FirstOrDefault();
+            return FillTVFileLanguageExtraA().Where(c => c.TVFileLanguageID == TVFileLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<TVFileLanguage_A> GetTVFileLanguage_AList()
+        public IQueryable<TVFileLanguageExtraA> GetTVFileLanguageExtraAList()
         {
-            IQueryable<TVFileLanguage_A> TVFileLanguage_AQuery = FillTVFileLanguage_A();
+            IQueryable<TVFileLanguageExtraA> TVFileLanguageExtraAQuery = FillTVFileLanguageExtraA();
 
-            TVFileLanguage_AQuery = EnhanceQueryStatements<TVFileLanguage_A>(TVFileLanguage_AQuery) as IQueryable<TVFileLanguage_A>;
+            TVFileLanguageExtraAQuery = EnhanceQueryStatements<TVFileLanguageExtraA>(TVFileLanguageExtraAQuery) as IQueryable<TVFileLanguageExtraA>;
 
-            return TVFileLanguage_AQuery;
+            return TVFileLanguageExtraAQuery;
         }
-        public TVFileLanguage_B GetTVFileLanguage_BWithTVFileLanguageID(int TVFileLanguageID)
+        public TVFileLanguageExtraB GetTVFileLanguageExtraBWithTVFileLanguageID(int TVFileLanguageID)
         {
-            return FillTVFileLanguage_B().Where(c => c.TVFileLanguageID == TVFileLanguageID).FirstOrDefault();
+            return FillTVFileLanguageExtraB().Where(c => c.TVFileLanguageID == TVFileLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<TVFileLanguage_B> GetTVFileLanguage_BList()
+        public IQueryable<TVFileLanguageExtraB> GetTVFileLanguageExtraBList()
         {
-            IQueryable<TVFileLanguage_B> TVFileLanguage_BQuery = FillTVFileLanguage_B();
+            IQueryable<TVFileLanguageExtraB> TVFileLanguageExtraBQuery = FillTVFileLanguageExtraB();
 
-            TVFileLanguage_BQuery = EnhanceQueryStatements<TVFileLanguage_B>(TVFileLanguage_BQuery) as IQueryable<TVFileLanguage_B>;
+            TVFileLanguageExtraBQuery = EnhanceQueryStatements<TVFileLanguageExtraB>(TVFileLanguageExtraBQuery) as IQueryable<TVFileLanguageExtraB>;
 
-            return TVFileLanguage_BQuery;
+            return TVFileLanguageExtraBQuery;
         }
         #endregion Functions public Generated Get
 

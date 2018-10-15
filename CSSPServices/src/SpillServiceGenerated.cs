@@ -192,31 +192,31 @@ namespace CSSPServices
 
             return SpillQuery;
         }
-        public Spill_A GetSpill_AWithSpillID(int SpillID)
+        public SpillExtraA GetSpillExtraAWithSpillID(int SpillID)
         {
-            return FillSpill_A().Where(c => c.SpillID == SpillID).FirstOrDefault();
+            return FillSpillExtraA().Where(c => c.SpillID == SpillID).FirstOrDefault();
 
         }
-        public IQueryable<Spill_A> GetSpill_AList()
+        public IQueryable<SpillExtraA> GetSpillExtraAList()
         {
-            IQueryable<Spill_A> Spill_AQuery = FillSpill_A();
+            IQueryable<SpillExtraA> SpillExtraAQuery = FillSpillExtraA();
 
-            Spill_AQuery = EnhanceQueryStatements<Spill_A>(Spill_AQuery) as IQueryable<Spill_A>;
+            SpillExtraAQuery = EnhanceQueryStatements<SpillExtraA>(SpillExtraAQuery) as IQueryable<SpillExtraA>;
 
-            return Spill_AQuery;
+            return SpillExtraAQuery;
         }
-        public Spill_B GetSpill_BWithSpillID(int SpillID)
+        public SpillExtraB GetSpillExtraBWithSpillID(int SpillID)
         {
-            return FillSpill_B().Where(c => c.SpillID == SpillID).FirstOrDefault();
+            return FillSpillExtraB().Where(c => c.SpillID == SpillID).FirstOrDefault();
 
         }
-        public IQueryable<Spill_B> GetSpill_BList()
+        public IQueryable<SpillExtraB> GetSpillExtraBList()
         {
-            IQueryable<Spill_B> Spill_BQuery = FillSpill_B();
+            IQueryable<SpillExtraB> SpillExtraBQuery = FillSpillExtraB();
 
-            Spill_BQuery = EnhanceQueryStatements<Spill_B>(Spill_BQuery) as IQueryable<Spill_B>;
+            SpillExtraBQuery = EnhanceQueryStatements<SpillExtraB>(SpillExtraBQuery) as IQueryable<SpillExtraB>;
 
-            return Spill_BQuery;
+            return SpillExtraBQuery;
         }
         #endregion Functions public Generated Get
 

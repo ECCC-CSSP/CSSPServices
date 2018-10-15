@@ -456,7 +456,7 @@ namespace CSSPServices.Tests
                     BoxModelResult boxModelResult = (from c in dbTestDB.BoxModelResults select c).FirstOrDefault();
                     Assert.IsNotNull(boxModelResult);
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         boxModelResultService.Query.Detail = detail;
 
@@ -466,17 +466,17 @@ namespace CSSPServices.Tests
                             CheckBoxModelResultFields(new List<BoxModelResult>() { boxModelResultRet });
                             Assert.AreEqual(boxModelResult.BoxModelResultID, boxModelResultRet.BoxModelResultID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            BoxModelResult_A boxModelResult_ARet = boxModelResultService.GetBoxModelResult_AWithBoxModelResultID(boxModelResult.BoxModelResultID);
-                            CheckBoxModelResult_AFields(new List<BoxModelResult_A>() { boxModelResult_ARet });
-                            Assert.AreEqual(boxModelResult.BoxModelResultID, boxModelResult_ARet.BoxModelResultID);
+                            BoxModelResultExtraA boxModelResultExtraARet = boxModelResultService.GetBoxModelResultExtraAWithBoxModelResultID(boxModelResult.BoxModelResultID);
+                            CheckBoxModelResultExtraAFields(new List<BoxModelResultExtraA>() { boxModelResultExtraARet });
+                            Assert.AreEqual(boxModelResult.BoxModelResultID, boxModelResultExtraARet.BoxModelResultID);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            BoxModelResult_B boxModelResult_BRet = boxModelResultService.GetBoxModelResult_BWithBoxModelResultID(boxModelResult.BoxModelResultID);
-                            CheckBoxModelResult_BFields(new List<BoxModelResult_B>() { boxModelResult_BRet });
-                            Assert.AreEqual(boxModelResult.BoxModelResultID, boxModelResult_BRet.BoxModelResultID);
+                            BoxModelResultExtraB boxModelResultExtraBRet = boxModelResultService.GetBoxModelResultExtraBWithBoxModelResultID(boxModelResult.BoxModelResultID);
+                            CheckBoxModelResultExtraBFields(new List<BoxModelResultExtraB>() { boxModelResultExtraBRet });
+                            Assert.AreEqual(boxModelResult.BoxModelResultID, boxModelResultExtraBRet.BoxModelResultID);
                         }
                         else
                         {
@@ -505,7 +505,7 @@ namespace CSSPServices.Tests
                     List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
                     boxModelResultDirectQueryList = (from c in dbTestDB.BoxModelResults select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         boxModelResultService.Query.Detail = detail;
 
@@ -515,19 +515,19 @@ namespace CSSPServices.Tests
                             boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
                             CheckBoxModelResultFields(boxModelResultList);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<BoxModelResult_A> boxModelResult_AList = new List<BoxModelResult_A>();
-                            boxModelResult_AList = boxModelResultService.GetBoxModelResult_AList().ToList();
-                            CheckBoxModelResult_AFields(boxModelResult_AList);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResult_AList.Count);
+                            List<BoxModelResultExtraA> boxModelResultExtraAList = new List<BoxModelResultExtraA>();
+                            boxModelResultExtraAList = boxModelResultService.GetBoxModelResultExtraAList().ToList();
+                            CheckBoxModelResultExtraAFields(boxModelResultExtraAList);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<BoxModelResult_B> boxModelResult_BList = new List<BoxModelResult_B>();
-                            boxModelResult_BList = boxModelResultService.GetBoxModelResult_BList().ToList();
-                            CheckBoxModelResult_BFields(boxModelResult_BList);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResult_BList.Count);
+                            List<BoxModelResultExtraB> boxModelResultExtraBList = new List<BoxModelResultExtraB>();
+                            boxModelResultExtraBList = boxModelResultService.GetBoxModelResultExtraBList().ToList();
+                            CheckBoxModelResultExtraBFields(boxModelResultExtraBList);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultExtraBList.Count);
                         }
                         else
                         {
@@ -549,7 +549,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -565,21 +565,21 @@ namespace CSSPServices.Tests
                             CheckBoxModelResultFields(boxModelResultList);
                             Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<BoxModelResult_A> boxModelResult_AList = new List<BoxModelResult_A>();
-                            boxModelResult_AList = boxModelResultService.GetBoxModelResult_AList().ToList();
-                            CheckBoxModelResult_AFields(boxModelResult_AList);
-                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResult_AList[0].BoxModelResultID);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResult_AList.Count);
+                            List<BoxModelResultExtraA> boxModelResultExtraAList = new List<BoxModelResultExtraA>();
+                            boxModelResultExtraAList = boxModelResultService.GetBoxModelResultExtraAList().ToList();
+                            CheckBoxModelResultExtraAFields(boxModelResultExtraAList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultExtraAList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<BoxModelResult_B> boxModelResult_BList = new List<BoxModelResult_B>();
-                            boxModelResult_BList = boxModelResultService.GetBoxModelResult_BList().ToList();
-                            CheckBoxModelResult_BFields(boxModelResult_BList);
-                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResult_BList[0].BoxModelResultID);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResult_BList.Count);
+                            List<BoxModelResultExtraB> boxModelResultExtraBList = new List<BoxModelResultExtraB>();
+                            boxModelResultExtraBList = boxModelResultService.GetBoxModelResultExtraBList().ToList();
+                            CheckBoxModelResultExtraBFields(boxModelResultExtraBList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultExtraBList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultExtraBList.Count);
                         }
                         else
                         {
@@ -601,7 +601,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -617,21 +617,21 @@ namespace CSSPServices.Tests
                             CheckBoxModelResultFields(boxModelResultList);
                             Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<BoxModelResult_A> boxModelResult_AList = new List<BoxModelResult_A>();
-                            boxModelResult_AList = boxModelResultService.GetBoxModelResult_AList().ToList();
-                            CheckBoxModelResult_AFields(boxModelResult_AList);
-                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResult_AList[0].BoxModelResultID);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResult_AList.Count);
+                            List<BoxModelResultExtraA> boxModelResultExtraAList = new List<BoxModelResultExtraA>();
+                            boxModelResultExtraAList = boxModelResultService.GetBoxModelResultExtraAList().ToList();
+                            CheckBoxModelResultExtraAFields(boxModelResultExtraAList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultExtraAList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<BoxModelResult_B> boxModelResult_BList = new List<BoxModelResult_B>();
-                            boxModelResult_BList = boxModelResultService.GetBoxModelResult_BList().ToList();
-                            CheckBoxModelResult_BFields(boxModelResult_BList);
-                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResult_BList[0].BoxModelResultID);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResult_BList.Count);
+                            List<BoxModelResultExtraB> boxModelResultExtraBList = new List<BoxModelResultExtraB>();
+                            boxModelResultExtraBList = boxModelResultService.GetBoxModelResultExtraBList().ToList();
+                            CheckBoxModelResultExtraBFields(boxModelResultExtraBList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultExtraBList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultExtraBList.Count);
                         }
                         else
                         {
@@ -653,7 +653,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -669,21 +669,21 @@ namespace CSSPServices.Tests
                             CheckBoxModelResultFields(boxModelResultList);
                             Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<BoxModelResult_A> boxModelResult_AList = new List<BoxModelResult_A>();
-                            boxModelResult_AList = boxModelResultService.GetBoxModelResult_AList().ToList();
-                            CheckBoxModelResult_AFields(boxModelResult_AList);
-                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResult_AList[0].BoxModelResultID);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResult_AList.Count);
+                            List<BoxModelResultExtraA> boxModelResultExtraAList = new List<BoxModelResultExtraA>();
+                            boxModelResultExtraAList = boxModelResultService.GetBoxModelResultExtraAList().ToList();
+                            CheckBoxModelResultExtraAFields(boxModelResultExtraAList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultExtraAList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<BoxModelResult_B> boxModelResult_BList = new List<BoxModelResult_B>();
-                            boxModelResult_BList = boxModelResultService.GetBoxModelResult_BList().ToList();
-                            CheckBoxModelResult_BFields(boxModelResult_BList);
-                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResult_BList[0].BoxModelResultID);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResult_BList.Count);
+                            List<BoxModelResultExtraB> boxModelResultExtraBList = new List<BoxModelResultExtraB>();
+                            boxModelResultExtraBList = boxModelResultService.GetBoxModelResultExtraBList().ToList();
+                            CheckBoxModelResultExtraBFields(boxModelResultExtraBList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultExtraBList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultExtraBList.Count);
                         }
                         else
                         {
@@ -705,7 +705,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -721,21 +721,21 @@ namespace CSSPServices.Tests
                             CheckBoxModelResultFields(boxModelResultList);
                             Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<BoxModelResult_A> boxModelResult_AList = new List<BoxModelResult_A>();
-                            boxModelResult_AList = boxModelResultService.GetBoxModelResult_AList().ToList();
-                            CheckBoxModelResult_AFields(boxModelResult_AList);
-                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResult_AList[0].BoxModelResultID);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResult_AList.Count);
+                            List<BoxModelResultExtraA> boxModelResultExtraAList = new List<BoxModelResultExtraA>();
+                            boxModelResultExtraAList = boxModelResultService.GetBoxModelResultExtraAList().ToList();
+                            CheckBoxModelResultExtraAFields(boxModelResultExtraAList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultExtraAList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<BoxModelResult_B> boxModelResult_BList = new List<BoxModelResult_B>();
-                            boxModelResult_BList = boxModelResultService.GetBoxModelResult_BList().ToList();
-                            CheckBoxModelResult_BFields(boxModelResult_BList);
-                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResult_BList[0].BoxModelResultID);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResult_BList.Count);
+                            List<BoxModelResultExtraB> boxModelResultExtraBList = new List<BoxModelResultExtraB>();
+                            boxModelResultExtraBList = boxModelResultService.GetBoxModelResultExtraBList().ToList();
+                            CheckBoxModelResultExtraBFields(boxModelResultExtraBList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultExtraBList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultExtraBList.Count);
                         }
                         else
                         {
@@ -757,7 +757,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -773,21 +773,21 @@ namespace CSSPServices.Tests
                             CheckBoxModelResultFields(boxModelResultList);
                             Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<BoxModelResult_A> boxModelResult_AList = new List<BoxModelResult_A>();
-                            boxModelResult_AList = boxModelResultService.GetBoxModelResult_AList().ToList();
-                            CheckBoxModelResult_AFields(boxModelResult_AList);
-                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResult_AList[0].BoxModelResultID);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResult_AList.Count);
+                            List<BoxModelResultExtraA> boxModelResultExtraAList = new List<BoxModelResultExtraA>();
+                            boxModelResultExtraAList = boxModelResultService.GetBoxModelResultExtraAList().ToList();
+                            CheckBoxModelResultExtraAFields(boxModelResultExtraAList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultExtraAList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<BoxModelResult_B> boxModelResult_BList = new List<BoxModelResult_B>();
-                            boxModelResult_BList = boxModelResultService.GetBoxModelResult_BList().ToList();
-                            CheckBoxModelResult_BFields(boxModelResult_BList);
-                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResult_BList[0].BoxModelResultID);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResult_BList.Count);
+                            List<BoxModelResultExtraB> boxModelResultExtraBList = new List<BoxModelResultExtraB>();
+                            boxModelResultExtraBList = boxModelResultService.GetBoxModelResultExtraBList().ToList();
+                            CheckBoxModelResultExtraBFields(boxModelResultExtraBList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultExtraBList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultExtraBList.Count);
                         }
                         else
                         {
@@ -809,7 +809,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -825,21 +825,21 @@ namespace CSSPServices.Tests
                             CheckBoxModelResultFields(boxModelResultList);
                             Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<BoxModelResult_A> boxModelResult_AList = new List<BoxModelResult_A>();
-                            boxModelResult_AList = boxModelResultService.GetBoxModelResult_AList().ToList();
-                            CheckBoxModelResult_AFields(boxModelResult_AList);
-                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResult_AList[0].BoxModelResultID);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResult_AList.Count);
+                            List<BoxModelResultExtraA> boxModelResultExtraAList = new List<BoxModelResultExtraA>();
+                            boxModelResultExtraAList = boxModelResultService.GetBoxModelResultExtraAList().ToList();
+                            CheckBoxModelResultExtraAFields(boxModelResultExtraAList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultExtraAList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<BoxModelResult_B> boxModelResult_BList = new List<BoxModelResult_B>();
-                            boxModelResult_BList = boxModelResultService.GetBoxModelResult_BList().ToList();
-                            CheckBoxModelResult_BFields(boxModelResult_BList);
-                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResult_BList[0].BoxModelResultID);
-                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResult_BList.Count);
+                            List<BoxModelResultExtraB> boxModelResultExtraBList = new List<BoxModelResultExtraB>();
+                            boxModelResultExtraBList = boxModelResultService.GetBoxModelResultExtraBList().ToList();
+                            CheckBoxModelResultExtraBFields(boxModelResultExtraBList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultExtraBList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultExtraBList.Count);
                         }
                         else
                         {
@@ -892,99 +892,99 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(boxModelResultList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(boxModelResultList[0].HasErrors);
         }
-        private void CheckBoxModelResult_AFields(List<BoxModelResult_A> boxModelResult_AList)
+        private void CheckBoxModelResultExtraAFields(List<BoxModelResultExtraA> boxModelResultExtraAList)
         {
-            Assert.IsNotNull(boxModelResult_AList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(boxModelResult_AList[0].BoxModelResultTypeText))
+            Assert.IsNotNull(boxModelResultExtraAList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(boxModelResultExtraAList[0].BoxModelResultTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResult_AList[0].BoxModelResultTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResultExtraAList[0].BoxModelResultTypeText));
             }
-            Assert.IsNotNull(boxModelResult_AList[0].BoxModelResultID);
-            Assert.IsNotNull(boxModelResult_AList[0].BoxModelID);
-            Assert.IsNotNull(boxModelResult_AList[0].BoxModelResultType);
-            Assert.IsNotNull(boxModelResult_AList[0].Volume_m3);
-            Assert.IsNotNull(boxModelResult_AList[0].Surface_m2);
-            Assert.IsNotNull(boxModelResult_AList[0].Radius_m);
-            if (boxModelResult_AList[0].LeftSideDiameterLineAngle_deg != null)
+            Assert.IsNotNull(boxModelResultExtraAList[0].BoxModelResultID);
+            Assert.IsNotNull(boxModelResultExtraAList[0].BoxModelID);
+            Assert.IsNotNull(boxModelResultExtraAList[0].BoxModelResultType);
+            Assert.IsNotNull(boxModelResultExtraAList[0].Volume_m3);
+            Assert.IsNotNull(boxModelResultExtraAList[0].Surface_m2);
+            Assert.IsNotNull(boxModelResultExtraAList[0].Radius_m);
+            if (boxModelResultExtraAList[0].LeftSideDiameterLineAngle_deg != null)
             {
-                Assert.IsNotNull(boxModelResult_AList[0].LeftSideDiameterLineAngle_deg);
+                Assert.IsNotNull(boxModelResultExtraAList[0].LeftSideDiameterLineAngle_deg);
             }
-            if (boxModelResult_AList[0].CircleCenterLatitude != null)
+            if (boxModelResultExtraAList[0].CircleCenterLatitude != null)
             {
-                Assert.IsNotNull(boxModelResult_AList[0].CircleCenterLatitude);
+                Assert.IsNotNull(boxModelResultExtraAList[0].CircleCenterLatitude);
             }
-            if (boxModelResult_AList[0].CircleCenterLongitude != null)
+            if (boxModelResultExtraAList[0].CircleCenterLongitude != null)
             {
-                Assert.IsNotNull(boxModelResult_AList[0].CircleCenterLongitude);
+                Assert.IsNotNull(boxModelResultExtraAList[0].CircleCenterLongitude);
             }
-            Assert.IsNotNull(boxModelResult_AList[0].FixLength);
-            Assert.IsNotNull(boxModelResult_AList[0].FixWidth);
-            Assert.IsNotNull(boxModelResult_AList[0].RectLength_m);
-            Assert.IsNotNull(boxModelResult_AList[0].RectWidth_m);
-            if (boxModelResult_AList[0].LeftSideLineAngle_deg != null)
+            Assert.IsNotNull(boxModelResultExtraAList[0].FixLength);
+            Assert.IsNotNull(boxModelResultExtraAList[0].FixWidth);
+            Assert.IsNotNull(boxModelResultExtraAList[0].RectLength_m);
+            Assert.IsNotNull(boxModelResultExtraAList[0].RectWidth_m);
+            if (boxModelResultExtraAList[0].LeftSideLineAngle_deg != null)
             {
-                Assert.IsNotNull(boxModelResult_AList[0].LeftSideLineAngle_deg);
+                Assert.IsNotNull(boxModelResultExtraAList[0].LeftSideLineAngle_deg);
             }
-            if (boxModelResult_AList[0].LeftSideLineStartLatitude != null)
+            if (boxModelResultExtraAList[0].LeftSideLineStartLatitude != null)
             {
-                Assert.IsNotNull(boxModelResult_AList[0].LeftSideLineStartLatitude);
+                Assert.IsNotNull(boxModelResultExtraAList[0].LeftSideLineStartLatitude);
             }
-            if (boxModelResult_AList[0].LeftSideLineStartLongitude != null)
+            if (boxModelResultExtraAList[0].LeftSideLineStartLongitude != null)
             {
-                Assert.IsNotNull(boxModelResult_AList[0].LeftSideLineStartLongitude);
+                Assert.IsNotNull(boxModelResultExtraAList[0].LeftSideLineStartLongitude);
             }
-            Assert.IsNotNull(boxModelResult_AList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(boxModelResult_AList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(boxModelResult_AList[0].HasErrors);
+            Assert.IsNotNull(boxModelResultExtraAList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(boxModelResultExtraAList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(boxModelResultExtraAList[0].HasErrors);
         }
-        private void CheckBoxModelResult_BFields(List<BoxModelResult_B> boxModelResult_BList)
+        private void CheckBoxModelResultExtraBFields(List<BoxModelResultExtraB> boxModelResultExtraBList)
         {
-            if (!string.IsNullOrWhiteSpace(boxModelResult_BList[0].BoxModelResultReportTest))
+            if (!string.IsNullOrWhiteSpace(boxModelResultExtraBList[0].BoxModelResultReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResult_BList[0].BoxModelResultReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResultExtraBList[0].BoxModelResultReportTest));
             }
-            Assert.IsNotNull(boxModelResult_BList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(boxModelResult_BList[0].BoxModelResultTypeText))
+            Assert.IsNotNull(boxModelResultExtraBList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(boxModelResultExtraBList[0].BoxModelResultTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResult_BList[0].BoxModelResultTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResultExtraBList[0].BoxModelResultTypeText));
             }
-            Assert.IsNotNull(boxModelResult_BList[0].BoxModelResultID);
-            Assert.IsNotNull(boxModelResult_BList[0].BoxModelID);
-            Assert.IsNotNull(boxModelResult_BList[0].BoxModelResultType);
-            Assert.IsNotNull(boxModelResult_BList[0].Volume_m3);
-            Assert.IsNotNull(boxModelResult_BList[0].Surface_m2);
-            Assert.IsNotNull(boxModelResult_BList[0].Radius_m);
-            if (boxModelResult_BList[0].LeftSideDiameterLineAngle_deg != null)
+            Assert.IsNotNull(boxModelResultExtraBList[0].BoxModelResultID);
+            Assert.IsNotNull(boxModelResultExtraBList[0].BoxModelID);
+            Assert.IsNotNull(boxModelResultExtraBList[0].BoxModelResultType);
+            Assert.IsNotNull(boxModelResultExtraBList[0].Volume_m3);
+            Assert.IsNotNull(boxModelResultExtraBList[0].Surface_m2);
+            Assert.IsNotNull(boxModelResultExtraBList[0].Radius_m);
+            if (boxModelResultExtraBList[0].LeftSideDiameterLineAngle_deg != null)
             {
-                Assert.IsNotNull(boxModelResult_BList[0].LeftSideDiameterLineAngle_deg);
+                Assert.IsNotNull(boxModelResultExtraBList[0].LeftSideDiameterLineAngle_deg);
             }
-            if (boxModelResult_BList[0].CircleCenterLatitude != null)
+            if (boxModelResultExtraBList[0].CircleCenterLatitude != null)
             {
-                Assert.IsNotNull(boxModelResult_BList[0].CircleCenterLatitude);
+                Assert.IsNotNull(boxModelResultExtraBList[0].CircleCenterLatitude);
             }
-            if (boxModelResult_BList[0].CircleCenterLongitude != null)
+            if (boxModelResultExtraBList[0].CircleCenterLongitude != null)
             {
-                Assert.IsNotNull(boxModelResult_BList[0].CircleCenterLongitude);
+                Assert.IsNotNull(boxModelResultExtraBList[0].CircleCenterLongitude);
             }
-            Assert.IsNotNull(boxModelResult_BList[0].FixLength);
-            Assert.IsNotNull(boxModelResult_BList[0].FixWidth);
-            Assert.IsNotNull(boxModelResult_BList[0].RectLength_m);
-            Assert.IsNotNull(boxModelResult_BList[0].RectWidth_m);
-            if (boxModelResult_BList[0].LeftSideLineAngle_deg != null)
+            Assert.IsNotNull(boxModelResultExtraBList[0].FixLength);
+            Assert.IsNotNull(boxModelResultExtraBList[0].FixWidth);
+            Assert.IsNotNull(boxModelResultExtraBList[0].RectLength_m);
+            Assert.IsNotNull(boxModelResultExtraBList[0].RectWidth_m);
+            if (boxModelResultExtraBList[0].LeftSideLineAngle_deg != null)
             {
-                Assert.IsNotNull(boxModelResult_BList[0].LeftSideLineAngle_deg);
+                Assert.IsNotNull(boxModelResultExtraBList[0].LeftSideLineAngle_deg);
             }
-            if (boxModelResult_BList[0].LeftSideLineStartLatitude != null)
+            if (boxModelResultExtraBList[0].LeftSideLineStartLatitude != null)
             {
-                Assert.IsNotNull(boxModelResult_BList[0].LeftSideLineStartLatitude);
+                Assert.IsNotNull(boxModelResultExtraBList[0].LeftSideLineStartLatitude);
             }
-            if (boxModelResult_BList[0].LeftSideLineStartLongitude != null)
+            if (boxModelResultExtraBList[0].LeftSideLineStartLongitude != null)
             {
-                Assert.IsNotNull(boxModelResult_BList[0].LeftSideLineStartLongitude);
+                Assert.IsNotNull(boxModelResultExtraBList[0].LeftSideLineStartLongitude);
             }
-            Assert.IsNotNull(boxModelResult_BList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(boxModelResult_BList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(boxModelResult_BList[0].HasErrors);
+            Assert.IsNotNull(boxModelResultExtraBList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(boxModelResultExtraBList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(boxModelResultExtraBList[0].HasErrors);
         }
         private BoxModelResult GetFilledRandomBoxModelResult(string OmitPropName)
         {

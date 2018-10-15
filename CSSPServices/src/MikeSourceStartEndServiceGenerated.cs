@@ -207,31 +207,31 @@ namespace CSSPServices
 
             return MikeSourceStartEndQuery;
         }
-        public MikeSourceStartEnd_A GetMikeSourceStartEnd_AWithMikeSourceStartEndID(int MikeSourceStartEndID)
+        public MikeSourceStartEndExtraA GetMikeSourceStartEndExtraAWithMikeSourceStartEndID(int MikeSourceStartEndID)
         {
-            return FillMikeSourceStartEnd_A().Where(c => c.MikeSourceStartEndID == MikeSourceStartEndID).FirstOrDefault();
+            return FillMikeSourceStartEndExtraA().Where(c => c.MikeSourceStartEndID == MikeSourceStartEndID).FirstOrDefault();
 
         }
-        public IQueryable<MikeSourceStartEnd_A> GetMikeSourceStartEnd_AList()
+        public IQueryable<MikeSourceStartEndExtraA> GetMikeSourceStartEndExtraAList()
         {
-            IQueryable<MikeSourceStartEnd_A> MikeSourceStartEnd_AQuery = FillMikeSourceStartEnd_A();
+            IQueryable<MikeSourceStartEndExtraA> MikeSourceStartEndExtraAQuery = FillMikeSourceStartEndExtraA();
 
-            MikeSourceStartEnd_AQuery = EnhanceQueryStatements<MikeSourceStartEnd_A>(MikeSourceStartEnd_AQuery) as IQueryable<MikeSourceStartEnd_A>;
+            MikeSourceStartEndExtraAQuery = EnhanceQueryStatements<MikeSourceStartEndExtraA>(MikeSourceStartEndExtraAQuery) as IQueryable<MikeSourceStartEndExtraA>;
 
-            return MikeSourceStartEnd_AQuery;
+            return MikeSourceStartEndExtraAQuery;
         }
-        public MikeSourceStartEnd_B GetMikeSourceStartEnd_BWithMikeSourceStartEndID(int MikeSourceStartEndID)
+        public MikeSourceStartEndExtraB GetMikeSourceStartEndExtraBWithMikeSourceStartEndID(int MikeSourceStartEndID)
         {
-            return FillMikeSourceStartEnd_B().Where(c => c.MikeSourceStartEndID == MikeSourceStartEndID).FirstOrDefault();
+            return FillMikeSourceStartEndExtraB().Where(c => c.MikeSourceStartEndID == MikeSourceStartEndID).FirstOrDefault();
 
         }
-        public IQueryable<MikeSourceStartEnd_B> GetMikeSourceStartEnd_BList()
+        public IQueryable<MikeSourceStartEndExtraB> GetMikeSourceStartEndExtraBList()
         {
-            IQueryable<MikeSourceStartEnd_B> MikeSourceStartEnd_BQuery = FillMikeSourceStartEnd_B();
+            IQueryable<MikeSourceStartEndExtraB> MikeSourceStartEndExtraBQuery = FillMikeSourceStartEndExtraB();
 
-            MikeSourceStartEnd_BQuery = EnhanceQueryStatements<MikeSourceStartEnd_B>(MikeSourceStartEnd_BQuery) as IQueryable<MikeSourceStartEnd_B>;
+            MikeSourceStartEndExtraBQuery = EnhanceQueryStatements<MikeSourceStartEndExtraB>(MikeSourceStartEndExtraBQuery) as IQueryable<MikeSourceStartEndExtraB>;
 
-            return MikeSourceStartEnd_BQuery;
+            return MikeSourceStartEndExtraBQuery;
         }
         #endregion Functions public Generated Get
 

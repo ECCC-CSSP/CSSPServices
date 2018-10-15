@@ -545,31 +545,31 @@ namespace CSSPServices
 
             return LabSheetDetailQuery;
         }
-        public LabSheetDetail_A GetLabSheetDetail_AWithLabSheetDetailID(int LabSheetDetailID)
+        public LabSheetDetailExtraA GetLabSheetDetailExtraAWithLabSheetDetailID(int LabSheetDetailID)
         {
-            return FillLabSheetDetail_A().Where(c => c.LabSheetDetailID == LabSheetDetailID).FirstOrDefault();
+            return FillLabSheetDetailExtraA().Where(c => c.LabSheetDetailID == LabSheetDetailID).FirstOrDefault();
 
         }
-        public IQueryable<LabSheetDetail_A> GetLabSheetDetail_AList()
+        public IQueryable<LabSheetDetailExtraA> GetLabSheetDetailExtraAList()
         {
-            IQueryable<LabSheetDetail_A> LabSheetDetail_AQuery = FillLabSheetDetail_A();
+            IQueryable<LabSheetDetailExtraA> LabSheetDetailExtraAQuery = FillLabSheetDetailExtraA();
 
-            LabSheetDetail_AQuery = EnhanceQueryStatements<LabSheetDetail_A>(LabSheetDetail_AQuery) as IQueryable<LabSheetDetail_A>;
+            LabSheetDetailExtraAQuery = EnhanceQueryStatements<LabSheetDetailExtraA>(LabSheetDetailExtraAQuery) as IQueryable<LabSheetDetailExtraA>;
 
-            return LabSheetDetail_AQuery;
+            return LabSheetDetailExtraAQuery;
         }
-        public LabSheetDetail_B GetLabSheetDetail_BWithLabSheetDetailID(int LabSheetDetailID)
+        public LabSheetDetailExtraB GetLabSheetDetailExtraBWithLabSheetDetailID(int LabSheetDetailID)
         {
-            return FillLabSheetDetail_B().Where(c => c.LabSheetDetailID == LabSheetDetailID).FirstOrDefault();
+            return FillLabSheetDetailExtraB().Where(c => c.LabSheetDetailID == LabSheetDetailID).FirstOrDefault();
 
         }
-        public IQueryable<LabSheetDetail_B> GetLabSheetDetail_BList()
+        public IQueryable<LabSheetDetailExtraB> GetLabSheetDetailExtraBList()
         {
-            IQueryable<LabSheetDetail_B> LabSheetDetail_BQuery = FillLabSheetDetail_B();
+            IQueryable<LabSheetDetailExtraB> LabSheetDetailExtraBQuery = FillLabSheetDetailExtraB();
 
-            LabSheetDetail_BQuery = EnhanceQueryStatements<LabSheetDetail_B>(LabSheetDetail_BQuery) as IQueryable<LabSheetDetail_B>;
+            LabSheetDetailExtraBQuery = EnhanceQueryStatements<LabSheetDetailExtraB>(LabSheetDetailExtraBQuery) as IQueryable<LabSheetDetailExtraB>;
 
-            return LabSheetDetail_BQuery;
+            return LabSheetDetailExtraBQuery;
         }
         #endregion Functions public Generated Get
 

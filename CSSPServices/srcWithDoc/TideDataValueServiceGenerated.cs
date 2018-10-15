@@ -203,31 +203,31 @@ namespace CSSPServices
 
             return TideDataValueQuery;
         }
-        public TideDataValue_A GetTideDataValue_AWithTideDataValueID(int TideDataValueID)
+        public TideDataValueExtraA GetTideDataValueExtraAWithTideDataValueID(int TideDataValueID)
         {
-            return FillTideDataValue_A().Where(c => c.TideDataValueID == TideDataValueID).FirstOrDefault();
+            return FillTideDataValueExtraA().Where(c => c.TideDataValueID == TideDataValueID).FirstOrDefault();
 
         }
-        public IQueryable<TideDataValue_A> GetTideDataValue_AList()
+        public IQueryable<TideDataValueExtraA> GetTideDataValueExtraAList()
         {
-            IQueryable<TideDataValue_A> TideDataValue_AQuery = FillTideDataValue_A();
+            IQueryable<TideDataValueExtraA> TideDataValueExtraAQuery = FillTideDataValueExtraA();
 
-            TideDataValue_AQuery = EnhanceQueryStatements<TideDataValue_A>(TideDataValue_AQuery) as IQueryable<TideDataValue_A>;
+            TideDataValueExtraAQuery = EnhanceQueryStatements<TideDataValueExtraA>(TideDataValueExtraAQuery) as IQueryable<TideDataValueExtraA>;
 
-            return TideDataValue_AQuery;
+            return TideDataValueExtraAQuery;
         }
-        public TideDataValue_B GetTideDataValue_BWithTideDataValueID(int TideDataValueID)
+        public TideDataValueExtraB GetTideDataValueExtraBWithTideDataValueID(int TideDataValueID)
         {
-            return FillTideDataValue_B().Where(c => c.TideDataValueID == TideDataValueID).FirstOrDefault();
+            return FillTideDataValueExtraB().Where(c => c.TideDataValueID == TideDataValueID).FirstOrDefault();
 
         }
-        public IQueryable<TideDataValue_B> GetTideDataValue_BList()
+        public IQueryable<TideDataValueExtraB> GetTideDataValueExtraBList()
         {
-            IQueryable<TideDataValue_B> TideDataValue_BQuery = FillTideDataValue_B();
+            IQueryable<TideDataValueExtraB> TideDataValueExtraBQuery = FillTideDataValueExtraB();
 
-            TideDataValue_BQuery = EnhanceQueryStatements<TideDataValue_B>(TideDataValue_BQuery) as IQueryable<TideDataValue_B>;
+            TideDataValueExtraBQuery = EnhanceQueryStatements<TideDataValueExtraB>(TideDataValueExtraBQuery) as IQueryable<TideDataValueExtraB>;
 
-            return TideDataValue_BQuery;
+            return TideDataValueExtraBQuery;
         }
         #endregion Functions public Generated Get
 

@@ -228,7 +228,7 @@ namespace CSSPServices.Tests
                     Classification classification = (from c in dbTestDB.Classifications select c).FirstOrDefault();
                     Assert.IsNotNull(classification);
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         classificationService.Query.Detail = detail;
 
@@ -238,17 +238,17 @@ namespace CSSPServices.Tests
                             CheckClassificationFields(new List<Classification>() { classificationRet });
                             Assert.AreEqual(classification.ClassificationID, classificationRet.ClassificationID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            Classification_A classification_ARet = classificationService.GetClassification_AWithClassificationID(classification.ClassificationID);
-                            CheckClassification_AFields(new List<Classification_A>() { classification_ARet });
-                            Assert.AreEqual(classification.ClassificationID, classification_ARet.ClassificationID);
+                            ClassificationExtraA classificationExtraARet = classificationService.GetClassificationExtraAWithClassificationID(classification.ClassificationID);
+                            CheckClassificationExtraAFields(new List<ClassificationExtraA>() { classificationExtraARet });
+                            Assert.AreEqual(classification.ClassificationID, classificationExtraARet.ClassificationID);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            Classification_B classification_BRet = classificationService.GetClassification_BWithClassificationID(classification.ClassificationID);
-                            CheckClassification_BFields(new List<Classification_B>() { classification_BRet });
-                            Assert.AreEqual(classification.ClassificationID, classification_BRet.ClassificationID);
+                            ClassificationExtraB classificationExtraBRet = classificationService.GetClassificationExtraBWithClassificationID(classification.ClassificationID);
+                            CheckClassificationExtraBFields(new List<ClassificationExtraB>() { classificationExtraBRet });
+                            Assert.AreEqual(classification.ClassificationID, classificationExtraBRet.ClassificationID);
                         }
                         else
                         {
@@ -277,7 +277,7 @@ namespace CSSPServices.Tests
                     List<Classification> classificationDirectQueryList = new List<Classification>();
                     classificationDirectQueryList = (from c in dbTestDB.Classifications select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         classificationService.Query.Detail = detail;
 
@@ -287,19 +287,19 @@ namespace CSSPServices.Tests
                             classificationList = classificationService.GetClassificationList().ToList();
                             CheckClassificationFields(classificationList);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<Classification_A> classification_AList = new List<Classification_A>();
-                            classification_AList = classificationService.GetClassification_AList().ToList();
-                            CheckClassification_AFields(classification_AList);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classification_AList.Count);
+                            List<ClassificationExtraA> classificationExtraAList = new List<ClassificationExtraA>();
+                            classificationExtraAList = classificationService.GetClassificationExtraAList().ToList();
+                            CheckClassificationExtraAFields(classificationExtraAList);
+                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<Classification_B> classification_BList = new List<Classification_B>();
-                            classification_BList = classificationService.GetClassification_BList().ToList();
-                            CheckClassification_BFields(classification_BList);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classification_BList.Count);
+                            List<ClassificationExtraB> classificationExtraBList = new List<ClassificationExtraB>();
+                            classificationExtraBList = classificationService.GetClassificationExtraBList().ToList();
+                            CheckClassificationExtraBFields(classificationExtraBList);
+                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraBList.Count);
                         }
                         else
                         {
@@ -321,7 +321,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ClassificationService classificationService = new ClassificationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -337,21 +337,21 @@ namespace CSSPServices.Tests
                             CheckClassificationFields(classificationList);
                             Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationList[0].ClassificationID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<Classification_A> classification_AList = new List<Classification_A>();
-                            classification_AList = classificationService.GetClassification_AList().ToList();
-                            CheckClassification_AFields(classification_AList);
-                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classification_AList[0].ClassificationID);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classification_AList.Count);
+                            List<ClassificationExtraA> classificationExtraAList = new List<ClassificationExtraA>();
+                            classificationExtraAList = classificationService.GetClassificationExtraAList().ToList();
+                            CheckClassificationExtraAFields(classificationExtraAList);
+                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraAList[0].ClassificationID);
+                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<Classification_B> classification_BList = new List<Classification_B>();
-                            classification_BList = classificationService.GetClassification_BList().ToList();
-                            CheckClassification_BFields(classification_BList);
-                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classification_BList[0].ClassificationID);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classification_BList.Count);
+                            List<ClassificationExtraB> classificationExtraBList = new List<ClassificationExtraB>();
+                            classificationExtraBList = classificationService.GetClassificationExtraBList().ToList();
+                            CheckClassificationExtraBFields(classificationExtraBList);
+                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraBList[0].ClassificationID);
+                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraBList.Count);
                         }
                         else
                         {
@@ -373,7 +373,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ClassificationService classificationService = new ClassificationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -389,21 +389,21 @@ namespace CSSPServices.Tests
                             CheckClassificationFields(classificationList);
                             Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationList[0].ClassificationID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<Classification_A> classification_AList = new List<Classification_A>();
-                            classification_AList = classificationService.GetClassification_AList().ToList();
-                            CheckClassification_AFields(classification_AList);
-                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classification_AList[0].ClassificationID);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classification_AList.Count);
+                            List<ClassificationExtraA> classificationExtraAList = new List<ClassificationExtraA>();
+                            classificationExtraAList = classificationService.GetClassificationExtraAList().ToList();
+                            CheckClassificationExtraAFields(classificationExtraAList);
+                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraAList[0].ClassificationID);
+                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<Classification_B> classification_BList = new List<Classification_B>();
-                            classification_BList = classificationService.GetClassification_BList().ToList();
-                            CheckClassification_BFields(classification_BList);
-                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classification_BList[0].ClassificationID);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classification_BList.Count);
+                            List<ClassificationExtraB> classificationExtraBList = new List<ClassificationExtraB>();
+                            classificationExtraBList = classificationService.GetClassificationExtraBList().ToList();
+                            CheckClassificationExtraBFields(classificationExtraBList);
+                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraBList[0].ClassificationID);
+                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraBList.Count);
                         }
                         else
                         {
@@ -425,7 +425,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ClassificationService classificationService = new ClassificationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -441,21 +441,21 @@ namespace CSSPServices.Tests
                             CheckClassificationFields(classificationList);
                             Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationList[0].ClassificationID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<Classification_A> classification_AList = new List<Classification_A>();
-                            classification_AList = classificationService.GetClassification_AList().ToList();
-                            CheckClassification_AFields(classification_AList);
-                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classification_AList[0].ClassificationID);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classification_AList.Count);
+                            List<ClassificationExtraA> classificationExtraAList = new List<ClassificationExtraA>();
+                            classificationExtraAList = classificationService.GetClassificationExtraAList().ToList();
+                            CheckClassificationExtraAFields(classificationExtraAList);
+                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraAList[0].ClassificationID);
+                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<Classification_B> classification_BList = new List<Classification_B>();
-                            classification_BList = classificationService.GetClassification_BList().ToList();
-                            CheckClassification_BFields(classification_BList);
-                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classification_BList[0].ClassificationID);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classification_BList.Count);
+                            List<ClassificationExtraB> classificationExtraBList = new List<ClassificationExtraB>();
+                            classificationExtraBList = classificationService.GetClassificationExtraBList().ToList();
+                            CheckClassificationExtraBFields(classificationExtraBList);
+                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraBList[0].ClassificationID);
+                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraBList.Count);
                         }
                         else
                         {
@@ -477,7 +477,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ClassificationService classificationService = new ClassificationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -493,21 +493,21 @@ namespace CSSPServices.Tests
                             CheckClassificationFields(classificationList);
                             Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationList[0].ClassificationID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<Classification_A> classification_AList = new List<Classification_A>();
-                            classification_AList = classificationService.GetClassification_AList().ToList();
-                            CheckClassification_AFields(classification_AList);
-                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classification_AList[0].ClassificationID);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classification_AList.Count);
+                            List<ClassificationExtraA> classificationExtraAList = new List<ClassificationExtraA>();
+                            classificationExtraAList = classificationService.GetClassificationExtraAList().ToList();
+                            CheckClassificationExtraAFields(classificationExtraAList);
+                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraAList[0].ClassificationID);
+                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<Classification_B> classification_BList = new List<Classification_B>();
-                            classification_BList = classificationService.GetClassification_BList().ToList();
-                            CheckClassification_BFields(classification_BList);
-                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classification_BList[0].ClassificationID);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classification_BList.Count);
+                            List<ClassificationExtraB> classificationExtraBList = new List<ClassificationExtraB>();
+                            classificationExtraBList = classificationService.GetClassificationExtraBList().ToList();
+                            CheckClassificationExtraBFields(classificationExtraBList);
+                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraBList[0].ClassificationID);
+                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraBList.Count);
                         }
                         else
                         {
@@ -529,7 +529,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ClassificationService classificationService = new ClassificationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -545,21 +545,21 @@ namespace CSSPServices.Tests
                             CheckClassificationFields(classificationList);
                             Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationList[0].ClassificationID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<Classification_A> classification_AList = new List<Classification_A>();
-                            classification_AList = classificationService.GetClassification_AList().ToList();
-                            CheckClassification_AFields(classification_AList);
-                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classification_AList[0].ClassificationID);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classification_AList.Count);
+                            List<ClassificationExtraA> classificationExtraAList = new List<ClassificationExtraA>();
+                            classificationExtraAList = classificationService.GetClassificationExtraAList().ToList();
+                            CheckClassificationExtraAFields(classificationExtraAList);
+                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraAList[0].ClassificationID);
+                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<Classification_B> classification_BList = new List<Classification_B>();
-                            classification_BList = classificationService.GetClassification_BList().ToList();
-                            CheckClassification_BFields(classification_BList);
-                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classification_BList[0].ClassificationID);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classification_BList.Count);
+                            List<ClassificationExtraB> classificationExtraBList = new List<ClassificationExtraB>();
+                            classificationExtraBList = classificationService.GetClassificationExtraBList().ToList();
+                            CheckClassificationExtraBFields(classificationExtraBList);
+                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraBList[0].ClassificationID);
+                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraBList.Count);
                         }
                         else
                         {
@@ -581,7 +581,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ClassificationService classificationService = new ClassificationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -597,21 +597,21 @@ namespace CSSPServices.Tests
                             CheckClassificationFields(classificationList);
                             Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationList[0].ClassificationID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<Classification_A> classification_AList = new List<Classification_A>();
-                            classification_AList = classificationService.GetClassification_AList().ToList();
-                            CheckClassification_AFields(classification_AList);
-                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classification_AList[0].ClassificationID);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classification_AList.Count);
+                            List<ClassificationExtraA> classificationExtraAList = new List<ClassificationExtraA>();
+                            classificationExtraAList = classificationService.GetClassificationExtraAList().ToList();
+                            CheckClassificationExtraAFields(classificationExtraAList);
+                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraAList[0].ClassificationID);
+                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<Classification_B> classification_BList = new List<Classification_B>();
-                            classification_BList = classificationService.GetClassification_BList().ToList();
-                            CheckClassification_BFields(classification_BList);
-                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classification_BList[0].ClassificationID);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classification_BList.Count);
+                            List<ClassificationExtraB> classificationExtraBList = new List<ClassificationExtraB>();
+                            classificationExtraBList = classificationService.GetClassificationExtraBList().ToList();
+                            CheckClassificationExtraBFields(classificationExtraBList);
+                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraBList[0].ClassificationID);
+                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraBList.Count);
                         }
                         else
                         {
@@ -634,39 +634,39 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(classificationList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(classificationList[0].HasErrors);
         }
-        private void CheckClassification_AFields(List<Classification_A> classification_AList)
+        private void CheckClassificationExtraAFields(List<ClassificationExtraA> classificationExtraAList)
         {
-            Assert.IsNotNull(classification_AList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(classification_AList[0].ClassificationTVText))
+            Assert.IsNotNull(classificationExtraAList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(classificationExtraAList[0].ClassificationTVText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(classification_AList[0].ClassificationTVText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(classificationExtraAList[0].ClassificationTVText));
             }
-            Assert.IsNotNull(classification_AList[0].ClassificationID);
-            Assert.IsNotNull(classification_AList[0].ClassificationTVItemID);
-            Assert.IsNotNull(classification_AList[0].ClassificationType);
-            Assert.IsNotNull(classification_AList[0].Ordinal);
-            Assert.IsNotNull(classification_AList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(classification_AList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(classification_AList[0].HasErrors);
+            Assert.IsNotNull(classificationExtraAList[0].ClassificationID);
+            Assert.IsNotNull(classificationExtraAList[0].ClassificationTVItemID);
+            Assert.IsNotNull(classificationExtraAList[0].ClassificationType);
+            Assert.IsNotNull(classificationExtraAList[0].Ordinal);
+            Assert.IsNotNull(classificationExtraAList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(classificationExtraAList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(classificationExtraAList[0].HasErrors);
         }
-        private void CheckClassification_BFields(List<Classification_B> classification_BList)
+        private void CheckClassificationExtraBFields(List<ClassificationExtraB> classificationExtraBList)
         {
-            if (!string.IsNullOrWhiteSpace(classification_BList[0].ClassificationReportTest))
+            if (!string.IsNullOrWhiteSpace(classificationExtraBList[0].ClassificationReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(classification_BList[0].ClassificationReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(classificationExtraBList[0].ClassificationReportTest));
             }
-            Assert.IsNotNull(classification_BList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(classification_BList[0].ClassificationTVText))
+            Assert.IsNotNull(classificationExtraBList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(classificationExtraBList[0].ClassificationTVText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(classification_BList[0].ClassificationTVText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(classificationExtraBList[0].ClassificationTVText));
             }
-            Assert.IsNotNull(classification_BList[0].ClassificationID);
-            Assert.IsNotNull(classification_BList[0].ClassificationTVItemID);
-            Assert.IsNotNull(classification_BList[0].ClassificationType);
-            Assert.IsNotNull(classification_BList[0].Ordinal);
-            Assert.IsNotNull(classification_BList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(classification_BList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(classification_BList[0].HasErrors);
+            Assert.IsNotNull(classificationExtraBList[0].ClassificationID);
+            Assert.IsNotNull(classificationExtraBList[0].ClassificationTVItemID);
+            Assert.IsNotNull(classificationExtraBList[0].ClassificationType);
+            Assert.IsNotNull(classificationExtraBList[0].Ordinal);
+            Assert.IsNotNull(classificationExtraBList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(classificationExtraBList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(classificationExtraBList[0].HasErrors);
         }
         private Classification GetFilledRandomClassification(string OmitPropName)
         {

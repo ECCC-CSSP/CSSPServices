@@ -491,7 +491,7 @@ namespace CSSPServices.Tests
                     ClimateDataValue climateDataValue = (from c in dbTestDB.ClimateDataValues select c).FirstOrDefault();
                     Assert.IsNotNull(climateDataValue);
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         climateDataValueService.Query.Detail = detail;
 
@@ -501,17 +501,17 @@ namespace CSSPServices.Tests
                             CheckClimateDataValueFields(new List<ClimateDataValue>() { climateDataValueRet });
                             Assert.AreEqual(climateDataValue.ClimateDataValueID, climateDataValueRet.ClimateDataValueID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            ClimateDataValue_A climateDataValue_ARet = climateDataValueService.GetClimateDataValue_AWithClimateDataValueID(climateDataValue.ClimateDataValueID);
-                            CheckClimateDataValue_AFields(new List<ClimateDataValue_A>() { climateDataValue_ARet });
-                            Assert.AreEqual(climateDataValue.ClimateDataValueID, climateDataValue_ARet.ClimateDataValueID);
+                            ClimateDataValueExtraA climateDataValueExtraARet = climateDataValueService.GetClimateDataValueExtraAWithClimateDataValueID(climateDataValue.ClimateDataValueID);
+                            CheckClimateDataValueExtraAFields(new List<ClimateDataValueExtraA>() { climateDataValueExtraARet });
+                            Assert.AreEqual(climateDataValue.ClimateDataValueID, climateDataValueExtraARet.ClimateDataValueID);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            ClimateDataValue_B climateDataValue_BRet = climateDataValueService.GetClimateDataValue_BWithClimateDataValueID(climateDataValue.ClimateDataValueID);
-                            CheckClimateDataValue_BFields(new List<ClimateDataValue_B>() { climateDataValue_BRet });
-                            Assert.AreEqual(climateDataValue.ClimateDataValueID, climateDataValue_BRet.ClimateDataValueID);
+                            ClimateDataValueExtraB climateDataValueExtraBRet = climateDataValueService.GetClimateDataValueExtraBWithClimateDataValueID(climateDataValue.ClimateDataValueID);
+                            CheckClimateDataValueExtraBFields(new List<ClimateDataValueExtraB>() { climateDataValueExtraBRet });
+                            Assert.AreEqual(climateDataValue.ClimateDataValueID, climateDataValueExtraBRet.ClimateDataValueID);
                         }
                         else
                         {
@@ -540,7 +540,7 @@ namespace CSSPServices.Tests
                     List<ClimateDataValue> climateDataValueDirectQueryList = new List<ClimateDataValue>();
                     climateDataValueDirectQueryList = (from c in dbTestDB.ClimateDataValues select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         climateDataValueService.Query.Detail = detail;
 
@@ -550,19 +550,19 @@ namespace CSSPServices.Tests
                             climateDataValueList = climateDataValueService.GetClimateDataValueList().ToList();
                             CheckClimateDataValueFields(climateDataValueList);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<ClimateDataValue_A> climateDataValue_AList = new List<ClimateDataValue_A>();
-                            climateDataValue_AList = climateDataValueService.GetClimateDataValue_AList().ToList();
-                            CheckClimateDataValue_AFields(climateDataValue_AList);
-                            Assert.AreEqual(climateDataValueDirectQueryList.Count, climateDataValue_AList.Count);
+                            List<ClimateDataValueExtraA> climateDataValueExtraAList = new List<ClimateDataValueExtraA>();
+                            climateDataValueExtraAList = climateDataValueService.GetClimateDataValueExtraAList().ToList();
+                            CheckClimateDataValueExtraAFields(climateDataValueExtraAList);
+                            Assert.AreEqual(climateDataValueDirectQueryList.Count, climateDataValueExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<ClimateDataValue_B> climateDataValue_BList = new List<ClimateDataValue_B>();
-                            climateDataValue_BList = climateDataValueService.GetClimateDataValue_BList().ToList();
-                            CheckClimateDataValue_BFields(climateDataValue_BList);
-                            Assert.AreEqual(climateDataValueDirectQueryList.Count, climateDataValue_BList.Count);
+                            List<ClimateDataValueExtraB> climateDataValueExtraBList = new List<ClimateDataValueExtraB>();
+                            climateDataValueExtraBList = climateDataValueService.GetClimateDataValueExtraBList().ToList();
+                            CheckClimateDataValueExtraBFields(climateDataValueExtraBList);
+                            Assert.AreEqual(climateDataValueDirectQueryList.Count, climateDataValueExtraBList.Count);
                         }
                         else
                         {
@@ -584,7 +584,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ClimateDataValueService climateDataValueService = new ClimateDataValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -600,21 +600,21 @@ namespace CSSPServices.Tests
                             CheckClimateDataValueFields(climateDataValueList);
                             Assert.AreEqual(climateDataValueDirectQueryList[0].ClimateDataValueID, climateDataValueList[0].ClimateDataValueID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<ClimateDataValue_A> climateDataValue_AList = new List<ClimateDataValue_A>();
-                            climateDataValue_AList = climateDataValueService.GetClimateDataValue_AList().ToList();
-                            CheckClimateDataValue_AFields(climateDataValue_AList);
-                            Assert.AreEqual(climateDataValueDirectQueryList[0].ClimateDataValueID, climateDataValue_AList[0].ClimateDataValueID);
-                            Assert.AreEqual(climateDataValueDirectQueryList.Count, climateDataValue_AList.Count);
+                            List<ClimateDataValueExtraA> climateDataValueExtraAList = new List<ClimateDataValueExtraA>();
+                            climateDataValueExtraAList = climateDataValueService.GetClimateDataValueExtraAList().ToList();
+                            CheckClimateDataValueExtraAFields(climateDataValueExtraAList);
+                            Assert.AreEqual(climateDataValueDirectQueryList[0].ClimateDataValueID, climateDataValueExtraAList[0].ClimateDataValueID);
+                            Assert.AreEqual(climateDataValueDirectQueryList.Count, climateDataValueExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<ClimateDataValue_B> climateDataValue_BList = new List<ClimateDataValue_B>();
-                            climateDataValue_BList = climateDataValueService.GetClimateDataValue_BList().ToList();
-                            CheckClimateDataValue_BFields(climateDataValue_BList);
-                            Assert.AreEqual(climateDataValueDirectQueryList[0].ClimateDataValueID, climateDataValue_BList[0].ClimateDataValueID);
-                            Assert.AreEqual(climateDataValueDirectQueryList.Count, climateDataValue_BList.Count);
+                            List<ClimateDataValueExtraB> climateDataValueExtraBList = new List<ClimateDataValueExtraB>();
+                            climateDataValueExtraBList = climateDataValueService.GetClimateDataValueExtraBList().ToList();
+                            CheckClimateDataValueExtraBFields(climateDataValueExtraBList);
+                            Assert.AreEqual(climateDataValueDirectQueryList[0].ClimateDataValueID, climateDataValueExtraBList[0].ClimateDataValueID);
+                            Assert.AreEqual(climateDataValueDirectQueryList.Count, climateDataValueExtraBList.Count);
                         }
                         else
                         {
@@ -636,7 +636,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ClimateDataValueService climateDataValueService = new ClimateDataValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -652,21 +652,21 @@ namespace CSSPServices.Tests
                             CheckClimateDataValueFields(climateDataValueList);
                             Assert.AreEqual(climateDataValueDirectQueryList[0].ClimateDataValueID, climateDataValueList[0].ClimateDataValueID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<ClimateDataValue_A> climateDataValue_AList = new List<ClimateDataValue_A>();
-                            climateDataValue_AList = climateDataValueService.GetClimateDataValue_AList().ToList();
-                            CheckClimateDataValue_AFields(climateDataValue_AList);
-                            Assert.AreEqual(climateDataValueDirectQueryList[0].ClimateDataValueID, climateDataValue_AList[0].ClimateDataValueID);
-                            Assert.AreEqual(climateDataValueDirectQueryList.Count, climateDataValue_AList.Count);
+                            List<ClimateDataValueExtraA> climateDataValueExtraAList = new List<ClimateDataValueExtraA>();
+                            climateDataValueExtraAList = climateDataValueService.GetClimateDataValueExtraAList().ToList();
+                            CheckClimateDataValueExtraAFields(climateDataValueExtraAList);
+                            Assert.AreEqual(climateDataValueDirectQueryList[0].ClimateDataValueID, climateDataValueExtraAList[0].ClimateDataValueID);
+                            Assert.AreEqual(climateDataValueDirectQueryList.Count, climateDataValueExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<ClimateDataValue_B> climateDataValue_BList = new List<ClimateDataValue_B>();
-                            climateDataValue_BList = climateDataValueService.GetClimateDataValue_BList().ToList();
-                            CheckClimateDataValue_BFields(climateDataValue_BList);
-                            Assert.AreEqual(climateDataValueDirectQueryList[0].ClimateDataValueID, climateDataValue_BList[0].ClimateDataValueID);
-                            Assert.AreEqual(climateDataValueDirectQueryList.Count, climateDataValue_BList.Count);
+                            List<ClimateDataValueExtraB> climateDataValueExtraBList = new List<ClimateDataValueExtraB>();
+                            climateDataValueExtraBList = climateDataValueService.GetClimateDataValueExtraBList().ToList();
+                            CheckClimateDataValueExtraBFields(climateDataValueExtraBList);
+                            Assert.AreEqual(climateDataValueDirectQueryList[0].ClimateDataValueID, climateDataValueExtraBList[0].ClimateDataValueID);
+                            Assert.AreEqual(climateDataValueDirectQueryList.Count, climateDataValueExtraBList.Count);
                         }
                         else
                         {
@@ -688,7 +688,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ClimateDataValueService climateDataValueService = new ClimateDataValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -704,21 +704,21 @@ namespace CSSPServices.Tests
                             CheckClimateDataValueFields(climateDataValueList);
                             Assert.AreEqual(climateDataValueDirectQueryList[0].ClimateDataValueID, climateDataValueList[0].ClimateDataValueID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<ClimateDataValue_A> climateDataValue_AList = new List<ClimateDataValue_A>();
-                            climateDataValue_AList = climateDataValueService.GetClimateDataValue_AList().ToList();
-                            CheckClimateDataValue_AFields(climateDataValue_AList);
-                            Assert.AreEqual(climateDataValueDirectQueryList[0].ClimateDataValueID, climateDataValue_AList[0].ClimateDataValueID);
-                            Assert.AreEqual(climateDataValueDirectQueryList.Count, climateDataValue_AList.Count);
+                            List<ClimateDataValueExtraA> climateDataValueExtraAList = new List<ClimateDataValueExtraA>();
+                            climateDataValueExtraAList = climateDataValueService.GetClimateDataValueExtraAList().ToList();
+                            CheckClimateDataValueExtraAFields(climateDataValueExtraAList);
+                            Assert.AreEqual(climateDataValueDirectQueryList[0].ClimateDataValueID, climateDataValueExtraAList[0].ClimateDataValueID);
+                            Assert.AreEqual(climateDataValueDirectQueryList.Count, climateDataValueExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<ClimateDataValue_B> climateDataValue_BList = new List<ClimateDataValue_B>();
-                            climateDataValue_BList = climateDataValueService.GetClimateDataValue_BList().ToList();
-                            CheckClimateDataValue_BFields(climateDataValue_BList);
-                            Assert.AreEqual(climateDataValueDirectQueryList[0].ClimateDataValueID, climateDataValue_BList[0].ClimateDataValueID);
-                            Assert.AreEqual(climateDataValueDirectQueryList.Count, climateDataValue_BList.Count);
+                            List<ClimateDataValueExtraB> climateDataValueExtraBList = new List<ClimateDataValueExtraB>();
+                            climateDataValueExtraBList = climateDataValueService.GetClimateDataValueExtraBList().ToList();
+                            CheckClimateDataValueExtraBFields(climateDataValueExtraBList);
+                            Assert.AreEqual(climateDataValueDirectQueryList[0].ClimateDataValueID, climateDataValueExtraBList[0].ClimateDataValueID);
+                            Assert.AreEqual(climateDataValueDirectQueryList.Count, climateDataValueExtraBList.Count);
                         }
                         else
                         {
@@ -740,7 +740,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ClimateDataValueService climateDataValueService = new ClimateDataValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -756,21 +756,21 @@ namespace CSSPServices.Tests
                             CheckClimateDataValueFields(climateDataValueList);
                             Assert.AreEqual(climateDataValueDirectQueryList[0].ClimateDataValueID, climateDataValueList[0].ClimateDataValueID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<ClimateDataValue_A> climateDataValue_AList = new List<ClimateDataValue_A>();
-                            climateDataValue_AList = climateDataValueService.GetClimateDataValue_AList().ToList();
-                            CheckClimateDataValue_AFields(climateDataValue_AList);
-                            Assert.AreEqual(climateDataValueDirectQueryList[0].ClimateDataValueID, climateDataValue_AList[0].ClimateDataValueID);
-                            Assert.AreEqual(climateDataValueDirectQueryList.Count, climateDataValue_AList.Count);
+                            List<ClimateDataValueExtraA> climateDataValueExtraAList = new List<ClimateDataValueExtraA>();
+                            climateDataValueExtraAList = climateDataValueService.GetClimateDataValueExtraAList().ToList();
+                            CheckClimateDataValueExtraAFields(climateDataValueExtraAList);
+                            Assert.AreEqual(climateDataValueDirectQueryList[0].ClimateDataValueID, climateDataValueExtraAList[0].ClimateDataValueID);
+                            Assert.AreEqual(climateDataValueDirectQueryList.Count, climateDataValueExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<ClimateDataValue_B> climateDataValue_BList = new List<ClimateDataValue_B>();
-                            climateDataValue_BList = climateDataValueService.GetClimateDataValue_BList().ToList();
-                            CheckClimateDataValue_BFields(climateDataValue_BList);
-                            Assert.AreEqual(climateDataValueDirectQueryList[0].ClimateDataValueID, climateDataValue_BList[0].ClimateDataValueID);
-                            Assert.AreEqual(climateDataValueDirectQueryList.Count, climateDataValue_BList.Count);
+                            List<ClimateDataValueExtraB> climateDataValueExtraBList = new List<ClimateDataValueExtraB>();
+                            climateDataValueExtraBList = climateDataValueService.GetClimateDataValueExtraBList().ToList();
+                            CheckClimateDataValueExtraBFields(climateDataValueExtraBList);
+                            Assert.AreEqual(climateDataValueDirectQueryList[0].ClimateDataValueID, climateDataValueExtraBList[0].ClimateDataValueID);
+                            Assert.AreEqual(climateDataValueDirectQueryList.Count, climateDataValueExtraBList.Count);
                         }
                         else
                         {
@@ -792,7 +792,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ClimateDataValueService climateDataValueService = new ClimateDataValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -808,21 +808,21 @@ namespace CSSPServices.Tests
                             CheckClimateDataValueFields(climateDataValueList);
                             Assert.AreEqual(climateDataValueDirectQueryList[0].ClimateDataValueID, climateDataValueList[0].ClimateDataValueID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<ClimateDataValue_A> climateDataValue_AList = new List<ClimateDataValue_A>();
-                            climateDataValue_AList = climateDataValueService.GetClimateDataValue_AList().ToList();
-                            CheckClimateDataValue_AFields(climateDataValue_AList);
-                            Assert.AreEqual(climateDataValueDirectQueryList[0].ClimateDataValueID, climateDataValue_AList[0].ClimateDataValueID);
-                            Assert.AreEqual(climateDataValueDirectQueryList.Count, climateDataValue_AList.Count);
+                            List<ClimateDataValueExtraA> climateDataValueExtraAList = new List<ClimateDataValueExtraA>();
+                            climateDataValueExtraAList = climateDataValueService.GetClimateDataValueExtraAList().ToList();
+                            CheckClimateDataValueExtraAFields(climateDataValueExtraAList);
+                            Assert.AreEqual(climateDataValueDirectQueryList[0].ClimateDataValueID, climateDataValueExtraAList[0].ClimateDataValueID);
+                            Assert.AreEqual(climateDataValueDirectQueryList.Count, climateDataValueExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<ClimateDataValue_B> climateDataValue_BList = new List<ClimateDataValue_B>();
-                            climateDataValue_BList = climateDataValueService.GetClimateDataValue_BList().ToList();
-                            CheckClimateDataValue_BFields(climateDataValue_BList);
-                            Assert.AreEqual(climateDataValueDirectQueryList[0].ClimateDataValueID, climateDataValue_BList[0].ClimateDataValueID);
-                            Assert.AreEqual(climateDataValueDirectQueryList.Count, climateDataValue_BList.Count);
+                            List<ClimateDataValueExtraB> climateDataValueExtraBList = new List<ClimateDataValueExtraB>();
+                            climateDataValueExtraBList = climateDataValueService.GetClimateDataValueExtraBList().ToList();
+                            CheckClimateDataValueExtraBFields(climateDataValueExtraBList);
+                            Assert.AreEqual(climateDataValueDirectQueryList[0].ClimateDataValueID, climateDataValueExtraBList[0].ClimateDataValueID);
+                            Assert.AreEqual(climateDataValueDirectQueryList.Count, climateDataValueExtraBList.Count);
                         }
                         else
                         {
@@ -844,7 +844,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ClimateDataValueService climateDataValueService = new ClimateDataValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -860,21 +860,21 @@ namespace CSSPServices.Tests
                             CheckClimateDataValueFields(climateDataValueList);
                             Assert.AreEqual(climateDataValueDirectQueryList[0].ClimateDataValueID, climateDataValueList[0].ClimateDataValueID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<ClimateDataValue_A> climateDataValue_AList = new List<ClimateDataValue_A>();
-                            climateDataValue_AList = climateDataValueService.GetClimateDataValue_AList().ToList();
-                            CheckClimateDataValue_AFields(climateDataValue_AList);
-                            Assert.AreEqual(climateDataValueDirectQueryList[0].ClimateDataValueID, climateDataValue_AList[0].ClimateDataValueID);
-                            Assert.AreEqual(climateDataValueDirectQueryList.Count, climateDataValue_AList.Count);
+                            List<ClimateDataValueExtraA> climateDataValueExtraAList = new List<ClimateDataValueExtraA>();
+                            climateDataValueExtraAList = climateDataValueService.GetClimateDataValueExtraAList().ToList();
+                            CheckClimateDataValueExtraAFields(climateDataValueExtraAList);
+                            Assert.AreEqual(climateDataValueDirectQueryList[0].ClimateDataValueID, climateDataValueExtraAList[0].ClimateDataValueID);
+                            Assert.AreEqual(climateDataValueDirectQueryList.Count, climateDataValueExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<ClimateDataValue_B> climateDataValue_BList = new List<ClimateDataValue_B>();
-                            climateDataValue_BList = climateDataValueService.GetClimateDataValue_BList().ToList();
-                            CheckClimateDataValue_BFields(climateDataValue_BList);
-                            Assert.AreEqual(climateDataValueDirectQueryList[0].ClimateDataValueID, climateDataValue_BList[0].ClimateDataValueID);
-                            Assert.AreEqual(climateDataValueDirectQueryList.Count, climateDataValue_BList.Count);
+                            List<ClimateDataValueExtraB> climateDataValueExtraBList = new List<ClimateDataValueExtraB>();
+                            climateDataValueExtraBList = climateDataValueService.GetClimateDataValueExtraBList().ToList();
+                            CheckClimateDataValueExtraBFields(climateDataValueExtraBList);
+                            Assert.AreEqual(climateDataValueDirectQueryList[0].ClimateDataValueID, climateDataValueExtraBList[0].ClimateDataValueID);
+                            Assert.AreEqual(climateDataValueDirectQueryList.Count, climateDataValueExtraBList.Count);
                         }
                         else
                         {
@@ -947,139 +947,139 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(climateDataValueList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(climateDataValueList[0].HasErrors);
         }
-        private void CheckClimateDataValue_AFields(List<ClimateDataValue_A> climateDataValue_AList)
+        private void CheckClimateDataValueExtraAFields(List<ClimateDataValueExtraA> climateDataValueExtraAList)
         {
-            Assert.IsNotNull(climateDataValue_AList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(climateDataValue_AList[0].StorageDataTypeEnumText))
+            Assert.IsNotNull(climateDataValueExtraAList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(climateDataValueExtraAList[0].StorageDataTypeEnumText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(climateDataValue_AList[0].StorageDataTypeEnumText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(climateDataValueExtraAList[0].StorageDataTypeEnumText));
             }
-            Assert.IsNotNull(climateDataValue_AList[0].ClimateDataValueID);
-            Assert.IsNotNull(climateDataValue_AList[0].ClimateSiteID);
-            Assert.IsNotNull(climateDataValue_AList[0].DateTime_Local);
-            Assert.IsNotNull(climateDataValue_AList[0].Keep);
-            Assert.IsNotNull(climateDataValue_AList[0].StorageDataType);
-            Assert.IsNotNull(climateDataValue_AList[0].HasBeenRead);
-            if (climateDataValue_AList[0].Snow_cm != null)
+            Assert.IsNotNull(climateDataValueExtraAList[0].ClimateDataValueID);
+            Assert.IsNotNull(climateDataValueExtraAList[0].ClimateSiteID);
+            Assert.IsNotNull(climateDataValueExtraAList[0].DateTime_Local);
+            Assert.IsNotNull(climateDataValueExtraAList[0].Keep);
+            Assert.IsNotNull(climateDataValueExtraAList[0].StorageDataType);
+            Assert.IsNotNull(climateDataValueExtraAList[0].HasBeenRead);
+            if (climateDataValueExtraAList[0].Snow_cm != null)
             {
-                Assert.IsNotNull(climateDataValue_AList[0].Snow_cm);
+                Assert.IsNotNull(climateDataValueExtraAList[0].Snow_cm);
             }
-            if (climateDataValue_AList[0].Rainfall_mm != null)
+            if (climateDataValueExtraAList[0].Rainfall_mm != null)
             {
-                Assert.IsNotNull(climateDataValue_AList[0].Rainfall_mm);
+                Assert.IsNotNull(climateDataValueExtraAList[0].Rainfall_mm);
             }
-            if (climateDataValue_AList[0].RainfallEntered_mm != null)
+            if (climateDataValueExtraAList[0].RainfallEntered_mm != null)
             {
-                Assert.IsNotNull(climateDataValue_AList[0].RainfallEntered_mm);
+                Assert.IsNotNull(climateDataValueExtraAList[0].RainfallEntered_mm);
             }
-            if (climateDataValue_AList[0].TotalPrecip_mm_cm != null)
+            if (climateDataValueExtraAList[0].TotalPrecip_mm_cm != null)
             {
-                Assert.IsNotNull(climateDataValue_AList[0].TotalPrecip_mm_cm);
+                Assert.IsNotNull(climateDataValueExtraAList[0].TotalPrecip_mm_cm);
             }
-            if (climateDataValue_AList[0].MaxTemp_C != null)
+            if (climateDataValueExtraAList[0].MaxTemp_C != null)
             {
-                Assert.IsNotNull(climateDataValue_AList[0].MaxTemp_C);
+                Assert.IsNotNull(climateDataValueExtraAList[0].MaxTemp_C);
             }
-            if (climateDataValue_AList[0].MinTemp_C != null)
+            if (climateDataValueExtraAList[0].MinTemp_C != null)
             {
-                Assert.IsNotNull(climateDataValue_AList[0].MinTemp_C);
+                Assert.IsNotNull(climateDataValueExtraAList[0].MinTemp_C);
             }
-            if (climateDataValue_AList[0].HeatDegDays_C != null)
+            if (climateDataValueExtraAList[0].HeatDegDays_C != null)
             {
-                Assert.IsNotNull(climateDataValue_AList[0].HeatDegDays_C);
+                Assert.IsNotNull(climateDataValueExtraAList[0].HeatDegDays_C);
             }
-            if (climateDataValue_AList[0].CoolDegDays_C != null)
+            if (climateDataValueExtraAList[0].CoolDegDays_C != null)
             {
-                Assert.IsNotNull(climateDataValue_AList[0].CoolDegDays_C);
+                Assert.IsNotNull(climateDataValueExtraAList[0].CoolDegDays_C);
             }
-            if (climateDataValue_AList[0].SnowOnGround_cm != null)
+            if (climateDataValueExtraAList[0].SnowOnGround_cm != null)
             {
-                Assert.IsNotNull(climateDataValue_AList[0].SnowOnGround_cm);
+                Assert.IsNotNull(climateDataValueExtraAList[0].SnowOnGround_cm);
             }
-            if (climateDataValue_AList[0].DirMaxGust_0North != null)
+            if (climateDataValueExtraAList[0].DirMaxGust_0North != null)
             {
-                Assert.IsNotNull(climateDataValue_AList[0].DirMaxGust_0North);
+                Assert.IsNotNull(climateDataValueExtraAList[0].DirMaxGust_0North);
             }
-            if (climateDataValue_AList[0].SpdMaxGust_kmh != null)
+            if (climateDataValueExtraAList[0].SpdMaxGust_kmh != null)
             {
-                Assert.IsNotNull(climateDataValue_AList[0].SpdMaxGust_kmh);
+                Assert.IsNotNull(climateDataValueExtraAList[0].SpdMaxGust_kmh);
             }
-            if (!string.IsNullOrWhiteSpace(climateDataValue_AList[0].HourlyValues))
+            if (!string.IsNullOrWhiteSpace(climateDataValueExtraAList[0].HourlyValues))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(climateDataValue_AList[0].HourlyValues));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(climateDataValueExtraAList[0].HourlyValues));
             }
-            Assert.IsNotNull(climateDataValue_AList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(climateDataValue_AList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(climateDataValue_AList[0].HasErrors);
+            Assert.IsNotNull(climateDataValueExtraAList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(climateDataValueExtraAList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(climateDataValueExtraAList[0].HasErrors);
         }
-        private void CheckClimateDataValue_BFields(List<ClimateDataValue_B> climateDataValue_BList)
+        private void CheckClimateDataValueExtraBFields(List<ClimateDataValueExtraB> climateDataValueExtraBList)
         {
-            if (!string.IsNullOrWhiteSpace(climateDataValue_BList[0].ClimateDataValueReportTest))
+            if (!string.IsNullOrWhiteSpace(climateDataValueExtraBList[0].ClimateDataValueReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(climateDataValue_BList[0].ClimateDataValueReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(climateDataValueExtraBList[0].ClimateDataValueReportTest));
             }
-            Assert.IsNotNull(climateDataValue_BList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(climateDataValue_BList[0].StorageDataTypeEnumText))
+            Assert.IsNotNull(climateDataValueExtraBList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(climateDataValueExtraBList[0].StorageDataTypeEnumText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(climateDataValue_BList[0].StorageDataTypeEnumText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(climateDataValueExtraBList[0].StorageDataTypeEnumText));
             }
-            Assert.IsNotNull(climateDataValue_BList[0].ClimateDataValueID);
-            Assert.IsNotNull(climateDataValue_BList[0].ClimateSiteID);
-            Assert.IsNotNull(climateDataValue_BList[0].DateTime_Local);
-            Assert.IsNotNull(climateDataValue_BList[0].Keep);
-            Assert.IsNotNull(climateDataValue_BList[0].StorageDataType);
-            Assert.IsNotNull(climateDataValue_BList[0].HasBeenRead);
-            if (climateDataValue_BList[0].Snow_cm != null)
+            Assert.IsNotNull(climateDataValueExtraBList[0].ClimateDataValueID);
+            Assert.IsNotNull(climateDataValueExtraBList[0].ClimateSiteID);
+            Assert.IsNotNull(climateDataValueExtraBList[0].DateTime_Local);
+            Assert.IsNotNull(climateDataValueExtraBList[0].Keep);
+            Assert.IsNotNull(climateDataValueExtraBList[0].StorageDataType);
+            Assert.IsNotNull(climateDataValueExtraBList[0].HasBeenRead);
+            if (climateDataValueExtraBList[0].Snow_cm != null)
             {
-                Assert.IsNotNull(climateDataValue_BList[0].Snow_cm);
+                Assert.IsNotNull(climateDataValueExtraBList[0].Snow_cm);
             }
-            if (climateDataValue_BList[0].Rainfall_mm != null)
+            if (climateDataValueExtraBList[0].Rainfall_mm != null)
             {
-                Assert.IsNotNull(climateDataValue_BList[0].Rainfall_mm);
+                Assert.IsNotNull(climateDataValueExtraBList[0].Rainfall_mm);
             }
-            if (climateDataValue_BList[0].RainfallEntered_mm != null)
+            if (climateDataValueExtraBList[0].RainfallEntered_mm != null)
             {
-                Assert.IsNotNull(climateDataValue_BList[0].RainfallEntered_mm);
+                Assert.IsNotNull(climateDataValueExtraBList[0].RainfallEntered_mm);
             }
-            if (climateDataValue_BList[0].TotalPrecip_mm_cm != null)
+            if (climateDataValueExtraBList[0].TotalPrecip_mm_cm != null)
             {
-                Assert.IsNotNull(climateDataValue_BList[0].TotalPrecip_mm_cm);
+                Assert.IsNotNull(climateDataValueExtraBList[0].TotalPrecip_mm_cm);
             }
-            if (climateDataValue_BList[0].MaxTemp_C != null)
+            if (climateDataValueExtraBList[0].MaxTemp_C != null)
             {
-                Assert.IsNotNull(climateDataValue_BList[0].MaxTemp_C);
+                Assert.IsNotNull(climateDataValueExtraBList[0].MaxTemp_C);
             }
-            if (climateDataValue_BList[0].MinTemp_C != null)
+            if (climateDataValueExtraBList[0].MinTemp_C != null)
             {
-                Assert.IsNotNull(climateDataValue_BList[0].MinTemp_C);
+                Assert.IsNotNull(climateDataValueExtraBList[0].MinTemp_C);
             }
-            if (climateDataValue_BList[0].HeatDegDays_C != null)
+            if (climateDataValueExtraBList[0].HeatDegDays_C != null)
             {
-                Assert.IsNotNull(climateDataValue_BList[0].HeatDegDays_C);
+                Assert.IsNotNull(climateDataValueExtraBList[0].HeatDegDays_C);
             }
-            if (climateDataValue_BList[0].CoolDegDays_C != null)
+            if (climateDataValueExtraBList[0].CoolDegDays_C != null)
             {
-                Assert.IsNotNull(climateDataValue_BList[0].CoolDegDays_C);
+                Assert.IsNotNull(climateDataValueExtraBList[0].CoolDegDays_C);
             }
-            if (climateDataValue_BList[0].SnowOnGround_cm != null)
+            if (climateDataValueExtraBList[0].SnowOnGround_cm != null)
             {
-                Assert.IsNotNull(climateDataValue_BList[0].SnowOnGround_cm);
+                Assert.IsNotNull(climateDataValueExtraBList[0].SnowOnGround_cm);
             }
-            if (climateDataValue_BList[0].DirMaxGust_0North != null)
+            if (climateDataValueExtraBList[0].DirMaxGust_0North != null)
             {
-                Assert.IsNotNull(climateDataValue_BList[0].DirMaxGust_0North);
+                Assert.IsNotNull(climateDataValueExtraBList[0].DirMaxGust_0North);
             }
-            if (climateDataValue_BList[0].SpdMaxGust_kmh != null)
+            if (climateDataValueExtraBList[0].SpdMaxGust_kmh != null)
             {
-                Assert.IsNotNull(climateDataValue_BList[0].SpdMaxGust_kmh);
+                Assert.IsNotNull(climateDataValueExtraBList[0].SpdMaxGust_kmh);
             }
-            if (!string.IsNullOrWhiteSpace(climateDataValue_BList[0].HourlyValues))
+            if (!string.IsNullOrWhiteSpace(climateDataValueExtraBList[0].HourlyValues))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(climateDataValue_BList[0].HourlyValues));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(climateDataValueExtraBList[0].HourlyValues));
             }
-            Assert.IsNotNull(climateDataValue_BList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(climateDataValue_BList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(climateDataValue_BList[0].HasErrors);
+            Assert.IsNotNull(climateDataValueExtraBList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(climateDataValueExtraBList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(climateDataValueExtraBList[0].HasErrors);
         }
         private ClimateDataValue GetFilledRandomClimateDataValue(string OmitPropName)
         {

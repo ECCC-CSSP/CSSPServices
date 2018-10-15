@@ -230,31 +230,31 @@ namespace CSSPServices
 
             return LabSheetTubeMPNDetailQuery;
         }
-        public LabSheetTubeMPNDetail_A GetLabSheetTubeMPNDetail_AWithLabSheetTubeMPNDetailID(int LabSheetTubeMPNDetailID)
+        public LabSheetTubeMPNDetailExtraA GetLabSheetTubeMPNDetailExtraAWithLabSheetTubeMPNDetailID(int LabSheetTubeMPNDetailID)
         {
-            return FillLabSheetTubeMPNDetail_A().Where(c => c.LabSheetTubeMPNDetailID == LabSheetTubeMPNDetailID).FirstOrDefault();
+            return FillLabSheetTubeMPNDetailExtraA().Where(c => c.LabSheetTubeMPNDetailID == LabSheetTubeMPNDetailID).FirstOrDefault();
 
         }
-        public IQueryable<LabSheetTubeMPNDetail_A> GetLabSheetTubeMPNDetail_AList()
+        public IQueryable<LabSheetTubeMPNDetailExtraA> GetLabSheetTubeMPNDetailExtraAList()
         {
-            IQueryable<LabSheetTubeMPNDetail_A> LabSheetTubeMPNDetail_AQuery = FillLabSheetTubeMPNDetail_A();
+            IQueryable<LabSheetTubeMPNDetailExtraA> LabSheetTubeMPNDetailExtraAQuery = FillLabSheetTubeMPNDetailExtraA();
 
-            LabSheetTubeMPNDetail_AQuery = EnhanceQueryStatements<LabSheetTubeMPNDetail_A>(LabSheetTubeMPNDetail_AQuery) as IQueryable<LabSheetTubeMPNDetail_A>;
+            LabSheetTubeMPNDetailExtraAQuery = EnhanceQueryStatements<LabSheetTubeMPNDetailExtraA>(LabSheetTubeMPNDetailExtraAQuery) as IQueryable<LabSheetTubeMPNDetailExtraA>;
 
-            return LabSheetTubeMPNDetail_AQuery;
+            return LabSheetTubeMPNDetailExtraAQuery;
         }
-        public LabSheetTubeMPNDetail_B GetLabSheetTubeMPNDetail_BWithLabSheetTubeMPNDetailID(int LabSheetTubeMPNDetailID)
+        public LabSheetTubeMPNDetailExtraB GetLabSheetTubeMPNDetailExtraBWithLabSheetTubeMPNDetailID(int LabSheetTubeMPNDetailID)
         {
-            return FillLabSheetTubeMPNDetail_B().Where(c => c.LabSheetTubeMPNDetailID == LabSheetTubeMPNDetailID).FirstOrDefault();
+            return FillLabSheetTubeMPNDetailExtraB().Where(c => c.LabSheetTubeMPNDetailID == LabSheetTubeMPNDetailID).FirstOrDefault();
 
         }
-        public IQueryable<LabSheetTubeMPNDetail_B> GetLabSheetTubeMPNDetail_BList()
+        public IQueryable<LabSheetTubeMPNDetailExtraB> GetLabSheetTubeMPNDetailExtraBList()
         {
-            IQueryable<LabSheetTubeMPNDetail_B> LabSheetTubeMPNDetail_BQuery = FillLabSheetTubeMPNDetail_B();
+            IQueryable<LabSheetTubeMPNDetailExtraB> LabSheetTubeMPNDetailExtraBQuery = FillLabSheetTubeMPNDetailExtraB();
 
-            LabSheetTubeMPNDetail_BQuery = EnhanceQueryStatements<LabSheetTubeMPNDetail_B>(LabSheetTubeMPNDetail_BQuery) as IQueryable<LabSheetTubeMPNDetail_B>;
+            LabSheetTubeMPNDetailExtraBQuery = EnhanceQueryStatements<LabSheetTubeMPNDetailExtraB>(LabSheetTubeMPNDetailExtraBQuery) as IQueryable<LabSheetTubeMPNDetailExtraB>;
 
-            return LabSheetTubeMPNDetail_BQuery;
+            return LabSheetTubeMPNDetailExtraBQuery;
         }
         #endregion Functions public Generated Get
 

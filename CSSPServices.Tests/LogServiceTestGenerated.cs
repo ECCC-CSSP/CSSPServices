@@ -238,7 +238,7 @@ namespace CSSPServices.Tests
                     Log log = (from c in dbTestDB.Logs select c).FirstOrDefault();
                     Assert.IsNotNull(log);
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         logService.Query.Detail = detail;
 
@@ -248,17 +248,17 @@ namespace CSSPServices.Tests
                             CheckLogFields(new List<Log>() { logRet });
                             Assert.AreEqual(log.LogID, logRet.LogID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            Log_A log_ARet = logService.GetLog_AWithLogID(log.LogID);
-                            CheckLog_AFields(new List<Log_A>() { log_ARet });
-                            Assert.AreEqual(log.LogID, log_ARet.LogID);
+                            LogExtraA logExtraARet = logService.GetLogExtraAWithLogID(log.LogID);
+                            CheckLogExtraAFields(new List<LogExtraA>() { logExtraARet });
+                            Assert.AreEqual(log.LogID, logExtraARet.LogID);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            Log_B log_BRet = logService.GetLog_BWithLogID(log.LogID);
-                            CheckLog_BFields(new List<Log_B>() { log_BRet });
-                            Assert.AreEqual(log.LogID, log_BRet.LogID);
+                            LogExtraB logExtraBRet = logService.GetLogExtraBWithLogID(log.LogID);
+                            CheckLogExtraBFields(new List<LogExtraB>() { logExtraBRet });
+                            Assert.AreEqual(log.LogID, logExtraBRet.LogID);
                         }
                         else
                         {
@@ -287,7 +287,7 @@ namespace CSSPServices.Tests
                     List<Log> logDirectQueryList = new List<Log>();
                     logDirectQueryList = (from c in dbTestDB.Logs select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         logService.Query.Detail = detail;
 
@@ -297,19 +297,19 @@ namespace CSSPServices.Tests
                             logList = logService.GetLogList().ToList();
                             CheckLogFields(logList);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<Log_A> log_AList = new List<Log_A>();
-                            log_AList = logService.GetLog_AList().ToList();
-                            CheckLog_AFields(log_AList);
-                            Assert.AreEqual(logDirectQueryList.Count, log_AList.Count);
+                            List<LogExtraA> logExtraAList = new List<LogExtraA>();
+                            logExtraAList = logService.GetLogExtraAList().ToList();
+                            CheckLogExtraAFields(logExtraAList);
+                            Assert.AreEqual(logDirectQueryList.Count, logExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<Log_B> log_BList = new List<Log_B>();
-                            log_BList = logService.GetLog_BList().ToList();
-                            CheckLog_BFields(log_BList);
-                            Assert.AreEqual(logDirectQueryList.Count, log_BList.Count);
+                            List<LogExtraB> logExtraBList = new List<LogExtraB>();
+                            logExtraBList = logService.GetLogExtraBList().ToList();
+                            CheckLogExtraBFields(logExtraBList);
+                            Assert.AreEqual(logDirectQueryList.Count, logExtraBList.Count);
                         }
                         else
                         {
@@ -331,7 +331,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         LogService logService = new LogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -347,21 +347,21 @@ namespace CSSPServices.Tests
                             CheckLogFields(logList);
                             Assert.AreEqual(logDirectQueryList[0].LogID, logList[0].LogID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<Log_A> log_AList = new List<Log_A>();
-                            log_AList = logService.GetLog_AList().ToList();
-                            CheckLog_AFields(log_AList);
-                            Assert.AreEqual(logDirectQueryList[0].LogID, log_AList[0].LogID);
-                            Assert.AreEqual(logDirectQueryList.Count, log_AList.Count);
+                            List<LogExtraA> logExtraAList = new List<LogExtraA>();
+                            logExtraAList = logService.GetLogExtraAList().ToList();
+                            CheckLogExtraAFields(logExtraAList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, logExtraAList[0].LogID);
+                            Assert.AreEqual(logDirectQueryList.Count, logExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<Log_B> log_BList = new List<Log_B>();
-                            log_BList = logService.GetLog_BList().ToList();
-                            CheckLog_BFields(log_BList);
-                            Assert.AreEqual(logDirectQueryList[0].LogID, log_BList[0].LogID);
-                            Assert.AreEqual(logDirectQueryList.Count, log_BList.Count);
+                            List<LogExtraB> logExtraBList = new List<LogExtraB>();
+                            logExtraBList = logService.GetLogExtraBList().ToList();
+                            CheckLogExtraBFields(logExtraBList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, logExtraBList[0].LogID);
+                            Assert.AreEqual(logDirectQueryList.Count, logExtraBList.Count);
                         }
                         else
                         {
@@ -383,7 +383,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         LogService logService = new LogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -399,21 +399,21 @@ namespace CSSPServices.Tests
                             CheckLogFields(logList);
                             Assert.AreEqual(logDirectQueryList[0].LogID, logList[0].LogID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<Log_A> log_AList = new List<Log_A>();
-                            log_AList = logService.GetLog_AList().ToList();
-                            CheckLog_AFields(log_AList);
-                            Assert.AreEqual(logDirectQueryList[0].LogID, log_AList[0].LogID);
-                            Assert.AreEqual(logDirectQueryList.Count, log_AList.Count);
+                            List<LogExtraA> logExtraAList = new List<LogExtraA>();
+                            logExtraAList = logService.GetLogExtraAList().ToList();
+                            CheckLogExtraAFields(logExtraAList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, logExtraAList[0].LogID);
+                            Assert.AreEqual(logDirectQueryList.Count, logExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<Log_B> log_BList = new List<Log_B>();
-                            log_BList = logService.GetLog_BList().ToList();
-                            CheckLog_BFields(log_BList);
-                            Assert.AreEqual(logDirectQueryList[0].LogID, log_BList[0].LogID);
-                            Assert.AreEqual(logDirectQueryList.Count, log_BList.Count);
+                            List<LogExtraB> logExtraBList = new List<LogExtraB>();
+                            logExtraBList = logService.GetLogExtraBList().ToList();
+                            CheckLogExtraBFields(logExtraBList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, logExtraBList[0].LogID);
+                            Assert.AreEqual(logDirectQueryList.Count, logExtraBList.Count);
                         }
                         else
                         {
@@ -435,7 +435,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         LogService logService = new LogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -451,21 +451,21 @@ namespace CSSPServices.Tests
                             CheckLogFields(logList);
                             Assert.AreEqual(logDirectQueryList[0].LogID, logList[0].LogID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<Log_A> log_AList = new List<Log_A>();
-                            log_AList = logService.GetLog_AList().ToList();
-                            CheckLog_AFields(log_AList);
-                            Assert.AreEqual(logDirectQueryList[0].LogID, log_AList[0].LogID);
-                            Assert.AreEqual(logDirectQueryList.Count, log_AList.Count);
+                            List<LogExtraA> logExtraAList = new List<LogExtraA>();
+                            logExtraAList = logService.GetLogExtraAList().ToList();
+                            CheckLogExtraAFields(logExtraAList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, logExtraAList[0].LogID);
+                            Assert.AreEqual(logDirectQueryList.Count, logExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<Log_B> log_BList = new List<Log_B>();
-                            log_BList = logService.GetLog_BList().ToList();
-                            CheckLog_BFields(log_BList);
-                            Assert.AreEqual(logDirectQueryList[0].LogID, log_BList[0].LogID);
-                            Assert.AreEqual(logDirectQueryList.Count, log_BList.Count);
+                            List<LogExtraB> logExtraBList = new List<LogExtraB>();
+                            logExtraBList = logService.GetLogExtraBList().ToList();
+                            CheckLogExtraBFields(logExtraBList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, logExtraBList[0].LogID);
+                            Assert.AreEqual(logDirectQueryList.Count, logExtraBList.Count);
                         }
                         else
                         {
@@ -487,7 +487,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         LogService logService = new LogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -503,21 +503,21 @@ namespace CSSPServices.Tests
                             CheckLogFields(logList);
                             Assert.AreEqual(logDirectQueryList[0].LogID, logList[0].LogID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<Log_A> log_AList = new List<Log_A>();
-                            log_AList = logService.GetLog_AList().ToList();
-                            CheckLog_AFields(log_AList);
-                            Assert.AreEqual(logDirectQueryList[0].LogID, log_AList[0].LogID);
-                            Assert.AreEqual(logDirectQueryList.Count, log_AList.Count);
+                            List<LogExtraA> logExtraAList = new List<LogExtraA>();
+                            logExtraAList = logService.GetLogExtraAList().ToList();
+                            CheckLogExtraAFields(logExtraAList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, logExtraAList[0].LogID);
+                            Assert.AreEqual(logDirectQueryList.Count, logExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<Log_B> log_BList = new List<Log_B>();
-                            log_BList = logService.GetLog_BList().ToList();
-                            CheckLog_BFields(log_BList);
-                            Assert.AreEqual(logDirectQueryList[0].LogID, log_BList[0].LogID);
-                            Assert.AreEqual(logDirectQueryList.Count, log_BList.Count);
+                            List<LogExtraB> logExtraBList = new List<LogExtraB>();
+                            logExtraBList = logService.GetLogExtraBList().ToList();
+                            CheckLogExtraBFields(logExtraBList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, logExtraBList[0].LogID);
+                            Assert.AreEqual(logDirectQueryList.Count, logExtraBList.Count);
                         }
                         else
                         {
@@ -539,7 +539,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         LogService logService = new LogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -555,21 +555,21 @@ namespace CSSPServices.Tests
                             CheckLogFields(logList);
                             Assert.AreEqual(logDirectQueryList[0].LogID, logList[0].LogID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<Log_A> log_AList = new List<Log_A>();
-                            log_AList = logService.GetLog_AList().ToList();
-                            CheckLog_AFields(log_AList);
-                            Assert.AreEqual(logDirectQueryList[0].LogID, log_AList[0].LogID);
-                            Assert.AreEqual(logDirectQueryList.Count, log_AList.Count);
+                            List<LogExtraA> logExtraAList = new List<LogExtraA>();
+                            logExtraAList = logService.GetLogExtraAList().ToList();
+                            CheckLogExtraAFields(logExtraAList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, logExtraAList[0].LogID);
+                            Assert.AreEqual(logDirectQueryList.Count, logExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<Log_B> log_BList = new List<Log_B>();
-                            log_BList = logService.GetLog_BList().ToList();
-                            CheckLog_BFields(log_BList);
-                            Assert.AreEqual(logDirectQueryList[0].LogID, log_BList[0].LogID);
-                            Assert.AreEqual(logDirectQueryList.Count, log_BList.Count);
+                            List<LogExtraB> logExtraBList = new List<LogExtraB>();
+                            logExtraBList = logService.GetLogExtraBList().ToList();
+                            CheckLogExtraBFields(logExtraBList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, logExtraBList[0].LogID);
+                            Assert.AreEqual(logDirectQueryList.Count, logExtraBList.Count);
                         }
                         else
                         {
@@ -591,7 +591,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         LogService logService = new LogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -607,21 +607,21 @@ namespace CSSPServices.Tests
                             CheckLogFields(logList);
                             Assert.AreEqual(logDirectQueryList[0].LogID, logList[0].LogID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<Log_A> log_AList = new List<Log_A>();
-                            log_AList = logService.GetLog_AList().ToList();
-                            CheckLog_AFields(log_AList);
-                            Assert.AreEqual(logDirectQueryList[0].LogID, log_AList[0].LogID);
-                            Assert.AreEqual(logDirectQueryList.Count, log_AList.Count);
+                            List<LogExtraA> logExtraAList = new List<LogExtraA>();
+                            logExtraAList = logService.GetLogExtraAList().ToList();
+                            CheckLogExtraAFields(logExtraAList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, logExtraAList[0].LogID);
+                            Assert.AreEqual(logDirectQueryList.Count, logExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<Log_B> log_BList = new List<Log_B>();
-                            log_BList = logService.GetLog_BList().ToList();
-                            CheckLog_BFields(log_BList);
-                            Assert.AreEqual(logDirectQueryList[0].LogID, log_BList[0].LogID);
-                            Assert.AreEqual(logDirectQueryList.Count, log_BList.Count);
+                            List<LogExtraB> logExtraBList = new List<LogExtraB>();
+                            logExtraBList = logService.GetLogExtraBList().ToList();
+                            CheckLogExtraBFields(logExtraBList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, logExtraBList[0].LogID);
+                            Assert.AreEqual(logDirectQueryList.Count, logExtraBList.Count);
                         }
                         else
                         {
@@ -645,41 +645,41 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(logList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(logList[0].HasErrors);
         }
-        private void CheckLog_AFields(List<Log_A> log_AList)
+        private void CheckLogExtraAFields(List<LogExtraA> logExtraAList)
         {
-            Assert.IsNotNull(log_AList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(log_AList[0].LogCommandText))
+            Assert.IsNotNull(logExtraAList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(logExtraAList[0].LogCommandText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(log_AList[0].LogCommandText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(logExtraAList[0].LogCommandText));
             }
-            Assert.IsNotNull(log_AList[0].LogID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(log_AList[0].TableName));
-            Assert.IsNotNull(log_AList[0].ID);
-            Assert.IsNotNull(log_AList[0].LogCommand);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(log_AList[0].Information));
-            Assert.IsNotNull(log_AList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(log_AList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(log_AList[0].HasErrors);
+            Assert.IsNotNull(logExtraAList[0].LogID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(logExtraAList[0].TableName));
+            Assert.IsNotNull(logExtraAList[0].ID);
+            Assert.IsNotNull(logExtraAList[0].LogCommand);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(logExtraAList[0].Information));
+            Assert.IsNotNull(logExtraAList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(logExtraAList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(logExtraAList[0].HasErrors);
         }
-        private void CheckLog_BFields(List<Log_B> log_BList)
+        private void CheckLogExtraBFields(List<LogExtraB> logExtraBList)
         {
-            if (!string.IsNullOrWhiteSpace(log_BList[0].LogReportTest))
+            if (!string.IsNullOrWhiteSpace(logExtraBList[0].LogReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(log_BList[0].LogReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(logExtraBList[0].LogReportTest));
             }
-            Assert.IsNotNull(log_BList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(log_BList[0].LogCommandText))
+            Assert.IsNotNull(logExtraBList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(logExtraBList[0].LogCommandText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(log_BList[0].LogCommandText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(logExtraBList[0].LogCommandText));
             }
-            Assert.IsNotNull(log_BList[0].LogID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(log_BList[0].TableName));
-            Assert.IsNotNull(log_BList[0].ID);
-            Assert.IsNotNull(log_BList[0].LogCommand);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(log_BList[0].Information));
-            Assert.IsNotNull(log_BList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(log_BList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(log_BList[0].HasErrors);
+            Assert.IsNotNull(logExtraBList[0].LogID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(logExtraBList[0].TableName));
+            Assert.IsNotNull(logExtraBList[0].ID);
+            Assert.IsNotNull(logExtraBList[0].LogCommand);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(logExtraBList[0].Information));
+            Assert.IsNotNull(logExtraBList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(logExtraBList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(logExtraBList[0].HasErrors);
         }
         private Log GetFilledRandomLog(string OmitPropName)
         {

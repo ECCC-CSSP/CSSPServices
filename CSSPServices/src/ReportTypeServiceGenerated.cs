@@ -143,31 +143,31 @@ namespace CSSPServices
 
             return ReportTypeQuery;
         }
-        public ReportType_A GetReportType_AWithReportTypeID(int ReportTypeID)
+        public ReportTypeExtraA GetReportTypeExtraAWithReportTypeID(int ReportTypeID)
         {
-            return FillReportType_A().Where(c => c.ReportTypeID == ReportTypeID).FirstOrDefault();
+            return FillReportTypeExtraA().Where(c => c.ReportTypeID == ReportTypeID).FirstOrDefault();
 
         }
-        public IQueryable<ReportType_A> GetReportType_AList()
+        public IQueryable<ReportTypeExtraA> GetReportTypeExtraAList()
         {
-            IQueryable<ReportType_A> ReportType_AQuery = FillReportType_A();
+            IQueryable<ReportTypeExtraA> ReportTypeExtraAQuery = FillReportTypeExtraA();
 
-            ReportType_AQuery = EnhanceQueryStatements<ReportType_A>(ReportType_AQuery) as IQueryable<ReportType_A>;
+            ReportTypeExtraAQuery = EnhanceQueryStatements<ReportTypeExtraA>(ReportTypeExtraAQuery) as IQueryable<ReportTypeExtraA>;
 
-            return ReportType_AQuery;
+            return ReportTypeExtraAQuery;
         }
-        public ReportType_B GetReportType_BWithReportTypeID(int ReportTypeID)
+        public ReportTypeExtraB GetReportTypeExtraBWithReportTypeID(int ReportTypeID)
         {
-            return FillReportType_B().Where(c => c.ReportTypeID == ReportTypeID).FirstOrDefault();
+            return FillReportTypeExtraB().Where(c => c.ReportTypeID == ReportTypeID).FirstOrDefault();
 
         }
-        public IQueryable<ReportType_B> GetReportType_BList()
+        public IQueryable<ReportTypeExtraB> GetReportTypeExtraBList()
         {
-            IQueryable<ReportType_B> ReportType_BQuery = FillReportType_B();
+            IQueryable<ReportTypeExtraB> ReportTypeExtraBQuery = FillReportTypeExtraB();
 
-            ReportType_BQuery = EnhanceQueryStatements<ReportType_B>(ReportType_BQuery) as IQueryable<ReportType_B>;
+            ReportTypeExtraBQuery = EnhanceQueryStatements<ReportTypeExtraB>(ReportTypeExtraBQuery) as IQueryable<ReportTypeExtraB>;
 
-            return ReportType_BQuery;
+            return ReportTypeExtraBQuery;
         }
         #endregion Functions public Generated Get
 

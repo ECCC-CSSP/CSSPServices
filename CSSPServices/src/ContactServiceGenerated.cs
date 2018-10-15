@@ -237,31 +237,31 @@ namespace CSSPServices
 
             return ContactQuery;
         }
-        public Contact_A GetContact_AWithContactID(int ContactID)
+        public ContactExtraA GetContactExtraAWithContactID(int ContactID)
         {
-            return FillContact_A().Where(c => c.ContactID == ContactID).FirstOrDefault();
+            return FillContactExtraA().Where(c => c.ContactID == ContactID).FirstOrDefault();
 
         }
-        public IQueryable<Contact_A> GetContact_AList()
+        public IQueryable<ContactExtraA> GetContactExtraAList()
         {
-            IQueryable<Contact_A> Contact_AQuery = FillContact_A();
+            IQueryable<ContactExtraA> ContactExtraAQuery = FillContactExtraA();
 
-            Contact_AQuery = EnhanceQueryStatements<Contact_A>(Contact_AQuery) as IQueryable<Contact_A>;
+            ContactExtraAQuery = EnhanceQueryStatements<ContactExtraA>(ContactExtraAQuery) as IQueryable<ContactExtraA>;
 
-            return Contact_AQuery;
+            return ContactExtraAQuery;
         }
-        public Contact_B GetContact_BWithContactID(int ContactID)
+        public ContactExtraB GetContactExtraBWithContactID(int ContactID)
         {
-            return FillContact_B().Where(c => c.ContactID == ContactID).FirstOrDefault();
+            return FillContactExtraB().Where(c => c.ContactID == ContactID).FirstOrDefault();
 
         }
-        public IQueryable<Contact_B> GetContact_BList()
+        public IQueryable<ContactExtraB> GetContactExtraBList()
         {
-            IQueryable<Contact_B> Contact_BQuery = FillContact_B();
+            IQueryable<ContactExtraB> ContactExtraBQuery = FillContactExtraB();
 
-            Contact_BQuery = EnhanceQueryStatements<Contact_B>(Contact_BQuery) as IQueryable<Contact_B>;
+            ContactExtraBQuery = EnhanceQueryStatements<ContactExtraB>(ContactExtraBQuery) as IQueryable<ContactExtraB>;
 
-            return Contact_BQuery;
+            return ContactExtraBQuery;
         }
         #endregion Functions public Generated Get
 

@@ -204,31 +204,31 @@ namespace CSSPServices
 
             return MapInfoQuery;
         }
-        public MapInfo_A GetMapInfo_AWithMapInfoID(int MapInfoID)
+        public MapInfoExtraA GetMapInfoExtraAWithMapInfoID(int MapInfoID)
         {
-            return FillMapInfo_A().Where(c => c.MapInfoID == MapInfoID).FirstOrDefault();
+            return FillMapInfoExtraA().Where(c => c.MapInfoID == MapInfoID).FirstOrDefault();
 
         }
-        public IQueryable<MapInfo_A> GetMapInfo_AList()
+        public IQueryable<MapInfoExtraA> GetMapInfoExtraAList()
         {
-            IQueryable<MapInfo_A> MapInfo_AQuery = FillMapInfo_A();
+            IQueryable<MapInfoExtraA> MapInfoExtraAQuery = FillMapInfoExtraA();
 
-            MapInfo_AQuery = EnhanceQueryStatements<MapInfo_A>(MapInfo_AQuery) as IQueryable<MapInfo_A>;
+            MapInfoExtraAQuery = EnhanceQueryStatements<MapInfoExtraA>(MapInfoExtraAQuery) as IQueryable<MapInfoExtraA>;
 
-            return MapInfo_AQuery;
+            return MapInfoExtraAQuery;
         }
-        public MapInfo_B GetMapInfo_BWithMapInfoID(int MapInfoID)
+        public MapInfoExtraB GetMapInfoExtraBWithMapInfoID(int MapInfoID)
         {
-            return FillMapInfo_B().Where(c => c.MapInfoID == MapInfoID).FirstOrDefault();
+            return FillMapInfoExtraB().Where(c => c.MapInfoID == MapInfoID).FirstOrDefault();
 
         }
-        public IQueryable<MapInfo_B> GetMapInfo_BList()
+        public IQueryable<MapInfoExtraB> GetMapInfoExtraBList()
         {
-            IQueryable<MapInfo_B> MapInfo_BQuery = FillMapInfo_B();
+            IQueryable<MapInfoExtraB> MapInfoExtraBQuery = FillMapInfoExtraB();
 
-            MapInfo_BQuery = EnhanceQueryStatements<MapInfo_B>(MapInfo_BQuery) as IQueryable<MapInfo_B>;
+            MapInfoExtraBQuery = EnhanceQueryStatements<MapInfoExtraB>(MapInfoExtraBQuery) as IQueryable<MapInfoExtraB>;
 
-            return MapInfo_BQuery;
+            return MapInfoExtraBQuery;
         }
         #endregion Functions public Generated Get
 

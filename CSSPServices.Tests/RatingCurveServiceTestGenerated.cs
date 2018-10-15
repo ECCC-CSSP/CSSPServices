@@ -211,7 +211,7 @@ namespace CSSPServices.Tests
                     RatingCurve ratingCurve = (from c in dbTestDB.RatingCurves select c).FirstOrDefault();
                     Assert.IsNotNull(ratingCurve);
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ratingCurveService.Query.Detail = detail;
 
@@ -221,17 +221,17 @@ namespace CSSPServices.Tests
                             CheckRatingCurveFields(new List<RatingCurve>() { ratingCurveRet });
                             Assert.AreEqual(ratingCurve.RatingCurveID, ratingCurveRet.RatingCurveID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            RatingCurve_A ratingCurve_ARet = ratingCurveService.GetRatingCurve_AWithRatingCurveID(ratingCurve.RatingCurveID);
-                            CheckRatingCurve_AFields(new List<RatingCurve_A>() { ratingCurve_ARet });
-                            Assert.AreEqual(ratingCurve.RatingCurveID, ratingCurve_ARet.RatingCurveID);
+                            RatingCurveExtraA ratingCurveExtraARet = ratingCurveService.GetRatingCurveExtraAWithRatingCurveID(ratingCurve.RatingCurveID);
+                            CheckRatingCurveExtraAFields(new List<RatingCurveExtraA>() { ratingCurveExtraARet });
+                            Assert.AreEqual(ratingCurve.RatingCurveID, ratingCurveExtraARet.RatingCurveID);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            RatingCurve_B ratingCurve_BRet = ratingCurveService.GetRatingCurve_BWithRatingCurveID(ratingCurve.RatingCurveID);
-                            CheckRatingCurve_BFields(new List<RatingCurve_B>() { ratingCurve_BRet });
-                            Assert.AreEqual(ratingCurve.RatingCurveID, ratingCurve_BRet.RatingCurveID);
+                            RatingCurveExtraB ratingCurveExtraBRet = ratingCurveService.GetRatingCurveExtraBWithRatingCurveID(ratingCurve.RatingCurveID);
+                            CheckRatingCurveExtraBFields(new List<RatingCurveExtraB>() { ratingCurveExtraBRet });
+                            Assert.AreEqual(ratingCurve.RatingCurveID, ratingCurveExtraBRet.RatingCurveID);
                         }
                         else
                         {
@@ -260,7 +260,7 @@ namespace CSSPServices.Tests
                     List<RatingCurve> ratingCurveDirectQueryList = new List<RatingCurve>();
                     ratingCurveDirectQueryList = (from c in dbTestDB.RatingCurves select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ratingCurveService.Query.Detail = detail;
 
@@ -270,19 +270,19 @@ namespace CSSPServices.Tests
                             ratingCurveList = ratingCurveService.GetRatingCurveList().ToList();
                             CheckRatingCurveFields(ratingCurveList);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<RatingCurve_A> ratingCurve_AList = new List<RatingCurve_A>();
-                            ratingCurve_AList = ratingCurveService.GetRatingCurve_AList().ToList();
-                            CheckRatingCurve_AFields(ratingCurve_AList);
-                            Assert.AreEqual(ratingCurveDirectQueryList.Count, ratingCurve_AList.Count);
+                            List<RatingCurveExtraA> ratingCurveExtraAList = new List<RatingCurveExtraA>();
+                            ratingCurveExtraAList = ratingCurveService.GetRatingCurveExtraAList().ToList();
+                            CheckRatingCurveExtraAFields(ratingCurveExtraAList);
+                            Assert.AreEqual(ratingCurveDirectQueryList.Count, ratingCurveExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<RatingCurve_B> ratingCurve_BList = new List<RatingCurve_B>();
-                            ratingCurve_BList = ratingCurveService.GetRatingCurve_BList().ToList();
-                            CheckRatingCurve_BFields(ratingCurve_BList);
-                            Assert.AreEqual(ratingCurveDirectQueryList.Count, ratingCurve_BList.Count);
+                            List<RatingCurveExtraB> ratingCurveExtraBList = new List<RatingCurveExtraB>();
+                            ratingCurveExtraBList = ratingCurveService.GetRatingCurveExtraBList().ToList();
+                            CheckRatingCurveExtraBFields(ratingCurveExtraBList);
+                            Assert.AreEqual(ratingCurveDirectQueryList.Count, ratingCurveExtraBList.Count);
                         }
                         else
                         {
@@ -304,7 +304,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         RatingCurveService ratingCurveService = new RatingCurveService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -320,21 +320,21 @@ namespace CSSPServices.Tests
                             CheckRatingCurveFields(ratingCurveList);
                             Assert.AreEqual(ratingCurveDirectQueryList[0].RatingCurveID, ratingCurveList[0].RatingCurveID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<RatingCurve_A> ratingCurve_AList = new List<RatingCurve_A>();
-                            ratingCurve_AList = ratingCurveService.GetRatingCurve_AList().ToList();
-                            CheckRatingCurve_AFields(ratingCurve_AList);
-                            Assert.AreEqual(ratingCurveDirectQueryList[0].RatingCurveID, ratingCurve_AList[0].RatingCurveID);
-                            Assert.AreEqual(ratingCurveDirectQueryList.Count, ratingCurve_AList.Count);
+                            List<RatingCurveExtraA> ratingCurveExtraAList = new List<RatingCurveExtraA>();
+                            ratingCurveExtraAList = ratingCurveService.GetRatingCurveExtraAList().ToList();
+                            CheckRatingCurveExtraAFields(ratingCurveExtraAList);
+                            Assert.AreEqual(ratingCurveDirectQueryList[0].RatingCurveID, ratingCurveExtraAList[0].RatingCurveID);
+                            Assert.AreEqual(ratingCurveDirectQueryList.Count, ratingCurveExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<RatingCurve_B> ratingCurve_BList = new List<RatingCurve_B>();
-                            ratingCurve_BList = ratingCurveService.GetRatingCurve_BList().ToList();
-                            CheckRatingCurve_BFields(ratingCurve_BList);
-                            Assert.AreEqual(ratingCurveDirectQueryList[0].RatingCurveID, ratingCurve_BList[0].RatingCurveID);
-                            Assert.AreEqual(ratingCurveDirectQueryList.Count, ratingCurve_BList.Count);
+                            List<RatingCurveExtraB> ratingCurveExtraBList = new List<RatingCurveExtraB>();
+                            ratingCurveExtraBList = ratingCurveService.GetRatingCurveExtraBList().ToList();
+                            CheckRatingCurveExtraBFields(ratingCurveExtraBList);
+                            Assert.AreEqual(ratingCurveDirectQueryList[0].RatingCurveID, ratingCurveExtraBList[0].RatingCurveID);
+                            Assert.AreEqual(ratingCurveDirectQueryList.Count, ratingCurveExtraBList.Count);
                         }
                         else
                         {
@@ -356,7 +356,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         RatingCurveService ratingCurveService = new RatingCurveService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -372,21 +372,21 @@ namespace CSSPServices.Tests
                             CheckRatingCurveFields(ratingCurveList);
                             Assert.AreEqual(ratingCurveDirectQueryList[0].RatingCurveID, ratingCurveList[0].RatingCurveID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<RatingCurve_A> ratingCurve_AList = new List<RatingCurve_A>();
-                            ratingCurve_AList = ratingCurveService.GetRatingCurve_AList().ToList();
-                            CheckRatingCurve_AFields(ratingCurve_AList);
-                            Assert.AreEqual(ratingCurveDirectQueryList[0].RatingCurveID, ratingCurve_AList[0].RatingCurveID);
-                            Assert.AreEqual(ratingCurveDirectQueryList.Count, ratingCurve_AList.Count);
+                            List<RatingCurveExtraA> ratingCurveExtraAList = new List<RatingCurveExtraA>();
+                            ratingCurveExtraAList = ratingCurveService.GetRatingCurveExtraAList().ToList();
+                            CheckRatingCurveExtraAFields(ratingCurveExtraAList);
+                            Assert.AreEqual(ratingCurveDirectQueryList[0].RatingCurveID, ratingCurveExtraAList[0].RatingCurveID);
+                            Assert.AreEqual(ratingCurveDirectQueryList.Count, ratingCurveExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<RatingCurve_B> ratingCurve_BList = new List<RatingCurve_B>();
-                            ratingCurve_BList = ratingCurveService.GetRatingCurve_BList().ToList();
-                            CheckRatingCurve_BFields(ratingCurve_BList);
-                            Assert.AreEqual(ratingCurveDirectQueryList[0].RatingCurveID, ratingCurve_BList[0].RatingCurveID);
-                            Assert.AreEqual(ratingCurveDirectQueryList.Count, ratingCurve_BList.Count);
+                            List<RatingCurveExtraB> ratingCurveExtraBList = new List<RatingCurveExtraB>();
+                            ratingCurveExtraBList = ratingCurveService.GetRatingCurveExtraBList().ToList();
+                            CheckRatingCurveExtraBFields(ratingCurveExtraBList);
+                            Assert.AreEqual(ratingCurveDirectQueryList[0].RatingCurveID, ratingCurveExtraBList[0].RatingCurveID);
+                            Assert.AreEqual(ratingCurveDirectQueryList.Count, ratingCurveExtraBList.Count);
                         }
                         else
                         {
@@ -408,7 +408,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         RatingCurveService ratingCurveService = new RatingCurveService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -424,21 +424,21 @@ namespace CSSPServices.Tests
                             CheckRatingCurveFields(ratingCurveList);
                             Assert.AreEqual(ratingCurveDirectQueryList[0].RatingCurveID, ratingCurveList[0].RatingCurveID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<RatingCurve_A> ratingCurve_AList = new List<RatingCurve_A>();
-                            ratingCurve_AList = ratingCurveService.GetRatingCurve_AList().ToList();
-                            CheckRatingCurve_AFields(ratingCurve_AList);
-                            Assert.AreEqual(ratingCurveDirectQueryList[0].RatingCurveID, ratingCurve_AList[0].RatingCurveID);
-                            Assert.AreEqual(ratingCurveDirectQueryList.Count, ratingCurve_AList.Count);
+                            List<RatingCurveExtraA> ratingCurveExtraAList = new List<RatingCurveExtraA>();
+                            ratingCurveExtraAList = ratingCurveService.GetRatingCurveExtraAList().ToList();
+                            CheckRatingCurveExtraAFields(ratingCurveExtraAList);
+                            Assert.AreEqual(ratingCurveDirectQueryList[0].RatingCurveID, ratingCurveExtraAList[0].RatingCurveID);
+                            Assert.AreEqual(ratingCurveDirectQueryList.Count, ratingCurveExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<RatingCurve_B> ratingCurve_BList = new List<RatingCurve_B>();
-                            ratingCurve_BList = ratingCurveService.GetRatingCurve_BList().ToList();
-                            CheckRatingCurve_BFields(ratingCurve_BList);
-                            Assert.AreEqual(ratingCurveDirectQueryList[0].RatingCurveID, ratingCurve_BList[0].RatingCurveID);
-                            Assert.AreEqual(ratingCurveDirectQueryList.Count, ratingCurve_BList.Count);
+                            List<RatingCurveExtraB> ratingCurveExtraBList = new List<RatingCurveExtraB>();
+                            ratingCurveExtraBList = ratingCurveService.GetRatingCurveExtraBList().ToList();
+                            CheckRatingCurveExtraBFields(ratingCurveExtraBList);
+                            Assert.AreEqual(ratingCurveDirectQueryList[0].RatingCurveID, ratingCurveExtraBList[0].RatingCurveID);
+                            Assert.AreEqual(ratingCurveDirectQueryList.Count, ratingCurveExtraBList.Count);
                         }
                         else
                         {
@@ -460,7 +460,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         RatingCurveService ratingCurveService = new RatingCurveService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -476,21 +476,21 @@ namespace CSSPServices.Tests
                             CheckRatingCurveFields(ratingCurveList);
                             Assert.AreEqual(ratingCurveDirectQueryList[0].RatingCurveID, ratingCurveList[0].RatingCurveID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<RatingCurve_A> ratingCurve_AList = new List<RatingCurve_A>();
-                            ratingCurve_AList = ratingCurveService.GetRatingCurve_AList().ToList();
-                            CheckRatingCurve_AFields(ratingCurve_AList);
-                            Assert.AreEqual(ratingCurveDirectQueryList[0].RatingCurveID, ratingCurve_AList[0].RatingCurveID);
-                            Assert.AreEqual(ratingCurveDirectQueryList.Count, ratingCurve_AList.Count);
+                            List<RatingCurveExtraA> ratingCurveExtraAList = new List<RatingCurveExtraA>();
+                            ratingCurveExtraAList = ratingCurveService.GetRatingCurveExtraAList().ToList();
+                            CheckRatingCurveExtraAFields(ratingCurveExtraAList);
+                            Assert.AreEqual(ratingCurveDirectQueryList[0].RatingCurveID, ratingCurveExtraAList[0].RatingCurveID);
+                            Assert.AreEqual(ratingCurveDirectQueryList.Count, ratingCurveExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<RatingCurve_B> ratingCurve_BList = new List<RatingCurve_B>();
-                            ratingCurve_BList = ratingCurveService.GetRatingCurve_BList().ToList();
-                            CheckRatingCurve_BFields(ratingCurve_BList);
-                            Assert.AreEqual(ratingCurveDirectQueryList[0].RatingCurveID, ratingCurve_BList[0].RatingCurveID);
-                            Assert.AreEqual(ratingCurveDirectQueryList.Count, ratingCurve_BList.Count);
+                            List<RatingCurveExtraB> ratingCurveExtraBList = new List<RatingCurveExtraB>();
+                            ratingCurveExtraBList = ratingCurveService.GetRatingCurveExtraBList().ToList();
+                            CheckRatingCurveExtraBFields(ratingCurveExtraBList);
+                            Assert.AreEqual(ratingCurveDirectQueryList[0].RatingCurveID, ratingCurveExtraBList[0].RatingCurveID);
+                            Assert.AreEqual(ratingCurveDirectQueryList.Count, ratingCurveExtraBList.Count);
                         }
                         else
                         {
@@ -512,7 +512,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         RatingCurveService ratingCurveService = new RatingCurveService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -528,21 +528,21 @@ namespace CSSPServices.Tests
                             CheckRatingCurveFields(ratingCurveList);
                             Assert.AreEqual(ratingCurveDirectQueryList[0].RatingCurveID, ratingCurveList[0].RatingCurveID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<RatingCurve_A> ratingCurve_AList = new List<RatingCurve_A>();
-                            ratingCurve_AList = ratingCurveService.GetRatingCurve_AList().ToList();
-                            CheckRatingCurve_AFields(ratingCurve_AList);
-                            Assert.AreEqual(ratingCurveDirectQueryList[0].RatingCurveID, ratingCurve_AList[0].RatingCurveID);
-                            Assert.AreEqual(ratingCurveDirectQueryList.Count, ratingCurve_AList.Count);
+                            List<RatingCurveExtraA> ratingCurveExtraAList = new List<RatingCurveExtraA>();
+                            ratingCurveExtraAList = ratingCurveService.GetRatingCurveExtraAList().ToList();
+                            CheckRatingCurveExtraAFields(ratingCurveExtraAList);
+                            Assert.AreEqual(ratingCurveDirectQueryList[0].RatingCurveID, ratingCurveExtraAList[0].RatingCurveID);
+                            Assert.AreEqual(ratingCurveDirectQueryList.Count, ratingCurveExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<RatingCurve_B> ratingCurve_BList = new List<RatingCurve_B>();
-                            ratingCurve_BList = ratingCurveService.GetRatingCurve_BList().ToList();
-                            CheckRatingCurve_BFields(ratingCurve_BList);
-                            Assert.AreEqual(ratingCurveDirectQueryList[0].RatingCurveID, ratingCurve_BList[0].RatingCurveID);
-                            Assert.AreEqual(ratingCurveDirectQueryList.Count, ratingCurve_BList.Count);
+                            List<RatingCurveExtraB> ratingCurveExtraBList = new List<RatingCurveExtraB>();
+                            ratingCurveExtraBList = ratingCurveService.GetRatingCurveExtraBList().ToList();
+                            CheckRatingCurveExtraBFields(ratingCurveExtraBList);
+                            Assert.AreEqual(ratingCurveDirectQueryList[0].RatingCurveID, ratingCurveExtraBList[0].RatingCurveID);
+                            Assert.AreEqual(ratingCurveDirectQueryList.Count, ratingCurveExtraBList.Count);
                         }
                         else
                         {
@@ -564,7 +564,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         RatingCurveService ratingCurveService = new RatingCurveService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -580,21 +580,21 @@ namespace CSSPServices.Tests
                             CheckRatingCurveFields(ratingCurveList);
                             Assert.AreEqual(ratingCurveDirectQueryList[0].RatingCurveID, ratingCurveList[0].RatingCurveID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<RatingCurve_A> ratingCurve_AList = new List<RatingCurve_A>();
-                            ratingCurve_AList = ratingCurveService.GetRatingCurve_AList().ToList();
-                            CheckRatingCurve_AFields(ratingCurve_AList);
-                            Assert.AreEqual(ratingCurveDirectQueryList[0].RatingCurveID, ratingCurve_AList[0].RatingCurveID);
-                            Assert.AreEqual(ratingCurveDirectQueryList.Count, ratingCurve_AList.Count);
+                            List<RatingCurveExtraA> ratingCurveExtraAList = new List<RatingCurveExtraA>();
+                            ratingCurveExtraAList = ratingCurveService.GetRatingCurveExtraAList().ToList();
+                            CheckRatingCurveExtraAFields(ratingCurveExtraAList);
+                            Assert.AreEqual(ratingCurveDirectQueryList[0].RatingCurveID, ratingCurveExtraAList[0].RatingCurveID);
+                            Assert.AreEqual(ratingCurveDirectQueryList.Count, ratingCurveExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<RatingCurve_B> ratingCurve_BList = new List<RatingCurve_B>();
-                            ratingCurve_BList = ratingCurveService.GetRatingCurve_BList().ToList();
-                            CheckRatingCurve_BFields(ratingCurve_BList);
-                            Assert.AreEqual(ratingCurveDirectQueryList[0].RatingCurveID, ratingCurve_BList[0].RatingCurveID);
-                            Assert.AreEqual(ratingCurveDirectQueryList.Count, ratingCurve_BList.Count);
+                            List<RatingCurveExtraB> ratingCurveExtraBList = new List<RatingCurveExtraB>();
+                            ratingCurveExtraBList = ratingCurveService.GetRatingCurveExtraBList().ToList();
+                            CheckRatingCurveExtraBFields(ratingCurveExtraBList);
+                            Assert.AreEqual(ratingCurveDirectQueryList[0].RatingCurveID, ratingCurveExtraBList[0].RatingCurveID);
+                            Assert.AreEqual(ratingCurveDirectQueryList.Count, ratingCurveExtraBList.Count);
                         }
                         else
                         {
@@ -616,29 +616,29 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(ratingCurveList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(ratingCurveList[0].HasErrors);
         }
-        private void CheckRatingCurve_AFields(List<RatingCurve_A> ratingCurve_AList)
+        private void CheckRatingCurveExtraAFields(List<RatingCurveExtraA> ratingCurveExtraAList)
         {
-            Assert.IsNotNull(ratingCurve_AList[0].LastUpdateContactTVItemLanguage);
-            Assert.IsNotNull(ratingCurve_AList[0].RatingCurveID);
-            Assert.IsNotNull(ratingCurve_AList[0].HydrometricSiteID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(ratingCurve_AList[0].RatingCurveNumber));
-            Assert.IsNotNull(ratingCurve_AList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(ratingCurve_AList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(ratingCurve_AList[0].HasErrors);
+            Assert.IsNotNull(ratingCurveExtraAList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(ratingCurveExtraAList[0].RatingCurveID);
+            Assert.IsNotNull(ratingCurveExtraAList[0].HydrometricSiteID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(ratingCurveExtraAList[0].RatingCurveNumber));
+            Assert.IsNotNull(ratingCurveExtraAList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(ratingCurveExtraAList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(ratingCurveExtraAList[0].HasErrors);
         }
-        private void CheckRatingCurve_BFields(List<RatingCurve_B> ratingCurve_BList)
+        private void CheckRatingCurveExtraBFields(List<RatingCurveExtraB> ratingCurveExtraBList)
         {
-            if (!string.IsNullOrWhiteSpace(ratingCurve_BList[0].RatingCurveReportTest))
+            if (!string.IsNullOrWhiteSpace(ratingCurveExtraBList[0].RatingCurveReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(ratingCurve_BList[0].RatingCurveReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(ratingCurveExtraBList[0].RatingCurveReportTest));
             }
-            Assert.IsNotNull(ratingCurve_BList[0].LastUpdateContactTVItemLanguage);
-            Assert.IsNotNull(ratingCurve_BList[0].RatingCurveID);
-            Assert.IsNotNull(ratingCurve_BList[0].HydrometricSiteID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(ratingCurve_BList[0].RatingCurveNumber));
-            Assert.IsNotNull(ratingCurve_BList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(ratingCurve_BList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(ratingCurve_BList[0].HasErrors);
+            Assert.IsNotNull(ratingCurveExtraBList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(ratingCurveExtraBList[0].RatingCurveID);
+            Assert.IsNotNull(ratingCurveExtraBList[0].HydrometricSiteID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(ratingCurveExtraBList[0].RatingCurveNumber));
+            Assert.IsNotNull(ratingCurveExtraBList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(ratingCurveExtraBList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(ratingCurveExtraBList[0].HasErrors);
         }
         private RatingCurve GetFilledRandomRatingCurve(string OmitPropName)
         {

@@ -141,31 +141,31 @@ namespace CSSPServices
 
             return MWQMLookupMPNQuery;
         }
-        public MWQMLookupMPN_A GetMWQMLookupMPN_AWithMWQMLookupMPNID(int MWQMLookupMPNID)
+        public MWQMLookupMPNExtraA GetMWQMLookupMPNExtraAWithMWQMLookupMPNID(int MWQMLookupMPNID)
         {
-            return FillMWQMLookupMPN_A().Where(c => c.MWQMLookupMPNID == MWQMLookupMPNID).FirstOrDefault();
+            return FillMWQMLookupMPNExtraA().Where(c => c.MWQMLookupMPNID == MWQMLookupMPNID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMLookupMPN_A> GetMWQMLookupMPN_AList()
+        public IQueryable<MWQMLookupMPNExtraA> GetMWQMLookupMPNExtraAList()
         {
-            IQueryable<MWQMLookupMPN_A> MWQMLookupMPN_AQuery = FillMWQMLookupMPN_A();
+            IQueryable<MWQMLookupMPNExtraA> MWQMLookupMPNExtraAQuery = FillMWQMLookupMPNExtraA();
 
-            MWQMLookupMPN_AQuery = EnhanceQueryStatements<MWQMLookupMPN_A>(MWQMLookupMPN_AQuery) as IQueryable<MWQMLookupMPN_A>;
+            MWQMLookupMPNExtraAQuery = EnhanceQueryStatements<MWQMLookupMPNExtraA>(MWQMLookupMPNExtraAQuery) as IQueryable<MWQMLookupMPNExtraA>;
 
-            return MWQMLookupMPN_AQuery;
+            return MWQMLookupMPNExtraAQuery;
         }
-        public MWQMLookupMPN_B GetMWQMLookupMPN_BWithMWQMLookupMPNID(int MWQMLookupMPNID)
+        public MWQMLookupMPNExtraB GetMWQMLookupMPNExtraBWithMWQMLookupMPNID(int MWQMLookupMPNID)
         {
-            return FillMWQMLookupMPN_B().Where(c => c.MWQMLookupMPNID == MWQMLookupMPNID).FirstOrDefault();
+            return FillMWQMLookupMPNExtraB().Where(c => c.MWQMLookupMPNID == MWQMLookupMPNID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMLookupMPN_B> GetMWQMLookupMPN_BList()
+        public IQueryable<MWQMLookupMPNExtraB> GetMWQMLookupMPNExtraBList()
         {
-            IQueryable<MWQMLookupMPN_B> MWQMLookupMPN_BQuery = FillMWQMLookupMPN_B();
+            IQueryable<MWQMLookupMPNExtraB> MWQMLookupMPNExtraBQuery = FillMWQMLookupMPNExtraB();
 
-            MWQMLookupMPN_BQuery = EnhanceQueryStatements<MWQMLookupMPN_B>(MWQMLookupMPN_BQuery) as IQueryable<MWQMLookupMPN_B>;
+            MWQMLookupMPNExtraBQuery = EnhanceQueryStatements<MWQMLookupMPNExtraB>(MWQMLookupMPNExtraBQuery) as IQueryable<MWQMLookupMPNExtraB>;
 
-            return MWQMLookupMPN_BQuery;
+            return MWQMLookupMPNExtraBQuery;
         }
         #endregion Functions public Generated Get
 

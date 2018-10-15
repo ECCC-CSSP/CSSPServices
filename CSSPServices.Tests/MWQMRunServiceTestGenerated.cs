@@ -859,7 +859,7 @@ namespace CSSPServices.Tests
                     MWQMRun mwqmRun = (from c in dbTestDB.MWQMRuns select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmRun);
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         mwqmRunService.Query.Detail = detail;
 
@@ -869,17 +869,17 @@ namespace CSSPServices.Tests
                             CheckMWQMRunFields(new List<MWQMRun>() { mwqmRunRet });
                             Assert.AreEqual(mwqmRun.MWQMRunID, mwqmRunRet.MWQMRunID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            MWQMRun_A mwqmRun_ARet = mwqmRunService.GetMWQMRun_AWithMWQMRunID(mwqmRun.MWQMRunID);
-                            CheckMWQMRun_AFields(new List<MWQMRun_A>() { mwqmRun_ARet });
-                            Assert.AreEqual(mwqmRun.MWQMRunID, mwqmRun_ARet.MWQMRunID);
+                            MWQMRunExtraA mwqmRunExtraARet = mwqmRunService.GetMWQMRunExtraAWithMWQMRunID(mwqmRun.MWQMRunID);
+                            CheckMWQMRunExtraAFields(new List<MWQMRunExtraA>() { mwqmRunExtraARet });
+                            Assert.AreEqual(mwqmRun.MWQMRunID, mwqmRunExtraARet.MWQMRunID);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            MWQMRun_B mwqmRun_BRet = mwqmRunService.GetMWQMRun_BWithMWQMRunID(mwqmRun.MWQMRunID);
-                            CheckMWQMRun_BFields(new List<MWQMRun_B>() { mwqmRun_BRet });
-                            Assert.AreEqual(mwqmRun.MWQMRunID, mwqmRun_BRet.MWQMRunID);
+                            MWQMRunExtraB mwqmRunExtraBRet = mwqmRunService.GetMWQMRunExtraBWithMWQMRunID(mwqmRun.MWQMRunID);
+                            CheckMWQMRunExtraBFields(new List<MWQMRunExtraB>() { mwqmRunExtraBRet });
+                            Assert.AreEqual(mwqmRun.MWQMRunID, mwqmRunExtraBRet.MWQMRunID);
                         }
                         else
                         {
@@ -908,7 +908,7 @@ namespace CSSPServices.Tests
                     List<MWQMRun> mwqmRunDirectQueryList = new List<MWQMRun>();
                     mwqmRunDirectQueryList = (from c in dbTestDB.MWQMRuns select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         mwqmRunService.Query.Detail = detail;
 
@@ -918,19 +918,19 @@ namespace CSSPServices.Tests
                             mwqmRunList = mwqmRunService.GetMWQMRunList().ToList();
                             CheckMWQMRunFields(mwqmRunList);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MWQMRun_A> mwqmRun_AList = new List<MWQMRun_A>();
-                            mwqmRun_AList = mwqmRunService.GetMWQMRun_AList().ToList();
-                            CheckMWQMRun_AFields(mwqmRun_AList);
-                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRun_AList.Count);
+                            List<MWQMRunExtraA> mwqmRunExtraAList = new List<MWQMRunExtraA>();
+                            mwqmRunExtraAList = mwqmRunService.GetMWQMRunExtraAList().ToList();
+                            CheckMWQMRunExtraAFields(mwqmRunExtraAList);
+                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MWQMRun_B> mwqmRun_BList = new List<MWQMRun_B>();
-                            mwqmRun_BList = mwqmRunService.GetMWQMRun_BList().ToList();
-                            CheckMWQMRun_BFields(mwqmRun_BList);
-                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRun_BList.Count);
+                            List<MWQMRunExtraB> mwqmRunExtraBList = new List<MWQMRunExtraB>();
+                            mwqmRunExtraBList = mwqmRunService.GetMWQMRunExtraBList().ToList();
+                            CheckMWQMRunExtraBFields(mwqmRunExtraBList);
+                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraBList.Count);
                         }
                         else
                         {
@@ -952,7 +952,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMRunService mwqmRunService = new MWQMRunService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -968,21 +968,21 @@ namespace CSSPServices.Tests
                             CheckMWQMRunFields(mwqmRunList);
                             Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunList[0].MWQMRunID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MWQMRun_A> mwqmRun_AList = new List<MWQMRun_A>();
-                            mwqmRun_AList = mwqmRunService.GetMWQMRun_AList().ToList();
-                            CheckMWQMRun_AFields(mwqmRun_AList);
-                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRun_AList[0].MWQMRunID);
-                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRun_AList.Count);
+                            List<MWQMRunExtraA> mwqmRunExtraAList = new List<MWQMRunExtraA>();
+                            mwqmRunExtraAList = mwqmRunService.GetMWQMRunExtraAList().ToList();
+                            CheckMWQMRunExtraAFields(mwqmRunExtraAList);
+                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunExtraAList[0].MWQMRunID);
+                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MWQMRun_B> mwqmRun_BList = new List<MWQMRun_B>();
-                            mwqmRun_BList = mwqmRunService.GetMWQMRun_BList().ToList();
-                            CheckMWQMRun_BFields(mwqmRun_BList);
-                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRun_BList[0].MWQMRunID);
-                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRun_BList.Count);
+                            List<MWQMRunExtraB> mwqmRunExtraBList = new List<MWQMRunExtraB>();
+                            mwqmRunExtraBList = mwqmRunService.GetMWQMRunExtraBList().ToList();
+                            CheckMWQMRunExtraBFields(mwqmRunExtraBList);
+                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunExtraBList[0].MWQMRunID);
+                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraBList.Count);
                         }
                         else
                         {
@@ -1004,7 +1004,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMRunService mwqmRunService = new MWQMRunService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1020,21 +1020,21 @@ namespace CSSPServices.Tests
                             CheckMWQMRunFields(mwqmRunList);
                             Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunList[0].MWQMRunID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MWQMRun_A> mwqmRun_AList = new List<MWQMRun_A>();
-                            mwqmRun_AList = mwqmRunService.GetMWQMRun_AList().ToList();
-                            CheckMWQMRun_AFields(mwqmRun_AList);
-                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRun_AList[0].MWQMRunID);
-                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRun_AList.Count);
+                            List<MWQMRunExtraA> mwqmRunExtraAList = new List<MWQMRunExtraA>();
+                            mwqmRunExtraAList = mwqmRunService.GetMWQMRunExtraAList().ToList();
+                            CheckMWQMRunExtraAFields(mwqmRunExtraAList);
+                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunExtraAList[0].MWQMRunID);
+                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MWQMRun_B> mwqmRun_BList = new List<MWQMRun_B>();
-                            mwqmRun_BList = mwqmRunService.GetMWQMRun_BList().ToList();
-                            CheckMWQMRun_BFields(mwqmRun_BList);
-                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRun_BList[0].MWQMRunID);
-                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRun_BList.Count);
+                            List<MWQMRunExtraB> mwqmRunExtraBList = new List<MWQMRunExtraB>();
+                            mwqmRunExtraBList = mwqmRunService.GetMWQMRunExtraBList().ToList();
+                            CheckMWQMRunExtraBFields(mwqmRunExtraBList);
+                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunExtraBList[0].MWQMRunID);
+                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraBList.Count);
                         }
                         else
                         {
@@ -1056,7 +1056,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMRunService mwqmRunService = new MWQMRunService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1072,21 +1072,21 @@ namespace CSSPServices.Tests
                             CheckMWQMRunFields(mwqmRunList);
                             Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunList[0].MWQMRunID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MWQMRun_A> mwqmRun_AList = new List<MWQMRun_A>();
-                            mwqmRun_AList = mwqmRunService.GetMWQMRun_AList().ToList();
-                            CheckMWQMRun_AFields(mwqmRun_AList);
-                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRun_AList[0].MWQMRunID);
-                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRun_AList.Count);
+                            List<MWQMRunExtraA> mwqmRunExtraAList = new List<MWQMRunExtraA>();
+                            mwqmRunExtraAList = mwqmRunService.GetMWQMRunExtraAList().ToList();
+                            CheckMWQMRunExtraAFields(mwqmRunExtraAList);
+                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunExtraAList[0].MWQMRunID);
+                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MWQMRun_B> mwqmRun_BList = new List<MWQMRun_B>();
-                            mwqmRun_BList = mwqmRunService.GetMWQMRun_BList().ToList();
-                            CheckMWQMRun_BFields(mwqmRun_BList);
-                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRun_BList[0].MWQMRunID);
-                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRun_BList.Count);
+                            List<MWQMRunExtraB> mwqmRunExtraBList = new List<MWQMRunExtraB>();
+                            mwqmRunExtraBList = mwqmRunService.GetMWQMRunExtraBList().ToList();
+                            CheckMWQMRunExtraBFields(mwqmRunExtraBList);
+                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunExtraBList[0].MWQMRunID);
+                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraBList.Count);
                         }
                         else
                         {
@@ -1108,7 +1108,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMRunService mwqmRunService = new MWQMRunService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1124,21 +1124,21 @@ namespace CSSPServices.Tests
                             CheckMWQMRunFields(mwqmRunList);
                             Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunList[0].MWQMRunID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MWQMRun_A> mwqmRun_AList = new List<MWQMRun_A>();
-                            mwqmRun_AList = mwqmRunService.GetMWQMRun_AList().ToList();
-                            CheckMWQMRun_AFields(mwqmRun_AList);
-                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRun_AList[0].MWQMRunID);
-                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRun_AList.Count);
+                            List<MWQMRunExtraA> mwqmRunExtraAList = new List<MWQMRunExtraA>();
+                            mwqmRunExtraAList = mwqmRunService.GetMWQMRunExtraAList().ToList();
+                            CheckMWQMRunExtraAFields(mwqmRunExtraAList);
+                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunExtraAList[0].MWQMRunID);
+                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MWQMRun_B> mwqmRun_BList = new List<MWQMRun_B>();
-                            mwqmRun_BList = mwqmRunService.GetMWQMRun_BList().ToList();
-                            CheckMWQMRun_BFields(mwqmRun_BList);
-                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRun_BList[0].MWQMRunID);
-                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRun_BList.Count);
+                            List<MWQMRunExtraB> mwqmRunExtraBList = new List<MWQMRunExtraB>();
+                            mwqmRunExtraBList = mwqmRunService.GetMWQMRunExtraBList().ToList();
+                            CheckMWQMRunExtraBFields(mwqmRunExtraBList);
+                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunExtraBList[0].MWQMRunID);
+                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraBList.Count);
                         }
                         else
                         {
@@ -1160,7 +1160,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMRunService mwqmRunService = new MWQMRunService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1176,21 +1176,21 @@ namespace CSSPServices.Tests
                             CheckMWQMRunFields(mwqmRunList);
                             Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunList[0].MWQMRunID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MWQMRun_A> mwqmRun_AList = new List<MWQMRun_A>();
-                            mwqmRun_AList = mwqmRunService.GetMWQMRun_AList().ToList();
-                            CheckMWQMRun_AFields(mwqmRun_AList);
-                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRun_AList[0].MWQMRunID);
-                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRun_AList.Count);
+                            List<MWQMRunExtraA> mwqmRunExtraAList = new List<MWQMRunExtraA>();
+                            mwqmRunExtraAList = mwqmRunService.GetMWQMRunExtraAList().ToList();
+                            CheckMWQMRunExtraAFields(mwqmRunExtraAList);
+                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunExtraAList[0].MWQMRunID);
+                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MWQMRun_B> mwqmRun_BList = new List<MWQMRun_B>();
-                            mwqmRun_BList = mwqmRunService.GetMWQMRun_BList().ToList();
-                            CheckMWQMRun_BFields(mwqmRun_BList);
-                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRun_BList[0].MWQMRunID);
-                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRun_BList.Count);
+                            List<MWQMRunExtraB> mwqmRunExtraBList = new List<MWQMRunExtraB>();
+                            mwqmRunExtraBList = mwqmRunService.GetMWQMRunExtraBList().ToList();
+                            CheckMWQMRunExtraBFields(mwqmRunExtraBList);
+                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunExtraBList[0].MWQMRunID);
+                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraBList.Count);
                         }
                         else
                         {
@@ -1212,7 +1212,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMRunService mwqmRunService = new MWQMRunService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1228,21 +1228,21 @@ namespace CSSPServices.Tests
                             CheckMWQMRunFields(mwqmRunList);
                             Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunList[0].MWQMRunID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MWQMRun_A> mwqmRun_AList = new List<MWQMRun_A>();
-                            mwqmRun_AList = mwqmRunService.GetMWQMRun_AList().ToList();
-                            CheckMWQMRun_AFields(mwqmRun_AList);
-                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRun_AList[0].MWQMRunID);
-                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRun_AList.Count);
+                            List<MWQMRunExtraA> mwqmRunExtraAList = new List<MWQMRunExtraA>();
+                            mwqmRunExtraAList = mwqmRunService.GetMWQMRunExtraAList().ToList();
+                            CheckMWQMRunExtraAFields(mwqmRunExtraAList);
+                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunExtraAList[0].MWQMRunID);
+                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MWQMRun_B> mwqmRun_BList = new List<MWQMRun_B>();
-                            mwqmRun_BList = mwqmRunService.GetMWQMRun_BList().ToList();
-                            CheckMWQMRun_BFields(mwqmRun_BList);
-                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRun_BList[0].MWQMRunID);
-                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRun_BList.Count);
+                            List<MWQMRunExtraB> mwqmRunExtraBList = new List<MWQMRunExtraB>();
+                            mwqmRunExtraBList = mwqmRunService.GetMWQMRunExtraBList().ToList();
+                            CheckMWQMRunExtraBFields(mwqmRunExtraBList);
+                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunExtraBList[0].MWQMRunID);
+                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraBList.Count);
                         }
                         else
                         {
@@ -1403,385 +1403,385 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(mwqmRunList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(mwqmRunList[0].HasErrors);
         }
-        private void CheckMWQMRun_AFields(List<MWQMRun_A> mwqmRun_AList)
+        private void CheckMWQMRunExtraAFields(List<MWQMRunExtraA> mwqmRunExtraAList)
         {
-            Assert.IsNotNull(mwqmRun_AList[0].SubsectorTVItemLanguage);
-            Assert.IsNotNull(mwqmRun_AList[0].MWQMRunTVItemLanguage);
-            Assert.IsNotNull(mwqmRun_AList[0].LabSampleApprovalContactTVItemLanguage);
-            Assert.IsNotNull(mwqmRun_AList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(mwqmRun_AList[0].RunSampleTypeText))
+            Assert.IsNotNull(mwqmRunExtraAList[0].SubsectorTVItemLanguage);
+            Assert.IsNotNull(mwqmRunExtraAList[0].MWQMRunTVItemLanguage);
+            Assert.IsNotNull(mwqmRunExtraAList[0].LabSampleApprovalContactTVItemLanguage);
+            Assert.IsNotNull(mwqmRunExtraAList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(mwqmRunExtraAList[0].RunSampleTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRun_AList[0].RunSampleTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunExtraAList[0].RunSampleTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(mwqmRun_AList[0].SeaStateAtStart_BeaufortScaleText))
+            if (!string.IsNullOrWhiteSpace(mwqmRunExtraAList[0].SeaStateAtStart_BeaufortScaleText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRun_AList[0].SeaStateAtStart_BeaufortScaleText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunExtraAList[0].SeaStateAtStart_BeaufortScaleText));
             }
-            if (!string.IsNullOrWhiteSpace(mwqmRun_AList[0].SeaStateAtEnd_BeaufortScaleText))
+            if (!string.IsNullOrWhiteSpace(mwqmRunExtraAList[0].SeaStateAtEnd_BeaufortScaleText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRun_AList[0].SeaStateAtEnd_BeaufortScaleText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunExtraAList[0].SeaStateAtEnd_BeaufortScaleText));
             }
-            if (!string.IsNullOrWhiteSpace(mwqmRun_AList[0].AnalyzeMethodText))
+            if (!string.IsNullOrWhiteSpace(mwqmRunExtraAList[0].AnalyzeMethodText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRun_AList[0].AnalyzeMethodText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunExtraAList[0].AnalyzeMethodText));
             }
-            if (!string.IsNullOrWhiteSpace(mwqmRun_AList[0].SampleMatrixText))
+            if (!string.IsNullOrWhiteSpace(mwqmRunExtraAList[0].SampleMatrixText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRun_AList[0].SampleMatrixText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunExtraAList[0].SampleMatrixText));
             }
-            if (!string.IsNullOrWhiteSpace(mwqmRun_AList[0].LaboratoryText))
+            if (!string.IsNullOrWhiteSpace(mwqmRunExtraAList[0].LaboratoryText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRun_AList[0].LaboratoryText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunExtraAList[0].LaboratoryText));
             }
-            if (!string.IsNullOrWhiteSpace(mwqmRun_AList[0].SampleStatusText))
+            if (!string.IsNullOrWhiteSpace(mwqmRunExtraAList[0].SampleStatusText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRun_AList[0].SampleStatusText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunExtraAList[0].SampleStatusText));
             }
-            if (!string.IsNullOrWhiteSpace(mwqmRun_AList[0].Tide_StartText))
+            if (!string.IsNullOrWhiteSpace(mwqmRunExtraAList[0].Tide_StartText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRun_AList[0].Tide_StartText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunExtraAList[0].Tide_StartText));
             }
-            if (!string.IsNullOrWhiteSpace(mwqmRun_AList[0].Tide_EndText))
+            if (!string.IsNullOrWhiteSpace(mwqmRunExtraAList[0].Tide_EndText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRun_AList[0].Tide_EndText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunExtraAList[0].Tide_EndText));
             }
-            Assert.IsNotNull(mwqmRun_AList[0].MWQMRunID);
-            Assert.IsNotNull(mwqmRun_AList[0].SubsectorTVItemID);
-            Assert.IsNotNull(mwqmRun_AList[0].MWQMRunTVItemID);
-            Assert.IsNotNull(mwqmRun_AList[0].RunSampleType);
-            Assert.IsNotNull(mwqmRun_AList[0].DateTime_Local);
-            Assert.IsNotNull(mwqmRun_AList[0].RunNumber);
-            if (mwqmRun_AList[0].StartDateTime_Local != null)
+            Assert.IsNotNull(mwqmRunExtraAList[0].MWQMRunID);
+            Assert.IsNotNull(mwqmRunExtraAList[0].SubsectorTVItemID);
+            Assert.IsNotNull(mwqmRunExtraAList[0].MWQMRunTVItemID);
+            Assert.IsNotNull(mwqmRunExtraAList[0].RunSampleType);
+            Assert.IsNotNull(mwqmRunExtraAList[0].DateTime_Local);
+            Assert.IsNotNull(mwqmRunExtraAList[0].RunNumber);
+            if (mwqmRunExtraAList[0].StartDateTime_Local != null)
             {
-                Assert.IsNotNull(mwqmRun_AList[0].StartDateTime_Local);
+                Assert.IsNotNull(mwqmRunExtraAList[0].StartDateTime_Local);
             }
-            if (mwqmRun_AList[0].EndDateTime_Local != null)
+            if (mwqmRunExtraAList[0].EndDateTime_Local != null)
             {
-                Assert.IsNotNull(mwqmRun_AList[0].EndDateTime_Local);
+                Assert.IsNotNull(mwqmRunExtraAList[0].EndDateTime_Local);
             }
-            if (mwqmRun_AList[0].LabReceivedDateTime_Local != null)
+            if (mwqmRunExtraAList[0].LabReceivedDateTime_Local != null)
             {
-                Assert.IsNotNull(mwqmRun_AList[0].LabReceivedDateTime_Local);
+                Assert.IsNotNull(mwqmRunExtraAList[0].LabReceivedDateTime_Local);
             }
-            if (mwqmRun_AList[0].TemperatureControl1_C != null)
+            if (mwqmRunExtraAList[0].TemperatureControl1_C != null)
             {
-                Assert.IsNotNull(mwqmRun_AList[0].TemperatureControl1_C);
+                Assert.IsNotNull(mwqmRunExtraAList[0].TemperatureControl1_C);
             }
-            if (mwqmRun_AList[0].TemperatureControl2_C != null)
+            if (mwqmRunExtraAList[0].TemperatureControl2_C != null)
             {
-                Assert.IsNotNull(mwqmRun_AList[0].TemperatureControl2_C);
+                Assert.IsNotNull(mwqmRunExtraAList[0].TemperatureControl2_C);
             }
-            if (mwqmRun_AList[0].SeaStateAtStart_BeaufortScale != null)
+            if (mwqmRunExtraAList[0].SeaStateAtStart_BeaufortScale != null)
             {
-                Assert.IsNotNull(mwqmRun_AList[0].SeaStateAtStart_BeaufortScale);
+                Assert.IsNotNull(mwqmRunExtraAList[0].SeaStateAtStart_BeaufortScale);
             }
-            if (mwqmRun_AList[0].SeaStateAtEnd_BeaufortScale != null)
+            if (mwqmRunExtraAList[0].SeaStateAtEnd_BeaufortScale != null)
             {
-                Assert.IsNotNull(mwqmRun_AList[0].SeaStateAtEnd_BeaufortScale);
+                Assert.IsNotNull(mwqmRunExtraAList[0].SeaStateAtEnd_BeaufortScale);
             }
-            if (mwqmRun_AList[0].WaterLevelAtBrook_m != null)
+            if (mwqmRunExtraAList[0].WaterLevelAtBrook_m != null)
             {
-                Assert.IsNotNull(mwqmRun_AList[0].WaterLevelAtBrook_m);
+                Assert.IsNotNull(mwqmRunExtraAList[0].WaterLevelAtBrook_m);
             }
-            if (mwqmRun_AList[0].WaveHightAtStart_m != null)
+            if (mwqmRunExtraAList[0].WaveHightAtStart_m != null)
             {
-                Assert.IsNotNull(mwqmRun_AList[0].WaveHightAtStart_m);
+                Assert.IsNotNull(mwqmRunExtraAList[0].WaveHightAtStart_m);
             }
-            if (mwqmRun_AList[0].WaveHightAtEnd_m != null)
+            if (mwqmRunExtraAList[0].WaveHightAtEnd_m != null)
             {
-                Assert.IsNotNull(mwqmRun_AList[0].WaveHightAtEnd_m);
+                Assert.IsNotNull(mwqmRunExtraAList[0].WaveHightAtEnd_m);
             }
-            if (!string.IsNullOrWhiteSpace(mwqmRun_AList[0].SampleCrewInitials))
+            if (!string.IsNullOrWhiteSpace(mwqmRunExtraAList[0].SampleCrewInitials))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRun_AList[0].SampleCrewInitials));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunExtraAList[0].SampleCrewInitials));
             }
-            if (mwqmRun_AList[0].AnalyzeMethod != null)
+            if (mwqmRunExtraAList[0].AnalyzeMethod != null)
             {
-                Assert.IsNotNull(mwqmRun_AList[0].AnalyzeMethod);
+                Assert.IsNotNull(mwqmRunExtraAList[0].AnalyzeMethod);
             }
-            if (mwqmRun_AList[0].SampleMatrix != null)
+            if (mwqmRunExtraAList[0].SampleMatrix != null)
             {
-                Assert.IsNotNull(mwqmRun_AList[0].SampleMatrix);
+                Assert.IsNotNull(mwqmRunExtraAList[0].SampleMatrix);
             }
-            if (mwqmRun_AList[0].Laboratory != null)
+            if (mwqmRunExtraAList[0].Laboratory != null)
             {
-                Assert.IsNotNull(mwqmRun_AList[0].Laboratory);
+                Assert.IsNotNull(mwqmRunExtraAList[0].Laboratory);
             }
-            if (mwqmRun_AList[0].SampleStatus != null)
+            if (mwqmRunExtraAList[0].SampleStatus != null)
             {
-                Assert.IsNotNull(mwqmRun_AList[0].SampleStatus);
+                Assert.IsNotNull(mwqmRunExtraAList[0].SampleStatus);
             }
-            if (mwqmRun_AList[0].LabSampleApprovalContactTVItemID != null)
+            if (mwqmRunExtraAList[0].LabSampleApprovalContactTVItemID != null)
             {
-                Assert.IsNotNull(mwqmRun_AList[0].LabSampleApprovalContactTVItemID);
+                Assert.IsNotNull(mwqmRunExtraAList[0].LabSampleApprovalContactTVItemID);
             }
-            if (mwqmRun_AList[0].LabAnalyzeBath1IncubationStartDateTime_Local != null)
+            if (mwqmRunExtraAList[0].LabAnalyzeBath1IncubationStartDateTime_Local != null)
             {
-                Assert.IsNotNull(mwqmRun_AList[0].LabAnalyzeBath1IncubationStartDateTime_Local);
+                Assert.IsNotNull(mwqmRunExtraAList[0].LabAnalyzeBath1IncubationStartDateTime_Local);
             }
-            if (mwqmRun_AList[0].LabAnalyzeBath2IncubationStartDateTime_Local != null)
+            if (mwqmRunExtraAList[0].LabAnalyzeBath2IncubationStartDateTime_Local != null)
             {
-                Assert.IsNotNull(mwqmRun_AList[0].LabAnalyzeBath2IncubationStartDateTime_Local);
+                Assert.IsNotNull(mwqmRunExtraAList[0].LabAnalyzeBath2IncubationStartDateTime_Local);
             }
-            if (mwqmRun_AList[0].LabAnalyzeBath3IncubationStartDateTime_Local != null)
+            if (mwqmRunExtraAList[0].LabAnalyzeBath3IncubationStartDateTime_Local != null)
             {
-                Assert.IsNotNull(mwqmRun_AList[0].LabAnalyzeBath3IncubationStartDateTime_Local);
+                Assert.IsNotNull(mwqmRunExtraAList[0].LabAnalyzeBath3IncubationStartDateTime_Local);
             }
-            if (mwqmRun_AList[0].LabRunSampleApprovalDateTime_Local != null)
+            if (mwqmRunExtraAList[0].LabRunSampleApprovalDateTime_Local != null)
             {
-                Assert.IsNotNull(mwqmRun_AList[0].LabRunSampleApprovalDateTime_Local);
+                Assert.IsNotNull(mwqmRunExtraAList[0].LabRunSampleApprovalDateTime_Local);
             }
-            if (mwqmRun_AList[0].Tide_Start != null)
+            if (mwqmRunExtraAList[0].Tide_Start != null)
             {
-                Assert.IsNotNull(mwqmRun_AList[0].Tide_Start);
+                Assert.IsNotNull(mwqmRunExtraAList[0].Tide_Start);
             }
-            if (mwqmRun_AList[0].Tide_End != null)
+            if (mwqmRunExtraAList[0].Tide_End != null)
             {
-                Assert.IsNotNull(mwqmRun_AList[0].Tide_End);
+                Assert.IsNotNull(mwqmRunExtraAList[0].Tide_End);
             }
-            if (mwqmRun_AList[0].RainDay0_mm != null)
+            if (mwqmRunExtraAList[0].RainDay0_mm != null)
             {
-                Assert.IsNotNull(mwqmRun_AList[0].RainDay0_mm);
+                Assert.IsNotNull(mwqmRunExtraAList[0].RainDay0_mm);
             }
-            if (mwqmRun_AList[0].RainDay1_mm != null)
+            if (mwqmRunExtraAList[0].RainDay1_mm != null)
             {
-                Assert.IsNotNull(mwqmRun_AList[0].RainDay1_mm);
+                Assert.IsNotNull(mwqmRunExtraAList[0].RainDay1_mm);
             }
-            if (mwqmRun_AList[0].RainDay2_mm != null)
+            if (mwqmRunExtraAList[0].RainDay2_mm != null)
             {
-                Assert.IsNotNull(mwqmRun_AList[0].RainDay2_mm);
+                Assert.IsNotNull(mwqmRunExtraAList[0].RainDay2_mm);
             }
-            if (mwqmRun_AList[0].RainDay3_mm != null)
+            if (mwqmRunExtraAList[0].RainDay3_mm != null)
             {
-                Assert.IsNotNull(mwqmRun_AList[0].RainDay3_mm);
+                Assert.IsNotNull(mwqmRunExtraAList[0].RainDay3_mm);
             }
-            if (mwqmRun_AList[0].RainDay4_mm != null)
+            if (mwqmRunExtraAList[0].RainDay4_mm != null)
             {
-                Assert.IsNotNull(mwqmRun_AList[0].RainDay4_mm);
+                Assert.IsNotNull(mwqmRunExtraAList[0].RainDay4_mm);
             }
-            if (mwqmRun_AList[0].RainDay5_mm != null)
+            if (mwqmRunExtraAList[0].RainDay5_mm != null)
             {
-                Assert.IsNotNull(mwqmRun_AList[0].RainDay5_mm);
+                Assert.IsNotNull(mwqmRunExtraAList[0].RainDay5_mm);
             }
-            if (mwqmRun_AList[0].RainDay6_mm != null)
+            if (mwqmRunExtraAList[0].RainDay6_mm != null)
             {
-                Assert.IsNotNull(mwqmRun_AList[0].RainDay6_mm);
+                Assert.IsNotNull(mwqmRunExtraAList[0].RainDay6_mm);
             }
-            if (mwqmRun_AList[0].RainDay7_mm != null)
+            if (mwqmRunExtraAList[0].RainDay7_mm != null)
             {
-                Assert.IsNotNull(mwqmRun_AList[0].RainDay7_mm);
+                Assert.IsNotNull(mwqmRunExtraAList[0].RainDay7_mm);
             }
-            if (mwqmRun_AList[0].RainDay8_mm != null)
+            if (mwqmRunExtraAList[0].RainDay8_mm != null)
             {
-                Assert.IsNotNull(mwqmRun_AList[0].RainDay8_mm);
+                Assert.IsNotNull(mwqmRunExtraAList[0].RainDay8_mm);
             }
-            if (mwqmRun_AList[0].RainDay9_mm != null)
+            if (mwqmRunExtraAList[0].RainDay9_mm != null)
             {
-                Assert.IsNotNull(mwqmRun_AList[0].RainDay9_mm);
+                Assert.IsNotNull(mwqmRunExtraAList[0].RainDay9_mm);
             }
-            if (mwqmRun_AList[0].RainDay10_mm != null)
+            if (mwqmRunExtraAList[0].RainDay10_mm != null)
             {
-                Assert.IsNotNull(mwqmRun_AList[0].RainDay10_mm);
+                Assert.IsNotNull(mwqmRunExtraAList[0].RainDay10_mm);
             }
-            if (mwqmRun_AList[0].RemoveFromStat != null)
+            if (mwqmRunExtraAList[0].RemoveFromStat != null)
             {
-                Assert.IsNotNull(mwqmRun_AList[0].RemoveFromStat);
+                Assert.IsNotNull(mwqmRunExtraAList[0].RemoveFromStat);
             }
-            Assert.IsNotNull(mwqmRun_AList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(mwqmRun_AList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(mwqmRun_AList[0].HasErrors);
+            Assert.IsNotNull(mwqmRunExtraAList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(mwqmRunExtraAList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(mwqmRunExtraAList[0].HasErrors);
         }
-        private void CheckMWQMRun_BFields(List<MWQMRun_B> mwqmRun_BList)
+        private void CheckMWQMRunExtraBFields(List<MWQMRunExtraB> mwqmRunExtraBList)
         {
-            if (!string.IsNullOrWhiteSpace(mwqmRun_BList[0].MWQMRunReportTest))
+            if (!string.IsNullOrWhiteSpace(mwqmRunExtraBList[0].MWQMRunReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRun_BList[0].MWQMRunReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunExtraBList[0].MWQMRunReportTest));
             }
-            Assert.IsNotNull(mwqmRun_BList[0].SubsectorTVItemLanguage);
-            Assert.IsNotNull(mwqmRun_BList[0].MWQMRunTVItemLanguage);
-            Assert.IsNotNull(mwqmRun_BList[0].LabSampleApprovalContactTVItemLanguage);
-            Assert.IsNotNull(mwqmRun_BList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(mwqmRun_BList[0].RunSampleTypeText))
+            Assert.IsNotNull(mwqmRunExtraBList[0].SubsectorTVItemLanguage);
+            Assert.IsNotNull(mwqmRunExtraBList[0].MWQMRunTVItemLanguage);
+            Assert.IsNotNull(mwqmRunExtraBList[0].LabSampleApprovalContactTVItemLanguage);
+            Assert.IsNotNull(mwqmRunExtraBList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(mwqmRunExtraBList[0].RunSampleTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRun_BList[0].RunSampleTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunExtraBList[0].RunSampleTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(mwqmRun_BList[0].SeaStateAtStart_BeaufortScaleText))
+            if (!string.IsNullOrWhiteSpace(mwqmRunExtraBList[0].SeaStateAtStart_BeaufortScaleText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRun_BList[0].SeaStateAtStart_BeaufortScaleText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunExtraBList[0].SeaStateAtStart_BeaufortScaleText));
             }
-            if (!string.IsNullOrWhiteSpace(mwqmRun_BList[0].SeaStateAtEnd_BeaufortScaleText))
+            if (!string.IsNullOrWhiteSpace(mwqmRunExtraBList[0].SeaStateAtEnd_BeaufortScaleText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRun_BList[0].SeaStateAtEnd_BeaufortScaleText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunExtraBList[0].SeaStateAtEnd_BeaufortScaleText));
             }
-            if (!string.IsNullOrWhiteSpace(mwqmRun_BList[0].AnalyzeMethodText))
+            if (!string.IsNullOrWhiteSpace(mwqmRunExtraBList[0].AnalyzeMethodText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRun_BList[0].AnalyzeMethodText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunExtraBList[0].AnalyzeMethodText));
             }
-            if (!string.IsNullOrWhiteSpace(mwqmRun_BList[0].SampleMatrixText))
+            if (!string.IsNullOrWhiteSpace(mwqmRunExtraBList[0].SampleMatrixText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRun_BList[0].SampleMatrixText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunExtraBList[0].SampleMatrixText));
             }
-            if (!string.IsNullOrWhiteSpace(mwqmRun_BList[0].LaboratoryText))
+            if (!string.IsNullOrWhiteSpace(mwqmRunExtraBList[0].LaboratoryText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRun_BList[0].LaboratoryText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunExtraBList[0].LaboratoryText));
             }
-            if (!string.IsNullOrWhiteSpace(mwqmRun_BList[0].SampleStatusText))
+            if (!string.IsNullOrWhiteSpace(mwqmRunExtraBList[0].SampleStatusText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRun_BList[0].SampleStatusText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunExtraBList[0].SampleStatusText));
             }
-            if (!string.IsNullOrWhiteSpace(mwqmRun_BList[0].Tide_StartText))
+            if (!string.IsNullOrWhiteSpace(mwqmRunExtraBList[0].Tide_StartText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRun_BList[0].Tide_StartText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunExtraBList[0].Tide_StartText));
             }
-            if (!string.IsNullOrWhiteSpace(mwqmRun_BList[0].Tide_EndText))
+            if (!string.IsNullOrWhiteSpace(mwqmRunExtraBList[0].Tide_EndText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRun_BList[0].Tide_EndText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunExtraBList[0].Tide_EndText));
             }
-            Assert.IsNotNull(mwqmRun_BList[0].MWQMRunID);
-            Assert.IsNotNull(mwqmRun_BList[0].SubsectorTVItemID);
-            Assert.IsNotNull(mwqmRun_BList[0].MWQMRunTVItemID);
-            Assert.IsNotNull(mwqmRun_BList[0].RunSampleType);
-            Assert.IsNotNull(mwqmRun_BList[0].DateTime_Local);
-            Assert.IsNotNull(mwqmRun_BList[0].RunNumber);
-            if (mwqmRun_BList[0].StartDateTime_Local != null)
+            Assert.IsNotNull(mwqmRunExtraBList[0].MWQMRunID);
+            Assert.IsNotNull(mwqmRunExtraBList[0].SubsectorTVItemID);
+            Assert.IsNotNull(mwqmRunExtraBList[0].MWQMRunTVItemID);
+            Assert.IsNotNull(mwqmRunExtraBList[0].RunSampleType);
+            Assert.IsNotNull(mwqmRunExtraBList[0].DateTime_Local);
+            Assert.IsNotNull(mwqmRunExtraBList[0].RunNumber);
+            if (mwqmRunExtraBList[0].StartDateTime_Local != null)
             {
-                Assert.IsNotNull(mwqmRun_BList[0].StartDateTime_Local);
+                Assert.IsNotNull(mwqmRunExtraBList[0].StartDateTime_Local);
             }
-            if (mwqmRun_BList[0].EndDateTime_Local != null)
+            if (mwqmRunExtraBList[0].EndDateTime_Local != null)
             {
-                Assert.IsNotNull(mwqmRun_BList[0].EndDateTime_Local);
+                Assert.IsNotNull(mwqmRunExtraBList[0].EndDateTime_Local);
             }
-            if (mwqmRun_BList[0].LabReceivedDateTime_Local != null)
+            if (mwqmRunExtraBList[0].LabReceivedDateTime_Local != null)
             {
-                Assert.IsNotNull(mwqmRun_BList[0].LabReceivedDateTime_Local);
+                Assert.IsNotNull(mwqmRunExtraBList[0].LabReceivedDateTime_Local);
             }
-            if (mwqmRun_BList[0].TemperatureControl1_C != null)
+            if (mwqmRunExtraBList[0].TemperatureControl1_C != null)
             {
-                Assert.IsNotNull(mwqmRun_BList[0].TemperatureControl1_C);
+                Assert.IsNotNull(mwqmRunExtraBList[0].TemperatureControl1_C);
             }
-            if (mwqmRun_BList[0].TemperatureControl2_C != null)
+            if (mwqmRunExtraBList[0].TemperatureControl2_C != null)
             {
-                Assert.IsNotNull(mwqmRun_BList[0].TemperatureControl2_C);
+                Assert.IsNotNull(mwqmRunExtraBList[0].TemperatureControl2_C);
             }
-            if (mwqmRun_BList[0].SeaStateAtStart_BeaufortScale != null)
+            if (mwqmRunExtraBList[0].SeaStateAtStart_BeaufortScale != null)
             {
-                Assert.IsNotNull(mwqmRun_BList[0].SeaStateAtStart_BeaufortScale);
+                Assert.IsNotNull(mwqmRunExtraBList[0].SeaStateAtStart_BeaufortScale);
             }
-            if (mwqmRun_BList[0].SeaStateAtEnd_BeaufortScale != null)
+            if (mwqmRunExtraBList[0].SeaStateAtEnd_BeaufortScale != null)
             {
-                Assert.IsNotNull(mwqmRun_BList[0].SeaStateAtEnd_BeaufortScale);
+                Assert.IsNotNull(mwqmRunExtraBList[0].SeaStateAtEnd_BeaufortScale);
             }
-            if (mwqmRun_BList[0].WaterLevelAtBrook_m != null)
+            if (mwqmRunExtraBList[0].WaterLevelAtBrook_m != null)
             {
-                Assert.IsNotNull(mwqmRun_BList[0].WaterLevelAtBrook_m);
+                Assert.IsNotNull(mwqmRunExtraBList[0].WaterLevelAtBrook_m);
             }
-            if (mwqmRun_BList[0].WaveHightAtStart_m != null)
+            if (mwqmRunExtraBList[0].WaveHightAtStart_m != null)
             {
-                Assert.IsNotNull(mwqmRun_BList[0].WaveHightAtStart_m);
+                Assert.IsNotNull(mwqmRunExtraBList[0].WaveHightAtStart_m);
             }
-            if (mwqmRun_BList[0].WaveHightAtEnd_m != null)
+            if (mwqmRunExtraBList[0].WaveHightAtEnd_m != null)
             {
-                Assert.IsNotNull(mwqmRun_BList[0].WaveHightAtEnd_m);
+                Assert.IsNotNull(mwqmRunExtraBList[0].WaveHightAtEnd_m);
             }
-            if (!string.IsNullOrWhiteSpace(mwqmRun_BList[0].SampleCrewInitials))
+            if (!string.IsNullOrWhiteSpace(mwqmRunExtraBList[0].SampleCrewInitials))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRun_BList[0].SampleCrewInitials));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunExtraBList[0].SampleCrewInitials));
             }
-            if (mwqmRun_BList[0].AnalyzeMethod != null)
+            if (mwqmRunExtraBList[0].AnalyzeMethod != null)
             {
-                Assert.IsNotNull(mwqmRun_BList[0].AnalyzeMethod);
+                Assert.IsNotNull(mwqmRunExtraBList[0].AnalyzeMethod);
             }
-            if (mwqmRun_BList[0].SampleMatrix != null)
+            if (mwqmRunExtraBList[0].SampleMatrix != null)
             {
-                Assert.IsNotNull(mwqmRun_BList[0].SampleMatrix);
+                Assert.IsNotNull(mwqmRunExtraBList[0].SampleMatrix);
             }
-            if (mwqmRun_BList[0].Laboratory != null)
+            if (mwqmRunExtraBList[0].Laboratory != null)
             {
-                Assert.IsNotNull(mwqmRun_BList[0].Laboratory);
+                Assert.IsNotNull(mwqmRunExtraBList[0].Laboratory);
             }
-            if (mwqmRun_BList[0].SampleStatus != null)
+            if (mwqmRunExtraBList[0].SampleStatus != null)
             {
-                Assert.IsNotNull(mwqmRun_BList[0].SampleStatus);
+                Assert.IsNotNull(mwqmRunExtraBList[0].SampleStatus);
             }
-            if (mwqmRun_BList[0].LabSampleApprovalContactTVItemID != null)
+            if (mwqmRunExtraBList[0].LabSampleApprovalContactTVItemID != null)
             {
-                Assert.IsNotNull(mwqmRun_BList[0].LabSampleApprovalContactTVItemID);
+                Assert.IsNotNull(mwqmRunExtraBList[0].LabSampleApprovalContactTVItemID);
             }
-            if (mwqmRun_BList[0].LabAnalyzeBath1IncubationStartDateTime_Local != null)
+            if (mwqmRunExtraBList[0].LabAnalyzeBath1IncubationStartDateTime_Local != null)
             {
-                Assert.IsNotNull(mwqmRun_BList[0].LabAnalyzeBath1IncubationStartDateTime_Local);
+                Assert.IsNotNull(mwqmRunExtraBList[0].LabAnalyzeBath1IncubationStartDateTime_Local);
             }
-            if (mwqmRun_BList[0].LabAnalyzeBath2IncubationStartDateTime_Local != null)
+            if (mwqmRunExtraBList[0].LabAnalyzeBath2IncubationStartDateTime_Local != null)
             {
-                Assert.IsNotNull(mwqmRun_BList[0].LabAnalyzeBath2IncubationStartDateTime_Local);
+                Assert.IsNotNull(mwqmRunExtraBList[0].LabAnalyzeBath2IncubationStartDateTime_Local);
             }
-            if (mwqmRun_BList[0].LabAnalyzeBath3IncubationStartDateTime_Local != null)
+            if (mwqmRunExtraBList[0].LabAnalyzeBath3IncubationStartDateTime_Local != null)
             {
-                Assert.IsNotNull(mwqmRun_BList[0].LabAnalyzeBath3IncubationStartDateTime_Local);
+                Assert.IsNotNull(mwqmRunExtraBList[0].LabAnalyzeBath3IncubationStartDateTime_Local);
             }
-            if (mwqmRun_BList[0].LabRunSampleApprovalDateTime_Local != null)
+            if (mwqmRunExtraBList[0].LabRunSampleApprovalDateTime_Local != null)
             {
-                Assert.IsNotNull(mwqmRun_BList[0].LabRunSampleApprovalDateTime_Local);
+                Assert.IsNotNull(mwqmRunExtraBList[0].LabRunSampleApprovalDateTime_Local);
             }
-            if (mwqmRun_BList[0].Tide_Start != null)
+            if (mwqmRunExtraBList[0].Tide_Start != null)
             {
-                Assert.IsNotNull(mwqmRun_BList[0].Tide_Start);
+                Assert.IsNotNull(mwqmRunExtraBList[0].Tide_Start);
             }
-            if (mwqmRun_BList[0].Tide_End != null)
+            if (mwqmRunExtraBList[0].Tide_End != null)
             {
-                Assert.IsNotNull(mwqmRun_BList[0].Tide_End);
+                Assert.IsNotNull(mwqmRunExtraBList[0].Tide_End);
             }
-            if (mwqmRun_BList[0].RainDay0_mm != null)
+            if (mwqmRunExtraBList[0].RainDay0_mm != null)
             {
-                Assert.IsNotNull(mwqmRun_BList[0].RainDay0_mm);
+                Assert.IsNotNull(mwqmRunExtraBList[0].RainDay0_mm);
             }
-            if (mwqmRun_BList[0].RainDay1_mm != null)
+            if (mwqmRunExtraBList[0].RainDay1_mm != null)
             {
-                Assert.IsNotNull(mwqmRun_BList[0].RainDay1_mm);
+                Assert.IsNotNull(mwqmRunExtraBList[0].RainDay1_mm);
             }
-            if (mwqmRun_BList[0].RainDay2_mm != null)
+            if (mwqmRunExtraBList[0].RainDay2_mm != null)
             {
-                Assert.IsNotNull(mwqmRun_BList[0].RainDay2_mm);
+                Assert.IsNotNull(mwqmRunExtraBList[0].RainDay2_mm);
             }
-            if (mwqmRun_BList[0].RainDay3_mm != null)
+            if (mwqmRunExtraBList[0].RainDay3_mm != null)
             {
-                Assert.IsNotNull(mwqmRun_BList[0].RainDay3_mm);
+                Assert.IsNotNull(mwqmRunExtraBList[0].RainDay3_mm);
             }
-            if (mwqmRun_BList[0].RainDay4_mm != null)
+            if (mwqmRunExtraBList[0].RainDay4_mm != null)
             {
-                Assert.IsNotNull(mwqmRun_BList[0].RainDay4_mm);
+                Assert.IsNotNull(mwqmRunExtraBList[0].RainDay4_mm);
             }
-            if (mwqmRun_BList[0].RainDay5_mm != null)
+            if (mwqmRunExtraBList[0].RainDay5_mm != null)
             {
-                Assert.IsNotNull(mwqmRun_BList[0].RainDay5_mm);
+                Assert.IsNotNull(mwqmRunExtraBList[0].RainDay5_mm);
             }
-            if (mwqmRun_BList[0].RainDay6_mm != null)
+            if (mwqmRunExtraBList[0].RainDay6_mm != null)
             {
-                Assert.IsNotNull(mwqmRun_BList[0].RainDay6_mm);
+                Assert.IsNotNull(mwqmRunExtraBList[0].RainDay6_mm);
             }
-            if (mwqmRun_BList[0].RainDay7_mm != null)
+            if (mwqmRunExtraBList[0].RainDay7_mm != null)
             {
-                Assert.IsNotNull(mwqmRun_BList[0].RainDay7_mm);
+                Assert.IsNotNull(mwqmRunExtraBList[0].RainDay7_mm);
             }
-            if (mwqmRun_BList[0].RainDay8_mm != null)
+            if (mwqmRunExtraBList[0].RainDay8_mm != null)
             {
-                Assert.IsNotNull(mwqmRun_BList[0].RainDay8_mm);
+                Assert.IsNotNull(mwqmRunExtraBList[0].RainDay8_mm);
             }
-            if (mwqmRun_BList[0].RainDay9_mm != null)
+            if (mwqmRunExtraBList[0].RainDay9_mm != null)
             {
-                Assert.IsNotNull(mwqmRun_BList[0].RainDay9_mm);
+                Assert.IsNotNull(mwqmRunExtraBList[0].RainDay9_mm);
             }
-            if (mwqmRun_BList[0].RainDay10_mm != null)
+            if (mwqmRunExtraBList[0].RainDay10_mm != null)
             {
-                Assert.IsNotNull(mwqmRun_BList[0].RainDay10_mm);
+                Assert.IsNotNull(mwqmRunExtraBList[0].RainDay10_mm);
             }
-            if (mwqmRun_BList[0].RemoveFromStat != null)
+            if (mwqmRunExtraBList[0].RemoveFromStat != null)
             {
-                Assert.IsNotNull(mwqmRun_BList[0].RemoveFromStat);
+                Assert.IsNotNull(mwqmRunExtraBList[0].RemoveFromStat);
             }
-            Assert.IsNotNull(mwqmRun_BList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(mwqmRun_BList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(mwqmRun_BList[0].HasErrors);
+            Assert.IsNotNull(mwqmRunExtraBList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(mwqmRunExtraBList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(mwqmRunExtraBList[0].HasErrors);
         }
         private MWQMRun GetFilledRandomMWQMRun(string OmitPropName)
         {

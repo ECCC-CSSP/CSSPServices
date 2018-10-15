@@ -224,31 +224,31 @@ namespace CSSPServices
 
             return HydrometricSiteQuery;
         }
-        public HydrometricSite_A GetHydrometricSite_AWithHydrometricSiteID(int HydrometricSiteID)
+        public HydrometricSiteExtraA GetHydrometricSiteExtraAWithHydrometricSiteID(int HydrometricSiteID)
         {
-            return FillHydrometricSite_A().Where(c => c.HydrometricSiteID == HydrometricSiteID).FirstOrDefault();
+            return FillHydrometricSiteExtraA().Where(c => c.HydrometricSiteID == HydrometricSiteID).FirstOrDefault();
 
         }
-        public IQueryable<HydrometricSite_A> GetHydrometricSite_AList()
+        public IQueryable<HydrometricSiteExtraA> GetHydrometricSiteExtraAList()
         {
-            IQueryable<HydrometricSite_A> HydrometricSite_AQuery = FillHydrometricSite_A();
+            IQueryable<HydrometricSiteExtraA> HydrometricSiteExtraAQuery = FillHydrometricSiteExtraA();
 
-            HydrometricSite_AQuery = EnhanceQueryStatements<HydrometricSite_A>(HydrometricSite_AQuery) as IQueryable<HydrometricSite_A>;
+            HydrometricSiteExtraAQuery = EnhanceQueryStatements<HydrometricSiteExtraA>(HydrometricSiteExtraAQuery) as IQueryable<HydrometricSiteExtraA>;
 
-            return HydrometricSite_AQuery;
+            return HydrometricSiteExtraAQuery;
         }
-        public HydrometricSite_B GetHydrometricSite_BWithHydrometricSiteID(int HydrometricSiteID)
+        public HydrometricSiteExtraB GetHydrometricSiteExtraBWithHydrometricSiteID(int HydrometricSiteID)
         {
-            return FillHydrometricSite_B().Where(c => c.HydrometricSiteID == HydrometricSiteID).FirstOrDefault();
+            return FillHydrometricSiteExtraB().Where(c => c.HydrometricSiteID == HydrometricSiteID).FirstOrDefault();
 
         }
-        public IQueryable<HydrometricSite_B> GetHydrometricSite_BList()
+        public IQueryable<HydrometricSiteExtraB> GetHydrometricSiteExtraBList()
         {
-            IQueryable<HydrometricSite_B> HydrometricSite_BQuery = FillHydrometricSite_B();
+            IQueryable<HydrometricSiteExtraB> HydrometricSiteExtraBQuery = FillHydrometricSiteExtraB();
 
-            HydrometricSite_BQuery = EnhanceQueryStatements<HydrometricSite_B>(HydrometricSite_BQuery) as IQueryable<HydrometricSite_B>;
+            HydrometricSiteExtraBQuery = EnhanceQueryStatements<HydrometricSiteExtraB>(HydrometricSiteExtraBQuery) as IQueryable<HydrometricSiteExtraB>;
 
-            return HydrometricSite_BQuery;
+            return HydrometricSiteExtraBQuery;
         }
         #endregion Functions public Generated Get
 

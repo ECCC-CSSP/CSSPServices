@@ -232,31 +232,31 @@ namespace CSSPServices
 
             return UseOfSiteQuery;
         }
-        public UseOfSite_A GetUseOfSite_AWithUseOfSiteID(int UseOfSiteID)
+        public UseOfSiteExtraA GetUseOfSiteExtraAWithUseOfSiteID(int UseOfSiteID)
         {
-            return FillUseOfSite_A().Where(c => c.UseOfSiteID == UseOfSiteID).FirstOrDefault();
+            return FillUseOfSiteExtraA().Where(c => c.UseOfSiteID == UseOfSiteID).FirstOrDefault();
 
         }
-        public IQueryable<UseOfSite_A> GetUseOfSite_AList()
+        public IQueryable<UseOfSiteExtraA> GetUseOfSiteExtraAList()
         {
-            IQueryable<UseOfSite_A> UseOfSite_AQuery = FillUseOfSite_A();
+            IQueryable<UseOfSiteExtraA> UseOfSiteExtraAQuery = FillUseOfSiteExtraA();
 
-            UseOfSite_AQuery = EnhanceQueryStatements<UseOfSite_A>(UseOfSite_AQuery) as IQueryable<UseOfSite_A>;
+            UseOfSiteExtraAQuery = EnhanceQueryStatements<UseOfSiteExtraA>(UseOfSiteExtraAQuery) as IQueryable<UseOfSiteExtraA>;
 
-            return UseOfSite_AQuery;
+            return UseOfSiteExtraAQuery;
         }
-        public UseOfSite_B GetUseOfSite_BWithUseOfSiteID(int UseOfSiteID)
+        public UseOfSiteExtraB GetUseOfSiteExtraBWithUseOfSiteID(int UseOfSiteID)
         {
-            return FillUseOfSite_B().Where(c => c.UseOfSiteID == UseOfSiteID).FirstOrDefault();
+            return FillUseOfSiteExtraB().Where(c => c.UseOfSiteID == UseOfSiteID).FirstOrDefault();
 
         }
-        public IQueryable<UseOfSite_B> GetUseOfSite_BList()
+        public IQueryable<UseOfSiteExtraB> GetUseOfSiteExtraBList()
         {
-            IQueryable<UseOfSite_B> UseOfSite_BQuery = FillUseOfSite_B();
+            IQueryable<UseOfSiteExtraB> UseOfSiteExtraBQuery = FillUseOfSiteExtraB();
 
-            UseOfSite_BQuery = EnhanceQueryStatements<UseOfSite_B>(UseOfSite_BQuery) as IQueryable<UseOfSite_B>;
+            UseOfSiteExtraBQuery = EnhanceQueryStatements<UseOfSiteExtraB>(UseOfSiteExtraBQuery) as IQueryable<UseOfSiteExtraB>;
 
-            return UseOfSite_BQuery;
+            return UseOfSiteExtraBQuery;
         }
         #endregion Functions public Generated Get
 

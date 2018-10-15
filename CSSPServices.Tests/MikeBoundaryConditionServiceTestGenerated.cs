@@ -354,7 +354,7 @@ namespace CSSPServices.Tests
                     MikeBoundaryCondition mikeBoundaryCondition = (from c in dbTestDB.MikeBoundaryConditions select c).FirstOrDefault();
                     Assert.IsNotNull(mikeBoundaryCondition);
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         mikeBoundaryConditionService.Query.Detail = detail;
 
@@ -364,17 +364,17 @@ namespace CSSPServices.Tests
                             CheckMikeBoundaryConditionFields(new List<MikeBoundaryCondition>() { mikeBoundaryConditionRet });
                             Assert.AreEqual(mikeBoundaryCondition.MikeBoundaryConditionID, mikeBoundaryConditionRet.MikeBoundaryConditionID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            MikeBoundaryCondition_A mikeBoundaryCondition_ARet = mikeBoundaryConditionService.GetMikeBoundaryCondition_AWithMikeBoundaryConditionID(mikeBoundaryCondition.MikeBoundaryConditionID);
-                            CheckMikeBoundaryCondition_AFields(new List<MikeBoundaryCondition_A>() { mikeBoundaryCondition_ARet });
-                            Assert.AreEqual(mikeBoundaryCondition.MikeBoundaryConditionID, mikeBoundaryCondition_ARet.MikeBoundaryConditionID);
+                            MikeBoundaryConditionExtraA mikeBoundaryConditionExtraARet = mikeBoundaryConditionService.GetMikeBoundaryConditionExtraAWithMikeBoundaryConditionID(mikeBoundaryCondition.MikeBoundaryConditionID);
+                            CheckMikeBoundaryConditionExtraAFields(new List<MikeBoundaryConditionExtraA>() { mikeBoundaryConditionExtraARet });
+                            Assert.AreEqual(mikeBoundaryCondition.MikeBoundaryConditionID, mikeBoundaryConditionExtraARet.MikeBoundaryConditionID);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            MikeBoundaryCondition_B mikeBoundaryCondition_BRet = mikeBoundaryConditionService.GetMikeBoundaryCondition_BWithMikeBoundaryConditionID(mikeBoundaryCondition.MikeBoundaryConditionID);
-                            CheckMikeBoundaryCondition_BFields(new List<MikeBoundaryCondition_B>() { mikeBoundaryCondition_BRet });
-                            Assert.AreEqual(mikeBoundaryCondition.MikeBoundaryConditionID, mikeBoundaryCondition_BRet.MikeBoundaryConditionID);
+                            MikeBoundaryConditionExtraB mikeBoundaryConditionExtraBRet = mikeBoundaryConditionService.GetMikeBoundaryConditionExtraBWithMikeBoundaryConditionID(mikeBoundaryCondition.MikeBoundaryConditionID);
+                            CheckMikeBoundaryConditionExtraBFields(new List<MikeBoundaryConditionExtraB>() { mikeBoundaryConditionExtraBRet });
+                            Assert.AreEqual(mikeBoundaryCondition.MikeBoundaryConditionID, mikeBoundaryConditionExtraBRet.MikeBoundaryConditionID);
                         }
                         else
                         {
@@ -403,7 +403,7 @@ namespace CSSPServices.Tests
                     List<MikeBoundaryCondition> mikeBoundaryConditionDirectQueryList = new List<MikeBoundaryCondition>();
                     mikeBoundaryConditionDirectQueryList = (from c in dbTestDB.MikeBoundaryConditions select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         mikeBoundaryConditionService.Query.Detail = detail;
 
@@ -413,19 +413,19 @@ namespace CSSPServices.Tests
                             mikeBoundaryConditionList = mikeBoundaryConditionService.GetMikeBoundaryConditionList().ToList();
                             CheckMikeBoundaryConditionFields(mikeBoundaryConditionList);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MikeBoundaryCondition_A> mikeBoundaryCondition_AList = new List<MikeBoundaryCondition_A>();
-                            mikeBoundaryCondition_AList = mikeBoundaryConditionService.GetMikeBoundaryCondition_AList().ToList();
-                            CheckMikeBoundaryCondition_AFields(mikeBoundaryCondition_AList);
-                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList.Count, mikeBoundaryCondition_AList.Count);
+                            List<MikeBoundaryConditionExtraA> mikeBoundaryConditionExtraAList = new List<MikeBoundaryConditionExtraA>();
+                            mikeBoundaryConditionExtraAList = mikeBoundaryConditionService.GetMikeBoundaryConditionExtraAList().ToList();
+                            CheckMikeBoundaryConditionExtraAFields(mikeBoundaryConditionExtraAList);
+                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList.Count, mikeBoundaryConditionExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MikeBoundaryCondition_B> mikeBoundaryCondition_BList = new List<MikeBoundaryCondition_B>();
-                            mikeBoundaryCondition_BList = mikeBoundaryConditionService.GetMikeBoundaryCondition_BList().ToList();
-                            CheckMikeBoundaryCondition_BFields(mikeBoundaryCondition_BList);
-                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList.Count, mikeBoundaryCondition_BList.Count);
+                            List<MikeBoundaryConditionExtraB> mikeBoundaryConditionExtraBList = new List<MikeBoundaryConditionExtraB>();
+                            mikeBoundaryConditionExtraBList = mikeBoundaryConditionService.GetMikeBoundaryConditionExtraBList().ToList();
+                            CheckMikeBoundaryConditionExtraBFields(mikeBoundaryConditionExtraBList);
+                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList.Count, mikeBoundaryConditionExtraBList.Count);
                         }
                         else
                         {
@@ -447,7 +447,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MikeBoundaryConditionService mikeBoundaryConditionService = new MikeBoundaryConditionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -463,21 +463,21 @@ namespace CSSPServices.Tests
                             CheckMikeBoundaryConditionFields(mikeBoundaryConditionList);
                             Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryConditionList[0].MikeBoundaryConditionID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MikeBoundaryCondition_A> mikeBoundaryCondition_AList = new List<MikeBoundaryCondition_A>();
-                            mikeBoundaryCondition_AList = mikeBoundaryConditionService.GetMikeBoundaryCondition_AList().ToList();
-                            CheckMikeBoundaryCondition_AFields(mikeBoundaryCondition_AList);
-                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryCondition_AList[0].MikeBoundaryConditionID);
-                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList.Count, mikeBoundaryCondition_AList.Count);
+                            List<MikeBoundaryConditionExtraA> mikeBoundaryConditionExtraAList = new List<MikeBoundaryConditionExtraA>();
+                            mikeBoundaryConditionExtraAList = mikeBoundaryConditionService.GetMikeBoundaryConditionExtraAList().ToList();
+                            CheckMikeBoundaryConditionExtraAFields(mikeBoundaryConditionExtraAList);
+                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryConditionExtraAList[0].MikeBoundaryConditionID);
+                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList.Count, mikeBoundaryConditionExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MikeBoundaryCondition_B> mikeBoundaryCondition_BList = new List<MikeBoundaryCondition_B>();
-                            mikeBoundaryCondition_BList = mikeBoundaryConditionService.GetMikeBoundaryCondition_BList().ToList();
-                            CheckMikeBoundaryCondition_BFields(mikeBoundaryCondition_BList);
-                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryCondition_BList[0].MikeBoundaryConditionID);
-                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList.Count, mikeBoundaryCondition_BList.Count);
+                            List<MikeBoundaryConditionExtraB> mikeBoundaryConditionExtraBList = new List<MikeBoundaryConditionExtraB>();
+                            mikeBoundaryConditionExtraBList = mikeBoundaryConditionService.GetMikeBoundaryConditionExtraBList().ToList();
+                            CheckMikeBoundaryConditionExtraBFields(mikeBoundaryConditionExtraBList);
+                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryConditionExtraBList[0].MikeBoundaryConditionID);
+                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList.Count, mikeBoundaryConditionExtraBList.Count);
                         }
                         else
                         {
@@ -499,7 +499,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MikeBoundaryConditionService mikeBoundaryConditionService = new MikeBoundaryConditionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -515,21 +515,21 @@ namespace CSSPServices.Tests
                             CheckMikeBoundaryConditionFields(mikeBoundaryConditionList);
                             Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryConditionList[0].MikeBoundaryConditionID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MikeBoundaryCondition_A> mikeBoundaryCondition_AList = new List<MikeBoundaryCondition_A>();
-                            mikeBoundaryCondition_AList = mikeBoundaryConditionService.GetMikeBoundaryCondition_AList().ToList();
-                            CheckMikeBoundaryCondition_AFields(mikeBoundaryCondition_AList);
-                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryCondition_AList[0].MikeBoundaryConditionID);
-                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList.Count, mikeBoundaryCondition_AList.Count);
+                            List<MikeBoundaryConditionExtraA> mikeBoundaryConditionExtraAList = new List<MikeBoundaryConditionExtraA>();
+                            mikeBoundaryConditionExtraAList = mikeBoundaryConditionService.GetMikeBoundaryConditionExtraAList().ToList();
+                            CheckMikeBoundaryConditionExtraAFields(mikeBoundaryConditionExtraAList);
+                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryConditionExtraAList[0].MikeBoundaryConditionID);
+                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList.Count, mikeBoundaryConditionExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MikeBoundaryCondition_B> mikeBoundaryCondition_BList = new List<MikeBoundaryCondition_B>();
-                            mikeBoundaryCondition_BList = mikeBoundaryConditionService.GetMikeBoundaryCondition_BList().ToList();
-                            CheckMikeBoundaryCondition_BFields(mikeBoundaryCondition_BList);
-                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryCondition_BList[0].MikeBoundaryConditionID);
-                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList.Count, mikeBoundaryCondition_BList.Count);
+                            List<MikeBoundaryConditionExtraB> mikeBoundaryConditionExtraBList = new List<MikeBoundaryConditionExtraB>();
+                            mikeBoundaryConditionExtraBList = mikeBoundaryConditionService.GetMikeBoundaryConditionExtraBList().ToList();
+                            CheckMikeBoundaryConditionExtraBFields(mikeBoundaryConditionExtraBList);
+                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryConditionExtraBList[0].MikeBoundaryConditionID);
+                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList.Count, mikeBoundaryConditionExtraBList.Count);
                         }
                         else
                         {
@@ -551,7 +551,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MikeBoundaryConditionService mikeBoundaryConditionService = new MikeBoundaryConditionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -567,21 +567,21 @@ namespace CSSPServices.Tests
                             CheckMikeBoundaryConditionFields(mikeBoundaryConditionList);
                             Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryConditionList[0].MikeBoundaryConditionID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MikeBoundaryCondition_A> mikeBoundaryCondition_AList = new List<MikeBoundaryCondition_A>();
-                            mikeBoundaryCondition_AList = mikeBoundaryConditionService.GetMikeBoundaryCondition_AList().ToList();
-                            CheckMikeBoundaryCondition_AFields(mikeBoundaryCondition_AList);
-                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryCondition_AList[0].MikeBoundaryConditionID);
-                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList.Count, mikeBoundaryCondition_AList.Count);
+                            List<MikeBoundaryConditionExtraA> mikeBoundaryConditionExtraAList = new List<MikeBoundaryConditionExtraA>();
+                            mikeBoundaryConditionExtraAList = mikeBoundaryConditionService.GetMikeBoundaryConditionExtraAList().ToList();
+                            CheckMikeBoundaryConditionExtraAFields(mikeBoundaryConditionExtraAList);
+                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryConditionExtraAList[0].MikeBoundaryConditionID);
+                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList.Count, mikeBoundaryConditionExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MikeBoundaryCondition_B> mikeBoundaryCondition_BList = new List<MikeBoundaryCondition_B>();
-                            mikeBoundaryCondition_BList = mikeBoundaryConditionService.GetMikeBoundaryCondition_BList().ToList();
-                            CheckMikeBoundaryCondition_BFields(mikeBoundaryCondition_BList);
-                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryCondition_BList[0].MikeBoundaryConditionID);
-                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList.Count, mikeBoundaryCondition_BList.Count);
+                            List<MikeBoundaryConditionExtraB> mikeBoundaryConditionExtraBList = new List<MikeBoundaryConditionExtraB>();
+                            mikeBoundaryConditionExtraBList = mikeBoundaryConditionService.GetMikeBoundaryConditionExtraBList().ToList();
+                            CheckMikeBoundaryConditionExtraBFields(mikeBoundaryConditionExtraBList);
+                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryConditionExtraBList[0].MikeBoundaryConditionID);
+                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList.Count, mikeBoundaryConditionExtraBList.Count);
                         }
                         else
                         {
@@ -603,7 +603,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MikeBoundaryConditionService mikeBoundaryConditionService = new MikeBoundaryConditionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -619,21 +619,21 @@ namespace CSSPServices.Tests
                             CheckMikeBoundaryConditionFields(mikeBoundaryConditionList);
                             Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryConditionList[0].MikeBoundaryConditionID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MikeBoundaryCondition_A> mikeBoundaryCondition_AList = new List<MikeBoundaryCondition_A>();
-                            mikeBoundaryCondition_AList = mikeBoundaryConditionService.GetMikeBoundaryCondition_AList().ToList();
-                            CheckMikeBoundaryCondition_AFields(mikeBoundaryCondition_AList);
-                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryCondition_AList[0].MikeBoundaryConditionID);
-                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList.Count, mikeBoundaryCondition_AList.Count);
+                            List<MikeBoundaryConditionExtraA> mikeBoundaryConditionExtraAList = new List<MikeBoundaryConditionExtraA>();
+                            mikeBoundaryConditionExtraAList = mikeBoundaryConditionService.GetMikeBoundaryConditionExtraAList().ToList();
+                            CheckMikeBoundaryConditionExtraAFields(mikeBoundaryConditionExtraAList);
+                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryConditionExtraAList[0].MikeBoundaryConditionID);
+                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList.Count, mikeBoundaryConditionExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MikeBoundaryCondition_B> mikeBoundaryCondition_BList = new List<MikeBoundaryCondition_B>();
-                            mikeBoundaryCondition_BList = mikeBoundaryConditionService.GetMikeBoundaryCondition_BList().ToList();
-                            CheckMikeBoundaryCondition_BFields(mikeBoundaryCondition_BList);
-                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryCondition_BList[0].MikeBoundaryConditionID);
-                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList.Count, mikeBoundaryCondition_BList.Count);
+                            List<MikeBoundaryConditionExtraB> mikeBoundaryConditionExtraBList = new List<MikeBoundaryConditionExtraB>();
+                            mikeBoundaryConditionExtraBList = mikeBoundaryConditionService.GetMikeBoundaryConditionExtraBList().ToList();
+                            CheckMikeBoundaryConditionExtraBFields(mikeBoundaryConditionExtraBList);
+                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryConditionExtraBList[0].MikeBoundaryConditionID);
+                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList.Count, mikeBoundaryConditionExtraBList.Count);
                         }
                         else
                         {
@@ -655,7 +655,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MikeBoundaryConditionService mikeBoundaryConditionService = new MikeBoundaryConditionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -671,21 +671,21 @@ namespace CSSPServices.Tests
                             CheckMikeBoundaryConditionFields(mikeBoundaryConditionList);
                             Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryConditionList[0].MikeBoundaryConditionID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MikeBoundaryCondition_A> mikeBoundaryCondition_AList = new List<MikeBoundaryCondition_A>();
-                            mikeBoundaryCondition_AList = mikeBoundaryConditionService.GetMikeBoundaryCondition_AList().ToList();
-                            CheckMikeBoundaryCondition_AFields(mikeBoundaryCondition_AList);
-                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryCondition_AList[0].MikeBoundaryConditionID);
-                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList.Count, mikeBoundaryCondition_AList.Count);
+                            List<MikeBoundaryConditionExtraA> mikeBoundaryConditionExtraAList = new List<MikeBoundaryConditionExtraA>();
+                            mikeBoundaryConditionExtraAList = mikeBoundaryConditionService.GetMikeBoundaryConditionExtraAList().ToList();
+                            CheckMikeBoundaryConditionExtraAFields(mikeBoundaryConditionExtraAList);
+                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryConditionExtraAList[0].MikeBoundaryConditionID);
+                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList.Count, mikeBoundaryConditionExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MikeBoundaryCondition_B> mikeBoundaryCondition_BList = new List<MikeBoundaryCondition_B>();
-                            mikeBoundaryCondition_BList = mikeBoundaryConditionService.GetMikeBoundaryCondition_BList().ToList();
-                            CheckMikeBoundaryCondition_BFields(mikeBoundaryCondition_BList);
-                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryCondition_BList[0].MikeBoundaryConditionID);
-                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList.Count, mikeBoundaryCondition_BList.Count);
+                            List<MikeBoundaryConditionExtraB> mikeBoundaryConditionExtraBList = new List<MikeBoundaryConditionExtraB>();
+                            mikeBoundaryConditionExtraBList = mikeBoundaryConditionService.GetMikeBoundaryConditionExtraBList().ToList();
+                            CheckMikeBoundaryConditionExtraBFields(mikeBoundaryConditionExtraBList);
+                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryConditionExtraBList[0].MikeBoundaryConditionID);
+                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList.Count, mikeBoundaryConditionExtraBList.Count);
                         }
                         else
                         {
@@ -707,7 +707,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MikeBoundaryConditionService mikeBoundaryConditionService = new MikeBoundaryConditionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -723,21 +723,21 @@ namespace CSSPServices.Tests
                             CheckMikeBoundaryConditionFields(mikeBoundaryConditionList);
                             Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryConditionList[0].MikeBoundaryConditionID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<MikeBoundaryCondition_A> mikeBoundaryCondition_AList = new List<MikeBoundaryCondition_A>();
-                            mikeBoundaryCondition_AList = mikeBoundaryConditionService.GetMikeBoundaryCondition_AList().ToList();
-                            CheckMikeBoundaryCondition_AFields(mikeBoundaryCondition_AList);
-                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryCondition_AList[0].MikeBoundaryConditionID);
-                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList.Count, mikeBoundaryCondition_AList.Count);
+                            List<MikeBoundaryConditionExtraA> mikeBoundaryConditionExtraAList = new List<MikeBoundaryConditionExtraA>();
+                            mikeBoundaryConditionExtraAList = mikeBoundaryConditionService.GetMikeBoundaryConditionExtraAList().ToList();
+                            CheckMikeBoundaryConditionExtraAFields(mikeBoundaryConditionExtraAList);
+                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryConditionExtraAList[0].MikeBoundaryConditionID);
+                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList.Count, mikeBoundaryConditionExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<MikeBoundaryCondition_B> mikeBoundaryCondition_BList = new List<MikeBoundaryCondition_B>();
-                            mikeBoundaryCondition_BList = mikeBoundaryConditionService.GetMikeBoundaryCondition_BList().ToList();
-                            CheckMikeBoundaryCondition_BFields(mikeBoundaryCondition_BList);
-                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryCondition_BList[0].MikeBoundaryConditionID);
-                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList.Count, mikeBoundaryCondition_BList.Count);
+                            List<MikeBoundaryConditionExtraB> mikeBoundaryConditionExtraBList = new List<MikeBoundaryConditionExtraB>();
+                            mikeBoundaryConditionExtraBList = mikeBoundaryConditionService.GetMikeBoundaryConditionExtraBList().ToList();
+                            CheckMikeBoundaryConditionExtraBFields(mikeBoundaryConditionExtraBList);
+                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryConditionExtraBList[0].MikeBoundaryConditionID);
+                            Assert.AreEqual(mikeBoundaryConditionDirectQueryList.Count, mikeBoundaryConditionExtraBList.Count);
                         }
                         else
                         {
@@ -767,71 +767,71 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(mikeBoundaryConditionList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(mikeBoundaryConditionList[0].HasErrors);
         }
-        private void CheckMikeBoundaryCondition_AFields(List<MikeBoundaryCondition_A> mikeBoundaryCondition_AList)
+        private void CheckMikeBoundaryConditionExtraAFields(List<MikeBoundaryConditionExtraA> mikeBoundaryConditionExtraAList)
         {
-            Assert.IsNotNull(mikeBoundaryCondition_AList[0].MikeBoundaryConditionTVItemLanguage);
-            Assert.IsNotNull(mikeBoundaryCondition_AList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(mikeBoundaryCondition_AList[0].MikeBoundaryConditionLevelOrVelocityText))
+            Assert.IsNotNull(mikeBoundaryConditionExtraAList[0].MikeBoundaryConditionTVItemLanguage);
+            Assert.IsNotNull(mikeBoundaryConditionExtraAList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(mikeBoundaryConditionExtraAList[0].MikeBoundaryConditionLevelOrVelocityText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryCondition_AList[0].MikeBoundaryConditionLevelOrVelocityText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionExtraAList[0].MikeBoundaryConditionLevelOrVelocityText));
             }
-            if (!string.IsNullOrWhiteSpace(mikeBoundaryCondition_AList[0].WebTideDataSetText))
+            if (!string.IsNullOrWhiteSpace(mikeBoundaryConditionExtraAList[0].WebTideDataSetText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryCondition_AList[0].WebTideDataSetText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionExtraAList[0].WebTideDataSetText));
             }
-            if (!string.IsNullOrWhiteSpace(mikeBoundaryCondition_AList[0].TVTypeText))
+            if (!string.IsNullOrWhiteSpace(mikeBoundaryConditionExtraAList[0].TVTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryCondition_AList[0].TVTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionExtraAList[0].TVTypeText));
             }
-            Assert.IsNotNull(mikeBoundaryCondition_AList[0].MikeBoundaryConditionID);
-            Assert.IsNotNull(mikeBoundaryCondition_AList[0].MikeBoundaryConditionTVItemID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryCondition_AList[0].MikeBoundaryConditionCode));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryCondition_AList[0].MikeBoundaryConditionName));
-            Assert.IsNotNull(mikeBoundaryCondition_AList[0].MikeBoundaryConditionLength_m);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryCondition_AList[0].MikeBoundaryConditionFormat));
-            Assert.IsNotNull(mikeBoundaryCondition_AList[0].MikeBoundaryConditionLevelOrVelocity);
-            Assert.IsNotNull(mikeBoundaryCondition_AList[0].WebTideDataSet);
-            Assert.IsNotNull(mikeBoundaryCondition_AList[0].NumberOfWebTideNodes);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryCondition_AList[0].WebTideDataFromStartToEndDate));
-            Assert.IsNotNull(mikeBoundaryCondition_AList[0].TVType);
-            Assert.IsNotNull(mikeBoundaryCondition_AList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(mikeBoundaryCondition_AList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(mikeBoundaryCondition_AList[0].HasErrors);
+            Assert.IsNotNull(mikeBoundaryConditionExtraAList[0].MikeBoundaryConditionID);
+            Assert.IsNotNull(mikeBoundaryConditionExtraAList[0].MikeBoundaryConditionTVItemID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionExtraAList[0].MikeBoundaryConditionCode));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionExtraAList[0].MikeBoundaryConditionName));
+            Assert.IsNotNull(mikeBoundaryConditionExtraAList[0].MikeBoundaryConditionLength_m);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionExtraAList[0].MikeBoundaryConditionFormat));
+            Assert.IsNotNull(mikeBoundaryConditionExtraAList[0].MikeBoundaryConditionLevelOrVelocity);
+            Assert.IsNotNull(mikeBoundaryConditionExtraAList[0].WebTideDataSet);
+            Assert.IsNotNull(mikeBoundaryConditionExtraAList[0].NumberOfWebTideNodes);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionExtraAList[0].WebTideDataFromStartToEndDate));
+            Assert.IsNotNull(mikeBoundaryConditionExtraAList[0].TVType);
+            Assert.IsNotNull(mikeBoundaryConditionExtraAList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(mikeBoundaryConditionExtraAList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(mikeBoundaryConditionExtraAList[0].HasErrors);
         }
-        private void CheckMikeBoundaryCondition_BFields(List<MikeBoundaryCondition_B> mikeBoundaryCondition_BList)
+        private void CheckMikeBoundaryConditionExtraBFields(List<MikeBoundaryConditionExtraB> mikeBoundaryConditionExtraBList)
         {
-            if (!string.IsNullOrWhiteSpace(mikeBoundaryCondition_BList[0].MikeBoundaryConditionReportTest))
+            if (!string.IsNullOrWhiteSpace(mikeBoundaryConditionExtraBList[0].MikeBoundaryConditionReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryCondition_BList[0].MikeBoundaryConditionReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionExtraBList[0].MikeBoundaryConditionReportTest));
             }
-            Assert.IsNotNull(mikeBoundaryCondition_BList[0].MikeBoundaryConditionTVItemLanguage);
-            Assert.IsNotNull(mikeBoundaryCondition_BList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(mikeBoundaryCondition_BList[0].MikeBoundaryConditionLevelOrVelocityText))
+            Assert.IsNotNull(mikeBoundaryConditionExtraBList[0].MikeBoundaryConditionTVItemLanguage);
+            Assert.IsNotNull(mikeBoundaryConditionExtraBList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(mikeBoundaryConditionExtraBList[0].MikeBoundaryConditionLevelOrVelocityText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryCondition_BList[0].MikeBoundaryConditionLevelOrVelocityText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionExtraBList[0].MikeBoundaryConditionLevelOrVelocityText));
             }
-            if (!string.IsNullOrWhiteSpace(mikeBoundaryCondition_BList[0].WebTideDataSetText))
+            if (!string.IsNullOrWhiteSpace(mikeBoundaryConditionExtraBList[0].WebTideDataSetText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryCondition_BList[0].WebTideDataSetText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionExtraBList[0].WebTideDataSetText));
             }
-            if (!string.IsNullOrWhiteSpace(mikeBoundaryCondition_BList[0].TVTypeText))
+            if (!string.IsNullOrWhiteSpace(mikeBoundaryConditionExtraBList[0].TVTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryCondition_BList[0].TVTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionExtraBList[0].TVTypeText));
             }
-            Assert.IsNotNull(mikeBoundaryCondition_BList[0].MikeBoundaryConditionID);
-            Assert.IsNotNull(mikeBoundaryCondition_BList[0].MikeBoundaryConditionTVItemID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryCondition_BList[0].MikeBoundaryConditionCode));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryCondition_BList[0].MikeBoundaryConditionName));
-            Assert.IsNotNull(mikeBoundaryCondition_BList[0].MikeBoundaryConditionLength_m);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryCondition_BList[0].MikeBoundaryConditionFormat));
-            Assert.IsNotNull(mikeBoundaryCondition_BList[0].MikeBoundaryConditionLevelOrVelocity);
-            Assert.IsNotNull(mikeBoundaryCondition_BList[0].WebTideDataSet);
-            Assert.IsNotNull(mikeBoundaryCondition_BList[0].NumberOfWebTideNodes);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryCondition_BList[0].WebTideDataFromStartToEndDate));
-            Assert.IsNotNull(mikeBoundaryCondition_BList[0].TVType);
-            Assert.IsNotNull(mikeBoundaryCondition_BList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(mikeBoundaryCondition_BList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(mikeBoundaryCondition_BList[0].HasErrors);
+            Assert.IsNotNull(mikeBoundaryConditionExtraBList[0].MikeBoundaryConditionID);
+            Assert.IsNotNull(mikeBoundaryConditionExtraBList[0].MikeBoundaryConditionTVItemID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionExtraBList[0].MikeBoundaryConditionCode));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionExtraBList[0].MikeBoundaryConditionName));
+            Assert.IsNotNull(mikeBoundaryConditionExtraBList[0].MikeBoundaryConditionLength_m);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionExtraBList[0].MikeBoundaryConditionFormat));
+            Assert.IsNotNull(mikeBoundaryConditionExtraBList[0].MikeBoundaryConditionLevelOrVelocity);
+            Assert.IsNotNull(mikeBoundaryConditionExtraBList[0].WebTideDataSet);
+            Assert.IsNotNull(mikeBoundaryConditionExtraBList[0].NumberOfWebTideNodes);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionExtraBList[0].WebTideDataFromStartToEndDate));
+            Assert.IsNotNull(mikeBoundaryConditionExtraBList[0].TVType);
+            Assert.IsNotNull(mikeBoundaryConditionExtraBList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(mikeBoundaryConditionExtraBList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(mikeBoundaryConditionExtraBList[0].HasErrors);
         }
         private MikeBoundaryCondition GetFilledRandomMikeBoundaryCondition(string OmitPropName)
         {

@@ -184,31 +184,31 @@ namespace CSSPServices
 
             return ReportSectionQuery;
         }
-        public ReportSection_A GetReportSection_AWithReportSectionID(int ReportSectionID)
+        public ReportSectionExtraA GetReportSectionExtraAWithReportSectionID(int ReportSectionID)
         {
-            return FillReportSection_A().Where(c => c.ReportSectionID == ReportSectionID).FirstOrDefault();
+            return FillReportSectionExtraA().Where(c => c.ReportSectionID == ReportSectionID).FirstOrDefault();
 
         }
-        public IQueryable<ReportSection_A> GetReportSection_AList()
+        public IQueryable<ReportSectionExtraA> GetReportSectionExtraAList()
         {
-            IQueryable<ReportSection_A> ReportSection_AQuery = FillReportSection_A();
+            IQueryable<ReportSectionExtraA> ReportSectionExtraAQuery = FillReportSectionExtraA();
 
-            ReportSection_AQuery = EnhanceQueryStatements<ReportSection_A>(ReportSection_AQuery) as IQueryable<ReportSection_A>;
+            ReportSectionExtraAQuery = EnhanceQueryStatements<ReportSectionExtraA>(ReportSectionExtraAQuery) as IQueryable<ReportSectionExtraA>;
 
-            return ReportSection_AQuery;
+            return ReportSectionExtraAQuery;
         }
-        public ReportSection_B GetReportSection_BWithReportSectionID(int ReportSectionID)
+        public ReportSectionExtraB GetReportSectionExtraBWithReportSectionID(int ReportSectionID)
         {
-            return FillReportSection_B().Where(c => c.ReportSectionID == ReportSectionID).FirstOrDefault();
+            return FillReportSectionExtraB().Where(c => c.ReportSectionID == ReportSectionID).FirstOrDefault();
 
         }
-        public IQueryable<ReportSection_B> GetReportSection_BList()
+        public IQueryable<ReportSectionExtraB> GetReportSectionExtraBList()
         {
-            IQueryable<ReportSection_B> ReportSection_BQuery = FillReportSection_B();
+            IQueryable<ReportSectionExtraB> ReportSectionExtraBQuery = FillReportSectionExtraB();
 
-            ReportSection_BQuery = EnhanceQueryStatements<ReportSection_B>(ReportSection_BQuery) as IQueryable<ReportSection_B>;
+            ReportSectionExtraBQuery = EnhanceQueryStatements<ReportSectionExtraB>(ReportSectionExtraBQuery) as IQueryable<ReportSectionExtraB>;
 
-            return ReportSection_BQuery;
+            return ReportSectionExtraBQuery;
         }
         #endregion Functions public Generated Get
 

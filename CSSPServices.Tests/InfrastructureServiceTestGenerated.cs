@@ -991,7 +991,7 @@ namespace CSSPServices.Tests
                     Infrastructure infrastructure = (from c in dbTestDB.Infrastructures select c).FirstOrDefault();
                     Assert.IsNotNull(infrastructure);
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         infrastructureService.Query.Detail = detail;
 
@@ -1001,17 +1001,17 @@ namespace CSSPServices.Tests
                             CheckInfrastructureFields(new List<Infrastructure>() { infrastructureRet });
                             Assert.AreEqual(infrastructure.InfrastructureID, infrastructureRet.InfrastructureID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            Infrastructure_A infrastructure_ARet = infrastructureService.GetInfrastructure_AWithInfrastructureID(infrastructure.InfrastructureID);
-                            CheckInfrastructure_AFields(new List<Infrastructure_A>() { infrastructure_ARet });
-                            Assert.AreEqual(infrastructure.InfrastructureID, infrastructure_ARet.InfrastructureID);
+                            InfrastructureExtraA infrastructureExtraARet = infrastructureService.GetInfrastructureExtraAWithInfrastructureID(infrastructure.InfrastructureID);
+                            CheckInfrastructureExtraAFields(new List<InfrastructureExtraA>() { infrastructureExtraARet });
+                            Assert.AreEqual(infrastructure.InfrastructureID, infrastructureExtraARet.InfrastructureID);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            Infrastructure_B infrastructure_BRet = infrastructureService.GetInfrastructure_BWithInfrastructureID(infrastructure.InfrastructureID);
-                            CheckInfrastructure_BFields(new List<Infrastructure_B>() { infrastructure_BRet });
-                            Assert.AreEqual(infrastructure.InfrastructureID, infrastructure_BRet.InfrastructureID);
+                            InfrastructureExtraB infrastructureExtraBRet = infrastructureService.GetInfrastructureExtraBWithInfrastructureID(infrastructure.InfrastructureID);
+                            CheckInfrastructureExtraBFields(new List<InfrastructureExtraB>() { infrastructureExtraBRet });
+                            Assert.AreEqual(infrastructure.InfrastructureID, infrastructureExtraBRet.InfrastructureID);
                         }
                         else
                         {
@@ -1040,7 +1040,7 @@ namespace CSSPServices.Tests
                     List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
                     infrastructureDirectQueryList = (from c in dbTestDB.Infrastructures select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         infrastructureService.Query.Detail = detail;
 
@@ -1050,19 +1050,19 @@ namespace CSSPServices.Tests
                             infrastructureList = infrastructureService.GetInfrastructureList().ToList();
                             CheckInfrastructureFields(infrastructureList);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<Infrastructure_A> infrastructure_AList = new List<Infrastructure_A>();
-                            infrastructure_AList = infrastructureService.GetInfrastructure_AList().ToList();
-                            CheckInfrastructure_AFields(infrastructure_AList);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructure_AList.Count);
+                            List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
+                            infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
+                            CheckInfrastructureExtraAFields(infrastructureExtraAList);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<Infrastructure_B> infrastructure_BList = new List<Infrastructure_B>();
-                            infrastructure_BList = infrastructureService.GetInfrastructure_BList().ToList();
-                            CheckInfrastructure_BFields(infrastructure_BList);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructure_BList.Count);
+                            List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
+                            infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
+                            CheckInfrastructureExtraBFields(infrastructureExtraBList);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraBList.Count);
                         }
                         else
                         {
@@ -1084,7 +1084,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1100,21 +1100,21 @@ namespace CSSPServices.Tests
                             CheckInfrastructureFields(infrastructureList);
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<Infrastructure_A> infrastructure_AList = new List<Infrastructure_A>();
-                            infrastructure_AList = infrastructureService.GetInfrastructure_AList().ToList();
-                            CheckInfrastructure_AFields(infrastructure_AList);
-                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructure_AList[0].InfrastructureID);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructure_AList.Count);
+                            List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
+                            infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
+                            CheckInfrastructureExtraAFields(infrastructureExtraAList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraAList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<Infrastructure_B> infrastructure_BList = new List<Infrastructure_B>();
-                            infrastructure_BList = infrastructureService.GetInfrastructure_BList().ToList();
-                            CheckInfrastructure_BFields(infrastructure_BList);
-                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructure_BList[0].InfrastructureID);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructure_BList.Count);
+                            List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
+                            infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
+                            CheckInfrastructureExtraBFields(infrastructureExtraBList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraBList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraBList.Count);
                         }
                         else
                         {
@@ -1136,7 +1136,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1152,21 +1152,21 @@ namespace CSSPServices.Tests
                             CheckInfrastructureFields(infrastructureList);
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<Infrastructure_A> infrastructure_AList = new List<Infrastructure_A>();
-                            infrastructure_AList = infrastructureService.GetInfrastructure_AList().ToList();
-                            CheckInfrastructure_AFields(infrastructure_AList);
-                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructure_AList[0].InfrastructureID);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructure_AList.Count);
+                            List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
+                            infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
+                            CheckInfrastructureExtraAFields(infrastructureExtraAList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraAList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<Infrastructure_B> infrastructure_BList = new List<Infrastructure_B>();
-                            infrastructure_BList = infrastructureService.GetInfrastructure_BList().ToList();
-                            CheckInfrastructure_BFields(infrastructure_BList);
-                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructure_BList[0].InfrastructureID);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructure_BList.Count);
+                            List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
+                            infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
+                            CheckInfrastructureExtraBFields(infrastructureExtraBList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraBList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraBList.Count);
                         }
                         else
                         {
@@ -1188,7 +1188,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1204,21 +1204,21 @@ namespace CSSPServices.Tests
                             CheckInfrastructureFields(infrastructureList);
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<Infrastructure_A> infrastructure_AList = new List<Infrastructure_A>();
-                            infrastructure_AList = infrastructureService.GetInfrastructure_AList().ToList();
-                            CheckInfrastructure_AFields(infrastructure_AList);
-                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructure_AList[0].InfrastructureID);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructure_AList.Count);
+                            List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
+                            infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
+                            CheckInfrastructureExtraAFields(infrastructureExtraAList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraAList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<Infrastructure_B> infrastructure_BList = new List<Infrastructure_B>();
-                            infrastructure_BList = infrastructureService.GetInfrastructure_BList().ToList();
-                            CheckInfrastructure_BFields(infrastructure_BList);
-                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructure_BList[0].InfrastructureID);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructure_BList.Count);
+                            List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
+                            infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
+                            CheckInfrastructureExtraBFields(infrastructureExtraBList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraBList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraBList.Count);
                         }
                         else
                         {
@@ -1240,7 +1240,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1256,21 +1256,21 @@ namespace CSSPServices.Tests
                             CheckInfrastructureFields(infrastructureList);
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<Infrastructure_A> infrastructure_AList = new List<Infrastructure_A>();
-                            infrastructure_AList = infrastructureService.GetInfrastructure_AList().ToList();
-                            CheckInfrastructure_AFields(infrastructure_AList);
-                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructure_AList[0].InfrastructureID);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructure_AList.Count);
+                            List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
+                            infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
+                            CheckInfrastructureExtraAFields(infrastructureExtraAList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraAList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<Infrastructure_B> infrastructure_BList = new List<Infrastructure_B>();
-                            infrastructure_BList = infrastructureService.GetInfrastructure_BList().ToList();
-                            CheckInfrastructure_BFields(infrastructure_BList);
-                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructure_BList[0].InfrastructureID);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructure_BList.Count);
+                            List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
+                            infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
+                            CheckInfrastructureExtraBFields(infrastructureExtraBList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraBList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraBList.Count);
                         }
                         else
                         {
@@ -1292,7 +1292,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1308,21 +1308,21 @@ namespace CSSPServices.Tests
                             CheckInfrastructureFields(infrastructureList);
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<Infrastructure_A> infrastructure_AList = new List<Infrastructure_A>();
-                            infrastructure_AList = infrastructureService.GetInfrastructure_AList().ToList();
-                            CheckInfrastructure_AFields(infrastructure_AList);
-                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructure_AList[0].InfrastructureID);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructure_AList.Count);
+                            List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
+                            infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
+                            CheckInfrastructureExtraAFields(infrastructureExtraAList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraAList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<Infrastructure_B> infrastructure_BList = new List<Infrastructure_B>();
-                            infrastructure_BList = infrastructureService.GetInfrastructure_BList().ToList();
-                            CheckInfrastructure_BFields(infrastructure_BList);
-                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructure_BList[0].InfrastructureID);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructure_BList.Count);
+                            List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
+                            infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
+                            CheckInfrastructureExtraBFields(infrastructureExtraBList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraBList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraBList.Count);
                         }
                         else
                         {
@@ -1344,7 +1344,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1360,21 +1360,21 @@ namespace CSSPServices.Tests
                             CheckInfrastructureFields(infrastructureList);
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<Infrastructure_A> infrastructure_AList = new List<Infrastructure_A>();
-                            infrastructure_AList = infrastructureService.GetInfrastructure_AList().ToList();
-                            CheckInfrastructure_AFields(infrastructure_AList);
-                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructure_AList[0].InfrastructureID);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructure_AList.Count);
+                            List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
+                            infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
+                            CheckInfrastructureExtraAFields(infrastructureExtraAList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraAList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<Infrastructure_B> infrastructure_BList = new List<Infrastructure_B>();
-                            infrastructure_BList = infrastructureService.GetInfrastructure_BList().ToList();
-                            CheckInfrastructure_BFields(infrastructure_BList);
-                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructure_BList[0].InfrastructureID);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructure_BList.Count);
+                            List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
+                            infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
+                            CheckInfrastructureExtraBFields(infrastructureExtraBList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraBList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraBList.Count);
                         }
                         else
                         {
@@ -1571,485 +1571,485 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(infrastructureList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(infrastructureList[0].HasErrors);
         }
-        private void CheckInfrastructure_AFields(List<Infrastructure_A> infrastructure_AList)
+        private void CheckInfrastructureExtraAFields(List<InfrastructureExtraA> infrastructureExtraAList)
         {
-            Assert.IsNotNull(infrastructure_AList[0].InfrastructureTVItemLanguage);
-            if (infrastructure_AList[0].SeeOtherTVItemLanguage != null)
+            Assert.IsNotNull(infrastructureExtraAList[0].InfrastructureTVItemLanguage);
+            if (infrastructureExtraAList[0].SeeOtherTVItemLanguage != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].SeeOtherTVItemLanguage);
+                Assert.IsNotNull(infrastructureExtraAList[0].SeeOtherTVItemLanguage);
             }
-            if (infrastructure_AList[0].CivicAddressTVItemLanguage != null)
+            if (infrastructureExtraAList[0].CivicAddressTVItemLanguage != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].CivicAddressTVItemLanguage);
+                Assert.IsNotNull(infrastructureExtraAList[0].CivicAddressTVItemLanguage);
             }
-            Assert.IsNotNull(infrastructure_AList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(infrastructure_AList[0].InfrastructureTypeText))
+            Assert.IsNotNull(infrastructureExtraAList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].InfrastructureTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructure_AList[0].InfrastructureTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].InfrastructureTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(infrastructure_AList[0].FacilityTypeText))
+            if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].FacilityTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructure_AList[0].FacilityTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].FacilityTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(infrastructure_AList[0].AerationTypeText))
+            if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].AerationTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructure_AList[0].AerationTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].AerationTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(infrastructure_AList[0].PreliminaryTreatmentTypeText))
+            if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].PreliminaryTreatmentTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructure_AList[0].PreliminaryTreatmentTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].PreliminaryTreatmentTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(infrastructure_AList[0].PrimaryTreatmentTypeText))
+            if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].PrimaryTreatmentTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructure_AList[0].PrimaryTreatmentTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].PrimaryTreatmentTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(infrastructure_AList[0].SecondaryTreatmentTypeText))
+            if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].SecondaryTreatmentTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructure_AList[0].SecondaryTreatmentTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].SecondaryTreatmentTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(infrastructure_AList[0].TertiaryTreatmentTypeText))
+            if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].TertiaryTreatmentTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructure_AList[0].TertiaryTreatmentTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].TertiaryTreatmentTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(infrastructure_AList[0].TreatmentTypeText))
+            if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].TreatmentTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructure_AList[0].TreatmentTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].TreatmentTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(infrastructure_AList[0].DisinfectionTypeText))
+            if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].DisinfectionTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructure_AList[0].DisinfectionTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].DisinfectionTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(infrastructure_AList[0].CollectionSystemTypeText))
+            if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].CollectionSystemTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructure_AList[0].CollectionSystemTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].CollectionSystemTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(infrastructure_AList[0].AlarmSystemTypeText))
+            if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].AlarmSystemTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructure_AList[0].AlarmSystemTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].AlarmSystemTypeText));
             }
-            Assert.IsNotNull(infrastructure_AList[0].InfrastructureID);
-            Assert.IsNotNull(infrastructure_AList[0].InfrastructureTVItemID);
-            if (infrastructure_AList[0].PrismID != null)
+            Assert.IsNotNull(infrastructureExtraAList[0].InfrastructureID);
+            Assert.IsNotNull(infrastructureExtraAList[0].InfrastructureTVItemID);
+            if (infrastructureExtraAList[0].PrismID != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].PrismID);
+                Assert.IsNotNull(infrastructureExtraAList[0].PrismID);
             }
-            if (infrastructure_AList[0].TPID != null)
+            if (infrastructureExtraAList[0].TPID != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].TPID);
+                Assert.IsNotNull(infrastructureExtraAList[0].TPID);
             }
-            if (infrastructure_AList[0].LSID != null)
+            if (infrastructureExtraAList[0].LSID != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].LSID);
+                Assert.IsNotNull(infrastructureExtraAList[0].LSID);
             }
-            if (infrastructure_AList[0].SiteID != null)
+            if (infrastructureExtraAList[0].SiteID != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].SiteID);
+                Assert.IsNotNull(infrastructureExtraAList[0].SiteID);
             }
-            if (infrastructure_AList[0].Site != null)
+            if (infrastructureExtraAList[0].Site != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].Site);
+                Assert.IsNotNull(infrastructureExtraAList[0].Site);
             }
-            if (!string.IsNullOrWhiteSpace(infrastructure_AList[0].InfrastructureCategory))
+            if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].InfrastructureCategory))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructure_AList[0].InfrastructureCategory));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].InfrastructureCategory));
             }
-            if (infrastructure_AList[0].InfrastructureType != null)
+            if (infrastructureExtraAList[0].InfrastructureType != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].InfrastructureType);
+                Assert.IsNotNull(infrastructureExtraAList[0].InfrastructureType);
             }
-            if (infrastructure_AList[0].FacilityType != null)
+            if (infrastructureExtraAList[0].FacilityType != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].FacilityType);
+                Assert.IsNotNull(infrastructureExtraAList[0].FacilityType);
             }
-            if (infrastructure_AList[0].IsMechanicallyAerated != null)
+            if (infrastructureExtraAList[0].IsMechanicallyAerated != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].IsMechanicallyAerated);
+                Assert.IsNotNull(infrastructureExtraAList[0].IsMechanicallyAerated);
             }
-            if (infrastructure_AList[0].NumberOfCells != null)
+            if (infrastructureExtraAList[0].NumberOfCells != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].NumberOfCells);
+                Assert.IsNotNull(infrastructureExtraAList[0].NumberOfCells);
             }
-            if (infrastructure_AList[0].NumberOfAeratedCells != null)
+            if (infrastructureExtraAList[0].NumberOfAeratedCells != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].NumberOfAeratedCells);
+                Assert.IsNotNull(infrastructureExtraAList[0].NumberOfAeratedCells);
             }
-            if (infrastructure_AList[0].AerationType != null)
+            if (infrastructureExtraAList[0].AerationType != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].AerationType);
+                Assert.IsNotNull(infrastructureExtraAList[0].AerationType);
             }
-            if (infrastructure_AList[0].PreliminaryTreatmentType != null)
+            if (infrastructureExtraAList[0].PreliminaryTreatmentType != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].PreliminaryTreatmentType);
+                Assert.IsNotNull(infrastructureExtraAList[0].PreliminaryTreatmentType);
             }
-            if (infrastructure_AList[0].PrimaryTreatmentType != null)
+            if (infrastructureExtraAList[0].PrimaryTreatmentType != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].PrimaryTreatmentType);
+                Assert.IsNotNull(infrastructureExtraAList[0].PrimaryTreatmentType);
             }
-            if (infrastructure_AList[0].SecondaryTreatmentType != null)
+            if (infrastructureExtraAList[0].SecondaryTreatmentType != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].SecondaryTreatmentType);
+                Assert.IsNotNull(infrastructureExtraAList[0].SecondaryTreatmentType);
             }
-            if (infrastructure_AList[0].TertiaryTreatmentType != null)
+            if (infrastructureExtraAList[0].TertiaryTreatmentType != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].TertiaryTreatmentType);
+                Assert.IsNotNull(infrastructureExtraAList[0].TertiaryTreatmentType);
             }
-            if (infrastructure_AList[0].TreatmentType != null)
+            if (infrastructureExtraAList[0].TreatmentType != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].TreatmentType);
+                Assert.IsNotNull(infrastructureExtraAList[0].TreatmentType);
             }
-            if (infrastructure_AList[0].DisinfectionType != null)
+            if (infrastructureExtraAList[0].DisinfectionType != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].DisinfectionType);
+                Assert.IsNotNull(infrastructureExtraAList[0].DisinfectionType);
             }
-            if (infrastructure_AList[0].CollectionSystemType != null)
+            if (infrastructureExtraAList[0].CollectionSystemType != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].CollectionSystemType);
+                Assert.IsNotNull(infrastructureExtraAList[0].CollectionSystemType);
             }
-            if (infrastructure_AList[0].AlarmSystemType != null)
+            if (infrastructureExtraAList[0].AlarmSystemType != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].AlarmSystemType);
+                Assert.IsNotNull(infrastructureExtraAList[0].AlarmSystemType);
             }
-            if (infrastructure_AList[0].DesignFlow_m3_day != null)
+            if (infrastructureExtraAList[0].DesignFlow_m3_day != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].DesignFlow_m3_day);
+                Assert.IsNotNull(infrastructureExtraAList[0].DesignFlow_m3_day);
             }
-            if (infrastructure_AList[0].AverageFlow_m3_day != null)
+            if (infrastructureExtraAList[0].AverageFlow_m3_day != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].AverageFlow_m3_day);
+                Assert.IsNotNull(infrastructureExtraAList[0].AverageFlow_m3_day);
             }
-            if (infrastructure_AList[0].PeakFlow_m3_day != null)
+            if (infrastructureExtraAList[0].PeakFlow_m3_day != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].PeakFlow_m3_day);
+                Assert.IsNotNull(infrastructureExtraAList[0].PeakFlow_m3_day);
             }
-            if (infrastructure_AList[0].PopServed != null)
+            if (infrastructureExtraAList[0].PopServed != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].PopServed);
+                Assert.IsNotNull(infrastructureExtraAList[0].PopServed);
             }
-            if (infrastructure_AList[0].CanOverflow != null)
+            if (infrastructureExtraAList[0].CanOverflow != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].CanOverflow);
+                Assert.IsNotNull(infrastructureExtraAList[0].CanOverflow);
             }
-            if (infrastructure_AList[0].PercFlowOfTotal != null)
+            if (infrastructureExtraAList[0].PercFlowOfTotal != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].PercFlowOfTotal);
+                Assert.IsNotNull(infrastructureExtraAList[0].PercFlowOfTotal);
             }
-            if (infrastructure_AList[0].TimeOffset_hour != null)
+            if (infrastructureExtraAList[0].TimeOffset_hour != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].TimeOffset_hour);
+                Assert.IsNotNull(infrastructureExtraAList[0].TimeOffset_hour);
             }
-            if (!string.IsNullOrWhiteSpace(infrastructure_AList[0].TempCatchAllRemoveLater))
+            if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].TempCatchAllRemoveLater))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructure_AList[0].TempCatchAllRemoveLater));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].TempCatchAllRemoveLater));
             }
-            if (infrastructure_AList[0].AverageDepth_m != null)
+            if (infrastructureExtraAList[0].AverageDepth_m != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].AverageDepth_m);
+                Assert.IsNotNull(infrastructureExtraAList[0].AverageDepth_m);
             }
-            if (infrastructure_AList[0].NumberOfPorts != null)
+            if (infrastructureExtraAList[0].NumberOfPorts != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].NumberOfPorts);
+                Assert.IsNotNull(infrastructureExtraAList[0].NumberOfPorts);
             }
-            if (infrastructure_AList[0].PortDiameter_m != null)
+            if (infrastructureExtraAList[0].PortDiameter_m != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].PortDiameter_m);
+                Assert.IsNotNull(infrastructureExtraAList[0].PortDiameter_m);
             }
-            if (infrastructure_AList[0].PortSpacing_m != null)
+            if (infrastructureExtraAList[0].PortSpacing_m != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].PortSpacing_m);
+                Assert.IsNotNull(infrastructureExtraAList[0].PortSpacing_m);
             }
-            if (infrastructure_AList[0].PortElevation_m != null)
+            if (infrastructureExtraAList[0].PortElevation_m != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].PortElevation_m);
+                Assert.IsNotNull(infrastructureExtraAList[0].PortElevation_m);
             }
-            if (infrastructure_AList[0].VerticalAngle_deg != null)
+            if (infrastructureExtraAList[0].VerticalAngle_deg != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].VerticalAngle_deg);
+                Assert.IsNotNull(infrastructureExtraAList[0].VerticalAngle_deg);
             }
-            if (infrastructure_AList[0].HorizontalAngle_deg != null)
+            if (infrastructureExtraAList[0].HorizontalAngle_deg != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].HorizontalAngle_deg);
+                Assert.IsNotNull(infrastructureExtraAList[0].HorizontalAngle_deg);
             }
-            if (infrastructure_AList[0].DecayRate_per_day != null)
+            if (infrastructureExtraAList[0].DecayRate_per_day != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].DecayRate_per_day);
+                Assert.IsNotNull(infrastructureExtraAList[0].DecayRate_per_day);
             }
-            if (infrastructure_AList[0].NearFieldVelocity_m_s != null)
+            if (infrastructureExtraAList[0].NearFieldVelocity_m_s != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].NearFieldVelocity_m_s);
+                Assert.IsNotNull(infrastructureExtraAList[0].NearFieldVelocity_m_s);
             }
-            if (infrastructure_AList[0].FarFieldVelocity_m_s != null)
+            if (infrastructureExtraAList[0].FarFieldVelocity_m_s != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].FarFieldVelocity_m_s);
+                Assert.IsNotNull(infrastructureExtraAList[0].FarFieldVelocity_m_s);
             }
-            if (infrastructure_AList[0].ReceivingWaterSalinity_PSU != null)
+            if (infrastructureExtraAList[0].ReceivingWaterSalinity_PSU != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].ReceivingWaterSalinity_PSU);
+                Assert.IsNotNull(infrastructureExtraAList[0].ReceivingWaterSalinity_PSU);
             }
-            if (infrastructure_AList[0].ReceivingWaterTemperature_C != null)
+            if (infrastructureExtraAList[0].ReceivingWaterTemperature_C != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].ReceivingWaterTemperature_C);
+                Assert.IsNotNull(infrastructureExtraAList[0].ReceivingWaterTemperature_C);
             }
-            if (infrastructure_AList[0].ReceivingWater_MPN_per_100ml != null)
+            if (infrastructureExtraAList[0].ReceivingWater_MPN_per_100ml != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].ReceivingWater_MPN_per_100ml);
+                Assert.IsNotNull(infrastructureExtraAList[0].ReceivingWater_MPN_per_100ml);
             }
-            if (infrastructure_AList[0].DistanceFromShore_m != null)
+            if (infrastructureExtraAList[0].DistanceFromShore_m != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].DistanceFromShore_m);
+                Assert.IsNotNull(infrastructureExtraAList[0].DistanceFromShore_m);
             }
-            if (infrastructure_AList[0].SeeOtherTVItemID != null)
+            if (infrastructureExtraAList[0].SeeOtherTVItemID != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].SeeOtherTVItemID);
+                Assert.IsNotNull(infrastructureExtraAList[0].SeeOtherTVItemID);
             }
-            if (infrastructure_AList[0].CivicAddressTVItemID != null)
+            if (infrastructureExtraAList[0].CivicAddressTVItemID != null)
             {
-                Assert.IsNotNull(infrastructure_AList[0].CivicAddressTVItemID);
+                Assert.IsNotNull(infrastructureExtraAList[0].CivicAddressTVItemID);
             }
-            Assert.IsNotNull(infrastructure_AList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(infrastructure_AList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(infrastructure_AList[0].HasErrors);
+            Assert.IsNotNull(infrastructureExtraAList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(infrastructureExtraAList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(infrastructureExtraAList[0].HasErrors);
         }
-        private void CheckInfrastructure_BFields(List<Infrastructure_B> infrastructure_BList)
+        private void CheckInfrastructureExtraBFields(List<InfrastructureExtraB> infrastructureExtraBList)
         {
-            if (!string.IsNullOrWhiteSpace(infrastructure_BList[0].InfrastructureReportTest))
+            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].InfrastructureReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructure_BList[0].InfrastructureReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].InfrastructureReportTest));
             }
-            Assert.IsNotNull(infrastructure_BList[0].InfrastructureTVItemLanguage);
-            if (infrastructure_BList[0].SeeOtherTVItemLanguage != null)
+            Assert.IsNotNull(infrastructureExtraBList[0].InfrastructureTVItemLanguage);
+            if (infrastructureExtraBList[0].SeeOtherTVItemLanguage != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].SeeOtherTVItemLanguage);
+                Assert.IsNotNull(infrastructureExtraBList[0].SeeOtherTVItemLanguage);
             }
-            if (infrastructure_BList[0].CivicAddressTVItemLanguage != null)
+            if (infrastructureExtraBList[0].CivicAddressTVItemLanguage != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].CivicAddressTVItemLanguage);
+                Assert.IsNotNull(infrastructureExtraBList[0].CivicAddressTVItemLanguage);
             }
-            Assert.IsNotNull(infrastructure_BList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(infrastructure_BList[0].InfrastructureTypeText))
+            Assert.IsNotNull(infrastructureExtraBList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].InfrastructureTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructure_BList[0].InfrastructureTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].InfrastructureTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(infrastructure_BList[0].FacilityTypeText))
+            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].FacilityTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructure_BList[0].FacilityTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].FacilityTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(infrastructure_BList[0].AerationTypeText))
+            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].AerationTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructure_BList[0].AerationTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].AerationTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(infrastructure_BList[0].PreliminaryTreatmentTypeText))
+            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].PreliminaryTreatmentTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructure_BList[0].PreliminaryTreatmentTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].PreliminaryTreatmentTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(infrastructure_BList[0].PrimaryTreatmentTypeText))
+            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].PrimaryTreatmentTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructure_BList[0].PrimaryTreatmentTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].PrimaryTreatmentTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(infrastructure_BList[0].SecondaryTreatmentTypeText))
+            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].SecondaryTreatmentTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructure_BList[0].SecondaryTreatmentTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].SecondaryTreatmentTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(infrastructure_BList[0].TertiaryTreatmentTypeText))
+            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].TertiaryTreatmentTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructure_BList[0].TertiaryTreatmentTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].TertiaryTreatmentTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(infrastructure_BList[0].TreatmentTypeText))
+            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].TreatmentTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructure_BList[0].TreatmentTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].TreatmentTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(infrastructure_BList[0].DisinfectionTypeText))
+            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].DisinfectionTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructure_BList[0].DisinfectionTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].DisinfectionTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(infrastructure_BList[0].CollectionSystemTypeText))
+            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].CollectionSystemTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructure_BList[0].CollectionSystemTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].CollectionSystemTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(infrastructure_BList[0].AlarmSystemTypeText))
+            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].AlarmSystemTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructure_BList[0].AlarmSystemTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].AlarmSystemTypeText));
             }
-            Assert.IsNotNull(infrastructure_BList[0].InfrastructureID);
-            Assert.IsNotNull(infrastructure_BList[0].InfrastructureTVItemID);
-            if (infrastructure_BList[0].PrismID != null)
+            Assert.IsNotNull(infrastructureExtraBList[0].InfrastructureID);
+            Assert.IsNotNull(infrastructureExtraBList[0].InfrastructureTVItemID);
+            if (infrastructureExtraBList[0].PrismID != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].PrismID);
+                Assert.IsNotNull(infrastructureExtraBList[0].PrismID);
             }
-            if (infrastructure_BList[0].TPID != null)
+            if (infrastructureExtraBList[0].TPID != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].TPID);
+                Assert.IsNotNull(infrastructureExtraBList[0].TPID);
             }
-            if (infrastructure_BList[0].LSID != null)
+            if (infrastructureExtraBList[0].LSID != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].LSID);
+                Assert.IsNotNull(infrastructureExtraBList[0].LSID);
             }
-            if (infrastructure_BList[0].SiteID != null)
+            if (infrastructureExtraBList[0].SiteID != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].SiteID);
+                Assert.IsNotNull(infrastructureExtraBList[0].SiteID);
             }
-            if (infrastructure_BList[0].Site != null)
+            if (infrastructureExtraBList[0].Site != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].Site);
+                Assert.IsNotNull(infrastructureExtraBList[0].Site);
             }
-            if (!string.IsNullOrWhiteSpace(infrastructure_BList[0].InfrastructureCategory))
+            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].InfrastructureCategory))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructure_BList[0].InfrastructureCategory));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].InfrastructureCategory));
             }
-            if (infrastructure_BList[0].InfrastructureType != null)
+            if (infrastructureExtraBList[0].InfrastructureType != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].InfrastructureType);
+                Assert.IsNotNull(infrastructureExtraBList[0].InfrastructureType);
             }
-            if (infrastructure_BList[0].FacilityType != null)
+            if (infrastructureExtraBList[0].FacilityType != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].FacilityType);
+                Assert.IsNotNull(infrastructureExtraBList[0].FacilityType);
             }
-            if (infrastructure_BList[0].IsMechanicallyAerated != null)
+            if (infrastructureExtraBList[0].IsMechanicallyAerated != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].IsMechanicallyAerated);
+                Assert.IsNotNull(infrastructureExtraBList[0].IsMechanicallyAerated);
             }
-            if (infrastructure_BList[0].NumberOfCells != null)
+            if (infrastructureExtraBList[0].NumberOfCells != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].NumberOfCells);
+                Assert.IsNotNull(infrastructureExtraBList[0].NumberOfCells);
             }
-            if (infrastructure_BList[0].NumberOfAeratedCells != null)
+            if (infrastructureExtraBList[0].NumberOfAeratedCells != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].NumberOfAeratedCells);
+                Assert.IsNotNull(infrastructureExtraBList[0].NumberOfAeratedCells);
             }
-            if (infrastructure_BList[0].AerationType != null)
+            if (infrastructureExtraBList[0].AerationType != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].AerationType);
+                Assert.IsNotNull(infrastructureExtraBList[0].AerationType);
             }
-            if (infrastructure_BList[0].PreliminaryTreatmentType != null)
+            if (infrastructureExtraBList[0].PreliminaryTreatmentType != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].PreliminaryTreatmentType);
+                Assert.IsNotNull(infrastructureExtraBList[0].PreliminaryTreatmentType);
             }
-            if (infrastructure_BList[0].PrimaryTreatmentType != null)
+            if (infrastructureExtraBList[0].PrimaryTreatmentType != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].PrimaryTreatmentType);
+                Assert.IsNotNull(infrastructureExtraBList[0].PrimaryTreatmentType);
             }
-            if (infrastructure_BList[0].SecondaryTreatmentType != null)
+            if (infrastructureExtraBList[0].SecondaryTreatmentType != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].SecondaryTreatmentType);
+                Assert.IsNotNull(infrastructureExtraBList[0].SecondaryTreatmentType);
             }
-            if (infrastructure_BList[0].TertiaryTreatmentType != null)
+            if (infrastructureExtraBList[0].TertiaryTreatmentType != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].TertiaryTreatmentType);
+                Assert.IsNotNull(infrastructureExtraBList[0].TertiaryTreatmentType);
             }
-            if (infrastructure_BList[0].TreatmentType != null)
+            if (infrastructureExtraBList[0].TreatmentType != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].TreatmentType);
+                Assert.IsNotNull(infrastructureExtraBList[0].TreatmentType);
             }
-            if (infrastructure_BList[0].DisinfectionType != null)
+            if (infrastructureExtraBList[0].DisinfectionType != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].DisinfectionType);
+                Assert.IsNotNull(infrastructureExtraBList[0].DisinfectionType);
             }
-            if (infrastructure_BList[0].CollectionSystemType != null)
+            if (infrastructureExtraBList[0].CollectionSystemType != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].CollectionSystemType);
+                Assert.IsNotNull(infrastructureExtraBList[0].CollectionSystemType);
             }
-            if (infrastructure_BList[0].AlarmSystemType != null)
+            if (infrastructureExtraBList[0].AlarmSystemType != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].AlarmSystemType);
+                Assert.IsNotNull(infrastructureExtraBList[0].AlarmSystemType);
             }
-            if (infrastructure_BList[0].DesignFlow_m3_day != null)
+            if (infrastructureExtraBList[0].DesignFlow_m3_day != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].DesignFlow_m3_day);
+                Assert.IsNotNull(infrastructureExtraBList[0].DesignFlow_m3_day);
             }
-            if (infrastructure_BList[0].AverageFlow_m3_day != null)
+            if (infrastructureExtraBList[0].AverageFlow_m3_day != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].AverageFlow_m3_day);
+                Assert.IsNotNull(infrastructureExtraBList[0].AverageFlow_m3_day);
             }
-            if (infrastructure_BList[0].PeakFlow_m3_day != null)
+            if (infrastructureExtraBList[0].PeakFlow_m3_day != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].PeakFlow_m3_day);
+                Assert.IsNotNull(infrastructureExtraBList[0].PeakFlow_m3_day);
             }
-            if (infrastructure_BList[0].PopServed != null)
+            if (infrastructureExtraBList[0].PopServed != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].PopServed);
+                Assert.IsNotNull(infrastructureExtraBList[0].PopServed);
             }
-            if (infrastructure_BList[0].CanOverflow != null)
+            if (infrastructureExtraBList[0].CanOverflow != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].CanOverflow);
+                Assert.IsNotNull(infrastructureExtraBList[0].CanOverflow);
             }
-            if (infrastructure_BList[0].PercFlowOfTotal != null)
+            if (infrastructureExtraBList[0].PercFlowOfTotal != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].PercFlowOfTotal);
+                Assert.IsNotNull(infrastructureExtraBList[0].PercFlowOfTotal);
             }
-            if (infrastructure_BList[0].TimeOffset_hour != null)
+            if (infrastructureExtraBList[0].TimeOffset_hour != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].TimeOffset_hour);
+                Assert.IsNotNull(infrastructureExtraBList[0].TimeOffset_hour);
             }
-            if (!string.IsNullOrWhiteSpace(infrastructure_BList[0].TempCatchAllRemoveLater))
+            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].TempCatchAllRemoveLater))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructure_BList[0].TempCatchAllRemoveLater));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].TempCatchAllRemoveLater));
             }
-            if (infrastructure_BList[0].AverageDepth_m != null)
+            if (infrastructureExtraBList[0].AverageDepth_m != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].AverageDepth_m);
+                Assert.IsNotNull(infrastructureExtraBList[0].AverageDepth_m);
             }
-            if (infrastructure_BList[0].NumberOfPorts != null)
+            if (infrastructureExtraBList[0].NumberOfPorts != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].NumberOfPorts);
+                Assert.IsNotNull(infrastructureExtraBList[0].NumberOfPorts);
             }
-            if (infrastructure_BList[0].PortDiameter_m != null)
+            if (infrastructureExtraBList[0].PortDiameter_m != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].PortDiameter_m);
+                Assert.IsNotNull(infrastructureExtraBList[0].PortDiameter_m);
             }
-            if (infrastructure_BList[0].PortSpacing_m != null)
+            if (infrastructureExtraBList[0].PortSpacing_m != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].PortSpacing_m);
+                Assert.IsNotNull(infrastructureExtraBList[0].PortSpacing_m);
             }
-            if (infrastructure_BList[0].PortElevation_m != null)
+            if (infrastructureExtraBList[0].PortElevation_m != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].PortElevation_m);
+                Assert.IsNotNull(infrastructureExtraBList[0].PortElevation_m);
             }
-            if (infrastructure_BList[0].VerticalAngle_deg != null)
+            if (infrastructureExtraBList[0].VerticalAngle_deg != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].VerticalAngle_deg);
+                Assert.IsNotNull(infrastructureExtraBList[0].VerticalAngle_deg);
             }
-            if (infrastructure_BList[0].HorizontalAngle_deg != null)
+            if (infrastructureExtraBList[0].HorizontalAngle_deg != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].HorizontalAngle_deg);
+                Assert.IsNotNull(infrastructureExtraBList[0].HorizontalAngle_deg);
             }
-            if (infrastructure_BList[0].DecayRate_per_day != null)
+            if (infrastructureExtraBList[0].DecayRate_per_day != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].DecayRate_per_day);
+                Assert.IsNotNull(infrastructureExtraBList[0].DecayRate_per_day);
             }
-            if (infrastructure_BList[0].NearFieldVelocity_m_s != null)
+            if (infrastructureExtraBList[0].NearFieldVelocity_m_s != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].NearFieldVelocity_m_s);
+                Assert.IsNotNull(infrastructureExtraBList[0].NearFieldVelocity_m_s);
             }
-            if (infrastructure_BList[0].FarFieldVelocity_m_s != null)
+            if (infrastructureExtraBList[0].FarFieldVelocity_m_s != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].FarFieldVelocity_m_s);
+                Assert.IsNotNull(infrastructureExtraBList[0].FarFieldVelocity_m_s);
             }
-            if (infrastructure_BList[0].ReceivingWaterSalinity_PSU != null)
+            if (infrastructureExtraBList[0].ReceivingWaterSalinity_PSU != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].ReceivingWaterSalinity_PSU);
+                Assert.IsNotNull(infrastructureExtraBList[0].ReceivingWaterSalinity_PSU);
             }
-            if (infrastructure_BList[0].ReceivingWaterTemperature_C != null)
+            if (infrastructureExtraBList[0].ReceivingWaterTemperature_C != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].ReceivingWaterTemperature_C);
+                Assert.IsNotNull(infrastructureExtraBList[0].ReceivingWaterTemperature_C);
             }
-            if (infrastructure_BList[0].ReceivingWater_MPN_per_100ml != null)
+            if (infrastructureExtraBList[0].ReceivingWater_MPN_per_100ml != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].ReceivingWater_MPN_per_100ml);
+                Assert.IsNotNull(infrastructureExtraBList[0].ReceivingWater_MPN_per_100ml);
             }
-            if (infrastructure_BList[0].DistanceFromShore_m != null)
+            if (infrastructureExtraBList[0].DistanceFromShore_m != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].DistanceFromShore_m);
+                Assert.IsNotNull(infrastructureExtraBList[0].DistanceFromShore_m);
             }
-            if (infrastructure_BList[0].SeeOtherTVItemID != null)
+            if (infrastructureExtraBList[0].SeeOtherTVItemID != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].SeeOtherTVItemID);
+                Assert.IsNotNull(infrastructureExtraBList[0].SeeOtherTVItemID);
             }
-            if (infrastructure_BList[0].CivicAddressTVItemID != null)
+            if (infrastructureExtraBList[0].CivicAddressTVItemID != null)
             {
-                Assert.IsNotNull(infrastructure_BList[0].CivicAddressTVItemID);
+                Assert.IsNotNull(infrastructureExtraBList[0].CivicAddressTVItemID);
             }
-            Assert.IsNotNull(infrastructure_BList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(infrastructure_BList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(infrastructure_BList[0].HasErrors);
+            Assert.IsNotNull(infrastructureExtraBList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(infrastructureExtraBList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(infrastructureExtraBList[0].HasErrors);
         }
         private Infrastructure GetFilledRandomInfrastructure(string OmitPropName)
         {

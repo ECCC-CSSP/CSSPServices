@@ -378,31 +378,31 @@ namespace CSSPServices
 
             return MikeScenarioQuery;
         }
-        public MikeScenario_A GetMikeScenario_AWithMikeScenarioID(int MikeScenarioID)
+        public MikeScenarioExtraA GetMikeScenarioExtraAWithMikeScenarioID(int MikeScenarioID)
         {
-            return FillMikeScenario_A().Where(c => c.MikeScenarioID == MikeScenarioID).FirstOrDefault();
+            return FillMikeScenarioExtraA().Where(c => c.MikeScenarioID == MikeScenarioID).FirstOrDefault();
 
         }
-        public IQueryable<MikeScenario_A> GetMikeScenario_AList()
+        public IQueryable<MikeScenarioExtraA> GetMikeScenarioExtraAList()
         {
-            IQueryable<MikeScenario_A> MikeScenario_AQuery = FillMikeScenario_A();
+            IQueryable<MikeScenarioExtraA> MikeScenarioExtraAQuery = FillMikeScenarioExtraA();
 
-            MikeScenario_AQuery = EnhanceQueryStatements<MikeScenario_A>(MikeScenario_AQuery) as IQueryable<MikeScenario_A>;
+            MikeScenarioExtraAQuery = EnhanceQueryStatements<MikeScenarioExtraA>(MikeScenarioExtraAQuery) as IQueryable<MikeScenarioExtraA>;
 
-            return MikeScenario_AQuery;
+            return MikeScenarioExtraAQuery;
         }
-        public MikeScenario_B GetMikeScenario_BWithMikeScenarioID(int MikeScenarioID)
+        public MikeScenarioExtraB GetMikeScenarioExtraBWithMikeScenarioID(int MikeScenarioID)
         {
-            return FillMikeScenario_B().Where(c => c.MikeScenarioID == MikeScenarioID).FirstOrDefault();
+            return FillMikeScenarioExtraB().Where(c => c.MikeScenarioID == MikeScenarioID).FirstOrDefault();
 
         }
-        public IQueryable<MikeScenario_B> GetMikeScenario_BList()
+        public IQueryable<MikeScenarioExtraB> GetMikeScenarioExtraBList()
         {
-            IQueryable<MikeScenario_B> MikeScenario_BQuery = FillMikeScenario_B();
+            IQueryable<MikeScenarioExtraB> MikeScenarioExtraBQuery = FillMikeScenarioExtraB();
 
-            MikeScenario_BQuery = EnhanceQueryStatements<MikeScenario_B>(MikeScenario_BQuery) as IQueryable<MikeScenario_B>;
+            MikeScenarioExtraBQuery = EnhanceQueryStatements<MikeScenarioExtraB>(MikeScenarioExtraBQuery) as IQueryable<MikeScenarioExtraB>;
 
-            return MikeScenario_BQuery;
+            return MikeScenarioExtraBQuery;
         }
         #endregion Functions public Generated Get
 

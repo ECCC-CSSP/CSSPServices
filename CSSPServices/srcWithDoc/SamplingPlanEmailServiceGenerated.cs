@@ -147,31 +147,31 @@ namespace CSSPServices
 
             return SamplingPlanEmailQuery;
         }
-        public SamplingPlanEmail_A GetSamplingPlanEmail_AWithSamplingPlanEmailID(int SamplingPlanEmailID)
+        public SamplingPlanEmailExtraA GetSamplingPlanEmailExtraAWithSamplingPlanEmailID(int SamplingPlanEmailID)
         {
-            return FillSamplingPlanEmail_A().Where(c => c.SamplingPlanEmailID == SamplingPlanEmailID).FirstOrDefault();
+            return FillSamplingPlanEmailExtraA().Where(c => c.SamplingPlanEmailID == SamplingPlanEmailID).FirstOrDefault();
 
         }
-        public IQueryable<SamplingPlanEmail_A> GetSamplingPlanEmail_AList()
+        public IQueryable<SamplingPlanEmailExtraA> GetSamplingPlanEmailExtraAList()
         {
-            IQueryable<SamplingPlanEmail_A> SamplingPlanEmail_AQuery = FillSamplingPlanEmail_A();
+            IQueryable<SamplingPlanEmailExtraA> SamplingPlanEmailExtraAQuery = FillSamplingPlanEmailExtraA();
 
-            SamplingPlanEmail_AQuery = EnhanceQueryStatements<SamplingPlanEmail_A>(SamplingPlanEmail_AQuery) as IQueryable<SamplingPlanEmail_A>;
+            SamplingPlanEmailExtraAQuery = EnhanceQueryStatements<SamplingPlanEmailExtraA>(SamplingPlanEmailExtraAQuery) as IQueryable<SamplingPlanEmailExtraA>;
 
-            return SamplingPlanEmail_AQuery;
+            return SamplingPlanEmailExtraAQuery;
         }
-        public SamplingPlanEmail_B GetSamplingPlanEmail_BWithSamplingPlanEmailID(int SamplingPlanEmailID)
+        public SamplingPlanEmailExtraB GetSamplingPlanEmailExtraBWithSamplingPlanEmailID(int SamplingPlanEmailID)
         {
-            return FillSamplingPlanEmail_B().Where(c => c.SamplingPlanEmailID == SamplingPlanEmailID).FirstOrDefault();
+            return FillSamplingPlanEmailExtraB().Where(c => c.SamplingPlanEmailID == SamplingPlanEmailID).FirstOrDefault();
 
         }
-        public IQueryable<SamplingPlanEmail_B> GetSamplingPlanEmail_BList()
+        public IQueryable<SamplingPlanEmailExtraB> GetSamplingPlanEmailExtraBList()
         {
-            IQueryable<SamplingPlanEmail_B> SamplingPlanEmail_BQuery = FillSamplingPlanEmail_B();
+            IQueryable<SamplingPlanEmailExtraB> SamplingPlanEmailExtraBQuery = FillSamplingPlanEmailExtraB();
 
-            SamplingPlanEmail_BQuery = EnhanceQueryStatements<SamplingPlanEmail_B>(SamplingPlanEmail_BQuery) as IQueryable<SamplingPlanEmail_B>;
+            SamplingPlanEmailExtraBQuery = EnhanceQueryStatements<SamplingPlanEmailExtraB>(SamplingPlanEmailExtraBQuery) as IQueryable<SamplingPlanEmailExtraB>;
 
-            return SamplingPlanEmail_BQuery;
+            return SamplingPlanEmailExtraBQuery;
         }
         #endregion Functions public Generated Get
 

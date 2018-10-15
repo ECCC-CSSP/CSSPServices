@@ -175,31 +175,31 @@ namespace CSSPServices
 
             return HydrometricDataValueQuery;
         }
-        public HydrometricDataValue_A GetHydrometricDataValue_AWithHydrometricDataValueID(int HydrometricDataValueID)
+        public HydrometricDataValueExtraA GetHydrometricDataValueExtraAWithHydrometricDataValueID(int HydrometricDataValueID)
         {
-            return FillHydrometricDataValue_A().Where(c => c.HydrometricDataValueID == HydrometricDataValueID).FirstOrDefault();
+            return FillHydrometricDataValueExtraA().Where(c => c.HydrometricDataValueID == HydrometricDataValueID).FirstOrDefault();
 
         }
-        public IQueryable<HydrometricDataValue_A> GetHydrometricDataValue_AList()
+        public IQueryable<HydrometricDataValueExtraA> GetHydrometricDataValueExtraAList()
         {
-            IQueryable<HydrometricDataValue_A> HydrometricDataValue_AQuery = FillHydrometricDataValue_A();
+            IQueryable<HydrometricDataValueExtraA> HydrometricDataValueExtraAQuery = FillHydrometricDataValueExtraA();
 
-            HydrometricDataValue_AQuery = EnhanceQueryStatements<HydrometricDataValue_A>(HydrometricDataValue_AQuery) as IQueryable<HydrometricDataValue_A>;
+            HydrometricDataValueExtraAQuery = EnhanceQueryStatements<HydrometricDataValueExtraA>(HydrometricDataValueExtraAQuery) as IQueryable<HydrometricDataValueExtraA>;
 
-            return HydrometricDataValue_AQuery;
+            return HydrometricDataValueExtraAQuery;
         }
-        public HydrometricDataValue_B GetHydrometricDataValue_BWithHydrometricDataValueID(int HydrometricDataValueID)
+        public HydrometricDataValueExtraB GetHydrometricDataValueExtraBWithHydrometricDataValueID(int HydrometricDataValueID)
         {
-            return FillHydrometricDataValue_B().Where(c => c.HydrometricDataValueID == HydrometricDataValueID).FirstOrDefault();
+            return FillHydrometricDataValueExtraB().Where(c => c.HydrometricDataValueID == HydrometricDataValueID).FirstOrDefault();
 
         }
-        public IQueryable<HydrometricDataValue_B> GetHydrometricDataValue_BList()
+        public IQueryable<HydrometricDataValueExtraB> GetHydrometricDataValueExtraBList()
         {
-            IQueryable<HydrometricDataValue_B> HydrometricDataValue_BQuery = FillHydrometricDataValue_B();
+            IQueryable<HydrometricDataValueExtraB> HydrometricDataValueExtraBQuery = FillHydrometricDataValueExtraB();
 
-            HydrometricDataValue_BQuery = EnhanceQueryStatements<HydrometricDataValue_B>(HydrometricDataValue_BQuery) as IQueryable<HydrometricDataValue_B>;
+            HydrometricDataValueExtraBQuery = EnhanceQueryStatements<HydrometricDataValueExtraB>(HydrometricDataValueExtraBQuery) as IQueryable<HydrometricDataValueExtraB>;
 
-            return HydrometricDataValue_BQuery;
+            return HydrometricDataValueExtraBQuery;
         }
         #endregion Functions public Generated Get
 

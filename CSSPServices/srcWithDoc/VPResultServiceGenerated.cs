@@ -161,31 +161,31 @@ namespace CSSPServices
 
             return VPResultQuery;
         }
-        public VPResult_A GetVPResult_AWithVPResultID(int VPResultID)
+        public VPResultExtraA GetVPResultExtraAWithVPResultID(int VPResultID)
         {
-            return FillVPResult_A().Where(c => c.VPResultID == VPResultID).FirstOrDefault();
+            return FillVPResultExtraA().Where(c => c.VPResultID == VPResultID).FirstOrDefault();
 
         }
-        public IQueryable<VPResult_A> GetVPResult_AList()
+        public IQueryable<VPResultExtraA> GetVPResultExtraAList()
         {
-            IQueryable<VPResult_A> VPResult_AQuery = FillVPResult_A();
+            IQueryable<VPResultExtraA> VPResultExtraAQuery = FillVPResultExtraA();
 
-            VPResult_AQuery = EnhanceQueryStatements<VPResult_A>(VPResult_AQuery) as IQueryable<VPResult_A>;
+            VPResultExtraAQuery = EnhanceQueryStatements<VPResultExtraA>(VPResultExtraAQuery) as IQueryable<VPResultExtraA>;
 
-            return VPResult_AQuery;
+            return VPResultExtraAQuery;
         }
-        public VPResult_B GetVPResult_BWithVPResultID(int VPResultID)
+        public VPResultExtraB GetVPResultExtraBWithVPResultID(int VPResultID)
         {
-            return FillVPResult_B().Where(c => c.VPResultID == VPResultID).FirstOrDefault();
+            return FillVPResultExtraB().Where(c => c.VPResultID == VPResultID).FirstOrDefault();
 
         }
-        public IQueryable<VPResult_B> GetVPResult_BList()
+        public IQueryable<VPResultExtraB> GetVPResultExtraBList()
         {
-            IQueryable<VPResult_B> VPResult_BQuery = FillVPResult_B();
+            IQueryable<VPResultExtraB> VPResultExtraBQuery = FillVPResultExtraB();
 
-            VPResult_BQuery = EnhanceQueryStatements<VPResult_B>(VPResult_BQuery) as IQueryable<VPResult_B>;
+            VPResultExtraBQuery = EnhanceQueryStatements<VPResultExtraB>(VPResultExtraBQuery) as IQueryable<VPResultExtraB>;
 
-            return VPResult_BQuery;
+            return VPResultExtraBQuery;
         }
         #endregion Functions public Generated Get
 

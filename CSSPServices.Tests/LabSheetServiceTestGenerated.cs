@@ -484,7 +484,7 @@ namespace CSSPServices.Tests
                     LabSheet labSheet = (from c in dbTestDB.LabSheets select c).FirstOrDefault();
                     Assert.IsNotNull(labSheet);
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         labSheetService.Query.Detail = detail;
 
@@ -494,17 +494,17 @@ namespace CSSPServices.Tests
                             CheckLabSheetFields(new List<LabSheet>() { labSheetRet });
                             Assert.AreEqual(labSheet.LabSheetID, labSheetRet.LabSheetID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            LabSheet_A labSheet_ARet = labSheetService.GetLabSheet_AWithLabSheetID(labSheet.LabSheetID);
-                            CheckLabSheet_AFields(new List<LabSheet_A>() { labSheet_ARet });
-                            Assert.AreEqual(labSheet.LabSheetID, labSheet_ARet.LabSheetID);
+                            LabSheetExtraA labSheetExtraARet = labSheetService.GetLabSheetExtraAWithLabSheetID(labSheet.LabSheetID);
+                            CheckLabSheetExtraAFields(new List<LabSheetExtraA>() { labSheetExtraARet });
+                            Assert.AreEqual(labSheet.LabSheetID, labSheetExtraARet.LabSheetID);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            LabSheet_B labSheet_BRet = labSheetService.GetLabSheet_BWithLabSheetID(labSheet.LabSheetID);
-                            CheckLabSheet_BFields(new List<LabSheet_B>() { labSheet_BRet });
-                            Assert.AreEqual(labSheet.LabSheetID, labSheet_BRet.LabSheetID);
+                            LabSheetExtraB labSheetExtraBRet = labSheetService.GetLabSheetExtraBWithLabSheetID(labSheet.LabSheetID);
+                            CheckLabSheetExtraBFields(new List<LabSheetExtraB>() { labSheetExtraBRet });
+                            Assert.AreEqual(labSheet.LabSheetID, labSheetExtraBRet.LabSheetID);
                         }
                         else
                         {
@@ -533,7 +533,7 @@ namespace CSSPServices.Tests
                     List<LabSheet> labSheetDirectQueryList = new List<LabSheet>();
                     labSheetDirectQueryList = (from c in dbTestDB.LabSheets select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         labSheetService.Query.Detail = detail;
 
@@ -543,19 +543,19 @@ namespace CSSPServices.Tests
                             labSheetList = labSheetService.GetLabSheetList().ToList();
                             CheckLabSheetFields(labSheetList);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<LabSheet_A> labSheet_AList = new List<LabSheet_A>();
-                            labSheet_AList = labSheetService.GetLabSheet_AList().ToList();
-                            CheckLabSheet_AFields(labSheet_AList);
-                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheet_AList.Count);
+                            List<LabSheetExtraA> labSheetExtraAList = new List<LabSheetExtraA>();
+                            labSheetExtraAList = labSheetService.GetLabSheetExtraAList().ToList();
+                            CheckLabSheetExtraAFields(labSheetExtraAList);
+                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheetExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<LabSheet_B> labSheet_BList = new List<LabSheet_B>();
-                            labSheet_BList = labSheetService.GetLabSheet_BList().ToList();
-                            CheckLabSheet_BFields(labSheet_BList);
-                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheet_BList.Count);
+                            List<LabSheetExtraB> labSheetExtraBList = new List<LabSheetExtraB>();
+                            labSheetExtraBList = labSheetService.GetLabSheetExtraBList().ToList();
+                            CheckLabSheetExtraBFields(labSheetExtraBList);
+                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheetExtraBList.Count);
                         }
                         else
                         {
@@ -577,7 +577,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         LabSheetService labSheetService = new LabSheetService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -593,21 +593,21 @@ namespace CSSPServices.Tests
                             CheckLabSheetFields(labSheetList);
                             Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetList[0].LabSheetID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<LabSheet_A> labSheet_AList = new List<LabSheet_A>();
-                            labSheet_AList = labSheetService.GetLabSheet_AList().ToList();
-                            CheckLabSheet_AFields(labSheet_AList);
-                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheet_AList[0].LabSheetID);
-                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheet_AList.Count);
+                            List<LabSheetExtraA> labSheetExtraAList = new List<LabSheetExtraA>();
+                            labSheetExtraAList = labSheetService.GetLabSheetExtraAList().ToList();
+                            CheckLabSheetExtraAFields(labSheetExtraAList);
+                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetExtraAList[0].LabSheetID);
+                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheetExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<LabSheet_B> labSheet_BList = new List<LabSheet_B>();
-                            labSheet_BList = labSheetService.GetLabSheet_BList().ToList();
-                            CheckLabSheet_BFields(labSheet_BList);
-                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheet_BList[0].LabSheetID);
-                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheet_BList.Count);
+                            List<LabSheetExtraB> labSheetExtraBList = new List<LabSheetExtraB>();
+                            labSheetExtraBList = labSheetService.GetLabSheetExtraBList().ToList();
+                            CheckLabSheetExtraBFields(labSheetExtraBList);
+                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetExtraBList[0].LabSheetID);
+                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheetExtraBList.Count);
                         }
                         else
                         {
@@ -629,7 +629,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         LabSheetService labSheetService = new LabSheetService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -645,21 +645,21 @@ namespace CSSPServices.Tests
                             CheckLabSheetFields(labSheetList);
                             Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetList[0].LabSheetID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<LabSheet_A> labSheet_AList = new List<LabSheet_A>();
-                            labSheet_AList = labSheetService.GetLabSheet_AList().ToList();
-                            CheckLabSheet_AFields(labSheet_AList);
-                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheet_AList[0].LabSheetID);
-                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheet_AList.Count);
+                            List<LabSheetExtraA> labSheetExtraAList = new List<LabSheetExtraA>();
+                            labSheetExtraAList = labSheetService.GetLabSheetExtraAList().ToList();
+                            CheckLabSheetExtraAFields(labSheetExtraAList);
+                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetExtraAList[0].LabSheetID);
+                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheetExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<LabSheet_B> labSheet_BList = new List<LabSheet_B>();
-                            labSheet_BList = labSheetService.GetLabSheet_BList().ToList();
-                            CheckLabSheet_BFields(labSheet_BList);
-                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheet_BList[0].LabSheetID);
-                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheet_BList.Count);
+                            List<LabSheetExtraB> labSheetExtraBList = new List<LabSheetExtraB>();
+                            labSheetExtraBList = labSheetService.GetLabSheetExtraBList().ToList();
+                            CheckLabSheetExtraBFields(labSheetExtraBList);
+                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetExtraBList[0].LabSheetID);
+                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheetExtraBList.Count);
                         }
                         else
                         {
@@ -681,7 +681,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         LabSheetService labSheetService = new LabSheetService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -697,21 +697,21 @@ namespace CSSPServices.Tests
                             CheckLabSheetFields(labSheetList);
                             Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetList[0].LabSheetID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<LabSheet_A> labSheet_AList = new List<LabSheet_A>();
-                            labSheet_AList = labSheetService.GetLabSheet_AList().ToList();
-                            CheckLabSheet_AFields(labSheet_AList);
-                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheet_AList[0].LabSheetID);
-                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheet_AList.Count);
+                            List<LabSheetExtraA> labSheetExtraAList = new List<LabSheetExtraA>();
+                            labSheetExtraAList = labSheetService.GetLabSheetExtraAList().ToList();
+                            CheckLabSheetExtraAFields(labSheetExtraAList);
+                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetExtraAList[0].LabSheetID);
+                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheetExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<LabSheet_B> labSheet_BList = new List<LabSheet_B>();
-                            labSheet_BList = labSheetService.GetLabSheet_BList().ToList();
-                            CheckLabSheet_BFields(labSheet_BList);
-                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheet_BList[0].LabSheetID);
-                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheet_BList.Count);
+                            List<LabSheetExtraB> labSheetExtraBList = new List<LabSheetExtraB>();
+                            labSheetExtraBList = labSheetService.GetLabSheetExtraBList().ToList();
+                            CheckLabSheetExtraBFields(labSheetExtraBList);
+                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetExtraBList[0].LabSheetID);
+                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheetExtraBList.Count);
                         }
                         else
                         {
@@ -733,7 +733,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         LabSheetService labSheetService = new LabSheetService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -749,21 +749,21 @@ namespace CSSPServices.Tests
                             CheckLabSheetFields(labSheetList);
                             Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetList[0].LabSheetID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<LabSheet_A> labSheet_AList = new List<LabSheet_A>();
-                            labSheet_AList = labSheetService.GetLabSheet_AList().ToList();
-                            CheckLabSheet_AFields(labSheet_AList);
-                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheet_AList[0].LabSheetID);
-                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheet_AList.Count);
+                            List<LabSheetExtraA> labSheetExtraAList = new List<LabSheetExtraA>();
+                            labSheetExtraAList = labSheetService.GetLabSheetExtraAList().ToList();
+                            CheckLabSheetExtraAFields(labSheetExtraAList);
+                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetExtraAList[0].LabSheetID);
+                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheetExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<LabSheet_B> labSheet_BList = new List<LabSheet_B>();
-                            labSheet_BList = labSheetService.GetLabSheet_BList().ToList();
-                            CheckLabSheet_BFields(labSheet_BList);
-                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheet_BList[0].LabSheetID);
-                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheet_BList.Count);
+                            List<LabSheetExtraB> labSheetExtraBList = new List<LabSheetExtraB>();
+                            labSheetExtraBList = labSheetService.GetLabSheetExtraBList().ToList();
+                            CheckLabSheetExtraBFields(labSheetExtraBList);
+                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetExtraBList[0].LabSheetID);
+                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheetExtraBList.Count);
                         }
                         else
                         {
@@ -785,7 +785,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         LabSheetService labSheetService = new LabSheetService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -801,21 +801,21 @@ namespace CSSPServices.Tests
                             CheckLabSheetFields(labSheetList);
                             Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetList[0].LabSheetID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<LabSheet_A> labSheet_AList = new List<LabSheet_A>();
-                            labSheet_AList = labSheetService.GetLabSheet_AList().ToList();
-                            CheckLabSheet_AFields(labSheet_AList);
-                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheet_AList[0].LabSheetID);
-                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheet_AList.Count);
+                            List<LabSheetExtraA> labSheetExtraAList = new List<LabSheetExtraA>();
+                            labSheetExtraAList = labSheetService.GetLabSheetExtraAList().ToList();
+                            CheckLabSheetExtraAFields(labSheetExtraAList);
+                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetExtraAList[0].LabSheetID);
+                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheetExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<LabSheet_B> labSheet_BList = new List<LabSheet_B>();
-                            labSheet_BList = labSheetService.GetLabSheet_BList().ToList();
-                            CheckLabSheet_BFields(labSheet_BList);
-                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheet_BList[0].LabSheetID);
-                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheet_BList.Count);
+                            List<LabSheetExtraB> labSheetExtraBList = new List<LabSheetExtraB>();
+                            labSheetExtraBList = labSheetService.GetLabSheetExtraBList().ToList();
+                            CheckLabSheetExtraBFields(labSheetExtraBList);
+                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetExtraBList[0].LabSheetID);
+                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheetExtraBList.Count);
                         }
                         else
                         {
@@ -837,7 +837,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "_A", "_B", "_C", "_D", "_E" })
+                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         LabSheetService labSheetService = new LabSheetService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -853,21 +853,21 @@ namespace CSSPServices.Tests
                             CheckLabSheetFields(labSheetList);
                             Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetList[0].LabSheetID);
                         }
-                        else if (detail == "A")
+                        else if (detail == "ExtraA")
                         {
-                            List<LabSheet_A> labSheet_AList = new List<LabSheet_A>();
-                            labSheet_AList = labSheetService.GetLabSheet_AList().ToList();
-                            CheckLabSheet_AFields(labSheet_AList);
-                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheet_AList[0].LabSheetID);
-                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheet_AList.Count);
+                            List<LabSheetExtraA> labSheetExtraAList = new List<LabSheetExtraA>();
+                            labSheetExtraAList = labSheetService.GetLabSheetExtraAList().ToList();
+                            CheckLabSheetExtraAFields(labSheetExtraAList);
+                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetExtraAList[0].LabSheetID);
+                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheetExtraAList.Count);
                         }
-                        else if (detail == "B")
+                        else if (detail == "ExtraB")
                         {
-                            List<LabSheet_B> labSheet_BList = new List<LabSheet_B>();
-                            labSheet_BList = labSheetService.GetLabSheet_BList().ToList();
-                            CheckLabSheet_BFields(labSheet_BList);
-                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheet_BList[0].LabSheetID);
-                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheet_BList.Count);
+                            List<LabSheetExtraB> labSheetExtraBList = new List<LabSheetExtraB>();
+                            labSheetExtraBList = labSheetService.GetLabSheetExtraBList().ToList();
+                            CheckLabSheetExtraBFields(labSheetExtraBList);
+                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetExtraBList[0].LabSheetID);
+                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheetExtraBList.Count);
                         }
                         else
                         {
@@ -918,125 +918,125 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(labSheetList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(labSheetList[0].HasErrors);
         }
-        private void CheckLabSheet_AFields(List<LabSheet_A> labSheet_AList)
+        private void CheckLabSheetExtraAFields(List<LabSheetExtraA> labSheetExtraAList)
         {
-            Assert.IsNotNull(labSheet_AList[0].SubsectorTVItemLanguage);
-            Assert.IsNotNull(labSheet_AList[0].MWQMRunTVItemLanguage);
-            Assert.IsNotNull(labSheet_AList[0].AcceptedOrRejectedByContactTVItemLanguage);
-            Assert.IsNotNull(labSheet_AList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(labSheet_AList[0].SamplingPlanTypeText))
+            Assert.IsNotNull(labSheetExtraAList[0].SubsectorTVItemLanguage);
+            Assert.IsNotNull(labSheetExtraAList[0].MWQMRunTVItemLanguage);
+            Assert.IsNotNull(labSheetExtraAList[0].AcceptedOrRejectedByContactTVItemLanguage);
+            Assert.IsNotNull(labSheetExtraAList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(labSheetExtraAList[0].SamplingPlanTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheet_AList[0].SamplingPlanTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetExtraAList[0].SamplingPlanTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(labSheet_AList[0].SampleTypeText))
+            if (!string.IsNullOrWhiteSpace(labSheetExtraAList[0].SampleTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheet_AList[0].SampleTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetExtraAList[0].SampleTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(labSheet_AList[0].LabSheetTypeText))
+            if (!string.IsNullOrWhiteSpace(labSheetExtraAList[0].LabSheetTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheet_AList[0].LabSheetTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetExtraAList[0].LabSheetTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(labSheet_AList[0].LabSheetStatusText))
+            if (!string.IsNullOrWhiteSpace(labSheetExtraAList[0].LabSheetStatusText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheet_AList[0].LabSheetStatusText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetExtraAList[0].LabSheetStatusText));
             }
-            Assert.IsNotNull(labSheet_AList[0].LabSheetID);
-            Assert.IsNotNull(labSheet_AList[0].OtherServerLabSheetID);
-            Assert.IsNotNull(labSheet_AList[0].SamplingPlanID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(labSheet_AList[0].SamplingPlanName));
-            Assert.IsNotNull(labSheet_AList[0].Year);
-            Assert.IsNotNull(labSheet_AList[0].Month);
-            Assert.IsNotNull(labSheet_AList[0].Day);
-            Assert.IsNotNull(labSheet_AList[0].RunNumber);
-            Assert.IsNotNull(labSheet_AList[0].SubsectorTVItemID);
-            if (labSheet_AList[0].MWQMRunTVItemID != null)
+            Assert.IsNotNull(labSheetExtraAList[0].LabSheetID);
+            Assert.IsNotNull(labSheetExtraAList[0].OtherServerLabSheetID);
+            Assert.IsNotNull(labSheetExtraAList[0].SamplingPlanID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetExtraAList[0].SamplingPlanName));
+            Assert.IsNotNull(labSheetExtraAList[0].Year);
+            Assert.IsNotNull(labSheetExtraAList[0].Month);
+            Assert.IsNotNull(labSheetExtraAList[0].Day);
+            Assert.IsNotNull(labSheetExtraAList[0].RunNumber);
+            Assert.IsNotNull(labSheetExtraAList[0].SubsectorTVItemID);
+            if (labSheetExtraAList[0].MWQMRunTVItemID != null)
             {
-                Assert.IsNotNull(labSheet_AList[0].MWQMRunTVItemID);
+                Assert.IsNotNull(labSheetExtraAList[0].MWQMRunTVItemID);
             }
-            Assert.IsNotNull(labSheet_AList[0].SamplingPlanType);
-            Assert.IsNotNull(labSheet_AList[0].SampleType);
-            Assert.IsNotNull(labSheet_AList[0].LabSheetType);
-            Assert.IsNotNull(labSheet_AList[0].LabSheetStatus);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(labSheet_AList[0].FileName));
-            Assert.IsNotNull(labSheet_AList[0].FileLastModifiedDate_Local);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(labSheet_AList[0].FileContent));
-            if (labSheet_AList[0].AcceptedOrRejectedByContactTVItemID != null)
+            Assert.IsNotNull(labSheetExtraAList[0].SamplingPlanType);
+            Assert.IsNotNull(labSheetExtraAList[0].SampleType);
+            Assert.IsNotNull(labSheetExtraAList[0].LabSheetType);
+            Assert.IsNotNull(labSheetExtraAList[0].LabSheetStatus);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetExtraAList[0].FileName));
+            Assert.IsNotNull(labSheetExtraAList[0].FileLastModifiedDate_Local);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetExtraAList[0].FileContent));
+            if (labSheetExtraAList[0].AcceptedOrRejectedByContactTVItemID != null)
             {
-                Assert.IsNotNull(labSheet_AList[0].AcceptedOrRejectedByContactTVItemID);
+                Assert.IsNotNull(labSheetExtraAList[0].AcceptedOrRejectedByContactTVItemID);
             }
-            if (labSheet_AList[0].AcceptedOrRejectedDateTime != null)
+            if (labSheetExtraAList[0].AcceptedOrRejectedDateTime != null)
             {
-                Assert.IsNotNull(labSheet_AList[0].AcceptedOrRejectedDateTime);
+                Assert.IsNotNull(labSheetExtraAList[0].AcceptedOrRejectedDateTime);
             }
-            if (!string.IsNullOrWhiteSpace(labSheet_AList[0].RejectReason))
+            if (!string.IsNullOrWhiteSpace(labSheetExtraAList[0].RejectReason))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheet_AList[0].RejectReason));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetExtraAList[0].RejectReason));
             }
-            Assert.IsNotNull(labSheet_AList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(labSheet_AList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(labSheet_AList[0].HasErrors);
+            Assert.IsNotNull(labSheetExtraAList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(labSheetExtraAList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(labSheetExtraAList[0].HasErrors);
         }
-        private void CheckLabSheet_BFields(List<LabSheet_B> labSheet_BList)
+        private void CheckLabSheetExtraBFields(List<LabSheetExtraB> labSheetExtraBList)
         {
-            if (!string.IsNullOrWhiteSpace(labSheet_BList[0].LabSheetReportTest))
+            if (!string.IsNullOrWhiteSpace(labSheetExtraBList[0].LabSheetReportTest))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheet_BList[0].LabSheetReportTest));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetExtraBList[0].LabSheetReportTest));
             }
-            Assert.IsNotNull(labSheet_BList[0].SubsectorTVItemLanguage);
-            Assert.IsNotNull(labSheet_BList[0].MWQMRunTVItemLanguage);
-            Assert.IsNotNull(labSheet_BList[0].AcceptedOrRejectedByContactTVItemLanguage);
-            Assert.IsNotNull(labSheet_BList[0].LastUpdateContactTVItemLanguage);
-            if (!string.IsNullOrWhiteSpace(labSheet_BList[0].SamplingPlanTypeText))
+            Assert.IsNotNull(labSheetExtraBList[0].SubsectorTVItemLanguage);
+            Assert.IsNotNull(labSheetExtraBList[0].MWQMRunTVItemLanguage);
+            Assert.IsNotNull(labSheetExtraBList[0].AcceptedOrRejectedByContactTVItemLanguage);
+            Assert.IsNotNull(labSheetExtraBList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(labSheetExtraBList[0].SamplingPlanTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheet_BList[0].SamplingPlanTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetExtraBList[0].SamplingPlanTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(labSheet_BList[0].SampleTypeText))
+            if (!string.IsNullOrWhiteSpace(labSheetExtraBList[0].SampleTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheet_BList[0].SampleTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetExtraBList[0].SampleTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(labSheet_BList[0].LabSheetTypeText))
+            if (!string.IsNullOrWhiteSpace(labSheetExtraBList[0].LabSheetTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheet_BList[0].LabSheetTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetExtraBList[0].LabSheetTypeText));
             }
-            if (!string.IsNullOrWhiteSpace(labSheet_BList[0].LabSheetStatusText))
+            if (!string.IsNullOrWhiteSpace(labSheetExtraBList[0].LabSheetStatusText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheet_BList[0].LabSheetStatusText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetExtraBList[0].LabSheetStatusText));
             }
-            Assert.IsNotNull(labSheet_BList[0].LabSheetID);
-            Assert.IsNotNull(labSheet_BList[0].OtherServerLabSheetID);
-            Assert.IsNotNull(labSheet_BList[0].SamplingPlanID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(labSheet_BList[0].SamplingPlanName));
-            Assert.IsNotNull(labSheet_BList[0].Year);
-            Assert.IsNotNull(labSheet_BList[0].Month);
-            Assert.IsNotNull(labSheet_BList[0].Day);
-            Assert.IsNotNull(labSheet_BList[0].RunNumber);
-            Assert.IsNotNull(labSheet_BList[0].SubsectorTVItemID);
-            if (labSheet_BList[0].MWQMRunTVItemID != null)
+            Assert.IsNotNull(labSheetExtraBList[0].LabSheetID);
+            Assert.IsNotNull(labSheetExtraBList[0].OtherServerLabSheetID);
+            Assert.IsNotNull(labSheetExtraBList[0].SamplingPlanID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetExtraBList[0].SamplingPlanName));
+            Assert.IsNotNull(labSheetExtraBList[0].Year);
+            Assert.IsNotNull(labSheetExtraBList[0].Month);
+            Assert.IsNotNull(labSheetExtraBList[0].Day);
+            Assert.IsNotNull(labSheetExtraBList[0].RunNumber);
+            Assert.IsNotNull(labSheetExtraBList[0].SubsectorTVItemID);
+            if (labSheetExtraBList[0].MWQMRunTVItemID != null)
             {
-                Assert.IsNotNull(labSheet_BList[0].MWQMRunTVItemID);
+                Assert.IsNotNull(labSheetExtraBList[0].MWQMRunTVItemID);
             }
-            Assert.IsNotNull(labSheet_BList[0].SamplingPlanType);
-            Assert.IsNotNull(labSheet_BList[0].SampleType);
-            Assert.IsNotNull(labSheet_BList[0].LabSheetType);
-            Assert.IsNotNull(labSheet_BList[0].LabSheetStatus);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(labSheet_BList[0].FileName));
-            Assert.IsNotNull(labSheet_BList[0].FileLastModifiedDate_Local);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(labSheet_BList[0].FileContent));
-            if (labSheet_BList[0].AcceptedOrRejectedByContactTVItemID != null)
+            Assert.IsNotNull(labSheetExtraBList[0].SamplingPlanType);
+            Assert.IsNotNull(labSheetExtraBList[0].SampleType);
+            Assert.IsNotNull(labSheetExtraBList[0].LabSheetType);
+            Assert.IsNotNull(labSheetExtraBList[0].LabSheetStatus);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetExtraBList[0].FileName));
+            Assert.IsNotNull(labSheetExtraBList[0].FileLastModifiedDate_Local);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetExtraBList[0].FileContent));
+            if (labSheetExtraBList[0].AcceptedOrRejectedByContactTVItemID != null)
             {
-                Assert.IsNotNull(labSheet_BList[0].AcceptedOrRejectedByContactTVItemID);
+                Assert.IsNotNull(labSheetExtraBList[0].AcceptedOrRejectedByContactTVItemID);
             }
-            if (labSheet_BList[0].AcceptedOrRejectedDateTime != null)
+            if (labSheetExtraBList[0].AcceptedOrRejectedDateTime != null)
             {
-                Assert.IsNotNull(labSheet_BList[0].AcceptedOrRejectedDateTime);
+                Assert.IsNotNull(labSheetExtraBList[0].AcceptedOrRejectedDateTime);
             }
-            if (!string.IsNullOrWhiteSpace(labSheet_BList[0].RejectReason))
+            if (!string.IsNullOrWhiteSpace(labSheetExtraBList[0].RejectReason))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheet_BList[0].RejectReason));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetExtraBList[0].RejectReason));
             }
-            Assert.IsNotNull(labSheet_BList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(labSheet_BList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(labSheet_BList[0].HasErrors);
+            Assert.IsNotNull(labSheetExtraBList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(labSheetExtraBList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(labSheetExtraBList[0].HasErrors);
         }
         private LabSheet GetFilledRandomLabSheet(string OmitPropName)
         {

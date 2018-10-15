@@ -485,31 +485,31 @@ namespace CSSPServices
 
             return MWQMRunQuery;
         }
-        public MWQMRun_A GetMWQMRun_AWithMWQMRunID(int MWQMRunID)
+        public MWQMRunExtraA GetMWQMRunExtraAWithMWQMRunID(int MWQMRunID)
         {
-            return FillMWQMRun_A().Where(c => c.MWQMRunID == MWQMRunID).FirstOrDefault();
+            return FillMWQMRunExtraA().Where(c => c.MWQMRunID == MWQMRunID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMRun_A> GetMWQMRun_AList()
+        public IQueryable<MWQMRunExtraA> GetMWQMRunExtraAList()
         {
-            IQueryable<MWQMRun_A> MWQMRun_AQuery = FillMWQMRun_A();
+            IQueryable<MWQMRunExtraA> MWQMRunExtraAQuery = FillMWQMRunExtraA();
 
-            MWQMRun_AQuery = EnhanceQueryStatements<MWQMRun_A>(MWQMRun_AQuery) as IQueryable<MWQMRun_A>;
+            MWQMRunExtraAQuery = EnhanceQueryStatements<MWQMRunExtraA>(MWQMRunExtraAQuery) as IQueryable<MWQMRunExtraA>;
 
-            return MWQMRun_AQuery;
+            return MWQMRunExtraAQuery;
         }
-        public MWQMRun_B GetMWQMRun_BWithMWQMRunID(int MWQMRunID)
+        public MWQMRunExtraB GetMWQMRunExtraBWithMWQMRunID(int MWQMRunID)
         {
-            return FillMWQMRun_B().Where(c => c.MWQMRunID == MWQMRunID).FirstOrDefault();
+            return FillMWQMRunExtraB().Where(c => c.MWQMRunID == MWQMRunID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMRun_B> GetMWQMRun_BList()
+        public IQueryable<MWQMRunExtraB> GetMWQMRunExtraBList()
         {
-            IQueryable<MWQMRun_B> MWQMRun_BQuery = FillMWQMRun_B();
+            IQueryable<MWQMRunExtraB> MWQMRunExtraBQuery = FillMWQMRunExtraB();
 
-            MWQMRun_BQuery = EnhanceQueryStatements<MWQMRun_B>(MWQMRun_BQuery) as IQueryable<MWQMRun_B>;
+            MWQMRunExtraBQuery = EnhanceQueryStatements<MWQMRunExtraB>(MWQMRunExtraBQuery) as IQueryable<MWQMRunExtraB>;
 
-            return MWQMRun_BQuery;
+            return MWQMRunExtraBQuery;
         }
         #endregion Functions public Generated Get
 

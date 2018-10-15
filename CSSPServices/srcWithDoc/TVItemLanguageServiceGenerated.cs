@@ -184,31 +184,31 @@ namespace CSSPServices
 
             return TVItemLanguageQuery;
         }
-        public TVItemLanguage_A GetTVItemLanguage_AWithTVItemLanguageID(int TVItemLanguageID)
+        public TVItemLanguageExtraA GetTVItemLanguageExtraAWithTVItemLanguageID(int TVItemLanguageID)
         {
-            return FillTVItemLanguage_A().Where(c => c.TVItemLanguageID == TVItemLanguageID).FirstOrDefault();
+            return FillTVItemLanguageExtraA().Where(c => c.TVItemLanguageID == TVItemLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<TVItemLanguage_A> GetTVItemLanguage_AList()
+        public IQueryable<TVItemLanguageExtraA> GetTVItemLanguageExtraAList()
         {
-            IQueryable<TVItemLanguage_A> TVItemLanguage_AQuery = FillTVItemLanguage_A();
+            IQueryable<TVItemLanguageExtraA> TVItemLanguageExtraAQuery = FillTVItemLanguageExtraA();
 
-            TVItemLanguage_AQuery = EnhanceQueryStatements<TVItemLanguage_A>(TVItemLanguage_AQuery) as IQueryable<TVItemLanguage_A>;
+            TVItemLanguageExtraAQuery = EnhanceQueryStatements<TVItemLanguageExtraA>(TVItemLanguageExtraAQuery) as IQueryable<TVItemLanguageExtraA>;
 
-            return TVItemLanguage_AQuery;
+            return TVItemLanguageExtraAQuery;
         }
-        public TVItemLanguage_B GetTVItemLanguage_BWithTVItemLanguageID(int TVItemLanguageID)
+        public TVItemLanguageExtraB GetTVItemLanguageExtraBWithTVItemLanguageID(int TVItemLanguageID)
         {
-            return FillTVItemLanguage_B().Where(c => c.TVItemLanguageID == TVItemLanguageID).FirstOrDefault();
+            return FillTVItemLanguageExtraB().Where(c => c.TVItemLanguageID == TVItemLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<TVItemLanguage_B> GetTVItemLanguage_BList()
+        public IQueryable<TVItemLanguageExtraB> GetTVItemLanguageExtraBList()
         {
-            IQueryable<TVItemLanguage_B> TVItemLanguage_BQuery = FillTVItemLanguage_B();
+            IQueryable<TVItemLanguageExtraB> TVItemLanguageExtraBQuery = FillTVItemLanguageExtraB();
 
-            TVItemLanguage_BQuery = EnhanceQueryStatements<TVItemLanguage_B>(TVItemLanguage_BQuery) as IQueryable<TVItemLanguage_B>;
+            TVItemLanguageExtraBQuery = EnhanceQueryStatements<TVItemLanguageExtraB>(TVItemLanguageExtraBQuery) as IQueryable<TVItemLanguageExtraB>;
 
-            return TVItemLanguage_BQuery;
+            return TVItemLanguageExtraBQuery;
         }
         #endregion Functions public Generated Get
 

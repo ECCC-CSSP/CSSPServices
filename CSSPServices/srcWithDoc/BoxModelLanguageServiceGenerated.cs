@@ -151,31 +151,31 @@ namespace CSSPServices
 
             return BoxModelLanguageQuery;
         }
-        public BoxModelLanguage_A GetBoxModelLanguage_AWithBoxModelLanguageID(int BoxModelLanguageID)
+        public BoxModelLanguageExtraA GetBoxModelLanguageExtraAWithBoxModelLanguageID(int BoxModelLanguageID)
         {
-            return FillBoxModelLanguage_A().Where(c => c.BoxModelLanguageID == BoxModelLanguageID).FirstOrDefault();
+            return FillBoxModelLanguageExtraA().Where(c => c.BoxModelLanguageID == BoxModelLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<BoxModelLanguage_A> GetBoxModelLanguage_AList()
+        public IQueryable<BoxModelLanguageExtraA> GetBoxModelLanguageExtraAList()
         {
-            IQueryable<BoxModelLanguage_A> BoxModelLanguage_AQuery = FillBoxModelLanguage_A();
+            IQueryable<BoxModelLanguageExtraA> BoxModelLanguageExtraAQuery = FillBoxModelLanguageExtraA();
 
-            BoxModelLanguage_AQuery = EnhanceQueryStatements<BoxModelLanguage_A>(BoxModelLanguage_AQuery) as IQueryable<BoxModelLanguage_A>;
+            BoxModelLanguageExtraAQuery = EnhanceQueryStatements<BoxModelLanguageExtraA>(BoxModelLanguageExtraAQuery) as IQueryable<BoxModelLanguageExtraA>;
 
-            return BoxModelLanguage_AQuery;
+            return BoxModelLanguageExtraAQuery;
         }
-        public BoxModelLanguage_B GetBoxModelLanguage_BWithBoxModelLanguageID(int BoxModelLanguageID)
+        public BoxModelLanguageExtraB GetBoxModelLanguageExtraBWithBoxModelLanguageID(int BoxModelLanguageID)
         {
-            return FillBoxModelLanguage_B().Where(c => c.BoxModelLanguageID == BoxModelLanguageID).FirstOrDefault();
+            return FillBoxModelLanguageExtraB().Where(c => c.BoxModelLanguageID == BoxModelLanguageID).FirstOrDefault();
 
         }
-        public IQueryable<BoxModelLanguage_B> GetBoxModelLanguage_BList()
+        public IQueryable<BoxModelLanguageExtraB> GetBoxModelLanguageExtraBList()
         {
-            IQueryable<BoxModelLanguage_B> BoxModelLanguage_BQuery = FillBoxModelLanguage_B();
+            IQueryable<BoxModelLanguageExtraB> BoxModelLanguageExtraBQuery = FillBoxModelLanguageExtraB();
 
-            BoxModelLanguage_BQuery = EnhanceQueryStatements<BoxModelLanguage_B>(BoxModelLanguage_BQuery) as IQueryable<BoxModelLanguage_B>;
+            BoxModelLanguageExtraBQuery = EnhanceQueryStatements<BoxModelLanguageExtraB>(BoxModelLanguageExtraBQuery) as IQueryable<BoxModelLanguageExtraB>;
 
-            return BoxModelLanguage_BQuery;
+            return BoxModelLanguageExtraBQuery;
         }
         #endregion Functions public Generated Get
 

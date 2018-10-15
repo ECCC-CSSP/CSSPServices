@@ -163,31 +163,31 @@ namespace CSSPServices
 
             return MWQMSiteStartEndDateQuery;
         }
-        public MWQMSiteStartEndDate_A GetMWQMSiteStartEndDate_AWithMWQMSiteStartEndDateID(int MWQMSiteStartEndDateID)
+        public MWQMSiteStartEndDateExtraA GetMWQMSiteStartEndDateExtraAWithMWQMSiteStartEndDateID(int MWQMSiteStartEndDateID)
         {
-            return FillMWQMSiteStartEndDate_A().Where(c => c.MWQMSiteStartEndDateID == MWQMSiteStartEndDateID).FirstOrDefault();
+            return FillMWQMSiteStartEndDateExtraA().Where(c => c.MWQMSiteStartEndDateID == MWQMSiteStartEndDateID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMSiteStartEndDate_A> GetMWQMSiteStartEndDate_AList()
+        public IQueryable<MWQMSiteStartEndDateExtraA> GetMWQMSiteStartEndDateExtraAList()
         {
-            IQueryable<MWQMSiteStartEndDate_A> MWQMSiteStartEndDate_AQuery = FillMWQMSiteStartEndDate_A();
+            IQueryable<MWQMSiteStartEndDateExtraA> MWQMSiteStartEndDateExtraAQuery = FillMWQMSiteStartEndDateExtraA();
 
-            MWQMSiteStartEndDate_AQuery = EnhanceQueryStatements<MWQMSiteStartEndDate_A>(MWQMSiteStartEndDate_AQuery) as IQueryable<MWQMSiteStartEndDate_A>;
+            MWQMSiteStartEndDateExtraAQuery = EnhanceQueryStatements<MWQMSiteStartEndDateExtraA>(MWQMSiteStartEndDateExtraAQuery) as IQueryable<MWQMSiteStartEndDateExtraA>;
 
-            return MWQMSiteStartEndDate_AQuery;
+            return MWQMSiteStartEndDateExtraAQuery;
         }
-        public MWQMSiteStartEndDate_B GetMWQMSiteStartEndDate_BWithMWQMSiteStartEndDateID(int MWQMSiteStartEndDateID)
+        public MWQMSiteStartEndDateExtraB GetMWQMSiteStartEndDateExtraBWithMWQMSiteStartEndDateID(int MWQMSiteStartEndDateID)
         {
-            return FillMWQMSiteStartEndDate_B().Where(c => c.MWQMSiteStartEndDateID == MWQMSiteStartEndDateID).FirstOrDefault();
+            return FillMWQMSiteStartEndDateExtraB().Where(c => c.MWQMSiteStartEndDateID == MWQMSiteStartEndDateID).FirstOrDefault();
 
         }
-        public IQueryable<MWQMSiteStartEndDate_B> GetMWQMSiteStartEndDate_BList()
+        public IQueryable<MWQMSiteStartEndDateExtraB> GetMWQMSiteStartEndDateExtraBList()
         {
-            IQueryable<MWQMSiteStartEndDate_B> MWQMSiteStartEndDate_BQuery = FillMWQMSiteStartEndDate_B();
+            IQueryable<MWQMSiteStartEndDateExtraB> MWQMSiteStartEndDateExtraBQuery = FillMWQMSiteStartEndDateExtraB();
 
-            MWQMSiteStartEndDate_BQuery = EnhanceQueryStatements<MWQMSiteStartEndDate_B>(MWQMSiteStartEndDate_BQuery) as IQueryable<MWQMSiteStartEndDate_B>;
+            MWQMSiteStartEndDateExtraBQuery = EnhanceQueryStatements<MWQMSiteStartEndDateExtraB>(MWQMSiteStartEndDateExtraBQuery) as IQueryable<MWQMSiteStartEndDateExtraB>;
 
-            return MWQMSiteStartEndDate_BQuery;
+            return MWQMSiteStartEndDateExtraBQuery;
         }
         #endregion Functions public Generated Get
 

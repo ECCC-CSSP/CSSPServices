@@ -216,31 +216,31 @@ namespace CSSPServices
 
             return BoxModelResultQuery;
         }
-        public BoxModelResult_A GetBoxModelResult_AWithBoxModelResultID(int BoxModelResultID)
+        public BoxModelResultExtraA GetBoxModelResultExtraAWithBoxModelResultID(int BoxModelResultID)
         {
-            return FillBoxModelResult_A().Where(c => c.BoxModelResultID == BoxModelResultID).FirstOrDefault();
+            return FillBoxModelResultExtraA().Where(c => c.BoxModelResultID == BoxModelResultID).FirstOrDefault();
 
         }
-        public IQueryable<BoxModelResult_A> GetBoxModelResult_AList()
+        public IQueryable<BoxModelResultExtraA> GetBoxModelResultExtraAList()
         {
-            IQueryable<BoxModelResult_A> BoxModelResult_AQuery = FillBoxModelResult_A();
+            IQueryable<BoxModelResultExtraA> BoxModelResultExtraAQuery = FillBoxModelResultExtraA();
 
-            BoxModelResult_AQuery = EnhanceQueryStatements<BoxModelResult_A>(BoxModelResult_AQuery) as IQueryable<BoxModelResult_A>;
+            BoxModelResultExtraAQuery = EnhanceQueryStatements<BoxModelResultExtraA>(BoxModelResultExtraAQuery) as IQueryable<BoxModelResultExtraA>;
 
-            return BoxModelResult_AQuery;
+            return BoxModelResultExtraAQuery;
         }
-        public BoxModelResult_B GetBoxModelResult_BWithBoxModelResultID(int BoxModelResultID)
+        public BoxModelResultExtraB GetBoxModelResultExtraBWithBoxModelResultID(int BoxModelResultID)
         {
-            return FillBoxModelResult_B().Where(c => c.BoxModelResultID == BoxModelResultID).FirstOrDefault();
+            return FillBoxModelResultExtraB().Where(c => c.BoxModelResultID == BoxModelResultID).FirstOrDefault();
 
         }
-        public IQueryable<BoxModelResult_B> GetBoxModelResult_BList()
+        public IQueryable<BoxModelResultExtraB> GetBoxModelResultExtraBList()
         {
-            IQueryable<BoxModelResult_B> BoxModelResult_BQuery = FillBoxModelResult_B();
+            IQueryable<BoxModelResultExtraB> BoxModelResultExtraBQuery = FillBoxModelResultExtraB();
 
-            BoxModelResult_BQuery = EnhanceQueryStatements<BoxModelResult_B>(BoxModelResult_BQuery) as IQueryable<BoxModelResult_B>;
+            BoxModelResultExtraBQuery = EnhanceQueryStatements<BoxModelResultExtraB>(BoxModelResultExtraBQuery) as IQueryable<BoxModelResultExtraB>;
 
-            return BoxModelResult_BQuery;
+            return BoxModelResultExtraBQuery;
         }
         #endregion Functions public Generated Get
 

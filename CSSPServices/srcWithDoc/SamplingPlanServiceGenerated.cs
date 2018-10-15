@@ -309,31 +309,31 @@ namespace CSSPServices
 
             return SamplingPlanQuery;
         }
-        public SamplingPlan_A GetSamplingPlan_AWithSamplingPlanID(int SamplingPlanID)
+        public SamplingPlanExtraA GetSamplingPlanExtraAWithSamplingPlanID(int SamplingPlanID)
         {
-            return FillSamplingPlan_A().Where(c => c.SamplingPlanID == SamplingPlanID).FirstOrDefault();
+            return FillSamplingPlanExtraA().Where(c => c.SamplingPlanID == SamplingPlanID).FirstOrDefault();
 
         }
-        public IQueryable<SamplingPlan_A> GetSamplingPlan_AList()
+        public IQueryable<SamplingPlanExtraA> GetSamplingPlanExtraAList()
         {
-            IQueryable<SamplingPlan_A> SamplingPlan_AQuery = FillSamplingPlan_A();
+            IQueryable<SamplingPlanExtraA> SamplingPlanExtraAQuery = FillSamplingPlanExtraA();
 
-            SamplingPlan_AQuery = EnhanceQueryStatements<SamplingPlan_A>(SamplingPlan_AQuery) as IQueryable<SamplingPlan_A>;
+            SamplingPlanExtraAQuery = EnhanceQueryStatements<SamplingPlanExtraA>(SamplingPlanExtraAQuery) as IQueryable<SamplingPlanExtraA>;
 
-            return SamplingPlan_AQuery;
+            return SamplingPlanExtraAQuery;
         }
-        public SamplingPlan_B GetSamplingPlan_BWithSamplingPlanID(int SamplingPlanID)
+        public SamplingPlanExtraB GetSamplingPlanExtraBWithSamplingPlanID(int SamplingPlanID)
         {
-            return FillSamplingPlan_B().Where(c => c.SamplingPlanID == SamplingPlanID).FirstOrDefault();
+            return FillSamplingPlanExtraB().Where(c => c.SamplingPlanID == SamplingPlanID).FirstOrDefault();
 
         }
-        public IQueryable<SamplingPlan_B> GetSamplingPlan_BList()
+        public IQueryable<SamplingPlanExtraB> GetSamplingPlanExtraBList()
         {
-            IQueryable<SamplingPlan_B> SamplingPlan_BQuery = FillSamplingPlan_B();
+            IQueryable<SamplingPlanExtraB> SamplingPlanExtraBQuery = FillSamplingPlanExtraB();
 
-            SamplingPlan_BQuery = EnhanceQueryStatements<SamplingPlan_B>(SamplingPlan_BQuery) as IQueryable<SamplingPlan_B>;
+            SamplingPlanExtraBQuery = EnhanceQueryStatements<SamplingPlanExtraB>(SamplingPlanExtraBQuery) as IQueryable<SamplingPlanExtraB>;
 
-            return SamplingPlan_BQuery;
+            return SamplingPlanExtraBQuery;
         }
         #endregion Functions public Generated Get
 

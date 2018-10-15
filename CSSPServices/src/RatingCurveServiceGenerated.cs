@@ -137,31 +137,31 @@ namespace CSSPServices
 
             return RatingCurveQuery;
         }
-        public RatingCurve_A GetRatingCurve_AWithRatingCurveID(int RatingCurveID)
+        public RatingCurveExtraA GetRatingCurveExtraAWithRatingCurveID(int RatingCurveID)
         {
-            return FillRatingCurve_A().Where(c => c.RatingCurveID == RatingCurveID).FirstOrDefault();
+            return FillRatingCurveExtraA().Where(c => c.RatingCurveID == RatingCurveID).FirstOrDefault();
 
         }
-        public IQueryable<RatingCurve_A> GetRatingCurve_AList()
+        public IQueryable<RatingCurveExtraA> GetRatingCurveExtraAList()
         {
-            IQueryable<RatingCurve_A> RatingCurve_AQuery = FillRatingCurve_A();
+            IQueryable<RatingCurveExtraA> RatingCurveExtraAQuery = FillRatingCurveExtraA();
 
-            RatingCurve_AQuery = EnhanceQueryStatements<RatingCurve_A>(RatingCurve_AQuery) as IQueryable<RatingCurve_A>;
+            RatingCurveExtraAQuery = EnhanceQueryStatements<RatingCurveExtraA>(RatingCurveExtraAQuery) as IQueryable<RatingCurveExtraA>;
 
-            return RatingCurve_AQuery;
+            return RatingCurveExtraAQuery;
         }
-        public RatingCurve_B GetRatingCurve_BWithRatingCurveID(int RatingCurveID)
+        public RatingCurveExtraB GetRatingCurveExtraBWithRatingCurveID(int RatingCurveID)
         {
-            return FillRatingCurve_B().Where(c => c.RatingCurveID == RatingCurveID).FirstOrDefault();
+            return FillRatingCurveExtraB().Where(c => c.RatingCurveID == RatingCurveID).FirstOrDefault();
 
         }
-        public IQueryable<RatingCurve_B> GetRatingCurve_BList()
+        public IQueryable<RatingCurveExtraB> GetRatingCurveExtraBList()
         {
-            IQueryable<RatingCurve_B> RatingCurve_BQuery = FillRatingCurve_B();
+            IQueryable<RatingCurveExtraB> RatingCurveExtraBQuery = FillRatingCurveExtraB();
 
-            RatingCurve_BQuery = EnhanceQueryStatements<RatingCurve_B>(RatingCurve_BQuery) as IQueryable<RatingCurve_B>;
+            RatingCurveExtraBQuery = EnhanceQueryStatements<RatingCurveExtraB>(RatingCurveExtraBQuery) as IQueryable<RatingCurveExtraB>;
 
-            return RatingCurve_BQuery;
+            return RatingCurveExtraBQuery;
         }
         #endregion Functions public Generated Get
 
