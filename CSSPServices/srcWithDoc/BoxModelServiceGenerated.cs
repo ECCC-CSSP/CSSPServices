@@ -131,10 +131,10 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "BoxModelT90_hour", "0"), new[] { "T90_hour" });
             }
 
-            if (boxModel.FlowDuration_hour < 0 || boxModel.FlowDuration_hour > 24)
+            if (boxModel.DischargeDuration_hour < 0 || boxModel.DischargeDuration_hour > 24)
             {
                 boxModel.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelFlowDuration_hour", "0", "24"), new[] { "FlowDuration_hour" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelDischargeDuration_hour", "0", "24"), new[] { "DischargeDuration_hour" });
             }
 
             if (boxModel.LastUpdateDate_UTC.Year == 1)

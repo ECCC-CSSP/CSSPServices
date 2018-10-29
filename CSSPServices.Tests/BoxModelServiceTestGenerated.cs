@@ -314,24 +314,24 @@ namespace CSSPServices.Tests
                     // -----------------------------------
                     // Is NOT Nullable
                     // [Range(0, 24)]
-                    // boxModel.FlowDuration_hour   (Double)
+                    // boxModel.DischargeDuration_hour   (Double)
                     // -----------------------------------
 
-                    //CSSPError: Type not implemented [FlowDuration_hour]
+                    //CSSPError: Type not implemented [DischargeDuration_hour]
 
-                    //CSSPError: Type not implemented [FlowDuration_hour]
+                    //CSSPError: Type not implemented [DischargeDuration_hour]
 
                     boxModel = null;
                     boxModel = GetFilledRandomBoxModel("");
-                    boxModel.FlowDuration_hour = -1.0D;
+                    boxModel.DischargeDuration_hour = -1.0D;
                     Assert.AreEqual(false, boxModelService.Add(boxModel));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelFlowDuration_hour", "0", "24"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelDischargeDuration_hour", "0", "24"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelService.GetBoxModelList().Count());
                     boxModel = null;
                     boxModel = GetFilledRandomBoxModel("");
-                    boxModel.FlowDuration_hour = 25.0D;
+                    boxModel.DischargeDuration_hour = 25.0D;
                     Assert.AreEqual(false, boxModelService.Add(boxModel));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelFlowDuration_hour", "0", "24"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelDischargeDuration_hour", "0", "24"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelService.GetBoxModelList().Count());
 
                     // -----------------------------------
@@ -813,7 +813,7 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(boxModelList[0].FCPreDisinfection_MPN_100ml);
             Assert.IsNotNull(boxModelList[0].Concentration_MPN_100ml);
             Assert.IsNotNull(boxModelList[0].T90_hour);
-            Assert.IsNotNull(boxModelList[0].FlowDuration_hour);
+            Assert.IsNotNull(boxModelList[0].DischargeDuration_hour);
             Assert.IsNotNull(boxModelList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(boxModelList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(boxModelList[0].HasErrors);
@@ -833,7 +833,7 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(boxModelExtraAList[0].FCPreDisinfection_MPN_100ml);
             Assert.IsNotNull(boxModelExtraAList[0].Concentration_MPN_100ml);
             Assert.IsNotNull(boxModelExtraAList[0].T90_hour);
-            Assert.IsNotNull(boxModelExtraAList[0].FlowDuration_hour);
+            Assert.IsNotNull(boxModelExtraAList[0].DischargeDuration_hour);
             Assert.IsNotNull(boxModelExtraAList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(boxModelExtraAList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(boxModelExtraAList[0].HasErrors);
@@ -857,7 +857,7 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(boxModelExtraBList[0].FCPreDisinfection_MPN_100ml);
             Assert.IsNotNull(boxModelExtraBList[0].Concentration_MPN_100ml);
             Assert.IsNotNull(boxModelExtraBList[0].T90_hour);
-            Assert.IsNotNull(boxModelExtraBList[0].FlowDuration_hour);
+            Assert.IsNotNull(boxModelExtraBList[0].DischargeDuration_hour);
             Assert.IsNotNull(boxModelExtraBList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(boxModelExtraBList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(boxModelExtraBList[0].HasErrors);
@@ -876,7 +876,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "FCPreDisinfection_MPN_100ml") boxModel.FCPreDisinfection_MPN_100ml = GetRandomInt(0, 10000000);
             if (OmitPropName != "Concentration_MPN_100ml") boxModel.Concentration_MPN_100ml = GetRandomInt(0, 10000000);
             if (OmitPropName != "T90_hour") boxModel.T90_hour = GetRandomDouble(0.0D, 10.0D);
-            if (OmitPropName != "FlowDuration_hour") boxModel.FlowDuration_hour = GetRandomDouble(0.0D, 24.0D);
+            if (OmitPropName != "DischargeDuration_hour") boxModel.DischargeDuration_hour = GetRandomDouble(0.0D, 24.0D);
             if (OmitPropName != "LastUpdateDate_UTC") boxModel.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") boxModel.LastUpdateContactTVItemID = 2;
 

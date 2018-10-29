@@ -45,7 +45,7 @@ namespace CSSPServices
                         FCPreDisinfection_MPN_100ml = c.FCPreDisinfection_MPN_100ml,
                         Concentration_MPN_100ml = c.Concentration_MPN_100ml,
                         T90_hour = c.T90_hour,
-                        FlowDuration_hour = c.FlowDuration_hour,
+                        DischargeDuration_hour = c.DischargeDuration_hour,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
