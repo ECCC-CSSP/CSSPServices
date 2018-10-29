@@ -26,19 +26,19 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
-                let CountryTVItemLanguage = (from cl in db.TVItemLanguages
+                let CountryText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.CountryTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
                     select new EmailDistributionListExtraB
                     {
                         EmailDistributionListReportTest = EmailDistributionListReportTest,
-                        CountryTVItemLanguage = CountryTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        CountryText = CountryText,
+                        LastUpdateContactText = LastUpdateContactText,
                         EmailDistributionListID = c.EmailDistributionListID,
                         CountryTVItemID = c.CountryTVItemID,
                         Ordinal = c.Ordinal,

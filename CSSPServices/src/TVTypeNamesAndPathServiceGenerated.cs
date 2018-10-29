@@ -72,7 +72,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "TVTypeNamesAndPathTVPath", "1", "255"), new[] { "TVPath" });
             }
 
-            retStr = ""; // added to stop compiling error
+            retStr = ""; // added to stop compiling CSSPError
             if (retStr != "") // will never be true
             {
                 tvTypeNamesAndPath.HasErrors = true;

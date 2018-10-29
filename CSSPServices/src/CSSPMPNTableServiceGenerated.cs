@@ -66,7 +66,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "CSSPMPNTableMPN", "0", "100000000"), new[] { "MPN" });
             }
 
-            retStr = ""; // added to stop compiling error
+            retStr = ""; // added to stop compiling CSSPError
             if (retStr != "") // will never be true
             {
                 cSSPMPNTable.HasErrors = true;

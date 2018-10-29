@@ -37,9 +37,9 @@ namespace CSSPServices.Tests
         {
             TVItemSubsectorAndMWQMSite tvItemSubsectorAndMWQMSite = new TVItemSubsectorAndMWQMSite();
 
-            //Error: property [TVItemSubsector] and type [TVItemSubsectorAndMWQMSite] is  not implemented
-            //Error: property [TVItemMWQMSiteList] and type [TVItemSubsectorAndMWQMSite] is  not implemented
-            //Error: property [TVItemMWQMSiteDuplicate] and type [TVItemSubsectorAndMWQMSite] is  not implemented
+            //CSSPError: property [TVItemSubsector] and type [TVItemSubsectorAndMWQMSite] is  not implemented
+            //CSSPError: property [TVItemMWQMSiteList] and type [TVItemSubsectorAndMWQMSite] is  not implemented
+            //CSSPError: property [TVItemMWQMSiteDuplicate] and type [TVItemSubsectorAndMWQMSite] is  not implemented
 
             return tvItemSubsectorAndMWQMSite;
         }

@@ -68,7 +68,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "PolSourceObsInfoChildPolSourceObsInfoChildStartText", "100"), new[] { "PolSourceObsInfoChildStartText" });
             }
 
-            retStr = ""; // added to stop compiling error
+            retStr = ""; // added to stop compiling CSSPError
             if (retStr != "") // will never be true
             {
                 polSourceObsInfoChild.HasErrors = true;

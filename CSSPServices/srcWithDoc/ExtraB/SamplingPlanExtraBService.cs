@@ -32,38 +32,41 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
-                let ProvinceTVItemLanguage = (from cl in db.TVItemLanguages
+                let ProvinceText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.ProvinceTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let CreatorTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let CreatorName = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.CreatorTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let SamplingPlanFileTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let SamplingPlanFileName = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.SamplingPlanFileTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
+                let SampleTypeText = (from e in SampleTypeEnumList
+                    where e.EnumID == (int?)c.SampleType
+                    select e.EnumText).FirstOrDefault()
+                let SamplingPlanTypeText = (from e in SamplingPlanTypeEnumList
+                    where e.EnumID == (int?)c.SamplingPlanType
+                    select e.EnumText).FirstOrDefault()
+                let LabSheetTypeText = (from e in LabSheetTypeEnumList
+                    where e.EnumID == (int?)c.LabSheetType
+                    select e.EnumText).FirstOrDefault()
                     select new SamplingPlanExtraB
                     {
                         SamplingPlanReportTest = SamplingPlanReportTest,
-                        ProvinceTVItemLanguage = ProvinceTVItemLanguage,
-                        CreatorTVItemLanguage = CreatorTVItemLanguage,
-                        SamplingPlanFileTVItemLanguage = SamplingPlanFileTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        SampleTypeText = (from e in SampleTypeEnumList
-                                where e.EnumID == (int?)c.SampleType
-                                select e.EnumText).FirstOrDefault(),
-                        SamplingPlanTypeText = (from e in SamplingPlanTypeEnumList
-                                where e.EnumID == (int?)c.SamplingPlanType
-                                select e.EnumText).FirstOrDefault(),
-                        LabSheetTypeText = (from e in LabSheetTypeEnumList
-                                where e.EnumID == (int?)c.LabSheetType
-                                select e.EnumText).FirstOrDefault(),
+                        ProvinceText = ProvinceText,
+                        CreatorName = CreatorName,
+                        SamplingPlanFileName = SamplingPlanFileName,
+                        LastUpdateContactText = LastUpdateContactText,
+                        SampleTypeText = SampleTypeText,
+                        SamplingPlanTypeText = SamplingPlanTypeText,
+                        LabSheetTypeText = LabSheetTypeText,
                         SamplingPlanID = c.SamplingPlanID,
                         IsActive = c.IsActive,
                         SamplingPlanName = c.SamplingPlanName,

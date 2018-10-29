@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                     count = boxModelService.GetBoxModelList().Count();
 
-                    Assert.AreEqual(boxModelService.GetBoxModelList().Count(), (from c in dbTestDB.BoxModels select c).Take(200).Count());
+                    Assert.AreEqual(count, (from c in dbTestDB.BoxModels select c).Count());
 
                     boxModelService.Add(boxModel);
                     if (boxModel.HasErrors)
@@ -129,24 +129,24 @@ namespace CSSPServices.Tests
                     // -----------------------------------
                     // Is NOT Nullable
                     // [Range(0, 10000)]
-                    // boxModel.Flow_m3_day   (Double)
+                    // boxModel.Discharge_m3_day   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [Flow_m3_day]
+                    //CSSPError: Type not implemented [Discharge_m3_day]
 
-                    //Error: Type not implemented [Flow_m3_day]
+                    //CSSPError: Type not implemented [Discharge_m3_day]
 
                     boxModel = null;
                     boxModel = GetFilledRandomBoxModel("");
-                    boxModel.Flow_m3_day = -1.0D;
+                    boxModel.Discharge_m3_day = -1.0D;
                     Assert.AreEqual(false, boxModelService.Add(boxModel));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelFlow_m3_day", "0", "10000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelDischarge_m3_day", "0", "10000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelService.GetBoxModelList().Count());
                     boxModel = null;
                     boxModel = GetFilledRandomBoxModel("");
-                    boxModel.Flow_m3_day = 10001.0D;
+                    boxModel.Discharge_m3_day = 10001.0D;
                     Assert.AreEqual(false, boxModelService.Add(boxModel));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelFlow_m3_day", "0", "10000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelDischarge_m3_day", "0", "10000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelService.GetBoxModelList().Count());
 
                     // -----------------------------------
@@ -155,9 +155,9 @@ namespace CSSPServices.Tests
                     // boxModel.Depth_m   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [Depth_m]
+                    //CSSPError: Type not implemented [Depth_m]
 
-                    //Error: Type not implemented [Depth_m]
+                    //CSSPError: Type not implemented [Depth_m]
 
                     boxModel = null;
                     boxModel = GetFilledRandomBoxModel("");
@@ -178,9 +178,9 @@ namespace CSSPServices.Tests
                     // boxModel.Temperature_C   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [Temperature_C]
+                    //CSSPError: Type not implemented [Temperature_C]
 
-                    //Error: Type not implemented [Temperature_C]
+                    //CSSPError: Type not implemented [Temperature_C]
 
                     boxModel = null;
                     boxModel = GetFilledRandomBoxModel("");
@@ -220,9 +220,9 @@ namespace CSSPServices.Tests
                     // boxModel.DecayRate_per_day   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [DecayRate_per_day]
+                    //CSSPError: Type not implemented [DecayRate_per_day]
 
-                    //Error: Type not implemented [DecayRate_per_day]
+                    //CSSPError: Type not implemented [DecayRate_per_day]
 
                     boxModel = null;
                     boxModel = GetFilledRandomBoxModel("");
@@ -300,9 +300,9 @@ namespace CSSPServices.Tests
                     // boxModel.T90_hour   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [T90_hour]
+                    //CSSPError: Type not implemented [T90_hour]
 
-                    //Error: Type not implemented [T90_hour]
+                    //CSSPError: Type not implemented [T90_hour]
 
                     boxModel = null;
                     boxModel = GetFilledRandomBoxModel("");
@@ -317,9 +317,9 @@ namespace CSSPServices.Tests
                     // boxModel.FlowDuration_hour   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [FlowDuration_hour]
+                    //CSSPError: Type not implemented [FlowDuration_hour]
 
-                    //Error: Type not implemented [FlowDuration_hour]
+                    //CSSPError: Type not implemented [FlowDuration_hour]
 
                     boxModel = null;
                     boxModel = GetFilledRandomBoxModel("");
@@ -404,23 +404,23 @@ namespace CSSPServices.Tests
                     BoxModel boxModel = (from c in dbTestDB.BoxModels select c).FirstOrDefault();
                     Assert.IsNotNull(boxModel);
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        boxModelService.Query.Detail = detail;
+                        boxModelService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             BoxModel boxModelRet = boxModelService.GetBoxModelWithBoxModelID(boxModel.BoxModelID);
                             CheckBoxModelFields(new List<BoxModel>() { boxModelRet });
                             Assert.AreEqual(boxModel.BoxModelID, boxModelRet.BoxModelID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             BoxModelExtraA boxModelExtraARet = boxModelService.GetBoxModelExtraAWithBoxModelID(boxModel.BoxModelID);
                             CheckBoxModelExtraAFields(new List<BoxModelExtraA>() { boxModelExtraARet });
                             Assert.AreEqual(boxModel.BoxModelID, boxModelExtraARet.BoxModelID);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             BoxModelExtraB boxModelExtraBRet = boxModelService.GetBoxModelExtraBWithBoxModelID(boxModel.BoxModelID);
                             CheckBoxModelExtraBFields(new List<BoxModelExtraB>() { boxModelExtraBRet });
@@ -453,24 +453,24 @@ namespace CSSPServices.Tests
                     List<BoxModel> boxModelDirectQueryList = new List<BoxModel>();
                     boxModelDirectQueryList = (from c in dbTestDB.BoxModels select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        boxModelService.Query.Detail = detail;
+                        boxModelService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<BoxModel> boxModelList = new List<BoxModel>();
                             boxModelList = boxModelService.GetBoxModelList().ToList();
                             CheckBoxModelFields(boxModelList);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<BoxModelExtraA> boxModelExtraAList = new List<BoxModelExtraA>();
                             boxModelExtraAList = boxModelService.GetBoxModelExtraAList().ToList();
                             CheckBoxModelExtraAFields(boxModelExtraAList);
                             Assert.AreEqual(boxModelDirectQueryList.Count, boxModelExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<BoxModelExtraB> boxModelExtraBList = new List<BoxModelExtraB>();
                             boxModelExtraBList = boxModelService.GetBoxModelExtraBList().ToList();
@@ -497,7 +497,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         BoxModelService boxModelService = new BoxModelService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -506,14 +506,14 @@ namespace CSSPServices.Tests
                         List<BoxModel> boxModelDirectQueryList = new List<BoxModel>();
                         boxModelDirectQueryList = (from c in dbTestDB.BoxModels select c).Skip(1).Take(1).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<BoxModel> boxModelList = new List<BoxModel>();
                             boxModelList = boxModelService.GetBoxModelList().ToList();
                             CheckBoxModelFields(boxModelList);
                             Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelList[0].BoxModelID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<BoxModelExtraA> boxModelExtraAList = new List<BoxModelExtraA>();
                             boxModelExtraAList = boxModelService.GetBoxModelExtraAList().ToList();
@@ -521,7 +521,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelExtraAList[0].BoxModelID);
                             Assert.AreEqual(boxModelDirectQueryList.Count, boxModelExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<BoxModelExtraB> boxModelExtraBList = new List<BoxModelExtraB>();
                             boxModelExtraBList = boxModelService.GetBoxModelExtraBList().ToList();
@@ -549,7 +549,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         BoxModelService boxModelService = new BoxModelService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -558,14 +558,14 @@ namespace CSSPServices.Tests
                         List<BoxModel> boxModelDirectQueryList = new List<BoxModel>();
                         boxModelDirectQueryList = (from c in dbTestDB.BoxModels select c).Skip(1).Take(1).OrderBy(c => c.BoxModelID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<BoxModel> boxModelList = new List<BoxModel>();
                             boxModelList = boxModelService.GetBoxModelList().ToList();
                             CheckBoxModelFields(boxModelList);
                             Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelList[0].BoxModelID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<BoxModelExtraA> boxModelExtraAList = new List<BoxModelExtraA>();
                             boxModelExtraAList = boxModelService.GetBoxModelExtraAList().ToList();
@@ -573,7 +573,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelExtraAList[0].BoxModelID);
                             Assert.AreEqual(boxModelDirectQueryList.Count, boxModelExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<BoxModelExtraB> boxModelExtraBList = new List<BoxModelExtraB>();
                             boxModelExtraBList = boxModelService.GetBoxModelExtraBList().ToList();
@@ -601,7 +601,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         BoxModelService boxModelService = new BoxModelService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -610,14 +610,14 @@ namespace CSSPServices.Tests
                         List<BoxModel> boxModelDirectQueryList = new List<BoxModel>();
                         boxModelDirectQueryList = (from c in dbTestDB.BoxModels select c).Skip(1).Take(1).OrderBy(c => c.BoxModelID).ThenBy(c => c.InfrastructureTVItemID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<BoxModel> boxModelList = new List<BoxModel>();
                             boxModelList = boxModelService.GetBoxModelList().ToList();
                             CheckBoxModelFields(boxModelList);
                             Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelList[0].BoxModelID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<BoxModelExtraA> boxModelExtraAList = new List<BoxModelExtraA>();
                             boxModelExtraAList = boxModelService.GetBoxModelExtraAList().ToList();
@@ -625,7 +625,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelExtraAList[0].BoxModelID);
                             Assert.AreEqual(boxModelDirectQueryList.Count, boxModelExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<BoxModelExtraB> boxModelExtraBList = new List<BoxModelExtraB>();
                             boxModelExtraBList = boxModelService.GetBoxModelExtraBList().ToList();
@@ -653,7 +653,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         BoxModelService boxModelService = new BoxModelService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -662,14 +662,14 @@ namespace CSSPServices.Tests
                         List<BoxModel> boxModelDirectQueryList = new List<BoxModel>();
                         boxModelDirectQueryList = (from c in dbTestDB.BoxModels select c).Where(c => c.BoxModelID == 4).Skip(0).Take(1).OrderBy(c => c.BoxModelID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<BoxModel> boxModelList = new List<BoxModel>();
                             boxModelList = boxModelService.GetBoxModelList().ToList();
                             CheckBoxModelFields(boxModelList);
                             Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelList[0].BoxModelID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<BoxModelExtraA> boxModelExtraAList = new List<BoxModelExtraA>();
                             boxModelExtraAList = boxModelService.GetBoxModelExtraAList().ToList();
@@ -677,7 +677,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelExtraAList[0].BoxModelID);
                             Assert.AreEqual(boxModelDirectQueryList.Count, boxModelExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<BoxModelExtraB> boxModelExtraBList = new List<BoxModelExtraB>();
                             boxModelExtraBList = boxModelService.GetBoxModelExtraBList().ToList();
@@ -705,7 +705,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         BoxModelService boxModelService = new BoxModelService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -714,14 +714,14 @@ namespace CSSPServices.Tests
                         List<BoxModel> boxModelDirectQueryList = new List<BoxModel>();
                         boxModelDirectQueryList = (from c in dbTestDB.BoxModels select c).Where(c => c.BoxModelID > 2 && c.BoxModelID < 5).Skip(0).Take(1).OrderBy(c => c.BoxModelID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<BoxModel> boxModelList = new List<BoxModel>();
                             boxModelList = boxModelService.GetBoxModelList().ToList();
                             CheckBoxModelFields(boxModelList);
                             Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelList[0].BoxModelID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<BoxModelExtraA> boxModelExtraAList = new List<BoxModelExtraA>();
                             boxModelExtraAList = boxModelService.GetBoxModelExtraAList().ToList();
@@ -729,7 +729,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelExtraAList[0].BoxModelID);
                             Assert.AreEqual(boxModelDirectQueryList.Count, boxModelExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<BoxModelExtraB> boxModelExtraBList = new List<BoxModelExtraB>();
                             boxModelExtraBList = boxModelService.GetBoxModelExtraBList().ToList();
@@ -757,7 +757,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         BoxModelService boxModelService = new BoxModelService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -766,14 +766,14 @@ namespace CSSPServices.Tests
                         List<BoxModel> boxModelDirectQueryList = new List<BoxModel>();
                         boxModelDirectQueryList = (from c in dbTestDB.BoxModels select c).Where(c => c.BoxModelID > 2 && c.BoxModelID < 5).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<BoxModel> boxModelList = new List<BoxModel>();
                             boxModelList = boxModelService.GetBoxModelList().ToList();
                             CheckBoxModelFields(boxModelList);
                             Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelList[0].BoxModelID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<BoxModelExtraA> boxModelExtraAList = new List<BoxModelExtraA>();
                             boxModelExtraAList = boxModelService.GetBoxModelExtraAList().ToList();
@@ -781,7 +781,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelExtraAList[0].BoxModelID);
                             Assert.AreEqual(boxModelDirectQueryList.Count, boxModelExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<BoxModelExtraB> boxModelExtraBList = new List<BoxModelExtraB>();
                             boxModelExtraBList = boxModelService.GetBoxModelExtraBList().ToList();
@@ -804,7 +804,7 @@ namespace CSSPServices.Tests
         {
             Assert.IsNotNull(boxModelList[0].BoxModelID);
             Assert.IsNotNull(boxModelList[0].InfrastructureTVItemID);
-            Assert.IsNotNull(boxModelList[0].Flow_m3_day);
+            Assert.IsNotNull(boxModelList[0].Discharge_m3_day);
             Assert.IsNotNull(boxModelList[0].Depth_m);
             Assert.IsNotNull(boxModelList[0].Temperature_C);
             Assert.IsNotNull(boxModelList[0].Dilution);
@@ -820,11 +820,11 @@ namespace CSSPServices.Tests
         }
         private void CheckBoxModelExtraAFields(List<BoxModelExtraA> boxModelExtraAList)
         {
-            Assert.IsNotNull(boxModelExtraAList[0].InfrastructureTVItemLanguage);
-            Assert.IsNotNull(boxModelExtraAList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelExtraAList[0].InfrastructureText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelExtraAList[0].LastUpdateContactText));
             Assert.IsNotNull(boxModelExtraAList[0].BoxModelID);
             Assert.IsNotNull(boxModelExtraAList[0].InfrastructureTVItemID);
-            Assert.IsNotNull(boxModelExtraAList[0].Flow_m3_day);
+            Assert.IsNotNull(boxModelExtraAList[0].Discharge_m3_day);
             Assert.IsNotNull(boxModelExtraAList[0].Depth_m);
             Assert.IsNotNull(boxModelExtraAList[0].Temperature_C);
             Assert.IsNotNull(boxModelExtraAList[0].Dilution);
@@ -844,11 +844,11 @@ namespace CSSPServices.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelExtraBList[0].BoxModelReportTest));
             }
-            Assert.IsNotNull(boxModelExtraBList[0].InfrastructureTVItemLanguage);
-            Assert.IsNotNull(boxModelExtraBList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelExtraBList[0].InfrastructureText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelExtraBList[0].LastUpdateContactText));
             Assert.IsNotNull(boxModelExtraBList[0].BoxModelID);
             Assert.IsNotNull(boxModelExtraBList[0].InfrastructureTVItemID);
-            Assert.IsNotNull(boxModelExtraBList[0].Flow_m3_day);
+            Assert.IsNotNull(boxModelExtraBList[0].Discharge_m3_day);
             Assert.IsNotNull(boxModelExtraBList[0].Depth_m);
             Assert.IsNotNull(boxModelExtraBList[0].Temperature_C);
             Assert.IsNotNull(boxModelExtraBList[0].Dilution);
@@ -867,7 +867,7 @@ namespace CSSPServices.Tests
             BoxModel boxModel = new BoxModel();
 
             if (OmitPropName != "InfrastructureTVItemID") boxModel.InfrastructureTVItemID = 40;
-            if (OmitPropName != "Flow_m3_day") boxModel.Flow_m3_day = GetRandomDouble(0.0D, 10000.0D);
+            if (OmitPropName != "Discharge_m3_day") boxModel.Discharge_m3_day = GetRandomDouble(0.0D, 10000.0D);
             if (OmitPropName != "Depth_m") boxModel.Depth_m = GetRandomDouble(0.0D, 1000.0D);
             if (OmitPropName != "Temperature_C") boxModel.Temperature_C = GetRandomDouble(-15.0D, 40.0D);
             if (OmitPropName != "Dilution") boxModel.Dilution = GetRandomInt(0, 10000000);

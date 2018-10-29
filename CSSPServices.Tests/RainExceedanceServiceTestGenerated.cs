@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                     count = rainExceedanceService.GetRainExceedanceList().Count();
 
-                    Assert.AreEqual(rainExceedanceService.GetRainExceedanceList().Count(), (from c in dbTestDB.RainExceedances select c).Take(200).Count());
+                    Assert.AreEqual(count, (from c in dbTestDB.RainExceedances select c).Count());
 
                     rainExceedanceService.Add(rainExceedance);
                     if (rainExceedance.HasErrors)
@@ -144,9 +144,9 @@ namespace CSSPServices.Tests
                     // rainExceedance.RainMaximum_mm   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [RainMaximum_mm]
+                    //CSSPError: Type not implemented [RainMaximum_mm]
 
-                    //Error: Type not implemented [RainMaximum_mm]
+                    //CSSPError: Type not implemented [RainMaximum_mm]
 
                     rainExceedance = null;
                     rainExceedance = GetFilledRandomRainExceedance("");
@@ -167,9 +167,9 @@ namespace CSSPServices.Tests
                     // rainExceedance.RainExtreme_mm   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [RainExtreme_mm]
+                    //CSSPError: Type not implemented [RainExtreme_mm]
 
-                    //Error: Type not implemented [RainExtreme_mm]
+                    //CSSPError: Type not implemented [RainExtreme_mm]
 
                     rainExceedance = null;
                     rainExceedance = GetFilledRandomRainExceedance("");
@@ -363,23 +363,23 @@ namespace CSSPServices.Tests
                     RainExceedance rainExceedance = (from c in dbTestDB.RainExceedances select c).FirstOrDefault();
                     Assert.IsNotNull(rainExceedance);
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        rainExceedanceService.Query.Detail = detail;
+                        rainExceedanceService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             RainExceedance rainExceedanceRet = rainExceedanceService.GetRainExceedanceWithRainExceedanceID(rainExceedance.RainExceedanceID);
                             CheckRainExceedanceFields(new List<RainExceedance>() { rainExceedanceRet });
                             Assert.AreEqual(rainExceedance.RainExceedanceID, rainExceedanceRet.RainExceedanceID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             RainExceedanceExtraA rainExceedanceExtraARet = rainExceedanceService.GetRainExceedanceExtraAWithRainExceedanceID(rainExceedance.RainExceedanceID);
                             CheckRainExceedanceExtraAFields(new List<RainExceedanceExtraA>() { rainExceedanceExtraARet });
                             Assert.AreEqual(rainExceedance.RainExceedanceID, rainExceedanceExtraARet.RainExceedanceID);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             RainExceedanceExtraB rainExceedanceExtraBRet = rainExceedanceService.GetRainExceedanceExtraBWithRainExceedanceID(rainExceedance.RainExceedanceID);
                             CheckRainExceedanceExtraBFields(new List<RainExceedanceExtraB>() { rainExceedanceExtraBRet });
@@ -412,24 +412,24 @@ namespace CSSPServices.Tests
                     List<RainExceedance> rainExceedanceDirectQueryList = new List<RainExceedance>();
                     rainExceedanceDirectQueryList = (from c in dbTestDB.RainExceedances select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        rainExceedanceService.Query.Detail = detail;
+                        rainExceedanceService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<RainExceedance> rainExceedanceList = new List<RainExceedance>();
                             rainExceedanceList = rainExceedanceService.GetRainExceedanceList().ToList();
                             CheckRainExceedanceFields(rainExceedanceList);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<RainExceedanceExtraA> rainExceedanceExtraAList = new List<RainExceedanceExtraA>();
                             rainExceedanceExtraAList = rainExceedanceService.GetRainExceedanceExtraAList().ToList();
                             CheckRainExceedanceExtraAFields(rainExceedanceExtraAList);
                             Assert.AreEqual(rainExceedanceDirectQueryList.Count, rainExceedanceExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<RainExceedanceExtraB> rainExceedanceExtraBList = new List<RainExceedanceExtraB>();
                             rainExceedanceExtraBList = rainExceedanceService.GetRainExceedanceExtraBList().ToList();
@@ -456,7 +456,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         RainExceedanceService rainExceedanceService = new RainExceedanceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -465,14 +465,14 @@ namespace CSSPServices.Tests
                         List<RainExceedance> rainExceedanceDirectQueryList = new List<RainExceedance>();
                         rainExceedanceDirectQueryList = (from c in dbTestDB.RainExceedances select c).Skip(1).Take(1).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<RainExceedance> rainExceedanceList = new List<RainExceedance>();
                             rainExceedanceList = rainExceedanceService.GetRainExceedanceList().ToList();
                             CheckRainExceedanceFields(rainExceedanceList);
                             Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceList[0].RainExceedanceID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<RainExceedanceExtraA> rainExceedanceExtraAList = new List<RainExceedanceExtraA>();
                             rainExceedanceExtraAList = rainExceedanceService.GetRainExceedanceExtraAList().ToList();
@@ -480,7 +480,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceExtraAList[0].RainExceedanceID);
                             Assert.AreEqual(rainExceedanceDirectQueryList.Count, rainExceedanceExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<RainExceedanceExtraB> rainExceedanceExtraBList = new List<RainExceedanceExtraB>();
                             rainExceedanceExtraBList = rainExceedanceService.GetRainExceedanceExtraBList().ToList();
@@ -508,7 +508,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         RainExceedanceService rainExceedanceService = new RainExceedanceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -517,14 +517,14 @@ namespace CSSPServices.Tests
                         List<RainExceedance> rainExceedanceDirectQueryList = new List<RainExceedance>();
                         rainExceedanceDirectQueryList = (from c in dbTestDB.RainExceedances select c).Skip(1).Take(1).OrderBy(c => c.RainExceedanceID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<RainExceedance> rainExceedanceList = new List<RainExceedance>();
                             rainExceedanceList = rainExceedanceService.GetRainExceedanceList().ToList();
                             CheckRainExceedanceFields(rainExceedanceList);
                             Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceList[0].RainExceedanceID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<RainExceedanceExtraA> rainExceedanceExtraAList = new List<RainExceedanceExtraA>();
                             rainExceedanceExtraAList = rainExceedanceService.GetRainExceedanceExtraAList().ToList();
@@ -532,7 +532,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceExtraAList[0].RainExceedanceID);
                             Assert.AreEqual(rainExceedanceDirectQueryList.Count, rainExceedanceExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<RainExceedanceExtraB> rainExceedanceExtraBList = new List<RainExceedanceExtraB>();
                             rainExceedanceExtraBList = rainExceedanceService.GetRainExceedanceExtraBList().ToList();
@@ -560,7 +560,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         RainExceedanceService rainExceedanceService = new RainExceedanceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -569,14 +569,14 @@ namespace CSSPServices.Tests
                         List<RainExceedance> rainExceedanceDirectQueryList = new List<RainExceedance>();
                         rainExceedanceDirectQueryList = (from c in dbTestDB.RainExceedances select c).Skip(1).Take(1).OrderBy(c => c.RainExceedanceID).ThenBy(c => c.YearRound).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<RainExceedance> rainExceedanceList = new List<RainExceedance>();
                             rainExceedanceList = rainExceedanceService.GetRainExceedanceList().ToList();
                             CheckRainExceedanceFields(rainExceedanceList);
                             Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceList[0].RainExceedanceID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<RainExceedanceExtraA> rainExceedanceExtraAList = new List<RainExceedanceExtraA>();
                             rainExceedanceExtraAList = rainExceedanceService.GetRainExceedanceExtraAList().ToList();
@@ -584,7 +584,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceExtraAList[0].RainExceedanceID);
                             Assert.AreEqual(rainExceedanceDirectQueryList.Count, rainExceedanceExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<RainExceedanceExtraB> rainExceedanceExtraBList = new List<RainExceedanceExtraB>();
                             rainExceedanceExtraBList = rainExceedanceService.GetRainExceedanceExtraBList().ToList();
@@ -612,7 +612,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         RainExceedanceService rainExceedanceService = new RainExceedanceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -621,14 +621,14 @@ namespace CSSPServices.Tests
                         List<RainExceedance> rainExceedanceDirectQueryList = new List<RainExceedance>();
                         rainExceedanceDirectQueryList = (from c in dbTestDB.RainExceedances select c).Where(c => c.RainExceedanceID == 4).Skip(0).Take(1).OrderBy(c => c.RainExceedanceID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<RainExceedance> rainExceedanceList = new List<RainExceedance>();
                             rainExceedanceList = rainExceedanceService.GetRainExceedanceList().ToList();
                             CheckRainExceedanceFields(rainExceedanceList);
                             Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceList[0].RainExceedanceID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<RainExceedanceExtraA> rainExceedanceExtraAList = new List<RainExceedanceExtraA>();
                             rainExceedanceExtraAList = rainExceedanceService.GetRainExceedanceExtraAList().ToList();
@@ -636,7 +636,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceExtraAList[0].RainExceedanceID);
                             Assert.AreEqual(rainExceedanceDirectQueryList.Count, rainExceedanceExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<RainExceedanceExtraB> rainExceedanceExtraBList = new List<RainExceedanceExtraB>();
                             rainExceedanceExtraBList = rainExceedanceService.GetRainExceedanceExtraBList().ToList();
@@ -664,7 +664,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         RainExceedanceService rainExceedanceService = new RainExceedanceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -673,14 +673,14 @@ namespace CSSPServices.Tests
                         List<RainExceedance> rainExceedanceDirectQueryList = new List<RainExceedance>();
                         rainExceedanceDirectQueryList = (from c in dbTestDB.RainExceedances select c).Where(c => c.RainExceedanceID > 2 && c.RainExceedanceID < 5).Skip(0).Take(1).OrderBy(c => c.RainExceedanceID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<RainExceedance> rainExceedanceList = new List<RainExceedance>();
                             rainExceedanceList = rainExceedanceService.GetRainExceedanceList().ToList();
                             CheckRainExceedanceFields(rainExceedanceList);
                             Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceList[0].RainExceedanceID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<RainExceedanceExtraA> rainExceedanceExtraAList = new List<RainExceedanceExtraA>();
                             rainExceedanceExtraAList = rainExceedanceService.GetRainExceedanceExtraAList().ToList();
@@ -688,7 +688,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceExtraAList[0].RainExceedanceID);
                             Assert.AreEqual(rainExceedanceDirectQueryList.Count, rainExceedanceExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<RainExceedanceExtraB> rainExceedanceExtraBList = new List<RainExceedanceExtraB>();
                             rainExceedanceExtraBList = rainExceedanceService.GetRainExceedanceExtraBList().ToList();
@@ -716,7 +716,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         RainExceedanceService rainExceedanceService = new RainExceedanceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -725,14 +725,14 @@ namespace CSSPServices.Tests
                         List<RainExceedance> rainExceedanceDirectQueryList = new List<RainExceedance>();
                         rainExceedanceDirectQueryList = (from c in dbTestDB.RainExceedances select c).Where(c => c.RainExceedanceID > 2 && c.RainExceedanceID < 5).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<RainExceedance> rainExceedanceList = new List<RainExceedance>();
                             rainExceedanceList = rainExceedanceService.GetRainExceedanceList().ToList();
                             CheckRainExceedanceFields(rainExceedanceList);
                             Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceList[0].RainExceedanceID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<RainExceedanceExtraA> rainExceedanceExtraAList = new List<RainExceedanceExtraA>();
                             rainExceedanceExtraAList = rainExceedanceService.GetRainExceedanceExtraAList().ToList();
@@ -740,7 +740,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceExtraAList[0].RainExceedanceID);
                             Assert.AreEqual(rainExceedanceDirectQueryList.Count, rainExceedanceExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<RainExceedanceExtraB> rainExceedanceExtraBList = new List<RainExceedanceExtraB>();
                             rainExceedanceExtraBList = rainExceedanceService.GetRainExceedanceExtraBList().ToList();
@@ -791,7 +791,7 @@ namespace CSSPServices.Tests
         }
         private void CheckRainExceedanceExtraAFields(List<RainExceedanceExtraA> rainExceedanceExtraAList)
         {
-            Assert.IsNotNull(rainExceedanceExtraAList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceExtraAList[0].LastUpdateContactText));
             Assert.IsNotNull(rainExceedanceExtraAList[0].RainExceedanceID);
             Assert.IsNotNull(rainExceedanceExtraAList[0].YearRound);
             if (rainExceedanceExtraAList[0].StartDate_Local != null)
@@ -826,7 +826,7 @@ namespace CSSPServices.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceExtraBList[0].RainExceedanceReportTest));
             }
-            Assert.IsNotNull(rainExceedanceExtraBList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceExtraBList[0].LastUpdateContactText));
             Assert.IsNotNull(rainExceedanceExtraBList[0].RainExceedanceID);
             Assert.IsNotNull(rainExceedanceExtraBList[0].YearRound);
             if (rainExceedanceExtraBList[0].StartDate_Local != null)

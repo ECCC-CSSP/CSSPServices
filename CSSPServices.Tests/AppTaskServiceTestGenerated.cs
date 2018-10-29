@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                     count = appTaskService.GetAppTaskList().Count();
 
-                    Assert.AreEqual(appTaskService.GetAppTaskList().Count(), (from c in dbTestDB.AppTasks select c).Take(200).Count());
+                    Assert.AreEqual(count, (from c in dbTestDB.AppTasks select c).Count());
 
                     appTaskService.Add(appTask);
                     if (appTask.HasErrors)
@@ -355,23 +355,23 @@ namespace CSSPServices.Tests
                     AppTask appTask = (from c in dbTestDB.AppTasks select c).FirstOrDefault();
                     Assert.IsNotNull(appTask);
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        appTaskService.Query.Detail = detail;
+                        appTaskService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             AppTask appTaskRet = appTaskService.GetAppTaskWithAppTaskID(appTask.AppTaskID);
                             CheckAppTaskFields(new List<AppTask>() { appTaskRet });
                             Assert.AreEqual(appTask.AppTaskID, appTaskRet.AppTaskID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             AppTaskExtraA appTaskExtraARet = appTaskService.GetAppTaskExtraAWithAppTaskID(appTask.AppTaskID);
                             CheckAppTaskExtraAFields(new List<AppTaskExtraA>() { appTaskExtraARet });
                             Assert.AreEqual(appTask.AppTaskID, appTaskExtraARet.AppTaskID);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             AppTaskExtraB appTaskExtraBRet = appTaskService.GetAppTaskExtraBWithAppTaskID(appTask.AppTaskID);
                             CheckAppTaskExtraBFields(new List<AppTaskExtraB>() { appTaskExtraBRet });
@@ -404,24 +404,24 @@ namespace CSSPServices.Tests
                     List<AppTask> appTaskDirectQueryList = new List<AppTask>();
                     appTaskDirectQueryList = (from c in dbTestDB.AppTasks select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        appTaskService.Query.Detail = detail;
+                        appTaskService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<AppTask> appTaskList = new List<AppTask>();
                             appTaskList = appTaskService.GetAppTaskList().ToList();
                             CheckAppTaskFields(appTaskList);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<AppTaskExtraA> appTaskExtraAList = new List<AppTaskExtraA>();
                             appTaskExtraAList = appTaskService.GetAppTaskExtraAList().ToList();
                             CheckAppTaskExtraAFields(appTaskExtraAList);
                             Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<AppTaskExtraB> appTaskExtraBList = new List<AppTaskExtraB>();
                             appTaskExtraBList = appTaskService.GetAppTaskExtraBList().ToList();
@@ -448,7 +448,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         AppTaskService appTaskService = new AppTaskService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -457,14 +457,14 @@ namespace CSSPServices.Tests
                         List<AppTask> appTaskDirectQueryList = new List<AppTask>();
                         appTaskDirectQueryList = (from c in dbTestDB.AppTasks select c).Skip(1).Take(1).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<AppTask> appTaskList = new List<AppTask>();
                             appTaskList = appTaskService.GetAppTaskList().ToList();
                             CheckAppTaskFields(appTaskList);
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<AppTaskExtraA> appTaskExtraAList = new List<AppTaskExtraA>();
                             appTaskExtraAList = appTaskService.GetAppTaskExtraAList().ToList();
@@ -472,7 +472,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraAList[0].AppTaskID);
                             Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<AppTaskExtraB> appTaskExtraBList = new List<AppTaskExtraB>();
                             appTaskExtraBList = appTaskService.GetAppTaskExtraBList().ToList();
@@ -500,7 +500,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         AppTaskService appTaskService = new AppTaskService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -509,14 +509,14 @@ namespace CSSPServices.Tests
                         List<AppTask> appTaskDirectQueryList = new List<AppTask>();
                         appTaskDirectQueryList = (from c in dbTestDB.AppTasks select c).Skip(1).Take(1).OrderBy(c => c.AppTaskID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<AppTask> appTaskList = new List<AppTask>();
                             appTaskList = appTaskService.GetAppTaskList().ToList();
                             CheckAppTaskFields(appTaskList);
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<AppTaskExtraA> appTaskExtraAList = new List<AppTaskExtraA>();
                             appTaskExtraAList = appTaskService.GetAppTaskExtraAList().ToList();
@@ -524,7 +524,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraAList[0].AppTaskID);
                             Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<AppTaskExtraB> appTaskExtraBList = new List<AppTaskExtraB>();
                             appTaskExtraBList = appTaskService.GetAppTaskExtraBList().ToList();
@@ -552,7 +552,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         AppTaskService appTaskService = new AppTaskService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -561,14 +561,14 @@ namespace CSSPServices.Tests
                         List<AppTask> appTaskDirectQueryList = new List<AppTask>();
                         appTaskDirectQueryList = (from c in dbTestDB.AppTasks select c).Skip(1).Take(1).OrderBy(c => c.AppTaskID).ThenBy(c => c.TVItemID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<AppTask> appTaskList = new List<AppTask>();
                             appTaskList = appTaskService.GetAppTaskList().ToList();
                             CheckAppTaskFields(appTaskList);
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<AppTaskExtraA> appTaskExtraAList = new List<AppTaskExtraA>();
                             appTaskExtraAList = appTaskService.GetAppTaskExtraAList().ToList();
@@ -576,7 +576,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraAList[0].AppTaskID);
                             Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<AppTaskExtraB> appTaskExtraBList = new List<AppTaskExtraB>();
                             appTaskExtraBList = appTaskService.GetAppTaskExtraBList().ToList();
@@ -604,7 +604,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         AppTaskService appTaskService = new AppTaskService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -613,14 +613,14 @@ namespace CSSPServices.Tests
                         List<AppTask> appTaskDirectQueryList = new List<AppTask>();
                         appTaskDirectQueryList = (from c in dbTestDB.AppTasks select c).Where(c => c.AppTaskID == 4).Skip(0).Take(1).OrderBy(c => c.AppTaskID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<AppTask> appTaskList = new List<AppTask>();
                             appTaskList = appTaskService.GetAppTaskList().ToList();
                             CheckAppTaskFields(appTaskList);
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<AppTaskExtraA> appTaskExtraAList = new List<AppTaskExtraA>();
                             appTaskExtraAList = appTaskService.GetAppTaskExtraAList().ToList();
@@ -628,7 +628,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraAList[0].AppTaskID);
                             Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<AppTaskExtraB> appTaskExtraBList = new List<AppTaskExtraB>();
                             appTaskExtraBList = appTaskService.GetAppTaskExtraBList().ToList();
@@ -656,7 +656,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         AppTaskService appTaskService = new AppTaskService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -665,14 +665,14 @@ namespace CSSPServices.Tests
                         List<AppTask> appTaskDirectQueryList = new List<AppTask>();
                         appTaskDirectQueryList = (from c in dbTestDB.AppTasks select c).Where(c => c.AppTaskID > 2 && c.AppTaskID < 5).Skip(0).Take(1).OrderBy(c => c.AppTaskID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<AppTask> appTaskList = new List<AppTask>();
                             appTaskList = appTaskService.GetAppTaskList().ToList();
                             CheckAppTaskFields(appTaskList);
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<AppTaskExtraA> appTaskExtraAList = new List<AppTaskExtraA>();
                             appTaskExtraAList = appTaskService.GetAppTaskExtraAList().ToList();
@@ -680,7 +680,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraAList[0].AppTaskID);
                             Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<AppTaskExtraB> appTaskExtraBList = new List<AppTaskExtraB>();
                             appTaskExtraBList = appTaskService.GetAppTaskExtraBList().ToList();
@@ -708,7 +708,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         AppTaskService appTaskService = new AppTaskService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -717,14 +717,14 @@ namespace CSSPServices.Tests
                         List<AppTask> appTaskDirectQueryList = new List<AppTask>();
                         appTaskDirectQueryList = (from c in dbTestDB.AppTasks select c).Where(c => c.AppTaskID > 2 && c.AppTaskID < 5).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<AppTask> appTaskList = new List<AppTask>();
                             appTaskList = appTaskService.GetAppTaskList().ToList();
                             CheckAppTaskFields(appTaskList);
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<AppTaskExtraA> appTaskExtraAList = new List<AppTaskExtraA>();
                             appTaskExtraAList = appTaskService.GetAppTaskExtraAList().ToList();
@@ -732,7 +732,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraAList[0].AppTaskID);
                             Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<AppTaskExtraB> appTaskExtraBList = new List<AppTaskExtraB>();
                             appTaskExtraBList = appTaskService.GetAppTaskExtraBList().ToList();
@@ -780,9 +780,9 @@ namespace CSSPServices.Tests
         }
         private void CheckAppTaskExtraAFields(List<AppTaskExtraA> appTaskExtraAList)
         {
-            Assert.IsNotNull(appTaskExtraAList[0].TVItemTVItemLanguage);
-            Assert.IsNotNull(appTaskExtraAList[0].TVItem2TVItemLanguage);
-            Assert.IsNotNull(appTaskExtraAList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskExtraAList[0].TVItemText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskExtraAList[0].TVItem2Text));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskExtraAList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(appTaskExtraAList[0].AppTaskCommandText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskExtraAList[0].AppTaskCommandText));
@@ -826,9 +826,9 @@ namespace CSSPServices.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskExtraBList[0].AppTaskReportTest));
             }
-            Assert.IsNotNull(appTaskExtraBList[0].TVItemTVItemLanguage);
-            Assert.IsNotNull(appTaskExtraBList[0].TVItem2TVItemLanguage);
-            Assert.IsNotNull(appTaskExtraBList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskExtraBList[0].TVItemText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskExtraBList[0].TVItem2Text));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskExtraBList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(appTaskExtraBList[0].AppTaskCommandText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskExtraBList[0].AppTaskCommandText));

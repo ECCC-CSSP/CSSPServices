@@ -22,13 +22,13 @@ namespace CSSPServices
         private IQueryable<MapInfoPointExtraA> FillMapInfoPointExtraA()
         {
              IQueryable<MapInfoPointExtraA> MapInfoPointExtraAQuery = (from c in db.MapInfoPoints
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
                     select new MapInfoPointExtraA
                     {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        LastUpdateContactText = LastUpdateContactText,
                         MapInfoPointID = c.MapInfoPointID,
                         MapInfoID = c.MapInfoID,
                         Ordinal = c.Ordinal,

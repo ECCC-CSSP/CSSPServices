@@ -37,8 +37,8 @@ namespace CSSPServices.Tests
         {
             Vector vector = new Vector();
 
-            //Error: property [StartNode] and type [Vector] is  not implemented
-            //Error: property [EndNode] and type [Vector] is  not implemented
+            //CSSPError: property [StartNode] and type [Vector] is  not implemented
+            //CSSPError: property [EndNode] and type [Vector] is  not implemented
 
             return vector;
         }

@@ -29,14 +29,14 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
                     select new ReportTypeExtraB
                     {
                         ReportTypeReportTest = ReportTypeReportTest,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        LastUpdateContactText = LastUpdateContactText,
                         ReportTypeID = c.ReportTypeID,
                         TVType = c.TVType,
                         FileType = c.FileType,

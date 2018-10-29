@@ -54,13 +54,13 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "SamplingPlanAndFilesLabSheetCountLabSheetTransferredCount", "0"), new[] { "LabSheetTransferredCount" });
             }
 
-                //Error: Type not implemented [SamplingPlan] of type [SamplingPlan]
+                //CSSPError: Type not implemented [SamplingPlan] of type [SamplingPlan]
 
-                //Error: Type not implemented [SamplingPlan] of type [SamplingPlan]
-                //Error: Type not implemented [TVFileSamplingPlanFileTXT] of type [TVFile]
+                //CSSPError: Type not implemented [SamplingPlan] of type [SamplingPlan]
+                //CSSPError: Type not implemented [TVFileSamplingPlanFileTXT] of type [TVFile]
 
-                //Error: Type not implemented [TVFileSamplingPlanFileTXT] of type [TVFile]
-            retStr = ""; // added to stop compiling error
+                //CSSPError: Type not implemented [TVFileSamplingPlanFileTXT] of type [TVFile]
+            retStr = ""; // added to stop compiling CSSPError
             if (retStr != "") // will never be true
             {
                 samplingPlanAndFilesLabSheetCount.HasErrors = true;

@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                     count = reportSectionService.GetReportSectionList().Count();
 
-                    Assert.AreEqual(reportSectionService.GetReportSectionList().Count(), (from c in dbTestDB.ReportSections select c).Take(200).Count());
+                    Assert.AreEqual(count, (from c in dbTestDB.ReportSections select c).Count());
 
                     reportSectionService.Add(reportSection);
                     if (reportSection.HasErrors)
@@ -285,23 +285,23 @@ namespace CSSPServices.Tests
                     ReportSection reportSection = (from c in dbTestDB.ReportSections select c).FirstOrDefault();
                     Assert.IsNotNull(reportSection);
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        reportSectionService.Query.Detail = detail;
+                        reportSectionService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             ReportSection reportSectionRet = reportSectionService.GetReportSectionWithReportSectionID(reportSection.ReportSectionID);
                             CheckReportSectionFields(new List<ReportSection>() { reportSectionRet });
                             Assert.AreEqual(reportSection.ReportSectionID, reportSectionRet.ReportSectionID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             ReportSectionExtraA reportSectionExtraARet = reportSectionService.GetReportSectionExtraAWithReportSectionID(reportSection.ReportSectionID);
                             CheckReportSectionExtraAFields(new List<ReportSectionExtraA>() { reportSectionExtraARet });
                             Assert.AreEqual(reportSection.ReportSectionID, reportSectionExtraARet.ReportSectionID);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             ReportSectionExtraB reportSectionExtraBRet = reportSectionService.GetReportSectionExtraBWithReportSectionID(reportSection.ReportSectionID);
                             CheckReportSectionExtraBFields(new List<ReportSectionExtraB>() { reportSectionExtraBRet });
@@ -334,24 +334,24 @@ namespace CSSPServices.Tests
                     List<ReportSection> reportSectionDirectQueryList = new List<ReportSection>();
                     reportSectionDirectQueryList = (from c in dbTestDB.ReportSections select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        reportSectionService.Query.Detail = detail;
+                        reportSectionService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<ReportSection> reportSectionList = new List<ReportSection>();
                             reportSectionList = reportSectionService.GetReportSectionList().ToList();
                             CheckReportSectionFields(reportSectionList);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ReportSectionExtraA> reportSectionExtraAList = new List<ReportSectionExtraA>();
                             reportSectionExtraAList = reportSectionService.GetReportSectionExtraAList().ToList();
                             CheckReportSectionExtraAFields(reportSectionExtraAList);
                             Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ReportSectionExtraB> reportSectionExtraBList = new List<ReportSectionExtraB>();
                             reportSectionExtraBList = reportSectionService.GetReportSectionExtraBList().ToList();
@@ -378,7 +378,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ReportSectionService reportSectionService = new ReportSectionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -387,14 +387,14 @@ namespace CSSPServices.Tests
                         List<ReportSection> reportSectionDirectQueryList = new List<ReportSection>();
                         reportSectionDirectQueryList = (from c in dbTestDB.ReportSections select c).Skip(1).Take(1).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<ReportSection> reportSectionList = new List<ReportSection>();
                             reportSectionList = reportSectionService.GetReportSectionList().ToList();
                             CheckReportSectionFields(reportSectionList);
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionList[0].ReportSectionID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ReportSectionExtraA> reportSectionExtraAList = new List<ReportSectionExtraA>();
                             reportSectionExtraAList = reportSectionService.GetReportSectionExtraAList().ToList();
@@ -402,7 +402,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraAList[0].ReportSectionID);
                             Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ReportSectionExtraB> reportSectionExtraBList = new List<ReportSectionExtraB>();
                             reportSectionExtraBList = reportSectionService.GetReportSectionExtraBList().ToList();
@@ -430,7 +430,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ReportSectionService reportSectionService = new ReportSectionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -439,14 +439,14 @@ namespace CSSPServices.Tests
                         List<ReportSection> reportSectionDirectQueryList = new List<ReportSection>();
                         reportSectionDirectQueryList = (from c in dbTestDB.ReportSections select c).Skip(1).Take(1).OrderBy(c => c.ReportSectionID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<ReportSection> reportSectionList = new List<ReportSection>();
                             reportSectionList = reportSectionService.GetReportSectionList().ToList();
                             CheckReportSectionFields(reportSectionList);
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionList[0].ReportSectionID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ReportSectionExtraA> reportSectionExtraAList = new List<ReportSectionExtraA>();
                             reportSectionExtraAList = reportSectionService.GetReportSectionExtraAList().ToList();
@@ -454,7 +454,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraAList[0].ReportSectionID);
                             Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ReportSectionExtraB> reportSectionExtraBList = new List<ReportSectionExtraB>();
                             reportSectionExtraBList = reportSectionService.GetReportSectionExtraBList().ToList();
@@ -482,7 +482,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ReportSectionService reportSectionService = new ReportSectionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -491,14 +491,14 @@ namespace CSSPServices.Tests
                         List<ReportSection> reportSectionDirectQueryList = new List<ReportSection>();
                         reportSectionDirectQueryList = (from c in dbTestDB.ReportSections select c).Skip(1).Take(1).OrderBy(c => c.ReportSectionID).ThenBy(c => c.ReportTypeID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<ReportSection> reportSectionList = new List<ReportSection>();
                             reportSectionList = reportSectionService.GetReportSectionList().ToList();
                             CheckReportSectionFields(reportSectionList);
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionList[0].ReportSectionID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ReportSectionExtraA> reportSectionExtraAList = new List<ReportSectionExtraA>();
                             reportSectionExtraAList = reportSectionService.GetReportSectionExtraAList().ToList();
@@ -506,7 +506,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraAList[0].ReportSectionID);
                             Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ReportSectionExtraB> reportSectionExtraBList = new List<ReportSectionExtraB>();
                             reportSectionExtraBList = reportSectionService.GetReportSectionExtraBList().ToList();
@@ -534,7 +534,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ReportSectionService reportSectionService = new ReportSectionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -543,14 +543,14 @@ namespace CSSPServices.Tests
                         List<ReportSection> reportSectionDirectQueryList = new List<ReportSection>();
                         reportSectionDirectQueryList = (from c in dbTestDB.ReportSections select c).Where(c => c.ReportSectionID == 4).Skip(0).Take(1).OrderBy(c => c.ReportSectionID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<ReportSection> reportSectionList = new List<ReportSection>();
                             reportSectionList = reportSectionService.GetReportSectionList().ToList();
                             CheckReportSectionFields(reportSectionList);
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionList[0].ReportSectionID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ReportSectionExtraA> reportSectionExtraAList = new List<ReportSectionExtraA>();
                             reportSectionExtraAList = reportSectionService.GetReportSectionExtraAList().ToList();
@@ -558,7 +558,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraAList[0].ReportSectionID);
                             Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ReportSectionExtraB> reportSectionExtraBList = new List<ReportSectionExtraB>();
                             reportSectionExtraBList = reportSectionService.GetReportSectionExtraBList().ToList();
@@ -586,7 +586,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ReportSectionService reportSectionService = new ReportSectionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -595,14 +595,14 @@ namespace CSSPServices.Tests
                         List<ReportSection> reportSectionDirectQueryList = new List<ReportSection>();
                         reportSectionDirectQueryList = (from c in dbTestDB.ReportSections select c).Where(c => c.ReportSectionID > 2 && c.ReportSectionID < 5).Skip(0).Take(1).OrderBy(c => c.ReportSectionID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<ReportSection> reportSectionList = new List<ReportSection>();
                             reportSectionList = reportSectionService.GetReportSectionList().ToList();
                             CheckReportSectionFields(reportSectionList);
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionList[0].ReportSectionID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ReportSectionExtraA> reportSectionExtraAList = new List<ReportSectionExtraA>();
                             reportSectionExtraAList = reportSectionService.GetReportSectionExtraAList().ToList();
@@ -610,7 +610,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraAList[0].ReportSectionID);
                             Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ReportSectionExtraB> reportSectionExtraBList = new List<ReportSectionExtraB>();
                             reportSectionExtraBList = reportSectionService.GetReportSectionExtraBList().ToList();
@@ -638,7 +638,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ReportSectionService reportSectionService = new ReportSectionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -647,14 +647,14 @@ namespace CSSPServices.Tests
                         List<ReportSection> reportSectionDirectQueryList = new List<ReportSection>();
                         reportSectionDirectQueryList = (from c in dbTestDB.ReportSections select c).Where(c => c.ReportSectionID > 2 && c.ReportSectionID < 5).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<ReportSection> reportSectionList = new List<ReportSection>();
                             reportSectionList = reportSectionService.GetReportSectionList().ToList();
                             CheckReportSectionFields(reportSectionList);
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionList[0].ReportSectionID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ReportSectionExtraA> reportSectionExtraAList = new List<ReportSectionExtraA>();
                             reportSectionExtraAList = reportSectionService.GetReportSectionExtraAList().ToList();
@@ -662,7 +662,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraAList[0].ReportSectionID);
                             Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ReportSectionExtraB> reportSectionExtraBList = new List<ReportSectionExtraB>();
                             reportSectionExtraBList = reportSectionService.GetReportSectionExtraBList().ToList();
@@ -710,9 +710,9 @@ namespace CSSPServices.Tests
         }
         private void CheckReportSectionExtraAFields(List<ReportSectionExtraA> reportSectionExtraAList)
         {
-            Assert.IsNotNull(reportSectionExtraAList[0].LastUpdateContactTVItemLanguage);
-            Assert.IsNotNull(reportSectionExtraAList[0].ReportSectionName);
-            Assert.IsNotNull(reportSectionExtraAList[0].ReportSectionText);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionExtraAList[0].LastUpdateContactText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionExtraAList[0].ReportSectionName));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionExtraAList[0].ReportSectionText));
             Assert.IsNotNull(reportSectionExtraAList[0].ReportSectionID);
             Assert.IsNotNull(reportSectionExtraAList[0].ReportTypeID);
             if (reportSectionExtraAList[0].TVItemID != null)
@@ -744,9 +744,9 @@ namespace CSSPServices.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionExtraBList[0].ReportSectionReportTest));
             }
-            Assert.IsNotNull(reportSectionExtraBList[0].LastUpdateContactTVItemLanguage);
-            Assert.IsNotNull(reportSectionExtraBList[0].ReportSectionName);
-            Assert.IsNotNull(reportSectionExtraBList[0].ReportSectionText);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionExtraBList[0].LastUpdateContactText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionExtraBList[0].ReportSectionName));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionExtraBList[0].ReportSectionText));
             Assert.IsNotNull(reportSectionExtraBList[0].ReportSectionID);
             Assert.IsNotNull(reportSectionExtraBList[0].ReportTypeID);
             if (reportSectionExtraBList[0].TVItemID != null)

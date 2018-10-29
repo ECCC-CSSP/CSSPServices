@@ -62,7 +62,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "LastUpdateAndContactLastUpdateAndContactTVItemID", "1"), new[] { "LastUpdateAndContactTVItemID" });
             }
 
-            retStr = ""; // added to stop compiling error
+            retStr = ""; // added to stop compiling CSSPError
             if (retStr != "") // will never be true
             {
                 lastUpdateAndContact.HasErrors = true;

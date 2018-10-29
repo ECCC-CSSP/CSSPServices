@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                     count = useOfSiteService.GetUseOfSiteList().Count();
 
-                    Assert.AreEqual(useOfSiteService.GetUseOfSiteList().Count(), (from c in dbTestDB.UseOfSites select c).Take(200).Count());
+                    Assert.AreEqual(count, (from c in dbTestDB.UseOfSites select c).Count());
 
                     useOfSiteService.Add(useOfSite);
                     if (useOfSite.HasErrors)
@@ -227,9 +227,9 @@ namespace CSSPServices.Tests
                     // useOfSite.Weight_perc   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [Weight_perc]
+                    //CSSPError: Type not implemented [Weight_perc]
 
-                    //Error: Type not implemented [Weight_perc]
+                    //CSSPError: Type not implemented [Weight_perc]
 
                     useOfSite = null;
                     useOfSite = GetFilledRandomUseOfSite("");
@@ -256,9 +256,9 @@ namespace CSSPServices.Tests
                     // useOfSite.Param1   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [Param1]
+                    //CSSPError: Type not implemented [Param1]
 
-                    //Error: Type not implemented [Param1]
+                    //CSSPError: Type not implemented [Param1]
 
                     useOfSite = null;
                     useOfSite = GetFilledRandomUseOfSite("");
@@ -279,9 +279,9 @@ namespace CSSPServices.Tests
                     // useOfSite.Param2   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [Param2]
+                    //CSSPError: Type not implemented [Param2]
 
-                    //Error: Type not implemented [Param2]
+                    //CSSPError: Type not implemented [Param2]
 
                     useOfSite = null;
                     useOfSite = GetFilledRandomUseOfSite("");
@@ -302,9 +302,9 @@ namespace CSSPServices.Tests
                     // useOfSite.Param3   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [Param3]
+                    //CSSPError: Type not implemented [Param3]
 
-                    //Error: Type not implemented [Param3]
+                    //CSSPError: Type not implemented [Param3]
 
                     useOfSite = null;
                     useOfSite = GetFilledRandomUseOfSite("");
@@ -325,9 +325,9 @@ namespace CSSPServices.Tests
                     // useOfSite.Param4   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [Param4]
+                    //CSSPError: Type not implemented [Param4]
 
-                    //Error: Type not implemented [Param4]
+                    //CSSPError: Type not implemented [Param4]
 
                     useOfSite = null;
                     useOfSite = GetFilledRandomUseOfSite("");
@@ -412,23 +412,23 @@ namespace CSSPServices.Tests
                     UseOfSite useOfSite = (from c in dbTestDB.UseOfSites select c).FirstOrDefault();
                     Assert.IsNotNull(useOfSite);
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        useOfSiteService.Query.Detail = detail;
+                        useOfSiteService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             UseOfSite useOfSiteRet = useOfSiteService.GetUseOfSiteWithUseOfSiteID(useOfSite.UseOfSiteID);
                             CheckUseOfSiteFields(new List<UseOfSite>() { useOfSiteRet });
                             Assert.AreEqual(useOfSite.UseOfSiteID, useOfSiteRet.UseOfSiteID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             UseOfSiteExtraA useOfSiteExtraARet = useOfSiteService.GetUseOfSiteExtraAWithUseOfSiteID(useOfSite.UseOfSiteID);
                             CheckUseOfSiteExtraAFields(new List<UseOfSiteExtraA>() { useOfSiteExtraARet });
                             Assert.AreEqual(useOfSite.UseOfSiteID, useOfSiteExtraARet.UseOfSiteID);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             UseOfSiteExtraB useOfSiteExtraBRet = useOfSiteService.GetUseOfSiteExtraBWithUseOfSiteID(useOfSite.UseOfSiteID);
                             CheckUseOfSiteExtraBFields(new List<UseOfSiteExtraB>() { useOfSiteExtraBRet });
@@ -461,24 +461,24 @@ namespace CSSPServices.Tests
                     List<UseOfSite> useOfSiteDirectQueryList = new List<UseOfSite>();
                     useOfSiteDirectQueryList = (from c in dbTestDB.UseOfSites select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        useOfSiteService.Query.Detail = detail;
+                        useOfSiteService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<UseOfSite> useOfSiteList = new List<UseOfSite>();
                             useOfSiteList = useOfSiteService.GetUseOfSiteList().ToList();
                             CheckUseOfSiteFields(useOfSiteList);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<UseOfSiteExtraA> useOfSiteExtraAList = new List<UseOfSiteExtraA>();
                             useOfSiteExtraAList = useOfSiteService.GetUseOfSiteExtraAList().ToList();
                             CheckUseOfSiteExtraAFields(useOfSiteExtraAList);
                             Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSiteExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<UseOfSiteExtraB> useOfSiteExtraBList = new List<UseOfSiteExtraB>();
                             useOfSiteExtraBList = useOfSiteService.GetUseOfSiteExtraBList().ToList();
@@ -505,7 +505,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         UseOfSiteService useOfSiteService = new UseOfSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -514,14 +514,14 @@ namespace CSSPServices.Tests
                         List<UseOfSite> useOfSiteDirectQueryList = new List<UseOfSite>();
                         useOfSiteDirectQueryList = (from c in dbTestDB.UseOfSites select c).Skip(1).Take(1).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<UseOfSite> useOfSiteList = new List<UseOfSite>();
                             useOfSiteList = useOfSiteService.GetUseOfSiteList().ToList();
                             CheckUseOfSiteFields(useOfSiteList);
                             Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSiteList[0].UseOfSiteID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<UseOfSiteExtraA> useOfSiteExtraAList = new List<UseOfSiteExtraA>();
                             useOfSiteExtraAList = useOfSiteService.GetUseOfSiteExtraAList().ToList();
@@ -529,7 +529,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSiteExtraAList[0].UseOfSiteID);
                             Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSiteExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<UseOfSiteExtraB> useOfSiteExtraBList = new List<UseOfSiteExtraB>();
                             useOfSiteExtraBList = useOfSiteService.GetUseOfSiteExtraBList().ToList();
@@ -557,7 +557,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         UseOfSiteService useOfSiteService = new UseOfSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -566,14 +566,14 @@ namespace CSSPServices.Tests
                         List<UseOfSite> useOfSiteDirectQueryList = new List<UseOfSite>();
                         useOfSiteDirectQueryList = (from c in dbTestDB.UseOfSites select c).Skip(1).Take(1).OrderBy(c => c.UseOfSiteID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<UseOfSite> useOfSiteList = new List<UseOfSite>();
                             useOfSiteList = useOfSiteService.GetUseOfSiteList().ToList();
                             CheckUseOfSiteFields(useOfSiteList);
                             Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSiteList[0].UseOfSiteID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<UseOfSiteExtraA> useOfSiteExtraAList = new List<UseOfSiteExtraA>();
                             useOfSiteExtraAList = useOfSiteService.GetUseOfSiteExtraAList().ToList();
@@ -581,7 +581,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSiteExtraAList[0].UseOfSiteID);
                             Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSiteExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<UseOfSiteExtraB> useOfSiteExtraBList = new List<UseOfSiteExtraB>();
                             useOfSiteExtraBList = useOfSiteService.GetUseOfSiteExtraBList().ToList();
@@ -609,7 +609,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         UseOfSiteService useOfSiteService = new UseOfSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -618,14 +618,14 @@ namespace CSSPServices.Tests
                         List<UseOfSite> useOfSiteDirectQueryList = new List<UseOfSite>();
                         useOfSiteDirectQueryList = (from c in dbTestDB.UseOfSites select c).Skip(1).Take(1).OrderBy(c => c.UseOfSiteID).ThenBy(c => c.SiteTVItemID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<UseOfSite> useOfSiteList = new List<UseOfSite>();
                             useOfSiteList = useOfSiteService.GetUseOfSiteList().ToList();
                             CheckUseOfSiteFields(useOfSiteList);
                             Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSiteList[0].UseOfSiteID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<UseOfSiteExtraA> useOfSiteExtraAList = new List<UseOfSiteExtraA>();
                             useOfSiteExtraAList = useOfSiteService.GetUseOfSiteExtraAList().ToList();
@@ -633,7 +633,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSiteExtraAList[0].UseOfSiteID);
                             Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSiteExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<UseOfSiteExtraB> useOfSiteExtraBList = new List<UseOfSiteExtraB>();
                             useOfSiteExtraBList = useOfSiteService.GetUseOfSiteExtraBList().ToList();
@@ -661,7 +661,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         UseOfSiteService useOfSiteService = new UseOfSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -670,14 +670,14 @@ namespace CSSPServices.Tests
                         List<UseOfSite> useOfSiteDirectQueryList = new List<UseOfSite>();
                         useOfSiteDirectQueryList = (from c in dbTestDB.UseOfSites select c).Where(c => c.UseOfSiteID == 4).Skip(0).Take(1).OrderBy(c => c.UseOfSiteID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<UseOfSite> useOfSiteList = new List<UseOfSite>();
                             useOfSiteList = useOfSiteService.GetUseOfSiteList().ToList();
                             CheckUseOfSiteFields(useOfSiteList);
                             Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSiteList[0].UseOfSiteID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<UseOfSiteExtraA> useOfSiteExtraAList = new List<UseOfSiteExtraA>();
                             useOfSiteExtraAList = useOfSiteService.GetUseOfSiteExtraAList().ToList();
@@ -685,7 +685,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSiteExtraAList[0].UseOfSiteID);
                             Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSiteExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<UseOfSiteExtraB> useOfSiteExtraBList = new List<UseOfSiteExtraB>();
                             useOfSiteExtraBList = useOfSiteService.GetUseOfSiteExtraBList().ToList();
@@ -713,7 +713,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         UseOfSiteService useOfSiteService = new UseOfSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -722,14 +722,14 @@ namespace CSSPServices.Tests
                         List<UseOfSite> useOfSiteDirectQueryList = new List<UseOfSite>();
                         useOfSiteDirectQueryList = (from c in dbTestDB.UseOfSites select c).Where(c => c.UseOfSiteID > 2 && c.UseOfSiteID < 5).Skip(0).Take(1).OrderBy(c => c.UseOfSiteID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<UseOfSite> useOfSiteList = new List<UseOfSite>();
                             useOfSiteList = useOfSiteService.GetUseOfSiteList().ToList();
                             CheckUseOfSiteFields(useOfSiteList);
                             Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSiteList[0].UseOfSiteID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<UseOfSiteExtraA> useOfSiteExtraAList = new List<UseOfSiteExtraA>();
                             useOfSiteExtraAList = useOfSiteService.GetUseOfSiteExtraAList().ToList();
@@ -737,7 +737,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSiteExtraAList[0].UseOfSiteID);
                             Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSiteExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<UseOfSiteExtraB> useOfSiteExtraBList = new List<UseOfSiteExtraB>();
                             useOfSiteExtraBList = useOfSiteService.GetUseOfSiteExtraBList().ToList();
@@ -765,7 +765,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         UseOfSiteService useOfSiteService = new UseOfSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -774,14 +774,14 @@ namespace CSSPServices.Tests
                         List<UseOfSite> useOfSiteDirectQueryList = new List<UseOfSite>();
                         useOfSiteDirectQueryList = (from c in dbTestDB.UseOfSites select c).Where(c => c.UseOfSiteID > 2 && c.UseOfSiteID < 5).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<UseOfSite> useOfSiteList = new List<UseOfSite>();
                             useOfSiteList = useOfSiteService.GetUseOfSiteList().ToList();
                             CheckUseOfSiteFields(useOfSiteList);
                             Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSiteList[0].UseOfSiteID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<UseOfSiteExtraA> useOfSiteExtraAList = new List<UseOfSiteExtraA>();
                             useOfSiteExtraAList = useOfSiteService.GetUseOfSiteExtraAList().ToList();
@@ -789,7 +789,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(useOfSiteDirectQueryList[0].UseOfSiteID, useOfSiteExtraAList[0].UseOfSiteID);
                             Assert.AreEqual(useOfSiteDirectQueryList.Count, useOfSiteExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<UseOfSiteExtraB> useOfSiteExtraBList = new List<UseOfSiteExtraB>();
                             useOfSiteExtraBList = useOfSiteService.GetUseOfSiteExtraBList().ToList();
@@ -854,9 +854,9 @@ namespace CSSPServices.Tests
         }
         private void CheckUseOfSiteExtraAFields(List<UseOfSiteExtraA> useOfSiteExtraAList)
         {
-            Assert.IsNotNull(useOfSiteExtraAList[0].SiteTVItemLanguage);
-            Assert.IsNotNull(useOfSiteExtraAList[0].SubsectorTVItemLanguage);
-            Assert.IsNotNull(useOfSiteExtraAList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteExtraAList[0].SiteText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteExtraAList[0].SubsectorText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteExtraAList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(useOfSiteExtraAList[0].SiteTypeText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteExtraAList[0].SiteTypeText));
@@ -909,9 +909,9 @@ namespace CSSPServices.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteExtraBList[0].UseOfSiteReportTest));
             }
-            Assert.IsNotNull(useOfSiteExtraBList[0].SiteTVItemLanguage);
-            Assert.IsNotNull(useOfSiteExtraBList[0].SubsectorTVItemLanguage);
-            Assert.IsNotNull(useOfSiteExtraBList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteExtraBList[0].SiteText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteExtraBList[0].SubsectorText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteExtraBList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(useOfSiteExtraBList[0].SiteTypeText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteExtraBList[0].SiteTypeText));

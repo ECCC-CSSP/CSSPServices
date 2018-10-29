@@ -22,18 +22,18 @@ namespace CSSPServices
         private IQueryable<MWQMSiteStartEndDateExtraA> FillMWQMSiteStartEndDateExtraA()
         {
              IQueryable<MWQMSiteStartEndDateExtraA> MWQMSiteStartEndDateExtraAQuery = (from c in db.MWQMSiteStartEndDates
-                let MWQMSiteTVItemLanguage = (from cl in db.TVItemLanguages
+                let MWQMSiteText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MWQMSiteTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
                     select new MWQMSiteStartEndDateExtraA
                     {
-                        MWQMSiteTVItemLanguage = MWQMSiteTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        MWQMSiteText = MWQMSiteText,
+                        LastUpdateContactText = LastUpdateContactText,
                         MWQMSiteStartEndDateID = c.MWQMSiteStartEndDateID,
                         MWQMSiteTVItemID = c.MWQMSiteTVItemID,
                         StartDate = c.StartDate,

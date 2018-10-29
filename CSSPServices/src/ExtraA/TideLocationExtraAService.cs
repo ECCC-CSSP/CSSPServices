@@ -22,13 +22,13 @@ namespace CSSPServices
         private IQueryable<TideLocationExtraA> FillTideLocationExtraA()
         {
              IQueryable<TideLocationExtraA> TideLocationExtraAQuery = (from c in db.TideLocations
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
                     select new TideLocationExtraA
                     {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        LastUpdateContactText = LastUpdateContactText,
                         TideLocationID = c.TideLocationID,
                         Zone = c.Zone,
                         Name = c.Name,

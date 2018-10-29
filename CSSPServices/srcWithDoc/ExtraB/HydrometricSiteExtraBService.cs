@@ -26,19 +26,19 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
-                let HydrometricTVItemLanguage = (from cl in db.TVItemLanguages
+                let HydrometricText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.HydrometricSiteTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
                     select new HydrometricSiteExtraB
                     {
                         HydrometricSiteReportTest = HydrometricSiteReportTest,
-                        HydrometricTVItemLanguage = HydrometricTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        HydrometricText = HydrometricText,
+                        LastUpdateContactText = LastUpdateContactText,
                         HydrometricSiteID = c.HydrometricSiteID,
                         HydrometricSiteTVItemID = c.HydrometricSiteTVItemID,
                         FedSiteNumber = c.FedSiteNumber,

@@ -27,19 +27,21 @@ namespace CSSPServices
             List<EnumIDAndText> TranslationStatusEnumList = enums.GetEnumTextOrderedList(typeof(TranslationStatusEnum));
 
              IQueryable<EmailDistributionListContactLanguageExtraA> EmailDistributionListContactLanguageExtraAQuery = (from c in db.EmailDistributionListContactLanguages
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
+                let LanguageText = (from e in LanguageEnumList
+                    where e.EnumID == (int?)c.Language
+                    select e.EnumText).FirstOrDefault()
+                let TranslationStatusText = (from e in TranslationStatusEnumList
+                    where e.EnumID == (int?)c.TranslationStatus
+                    select e.EnumText).FirstOrDefault()
                     select new EmailDistributionListContactLanguageExtraA
                     {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        LanguageText = (from e in LanguageEnumList
-                                where e.EnumID == (int?)c.Language
-                                select e.EnumText).FirstOrDefault(),
-                        TranslationStatusText = (from e in TranslationStatusEnumList
-                                where e.EnumID == (int?)c.TranslationStatus
-                                select e.EnumText).FirstOrDefault(),
+                        LastUpdateContactText = LastUpdateContactText,
+                        LanguageText = LanguageText,
+                        TranslationStatusText = TranslationStatusText,
                         EmailDistributionListContactLanguageID = c.EmailDistributionListContactLanguageID,
                         EmailDistributionListContactID = c.EmailDistributionListContactID,
                         Language = c.Language,

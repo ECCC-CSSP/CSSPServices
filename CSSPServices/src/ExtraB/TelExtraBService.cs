@@ -30,22 +30,23 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
-                let TelTVItemLanguage = (from cl in db.TVItemLanguages
+                let TelNumberText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.TelTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
+                let TelTypeText = (from e in TelTypeEnumList
+                    where e.EnumID == (int?)c.TelType
+                    select e.EnumText).FirstOrDefault()
                     select new TelExtraB
                     {
                         TelReportTest = TelReportTest,
-                        TelTVItemLanguage = TelTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        TelTypeText = (from e in TelTypeEnumList
-                                where e.EnumID == (int?)c.TelType
-                                select e.EnumText).FirstOrDefault(),
+                        TelNumberText = TelNumberText,
+                        LastUpdateContactText = LastUpdateContactText,
+                        TelTypeText = TelTypeText,
                         TelID = c.TelID,
                         TelTVItemID = c.TelTVItemID,
                         TelNumber = c.TelNumber,

@@ -43,8 +43,8 @@ namespace CSSPServices.Tests
             // should implement a Range for the property Z and type Node
             // should implement a Range for the property Code and type Node
             // should implement a Range for the property Value and type Node
-            //Error: property [ElementList] and type [Node] is  not implemented
-            //Error: property [ConnectNodeList] and type [Node] is  not implemented
+            //CSSPError: property [ElementList] and type [Node] is  not implemented
+            //CSSPError: property [ConnectNodeList] and type [Node] is  not implemented
 
             return node;
         }

@@ -50,10 +50,10 @@ namespace CSSPServices
 
             //Z has no Range Attribute
 
-                //Error: Type not implemented [Node] of type [Node]
+                //CSSPError: Type not implemented [Node] of type [Node]
 
-                //Error: Type not implemented [Node] of type [Node]
-            retStr = ""; // added to stop compiling error
+                //CSSPError: Type not implemented [Node] of type [Node]
+            retStr = ""; // added to stop compiling CSSPError
             if (retStr != "") // will never be true
             {
                 nodeLayer.HasErrors = true;

@@ -26,16 +26,17 @@ namespace CSSPServices
             List<EnumIDAndText> BoxModelResultTypeEnumList = enums.GetEnumTextOrderedList(typeof(BoxModelResultTypeEnum));
 
              IQueryable<BoxModelResultExtraA> BoxModelResultExtraAQuery = (from c in db.BoxModelResults
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
+                let BoxModelResultTypeText = (from e in BoxModelResultTypeEnumList
+                    where e.EnumID == (int?)c.BoxModelResultType
+                    select e.EnumText).FirstOrDefault()
                     select new BoxModelResultExtraA
                     {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        BoxModelResultTypeText = (from e in BoxModelResultTypeEnumList
-                                where e.EnumID == (int?)c.BoxModelResultType
-                                select e.EnumText).FirstOrDefault(),
+                        LastUpdateContactText = LastUpdateContactText,
+                        BoxModelResultTypeText = BoxModelResultTypeText,
                         BoxModelResultID = c.BoxModelResultID,
                         BoxModelID = c.BoxModelID,
                         BoxModelResultType = c.BoxModelResultType,

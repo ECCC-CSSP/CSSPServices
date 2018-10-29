@@ -38,7 +38,7 @@ namespace CSSPServices.Tests
             OtherFilesToUpload otherFilesToUpload = new OtherFilesToUpload();
 
             if (OmitPropName != "MikeScenarioID") otherFilesToUpload.MikeScenarioID = GetRandomInt(1, 11);
-            //Error: property [TVFileList] and type [OtherFilesToUpload] is  not implemented
+            //CSSPError: property [TVFileList] and type [OtherFilesToUpload] is  not implemented
 
             return otherFilesToUpload;
         }

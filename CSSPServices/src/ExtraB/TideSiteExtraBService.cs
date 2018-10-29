@@ -26,19 +26,19 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
-                let TideSiteTVItemLanguage = (from cl in db.TVItemLanguages
+                let TideSiteText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.TideSiteTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
                     select new TideSiteExtraB
                     {
                         TideSiteReportTest = TideSiteReportTest,
-                        TideSiteTVItemLanguage = TideSiteTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        TideSiteText = TideSiteText,
+                        LastUpdateContactText = LastUpdateContactText,
                         TideSiteID = c.TideSiteID,
                         TideSiteTVItemID = c.TideSiteTVItemID,
                         WebTideModel = c.WebTideModel,

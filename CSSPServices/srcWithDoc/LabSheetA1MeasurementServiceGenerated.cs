@@ -94,7 +94,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "LabSheetA1MeasurementSampleTypeText", "100"), new[] { "SampleTypeText" });
             }
 
-            retStr = ""; // added to stop compiling error
+            retStr = ""; // added to stop compiling CSSPError
             if (retStr != "") // will never be true
             {
                 labSheetA1Measurement.HasErrors = true;

@@ -22,18 +22,18 @@ namespace CSSPServices
         private IQueryable<ClimateSiteExtraA> FillClimateSiteExtraA()
         {
              IQueryable<ClimateSiteExtraA> ClimateSiteExtraAQuery = (from c in db.ClimateSites
-                let ClimateSiteTVItemLanguage = (from cl in db.TVItemLanguages
+                let ClimateSiteText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.ClimateSiteTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
                     select new ClimateSiteExtraA
                     {
-                        ClimateSiteTVItemLanguage = ClimateSiteTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        ClimateSiteText = ClimateSiteText,
+                        LastUpdateContactText = LastUpdateContactText,
                         ClimateSiteID = c.ClimateSiteID,
                         ClimateSiteTVItemID = c.ClimateSiteTVItemID,
                         ECDBID = c.ECDBID,

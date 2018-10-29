@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                     count = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count();
 
-                    Assert.AreEqual(mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count(), (from c in dbTestDB.MWQMAnalysisReportParameters select c).Take(200).Count());
+                    Assert.AreEqual(count, (from c in dbTestDB.MWQMAnalysisReportParameters select c).Count());
 
                     mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter);
                     if (mwqmAnalysisReportParameter.HasErrors)
@@ -251,9 +251,9 @@ namespace CSSPServices.Tests
                     // mwqmAnalysisReportParameter.SalinityHighlightDeviationFromAverage   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [SalinityHighlightDeviationFromAverage]
+                    //CSSPError: Type not implemented [SalinityHighlightDeviationFromAverage]
 
-                    //Error: Type not implemented [SalinityHighlightDeviationFromAverage]
+                    //CSSPError: Type not implemented [SalinityHighlightDeviationFromAverage]
 
                     mwqmAnalysisReportParameter = null;
                     mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("");
@@ -594,23 +594,23 @@ namespace CSSPServices.Tests
                     MWQMAnalysisReportParameter mwqmAnalysisReportParameter = (from c in dbTestDB.MWQMAnalysisReportParameters select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmAnalysisReportParameter);
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        mwqmAnalysisReportParameterService.Query.Detail = detail;
+                        mwqmAnalysisReportParameterService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             MWQMAnalysisReportParameter mwqmAnalysisReportParameterRet = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterWithMWQMAnalysisReportParameterID(mwqmAnalysisReportParameter.MWQMAnalysisReportParameterID);
                             CheckMWQMAnalysisReportParameterFields(new List<MWQMAnalysisReportParameter>() { mwqmAnalysisReportParameterRet });
                             Assert.AreEqual(mwqmAnalysisReportParameter.MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterRet.MWQMAnalysisReportParameterID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             MWQMAnalysisReportParameterExtraA mwqmAnalysisReportParameterExtraARet = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterExtraAWithMWQMAnalysisReportParameterID(mwqmAnalysisReportParameter.MWQMAnalysisReportParameterID);
                             CheckMWQMAnalysisReportParameterExtraAFields(new List<MWQMAnalysisReportParameterExtraA>() { mwqmAnalysisReportParameterExtraARet });
                             Assert.AreEqual(mwqmAnalysisReportParameter.MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterExtraARet.MWQMAnalysisReportParameterID);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             MWQMAnalysisReportParameterExtraB mwqmAnalysisReportParameterExtraBRet = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterExtraBWithMWQMAnalysisReportParameterID(mwqmAnalysisReportParameter.MWQMAnalysisReportParameterID);
                             CheckMWQMAnalysisReportParameterExtraBFields(new List<MWQMAnalysisReportParameterExtraB>() { mwqmAnalysisReportParameterExtraBRet });
@@ -643,24 +643,24 @@ namespace CSSPServices.Tests
                     List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterDirectQueryList = new List<MWQMAnalysisReportParameter>();
                     mwqmAnalysisReportParameterDirectQueryList = (from c in dbTestDB.MWQMAnalysisReportParameters select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        mwqmAnalysisReportParameterService.Query.Detail = detail;
+                        mwqmAnalysisReportParameterService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterList = new List<MWQMAnalysisReportParameter>();
                             mwqmAnalysisReportParameterList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().ToList();
                             CheckMWQMAnalysisReportParameterFields(mwqmAnalysisReportParameterList);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMAnalysisReportParameterExtraA> mwqmAnalysisReportParameterExtraAList = new List<MWQMAnalysisReportParameterExtraA>();
                             mwqmAnalysisReportParameterExtraAList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterExtraAList().ToList();
                             CheckMWQMAnalysisReportParameterExtraAFields(mwqmAnalysisReportParameterExtraAList);
                             Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameterExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMAnalysisReportParameterExtraB> mwqmAnalysisReportParameterExtraBList = new List<MWQMAnalysisReportParameterExtraB>();
                             mwqmAnalysisReportParameterExtraBList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterExtraBList().ToList();
@@ -687,7 +687,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMAnalysisReportParameterService mwqmAnalysisReportParameterService = new MWQMAnalysisReportParameterService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -696,14 +696,14 @@ namespace CSSPServices.Tests
                         List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterDirectQueryList = new List<MWQMAnalysisReportParameter>();
                         mwqmAnalysisReportParameterDirectQueryList = (from c in dbTestDB.MWQMAnalysisReportParameters select c).Skip(1).Take(1).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterList = new List<MWQMAnalysisReportParameter>();
                             mwqmAnalysisReportParameterList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().ToList();
                             CheckMWQMAnalysisReportParameterFields(mwqmAnalysisReportParameterList);
                             Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMAnalysisReportParameterExtraA> mwqmAnalysisReportParameterExtraAList = new List<MWQMAnalysisReportParameterExtraA>();
                             mwqmAnalysisReportParameterExtraAList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterExtraAList().ToList();
@@ -711,7 +711,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterExtraAList[0].MWQMAnalysisReportParameterID);
                             Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameterExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMAnalysisReportParameterExtraB> mwqmAnalysisReportParameterExtraBList = new List<MWQMAnalysisReportParameterExtraB>();
                             mwqmAnalysisReportParameterExtraBList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterExtraBList().ToList();
@@ -739,7 +739,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMAnalysisReportParameterService mwqmAnalysisReportParameterService = new MWQMAnalysisReportParameterService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -748,14 +748,14 @@ namespace CSSPServices.Tests
                         List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterDirectQueryList = new List<MWQMAnalysisReportParameter>();
                         mwqmAnalysisReportParameterDirectQueryList = (from c in dbTestDB.MWQMAnalysisReportParameters select c).Skip(1).Take(1).OrderBy(c => c.MWQMAnalysisReportParameterID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterList = new List<MWQMAnalysisReportParameter>();
                             mwqmAnalysisReportParameterList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().ToList();
                             CheckMWQMAnalysisReportParameterFields(mwqmAnalysisReportParameterList);
                             Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMAnalysisReportParameterExtraA> mwqmAnalysisReportParameterExtraAList = new List<MWQMAnalysisReportParameterExtraA>();
                             mwqmAnalysisReportParameterExtraAList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterExtraAList().ToList();
@@ -763,7 +763,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterExtraAList[0].MWQMAnalysisReportParameterID);
                             Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameterExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMAnalysisReportParameterExtraB> mwqmAnalysisReportParameterExtraBList = new List<MWQMAnalysisReportParameterExtraB>();
                             mwqmAnalysisReportParameterExtraBList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterExtraBList().ToList();
@@ -791,7 +791,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMAnalysisReportParameterService mwqmAnalysisReportParameterService = new MWQMAnalysisReportParameterService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -800,14 +800,14 @@ namespace CSSPServices.Tests
                         List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterDirectQueryList = new List<MWQMAnalysisReportParameter>();
                         mwqmAnalysisReportParameterDirectQueryList = (from c in dbTestDB.MWQMAnalysisReportParameters select c).Skip(1).Take(1).OrderBy(c => c.MWQMAnalysisReportParameterID).ThenBy(c => c.SubsectorTVItemID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterList = new List<MWQMAnalysisReportParameter>();
                             mwqmAnalysisReportParameterList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().ToList();
                             CheckMWQMAnalysisReportParameterFields(mwqmAnalysisReportParameterList);
                             Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMAnalysisReportParameterExtraA> mwqmAnalysisReportParameterExtraAList = new List<MWQMAnalysisReportParameterExtraA>();
                             mwqmAnalysisReportParameterExtraAList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterExtraAList().ToList();
@@ -815,7 +815,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterExtraAList[0].MWQMAnalysisReportParameterID);
                             Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameterExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMAnalysisReportParameterExtraB> mwqmAnalysisReportParameterExtraBList = new List<MWQMAnalysisReportParameterExtraB>();
                             mwqmAnalysisReportParameterExtraBList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterExtraBList().ToList();
@@ -843,7 +843,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMAnalysisReportParameterService mwqmAnalysisReportParameterService = new MWQMAnalysisReportParameterService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -852,14 +852,14 @@ namespace CSSPServices.Tests
                         List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterDirectQueryList = new List<MWQMAnalysisReportParameter>();
                         mwqmAnalysisReportParameterDirectQueryList = (from c in dbTestDB.MWQMAnalysisReportParameters select c).Where(c => c.MWQMAnalysisReportParameterID == 4).Skip(0).Take(1).OrderBy(c => c.MWQMAnalysisReportParameterID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterList = new List<MWQMAnalysisReportParameter>();
                             mwqmAnalysisReportParameterList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().ToList();
                             CheckMWQMAnalysisReportParameterFields(mwqmAnalysisReportParameterList);
                             Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMAnalysisReportParameterExtraA> mwqmAnalysisReportParameterExtraAList = new List<MWQMAnalysisReportParameterExtraA>();
                             mwqmAnalysisReportParameterExtraAList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterExtraAList().ToList();
@@ -867,7 +867,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterExtraAList[0].MWQMAnalysisReportParameterID);
                             Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameterExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMAnalysisReportParameterExtraB> mwqmAnalysisReportParameterExtraBList = new List<MWQMAnalysisReportParameterExtraB>();
                             mwqmAnalysisReportParameterExtraBList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterExtraBList().ToList();
@@ -895,7 +895,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMAnalysisReportParameterService mwqmAnalysisReportParameterService = new MWQMAnalysisReportParameterService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -904,14 +904,14 @@ namespace CSSPServices.Tests
                         List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterDirectQueryList = new List<MWQMAnalysisReportParameter>();
                         mwqmAnalysisReportParameterDirectQueryList = (from c in dbTestDB.MWQMAnalysisReportParameters select c).Where(c => c.MWQMAnalysisReportParameterID > 2 && c.MWQMAnalysisReportParameterID < 5).Skip(0).Take(1).OrderBy(c => c.MWQMAnalysisReportParameterID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterList = new List<MWQMAnalysisReportParameter>();
                             mwqmAnalysisReportParameterList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().ToList();
                             CheckMWQMAnalysisReportParameterFields(mwqmAnalysisReportParameterList);
                             Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMAnalysisReportParameterExtraA> mwqmAnalysisReportParameterExtraAList = new List<MWQMAnalysisReportParameterExtraA>();
                             mwqmAnalysisReportParameterExtraAList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterExtraAList().ToList();
@@ -919,7 +919,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterExtraAList[0].MWQMAnalysisReportParameterID);
                             Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameterExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMAnalysisReportParameterExtraB> mwqmAnalysisReportParameterExtraBList = new List<MWQMAnalysisReportParameterExtraB>();
                             mwqmAnalysisReportParameterExtraBList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterExtraBList().ToList();
@@ -947,7 +947,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMAnalysisReportParameterService mwqmAnalysisReportParameterService = new MWQMAnalysisReportParameterService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -956,14 +956,14 @@ namespace CSSPServices.Tests
                         List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterDirectQueryList = new List<MWQMAnalysisReportParameter>();
                         mwqmAnalysisReportParameterDirectQueryList = (from c in dbTestDB.MWQMAnalysisReportParameters select c).Where(c => c.MWQMAnalysisReportParameterID > 2 && c.MWQMAnalysisReportParameterID < 5).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterList = new List<MWQMAnalysisReportParameter>();
                             mwqmAnalysisReportParameterList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().ToList();
                             CheckMWQMAnalysisReportParameterFields(mwqmAnalysisReportParameterList);
                             Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMAnalysisReportParameterExtraA> mwqmAnalysisReportParameterExtraAList = new List<MWQMAnalysisReportParameterExtraA>();
                             mwqmAnalysisReportParameterExtraAList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterExtraAList().ToList();
@@ -971,7 +971,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList[0].MWQMAnalysisReportParameterID, mwqmAnalysisReportParameterExtraAList[0].MWQMAnalysisReportParameterID);
                             Assert.AreEqual(mwqmAnalysisReportParameterDirectQueryList.Count, mwqmAnalysisReportParameterExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMAnalysisReportParameterExtraB> mwqmAnalysisReportParameterExtraBList = new List<MWQMAnalysisReportParameterExtraB>();
                             mwqmAnalysisReportParameterExtraBList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterExtraBList().ToList();
@@ -1031,15 +1031,15 @@ namespace CSSPServices.Tests
         }
         private void CheckMWQMAnalysisReportParameterExtraAFields(List<MWQMAnalysisReportParameterExtraA> mwqmAnalysisReportParameterExtraAList)
         {
-            if (mwqmAnalysisReportParameterExtraAList[0].ExcelTVFileTVItemLanguage != null)
+            if (!string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterExtraAList[0].ExcelTVFileText))
             {
-                Assert.IsNotNull(mwqmAnalysisReportParameterExtraAList[0].ExcelTVFileTVItemLanguage);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterExtraAList[0].ExcelTVFileText));
             }
             if (!string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterExtraAList[0].CommandText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterExtraAList[0].CommandText));
             }
-            Assert.IsNotNull(mwqmAnalysisReportParameterExtraAList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterExtraAList[0].LastUpdateContactText));
             Assert.IsNotNull(mwqmAnalysisReportParameterExtraAList[0].MWQMAnalysisReportParameterID);
             Assert.IsNotNull(mwqmAnalysisReportParameterExtraAList[0].SubsectorTVItemID);
             Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterExtraAList[0].AnalysisName));
@@ -1083,15 +1083,15 @@ namespace CSSPServices.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterExtraBList[0].MWQMAnalysisReportParameterReportTest));
             }
-            if (mwqmAnalysisReportParameterExtraBList[0].ExcelTVFileTVItemLanguage != null)
+            if (!string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterExtraBList[0].ExcelTVFileText))
             {
-                Assert.IsNotNull(mwqmAnalysisReportParameterExtraBList[0].ExcelTVFileTVItemLanguage);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterExtraBList[0].ExcelTVFileText));
             }
             if (!string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterExtraBList[0].CommandText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterExtraBList[0].CommandText));
             }
-            Assert.IsNotNull(mwqmAnalysisReportParameterExtraBList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterExtraBList[0].LastUpdateContactText));
             Assert.IsNotNull(mwqmAnalysisReportParameterExtraBList[0].MWQMAnalysisReportParameterID);
             Assert.IsNotNull(mwqmAnalysisReportParameterExtraBList[0].SubsectorTVItemID);
             Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterExtraBList[0].AnalysisName));

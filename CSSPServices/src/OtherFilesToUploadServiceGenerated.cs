@@ -48,10 +48,10 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "OtherFilesToUploadMikeScenarioID", "1"), new[] { "MikeScenarioID" });
             }
 
-                //Error: Type not implemented [TVFileList] of type [List`1]
+                //CSSPError: Type not implemented [TVFileList] of type [List`1]
 
-                //Error: Type not implemented [TVFileList] of type [TVFile]
-            retStr = ""; // added to stop compiling error
+                //CSSPError: Type not implemented [TVFileList] of type [TVFile]
+            retStr = ""; // added to stop compiling CSSPError
             if (retStr != "") // will never be true
             {
                 otherFilesToUpload.HasErrors = true;

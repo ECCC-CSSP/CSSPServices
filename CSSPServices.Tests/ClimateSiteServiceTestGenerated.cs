@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                     count = climateSiteService.GetClimateSiteList().Count();
 
-                    Assert.AreEqual(climateSiteService.GetClimateSiteList().Count(), (from c in dbTestDB.ClimateSites select c).Take(200).Count());
+                    Assert.AreEqual(count, (from c in dbTestDB.ClimateSites select c).Count());
 
                     climateSiteService.Add(climateSite);
                     if (climateSite.HasErrors)
@@ -193,9 +193,9 @@ namespace CSSPServices.Tests
                     // climateSite.Elevation_m   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [Elevation_m]
+                    //CSSPError: Type not implemented [Elevation_m]
 
-                    //Error: Type not implemented [Elevation_m]
+                    //CSSPError: Type not implemented [Elevation_m]
 
                     climateSite = null;
                     climateSite = GetFilledRandomClimateSite("");
@@ -280,9 +280,9 @@ namespace CSSPServices.Tests
                     // climateSite.TimeOffset_hour   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [TimeOffset_hour]
+                    //CSSPError: Type not implemented [TimeOffset_hour]
 
-                    //Error: Type not implemented [TimeOffset_hour]
+                    //CSSPError: Type not implemented [TimeOffset_hour]
 
                     climateSite = null;
                     climateSite = GetFilledRandomClimateSite("");
@@ -470,23 +470,23 @@ namespace CSSPServices.Tests
                     ClimateSite climateSite = (from c in dbTestDB.ClimateSites select c).FirstOrDefault();
                     Assert.IsNotNull(climateSite);
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        climateSiteService.Query.Detail = detail;
+                        climateSiteService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             ClimateSite climateSiteRet = climateSiteService.GetClimateSiteWithClimateSiteID(climateSite.ClimateSiteID);
                             CheckClimateSiteFields(new List<ClimateSite>() { climateSiteRet });
                             Assert.AreEqual(climateSite.ClimateSiteID, climateSiteRet.ClimateSiteID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             ClimateSiteExtraA climateSiteExtraARet = climateSiteService.GetClimateSiteExtraAWithClimateSiteID(climateSite.ClimateSiteID);
                             CheckClimateSiteExtraAFields(new List<ClimateSiteExtraA>() { climateSiteExtraARet });
                             Assert.AreEqual(climateSite.ClimateSiteID, climateSiteExtraARet.ClimateSiteID);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             ClimateSiteExtraB climateSiteExtraBRet = climateSiteService.GetClimateSiteExtraBWithClimateSiteID(climateSite.ClimateSiteID);
                             CheckClimateSiteExtraBFields(new List<ClimateSiteExtraB>() { climateSiteExtraBRet });
@@ -519,24 +519,24 @@ namespace CSSPServices.Tests
                     List<ClimateSite> climateSiteDirectQueryList = new List<ClimateSite>();
                     climateSiteDirectQueryList = (from c in dbTestDB.ClimateSites select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        climateSiteService.Query.Detail = detail;
+                        climateSiteService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<ClimateSite> climateSiteList = new List<ClimateSite>();
                             climateSiteList = climateSiteService.GetClimateSiteList().ToList();
                             CheckClimateSiteFields(climateSiteList);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ClimateSiteExtraA> climateSiteExtraAList = new List<ClimateSiteExtraA>();
                             climateSiteExtraAList = climateSiteService.GetClimateSiteExtraAList().ToList();
                             CheckClimateSiteExtraAFields(climateSiteExtraAList);
                             Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ClimateSiteExtraB> climateSiteExtraBList = new List<ClimateSiteExtraB>();
                             climateSiteExtraBList = climateSiteService.GetClimateSiteExtraBList().ToList();
@@ -563,7 +563,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ClimateSiteService climateSiteService = new ClimateSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -572,14 +572,14 @@ namespace CSSPServices.Tests
                         List<ClimateSite> climateSiteDirectQueryList = new List<ClimateSite>();
                         climateSiteDirectQueryList = (from c in dbTestDB.ClimateSites select c).Skip(1).Take(1).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<ClimateSite> climateSiteList = new List<ClimateSite>();
                             climateSiteList = climateSiteService.GetClimateSiteList().ToList();
                             CheckClimateSiteFields(climateSiteList);
                             Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteList[0].ClimateSiteID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ClimateSiteExtraA> climateSiteExtraAList = new List<ClimateSiteExtraA>();
                             climateSiteExtraAList = climateSiteService.GetClimateSiteExtraAList().ToList();
@@ -587,7 +587,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteExtraAList[0].ClimateSiteID);
                             Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ClimateSiteExtraB> climateSiteExtraBList = new List<ClimateSiteExtraB>();
                             climateSiteExtraBList = climateSiteService.GetClimateSiteExtraBList().ToList();
@@ -615,7 +615,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ClimateSiteService climateSiteService = new ClimateSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -624,14 +624,14 @@ namespace CSSPServices.Tests
                         List<ClimateSite> climateSiteDirectQueryList = new List<ClimateSite>();
                         climateSiteDirectQueryList = (from c in dbTestDB.ClimateSites select c).Skip(1).Take(1).OrderBy(c => c.ClimateSiteID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<ClimateSite> climateSiteList = new List<ClimateSite>();
                             climateSiteList = climateSiteService.GetClimateSiteList().ToList();
                             CheckClimateSiteFields(climateSiteList);
                             Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteList[0].ClimateSiteID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ClimateSiteExtraA> climateSiteExtraAList = new List<ClimateSiteExtraA>();
                             climateSiteExtraAList = climateSiteService.GetClimateSiteExtraAList().ToList();
@@ -639,7 +639,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteExtraAList[0].ClimateSiteID);
                             Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ClimateSiteExtraB> climateSiteExtraBList = new List<ClimateSiteExtraB>();
                             climateSiteExtraBList = climateSiteService.GetClimateSiteExtraBList().ToList();
@@ -667,7 +667,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ClimateSiteService climateSiteService = new ClimateSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -676,14 +676,14 @@ namespace CSSPServices.Tests
                         List<ClimateSite> climateSiteDirectQueryList = new List<ClimateSite>();
                         climateSiteDirectQueryList = (from c in dbTestDB.ClimateSites select c).Skip(1).Take(1).OrderBy(c => c.ClimateSiteID).ThenBy(c => c.ClimateSiteTVItemID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<ClimateSite> climateSiteList = new List<ClimateSite>();
                             climateSiteList = climateSiteService.GetClimateSiteList().ToList();
                             CheckClimateSiteFields(climateSiteList);
                             Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteList[0].ClimateSiteID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ClimateSiteExtraA> climateSiteExtraAList = new List<ClimateSiteExtraA>();
                             climateSiteExtraAList = climateSiteService.GetClimateSiteExtraAList().ToList();
@@ -691,7 +691,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteExtraAList[0].ClimateSiteID);
                             Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ClimateSiteExtraB> climateSiteExtraBList = new List<ClimateSiteExtraB>();
                             climateSiteExtraBList = climateSiteService.GetClimateSiteExtraBList().ToList();
@@ -719,7 +719,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ClimateSiteService climateSiteService = new ClimateSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -728,14 +728,14 @@ namespace CSSPServices.Tests
                         List<ClimateSite> climateSiteDirectQueryList = new List<ClimateSite>();
                         climateSiteDirectQueryList = (from c in dbTestDB.ClimateSites select c).Where(c => c.ClimateSiteID == 4).Skip(0).Take(1).OrderBy(c => c.ClimateSiteID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<ClimateSite> climateSiteList = new List<ClimateSite>();
                             climateSiteList = climateSiteService.GetClimateSiteList().ToList();
                             CheckClimateSiteFields(climateSiteList);
                             Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteList[0].ClimateSiteID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ClimateSiteExtraA> climateSiteExtraAList = new List<ClimateSiteExtraA>();
                             climateSiteExtraAList = climateSiteService.GetClimateSiteExtraAList().ToList();
@@ -743,7 +743,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteExtraAList[0].ClimateSiteID);
                             Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ClimateSiteExtraB> climateSiteExtraBList = new List<ClimateSiteExtraB>();
                             climateSiteExtraBList = climateSiteService.GetClimateSiteExtraBList().ToList();
@@ -771,7 +771,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ClimateSiteService climateSiteService = new ClimateSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -780,14 +780,14 @@ namespace CSSPServices.Tests
                         List<ClimateSite> climateSiteDirectQueryList = new List<ClimateSite>();
                         climateSiteDirectQueryList = (from c in dbTestDB.ClimateSites select c).Where(c => c.ClimateSiteID > 2 && c.ClimateSiteID < 5).Skip(0).Take(1).OrderBy(c => c.ClimateSiteID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<ClimateSite> climateSiteList = new List<ClimateSite>();
                             climateSiteList = climateSiteService.GetClimateSiteList().ToList();
                             CheckClimateSiteFields(climateSiteList);
                             Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteList[0].ClimateSiteID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ClimateSiteExtraA> climateSiteExtraAList = new List<ClimateSiteExtraA>();
                             climateSiteExtraAList = climateSiteService.GetClimateSiteExtraAList().ToList();
@@ -795,7 +795,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteExtraAList[0].ClimateSiteID);
                             Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ClimateSiteExtraB> climateSiteExtraBList = new List<ClimateSiteExtraB>();
                             climateSiteExtraBList = climateSiteService.GetClimateSiteExtraBList().ToList();
@@ -823,7 +823,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ClimateSiteService climateSiteService = new ClimateSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -832,14 +832,14 @@ namespace CSSPServices.Tests
                         List<ClimateSite> climateSiteDirectQueryList = new List<ClimateSite>();
                         climateSiteDirectQueryList = (from c in dbTestDB.ClimateSites select c).Where(c => c.ClimateSiteID > 2 && c.ClimateSiteID < 5).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<ClimateSite> climateSiteList = new List<ClimateSite>();
                             climateSiteList = climateSiteService.GetClimateSiteList().ToList();
                             CheckClimateSiteFields(climateSiteList);
                             Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteList[0].ClimateSiteID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ClimateSiteExtraA> climateSiteExtraAList = new List<ClimateSiteExtraA>();
                             climateSiteExtraAList = climateSiteService.GetClimateSiteExtraAList().ToList();
@@ -847,7 +847,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteExtraAList[0].ClimateSiteID);
                             Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ClimateSiteExtraB> climateSiteExtraBList = new List<ClimateSiteExtraB>();
                             climateSiteExtraBList = climateSiteService.GetClimateSiteExtraBList().ToList();
@@ -947,8 +947,8 @@ namespace CSSPServices.Tests
         }
         private void CheckClimateSiteExtraAFields(List<ClimateSiteExtraA> climateSiteExtraAList)
         {
-            Assert.IsNotNull(climateSiteExtraAList[0].ClimateSiteTVItemLanguage);
-            Assert.IsNotNull(climateSiteExtraAList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteExtraAList[0].ClimateSiteText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteExtraAList[0].LastUpdateContactText));
             Assert.IsNotNull(climateSiteExtraAList[0].ClimateSiteID);
             Assert.IsNotNull(climateSiteExtraAList[0].ClimateSiteTVItemID);
             Assert.IsNotNull(climateSiteExtraAList[0].ECDBID);
@@ -1032,8 +1032,8 @@ namespace CSSPServices.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteExtraBList[0].ClimateSiteReportTest));
             }
-            Assert.IsNotNull(climateSiteExtraBList[0].ClimateSiteTVItemLanguage);
-            Assert.IsNotNull(climateSiteExtraBList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteExtraBList[0].ClimateSiteText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteExtraBList[0].LastUpdateContactText));
             Assert.IsNotNull(climateSiteExtraBList[0].ClimateSiteID);
             Assert.IsNotNull(climateSiteExtraBList[0].ClimateSiteTVItemID);
             Assert.IsNotNull(climateSiteExtraBList[0].ECDBID);

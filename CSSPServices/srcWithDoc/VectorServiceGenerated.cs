@@ -42,13 +42,13 @@ namespace CSSPServices
             Vector vector = validationContext.ObjectInstance as Vector;
             vector.HasErrors = false;
 
-                //Error: Type not implemented [StartNode] of type [Node]
+                //CSSPError: Type not implemented [StartNode] of type [Node]
 
-                //Error: Type not implemented [StartNode] of type [Node]
-                //Error: Type not implemented [EndNode] of type [Node]
+                //CSSPError: Type not implemented [StartNode] of type [Node]
+                //CSSPError: Type not implemented [EndNode] of type [Node]
 
-                //Error: Type not implemented [EndNode] of type [Node]
-            retStr = ""; // added to stop compiling error
+                //CSSPError: Type not implemented [EndNode] of type [Node]
+            retStr = ""; // added to stop compiling CSSPError
             if (retStr != "") // will never be true
             {
                 vector.HasErrors = true;

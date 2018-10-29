@@ -36,56 +36,65 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
-                let SubsectorTVItemLanguage = (from cl in db.TVItemLanguages
+                let SubsectorText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.SubsectorTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let MWQMRunTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let MWQMRunText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MWQMRunTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LabSampleApprovalContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let LabSampleApprovalContactName = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LabSampleApprovalContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
+                let RunSampleTypeText = (from e in SampleTypeEnumList
+                    where e.EnumID == (int?)c.RunSampleType
+                    select e.EnumText).FirstOrDefault()
+                let SeaStateAtStart_BeaufortScaleText = (from e in BeaufortScaleEnumList
+                    where e.EnumID == (int?)c.SeaStateAtStart_BeaufortScale
+                    select e.EnumText).FirstOrDefault()
+                let SeaStateAtEnd_BeaufortScaleText = (from e in BeaufortScaleEnumList
+                    where e.EnumID == (int?)c.SeaStateAtEnd_BeaufortScale
+                    select e.EnumText).FirstOrDefault()
+                let AnalyzeMethodText = (from e in AnalyzeMethodEnumList
+                    where e.EnumID == (int?)c.AnalyzeMethod
+                    select e.EnumText).FirstOrDefault()
+                let SampleMatrixText = (from e in SampleMatrixEnumList
+                    where e.EnumID == (int?)c.SampleMatrix
+                    select e.EnumText).FirstOrDefault()
+                let LaboratoryText = (from e in LaboratoryEnumList
+                    where e.EnumID == (int?)c.Laboratory
+                    select e.EnumText).FirstOrDefault()
+                let SampleStatusText = (from e in SampleStatusEnumList
+                    where e.EnumID == (int?)c.SampleStatus
+                    select e.EnumText).FirstOrDefault()
+                let Tide_StartText = (from e in TideTextEnumList
+                    where e.EnumID == (int?)c.Tide_Start
+                    select e.EnumText).FirstOrDefault()
+                let Tide_EndText = (from e in TideTextEnumList
+                    where e.EnumID == (int?)c.Tide_End
+                    select e.EnumText).FirstOrDefault()
                     select new MWQMRunExtraB
                     {
                         MWQMRunReportTest = MWQMRunReportTest,
-                        SubsectorTVItemLanguage = SubsectorTVItemLanguage,
-                        MWQMRunTVItemLanguage = MWQMRunTVItemLanguage,
-                        LabSampleApprovalContactTVItemLanguage = LabSampleApprovalContactTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        RunSampleTypeText = (from e in SampleTypeEnumList
-                                where e.EnumID == (int?)c.RunSampleType
-                                select e.EnumText).FirstOrDefault(),
-                        SeaStateAtStart_BeaufortScaleText = (from e in BeaufortScaleEnumList
-                                where e.EnumID == (int?)c.SeaStateAtStart_BeaufortScale
-                                select e.EnumText).FirstOrDefault(),
-                        SeaStateAtEnd_BeaufortScaleText = (from e in BeaufortScaleEnumList
-                                where e.EnumID == (int?)c.SeaStateAtEnd_BeaufortScale
-                                select e.EnumText).FirstOrDefault(),
-                        AnalyzeMethodText = (from e in AnalyzeMethodEnumList
-                                where e.EnumID == (int?)c.AnalyzeMethod
-                                select e.EnumText).FirstOrDefault(),
-                        SampleMatrixText = (from e in SampleMatrixEnumList
-                                where e.EnumID == (int?)c.SampleMatrix
-                                select e.EnumText).FirstOrDefault(),
-                        LaboratoryText = (from e in LaboratoryEnumList
-                                where e.EnumID == (int?)c.Laboratory
-                                select e.EnumText).FirstOrDefault(),
-                        SampleStatusText = (from e in SampleStatusEnumList
-                                where e.EnumID == (int?)c.SampleStatus
-                                select e.EnumText).FirstOrDefault(),
-                        Tide_StartText = (from e in TideTextEnumList
-                                where e.EnumID == (int?)c.Tide_Start
-                                select e.EnumText).FirstOrDefault(),
-                        Tide_EndText = (from e in TideTextEnumList
-                                where e.EnumID == (int?)c.Tide_End
-                                select e.EnumText).FirstOrDefault(),
+                        SubsectorText = SubsectorText,
+                        MWQMRunText = MWQMRunText,
+                        LabSampleApprovalContactName = LabSampleApprovalContactName,
+                        LastUpdateContactText = LastUpdateContactText,
+                        RunSampleTypeText = RunSampleTypeText,
+                        SeaStateAtStart_BeaufortScaleText = SeaStateAtStart_BeaufortScaleText,
+                        SeaStateAtEnd_BeaufortScaleText = SeaStateAtEnd_BeaufortScaleText,
+                        AnalyzeMethodText = AnalyzeMethodText,
+                        SampleMatrixText = SampleMatrixText,
+                        LaboratoryText = LaboratoryText,
+                        SampleStatusText = SampleStatusText,
+                        Tide_StartText = Tide_StartText,
+                        Tide_EndText = Tide_EndText,
                         MWQMRunID = c.MWQMRunID,
                         SubsectorTVItemID = c.SubsectorTVItemID,
                         MWQMRunTVItemID = c.MWQMRunTVItemID,

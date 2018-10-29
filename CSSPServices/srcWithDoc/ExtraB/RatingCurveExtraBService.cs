@@ -26,14 +26,14 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
                     select new RatingCurveExtraB
                     {
                         RatingCurveReportTest = RatingCurveReportTest,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        LastUpdateContactText = LastUpdateContactText,
                         RatingCurveID = c.RatingCurveID,
                         HydrometricSiteID = c.HydrometricSiteID,
                         RatingCurveNumber = c.RatingCurveNumber,

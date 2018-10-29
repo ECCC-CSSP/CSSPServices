@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                     count = vpResultService.GetVPResultList().Count();
 
-                    Assert.AreEqual(vpResultService.GetVPResultList().Count(), (from c in dbTestDB.VPResults select c).Take(200).Count());
+                    Assert.AreEqual(count, (from c in dbTestDB.VPResults select c).Count());
 
                     vpResultService.Add(vpResult);
                     if (vpResult.HasErrors)
@@ -164,9 +164,9 @@ namespace CSSPServices.Tests
                     // vpResult.Dilution   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [Dilution]
+                    //CSSPError: Type not implemented [Dilution]
 
-                    //Error: Type not implemented [Dilution]
+                    //CSSPError: Type not implemented [Dilution]
 
                     vpResult = null;
                     vpResult = GetFilledRandomVPResult("");
@@ -187,9 +187,9 @@ namespace CSSPServices.Tests
                     // vpResult.FarFieldWidth_m   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [FarFieldWidth_m]
+                    //CSSPError: Type not implemented [FarFieldWidth_m]
 
-                    //Error: Type not implemented [FarFieldWidth_m]
+                    //CSSPError: Type not implemented [FarFieldWidth_m]
 
                     vpResult = null;
                     vpResult = GetFilledRandomVPResult("");
@@ -210,9 +210,9 @@ namespace CSSPServices.Tests
                     // vpResult.DispersionDistance_m   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [DispersionDistance_m]
+                    //CSSPError: Type not implemented [DispersionDistance_m]
 
-                    //Error: Type not implemented [DispersionDistance_m]
+                    //CSSPError: Type not implemented [DispersionDistance_m]
 
                     vpResult = null;
                     vpResult = GetFilledRandomVPResult("");
@@ -233,9 +233,9 @@ namespace CSSPServices.Tests
                     // vpResult.TravelTime_hour   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [TravelTime_hour]
+                    //CSSPError: Type not implemented [TravelTime_hour]
 
-                    //Error: Type not implemented [TravelTime_hour]
+                    //CSSPError: Type not implemented [TravelTime_hour]
 
                     vpResult = null;
                     vpResult = GetFilledRandomVPResult("");
@@ -320,23 +320,23 @@ namespace CSSPServices.Tests
                     VPResult vpResult = (from c in dbTestDB.VPResults select c).FirstOrDefault();
                     Assert.IsNotNull(vpResult);
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        vpResultService.Query.Detail = detail;
+                        vpResultService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             VPResult vpResultRet = vpResultService.GetVPResultWithVPResultID(vpResult.VPResultID);
                             CheckVPResultFields(new List<VPResult>() { vpResultRet });
                             Assert.AreEqual(vpResult.VPResultID, vpResultRet.VPResultID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             VPResultExtraA vpResultExtraARet = vpResultService.GetVPResultExtraAWithVPResultID(vpResult.VPResultID);
                             CheckVPResultExtraAFields(new List<VPResultExtraA>() { vpResultExtraARet });
                             Assert.AreEqual(vpResult.VPResultID, vpResultExtraARet.VPResultID);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             VPResultExtraB vpResultExtraBRet = vpResultService.GetVPResultExtraBWithVPResultID(vpResult.VPResultID);
                             CheckVPResultExtraBFields(new List<VPResultExtraB>() { vpResultExtraBRet });
@@ -369,24 +369,24 @@ namespace CSSPServices.Tests
                     List<VPResult> vpResultDirectQueryList = new List<VPResult>();
                     vpResultDirectQueryList = (from c in dbTestDB.VPResults select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        vpResultService.Query.Detail = detail;
+                        vpResultService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<VPResult> vpResultList = new List<VPResult>();
                             vpResultList = vpResultService.GetVPResultList().ToList();
                             CheckVPResultFields(vpResultList);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<VPResultExtraA> vpResultExtraAList = new List<VPResultExtraA>();
                             vpResultExtraAList = vpResultService.GetVPResultExtraAList().ToList();
                             CheckVPResultExtraAFields(vpResultExtraAList);
                             Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<VPResultExtraB> vpResultExtraBList = new List<VPResultExtraB>();
                             vpResultExtraBList = vpResultService.GetVPResultExtraBList().ToList();
@@ -413,7 +413,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         VPResultService vpResultService = new VPResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -422,14 +422,14 @@ namespace CSSPServices.Tests
                         List<VPResult> vpResultDirectQueryList = new List<VPResult>();
                         vpResultDirectQueryList = (from c in dbTestDB.VPResults select c).Skip(1).Take(1).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<VPResult> vpResultList = new List<VPResult>();
                             vpResultList = vpResultService.GetVPResultList().ToList();
                             CheckVPResultFields(vpResultList);
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultList[0].VPResultID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<VPResultExtraA> vpResultExtraAList = new List<VPResultExtraA>();
                             vpResultExtraAList = vpResultService.GetVPResultExtraAList().ToList();
@@ -437,7 +437,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraAList[0].VPResultID);
                             Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<VPResultExtraB> vpResultExtraBList = new List<VPResultExtraB>();
                             vpResultExtraBList = vpResultService.GetVPResultExtraBList().ToList();
@@ -465,7 +465,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         VPResultService vpResultService = new VPResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -474,14 +474,14 @@ namespace CSSPServices.Tests
                         List<VPResult> vpResultDirectQueryList = new List<VPResult>();
                         vpResultDirectQueryList = (from c in dbTestDB.VPResults select c).Skip(1).Take(1).OrderBy(c => c.VPResultID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<VPResult> vpResultList = new List<VPResult>();
                             vpResultList = vpResultService.GetVPResultList().ToList();
                             CheckVPResultFields(vpResultList);
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultList[0].VPResultID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<VPResultExtraA> vpResultExtraAList = new List<VPResultExtraA>();
                             vpResultExtraAList = vpResultService.GetVPResultExtraAList().ToList();
@@ -489,7 +489,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraAList[0].VPResultID);
                             Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<VPResultExtraB> vpResultExtraBList = new List<VPResultExtraB>();
                             vpResultExtraBList = vpResultService.GetVPResultExtraBList().ToList();
@@ -517,7 +517,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         VPResultService vpResultService = new VPResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -526,14 +526,14 @@ namespace CSSPServices.Tests
                         List<VPResult> vpResultDirectQueryList = new List<VPResult>();
                         vpResultDirectQueryList = (from c in dbTestDB.VPResults select c).Skip(1).Take(1).OrderBy(c => c.VPResultID).ThenBy(c => c.VPScenarioID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<VPResult> vpResultList = new List<VPResult>();
                             vpResultList = vpResultService.GetVPResultList().ToList();
                             CheckVPResultFields(vpResultList);
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultList[0].VPResultID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<VPResultExtraA> vpResultExtraAList = new List<VPResultExtraA>();
                             vpResultExtraAList = vpResultService.GetVPResultExtraAList().ToList();
@@ -541,7 +541,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraAList[0].VPResultID);
                             Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<VPResultExtraB> vpResultExtraBList = new List<VPResultExtraB>();
                             vpResultExtraBList = vpResultService.GetVPResultExtraBList().ToList();
@@ -569,7 +569,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         VPResultService vpResultService = new VPResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -578,14 +578,14 @@ namespace CSSPServices.Tests
                         List<VPResult> vpResultDirectQueryList = new List<VPResult>();
                         vpResultDirectQueryList = (from c in dbTestDB.VPResults select c).Where(c => c.VPResultID == 4).Skip(0).Take(1).OrderBy(c => c.VPResultID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<VPResult> vpResultList = new List<VPResult>();
                             vpResultList = vpResultService.GetVPResultList().ToList();
                             CheckVPResultFields(vpResultList);
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultList[0].VPResultID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<VPResultExtraA> vpResultExtraAList = new List<VPResultExtraA>();
                             vpResultExtraAList = vpResultService.GetVPResultExtraAList().ToList();
@@ -593,7 +593,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraAList[0].VPResultID);
                             Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<VPResultExtraB> vpResultExtraBList = new List<VPResultExtraB>();
                             vpResultExtraBList = vpResultService.GetVPResultExtraBList().ToList();
@@ -621,7 +621,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         VPResultService vpResultService = new VPResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -630,14 +630,14 @@ namespace CSSPServices.Tests
                         List<VPResult> vpResultDirectQueryList = new List<VPResult>();
                         vpResultDirectQueryList = (from c in dbTestDB.VPResults select c).Where(c => c.VPResultID > 2 && c.VPResultID < 5).Skip(0).Take(1).OrderBy(c => c.VPResultID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<VPResult> vpResultList = new List<VPResult>();
                             vpResultList = vpResultService.GetVPResultList().ToList();
                             CheckVPResultFields(vpResultList);
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultList[0].VPResultID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<VPResultExtraA> vpResultExtraAList = new List<VPResultExtraA>();
                             vpResultExtraAList = vpResultService.GetVPResultExtraAList().ToList();
@@ -645,7 +645,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraAList[0].VPResultID);
                             Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<VPResultExtraB> vpResultExtraBList = new List<VPResultExtraB>();
                             vpResultExtraBList = vpResultService.GetVPResultExtraBList().ToList();
@@ -673,7 +673,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         VPResultService vpResultService = new VPResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -682,14 +682,14 @@ namespace CSSPServices.Tests
                         List<VPResult> vpResultDirectQueryList = new List<VPResult>();
                         vpResultDirectQueryList = (from c in dbTestDB.VPResults select c).Where(c => c.VPResultID > 2 && c.VPResultID < 5).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<VPResult> vpResultList = new List<VPResult>();
                             vpResultList = vpResultService.GetVPResultList().ToList();
                             CheckVPResultFields(vpResultList);
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultList[0].VPResultID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<VPResultExtraA> vpResultExtraAList = new List<VPResultExtraA>();
                             vpResultExtraAList = vpResultService.GetVPResultExtraAList().ToList();
@@ -697,7 +697,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraAList[0].VPResultID);
                             Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<VPResultExtraB> vpResultExtraBList = new List<VPResultExtraB>();
                             vpResultExtraBList = vpResultService.GetVPResultExtraBList().ToList();
@@ -732,7 +732,7 @@ namespace CSSPServices.Tests
         }
         private void CheckVPResultExtraAFields(List<VPResultExtraA> vpResultExtraAList)
         {
-            Assert.IsNotNull(vpResultExtraAList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(vpResultExtraAList[0].LastUpdateContactText));
             Assert.IsNotNull(vpResultExtraAList[0].VPResultID);
             Assert.IsNotNull(vpResultExtraAList[0].VPScenarioID);
             Assert.IsNotNull(vpResultExtraAList[0].Ordinal);
@@ -751,7 +751,7 @@ namespace CSSPServices.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(vpResultExtraBList[0].VPResultReportTest));
             }
-            Assert.IsNotNull(vpResultExtraBList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(vpResultExtraBList[0].LastUpdateContactText));
             Assert.IsNotNull(vpResultExtraBList[0].VPResultID);
             Assert.IsNotNull(vpResultExtraBList[0].VPScenarioID);
             Assert.IsNotNull(vpResultExtraBList[0].Ordinal);

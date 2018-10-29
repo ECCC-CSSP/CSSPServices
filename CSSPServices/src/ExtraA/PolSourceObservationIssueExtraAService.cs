@@ -22,13 +22,13 @@ namespace CSSPServices
         private IQueryable<PolSourceObservationIssueExtraA> FillPolSourceObservationIssueExtraA()
         {
              IQueryable<PolSourceObservationIssueExtraA> PolSourceObservationIssueExtraAQuery = (from c in db.PolSourceObservationIssues
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
                     select new PolSourceObservationIssueExtraA
                     {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        LastUpdateContactText = LastUpdateContactText,
                         PolSourceObservationIssueID = c.PolSourceObservationIssueID,
                         PolSourceObservationID = c.PolSourceObservationID,
                         ObservationInfo = c.ObservationInfo,

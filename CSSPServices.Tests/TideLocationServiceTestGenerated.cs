@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                     count = tideLocationService.GetTideLocationList().Count();
 
-                    Assert.AreEqual(tideLocationService.GetTideLocationList().Count(), (from c in dbTestDB.TideLocations select c).Take(200).Count());
+                    Assert.AreEqual(count, (from c in dbTestDB.TideLocations select c).Count());
 
                     tideLocationService.Add(tideLocation);
                     if (tideLocation.HasErrors)
@@ -193,9 +193,9 @@ namespace CSSPServices.Tests
                     // tideLocation.Lat   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [Lat]
+                    //CSSPError: Type not implemented [Lat]
 
-                    //Error: Type not implemented [Lat]
+                    //CSSPError: Type not implemented [Lat]
 
                     tideLocation = null;
                     tideLocation = GetFilledRandomTideLocation("");
@@ -216,9 +216,9 @@ namespace CSSPServices.Tests
                     // tideLocation.Lng   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [Lng]
+                    //CSSPError: Type not implemented [Lng]
 
-                    //Error: Type not implemented [Lng]
+                    //CSSPError: Type not implemented [Lng]
 
                     tideLocation = null;
                     tideLocation = GetFilledRandomTideLocation("");
@@ -303,23 +303,23 @@ namespace CSSPServices.Tests
                     TideLocation tideLocation = (from c in dbTestDB.TideLocations select c).FirstOrDefault();
                     Assert.IsNotNull(tideLocation);
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        tideLocationService.Query.Detail = detail;
+                        tideLocationService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             TideLocation tideLocationRet = tideLocationService.GetTideLocationWithTideLocationID(tideLocation.TideLocationID);
                             CheckTideLocationFields(new List<TideLocation>() { tideLocationRet });
                             Assert.AreEqual(tideLocation.TideLocationID, tideLocationRet.TideLocationID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             TideLocationExtraA tideLocationExtraARet = tideLocationService.GetTideLocationExtraAWithTideLocationID(tideLocation.TideLocationID);
                             CheckTideLocationExtraAFields(new List<TideLocationExtraA>() { tideLocationExtraARet });
                             Assert.AreEqual(tideLocation.TideLocationID, tideLocationExtraARet.TideLocationID);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             TideLocationExtraB tideLocationExtraBRet = tideLocationService.GetTideLocationExtraBWithTideLocationID(tideLocation.TideLocationID);
                             CheckTideLocationExtraBFields(new List<TideLocationExtraB>() { tideLocationExtraBRet });
@@ -352,24 +352,24 @@ namespace CSSPServices.Tests
                     List<TideLocation> tideLocationDirectQueryList = new List<TideLocation>();
                     tideLocationDirectQueryList = (from c in dbTestDB.TideLocations select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        tideLocationService.Query.Detail = detail;
+                        tideLocationService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<TideLocation> tideLocationList = new List<TideLocation>();
                             tideLocationList = tideLocationService.GetTideLocationList().ToList();
                             CheckTideLocationFields(tideLocationList);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TideLocationExtraA> tideLocationExtraAList = new List<TideLocationExtraA>();
                             tideLocationExtraAList = tideLocationService.GetTideLocationExtraAList().ToList();
                             CheckTideLocationExtraAFields(tideLocationExtraAList);
                             Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TideLocationExtraB> tideLocationExtraBList = new List<TideLocationExtraB>();
                             tideLocationExtraBList = tideLocationService.GetTideLocationExtraBList().ToList();
@@ -396,7 +396,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TideLocationService tideLocationService = new TideLocationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -405,14 +405,14 @@ namespace CSSPServices.Tests
                         List<TideLocation> tideLocationDirectQueryList = new List<TideLocation>();
                         tideLocationDirectQueryList = (from c in dbTestDB.TideLocations select c).Skip(1).Take(1).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<TideLocation> tideLocationList = new List<TideLocation>();
                             tideLocationList = tideLocationService.GetTideLocationList().ToList();
                             CheckTideLocationFields(tideLocationList);
                             Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationList[0].TideLocationID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TideLocationExtraA> tideLocationExtraAList = new List<TideLocationExtraA>();
                             tideLocationExtraAList = tideLocationService.GetTideLocationExtraAList().ToList();
@@ -420,7 +420,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationExtraAList[0].TideLocationID);
                             Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TideLocationExtraB> tideLocationExtraBList = new List<TideLocationExtraB>();
                             tideLocationExtraBList = tideLocationService.GetTideLocationExtraBList().ToList();
@@ -448,7 +448,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TideLocationService tideLocationService = new TideLocationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -457,14 +457,14 @@ namespace CSSPServices.Tests
                         List<TideLocation> tideLocationDirectQueryList = new List<TideLocation>();
                         tideLocationDirectQueryList = (from c in dbTestDB.TideLocations select c).Skip(1).Take(1).OrderBy(c => c.TideLocationID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<TideLocation> tideLocationList = new List<TideLocation>();
                             tideLocationList = tideLocationService.GetTideLocationList().ToList();
                             CheckTideLocationFields(tideLocationList);
                             Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationList[0].TideLocationID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TideLocationExtraA> tideLocationExtraAList = new List<TideLocationExtraA>();
                             tideLocationExtraAList = tideLocationService.GetTideLocationExtraAList().ToList();
@@ -472,7 +472,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationExtraAList[0].TideLocationID);
                             Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TideLocationExtraB> tideLocationExtraBList = new List<TideLocationExtraB>();
                             tideLocationExtraBList = tideLocationService.GetTideLocationExtraBList().ToList();
@@ -500,7 +500,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TideLocationService tideLocationService = new TideLocationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -509,14 +509,14 @@ namespace CSSPServices.Tests
                         List<TideLocation> tideLocationDirectQueryList = new List<TideLocation>();
                         tideLocationDirectQueryList = (from c in dbTestDB.TideLocations select c).Skip(1).Take(1).OrderBy(c => c.TideLocationID).ThenBy(c => c.Zone).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<TideLocation> tideLocationList = new List<TideLocation>();
                             tideLocationList = tideLocationService.GetTideLocationList().ToList();
                             CheckTideLocationFields(tideLocationList);
                             Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationList[0].TideLocationID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TideLocationExtraA> tideLocationExtraAList = new List<TideLocationExtraA>();
                             tideLocationExtraAList = tideLocationService.GetTideLocationExtraAList().ToList();
@@ -524,7 +524,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationExtraAList[0].TideLocationID);
                             Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TideLocationExtraB> tideLocationExtraBList = new List<TideLocationExtraB>();
                             tideLocationExtraBList = tideLocationService.GetTideLocationExtraBList().ToList();
@@ -552,7 +552,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TideLocationService tideLocationService = new TideLocationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -561,14 +561,14 @@ namespace CSSPServices.Tests
                         List<TideLocation> tideLocationDirectQueryList = new List<TideLocation>();
                         tideLocationDirectQueryList = (from c in dbTestDB.TideLocations select c).Where(c => c.TideLocationID == 4).Skip(0).Take(1).OrderBy(c => c.TideLocationID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<TideLocation> tideLocationList = new List<TideLocation>();
                             tideLocationList = tideLocationService.GetTideLocationList().ToList();
                             CheckTideLocationFields(tideLocationList);
                             Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationList[0].TideLocationID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TideLocationExtraA> tideLocationExtraAList = new List<TideLocationExtraA>();
                             tideLocationExtraAList = tideLocationService.GetTideLocationExtraAList().ToList();
@@ -576,7 +576,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationExtraAList[0].TideLocationID);
                             Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TideLocationExtraB> tideLocationExtraBList = new List<TideLocationExtraB>();
                             tideLocationExtraBList = tideLocationService.GetTideLocationExtraBList().ToList();
@@ -604,7 +604,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TideLocationService tideLocationService = new TideLocationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -613,14 +613,14 @@ namespace CSSPServices.Tests
                         List<TideLocation> tideLocationDirectQueryList = new List<TideLocation>();
                         tideLocationDirectQueryList = (from c in dbTestDB.TideLocations select c).Where(c => c.TideLocationID > 2 && c.TideLocationID < 5).Skip(0).Take(1).OrderBy(c => c.TideLocationID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<TideLocation> tideLocationList = new List<TideLocation>();
                             tideLocationList = tideLocationService.GetTideLocationList().ToList();
                             CheckTideLocationFields(tideLocationList);
                             Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationList[0].TideLocationID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TideLocationExtraA> tideLocationExtraAList = new List<TideLocationExtraA>();
                             tideLocationExtraAList = tideLocationService.GetTideLocationExtraAList().ToList();
@@ -628,7 +628,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationExtraAList[0].TideLocationID);
                             Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TideLocationExtraB> tideLocationExtraBList = new List<TideLocationExtraB>();
                             tideLocationExtraBList = tideLocationService.GetTideLocationExtraBList().ToList();
@@ -656,7 +656,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TideLocationService tideLocationService = new TideLocationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -665,14 +665,14 @@ namespace CSSPServices.Tests
                         List<TideLocation> tideLocationDirectQueryList = new List<TideLocation>();
                         tideLocationDirectQueryList = (from c in dbTestDB.TideLocations select c).Where(c => c.TideLocationID > 2 && c.TideLocationID < 5).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<TideLocation> tideLocationList = new List<TideLocation>();
                             tideLocationList = tideLocationService.GetTideLocationList().ToList();
                             CheckTideLocationFields(tideLocationList);
                             Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationList[0].TideLocationID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TideLocationExtraA> tideLocationExtraAList = new List<TideLocationExtraA>();
                             tideLocationExtraAList = tideLocationService.GetTideLocationExtraAList().ToList();
@@ -680,7 +680,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationExtraAList[0].TideLocationID);
                             Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TideLocationExtraB> tideLocationExtraBList = new List<TideLocationExtraB>();
                             tideLocationExtraBList = tideLocationService.GetTideLocationExtraBList().ToList();
@@ -714,7 +714,7 @@ namespace CSSPServices.Tests
         }
         private void CheckTideLocationExtraAFields(List<TideLocationExtraA> tideLocationExtraAList)
         {
-            Assert.IsNotNull(tideLocationExtraAList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tideLocationExtraAList[0].LastUpdateContactText));
             Assert.IsNotNull(tideLocationExtraAList[0].TideLocationID);
             Assert.IsNotNull(tideLocationExtraAList[0].Zone);
             Assert.IsFalse(string.IsNullOrWhiteSpace(tideLocationExtraAList[0].Name));
@@ -732,7 +732,7 @@ namespace CSSPServices.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tideLocationExtraBList[0].TideLocationReportTest));
             }
-            Assert.IsNotNull(tideLocationExtraBList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tideLocationExtraBList[0].LastUpdateContactText));
             Assert.IsNotNull(tideLocationExtraBList[0].TideLocationID);
             Assert.IsNotNull(tideLocationExtraBList[0].Zone);
             Assert.IsFalse(string.IsNullOrWhiteSpace(tideLocationExtraBList[0].Name));

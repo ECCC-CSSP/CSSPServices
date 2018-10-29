@@ -39,7 +39,7 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "Layer") nodeLayer.Layer = GetRandomInt(1, 100);
             // should implement a Range for the property Z and type NodeLayer
-            //Error: property [Node] and type [NodeLayer] is  not implemented
+            //CSSPError: property [Node] and type [NodeLayer] is  not implemented
 
             return nodeLayer;
         }

@@ -26,25 +26,22 @@ namespace CSSPServices
             List<EnumIDAndText> ContactTitleEnumList = enums.GetEnumTextOrderedList(typeof(ContactTitleEnum));
 
              IQueryable<ContactExtraA> ContactExtraAQuery = (from c in db.Contacts
-                let ContactTVItemLanguage = (from cl in db.TVItemLanguages
+                let ContactName = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.ContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let ParentTVItemID = (from cl in db.TVItems
-                    where cl.TVItemID == c.ContactTVItemID
-                    select cl.ParentID).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
+                let ContactTitleText = (from e in ContactTitleEnumList
+                    where e.EnumID == (int?)c.ContactTitle
+                    select e.EnumText).FirstOrDefault()
                     select new ContactExtraA
                     {
-                        ContactTVItemLanguage = ContactTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        ParentTVItemID = ParentTVItemID,
-                        ContactTitleText = (from e in ContactTitleEnumList
-                                where e.EnumID == (int?)c.ContactTitle
-                                select e.EnumText).FirstOrDefault(),
+                        ContactName = ContactName,
+                        LastUpdateContactText = LastUpdateContactText,
+                        ContactTitleText = ContactTitleText,
                         ContactID = c.ContactID,
                         Id = c.Id,
                         ContactTVItemID = c.ContactTVItemID,

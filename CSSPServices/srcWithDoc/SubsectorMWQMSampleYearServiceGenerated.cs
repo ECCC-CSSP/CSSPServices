@@ -84,7 +84,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._DateIsBiggerThan_, "SubsectorMWQMSampleYearLatestDate", "SubsectorMWQMSampleYearEarliestDate"), new[] { "SubsectorMWQMSampleYearLatestDate" });
             }
 
-            retStr = ""; // added to stop compiling error
+            retStr = ""; // added to stop compiling CSSPError
             if (retStr != "") // will never be true
             {
                 subsectorMWQMSampleYear.HasErrors = true;

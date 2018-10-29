@@ -27,19 +27,21 @@ namespace CSSPServices
             List<EnumIDAndText> TVTypeEnumList = enums.GetEnumTextOrderedList(typeof(TVTypeEnum));
 
              IQueryable<DocTemplateExtraA> DocTemplateExtraAQuery = (from c in db.DocTemplates
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
+                let LanguageText = (from e in LanguageEnumList
+                    where e.EnumID == (int?)c.Language
+                    select e.EnumText).FirstOrDefault()
+                let TVTypeText = (from e in TVTypeEnumList
+                    where e.EnumID == (int?)c.TVType
+                    select e.EnumText).FirstOrDefault()
                     select new DocTemplateExtraA
                     {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        LanguageText = (from e in LanguageEnumList
-                                where e.EnumID == (int?)c.Language
-                                select e.EnumText).FirstOrDefault(),
-                        TVTypeText = (from e in TVTypeEnumList
-                                where e.EnumID == (int?)c.TVType
-                                select e.EnumText).FirstOrDefault(),
+                        LastUpdateContactText = LastUpdateContactText,
+                        LanguageText = LanguageText,
+                        TVTypeText = TVTypeText,
                         DocTemplateID = c.DocTemplateID,
                         Language = c.Language,
                         TVType = c.TVType,

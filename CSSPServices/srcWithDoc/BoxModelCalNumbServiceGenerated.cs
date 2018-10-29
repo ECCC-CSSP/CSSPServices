@@ -85,7 +85,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "BoxModelCalNumbBoxModelResultTypeText", "100"), new[] { "BoxModelResultTypeText" });
             }
 
-            retStr = ""; // added to stop compiling error
+            retStr = ""; // added to stop compiling CSSPError
             if (retStr != "") // will never be true
             {
                 boxModelCalNumb.HasErrors = true;

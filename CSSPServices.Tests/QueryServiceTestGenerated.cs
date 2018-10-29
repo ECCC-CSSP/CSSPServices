@@ -37,16 +37,16 @@ namespace CSSPServices.Tests
         {
             Query query = new Query();
 
-            //Error: property [ModelType] and type [Query] is  not implemented
+            //CSSPError: property [ModelType] and type [Query] is  not implemented
             if (OmitPropName != "Language") query.Language = LanguageRequest;
             if (OmitPropName != "Lang") query.Lang = GetRandomString("", 2);
             if (OmitPropName != "Skip") query.Skip = GetRandomInt(0, 1000000);
             if (OmitPropName != "Take") query.Take = GetRandomInt(1, 1000000);
             if (OmitPropName != "Order") query.Order = GetRandomString("", 5);
             if (OmitPropName != "Where") query.Where = GetRandomString("", 5);
-            if (OmitPropName != "Detail") query.Detail = GetRandomString("", 1);
+            if (OmitPropName != "Extra") query.Extra = GetRandomString("", 1);
             if (OmitPropName != "OrderList") query.OrderList = new List<string>() { GetRandomString("", 20), GetRandomString("", 20) };
-            //Error: property [WhereInfoList] and type [Query] is  not implemented
+            //CSSPError: property [WhereInfoList] and type [Query] is  not implemented
 
             return query;
         }

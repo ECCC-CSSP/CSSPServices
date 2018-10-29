@@ -37,9 +37,9 @@ namespace CSSPServices.Tests
         {
             VPFull vpFull = new VPFull();
 
-            //Error: property [VPScenario] and type [VPFull] is  not implemented
-            //Error: property [VPAmbientList] and type [VPFull] is  not implemented
-            //Error: property [VPResultList] and type [VPFull] is  not implemented
+            //CSSPError: property [VPScenario] and type [VPFull] is  not implemented
+            //CSSPError: property [VPAmbientList] and type [VPFull] is  not implemented
+            //CSSPError: property [VPResultList] and type [VPFull] is  not implemented
 
             return vpFull;
         }

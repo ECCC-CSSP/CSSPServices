@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                     count = samplingPlanSubsectorService.GetSamplingPlanSubsectorList().Count();
 
-                    Assert.AreEqual(samplingPlanSubsectorService.GetSamplingPlanSubsectorList().Count(), (from c in dbTestDB.SamplingPlanSubsectors select c).Take(200).Count());
+                    Assert.AreEqual(count, (from c in dbTestDB.SamplingPlanSubsectors select c).Count());
 
                     samplingPlanSubsectorService.Add(samplingPlanSubsector);
                     if (samplingPlanSubsector.HasErrors)
@@ -209,23 +209,23 @@ namespace CSSPServices.Tests
                     SamplingPlanSubsector samplingPlanSubsector = (from c in dbTestDB.SamplingPlanSubsectors select c).FirstOrDefault();
                     Assert.IsNotNull(samplingPlanSubsector);
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        samplingPlanSubsectorService.Query.Detail = detail;
+                        samplingPlanSubsectorService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             SamplingPlanSubsector samplingPlanSubsectorRet = samplingPlanSubsectorService.GetSamplingPlanSubsectorWithSamplingPlanSubsectorID(samplingPlanSubsector.SamplingPlanSubsectorID);
                             CheckSamplingPlanSubsectorFields(new List<SamplingPlanSubsector>() { samplingPlanSubsectorRet });
                             Assert.AreEqual(samplingPlanSubsector.SamplingPlanSubsectorID, samplingPlanSubsectorRet.SamplingPlanSubsectorID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             SamplingPlanSubsectorExtraA samplingPlanSubsectorExtraARet = samplingPlanSubsectorService.GetSamplingPlanSubsectorExtraAWithSamplingPlanSubsectorID(samplingPlanSubsector.SamplingPlanSubsectorID);
                             CheckSamplingPlanSubsectorExtraAFields(new List<SamplingPlanSubsectorExtraA>() { samplingPlanSubsectorExtraARet });
                             Assert.AreEqual(samplingPlanSubsector.SamplingPlanSubsectorID, samplingPlanSubsectorExtraARet.SamplingPlanSubsectorID);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             SamplingPlanSubsectorExtraB samplingPlanSubsectorExtraBRet = samplingPlanSubsectorService.GetSamplingPlanSubsectorExtraBWithSamplingPlanSubsectorID(samplingPlanSubsector.SamplingPlanSubsectorID);
                             CheckSamplingPlanSubsectorExtraBFields(new List<SamplingPlanSubsectorExtraB>() { samplingPlanSubsectorExtraBRet });
@@ -258,24 +258,24 @@ namespace CSSPServices.Tests
                     List<SamplingPlanSubsector> samplingPlanSubsectorDirectQueryList = new List<SamplingPlanSubsector>();
                     samplingPlanSubsectorDirectQueryList = (from c in dbTestDB.SamplingPlanSubsectors select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        samplingPlanSubsectorService.Query.Detail = detail;
+                        samplingPlanSubsectorService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<SamplingPlanSubsector> samplingPlanSubsectorList = new List<SamplingPlanSubsector>();
                             samplingPlanSubsectorList = samplingPlanSubsectorService.GetSamplingPlanSubsectorList().ToList();
                             CheckSamplingPlanSubsectorFields(samplingPlanSubsectorList);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<SamplingPlanSubsectorExtraA> samplingPlanSubsectorExtraAList = new List<SamplingPlanSubsectorExtraA>();
                             samplingPlanSubsectorExtraAList = samplingPlanSubsectorService.GetSamplingPlanSubsectorExtraAList().ToList();
                             CheckSamplingPlanSubsectorExtraAFields(samplingPlanSubsectorExtraAList);
                             Assert.AreEqual(samplingPlanSubsectorDirectQueryList.Count, samplingPlanSubsectorExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<SamplingPlanSubsectorExtraB> samplingPlanSubsectorExtraBList = new List<SamplingPlanSubsectorExtraB>();
                             samplingPlanSubsectorExtraBList = samplingPlanSubsectorService.GetSamplingPlanSubsectorExtraBList().ToList();
@@ -302,7 +302,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         SamplingPlanSubsectorService samplingPlanSubsectorService = new SamplingPlanSubsectorService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -311,14 +311,14 @@ namespace CSSPServices.Tests
                         List<SamplingPlanSubsector> samplingPlanSubsectorDirectQueryList = new List<SamplingPlanSubsector>();
                         samplingPlanSubsectorDirectQueryList = (from c in dbTestDB.SamplingPlanSubsectors select c).Skip(1).Take(1).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<SamplingPlanSubsector> samplingPlanSubsectorList = new List<SamplingPlanSubsector>();
                             samplingPlanSubsectorList = samplingPlanSubsectorService.GetSamplingPlanSubsectorList().ToList();
                             CheckSamplingPlanSubsectorFields(samplingPlanSubsectorList);
                             Assert.AreEqual(samplingPlanSubsectorDirectQueryList[0].SamplingPlanSubsectorID, samplingPlanSubsectorList[0].SamplingPlanSubsectorID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<SamplingPlanSubsectorExtraA> samplingPlanSubsectorExtraAList = new List<SamplingPlanSubsectorExtraA>();
                             samplingPlanSubsectorExtraAList = samplingPlanSubsectorService.GetSamplingPlanSubsectorExtraAList().ToList();
@@ -326,7 +326,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(samplingPlanSubsectorDirectQueryList[0].SamplingPlanSubsectorID, samplingPlanSubsectorExtraAList[0].SamplingPlanSubsectorID);
                             Assert.AreEqual(samplingPlanSubsectorDirectQueryList.Count, samplingPlanSubsectorExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<SamplingPlanSubsectorExtraB> samplingPlanSubsectorExtraBList = new List<SamplingPlanSubsectorExtraB>();
                             samplingPlanSubsectorExtraBList = samplingPlanSubsectorService.GetSamplingPlanSubsectorExtraBList().ToList();
@@ -354,7 +354,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         SamplingPlanSubsectorService samplingPlanSubsectorService = new SamplingPlanSubsectorService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -363,14 +363,14 @@ namespace CSSPServices.Tests
                         List<SamplingPlanSubsector> samplingPlanSubsectorDirectQueryList = new List<SamplingPlanSubsector>();
                         samplingPlanSubsectorDirectQueryList = (from c in dbTestDB.SamplingPlanSubsectors select c).Skip(1).Take(1).OrderBy(c => c.SamplingPlanSubsectorID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<SamplingPlanSubsector> samplingPlanSubsectorList = new List<SamplingPlanSubsector>();
                             samplingPlanSubsectorList = samplingPlanSubsectorService.GetSamplingPlanSubsectorList().ToList();
                             CheckSamplingPlanSubsectorFields(samplingPlanSubsectorList);
                             Assert.AreEqual(samplingPlanSubsectorDirectQueryList[0].SamplingPlanSubsectorID, samplingPlanSubsectorList[0].SamplingPlanSubsectorID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<SamplingPlanSubsectorExtraA> samplingPlanSubsectorExtraAList = new List<SamplingPlanSubsectorExtraA>();
                             samplingPlanSubsectorExtraAList = samplingPlanSubsectorService.GetSamplingPlanSubsectorExtraAList().ToList();
@@ -378,7 +378,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(samplingPlanSubsectorDirectQueryList[0].SamplingPlanSubsectorID, samplingPlanSubsectorExtraAList[0].SamplingPlanSubsectorID);
                             Assert.AreEqual(samplingPlanSubsectorDirectQueryList.Count, samplingPlanSubsectorExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<SamplingPlanSubsectorExtraB> samplingPlanSubsectorExtraBList = new List<SamplingPlanSubsectorExtraB>();
                             samplingPlanSubsectorExtraBList = samplingPlanSubsectorService.GetSamplingPlanSubsectorExtraBList().ToList();
@@ -406,7 +406,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         SamplingPlanSubsectorService samplingPlanSubsectorService = new SamplingPlanSubsectorService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -415,14 +415,14 @@ namespace CSSPServices.Tests
                         List<SamplingPlanSubsector> samplingPlanSubsectorDirectQueryList = new List<SamplingPlanSubsector>();
                         samplingPlanSubsectorDirectQueryList = (from c in dbTestDB.SamplingPlanSubsectors select c).Skip(1).Take(1).OrderBy(c => c.SamplingPlanSubsectorID).ThenBy(c => c.SamplingPlanID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<SamplingPlanSubsector> samplingPlanSubsectorList = new List<SamplingPlanSubsector>();
                             samplingPlanSubsectorList = samplingPlanSubsectorService.GetSamplingPlanSubsectorList().ToList();
                             CheckSamplingPlanSubsectorFields(samplingPlanSubsectorList);
                             Assert.AreEqual(samplingPlanSubsectorDirectQueryList[0].SamplingPlanSubsectorID, samplingPlanSubsectorList[0].SamplingPlanSubsectorID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<SamplingPlanSubsectorExtraA> samplingPlanSubsectorExtraAList = new List<SamplingPlanSubsectorExtraA>();
                             samplingPlanSubsectorExtraAList = samplingPlanSubsectorService.GetSamplingPlanSubsectorExtraAList().ToList();
@@ -430,7 +430,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(samplingPlanSubsectorDirectQueryList[0].SamplingPlanSubsectorID, samplingPlanSubsectorExtraAList[0].SamplingPlanSubsectorID);
                             Assert.AreEqual(samplingPlanSubsectorDirectQueryList.Count, samplingPlanSubsectorExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<SamplingPlanSubsectorExtraB> samplingPlanSubsectorExtraBList = new List<SamplingPlanSubsectorExtraB>();
                             samplingPlanSubsectorExtraBList = samplingPlanSubsectorService.GetSamplingPlanSubsectorExtraBList().ToList();
@@ -458,7 +458,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         SamplingPlanSubsectorService samplingPlanSubsectorService = new SamplingPlanSubsectorService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -467,14 +467,14 @@ namespace CSSPServices.Tests
                         List<SamplingPlanSubsector> samplingPlanSubsectorDirectQueryList = new List<SamplingPlanSubsector>();
                         samplingPlanSubsectorDirectQueryList = (from c in dbTestDB.SamplingPlanSubsectors select c).Where(c => c.SamplingPlanSubsectorID == 4).Skip(0).Take(1).OrderBy(c => c.SamplingPlanSubsectorID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<SamplingPlanSubsector> samplingPlanSubsectorList = new List<SamplingPlanSubsector>();
                             samplingPlanSubsectorList = samplingPlanSubsectorService.GetSamplingPlanSubsectorList().ToList();
                             CheckSamplingPlanSubsectorFields(samplingPlanSubsectorList);
                             Assert.AreEqual(samplingPlanSubsectorDirectQueryList[0].SamplingPlanSubsectorID, samplingPlanSubsectorList[0].SamplingPlanSubsectorID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<SamplingPlanSubsectorExtraA> samplingPlanSubsectorExtraAList = new List<SamplingPlanSubsectorExtraA>();
                             samplingPlanSubsectorExtraAList = samplingPlanSubsectorService.GetSamplingPlanSubsectorExtraAList().ToList();
@@ -482,7 +482,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(samplingPlanSubsectorDirectQueryList[0].SamplingPlanSubsectorID, samplingPlanSubsectorExtraAList[0].SamplingPlanSubsectorID);
                             Assert.AreEqual(samplingPlanSubsectorDirectQueryList.Count, samplingPlanSubsectorExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<SamplingPlanSubsectorExtraB> samplingPlanSubsectorExtraBList = new List<SamplingPlanSubsectorExtraB>();
                             samplingPlanSubsectorExtraBList = samplingPlanSubsectorService.GetSamplingPlanSubsectorExtraBList().ToList();
@@ -510,7 +510,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         SamplingPlanSubsectorService samplingPlanSubsectorService = new SamplingPlanSubsectorService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -519,14 +519,14 @@ namespace CSSPServices.Tests
                         List<SamplingPlanSubsector> samplingPlanSubsectorDirectQueryList = new List<SamplingPlanSubsector>();
                         samplingPlanSubsectorDirectQueryList = (from c in dbTestDB.SamplingPlanSubsectors select c).Where(c => c.SamplingPlanSubsectorID > 2 && c.SamplingPlanSubsectorID < 5).Skip(0).Take(1).OrderBy(c => c.SamplingPlanSubsectorID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<SamplingPlanSubsector> samplingPlanSubsectorList = new List<SamplingPlanSubsector>();
                             samplingPlanSubsectorList = samplingPlanSubsectorService.GetSamplingPlanSubsectorList().ToList();
                             CheckSamplingPlanSubsectorFields(samplingPlanSubsectorList);
                             Assert.AreEqual(samplingPlanSubsectorDirectQueryList[0].SamplingPlanSubsectorID, samplingPlanSubsectorList[0].SamplingPlanSubsectorID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<SamplingPlanSubsectorExtraA> samplingPlanSubsectorExtraAList = new List<SamplingPlanSubsectorExtraA>();
                             samplingPlanSubsectorExtraAList = samplingPlanSubsectorService.GetSamplingPlanSubsectorExtraAList().ToList();
@@ -534,7 +534,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(samplingPlanSubsectorDirectQueryList[0].SamplingPlanSubsectorID, samplingPlanSubsectorExtraAList[0].SamplingPlanSubsectorID);
                             Assert.AreEqual(samplingPlanSubsectorDirectQueryList.Count, samplingPlanSubsectorExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<SamplingPlanSubsectorExtraB> samplingPlanSubsectorExtraBList = new List<SamplingPlanSubsectorExtraB>();
                             samplingPlanSubsectorExtraBList = samplingPlanSubsectorService.GetSamplingPlanSubsectorExtraBList().ToList();
@@ -562,7 +562,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         SamplingPlanSubsectorService samplingPlanSubsectorService = new SamplingPlanSubsectorService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -571,14 +571,14 @@ namespace CSSPServices.Tests
                         List<SamplingPlanSubsector> samplingPlanSubsectorDirectQueryList = new List<SamplingPlanSubsector>();
                         samplingPlanSubsectorDirectQueryList = (from c in dbTestDB.SamplingPlanSubsectors select c).Where(c => c.SamplingPlanSubsectorID > 2 && c.SamplingPlanSubsectorID < 5).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<SamplingPlanSubsector> samplingPlanSubsectorList = new List<SamplingPlanSubsector>();
                             samplingPlanSubsectorList = samplingPlanSubsectorService.GetSamplingPlanSubsectorList().ToList();
                             CheckSamplingPlanSubsectorFields(samplingPlanSubsectorList);
                             Assert.AreEqual(samplingPlanSubsectorDirectQueryList[0].SamplingPlanSubsectorID, samplingPlanSubsectorList[0].SamplingPlanSubsectorID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<SamplingPlanSubsectorExtraA> samplingPlanSubsectorExtraAList = new List<SamplingPlanSubsectorExtraA>();
                             samplingPlanSubsectorExtraAList = samplingPlanSubsectorService.GetSamplingPlanSubsectorExtraAList().ToList();
@@ -586,7 +586,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(samplingPlanSubsectorDirectQueryList[0].SamplingPlanSubsectorID, samplingPlanSubsectorExtraAList[0].SamplingPlanSubsectorID);
                             Assert.AreEqual(samplingPlanSubsectorDirectQueryList.Count, samplingPlanSubsectorExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<SamplingPlanSubsectorExtraB> samplingPlanSubsectorExtraBList = new List<SamplingPlanSubsectorExtraB>();
                             samplingPlanSubsectorExtraBList = samplingPlanSubsectorService.GetSamplingPlanSubsectorExtraBList().ToList();
@@ -616,8 +616,8 @@ namespace CSSPServices.Tests
         }
         private void CheckSamplingPlanSubsectorExtraAFields(List<SamplingPlanSubsectorExtraA> samplingPlanSubsectorExtraAList)
         {
-            Assert.IsNotNull(samplingPlanSubsectorExtraAList[0].SubsectorTVItemLanguage);
-            Assert.IsNotNull(samplingPlanSubsectorExtraAList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorExtraAList[0].SubsectorText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorExtraAList[0].LastUpdateContactText));
             Assert.IsNotNull(samplingPlanSubsectorExtraAList[0].SamplingPlanSubsectorID);
             Assert.IsNotNull(samplingPlanSubsectorExtraAList[0].SamplingPlanID);
             Assert.IsNotNull(samplingPlanSubsectorExtraAList[0].SubsectorTVItemID);
@@ -631,8 +631,8 @@ namespace CSSPServices.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorExtraBList[0].SamplingPlanSubsectorReportTest));
             }
-            Assert.IsNotNull(samplingPlanSubsectorExtraBList[0].SubsectorTVItemLanguage);
-            Assert.IsNotNull(samplingPlanSubsectorExtraBList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorExtraBList[0].SubsectorText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorExtraBList[0].LastUpdateContactText));
             Assert.IsNotNull(samplingPlanSubsectorExtraBList[0].SamplingPlanSubsectorID);
             Assert.IsNotNull(samplingPlanSubsectorExtraBList[0].SamplingPlanID);
             Assert.IsNotNull(samplingPlanSubsectorExtraBList[0].SubsectorTVItemID);

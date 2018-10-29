@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                     count = emailService.GetEmailList().Count();
 
-                    Assert.AreEqual(emailService.GetEmailList().Count(), (from c in dbTestDB.Emails select c).Take(200).Count());
+                    Assert.AreEqual(count, (from c in dbTestDB.Emails select c).Count());
 
                     emailService.Add(email);
                     if (email.HasErrors)
@@ -231,23 +231,23 @@ namespace CSSPServices.Tests
                     Email email = (from c in dbTestDB.Emails select c).FirstOrDefault();
                     Assert.IsNotNull(email);
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        emailService.Query.Detail = detail;
+                        emailService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             Email emailRet = emailService.GetEmailWithEmailID(email.EmailID);
                             CheckEmailFields(new List<Email>() { emailRet });
                             Assert.AreEqual(email.EmailID, emailRet.EmailID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             EmailExtraA emailExtraARet = emailService.GetEmailExtraAWithEmailID(email.EmailID);
                             CheckEmailExtraAFields(new List<EmailExtraA>() { emailExtraARet });
                             Assert.AreEqual(email.EmailID, emailExtraARet.EmailID);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             EmailExtraB emailExtraBRet = emailService.GetEmailExtraBWithEmailID(email.EmailID);
                             CheckEmailExtraBFields(new List<EmailExtraB>() { emailExtraBRet });
@@ -280,24 +280,24 @@ namespace CSSPServices.Tests
                     List<Email> emailDirectQueryList = new List<Email>();
                     emailDirectQueryList = (from c in dbTestDB.Emails select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        emailService.Query.Detail = detail;
+                        emailService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Email> emailList = new List<Email>();
                             emailList = emailService.GetEmailList().ToList();
                             CheckEmailFields(emailList);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<EmailExtraA> emailExtraAList = new List<EmailExtraA>();
                             emailExtraAList = emailService.GetEmailExtraAList().ToList();
                             CheckEmailExtraAFields(emailExtraAList);
                             Assert.AreEqual(emailDirectQueryList.Count, emailExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<EmailExtraB> emailExtraBList = new List<EmailExtraB>();
                             emailExtraBList = emailService.GetEmailExtraBList().ToList();
@@ -324,7 +324,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         EmailService emailService = new EmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -333,14 +333,14 @@ namespace CSSPServices.Tests
                         List<Email> emailDirectQueryList = new List<Email>();
                         emailDirectQueryList = (from c in dbTestDB.Emails select c).Skip(1).Take(1).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Email> emailList = new List<Email>();
                             emailList = emailService.GetEmailList().ToList();
                             CheckEmailFields(emailList);
                             Assert.AreEqual(emailDirectQueryList[0].EmailID, emailList[0].EmailID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<EmailExtraA> emailExtraAList = new List<EmailExtraA>();
                             emailExtraAList = emailService.GetEmailExtraAList().ToList();
@@ -348,7 +348,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(emailDirectQueryList[0].EmailID, emailExtraAList[0].EmailID);
                             Assert.AreEqual(emailDirectQueryList.Count, emailExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<EmailExtraB> emailExtraBList = new List<EmailExtraB>();
                             emailExtraBList = emailService.GetEmailExtraBList().ToList();
@@ -376,7 +376,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         EmailService emailService = new EmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -385,14 +385,14 @@ namespace CSSPServices.Tests
                         List<Email> emailDirectQueryList = new List<Email>();
                         emailDirectQueryList = (from c in dbTestDB.Emails select c).Skip(1).Take(1).OrderBy(c => c.EmailID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Email> emailList = new List<Email>();
                             emailList = emailService.GetEmailList().ToList();
                             CheckEmailFields(emailList);
                             Assert.AreEqual(emailDirectQueryList[0].EmailID, emailList[0].EmailID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<EmailExtraA> emailExtraAList = new List<EmailExtraA>();
                             emailExtraAList = emailService.GetEmailExtraAList().ToList();
@@ -400,7 +400,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(emailDirectQueryList[0].EmailID, emailExtraAList[0].EmailID);
                             Assert.AreEqual(emailDirectQueryList.Count, emailExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<EmailExtraB> emailExtraBList = new List<EmailExtraB>();
                             emailExtraBList = emailService.GetEmailExtraBList().ToList();
@@ -428,7 +428,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         EmailService emailService = new EmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -437,14 +437,14 @@ namespace CSSPServices.Tests
                         List<Email> emailDirectQueryList = new List<Email>();
                         emailDirectQueryList = (from c in dbTestDB.Emails select c).Skip(1).Take(1).OrderBy(c => c.EmailID).ThenBy(c => c.EmailTVItemID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Email> emailList = new List<Email>();
                             emailList = emailService.GetEmailList().ToList();
                             CheckEmailFields(emailList);
                             Assert.AreEqual(emailDirectQueryList[0].EmailID, emailList[0].EmailID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<EmailExtraA> emailExtraAList = new List<EmailExtraA>();
                             emailExtraAList = emailService.GetEmailExtraAList().ToList();
@@ -452,7 +452,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(emailDirectQueryList[0].EmailID, emailExtraAList[0].EmailID);
                             Assert.AreEqual(emailDirectQueryList.Count, emailExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<EmailExtraB> emailExtraBList = new List<EmailExtraB>();
                             emailExtraBList = emailService.GetEmailExtraBList().ToList();
@@ -480,7 +480,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         EmailService emailService = new EmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -489,14 +489,14 @@ namespace CSSPServices.Tests
                         List<Email> emailDirectQueryList = new List<Email>();
                         emailDirectQueryList = (from c in dbTestDB.Emails select c).Where(c => c.EmailID == 4).Skip(0).Take(1).OrderBy(c => c.EmailID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Email> emailList = new List<Email>();
                             emailList = emailService.GetEmailList().ToList();
                             CheckEmailFields(emailList);
                             Assert.AreEqual(emailDirectQueryList[0].EmailID, emailList[0].EmailID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<EmailExtraA> emailExtraAList = new List<EmailExtraA>();
                             emailExtraAList = emailService.GetEmailExtraAList().ToList();
@@ -504,7 +504,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(emailDirectQueryList[0].EmailID, emailExtraAList[0].EmailID);
                             Assert.AreEqual(emailDirectQueryList.Count, emailExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<EmailExtraB> emailExtraBList = new List<EmailExtraB>();
                             emailExtraBList = emailService.GetEmailExtraBList().ToList();
@@ -532,7 +532,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         EmailService emailService = new EmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -541,14 +541,14 @@ namespace CSSPServices.Tests
                         List<Email> emailDirectQueryList = new List<Email>();
                         emailDirectQueryList = (from c in dbTestDB.Emails select c).Where(c => c.EmailID > 2 && c.EmailID < 5).Skip(0).Take(1).OrderBy(c => c.EmailID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Email> emailList = new List<Email>();
                             emailList = emailService.GetEmailList().ToList();
                             CheckEmailFields(emailList);
                             Assert.AreEqual(emailDirectQueryList[0].EmailID, emailList[0].EmailID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<EmailExtraA> emailExtraAList = new List<EmailExtraA>();
                             emailExtraAList = emailService.GetEmailExtraAList().ToList();
@@ -556,7 +556,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(emailDirectQueryList[0].EmailID, emailExtraAList[0].EmailID);
                             Assert.AreEqual(emailDirectQueryList.Count, emailExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<EmailExtraB> emailExtraBList = new List<EmailExtraB>();
                             emailExtraBList = emailService.GetEmailExtraBList().ToList();
@@ -584,7 +584,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         EmailService emailService = new EmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -593,14 +593,14 @@ namespace CSSPServices.Tests
                         List<Email> emailDirectQueryList = new List<Email>();
                         emailDirectQueryList = (from c in dbTestDB.Emails select c).Where(c => c.EmailID > 2 && c.EmailID < 5).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Email> emailList = new List<Email>();
                             emailList = emailService.GetEmailList().ToList();
                             CheckEmailFields(emailList);
                             Assert.AreEqual(emailDirectQueryList[0].EmailID, emailList[0].EmailID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<EmailExtraA> emailExtraAList = new List<EmailExtraA>();
                             emailExtraAList = emailService.GetEmailExtraAList().ToList();
@@ -608,7 +608,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(emailDirectQueryList[0].EmailID, emailExtraAList[0].EmailID);
                             Assert.AreEqual(emailDirectQueryList.Count, emailExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<EmailExtraB> emailExtraBList = new List<EmailExtraB>();
                             emailExtraBList = emailService.GetEmailExtraBList().ToList();
@@ -639,8 +639,8 @@ namespace CSSPServices.Tests
         }
         private void CheckEmailExtraAFields(List<EmailExtraA> emailExtraAList)
         {
-            Assert.IsNotNull(emailExtraAList[0].EmailTVItemLanguage);
-            Assert.IsNotNull(emailExtraAList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(emailExtraAList[0].EmailText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(emailExtraAList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(emailExtraAList[0].EmailTypeText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(emailExtraAList[0].EmailTypeText));
@@ -659,8 +659,8 @@ namespace CSSPServices.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(emailExtraBList[0].EmailReportTest));
             }
-            Assert.IsNotNull(emailExtraBList[0].EmailTVItemLanguage);
-            Assert.IsNotNull(emailExtraBList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(emailExtraBList[0].EmailText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(emailExtraBList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(emailExtraBList[0].EmailTypeText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(emailExtraBList[0].EmailTypeText));

@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                     count = spillService.GetSpillList().Count();
 
-                    Assert.AreEqual(spillService.GetSpillList().Count(), (from c in dbTestDB.Spills select c).Take(200).Count());
+                    Assert.AreEqual(count, (from c in dbTestDB.Spills select c).Count());
 
                     spillService.Add(spill);
                     if (spill.HasErrors)
@@ -181,9 +181,9 @@ namespace CSSPServices.Tests
                     // spill.AverageFlow_m3_day   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [AverageFlow_m3_day]
+                    //CSSPError: Type not implemented [AverageFlow_m3_day]
 
-                    //Error: Type not implemented [AverageFlow_m3_day]
+                    //CSSPError: Type not implemented [AverageFlow_m3_day]
 
                     spill = null;
                     spill = GetFilledRandomSpill("");
@@ -268,23 +268,23 @@ namespace CSSPServices.Tests
                     Spill spill = (from c in dbTestDB.Spills select c).FirstOrDefault();
                     Assert.IsNotNull(spill);
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        spillService.Query.Detail = detail;
+                        spillService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             Spill spillRet = spillService.GetSpillWithSpillID(spill.SpillID);
                             CheckSpillFields(new List<Spill>() { spillRet });
                             Assert.AreEqual(spill.SpillID, spillRet.SpillID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             SpillExtraA spillExtraARet = spillService.GetSpillExtraAWithSpillID(spill.SpillID);
                             CheckSpillExtraAFields(new List<SpillExtraA>() { spillExtraARet });
                             Assert.AreEqual(spill.SpillID, spillExtraARet.SpillID);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             SpillExtraB spillExtraBRet = spillService.GetSpillExtraBWithSpillID(spill.SpillID);
                             CheckSpillExtraBFields(new List<SpillExtraB>() { spillExtraBRet });
@@ -317,24 +317,24 @@ namespace CSSPServices.Tests
                     List<Spill> spillDirectQueryList = new List<Spill>();
                     spillDirectQueryList = (from c in dbTestDB.Spills select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        spillService.Query.Detail = detail;
+                        spillService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Spill> spillList = new List<Spill>();
                             spillList = spillService.GetSpillList().ToList();
                             CheckSpillFields(spillList);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<SpillExtraA> spillExtraAList = new List<SpillExtraA>();
                             spillExtraAList = spillService.GetSpillExtraAList().ToList();
                             CheckSpillExtraAFields(spillExtraAList);
                             Assert.AreEqual(spillDirectQueryList.Count, spillExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<SpillExtraB> spillExtraBList = new List<SpillExtraB>();
                             spillExtraBList = spillService.GetSpillExtraBList().ToList();
@@ -361,7 +361,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         SpillService spillService = new SpillService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -370,14 +370,14 @@ namespace CSSPServices.Tests
                         List<Spill> spillDirectQueryList = new List<Spill>();
                         spillDirectQueryList = (from c in dbTestDB.Spills select c).Skip(1).Take(1).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Spill> spillList = new List<Spill>();
                             spillList = spillService.GetSpillList().ToList();
                             CheckSpillFields(spillList);
                             Assert.AreEqual(spillDirectQueryList[0].SpillID, spillList[0].SpillID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<SpillExtraA> spillExtraAList = new List<SpillExtraA>();
                             spillExtraAList = spillService.GetSpillExtraAList().ToList();
@@ -385,7 +385,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(spillDirectQueryList[0].SpillID, spillExtraAList[0].SpillID);
                             Assert.AreEqual(spillDirectQueryList.Count, spillExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<SpillExtraB> spillExtraBList = new List<SpillExtraB>();
                             spillExtraBList = spillService.GetSpillExtraBList().ToList();
@@ -413,7 +413,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         SpillService spillService = new SpillService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -422,14 +422,14 @@ namespace CSSPServices.Tests
                         List<Spill> spillDirectQueryList = new List<Spill>();
                         spillDirectQueryList = (from c in dbTestDB.Spills select c).Skip(1).Take(1).OrderBy(c => c.SpillID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Spill> spillList = new List<Spill>();
                             spillList = spillService.GetSpillList().ToList();
                             CheckSpillFields(spillList);
                             Assert.AreEqual(spillDirectQueryList[0].SpillID, spillList[0].SpillID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<SpillExtraA> spillExtraAList = new List<SpillExtraA>();
                             spillExtraAList = spillService.GetSpillExtraAList().ToList();
@@ -437,7 +437,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(spillDirectQueryList[0].SpillID, spillExtraAList[0].SpillID);
                             Assert.AreEqual(spillDirectQueryList.Count, spillExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<SpillExtraB> spillExtraBList = new List<SpillExtraB>();
                             spillExtraBList = spillService.GetSpillExtraBList().ToList();
@@ -465,7 +465,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         SpillService spillService = new SpillService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -474,14 +474,14 @@ namespace CSSPServices.Tests
                         List<Spill> spillDirectQueryList = new List<Spill>();
                         spillDirectQueryList = (from c in dbTestDB.Spills select c).Skip(1).Take(1).OrderBy(c => c.SpillID).ThenBy(c => c.MunicipalityTVItemID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Spill> spillList = new List<Spill>();
                             spillList = spillService.GetSpillList().ToList();
                             CheckSpillFields(spillList);
                             Assert.AreEqual(spillDirectQueryList[0].SpillID, spillList[0].SpillID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<SpillExtraA> spillExtraAList = new List<SpillExtraA>();
                             spillExtraAList = spillService.GetSpillExtraAList().ToList();
@@ -489,7 +489,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(spillDirectQueryList[0].SpillID, spillExtraAList[0].SpillID);
                             Assert.AreEqual(spillDirectQueryList.Count, spillExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<SpillExtraB> spillExtraBList = new List<SpillExtraB>();
                             spillExtraBList = spillService.GetSpillExtraBList().ToList();
@@ -517,7 +517,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         SpillService spillService = new SpillService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -526,14 +526,14 @@ namespace CSSPServices.Tests
                         List<Spill> spillDirectQueryList = new List<Spill>();
                         spillDirectQueryList = (from c in dbTestDB.Spills select c).Where(c => c.SpillID == 4).Skip(0).Take(1).OrderBy(c => c.SpillID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Spill> spillList = new List<Spill>();
                             spillList = spillService.GetSpillList().ToList();
                             CheckSpillFields(spillList);
                             Assert.AreEqual(spillDirectQueryList[0].SpillID, spillList[0].SpillID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<SpillExtraA> spillExtraAList = new List<SpillExtraA>();
                             spillExtraAList = spillService.GetSpillExtraAList().ToList();
@@ -541,7 +541,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(spillDirectQueryList[0].SpillID, spillExtraAList[0].SpillID);
                             Assert.AreEqual(spillDirectQueryList.Count, spillExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<SpillExtraB> spillExtraBList = new List<SpillExtraB>();
                             spillExtraBList = spillService.GetSpillExtraBList().ToList();
@@ -569,7 +569,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         SpillService spillService = new SpillService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -578,14 +578,14 @@ namespace CSSPServices.Tests
                         List<Spill> spillDirectQueryList = new List<Spill>();
                         spillDirectQueryList = (from c in dbTestDB.Spills select c).Where(c => c.SpillID > 2 && c.SpillID < 5).Skip(0).Take(1).OrderBy(c => c.SpillID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Spill> spillList = new List<Spill>();
                             spillList = spillService.GetSpillList().ToList();
                             CheckSpillFields(spillList);
                             Assert.AreEqual(spillDirectQueryList[0].SpillID, spillList[0].SpillID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<SpillExtraA> spillExtraAList = new List<SpillExtraA>();
                             spillExtraAList = spillService.GetSpillExtraAList().ToList();
@@ -593,7 +593,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(spillDirectQueryList[0].SpillID, spillExtraAList[0].SpillID);
                             Assert.AreEqual(spillDirectQueryList.Count, spillExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<SpillExtraB> spillExtraBList = new List<SpillExtraB>();
                             spillExtraBList = spillService.GetSpillExtraBList().ToList();
@@ -621,7 +621,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         SpillService spillService = new SpillService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -630,14 +630,14 @@ namespace CSSPServices.Tests
                         List<Spill> spillDirectQueryList = new List<Spill>();
                         spillDirectQueryList = (from c in dbTestDB.Spills select c).Where(c => c.SpillID > 2 && c.SpillID < 5).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Spill> spillList = new List<Spill>();
                             spillList = spillService.GetSpillList().ToList();
                             CheckSpillFields(spillList);
                             Assert.AreEqual(spillDirectQueryList[0].SpillID, spillList[0].SpillID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<SpillExtraA> spillExtraAList = new List<SpillExtraA>();
                             spillExtraAList = spillService.GetSpillExtraAList().ToList();
@@ -645,7 +645,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(spillDirectQueryList[0].SpillID, spillExtraAList[0].SpillID);
                             Assert.AreEqual(spillDirectQueryList.Count, spillExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<SpillExtraB> spillExtraBList = new List<SpillExtraB>();
                             spillExtraBList = spillService.GetSpillExtraBList().ToList();
@@ -684,9 +684,9 @@ namespace CSSPServices.Tests
         }
         private void CheckSpillExtraAFields(List<SpillExtraA> spillExtraAList)
         {
-            Assert.IsNotNull(spillExtraAList[0].MunicipalityTVItemLanguage);
-            Assert.IsNotNull(spillExtraAList[0].InfrastructureTVItemLanguage);
-            Assert.IsNotNull(spillExtraAList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(spillExtraAList[0].MunicipalityText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(spillExtraAList[0].InfrastructureText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(spillExtraAList[0].LastUpdateContactText));
             Assert.IsNotNull(spillExtraAList[0].SpillID);
             Assert.IsNotNull(spillExtraAList[0].MunicipalityTVItemID);
             if (spillExtraAList[0].InfrastructureTVItemID != null)
@@ -709,9 +709,9 @@ namespace CSSPServices.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(spillExtraBList[0].SpillReportTest));
             }
-            Assert.IsNotNull(spillExtraBList[0].MunicipalityTVItemLanguage);
-            Assert.IsNotNull(spillExtraBList[0].InfrastructureTVItemLanguage);
-            Assert.IsNotNull(spillExtraBList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(spillExtraBList[0].MunicipalityText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(spillExtraBList[0].InfrastructureText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(spillExtraBList[0].LastUpdateContactText));
             Assert.IsNotNull(spillExtraBList[0].SpillID);
             Assert.IsNotNull(spillExtraBList[0].MunicipalityTVItemID);
             if (spillExtraBList[0].InfrastructureTVItemID != null)

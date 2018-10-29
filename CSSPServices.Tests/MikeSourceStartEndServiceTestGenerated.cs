@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                     count = mikeSourceStartEndService.GetMikeSourceStartEndList().Count();
 
-                    Assert.AreEqual(mikeSourceStartEndService.GetMikeSourceStartEndList().Count(), (from c in dbTestDB.MikeSourceStartEnds select c).Take(200).Count());
+                    Assert.AreEqual(count, (from c in dbTestDB.MikeSourceStartEnds select c).Count());
 
                     mikeSourceStartEndService.Add(mikeSourceStartEnd);
                     if (mikeSourceStartEnd.HasErrors)
@@ -161,9 +161,9 @@ namespace CSSPServices.Tests
                     // mikeSourceStartEnd.SourceFlowStart_m3_day   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [SourceFlowStart_m3_day]
+                    //CSSPError: Type not implemented [SourceFlowStart_m3_day]
 
-                    //Error: Type not implemented [SourceFlowStart_m3_day]
+                    //CSSPError: Type not implemented [SourceFlowStart_m3_day]
 
                     mikeSourceStartEnd = null;
                     mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
@@ -184,9 +184,9 @@ namespace CSSPServices.Tests
                     // mikeSourceStartEnd.SourceFlowEnd_m3_day   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [SourceFlowEnd_m3_day]
+                    //CSSPError: Type not implemented [SourceFlowEnd_m3_day]
 
-                    //Error: Type not implemented [SourceFlowEnd_m3_day]
+                    //CSSPError: Type not implemented [SourceFlowEnd_m3_day]
 
                     mikeSourceStartEnd = null;
                     mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
@@ -245,9 +245,9 @@ namespace CSSPServices.Tests
                     // mikeSourceStartEnd.SourceTemperatureStart_C   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [SourceTemperatureStart_C]
+                    //CSSPError: Type not implemented [SourceTemperatureStart_C]
 
-                    //Error: Type not implemented [SourceTemperatureStart_C]
+                    //CSSPError: Type not implemented [SourceTemperatureStart_C]
 
                     mikeSourceStartEnd = null;
                     mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
@@ -268,9 +268,9 @@ namespace CSSPServices.Tests
                     // mikeSourceStartEnd.SourceTemperatureEnd_C   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [SourceTemperatureEnd_C]
+                    //CSSPError: Type not implemented [SourceTemperatureEnd_C]
 
-                    //Error: Type not implemented [SourceTemperatureEnd_C]
+                    //CSSPError: Type not implemented [SourceTemperatureEnd_C]
 
                     mikeSourceStartEnd = null;
                     mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
@@ -291,9 +291,9 @@ namespace CSSPServices.Tests
                     // mikeSourceStartEnd.SourceSalinityStart_PSU   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [SourceSalinityStart_PSU]
+                    //CSSPError: Type not implemented [SourceSalinityStart_PSU]
 
-                    //Error: Type not implemented [SourceSalinityStart_PSU]
+                    //CSSPError: Type not implemented [SourceSalinityStart_PSU]
 
                     mikeSourceStartEnd = null;
                     mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
@@ -314,9 +314,9 @@ namespace CSSPServices.Tests
                     // mikeSourceStartEnd.SourceSalinityEnd_PSU   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [SourceSalinityEnd_PSU]
+                    //CSSPError: Type not implemented [SourceSalinityEnd_PSU]
 
-                    //Error: Type not implemented [SourceSalinityEnd_PSU]
+                    //CSSPError: Type not implemented [SourceSalinityEnd_PSU]
 
                     mikeSourceStartEnd = null;
                     mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
@@ -401,23 +401,23 @@ namespace CSSPServices.Tests
                     MikeSourceStartEnd mikeSourceStartEnd = (from c in dbTestDB.MikeSourceStartEnds select c).FirstOrDefault();
                     Assert.IsNotNull(mikeSourceStartEnd);
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        mikeSourceStartEndService.Query.Detail = detail;
+                        mikeSourceStartEndService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             MikeSourceStartEnd mikeSourceStartEndRet = mikeSourceStartEndService.GetMikeSourceStartEndWithMikeSourceStartEndID(mikeSourceStartEnd.MikeSourceStartEndID);
                             CheckMikeSourceStartEndFields(new List<MikeSourceStartEnd>() { mikeSourceStartEndRet });
                             Assert.AreEqual(mikeSourceStartEnd.MikeSourceStartEndID, mikeSourceStartEndRet.MikeSourceStartEndID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             MikeSourceStartEndExtraA mikeSourceStartEndExtraARet = mikeSourceStartEndService.GetMikeSourceStartEndExtraAWithMikeSourceStartEndID(mikeSourceStartEnd.MikeSourceStartEndID);
                             CheckMikeSourceStartEndExtraAFields(new List<MikeSourceStartEndExtraA>() { mikeSourceStartEndExtraARet });
                             Assert.AreEqual(mikeSourceStartEnd.MikeSourceStartEndID, mikeSourceStartEndExtraARet.MikeSourceStartEndID);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             MikeSourceStartEndExtraB mikeSourceStartEndExtraBRet = mikeSourceStartEndService.GetMikeSourceStartEndExtraBWithMikeSourceStartEndID(mikeSourceStartEnd.MikeSourceStartEndID);
                             CheckMikeSourceStartEndExtraBFields(new List<MikeSourceStartEndExtraB>() { mikeSourceStartEndExtraBRet });
@@ -450,24 +450,24 @@ namespace CSSPServices.Tests
                     List<MikeSourceStartEnd> mikeSourceStartEndDirectQueryList = new List<MikeSourceStartEnd>();
                     mikeSourceStartEndDirectQueryList = (from c in dbTestDB.MikeSourceStartEnds select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        mikeSourceStartEndService.Query.Detail = detail;
+                        mikeSourceStartEndService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MikeSourceStartEnd> mikeSourceStartEndList = new List<MikeSourceStartEnd>();
                             mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
                             CheckMikeSourceStartEndFields(mikeSourceStartEndList);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MikeSourceStartEndExtraA> mikeSourceStartEndExtraAList = new List<MikeSourceStartEndExtraA>();
                             mikeSourceStartEndExtraAList = mikeSourceStartEndService.GetMikeSourceStartEndExtraAList().ToList();
                             CheckMikeSourceStartEndExtraAFields(mikeSourceStartEndExtraAList);
                             Assert.AreEqual(mikeSourceStartEndDirectQueryList.Count, mikeSourceStartEndExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MikeSourceStartEndExtraB> mikeSourceStartEndExtraBList = new List<MikeSourceStartEndExtraB>();
                             mikeSourceStartEndExtraBList = mikeSourceStartEndService.GetMikeSourceStartEndExtraBList().ToList();
@@ -494,7 +494,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -503,14 +503,14 @@ namespace CSSPServices.Tests
                         List<MikeSourceStartEnd> mikeSourceStartEndDirectQueryList = new List<MikeSourceStartEnd>();
                         mikeSourceStartEndDirectQueryList = (from c in dbTestDB.MikeSourceStartEnds select c).Skip(1).Take(1).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MikeSourceStartEnd> mikeSourceStartEndList = new List<MikeSourceStartEnd>();
                             mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
                             CheckMikeSourceStartEndFields(mikeSourceStartEndList);
                             Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndList[0].MikeSourceStartEndID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MikeSourceStartEndExtraA> mikeSourceStartEndExtraAList = new List<MikeSourceStartEndExtraA>();
                             mikeSourceStartEndExtraAList = mikeSourceStartEndService.GetMikeSourceStartEndExtraAList().ToList();
@@ -518,7 +518,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndExtraAList[0].MikeSourceStartEndID);
                             Assert.AreEqual(mikeSourceStartEndDirectQueryList.Count, mikeSourceStartEndExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MikeSourceStartEndExtraB> mikeSourceStartEndExtraBList = new List<MikeSourceStartEndExtraB>();
                             mikeSourceStartEndExtraBList = mikeSourceStartEndService.GetMikeSourceStartEndExtraBList().ToList();
@@ -546,7 +546,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -555,14 +555,14 @@ namespace CSSPServices.Tests
                         List<MikeSourceStartEnd> mikeSourceStartEndDirectQueryList = new List<MikeSourceStartEnd>();
                         mikeSourceStartEndDirectQueryList = (from c in dbTestDB.MikeSourceStartEnds select c).Skip(1).Take(1).OrderBy(c => c.MikeSourceStartEndID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MikeSourceStartEnd> mikeSourceStartEndList = new List<MikeSourceStartEnd>();
                             mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
                             CheckMikeSourceStartEndFields(mikeSourceStartEndList);
                             Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndList[0].MikeSourceStartEndID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MikeSourceStartEndExtraA> mikeSourceStartEndExtraAList = new List<MikeSourceStartEndExtraA>();
                             mikeSourceStartEndExtraAList = mikeSourceStartEndService.GetMikeSourceStartEndExtraAList().ToList();
@@ -570,7 +570,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndExtraAList[0].MikeSourceStartEndID);
                             Assert.AreEqual(mikeSourceStartEndDirectQueryList.Count, mikeSourceStartEndExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MikeSourceStartEndExtraB> mikeSourceStartEndExtraBList = new List<MikeSourceStartEndExtraB>();
                             mikeSourceStartEndExtraBList = mikeSourceStartEndService.GetMikeSourceStartEndExtraBList().ToList();
@@ -598,7 +598,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -607,14 +607,14 @@ namespace CSSPServices.Tests
                         List<MikeSourceStartEnd> mikeSourceStartEndDirectQueryList = new List<MikeSourceStartEnd>();
                         mikeSourceStartEndDirectQueryList = (from c in dbTestDB.MikeSourceStartEnds select c).Skip(1).Take(1).OrderBy(c => c.MikeSourceStartEndID).ThenBy(c => c.MikeSourceID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MikeSourceStartEnd> mikeSourceStartEndList = new List<MikeSourceStartEnd>();
                             mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
                             CheckMikeSourceStartEndFields(mikeSourceStartEndList);
                             Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndList[0].MikeSourceStartEndID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MikeSourceStartEndExtraA> mikeSourceStartEndExtraAList = new List<MikeSourceStartEndExtraA>();
                             mikeSourceStartEndExtraAList = mikeSourceStartEndService.GetMikeSourceStartEndExtraAList().ToList();
@@ -622,7 +622,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndExtraAList[0].MikeSourceStartEndID);
                             Assert.AreEqual(mikeSourceStartEndDirectQueryList.Count, mikeSourceStartEndExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MikeSourceStartEndExtraB> mikeSourceStartEndExtraBList = new List<MikeSourceStartEndExtraB>();
                             mikeSourceStartEndExtraBList = mikeSourceStartEndService.GetMikeSourceStartEndExtraBList().ToList();
@@ -650,7 +650,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -659,14 +659,14 @@ namespace CSSPServices.Tests
                         List<MikeSourceStartEnd> mikeSourceStartEndDirectQueryList = new List<MikeSourceStartEnd>();
                         mikeSourceStartEndDirectQueryList = (from c in dbTestDB.MikeSourceStartEnds select c).Where(c => c.MikeSourceStartEndID == 4).Skip(0).Take(1).OrderBy(c => c.MikeSourceStartEndID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MikeSourceStartEnd> mikeSourceStartEndList = new List<MikeSourceStartEnd>();
                             mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
                             CheckMikeSourceStartEndFields(mikeSourceStartEndList);
                             Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndList[0].MikeSourceStartEndID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MikeSourceStartEndExtraA> mikeSourceStartEndExtraAList = new List<MikeSourceStartEndExtraA>();
                             mikeSourceStartEndExtraAList = mikeSourceStartEndService.GetMikeSourceStartEndExtraAList().ToList();
@@ -674,7 +674,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndExtraAList[0].MikeSourceStartEndID);
                             Assert.AreEqual(mikeSourceStartEndDirectQueryList.Count, mikeSourceStartEndExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MikeSourceStartEndExtraB> mikeSourceStartEndExtraBList = new List<MikeSourceStartEndExtraB>();
                             mikeSourceStartEndExtraBList = mikeSourceStartEndService.GetMikeSourceStartEndExtraBList().ToList();
@@ -702,7 +702,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -711,14 +711,14 @@ namespace CSSPServices.Tests
                         List<MikeSourceStartEnd> mikeSourceStartEndDirectQueryList = new List<MikeSourceStartEnd>();
                         mikeSourceStartEndDirectQueryList = (from c in dbTestDB.MikeSourceStartEnds select c).Where(c => c.MikeSourceStartEndID > 2 && c.MikeSourceStartEndID < 5).Skip(0).Take(1).OrderBy(c => c.MikeSourceStartEndID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MikeSourceStartEnd> mikeSourceStartEndList = new List<MikeSourceStartEnd>();
                             mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
                             CheckMikeSourceStartEndFields(mikeSourceStartEndList);
                             Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndList[0].MikeSourceStartEndID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MikeSourceStartEndExtraA> mikeSourceStartEndExtraAList = new List<MikeSourceStartEndExtraA>();
                             mikeSourceStartEndExtraAList = mikeSourceStartEndService.GetMikeSourceStartEndExtraAList().ToList();
@@ -726,7 +726,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndExtraAList[0].MikeSourceStartEndID);
                             Assert.AreEqual(mikeSourceStartEndDirectQueryList.Count, mikeSourceStartEndExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MikeSourceStartEndExtraB> mikeSourceStartEndExtraBList = new List<MikeSourceStartEndExtraB>();
                             mikeSourceStartEndExtraBList = mikeSourceStartEndService.GetMikeSourceStartEndExtraBList().ToList();
@@ -754,7 +754,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -763,14 +763,14 @@ namespace CSSPServices.Tests
                         List<MikeSourceStartEnd> mikeSourceStartEndDirectQueryList = new List<MikeSourceStartEnd>();
                         mikeSourceStartEndDirectQueryList = (from c in dbTestDB.MikeSourceStartEnds select c).Where(c => c.MikeSourceStartEndID > 2 && c.MikeSourceStartEndID < 5).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MikeSourceStartEnd> mikeSourceStartEndList = new List<MikeSourceStartEnd>();
                             mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
                             CheckMikeSourceStartEndFields(mikeSourceStartEndList);
                             Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndList[0].MikeSourceStartEndID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MikeSourceStartEndExtraA> mikeSourceStartEndExtraAList = new List<MikeSourceStartEndExtraA>();
                             mikeSourceStartEndExtraAList = mikeSourceStartEndService.GetMikeSourceStartEndExtraAList().ToList();
@@ -778,7 +778,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndExtraAList[0].MikeSourceStartEndID);
                             Assert.AreEqual(mikeSourceStartEndDirectQueryList.Count, mikeSourceStartEndExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MikeSourceStartEndExtraB> mikeSourceStartEndExtraBList = new List<MikeSourceStartEndExtraB>();
                             mikeSourceStartEndExtraBList = mikeSourceStartEndService.GetMikeSourceStartEndExtraBList().ToList();
@@ -817,7 +817,7 @@ namespace CSSPServices.Tests
         }
         private void CheckMikeSourceStartEndExtraAFields(List<MikeSourceStartEndExtraA> mikeSourceStartEndExtraAList)
         {
-            Assert.IsNotNull(mikeSourceStartEndExtraAList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceStartEndExtraAList[0].LastUpdateContactText));
             Assert.IsNotNull(mikeSourceStartEndExtraAList[0].MikeSourceStartEndID);
             Assert.IsNotNull(mikeSourceStartEndExtraAList[0].MikeSourceID);
             Assert.IsNotNull(mikeSourceStartEndExtraAList[0].StartDateAndTime_Local);
@@ -840,7 +840,7 @@ namespace CSSPServices.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceStartEndExtraBList[0].MikeSourceStartEndReportTest));
             }
-            Assert.IsNotNull(mikeSourceStartEndExtraBList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceStartEndExtraBList[0].LastUpdateContactText));
             Assert.IsNotNull(mikeSourceStartEndExtraBList[0].MikeSourceStartEndID);
             Assert.IsNotNull(mikeSourceStartEndExtraBList[0].MikeSourceID);
             Assert.IsNotNull(mikeSourceStartEndExtraBList[0].StartDateAndTime_Local);

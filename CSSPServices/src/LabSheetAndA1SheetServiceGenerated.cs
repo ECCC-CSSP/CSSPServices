@@ -42,13 +42,13 @@ namespace CSSPServices
             LabSheetAndA1Sheet labSheetAndA1Sheet = validationContext.ObjectInstance as LabSheetAndA1Sheet;
             labSheetAndA1Sheet.HasErrors = false;
 
-                //Error: Type not implemented [LabSheet] of type [LabSheet]
+                //CSSPError: Type not implemented [LabSheet] of type [LabSheet]
 
-                //Error: Type not implemented [LabSheet] of type [LabSheet]
-                //Error: Type not implemented [LabSheetA1Sheet] of type [LabSheetA1Sheet]
+                //CSSPError: Type not implemented [LabSheet] of type [LabSheet]
+                //CSSPError: Type not implemented [LabSheetA1Sheet] of type [LabSheetA1Sheet]
 
-                //Error: Type not implemented [LabSheetA1Sheet] of type [LabSheetA1Sheet]
-            retStr = ""; // added to stop compiling error
+                //CSSPError: Type not implemented [LabSheetA1Sheet] of type [LabSheetA1Sheet]
+            retStr = ""; // added to stop compiling CSSPError
             if (retStr != "") // will never be true
             {
                 labSheetAndA1Sheet.HasErrors = true;

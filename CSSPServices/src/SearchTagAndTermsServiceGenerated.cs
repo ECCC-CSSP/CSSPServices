@@ -55,11 +55,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "SearchTagAndTermsSearchTagText", "100"), new[] { "SearchTagText" });
             }
 
-                //Error: Type not implemented [SearchTermList] of type [List`1]
+                //CSSPError: Type not implemented [SearchTermList] of type [List`1]
 
             //SearchTermList has no StringLength Attribute
 
-            retStr = ""; // added to stop compiling error
+            retStr = ""; // added to stop compiling CSSPError
             if (retStr != "") // will never be true
             {
                 searchTagAndTerms.HasErrors = true;

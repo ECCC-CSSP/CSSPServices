@@ -39,8 +39,8 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "LabSheetHistoryCount") samplingPlanAndFilesLabSheetCount.LabSheetHistoryCount = GetRandomInt(0, 10);
             if (OmitPropName != "LabSheetTransferredCount") samplingPlanAndFilesLabSheetCount.LabSheetTransferredCount = GetRandomInt(0, 10);
-            //Error: property [SamplingPlan] and type [SamplingPlanAndFilesLabSheetCount] is  not implemented
-            //Error: property [TVFileSamplingPlanFileTXT] and type [SamplingPlanAndFilesLabSheetCount] is  not implemented
+            //CSSPError: property [SamplingPlan] and type [SamplingPlanAndFilesLabSheetCount] is  not implemented
+            //CSSPError: property [TVFileSamplingPlanFileTXT] and type [SamplingPlanAndFilesLabSheetCount] is  not implemented
 
             return samplingPlanAndFilesLabSheetCount;
         }

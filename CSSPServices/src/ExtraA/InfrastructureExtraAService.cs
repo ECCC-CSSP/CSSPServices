@@ -36,61 +36,72 @@ namespace CSSPServices
             List<EnumIDAndText> AlarmSystemTypeEnumList = enums.GetEnumTextOrderedList(typeof(AlarmSystemTypeEnum));
 
              IQueryable<InfrastructureExtraA> InfrastructureExtraAQuery = (from c in db.Infrastructures
-                let InfrastructureTVItemLanguage = (from cl in db.TVItemLanguages
+                let InfrastructureText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.InfrastructureTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let SeeOtherTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let SeeOtherText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.SeeOtherTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let CivicAddressTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let CivicAddressText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.CivicAddressTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
+                let InfrastructureTypeText = (from e in InfrastructureTypeEnumList
+                    where e.EnumID == (int?)c.InfrastructureType
+                    select e.EnumText).FirstOrDefault()
+                let FacilityTypeText = (from e in FacilityTypeEnumList
+                    where e.EnumID == (int?)c.FacilityType
+                    select e.EnumText).FirstOrDefault()
+                let AerationTypeText = (from e in AerationTypeEnumList
+                    where e.EnumID == (int?)c.AerationType
+                    select e.EnumText).FirstOrDefault()
+                let PreliminaryTreatmentTypeText = (from e in PreliminaryTreatmentTypeEnumList
+                    where e.EnumID == (int?)c.PreliminaryTreatmentType
+                    select e.EnumText).FirstOrDefault()
+                let PrimaryTreatmentTypeText = (from e in PrimaryTreatmentTypeEnumList
+                    where e.EnumID == (int?)c.PrimaryTreatmentType
+                    select e.EnumText).FirstOrDefault()
+                let SecondaryTreatmentTypeText = (from e in SecondaryTreatmentTypeEnumList
+                    where e.EnumID == (int?)c.SecondaryTreatmentType
+                    select e.EnumText).FirstOrDefault()
+                let TertiaryTreatmentTypeText = (from e in TertiaryTreatmentTypeEnumList
+                    where e.EnumID == (int?)c.TertiaryTreatmentType
+                    select e.EnumText).FirstOrDefault()
+                let TreatmentTypeText = (from e in TreatmentTypeEnumList
+                    where e.EnumID == (int?)c.TreatmentType
+                    select e.EnumText).FirstOrDefault()
+                let DisinfectionTypeText = (from e in DisinfectionTypeEnumList
+                    where e.EnumID == (int?)c.DisinfectionType
+                    select e.EnumText).FirstOrDefault()
+                let CollectionSystemTypeText = (from e in CollectionSystemTypeEnumList
+                    where e.EnumID == (int?)c.CollectionSystemType
+                    select e.EnumText).FirstOrDefault()
+                let AlarmSystemTypeText = (from e in AlarmSystemTypeEnumList
+                    where e.EnumID == (int?)c.AlarmSystemType
+                    select e.EnumText).FirstOrDefault()
                     select new InfrastructureExtraA
                     {
-                        InfrastructureTVItemLanguage = InfrastructureTVItemLanguage,
-                        SeeOtherTVItemLanguage = SeeOtherTVItemLanguage,
-                        CivicAddressTVItemLanguage = CivicAddressTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        InfrastructureTypeText = (from e in InfrastructureTypeEnumList
-                                where e.EnumID == (int?)c.InfrastructureType
-                                select e.EnumText).FirstOrDefault(),
-                        FacilityTypeText = (from e in FacilityTypeEnumList
-                                where e.EnumID == (int?)c.FacilityType
-                                select e.EnumText).FirstOrDefault(),
-                        AerationTypeText = (from e in AerationTypeEnumList
-                                where e.EnumID == (int?)c.AerationType
-                                select e.EnumText).FirstOrDefault(),
-                        PreliminaryTreatmentTypeText = (from e in PreliminaryTreatmentTypeEnumList
-                                where e.EnumID == (int?)c.PreliminaryTreatmentType
-                                select e.EnumText).FirstOrDefault(),
-                        PrimaryTreatmentTypeText = (from e in PrimaryTreatmentTypeEnumList
-                                where e.EnumID == (int?)c.PrimaryTreatmentType
-                                select e.EnumText).FirstOrDefault(),
-                        SecondaryTreatmentTypeText = (from e in SecondaryTreatmentTypeEnumList
-                                where e.EnumID == (int?)c.SecondaryTreatmentType
-                                select e.EnumText).FirstOrDefault(),
-                        TertiaryTreatmentTypeText = (from e in TertiaryTreatmentTypeEnumList
-                                where e.EnumID == (int?)c.TertiaryTreatmentType
-                                select e.EnumText).FirstOrDefault(),
-                        TreatmentTypeText = (from e in TreatmentTypeEnumList
-                                where e.EnumID == (int?)c.TreatmentType
-                                select e.EnumText).FirstOrDefault(),
-                        DisinfectionTypeText = (from e in DisinfectionTypeEnumList
-                                where e.EnumID == (int?)c.DisinfectionType
-                                select e.EnumText).FirstOrDefault(),
-                        CollectionSystemTypeText = (from e in CollectionSystemTypeEnumList
-                                where e.EnumID == (int?)c.CollectionSystemType
-                                select e.EnumText).FirstOrDefault(),
-                        AlarmSystemTypeText = (from e in AlarmSystemTypeEnumList
-                                where e.EnumID == (int?)c.AlarmSystemType
-                                select e.EnumText).FirstOrDefault(),
+                        InfrastructureText = InfrastructureText,
+                        SeeOtherText = SeeOtherText,
+                        CivicAddressText = CivicAddressText,
+                        LastUpdateContactText = LastUpdateContactText,
+                        InfrastructureTypeText = InfrastructureTypeText,
+                        FacilityTypeText = FacilityTypeText,
+                        AerationTypeText = AerationTypeText,
+                        PreliminaryTreatmentTypeText = PreliminaryTreatmentTypeText,
+                        PrimaryTreatmentTypeText = PrimaryTreatmentTypeText,
+                        SecondaryTreatmentTypeText = SecondaryTreatmentTypeText,
+                        TertiaryTreatmentTypeText = TertiaryTreatmentTypeText,
+                        TreatmentTypeText = TreatmentTypeText,
+                        DisinfectionTypeText = DisinfectionTypeText,
+                        CollectionSystemTypeText = CollectionSystemTypeText,
+                        AlarmSystemTypeText = AlarmSystemTypeText,
                         InfrastructureID = c.InfrastructureID,
                         InfrastructureTVItemID = c.InfrastructureTVItemID,
                         PrismID = c.PrismID,

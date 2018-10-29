@@ -26,24 +26,24 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
-                let MunicipalityTVItemLanguage = (from cl in db.TVItemLanguages
+                let MunicipalityText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MunicipalityTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let InfrastructureTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let InfrastructureText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.InfrastructureTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
                     select new SpillExtraB
                     {
                         SpillReportTest = SpillReportTest,
-                        MunicipalityTVItemLanguage = MunicipalityTVItemLanguage,
-                        InfrastructureTVItemLanguage = InfrastructureTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        MunicipalityText = MunicipalityText,
+                        InfrastructureText = InfrastructureText,
+                        LastUpdateContactText = LastUpdateContactText,
                         SpillID = c.SpillID,
                         MunicipalityTVItemID = c.MunicipalityTVItemID,
                         InfrastructureTVItemID = c.InfrastructureTVItemID,

@@ -52,10 +52,10 @@ namespace CSSPServices
 
             //ZMax has no Range Attribute
 
-                //Error: Type not implemented [Element] of type [Element]
+                //CSSPError: Type not implemented [Element] of type [Element]
 
-                //Error: Type not implemented [Element] of type [Element]
-            retStr = ""; // added to stop compiling error
+                //CSSPError: Type not implemented [Element] of type [Element]
+            retStr = ""; // added to stop compiling CSSPError
             if (retStr != "") // will never be true
             {
                 elementLayer.HasErrors = true;

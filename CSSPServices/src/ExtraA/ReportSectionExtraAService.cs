@@ -22,21 +22,21 @@ namespace CSSPServices
         private IQueryable<ReportSectionExtraA> FillReportSectionExtraA()
         {
              IQueryable<ReportSectionExtraA> ReportSectionExtraAQuery = (from c in db.ReportSections
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
                 let ReportSectionName = (from cl in db.ReportSectionLanguages
                     where cl.ReportSectionID == c.ReportSectionID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.ReportSectionName).FirstOrDefault()
                 let ReportSectionText = (from cl in db.ReportSectionLanguages
                     where cl.ReportSectionID == c.ReportSectionID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.ReportSectionText).FirstOrDefault()
                     select new ReportSectionExtraA
                     {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        LastUpdateContactText = LastUpdateContactText,
                         ReportSectionName = ReportSectionName,
                         ReportSectionText = ReportSectionText,
                         ReportSectionID = c.ReportSectionID,

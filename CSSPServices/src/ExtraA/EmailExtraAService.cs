@@ -26,21 +26,22 @@ namespace CSSPServices
             List<EnumIDAndText> EmailTypeEnumList = enums.GetEnumTextOrderedList(typeof(EmailTypeEnum));
 
              IQueryable<EmailExtraA> EmailExtraAQuery = (from c in db.Emails
-                let EmailTVItemLanguage = (from cl in db.TVItemLanguages
+                let EmailText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.EmailTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
+                let EmailTypeText = (from e in EmailTypeEnumList
+                    where e.EnumID == (int?)c.EmailType
+                    select e.EnumText).FirstOrDefault()
                     select new EmailExtraA
                     {
-                        EmailTVItemLanguage = EmailTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        EmailTypeText = (from e in EmailTypeEnumList
-                                where e.EnumID == (int?)c.EmailType
-                                select e.EnumText).FirstOrDefault(),
+                        EmailText = EmailText,
+                        LastUpdateContactText = LastUpdateContactText,
+                        EmailTypeText = EmailTypeText,
                         EmailID = c.EmailID,
                         EmailTVItemID = c.EmailTVItemID,
                         EmailAddress = c.EmailAddress,

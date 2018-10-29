@@ -56,7 +56,7 @@ namespace CSSPServices
 
             //Z has no Range Attribute
 
-            retStr = ""; // added to stop compiling error
+            retStr = ""; // added to stop compiling CSSPError
             if (retStr != "") // will never be true
             {
                 polyPoint.HasErrors = true;

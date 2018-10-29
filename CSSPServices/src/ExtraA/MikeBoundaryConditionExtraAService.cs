@@ -28,27 +28,30 @@ namespace CSSPServices
             List<EnumIDAndText> TVTypeEnumList = enums.GetEnumTextOrderedList(typeof(TVTypeEnum));
 
              IQueryable<MikeBoundaryConditionExtraA> MikeBoundaryConditionExtraAQuery = (from c in db.MikeBoundaryConditions
-                let MikeBoundaryConditionTVItemLanguage = (from cl in db.TVItemLanguages
+                let MikeBoundaryConditionText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MikeBoundaryConditionTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
+                let MikeBoundaryConditionLevelOrVelocityText = (from e in MikeBoundaryConditionLevelOrVelocityEnumList
+                    where e.EnumID == (int?)c.MikeBoundaryConditionLevelOrVelocity
+                    select e.EnumText).FirstOrDefault()
+                let WebTideDataSetText = (from e in WebTideDataSetEnumList
+                    where e.EnumID == (int?)c.WebTideDataSet
+                    select e.EnumText).FirstOrDefault()
+                let TVTypeText = (from e in TVTypeEnumList
+                    where e.EnumID == (int?)c.TVType
+                    select e.EnumText).FirstOrDefault()
                     select new MikeBoundaryConditionExtraA
                     {
-                        MikeBoundaryConditionTVItemLanguage = MikeBoundaryConditionTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        MikeBoundaryConditionLevelOrVelocityText = (from e in MikeBoundaryConditionLevelOrVelocityEnumList
-                                where e.EnumID == (int?)c.MikeBoundaryConditionLevelOrVelocity
-                                select e.EnumText).FirstOrDefault(),
-                        WebTideDataSetText = (from e in WebTideDataSetEnumList
-                                where e.EnumID == (int?)c.WebTideDataSet
-                                select e.EnumText).FirstOrDefault(),
-                        TVTypeText = (from e in TVTypeEnumList
-                                where e.EnumID == (int?)c.TVType
-                                select e.EnumText).FirstOrDefault(),
+                        MikeBoundaryConditionText = MikeBoundaryConditionText,
+                        LastUpdateContactText = LastUpdateContactText,
+                        MikeBoundaryConditionLevelOrVelocityText = MikeBoundaryConditionLevelOrVelocityText,
+                        WebTideDataSetText = WebTideDataSetText,
+                        TVTypeText = TVTypeText,
                         MikeBoundaryConditionID = c.MikeBoundaryConditionID,
                         MikeBoundaryConditionTVItemID = c.MikeBoundaryConditionTVItemID,
                         MikeBoundaryConditionCode = c.MikeBoundaryConditionCode,

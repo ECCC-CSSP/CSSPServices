@@ -77,10 +77,10 @@ namespace CSSPServices
                 }
             }
 
-            if (boxModel.Flow_m3_day < 0 || boxModel.Flow_m3_day > 10000)
+            if (boxModel.Discharge_m3_day < 0 || boxModel.Discharge_m3_day > 10000)
             {
                 boxModel.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelFlow_m3_day", "0", "10000"), new[] { "Flow_m3_day" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelDischarge_m3_day", "0", "10000"), new[] { "Discharge_m3_day" });
             }
 
             if (boxModel.Depth_m < 0 || boxModel.Depth_m > 1000)
@@ -171,7 +171,7 @@ namespace CSSPServices
                 }
             }
 
-            retStr = ""; // added to stop compiling error
+            retStr = ""; // added to stop compiling CSSPError
             if (retStr != "") // will never be true
             {
                 boxModel.HasErrors = true;

@@ -42,16 +42,16 @@ namespace CSSPServices
             TVItemSubsectorAndMWQMSite tvItemSubsectorAndMWQMSite = validationContext.ObjectInstance as TVItemSubsectorAndMWQMSite;
             tvItemSubsectorAndMWQMSite.HasErrors = false;
 
-                //Error: Type not implemented [TVItemSubsector] of type [TVItem]
+                //CSSPError: Type not implemented [TVItemSubsector] of type [TVItem]
 
-                //Error: Type not implemented [TVItemSubsector] of type [TVItem]
-                //Error: Type not implemented [TVItemMWQMSiteList] of type [List`1]
+                //CSSPError: Type not implemented [TVItemSubsector] of type [TVItem]
+                //CSSPError: Type not implemented [TVItemMWQMSiteList] of type [List`1]
 
-                //Error: Type not implemented [TVItemMWQMSiteList] of type [TVItem]
-                //Error: Type not implemented [TVItemMWQMSiteDuplicate] of type [TVItem]
+                //CSSPError: Type not implemented [TVItemMWQMSiteList] of type [TVItem]
+                //CSSPError: Type not implemented [TVItemMWQMSiteDuplicate] of type [TVItem]
 
-                //Error: Type not implemented [TVItemMWQMSiteDuplicate] of type [TVItem]
-            retStr = ""; // added to stop compiling error
+                //CSSPError: Type not implemented [TVItemMWQMSiteDuplicate] of type [TVItem]
+            retStr = ""; // added to stop compiling CSSPError
             if (retStr != "") // will never be true
             {
                 tvItemSubsectorAndMWQMSite.HasErrors = true;

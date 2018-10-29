@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                     count = reportTypeService.GetReportTypeList().Count();
 
-                    Assert.AreEqual(reportTypeService.GetReportTypeList().Count(), (from c in dbTestDB.ReportTypes select c).Take(200).Count());
+                    Assert.AreEqual(count, (from c in dbTestDB.ReportTypes select c).Count());
 
                     reportTypeService.Add(reportType);
                     if (reportType.HasErrors)
@@ -224,23 +224,23 @@ namespace CSSPServices.Tests
                     ReportType reportType = (from c in dbTestDB.ReportTypes select c).FirstOrDefault();
                     Assert.IsNotNull(reportType);
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        reportTypeService.Query.Detail = detail;
+                        reportTypeService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             ReportType reportTypeRet = reportTypeService.GetReportTypeWithReportTypeID(reportType.ReportTypeID);
                             CheckReportTypeFields(new List<ReportType>() { reportTypeRet });
                             Assert.AreEqual(reportType.ReportTypeID, reportTypeRet.ReportTypeID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             ReportTypeExtraA reportTypeExtraARet = reportTypeService.GetReportTypeExtraAWithReportTypeID(reportType.ReportTypeID);
                             CheckReportTypeExtraAFields(new List<ReportTypeExtraA>() { reportTypeExtraARet });
                             Assert.AreEqual(reportType.ReportTypeID, reportTypeExtraARet.ReportTypeID);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             ReportTypeExtraB reportTypeExtraBRet = reportTypeService.GetReportTypeExtraBWithReportTypeID(reportType.ReportTypeID);
                             CheckReportTypeExtraBFields(new List<ReportTypeExtraB>() { reportTypeExtraBRet });
@@ -273,24 +273,24 @@ namespace CSSPServices.Tests
                     List<ReportType> reportTypeDirectQueryList = new List<ReportType>();
                     reportTypeDirectQueryList = (from c in dbTestDB.ReportTypes select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        reportTypeService.Query.Detail = detail;
+                        reportTypeService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<ReportType> reportTypeList = new List<ReportType>();
                             reportTypeList = reportTypeService.GetReportTypeList().ToList();
                             CheckReportTypeFields(reportTypeList);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ReportTypeExtraA> reportTypeExtraAList = new List<ReportTypeExtraA>();
                             reportTypeExtraAList = reportTypeService.GetReportTypeExtraAList().ToList();
                             CheckReportTypeExtraAFields(reportTypeExtraAList);
                             Assert.AreEqual(reportTypeDirectQueryList.Count, reportTypeExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ReportTypeExtraB> reportTypeExtraBList = new List<ReportTypeExtraB>();
                             reportTypeExtraBList = reportTypeService.GetReportTypeExtraBList().ToList();
@@ -317,7 +317,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ReportTypeService reportTypeService = new ReportTypeService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -326,14 +326,14 @@ namespace CSSPServices.Tests
                         List<ReportType> reportTypeDirectQueryList = new List<ReportType>();
                         reportTypeDirectQueryList = (from c in dbTestDB.ReportTypes select c).Skip(1).Take(1).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<ReportType> reportTypeList = new List<ReportType>();
                             reportTypeList = reportTypeService.GetReportTypeList().ToList();
                             CheckReportTypeFields(reportTypeList);
                             Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeList[0].ReportTypeID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ReportTypeExtraA> reportTypeExtraAList = new List<ReportTypeExtraA>();
                             reportTypeExtraAList = reportTypeService.GetReportTypeExtraAList().ToList();
@@ -341,7 +341,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeExtraAList[0].ReportTypeID);
                             Assert.AreEqual(reportTypeDirectQueryList.Count, reportTypeExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ReportTypeExtraB> reportTypeExtraBList = new List<ReportTypeExtraB>();
                             reportTypeExtraBList = reportTypeService.GetReportTypeExtraBList().ToList();
@@ -369,7 +369,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ReportTypeService reportTypeService = new ReportTypeService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -378,14 +378,14 @@ namespace CSSPServices.Tests
                         List<ReportType> reportTypeDirectQueryList = new List<ReportType>();
                         reportTypeDirectQueryList = (from c in dbTestDB.ReportTypes select c).Skip(1).Take(1).OrderBy(c => c.ReportTypeID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<ReportType> reportTypeList = new List<ReportType>();
                             reportTypeList = reportTypeService.GetReportTypeList().ToList();
                             CheckReportTypeFields(reportTypeList);
                             Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeList[0].ReportTypeID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ReportTypeExtraA> reportTypeExtraAList = new List<ReportTypeExtraA>();
                             reportTypeExtraAList = reportTypeService.GetReportTypeExtraAList().ToList();
@@ -393,7 +393,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeExtraAList[0].ReportTypeID);
                             Assert.AreEqual(reportTypeDirectQueryList.Count, reportTypeExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ReportTypeExtraB> reportTypeExtraBList = new List<ReportTypeExtraB>();
                             reportTypeExtraBList = reportTypeService.GetReportTypeExtraBList().ToList();
@@ -421,7 +421,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ReportTypeService reportTypeService = new ReportTypeService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -430,14 +430,14 @@ namespace CSSPServices.Tests
                         List<ReportType> reportTypeDirectQueryList = new List<ReportType>();
                         reportTypeDirectQueryList = (from c in dbTestDB.ReportTypes select c).Skip(1).Take(1).OrderBy(c => c.ReportTypeID).ThenBy(c => c.TVType).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<ReportType> reportTypeList = new List<ReportType>();
                             reportTypeList = reportTypeService.GetReportTypeList().ToList();
                             CheckReportTypeFields(reportTypeList);
                             Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeList[0].ReportTypeID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ReportTypeExtraA> reportTypeExtraAList = new List<ReportTypeExtraA>();
                             reportTypeExtraAList = reportTypeService.GetReportTypeExtraAList().ToList();
@@ -445,7 +445,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeExtraAList[0].ReportTypeID);
                             Assert.AreEqual(reportTypeDirectQueryList.Count, reportTypeExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ReportTypeExtraB> reportTypeExtraBList = new List<ReportTypeExtraB>();
                             reportTypeExtraBList = reportTypeService.GetReportTypeExtraBList().ToList();
@@ -473,7 +473,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ReportTypeService reportTypeService = new ReportTypeService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -482,14 +482,14 @@ namespace CSSPServices.Tests
                         List<ReportType> reportTypeDirectQueryList = new List<ReportType>();
                         reportTypeDirectQueryList = (from c in dbTestDB.ReportTypes select c).Where(c => c.ReportTypeID == 4).Skip(0).Take(1).OrderBy(c => c.ReportTypeID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<ReportType> reportTypeList = new List<ReportType>();
                             reportTypeList = reportTypeService.GetReportTypeList().ToList();
                             CheckReportTypeFields(reportTypeList);
                             Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeList[0].ReportTypeID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ReportTypeExtraA> reportTypeExtraAList = new List<ReportTypeExtraA>();
                             reportTypeExtraAList = reportTypeService.GetReportTypeExtraAList().ToList();
@@ -497,7 +497,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeExtraAList[0].ReportTypeID);
                             Assert.AreEqual(reportTypeDirectQueryList.Count, reportTypeExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ReportTypeExtraB> reportTypeExtraBList = new List<ReportTypeExtraB>();
                             reportTypeExtraBList = reportTypeService.GetReportTypeExtraBList().ToList();
@@ -525,7 +525,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ReportTypeService reportTypeService = new ReportTypeService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -534,14 +534,14 @@ namespace CSSPServices.Tests
                         List<ReportType> reportTypeDirectQueryList = new List<ReportType>();
                         reportTypeDirectQueryList = (from c in dbTestDB.ReportTypes select c).Where(c => c.ReportTypeID > 2 && c.ReportTypeID < 5).Skip(0).Take(1).OrderBy(c => c.ReportTypeID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<ReportType> reportTypeList = new List<ReportType>();
                             reportTypeList = reportTypeService.GetReportTypeList().ToList();
                             CheckReportTypeFields(reportTypeList);
                             Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeList[0].ReportTypeID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ReportTypeExtraA> reportTypeExtraAList = new List<ReportTypeExtraA>();
                             reportTypeExtraAList = reportTypeService.GetReportTypeExtraAList().ToList();
@@ -549,7 +549,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeExtraAList[0].ReportTypeID);
                             Assert.AreEqual(reportTypeDirectQueryList.Count, reportTypeExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ReportTypeExtraB> reportTypeExtraBList = new List<ReportTypeExtraB>();
                             reportTypeExtraBList = reportTypeService.GetReportTypeExtraBList().ToList();
@@ -577,7 +577,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ReportTypeService reportTypeService = new ReportTypeService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -586,14 +586,14 @@ namespace CSSPServices.Tests
                         List<ReportType> reportTypeDirectQueryList = new List<ReportType>();
                         reportTypeDirectQueryList = (from c in dbTestDB.ReportTypes select c).Where(c => c.ReportTypeID > 2 && c.ReportTypeID < 5).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<ReportType> reportTypeList = new List<ReportType>();
                             reportTypeList = reportTypeService.GetReportTypeList().ToList();
                             CheckReportTypeFields(reportTypeList);
                             Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeList[0].ReportTypeID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ReportTypeExtraA> reportTypeExtraAList = new List<ReportTypeExtraA>();
                             reportTypeExtraAList = reportTypeService.GetReportTypeExtraAList().ToList();
@@ -601,7 +601,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeExtraAList[0].ReportTypeID);
                             Assert.AreEqual(reportTypeDirectQueryList.Count, reportTypeExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ReportTypeExtraB> reportTypeExtraBList = new List<ReportTypeExtraB>();
                             reportTypeExtraBList = reportTypeService.GetReportTypeExtraBList().ToList();
@@ -632,7 +632,7 @@ namespace CSSPServices.Tests
         }
         private void CheckReportTypeExtraAFields(List<ReportTypeExtraA> reportTypeExtraAList)
         {
-            Assert.IsNotNull(reportTypeExtraAList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeExtraAList[0].LastUpdateContactText));
             Assert.IsNotNull(reportTypeExtraAList[0].ReportTypeID);
             Assert.IsNotNull(reportTypeExtraAList[0].TVType);
             Assert.IsNotNull(reportTypeExtraAList[0].FileType);
@@ -647,7 +647,7 @@ namespace CSSPServices.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeExtraBList[0].ReportTypeReportTest));
             }
-            Assert.IsNotNull(reportTypeExtraBList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeExtraBList[0].LastUpdateContactText));
             Assert.IsNotNull(reportTypeExtraBList[0].ReportTypeID);
             Assert.IsNotNull(reportTypeExtraBList[0].TVType);
             Assert.IsNotNull(reportTypeExtraBList[0].FileType);

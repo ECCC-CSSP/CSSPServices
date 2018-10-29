@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                     count = mwqmSampleService.GetMWQMSampleList().Count();
 
-                    Assert.AreEqual(mwqmSampleService.GetMWQMSampleList().Count(), (from c in dbTestDB.MWQMSamples select c).Take(200).Count());
+                    Assert.AreEqual(count, (from c in dbTestDB.MWQMSamples select c).Count());
 
                     mwqmSampleService.Add(mwqmSample);
                     if (mwqmSample.HasErrors)
@@ -168,9 +168,9 @@ namespace CSSPServices.Tests
                     // mwqmSample.Depth_m   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [Depth_m]
+                    //CSSPError: Type not implemented [Depth_m]
 
-                    //Error: Type not implemented [Depth_m]
+                    //CSSPError: Type not implemented [Depth_m]
 
                     mwqmSample = null;
                     mwqmSample = GetFilledRandomMWQMSample("");
@@ -210,9 +210,9 @@ namespace CSSPServices.Tests
                     // mwqmSample.Salinity_PPT   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [Salinity_PPT]
+                    //CSSPError: Type not implemented [Salinity_PPT]
 
-                    //Error: Type not implemented [Salinity_PPT]
+                    //CSSPError: Type not implemented [Salinity_PPT]
 
                     mwqmSample = null;
                     mwqmSample = GetFilledRandomMWQMSample("");
@@ -233,9 +233,9 @@ namespace CSSPServices.Tests
                     // mwqmSample.WaterTemp_C   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [WaterTemp_C]
+                    //CSSPError: Type not implemented [WaterTemp_C]
 
-                    //Error: Type not implemented [WaterTemp_C]
+                    //CSSPError: Type not implemented [WaterTemp_C]
 
                     mwqmSample = null;
                     mwqmSample = GetFilledRandomMWQMSample("");
@@ -256,9 +256,9 @@ namespace CSSPServices.Tests
                     // mwqmSample.PH   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [PH]
+                    //CSSPError: Type not implemented [PH]
 
-                    //Error: Type not implemented [PH]
+                    //CSSPError: Type not implemented [PH]
 
                     mwqmSample = null;
                     mwqmSample = GetFilledRandomMWQMSample("");
@@ -453,23 +453,23 @@ namespace CSSPServices.Tests
                     MWQMSample mwqmSample = (from c in dbTestDB.MWQMSamples select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmSample);
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        mwqmSampleService.Query.Detail = detail;
+                        mwqmSampleService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             MWQMSample mwqmSampleRet = mwqmSampleService.GetMWQMSampleWithMWQMSampleID(mwqmSample.MWQMSampleID);
                             CheckMWQMSampleFields(new List<MWQMSample>() { mwqmSampleRet });
                             Assert.AreEqual(mwqmSample.MWQMSampleID, mwqmSampleRet.MWQMSampleID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             MWQMSampleExtraA mwqmSampleExtraARet = mwqmSampleService.GetMWQMSampleExtraAWithMWQMSampleID(mwqmSample.MWQMSampleID);
                             CheckMWQMSampleExtraAFields(new List<MWQMSampleExtraA>() { mwqmSampleExtraARet });
                             Assert.AreEqual(mwqmSample.MWQMSampleID, mwqmSampleExtraARet.MWQMSampleID);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             MWQMSampleExtraB mwqmSampleExtraBRet = mwqmSampleService.GetMWQMSampleExtraBWithMWQMSampleID(mwqmSample.MWQMSampleID);
                             CheckMWQMSampleExtraBFields(new List<MWQMSampleExtraB>() { mwqmSampleExtraBRet });
@@ -502,24 +502,24 @@ namespace CSSPServices.Tests
                     List<MWQMSample> mwqmSampleDirectQueryList = new List<MWQMSample>();
                     mwqmSampleDirectQueryList = (from c in dbTestDB.MWQMSamples select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        mwqmSampleService.Query.Detail = detail;
+                        mwqmSampleService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMSample> mwqmSampleList = new List<MWQMSample>();
                             mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
                             CheckMWQMSampleFields(mwqmSampleList);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMSampleExtraA> mwqmSampleExtraAList = new List<MWQMSampleExtraA>();
                             mwqmSampleExtraAList = mwqmSampleService.GetMWQMSampleExtraAList().ToList();
                             CheckMWQMSampleExtraAFields(mwqmSampleExtraAList);
                             Assert.AreEqual(mwqmSampleDirectQueryList.Count, mwqmSampleExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMSampleExtraB> mwqmSampleExtraBList = new List<MWQMSampleExtraB>();
                             mwqmSampleExtraBList = mwqmSampleService.GetMWQMSampleExtraBList().ToList();
@@ -546,7 +546,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMSampleService mwqmSampleService = new MWQMSampleService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -555,14 +555,14 @@ namespace CSSPServices.Tests
                         List<MWQMSample> mwqmSampleDirectQueryList = new List<MWQMSample>();
                         mwqmSampleDirectQueryList = (from c in dbTestDB.MWQMSamples select c).Skip(1).Take(1).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMSample> mwqmSampleList = new List<MWQMSample>();
                             mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
                             CheckMWQMSampleFields(mwqmSampleList);
                             Assert.AreEqual(mwqmSampleDirectQueryList[0].MWQMSampleID, mwqmSampleList[0].MWQMSampleID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMSampleExtraA> mwqmSampleExtraAList = new List<MWQMSampleExtraA>();
                             mwqmSampleExtraAList = mwqmSampleService.GetMWQMSampleExtraAList().ToList();
@@ -570,7 +570,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmSampleDirectQueryList[0].MWQMSampleID, mwqmSampleExtraAList[0].MWQMSampleID);
                             Assert.AreEqual(mwqmSampleDirectQueryList.Count, mwqmSampleExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMSampleExtraB> mwqmSampleExtraBList = new List<MWQMSampleExtraB>();
                             mwqmSampleExtraBList = mwqmSampleService.GetMWQMSampleExtraBList().ToList();
@@ -598,7 +598,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMSampleService mwqmSampleService = new MWQMSampleService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -607,14 +607,14 @@ namespace CSSPServices.Tests
                         List<MWQMSample> mwqmSampleDirectQueryList = new List<MWQMSample>();
                         mwqmSampleDirectQueryList = (from c in dbTestDB.MWQMSamples select c).Skip(1).Take(1).OrderBy(c => c.MWQMSampleID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMSample> mwqmSampleList = new List<MWQMSample>();
                             mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
                             CheckMWQMSampleFields(mwqmSampleList);
                             Assert.AreEqual(mwqmSampleDirectQueryList[0].MWQMSampleID, mwqmSampleList[0].MWQMSampleID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMSampleExtraA> mwqmSampleExtraAList = new List<MWQMSampleExtraA>();
                             mwqmSampleExtraAList = mwqmSampleService.GetMWQMSampleExtraAList().ToList();
@@ -622,7 +622,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmSampleDirectQueryList[0].MWQMSampleID, mwqmSampleExtraAList[0].MWQMSampleID);
                             Assert.AreEqual(mwqmSampleDirectQueryList.Count, mwqmSampleExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMSampleExtraB> mwqmSampleExtraBList = new List<MWQMSampleExtraB>();
                             mwqmSampleExtraBList = mwqmSampleService.GetMWQMSampleExtraBList().ToList();
@@ -650,7 +650,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMSampleService mwqmSampleService = new MWQMSampleService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -659,14 +659,14 @@ namespace CSSPServices.Tests
                         List<MWQMSample> mwqmSampleDirectQueryList = new List<MWQMSample>();
                         mwqmSampleDirectQueryList = (from c in dbTestDB.MWQMSamples select c).Skip(1).Take(1).OrderBy(c => c.MWQMSampleID).ThenBy(c => c.MWQMSiteTVItemID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMSample> mwqmSampleList = new List<MWQMSample>();
                             mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
                             CheckMWQMSampleFields(mwqmSampleList);
                             Assert.AreEqual(mwqmSampleDirectQueryList[0].MWQMSampleID, mwqmSampleList[0].MWQMSampleID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMSampleExtraA> mwqmSampleExtraAList = new List<MWQMSampleExtraA>();
                             mwqmSampleExtraAList = mwqmSampleService.GetMWQMSampleExtraAList().ToList();
@@ -674,7 +674,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmSampleDirectQueryList[0].MWQMSampleID, mwqmSampleExtraAList[0].MWQMSampleID);
                             Assert.AreEqual(mwqmSampleDirectQueryList.Count, mwqmSampleExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMSampleExtraB> mwqmSampleExtraBList = new List<MWQMSampleExtraB>();
                             mwqmSampleExtraBList = mwqmSampleService.GetMWQMSampleExtraBList().ToList();
@@ -702,7 +702,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMSampleService mwqmSampleService = new MWQMSampleService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -711,14 +711,14 @@ namespace CSSPServices.Tests
                         List<MWQMSample> mwqmSampleDirectQueryList = new List<MWQMSample>();
                         mwqmSampleDirectQueryList = (from c in dbTestDB.MWQMSamples select c).Where(c => c.MWQMSampleID == 4).Skip(0).Take(1).OrderBy(c => c.MWQMSampleID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMSample> mwqmSampleList = new List<MWQMSample>();
                             mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
                             CheckMWQMSampleFields(mwqmSampleList);
                             Assert.AreEqual(mwqmSampleDirectQueryList[0].MWQMSampleID, mwqmSampleList[0].MWQMSampleID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMSampleExtraA> mwqmSampleExtraAList = new List<MWQMSampleExtraA>();
                             mwqmSampleExtraAList = mwqmSampleService.GetMWQMSampleExtraAList().ToList();
@@ -726,7 +726,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmSampleDirectQueryList[0].MWQMSampleID, mwqmSampleExtraAList[0].MWQMSampleID);
                             Assert.AreEqual(mwqmSampleDirectQueryList.Count, mwqmSampleExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMSampleExtraB> mwqmSampleExtraBList = new List<MWQMSampleExtraB>();
                             mwqmSampleExtraBList = mwqmSampleService.GetMWQMSampleExtraBList().ToList();
@@ -754,7 +754,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMSampleService mwqmSampleService = new MWQMSampleService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -763,14 +763,14 @@ namespace CSSPServices.Tests
                         List<MWQMSample> mwqmSampleDirectQueryList = new List<MWQMSample>();
                         mwqmSampleDirectQueryList = (from c in dbTestDB.MWQMSamples select c).Where(c => c.MWQMSampleID > 2 && c.MWQMSampleID < 5).Skip(0).Take(1).OrderBy(c => c.MWQMSampleID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMSample> mwqmSampleList = new List<MWQMSample>();
                             mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
                             CheckMWQMSampleFields(mwqmSampleList);
                             Assert.AreEqual(mwqmSampleDirectQueryList[0].MWQMSampleID, mwqmSampleList[0].MWQMSampleID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMSampleExtraA> mwqmSampleExtraAList = new List<MWQMSampleExtraA>();
                             mwqmSampleExtraAList = mwqmSampleService.GetMWQMSampleExtraAList().ToList();
@@ -778,7 +778,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmSampleDirectQueryList[0].MWQMSampleID, mwqmSampleExtraAList[0].MWQMSampleID);
                             Assert.AreEqual(mwqmSampleDirectQueryList.Count, mwqmSampleExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMSampleExtraB> mwqmSampleExtraBList = new List<MWQMSampleExtraB>();
                             mwqmSampleExtraBList = mwqmSampleService.GetMWQMSampleExtraBList().ToList();
@@ -806,7 +806,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMSampleService mwqmSampleService = new MWQMSampleService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -815,14 +815,14 @@ namespace CSSPServices.Tests
                         List<MWQMSample> mwqmSampleDirectQueryList = new List<MWQMSample>();
                         mwqmSampleDirectQueryList = (from c in dbTestDB.MWQMSamples select c).Where(c => c.MWQMSampleID > 2 && c.MWQMSampleID < 5).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMSample> mwqmSampleList = new List<MWQMSample>();
                             mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
                             CheckMWQMSampleFields(mwqmSampleList);
                             Assert.AreEqual(mwqmSampleDirectQueryList[0].MWQMSampleID, mwqmSampleList[0].MWQMSampleID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMSampleExtraA> mwqmSampleExtraAList = new List<MWQMSampleExtraA>();
                             mwqmSampleExtraAList = mwqmSampleService.GetMWQMSampleExtraAList().ToList();
@@ -830,7 +830,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmSampleDirectQueryList[0].MWQMSampleID, mwqmSampleExtraAList[0].MWQMSampleID);
                             Assert.AreEqual(mwqmSampleDirectQueryList.Count, mwqmSampleExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMSampleExtraB> mwqmSampleExtraBList = new List<MWQMSampleExtraB>();
                             mwqmSampleExtraBList = mwqmSampleService.GetMWQMSampleExtraBList().ToList();
@@ -900,9 +900,9 @@ namespace CSSPServices.Tests
         }
         private void CheckMWQMSampleExtraAFields(List<MWQMSampleExtraA> mwqmSampleExtraAList)
         {
-            Assert.IsNotNull(mwqmSampleExtraAList[0].MWQMSiteTVItemLanguage);
-            Assert.IsNotNull(mwqmSampleExtraAList[0].MWQMRunTVItemLanguage);
-            Assert.IsNotNull(mwqmSampleExtraAList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleExtraAList[0].MWQMSiteText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleExtraAList[0].MWQMRunText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleExtraAList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(mwqmSampleExtraAList[0].SampleType_oldText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleExtraAList[0].SampleType_oldText));
@@ -960,9 +960,9 @@ namespace CSSPServices.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleExtraBList[0].MWQMSampleReportTest));
             }
-            Assert.IsNotNull(mwqmSampleExtraBList[0].MWQMSiteTVItemLanguage);
-            Assert.IsNotNull(mwqmSampleExtraBList[0].MWQMRunTVItemLanguage);
-            Assert.IsNotNull(mwqmSampleExtraBList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleExtraBList[0].MWQMSiteText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleExtraBList[0].MWQMRunText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleExtraBList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(mwqmSampleExtraBList[0].SampleType_oldText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleExtraBList[0].SampleType_oldText));

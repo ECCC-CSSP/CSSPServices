@@ -26,14 +26,14 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
                     select new MWQMLookupMPNExtraB
                     {
                         MWQMLookupMPNReportTest = MWQMLookupMPNReportTest,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        LastUpdateContactText = LastUpdateContactText,
                         MWQMLookupMPNID = c.MWQMLookupMPNID,
                         Tubes10 = c.Tubes10,
                         Tubes1 = c.Tubes1,

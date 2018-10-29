@@ -26,16 +26,17 @@ namespace CSSPServices
             List<EnumIDAndText> TVTypeEnumList = enums.GetEnumTextOrderedList(typeof(TVTypeEnum));
 
              IQueryable<ContactPreferenceExtraA> ContactPreferenceExtraAQuery = (from c in db.ContactPreferences
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
+                let TVTypeText = (from e in TVTypeEnumList
+                    where e.EnumID == (int?)c.TVType
+                    select e.EnumText).FirstOrDefault()
                     select new ContactPreferenceExtraA
                     {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        TVTypeText = (from e in TVTypeEnumList
-                                where e.EnumID == (int?)c.TVType
-                                select e.EnumText).FirstOrDefault(),
+                        LastUpdateContactText = LastUpdateContactText,
+                        TVTypeText = TVTypeText,
                         ContactPreferenceID = c.ContactPreferenceID,
                         ContactID = c.ContactID,
                         TVType = c.TVType,

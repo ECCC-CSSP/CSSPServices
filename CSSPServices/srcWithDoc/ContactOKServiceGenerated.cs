@@ -54,7 +54,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "ContactOKContactTVItemID", "1"), new[] { "ContactTVItemID" });
             }
 
-            retStr = ""; // added to stop compiling error
+            retStr = ""; // added to stop compiling CSSPError
             if (retStr != "") // will never be true
             {
                 contactOK.HasErrors = true;

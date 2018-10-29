@@ -27,25 +27,29 @@ namespace CSSPServices
             List<EnumIDAndText> TranslationStatusEnumList = enums.GetEnumTextOrderedList(typeof(TranslationStatusEnum));
 
              IQueryable<ReportTypeLanguageExtraA> ReportTypeLanguageExtraAQuery = (from c in db.ReportTypeLanguages
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
+                let LanguageText = (from e in LanguageEnumList
+                    where e.EnumID == (int?)c.Language
+                    select e.EnumText).FirstOrDefault()
+                let TranslationStatusNameText = (from e in TranslationStatusEnumList
+                    where e.EnumID == (int?)c.TranslationStatusName
+                    select e.EnumText).FirstOrDefault()
+                let TranslationStatusDescriptionText = (from e in TranslationStatusEnumList
+                    where e.EnumID == (int?)c.TranslationStatusDescription
+                    select e.EnumText).FirstOrDefault()
+                let TranslationStatusStartOfFileNameText = (from e in TranslationStatusEnumList
+                    where e.EnumID == (int?)c.TranslationStatusStartOfFileName
+                    select e.EnumText).FirstOrDefault()
                     select new ReportTypeLanguageExtraA
                     {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        LanguageText = (from e in LanguageEnumList
-                                where e.EnumID == (int?)c.Language
-                                select e.EnumText).FirstOrDefault(),
-                        TranslationStatusNameText = (from e in TranslationStatusEnumList
-                                where e.EnumID == (int?)c.TranslationStatusName
-                                select e.EnumText).FirstOrDefault(),
-                        TranslationStatusDescriptionText = (from e in TranslationStatusEnumList
-                                where e.EnumID == (int?)c.TranslationStatusDescription
-                                select e.EnumText).FirstOrDefault(),
-                        TranslationStatusStartOfFileNameText = (from e in TranslationStatusEnumList
-                                where e.EnumID == (int?)c.TranslationStatusStartOfFileName
-                                select e.EnumText).FirstOrDefault(),
+                        LastUpdateContactText = LastUpdateContactText,
+                        LanguageText = LanguageText,
+                        TranslationStatusNameText = TranslationStatusNameText,
+                        TranslationStatusDescriptionText = TranslationStatusDescriptionText,
+                        TranslationStatusStartOfFileNameText = TranslationStatusStartOfFileNameText,
                         ReportTypeLanguageID = c.ReportTypeLanguageID,
                         ReportTypeID = c.ReportTypeID,
                         Language = c.Language,

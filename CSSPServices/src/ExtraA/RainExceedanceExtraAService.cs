@@ -22,13 +22,13 @@ namespace CSSPServices
         private IQueryable<RainExceedanceExtraA> FillRainExceedanceExtraA()
         {
              IQueryable<RainExceedanceExtraA> RainExceedanceExtraAQuery = (from c in db.RainExceedances
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
                     select new RainExceedanceExtraA
                     {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        LastUpdateContactText = LastUpdateContactText,
                         RainExceedanceID = c.RainExceedanceID,
                         YearRound = c.YearRound,
                         StartDate_Local = c.StartDate_Local,

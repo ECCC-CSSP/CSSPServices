@@ -26,21 +26,22 @@ namespace CSSPServices
             List<EnumIDAndText> AnalysisReportExportCommandEnumList = enums.GetEnumTextOrderedList(typeof(AnalysisReportExportCommandEnum));
 
              IQueryable<MWQMAnalysisReportParameterExtraA> MWQMAnalysisReportParameterExtraAQuery = (from c in db.MWQMAnalysisReportParameters
-                let ExcelTVFileTVItemLanguage = (from cl in db.TVItemLanguages
+                let ExcelTVFileText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.ExcelTVFileTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let CommandText = (from e in AnalysisReportExportCommandEnumList
+                    where e.EnumID == (int?)c.Command
+                    select e.EnumText).FirstOrDefault()
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
                     select new MWQMAnalysisReportParameterExtraA
                     {
-                        ExcelTVFileTVItemLanguage = ExcelTVFileTVItemLanguage,
-                        CommandText = (from e in AnalysisReportExportCommandEnumList
-                                where e.EnumID == (int?)c.Command
-                                select e.EnumText).FirstOrDefault(),
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        ExcelTVFileText = ExcelTVFileText,
+                        CommandText = CommandText,
+                        LastUpdateContactText = LastUpdateContactText,
                         MWQMAnalysisReportParameterID = c.MWQMAnalysisReportParameterID,
                         SubsectorTVItemID = c.SubsectorTVItemID,
                         AnalysisName = c.AnalysisName,

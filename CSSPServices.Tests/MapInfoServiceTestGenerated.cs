@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                     count = mapInfoService.GetMapInfoList().Count();
 
-                    Assert.AreEqual(mapInfoService.GetMapInfoList().Count(), (from c in dbTestDB.MapInfos select c).Take(200).Count());
+                    Assert.AreEqual(count, (from c in dbTestDB.MapInfos select c).Count());
 
                     mapInfoService.Add(mapInfo);
                     if (mapInfo.HasErrors)
@@ -145,9 +145,9 @@ namespace CSSPServices.Tests
                     // mapInfo.LatMin   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [LatMin]
+                    //CSSPError: Type not implemented [LatMin]
 
-                    //Error: Type not implemented [LatMin]
+                    //CSSPError: Type not implemented [LatMin]
 
                     mapInfo = null;
                     mapInfo = GetFilledRandomMapInfo("");
@@ -168,9 +168,9 @@ namespace CSSPServices.Tests
                     // mapInfo.LatMax   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [LatMax]
+                    //CSSPError: Type not implemented [LatMax]
 
-                    //Error: Type not implemented [LatMax]
+                    //CSSPError: Type not implemented [LatMax]
 
                     mapInfo = null;
                     mapInfo = GetFilledRandomMapInfo("");
@@ -191,9 +191,9 @@ namespace CSSPServices.Tests
                     // mapInfo.LngMin   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [LngMin]
+                    //CSSPError: Type not implemented [LngMin]
 
-                    //Error: Type not implemented [LngMin]
+                    //CSSPError: Type not implemented [LngMin]
 
                     mapInfo = null;
                     mapInfo = GetFilledRandomMapInfo("");
@@ -214,9 +214,9 @@ namespace CSSPServices.Tests
                     // mapInfo.LngMax   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [LngMax]
+                    //CSSPError: Type not implemented [LngMax]
 
-                    //Error: Type not implemented [LngMax]
+                    //CSSPError: Type not implemented [LngMax]
 
                     mapInfo = null;
                     mapInfo = GetFilledRandomMapInfo("");
@@ -314,23 +314,23 @@ namespace CSSPServices.Tests
                     MapInfo mapInfo = (from c in dbTestDB.MapInfos select c).FirstOrDefault();
                     Assert.IsNotNull(mapInfo);
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        mapInfoService.Query.Detail = detail;
+                        mapInfoService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             MapInfo mapInfoRet = mapInfoService.GetMapInfoWithMapInfoID(mapInfo.MapInfoID);
                             CheckMapInfoFields(new List<MapInfo>() { mapInfoRet });
                             Assert.AreEqual(mapInfo.MapInfoID, mapInfoRet.MapInfoID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             MapInfoExtraA mapInfoExtraARet = mapInfoService.GetMapInfoExtraAWithMapInfoID(mapInfo.MapInfoID);
                             CheckMapInfoExtraAFields(new List<MapInfoExtraA>() { mapInfoExtraARet });
                             Assert.AreEqual(mapInfo.MapInfoID, mapInfoExtraARet.MapInfoID);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             MapInfoExtraB mapInfoExtraBRet = mapInfoService.GetMapInfoExtraBWithMapInfoID(mapInfo.MapInfoID);
                             CheckMapInfoExtraBFields(new List<MapInfoExtraB>() { mapInfoExtraBRet });
@@ -363,24 +363,24 @@ namespace CSSPServices.Tests
                     List<MapInfo> mapInfoDirectQueryList = new List<MapInfo>();
                     mapInfoDirectQueryList = (from c in dbTestDB.MapInfos select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        mapInfoService.Query.Detail = detail;
+                        mapInfoService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MapInfo> mapInfoList = new List<MapInfo>();
                             mapInfoList = mapInfoService.GetMapInfoList().ToList();
                             CheckMapInfoFields(mapInfoList);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MapInfoExtraA> mapInfoExtraAList = new List<MapInfoExtraA>();
                             mapInfoExtraAList = mapInfoService.GetMapInfoExtraAList().ToList();
                             CheckMapInfoExtraAFields(mapInfoExtraAList);
                             Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfoExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MapInfoExtraB> mapInfoExtraBList = new List<MapInfoExtraB>();
                             mapInfoExtraBList = mapInfoService.GetMapInfoExtraBList().ToList();
@@ -407,7 +407,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MapInfoService mapInfoService = new MapInfoService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -416,14 +416,14 @@ namespace CSSPServices.Tests
                         List<MapInfo> mapInfoDirectQueryList = new List<MapInfo>();
                         mapInfoDirectQueryList = (from c in dbTestDB.MapInfos select c).Skip(1).Take(1).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MapInfo> mapInfoList = new List<MapInfo>();
                             mapInfoList = mapInfoService.GetMapInfoList().ToList();
                             CheckMapInfoFields(mapInfoList);
                             Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoList[0].MapInfoID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MapInfoExtraA> mapInfoExtraAList = new List<MapInfoExtraA>();
                             mapInfoExtraAList = mapInfoService.GetMapInfoExtraAList().ToList();
@@ -431,7 +431,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoExtraAList[0].MapInfoID);
                             Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfoExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MapInfoExtraB> mapInfoExtraBList = new List<MapInfoExtraB>();
                             mapInfoExtraBList = mapInfoService.GetMapInfoExtraBList().ToList();
@@ -459,7 +459,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MapInfoService mapInfoService = new MapInfoService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -468,14 +468,14 @@ namespace CSSPServices.Tests
                         List<MapInfo> mapInfoDirectQueryList = new List<MapInfo>();
                         mapInfoDirectQueryList = (from c in dbTestDB.MapInfos select c).Skip(1).Take(1).OrderBy(c => c.MapInfoID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MapInfo> mapInfoList = new List<MapInfo>();
                             mapInfoList = mapInfoService.GetMapInfoList().ToList();
                             CheckMapInfoFields(mapInfoList);
                             Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoList[0].MapInfoID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MapInfoExtraA> mapInfoExtraAList = new List<MapInfoExtraA>();
                             mapInfoExtraAList = mapInfoService.GetMapInfoExtraAList().ToList();
@@ -483,7 +483,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoExtraAList[0].MapInfoID);
                             Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfoExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MapInfoExtraB> mapInfoExtraBList = new List<MapInfoExtraB>();
                             mapInfoExtraBList = mapInfoService.GetMapInfoExtraBList().ToList();
@@ -511,7 +511,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MapInfoService mapInfoService = new MapInfoService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -520,14 +520,14 @@ namespace CSSPServices.Tests
                         List<MapInfo> mapInfoDirectQueryList = new List<MapInfo>();
                         mapInfoDirectQueryList = (from c in dbTestDB.MapInfos select c).Skip(1).Take(1).OrderBy(c => c.MapInfoID).ThenBy(c => c.TVItemID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MapInfo> mapInfoList = new List<MapInfo>();
                             mapInfoList = mapInfoService.GetMapInfoList().ToList();
                             CheckMapInfoFields(mapInfoList);
                             Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoList[0].MapInfoID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MapInfoExtraA> mapInfoExtraAList = new List<MapInfoExtraA>();
                             mapInfoExtraAList = mapInfoService.GetMapInfoExtraAList().ToList();
@@ -535,7 +535,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoExtraAList[0].MapInfoID);
                             Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfoExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MapInfoExtraB> mapInfoExtraBList = new List<MapInfoExtraB>();
                             mapInfoExtraBList = mapInfoService.GetMapInfoExtraBList().ToList();
@@ -563,7 +563,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MapInfoService mapInfoService = new MapInfoService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -572,14 +572,14 @@ namespace CSSPServices.Tests
                         List<MapInfo> mapInfoDirectQueryList = new List<MapInfo>();
                         mapInfoDirectQueryList = (from c in dbTestDB.MapInfos select c).Where(c => c.MapInfoID == 4).Skip(0).Take(1).OrderBy(c => c.MapInfoID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MapInfo> mapInfoList = new List<MapInfo>();
                             mapInfoList = mapInfoService.GetMapInfoList().ToList();
                             CheckMapInfoFields(mapInfoList);
                             Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoList[0].MapInfoID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MapInfoExtraA> mapInfoExtraAList = new List<MapInfoExtraA>();
                             mapInfoExtraAList = mapInfoService.GetMapInfoExtraAList().ToList();
@@ -587,7 +587,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoExtraAList[0].MapInfoID);
                             Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfoExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MapInfoExtraB> mapInfoExtraBList = new List<MapInfoExtraB>();
                             mapInfoExtraBList = mapInfoService.GetMapInfoExtraBList().ToList();
@@ -615,7 +615,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MapInfoService mapInfoService = new MapInfoService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -624,14 +624,14 @@ namespace CSSPServices.Tests
                         List<MapInfo> mapInfoDirectQueryList = new List<MapInfo>();
                         mapInfoDirectQueryList = (from c in dbTestDB.MapInfos select c).Where(c => c.MapInfoID > 2 && c.MapInfoID < 5).Skip(0).Take(1).OrderBy(c => c.MapInfoID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MapInfo> mapInfoList = new List<MapInfo>();
                             mapInfoList = mapInfoService.GetMapInfoList().ToList();
                             CheckMapInfoFields(mapInfoList);
                             Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoList[0].MapInfoID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MapInfoExtraA> mapInfoExtraAList = new List<MapInfoExtraA>();
                             mapInfoExtraAList = mapInfoService.GetMapInfoExtraAList().ToList();
@@ -639,7 +639,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoExtraAList[0].MapInfoID);
                             Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfoExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MapInfoExtraB> mapInfoExtraBList = new List<MapInfoExtraB>();
                             mapInfoExtraBList = mapInfoService.GetMapInfoExtraBList().ToList();
@@ -667,7 +667,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MapInfoService mapInfoService = new MapInfoService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -676,14 +676,14 @@ namespace CSSPServices.Tests
                         List<MapInfo> mapInfoDirectQueryList = new List<MapInfo>();
                         mapInfoDirectQueryList = (from c in dbTestDB.MapInfos select c).Where(c => c.MapInfoID > 2 && c.MapInfoID < 5).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MapInfo> mapInfoList = new List<MapInfo>();
                             mapInfoList = mapInfoService.GetMapInfoList().ToList();
                             CheckMapInfoFields(mapInfoList);
                             Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoList[0].MapInfoID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MapInfoExtraA> mapInfoExtraAList = new List<MapInfoExtraA>();
                             mapInfoExtraAList = mapInfoService.GetMapInfoExtraAList().ToList();
@@ -691,7 +691,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoExtraAList[0].MapInfoID);
                             Assert.AreEqual(mapInfoDirectQueryList.Count, mapInfoExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MapInfoExtraB> mapInfoExtraBList = new List<MapInfoExtraB>();
                             mapInfoExtraBList = mapInfoService.GetMapInfoExtraBList().ToList();
@@ -726,8 +726,8 @@ namespace CSSPServices.Tests
         }
         private void CheckMapInfoExtraAFields(List<MapInfoExtraA> mapInfoExtraAList)
         {
-            Assert.IsNotNull(mapInfoExtraAList[0].TVItemLanguage);
-            Assert.IsNotNull(mapInfoExtraAList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoExtraAList[0].TVItemText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoExtraAList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(mapInfoExtraAList[0].TVTypeText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoExtraAList[0].TVTypeText));
@@ -754,8 +754,8 @@ namespace CSSPServices.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoExtraBList[0].MapInfoReportTest));
             }
-            Assert.IsNotNull(mapInfoExtraBList[0].TVItemLanguage);
-            Assert.IsNotNull(mapInfoExtraBList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoExtraBList[0].TVItemText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoExtraBList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(mapInfoExtraBList[0].TVTypeText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoExtraBList[0].TVTypeText));

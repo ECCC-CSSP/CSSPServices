@@ -31,25 +31,27 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
-                let TVItemLanguage = (from cl in db.TVItemLanguages
+                let TVItemText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.TVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
+                let TVTypeText = (from e in TVTypeEnumList
+                    where e.EnumID == (int?)c.TVType
+                    select e.EnumText).FirstOrDefault()
+                let MapInfoDrawTypeText = (from e in MapInfoDrawTypeEnumList
+                    where e.EnumID == (int?)c.MapInfoDrawType
+                    select e.EnumText).FirstOrDefault()
                     select new MapInfoExtraB
                     {
                         MapInfoReportTest = MapInfoReportTest,
-                        TVItemLanguage = TVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        TVTypeText = (from e in TVTypeEnumList
-                                where e.EnumID == (int?)c.TVType
-                                select e.EnumText).FirstOrDefault(),
-                        MapInfoDrawTypeText = (from e in MapInfoDrawTypeEnumList
-                                where e.EnumID == (int?)c.MapInfoDrawType
-                                select e.EnumText).FirstOrDefault(),
+                        TVItemText = TVItemText,
+                        LastUpdateContactText = LastUpdateContactText,
+                        TVTypeText = TVTypeText,
+                        MapInfoDrawTypeText = MapInfoDrawTypeText,
                         MapInfoID = c.MapInfoID,
                         TVItemID = c.TVItemID,
                         TVType = c.TVType,

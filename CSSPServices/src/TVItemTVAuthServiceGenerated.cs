@@ -91,7 +91,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "TVItemTVAuthTVAuthText", "100"), new[] { "TVAuthText" });
             }
 
-            retStr = ""; // added to stop compiling error
+            retStr = ""; // added to stop compiling CSSPError
             if (retStr != "") // will never be true
             {
                 tvItemTVAuth.HasErrors = true;

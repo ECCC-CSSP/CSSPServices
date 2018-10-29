@@ -22,23 +22,23 @@ namespace CSSPServices
         private IQueryable<PolSourceObservationExtraA> FillPolSourceObservationExtraA()
         {
              IQueryable<PolSourceObservationExtraA> PolSourceObservationExtraAQuery = (from c in db.PolSourceObservations
-                let PolSourceSiteTVItemLanguage = (from cl in db.TVItemLanguages
+                let PolSourceSiteText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.PolSourceSiteID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let ContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let ContactName = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.ContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
                     select new PolSourceObservationExtraA
                     {
-                        PolSourceSiteTVItemLanguage = PolSourceSiteTVItemLanguage,
-                        ContactTVItemLanguage = ContactTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        PolSourceSiteText = PolSourceSiteText,
+                        ContactName = ContactName,
+                        LastUpdateContactText = LastUpdateContactText,
                         PolSourceObservationID = c.PolSourceObservationID,
                         PolSourceSiteID = c.PolSourceSiteID,
                         ObservationDate_Local = c.ObservationDate_Local,

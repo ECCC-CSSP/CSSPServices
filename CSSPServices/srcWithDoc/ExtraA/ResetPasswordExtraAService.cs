@@ -22,13 +22,13 @@ namespace CSSPServices
         private IQueryable<ResetPasswordExtraA> FillResetPasswordExtraA()
         {
              IQueryable<ResetPasswordExtraA> ResetPasswordExtraAQuery = (from c in db.ResetPasswords
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
                     select new ResetPasswordExtraA
                     {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        LastUpdateContactText = LastUpdateContactText,
                         ResetPasswordID = c.ResetPasswordID,
                         Email = c.Email,
                         ExpireDate_Local = c.ExpireDate_Local,

@@ -22,13 +22,13 @@ namespace CSSPServices
         private IQueryable<MWQMLookupMPNExtraA> FillMWQMLookupMPNExtraA()
         {
              IQueryable<MWQMLookupMPNExtraA> MWQMLookupMPNExtraAQuery = (from c in db.MWQMLookupMPNs
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
                     select new MWQMLookupMPNExtraA
                     {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        LastUpdateContactText = LastUpdateContactText,
                         MWQMLookupMPNID = c.MWQMLookupMPNID,
                         Tubes10 = c.Tubes10,
                         Tubes1 = c.Tubes1,

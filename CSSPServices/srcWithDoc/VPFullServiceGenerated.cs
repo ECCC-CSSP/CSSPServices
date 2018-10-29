@@ -42,16 +42,16 @@ namespace CSSPServices
             VPFull vpFull = validationContext.ObjectInstance as VPFull;
             vpFull.HasErrors = false;
 
-                //Error: Type not implemented [VPScenario] of type [VPScenario]
+                //CSSPError: Type not implemented [VPScenario] of type [VPScenario]
 
-                //Error: Type not implemented [VPScenario] of type [VPScenario]
-                //Error: Type not implemented [VPAmbientList] of type [List`1]
+                //CSSPError: Type not implemented [VPScenario] of type [VPScenario]
+                //CSSPError: Type not implemented [VPAmbientList] of type [List`1]
 
-                //Error: Type not implemented [VPAmbientList] of type [VPAmbient]
-                //Error: Type not implemented [VPResultList] of type [List`1]
+                //CSSPError: Type not implemented [VPAmbientList] of type [VPAmbient]
+                //CSSPError: Type not implemented [VPResultList] of type [List`1]
 
-                //Error: Type not implemented [VPResultList] of type [VPResult]
-            retStr = ""; // added to stop compiling error
+                //CSSPError: Type not implemented [VPResultList] of type [VPResult]
+            retStr = ""; // added to stop compiling CSSPError
             if (retStr != "") // will never be true
             {
                 vpFull.HasErrors = true;

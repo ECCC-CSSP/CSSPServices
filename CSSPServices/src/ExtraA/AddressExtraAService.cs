@@ -47,6 +47,12 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
+                let AddressTypeText = (from e in AddressTypeEnumList
+                    where e.EnumID == (int?)c.AddressType
+                    select e.EnumText).FirstOrDefault()
+                let StreetTypeText = (from e in StreetTypeEnumList
+                    where e.EnumID == (int?)c.StreetType
+                    select e.EnumText).FirstOrDefault()
                     select new AddressExtraA
                     {
                         AddressText = AddressText,
@@ -54,12 +60,8 @@ namespace CSSPServices
                         ProvinceText = ProvinceText,
                         MunicipalityText = MunicipalityText,
                         LastUpdateContactText = LastUpdateContactText,
-                        AddressTypeText = (from e in AddressTypeEnumList
-                                where e.EnumID == (int?)c.AddressType
-                                select e.EnumText).FirstOrDefault(),
-                        StreetTypeText = (from e in StreetTypeEnumList
-                                where e.EnumID == (int?)c.StreetType
-                                select e.EnumText).FirstOrDefault(),
+                        AddressTypeText = AddressTypeText,
+                        StreetTypeText = StreetTypeText,
                         AddressID = c.AddressID,
                         AddressTVItemID = c.AddressTVItemID,
                         AddressType = c.AddressType,

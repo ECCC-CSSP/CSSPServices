@@ -30,27 +30,28 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
-                let MWQMSiteTVItemLanguage = (from cl in db.TVItemLanguages
+                let MWQMSiteText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MWQMSiteTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let MWQMRunTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let MWQMRunText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MWQMRunTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
+                let SampleType_oldText = (from e in SampleTypeEnumList
+                    where e.EnumID == (int?)c.SampleType_old
+                    select e.EnumText).FirstOrDefault()
                     select new MWQMSampleExtraB
                     {
                         MWQMSampleReportTest = MWQMSampleReportTest,
-                        MWQMSiteTVItemLanguage = MWQMSiteTVItemLanguage,
-                        MWQMRunTVItemLanguage = MWQMRunTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        SampleType_oldText = (from e in SampleTypeEnumList
-                                where e.EnumID == (int?)c.SampleType_old
-                                select e.EnumText).FirstOrDefault(),
+                        MWQMSiteText = MWQMSiteText,
+                        MWQMRunText = MWQMRunText,
+                        LastUpdateContactText = LastUpdateContactText,
+                        SampleType_oldText = SampleType_oldText,
                         MWQMSampleID = c.MWQMSampleID,
                         MWQMSiteTVItemID = c.MWQMSiteTVItemID,
                         MWQMRunTVItemID = c.MWQMRunTVItemID,

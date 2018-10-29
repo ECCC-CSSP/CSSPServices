@@ -30,22 +30,23 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
-                let MWQMSiteTVItemLanguage = (from cl in db.TVItemLanguages
+                let MWQMSiteText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MWQMSiteTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
+                let MWQMSiteLatestClassificationText = (from e in MWQMSiteLatestClassificationEnumList
+                    where e.EnumID == (int?)c.MWQMSiteLatestClassification
+                    select e.EnumText).FirstOrDefault()
                     select new MWQMSiteExtraB
                     {
                         MWQMSiteReportTest = MWQMSiteReportTest,
-                        MWQMSiteTVItemLanguage = MWQMSiteTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        MWQMSiteLatestClassificationText = (from e in MWQMSiteLatestClassificationEnumList
-                                where e.EnumID == (int?)c.MWQMSiteLatestClassification
-                                select e.EnumText).FirstOrDefault(),
+                        MWQMSiteText = MWQMSiteText,
+                        LastUpdateContactText = LastUpdateContactText,
+                        MWQMSiteLatestClassificationText = MWQMSiteLatestClassificationText,
                         MWQMSiteID = c.MWQMSiteID,
                         MWQMSiteTVItemID = c.MWQMSiteTVItemID,
                         MWQMSiteNumber = c.MWQMSiteNumber,

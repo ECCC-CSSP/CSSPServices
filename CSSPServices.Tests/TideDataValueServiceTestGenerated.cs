@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                     count = tideDataValueService.GetTideDataValueList().Count();
 
-                    Assert.AreEqual(tideDataValueService.GetTideDataValueList().Count(), (from c in dbTestDB.TideDataValues select c).Take(200).Count());
+                    Assert.AreEqual(count, (from c in dbTestDB.TideDataValues select c).Count());
 
                     tideDataValueService.Add(tideDataValue);
                     if (tideDataValue.HasErrors)
@@ -181,9 +181,9 @@ namespace CSSPServices.Tests
                     // tideDataValue.Depth_m   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [Depth_m]
+                    //CSSPError: Type not implemented [Depth_m]
 
-                    //Error: Type not implemented [Depth_m]
+                    //CSSPError: Type not implemented [Depth_m]
 
                     tideDataValue = null;
                     tideDataValue = GetFilledRandomTideDataValue("");
@@ -204,9 +204,9 @@ namespace CSSPServices.Tests
                     // tideDataValue.UVelocity_m_s   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [UVelocity_m_s]
+                    //CSSPError: Type not implemented [UVelocity_m_s]
 
-                    //Error: Type not implemented [UVelocity_m_s]
+                    //CSSPError: Type not implemented [UVelocity_m_s]
 
                     tideDataValue = null;
                     tideDataValue = GetFilledRandomTideDataValue("");
@@ -227,9 +227,9 @@ namespace CSSPServices.Tests
                     // tideDataValue.VVelocity_m_s   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [VVelocity_m_s]
+                    //CSSPError: Type not implemented [VVelocity_m_s]
 
-                    //Error: Type not implemented [VVelocity_m_s]
+                    //CSSPError: Type not implemented [VVelocity_m_s]
 
                     tideDataValue = null;
                     tideDataValue = GetFilledRandomTideDataValue("");
@@ -340,23 +340,23 @@ namespace CSSPServices.Tests
                     TideDataValue tideDataValue = (from c in dbTestDB.TideDataValues select c).FirstOrDefault();
                     Assert.IsNotNull(tideDataValue);
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        tideDataValueService.Query.Detail = detail;
+                        tideDataValueService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             TideDataValue tideDataValueRet = tideDataValueService.GetTideDataValueWithTideDataValueID(tideDataValue.TideDataValueID);
                             CheckTideDataValueFields(new List<TideDataValue>() { tideDataValueRet });
                             Assert.AreEqual(tideDataValue.TideDataValueID, tideDataValueRet.TideDataValueID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             TideDataValueExtraA tideDataValueExtraARet = tideDataValueService.GetTideDataValueExtraAWithTideDataValueID(tideDataValue.TideDataValueID);
                             CheckTideDataValueExtraAFields(new List<TideDataValueExtraA>() { tideDataValueExtraARet });
                             Assert.AreEqual(tideDataValue.TideDataValueID, tideDataValueExtraARet.TideDataValueID);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             TideDataValueExtraB tideDataValueExtraBRet = tideDataValueService.GetTideDataValueExtraBWithTideDataValueID(tideDataValue.TideDataValueID);
                             CheckTideDataValueExtraBFields(new List<TideDataValueExtraB>() { tideDataValueExtraBRet });
@@ -389,24 +389,24 @@ namespace CSSPServices.Tests
                     List<TideDataValue> tideDataValueDirectQueryList = new List<TideDataValue>();
                     tideDataValueDirectQueryList = (from c in dbTestDB.TideDataValues select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        tideDataValueService.Query.Detail = detail;
+                        tideDataValueService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<TideDataValue> tideDataValueList = new List<TideDataValue>();
                             tideDataValueList = tideDataValueService.GetTideDataValueList().ToList();
                             CheckTideDataValueFields(tideDataValueList);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TideDataValueExtraA> tideDataValueExtraAList = new List<TideDataValueExtraA>();
                             tideDataValueExtraAList = tideDataValueService.GetTideDataValueExtraAList().ToList();
                             CheckTideDataValueExtraAFields(tideDataValueExtraAList);
                             Assert.AreEqual(tideDataValueDirectQueryList.Count, tideDataValueExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TideDataValueExtraB> tideDataValueExtraBList = new List<TideDataValueExtraB>();
                             tideDataValueExtraBList = tideDataValueService.GetTideDataValueExtraBList().ToList();
@@ -433,7 +433,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TideDataValueService tideDataValueService = new TideDataValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -442,14 +442,14 @@ namespace CSSPServices.Tests
                         List<TideDataValue> tideDataValueDirectQueryList = new List<TideDataValue>();
                         tideDataValueDirectQueryList = (from c in dbTestDB.TideDataValues select c).Skip(1).Take(1).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<TideDataValue> tideDataValueList = new List<TideDataValue>();
                             tideDataValueList = tideDataValueService.GetTideDataValueList().ToList();
                             CheckTideDataValueFields(tideDataValueList);
                             Assert.AreEqual(tideDataValueDirectQueryList[0].TideDataValueID, tideDataValueList[0].TideDataValueID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TideDataValueExtraA> tideDataValueExtraAList = new List<TideDataValueExtraA>();
                             tideDataValueExtraAList = tideDataValueService.GetTideDataValueExtraAList().ToList();
@@ -457,7 +457,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tideDataValueDirectQueryList[0].TideDataValueID, tideDataValueExtraAList[0].TideDataValueID);
                             Assert.AreEqual(tideDataValueDirectQueryList.Count, tideDataValueExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TideDataValueExtraB> tideDataValueExtraBList = new List<TideDataValueExtraB>();
                             tideDataValueExtraBList = tideDataValueService.GetTideDataValueExtraBList().ToList();
@@ -485,7 +485,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TideDataValueService tideDataValueService = new TideDataValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -494,14 +494,14 @@ namespace CSSPServices.Tests
                         List<TideDataValue> tideDataValueDirectQueryList = new List<TideDataValue>();
                         tideDataValueDirectQueryList = (from c in dbTestDB.TideDataValues select c).Skip(1).Take(1).OrderBy(c => c.TideDataValueID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<TideDataValue> tideDataValueList = new List<TideDataValue>();
                             tideDataValueList = tideDataValueService.GetTideDataValueList().ToList();
                             CheckTideDataValueFields(tideDataValueList);
                             Assert.AreEqual(tideDataValueDirectQueryList[0].TideDataValueID, tideDataValueList[0].TideDataValueID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TideDataValueExtraA> tideDataValueExtraAList = new List<TideDataValueExtraA>();
                             tideDataValueExtraAList = tideDataValueService.GetTideDataValueExtraAList().ToList();
@@ -509,7 +509,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tideDataValueDirectQueryList[0].TideDataValueID, tideDataValueExtraAList[0].TideDataValueID);
                             Assert.AreEqual(tideDataValueDirectQueryList.Count, tideDataValueExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TideDataValueExtraB> tideDataValueExtraBList = new List<TideDataValueExtraB>();
                             tideDataValueExtraBList = tideDataValueService.GetTideDataValueExtraBList().ToList();
@@ -537,7 +537,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TideDataValueService tideDataValueService = new TideDataValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -546,14 +546,14 @@ namespace CSSPServices.Tests
                         List<TideDataValue> tideDataValueDirectQueryList = new List<TideDataValue>();
                         tideDataValueDirectQueryList = (from c in dbTestDB.TideDataValues select c).Skip(1).Take(1).OrderBy(c => c.TideDataValueID).ThenBy(c => c.TideSiteTVItemID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<TideDataValue> tideDataValueList = new List<TideDataValue>();
                             tideDataValueList = tideDataValueService.GetTideDataValueList().ToList();
                             CheckTideDataValueFields(tideDataValueList);
                             Assert.AreEqual(tideDataValueDirectQueryList[0].TideDataValueID, tideDataValueList[0].TideDataValueID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TideDataValueExtraA> tideDataValueExtraAList = new List<TideDataValueExtraA>();
                             tideDataValueExtraAList = tideDataValueService.GetTideDataValueExtraAList().ToList();
@@ -561,7 +561,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tideDataValueDirectQueryList[0].TideDataValueID, tideDataValueExtraAList[0].TideDataValueID);
                             Assert.AreEqual(tideDataValueDirectQueryList.Count, tideDataValueExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TideDataValueExtraB> tideDataValueExtraBList = new List<TideDataValueExtraB>();
                             tideDataValueExtraBList = tideDataValueService.GetTideDataValueExtraBList().ToList();
@@ -589,7 +589,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TideDataValueService tideDataValueService = new TideDataValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -598,14 +598,14 @@ namespace CSSPServices.Tests
                         List<TideDataValue> tideDataValueDirectQueryList = new List<TideDataValue>();
                         tideDataValueDirectQueryList = (from c in dbTestDB.TideDataValues select c).Where(c => c.TideDataValueID == 4).Skip(0).Take(1).OrderBy(c => c.TideDataValueID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<TideDataValue> tideDataValueList = new List<TideDataValue>();
                             tideDataValueList = tideDataValueService.GetTideDataValueList().ToList();
                             CheckTideDataValueFields(tideDataValueList);
                             Assert.AreEqual(tideDataValueDirectQueryList[0].TideDataValueID, tideDataValueList[0].TideDataValueID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TideDataValueExtraA> tideDataValueExtraAList = new List<TideDataValueExtraA>();
                             tideDataValueExtraAList = tideDataValueService.GetTideDataValueExtraAList().ToList();
@@ -613,7 +613,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tideDataValueDirectQueryList[0].TideDataValueID, tideDataValueExtraAList[0].TideDataValueID);
                             Assert.AreEqual(tideDataValueDirectQueryList.Count, tideDataValueExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TideDataValueExtraB> tideDataValueExtraBList = new List<TideDataValueExtraB>();
                             tideDataValueExtraBList = tideDataValueService.GetTideDataValueExtraBList().ToList();
@@ -641,7 +641,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TideDataValueService tideDataValueService = new TideDataValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -650,14 +650,14 @@ namespace CSSPServices.Tests
                         List<TideDataValue> tideDataValueDirectQueryList = new List<TideDataValue>();
                         tideDataValueDirectQueryList = (from c in dbTestDB.TideDataValues select c).Where(c => c.TideDataValueID > 2 && c.TideDataValueID < 5).Skip(0).Take(1).OrderBy(c => c.TideDataValueID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<TideDataValue> tideDataValueList = new List<TideDataValue>();
                             tideDataValueList = tideDataValueService.GetTideDataValueList().ToList();
                             CheckTideDataValueFields(tideDataValueList);
                             Assert.AreEqual(tideDataValueDirectQueryList[0].TideDataValueID, tideDataValueList[0].TideDataValueID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TideDataValueExtraA> tideDataValueExtraAList = new List<TideDataValueExtraA>();
                             tideDataValueExtraAList = tideDataValueService.GetTideDataValueExtraAList().ToList();
@@ -665,7 +665,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tideDataValueDirectQueryList[0].TideDataValueID, tideDataValueExtraAList[0].TideDataValueID);
                             Assert.AreEqual(tideDataValueDirectQueryList.Count, tideDataValueExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TideDataValueExtraB> tideDataValueExtraBList = new List<TideDataValueExtraB>();
                             tideDataValueExtraBList = tideDataValueService.GetTideDataValueExtraBList().ToList();
@@ -693,7 +693,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TideDataValueService tideDataValueService = new TideDataValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -702,14 +702,14 @@ namespace CSSPServices.Tests
                         List<TideDataValue> tideDataValueDirectQueryList = new List<TideDataValue>();
                         tideDataValueDirectQueryList = (from c in dbTestDB.TideDataValues select c).Where(c => c.TideDataValueID > 2 && c.TideDataValueID < 5).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<TideDataValue> tideDataValueList = new List<TideDataValue>();
                             tideDataValueList = tideDataValueService.GetTideDataValueList().ToList();
                             CheckTideDataValueFields(tideDataValueList);
                             Assert.AreEqual(tideDataValueDirectQueryList[0].TideDataValueID, tideDataValueList[0].TideDataValueID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TideDataValueExtraA> tideDataValueExtraAList = new List<TideDataValueExtraA>();
                             tideDataValueExtraAList = tideDataValueService.GetTideDataValueExtraAList().ToList();
@@ -717,7 +717,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tideDataValueDirectQueryList[0].TideDataValueID, tideDataValueExtraAList[0].TideDataValueID);
                             Assert.AreEqual(tideDataValueDirectQueryList.Count, tideDataValueExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TideDataValueExtraB> tideDataValueExtraBList = new List<TideDataValueExtraB>();
                             tideDataValueExtraBList = tideDataValueService.GetTideDataValueExtraBList().ToList();
@@ -761,8 +761,8 @@ namespace CSSPServices.Tests
         }
         private void CheckTideDataValueExtraAFields(List<TideDataValueExtraA> tideDataValueExtraAList)
         {
-            Assert.IsNotNull(tideDataValueExtraAList[0].TideSiteTVItemLanguage);
-            Assert.IsNotNull(tideDataValueExtraAList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueExtraAList[0].TideSiteText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueExtraAList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(tideDataValueExtraAList[0].TideDataTypeText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueExtraAList[0].TideDataTypeText));
@@ -806,8 +806,8 @@ namespace CSSPServices.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueExtraBList[0].TideDataValueReportTest));
             }
-            Assert.IsNotNull(tideDataValueExtraBList[0].TideSiteTVItemLanguage);
-            Assert.IsNotNull(tideDataValueExtraBList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueExtraBList[0].TideSiteText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueExtraBList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(tideDataValueExtraBList[0].TideDataTypeText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueExtraBList[0].TideDataTypeText));

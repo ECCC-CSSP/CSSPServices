@@ -534,7 +534,7 @@ namespace CSSPServices
             return query;
         }
         public Query FillQuery(Type modelType, string lang = "en", int skip = 0, int take = 200, string order = "", string where = "",
-                string detail = "")
+                string extra = "")
         {
             Query query = new Query();
 
@@ -545,7 +545,7 @@ namespace CSSPServices
             query.Take = (take < 1 ? 1 : take);
             query.Order = order ?? "";
             query.Where = where ?? "";
-            query.Detail = detail ?? "";
+            query.Extra = extra ?? "";
 
             query.ValidationResults = ValidateQuery(new ValidationContext(query));
             if (query.ValidationResults.Count() > 0) return query;

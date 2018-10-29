@@ -42,9 +42,9 @@ namespace CSSPServices
             Query query = validationContext.ObjectInstance as Query;
             query.HasErrors = false;
 
-                //Error: Type not implemented [ModelType] of type [Type]
+                //CSSPError: Type not implemented [ModelType] of type [Type]
 
-                //Error: Type not implemented [ModelType] of type [Type]
+                //CSSPError: Type not implemented [ModelType] of type [Type]
             if (query.Language != null)
             {
                 retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)query.Language);
@@ -103,26 +103,26 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "QueryWhere", "200"), new[] { "Where" });
             }
 
-            if (string.IsNullOrWhiteSpace(query.Detail))
+            if (string.IsNullOrWhiteSpace(query.Extra))
             {
                 query.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "QueryDetail"), new[] { "Detail" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "QueryExtra"), new[] { "Extra" });
             }
 
-            if (!string.IsNullOrWhiteSpace(query.Detail) && query.Detail.Length > 1)
+            if (!string.IsNullOrWhiteSpace(query.Extra) && query.Extra.Length > 1)
             {
                 query.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "QueryDetail", "1"), new[] { "Detail" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "QueryExtra", "1"), new[] { "Extra" });
             }
 
-                //Error: Type not implemented [OrderList] of type [List`1]
+                //CSSPError: Type not implemented [OrderList] of type [List`1]
 
             //OrderList has no StringLength Attribute
 
-                //Error: Type not implemented [WhereInfoList] of type [List`1]
+                //CSSPError: Type not implemented [WhereInfoList] of type [List`1]
 
-                //Error: Type not implemented [WhereInfoList] of type [WhereInfo]
-            retStr = ""; // added to stop compiling error
+                //CSSPError: Type not implemented [WhereInfoList] of type [WhereInfo]
+            retStr = ""; // added to stop compiling CSSPError
             if (retStr != "") // will never be true
             {
                 query.HasErrors = true;

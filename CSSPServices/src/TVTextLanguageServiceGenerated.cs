@@ -63,7 +63,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "TVTextLanguageLanguageText", "100"), new[] { "LanguageText" });
             }
 
-            retStr = ""; // added to stop compiling error
+            retStr = ""; // added to stop compiling CSSPError
             if (retStr != "") // will never be true
             {
                 tvTextLanguage.HasErrors = true;

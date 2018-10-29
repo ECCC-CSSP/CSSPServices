@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                     count = telService.GetTelList().Count();
 
-                    Assert.AreEqual(telService.GetTelList().Count(), (from c in dbTestDB.Tels select c).Take(200).Count());
+                    Assert.AreEqual(count, (from c in dbTestDB.Tels select c).Count());
 
                     telService.Add(tel);
                     if (tel.HasErrors)
@@ -230,23 +230,23 @@ namespace CSSPServices.Tests
                     Tel tel = (from c in dbTestDB.Tels select c).FirstOrDefault();
                     Assert.IsNotNull(tel);
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        telService.Query.Detail = detail;
+                        telService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             Tel telRet = telService.GetTelWithTelID(tel.TelID);
                             CheckTelFields(new List<Tel>() { telRet });
                             Assert.AreEqual(tel.TelID, telRet.TelID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             TelExtraA telExtraARet = telService.GetTelExtraAWithTelID(tel.TelID);
                             CheckTelExtraAFields(new List<TelExtraA>() { telExtraARet });
                             Assert.AreEqual(tel.TelID, telExtraARet.TelID);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             TelExtraB telExtraBRet = telService.GetTelExtraBWithTelID(tel.TelID);
                             CheckTelExtraBFields(new List<TelExtraB>() { telExtraBRet });
@@ -279,24 +279,24 @@ namespace CSSPServices.Tests
                     List<Tel> telDirectQueryList = new List<Tel>();
                     telDirectQueryList = (from c in dbTestDB.Tels select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        telService.Query.Detail = detail;
+                        telService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Tel> telList = new List<Tel>();
                             telList = telService.GetTelList().ToList();
                             CheckTelFields(telList);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TelExtraA> telExtraAList = new List<TelExtraA>();
                             telExtraAList = telService.GetTelExtraAList().ToList();
                             CheckTelExtraAFields(telExtraAList);
                             Assert.AreEqual(telDirectQueryList.Count, telExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TelExtraB> telExtraBList = new List<TelExtraB>();
                             telExtraBList = telService.GetTelExtraBList().ToList();
@@ -323,7 +323,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TelService telService = new TelService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -332,14 +332,14 @@ namespace CSSPServices.Tests
                         List<Tel> telDirectQueryList = new List<Tel>();
                         telDirectQueryList = (from c in dbTestDB.Tels select c).Skip(1).Take(1).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Tel> telList = new List<Tel>();
                             telList = telService.GetTelList().ToList();
                             CheckTelFields(telList);
                             Assert.AreEqual(telDirectQueryList[0].TelID, telList[0].TelID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TelExtraA> telExtraAList = new List<TelExtraA>();
                             telExtraAList = telService.GetTelExtraAList().ToList();
@@ -347,7 +347,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(telDirectQueryList[0].TelID, telExtraAList[0].TelID);
                             Assert.AreEqual(telDirectQueryList.Count, telExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TelExtraB> telExtraBList = new List<TelExtraB>();
                             telExtraBList = telService.GetTelExtraBList().ToList();
@@ -375,7 +375,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TelService telService = new TelService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -384,14 +384,14 @@ namespace CSSPServices.Tests
                         List<Tel> telDirectQueryList = new List<Tel>();
                         telDirectQueryList = (from c in dbTestDB.Tels select c).Skip(1).Take(1).OrderBy(c => c.TelID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Tel> telList = new List<Tel>();
                             telList = telService.GetTelList().ToList();
                             CheckTelFields(telList);
                             Assert.AreEqual(telDirectQueryList[0].TelID, telList[0].TelID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TelExtraA> telExtraAList = new List<TelExtraA>();
                             telExtraAList = telService.GetTelExtraAList().ToList();
@@ -399,7 +399,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(telDirectQueryList[0].TelID, telExtraAList[0].TelID);
                             Assert.AreEqual(telDirectQueryList.Count, telExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TelExtraB> telExtraBList = new List<TelExtraB>();
                             telExtraBList = telService.GetTelExtraBList().ToList();
@@ -427,7 +427,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TelService telService = new TelService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -436,14 +436,14 @@ namespace CSSPServices.Tests
                         List<Tel> telDirectQueryList = new List<Tel>();
                         telDirectQueryList = (from c in dbTestDB.Tels select c).Skip(1).Take(1).OrderBy(c => c.TelID).ThenBy(c => c.TelTVItemID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Tel> telList = new List<Tel>();
                             telList = telService.GetTelList().ToList();
                             CheckTelFields(telList);
                             Assert.AreEqual(telDirectQueryList[0].TelID, telList[0].TelID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TelExtraA> telExtraAList = new List<TelExtraA>();
                             telExtraAList = telService.GetTelExtraAList().ToList();
@@ -451,7 +451,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(telDirectQueryList[0].TelID, telExtraAList[0].TelID);
                             Assert.AreEqual(telDirectQueryList.Count, telExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TelExtraB> telExtraBList = new List<TelExtraB>();
                             telExtraBList = telService.GetTelExtraBList().ToList();
@@ -479,7 +479,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TelService telService = new TelService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -488,14 +488,14 @@ namespace CSSPServices.Tests
                         List<Tel> telDirectQueryList = new List<Tel>();
                         telDirectQueryList = (from c in dbTestDB.Tels select c).Where(c => c.TelID == 4).Skip(0).Take(1).OrderBy(c => c.TelID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Tel> telList = new List<Tel>();
                             telList = telService.GetTelList().ToList();
                             CheckTelFields(telList);
                             Assert.AreEqual(telDirectQueryList[0].TelID, telList[0].TelID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TelExtraA> telExtraAList = new List<TelExtraA>();
                             telExtraAList = telService.GetTelExtraAList().ToList();
@@ -503,7 +503,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(telDirectQueryList[0].TelID, telExtraAList[0].TelID);
                             Assert.AreEqual(telDirectQueryList.Count, telExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TelExtraB> telExtraBList = new List<TelExtraB>();
                             telExtraBList = telService.GetTelExtraBList().ToList();
@@ -531,7 +531,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TelService telService = new TelService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -540,14 +540,14 @@ namespace CSSPServices.Tests
                         List<Tel> telDirectQueryList = new List<Tel>();
                         telDirectQueryList = (from c in dbTestDB.Tels select c).Where(c => c.TelID > 2 && c.TelID < 5).Skip(0).Take(1).OrderBy(c => c.TelID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Tel> telList = new List<Tel>();
                             telList = telService.GetTelList().ToList();
                             CheckTelFields(telList);
                             Assert.AreEqual(telDirectQueryList[0].TelID, telList[0].TelID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TelExtraA> telExtraAList = new List<TelExtraA>();
                             telExtraAList = telService.GetTelExtraAList().ToList();
@@ -555,7 +555,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(telDirectQueryList[0].TelID, telExtraAList[0].TelID);
                             Assert.AreEqual(telDirectQueryList.Count, telExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TelExtraB> telExtraBList = new List<TelExtraB>();
                             telExtraBList = telService.GetTelExtraBList().ToList();
@@ -583,7 +583,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TelService telService = new TelService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -592,14 +592,14 @@ namespace CSSPServices.Tests
                         List<Tel> telDirectQueryList = new List<Tel>();
                         telDirectQueryList = (from c in dbTestDB.Tels select c).Where(c => c.TelID > 2 && c.TelID < 5).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Tel> telList = new List<Tel>();
                             telList = telService.GetTelList().ToList();
                             CheckTelFields(telList);
                             Assert.AreEqual(telDirectQueryList[0].TelID, telList[0].TelID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TelExtraA> telExtraAList = new List<TelExtraA>();
                             telExtraAList = telService.GetTelExtraAList().ToList();
@@ -607,7 +607,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(telDirectQueryList[0].TelID, telExtraAList[0].TelID);
                             Assert.AreEqual(telDirectQueryList.Count, telExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TelExtraB> telExtraBList = new List<TelExtraB>();
                             telExtraBList = telService.GetTelExtraBList().ToList();
@@ -638,8 +638,8 @@ namespace CSSPServices.Tests
         }
         private void CheckTelExtraAFields(List<TelExtraA> telExtraAList)
         {
-            Assert.IsNotNull(telExtraAList[0].TelTVItemLanguage);
-            Assert.IsNotNull(telExtraAList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(telExtraAList[0].TelNumberText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(telExtraAList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(telExtraAList[0].TelTypeText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(telExtraAList[0].TelTypeText));
@@ -658,8 +658,8 @@ namespace CSSPServices.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(telExtraBList[0].TelReportTest));
             }
-            Assert.IsNotNull(telExtraBList[0].TelTVItemLanguage);
-            Assert.IsNotNull(telExtraBList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(telExtraBList[0].TelNumberText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(telExtraBList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(telExtraBList[0].TelTypeText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(telExtraBList[0].TelTypeText));

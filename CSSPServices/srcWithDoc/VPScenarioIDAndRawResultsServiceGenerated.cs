@@ -56,7 +56,7 @@ namespace CSSPServices
 
             //RawResults has no StringLength Attribute
 
-            retStr = ""; // added to stop compiling error
+            retStr = ""; // added to stop compiling CSSPError
             if (retStr != "") // will never be true
             {
                 vpScenarioIDAndRawResults.HasErrors = true;

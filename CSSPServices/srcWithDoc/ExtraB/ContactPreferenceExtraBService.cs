@@ -30,17 +30,18 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
+                let TVTypeText = (from e in TVTypeEnumList
+                    where e.EnumID == (int?)c.TVType
+                    select e.EnumText).FirstOrDefault()
                     select new ContactPreferenceExtraB
                     {
                         ContactPreferenceReportTest = ContactPreferenceReportTest,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        TVTypeText = (from e in TVTypeEnumList
-                                where e.EnumID == (int?)c.TVType
-                                select e.EnumText).FirstOrDefault(),
+                        LastUpdateContactText = LastUpdateContactText,
+                        TVTypeText = TVTypeText,
                         ContactPreferenceID = c.ContactPreferenceID,
                         ContactID = c.ContactID,
                         TVType = c.TVType,

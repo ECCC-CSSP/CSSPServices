@@ -22,13 +22,13 @@ namespace CSSPServices
         private IQueryable<MikeSourceStartEndExtraA> FillMikeSourceStartEndExtraA()
         {
              IQueryable<MikeSourceStartEndExtraA> MikeSourceStartEndExtraAQuery = (from c in db.MikeSourceStartEnds
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
                     select new MikeSourceStartEndExtraA
                     {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        LastUpdateContactText = LastUpdateContactText,
                         MikeSourceStartEndID = c.MikeSourceStartEndID,
                         MikeSourceID = c.MikeSourceID,
                         StartDateAndTime_Local = c.StartDateAndTime_Local,

@@ -31,23 +31,26 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
+                let LanguageText = (from e in LanguageEnumList
+                    where e.EnumID == (int?)c.Language
+                    select e.EnumText).FirstOrDefault()
+                let TranslationStatusRunCommentText = (from e in TranslationStatusEnumList
+                    where e.EnumID == (int?)c.TranslationStatusRunComment
+                    select e.EnumText).FirstOrDefault()
+                let TranslationStatusRunWeatherCommentText = (from e in TranslationStatusEnumList
+                    where e.EnumID == (int?)c.TranslationStatusRunWeatherComment
+                    select e.EnumText).FirstOrDefault()
                     select new MWQMRunLanguageExtraB
                     {
                         MWQMRunLanguageReportTest = MWQMRunLanguageReportTest,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        LanguageText = (from e in LanguageEnumList
-                                where e.EnumID == (int?)c.Language
-                                select e.EnumText).FirstOrDefault(),
-                        TranslationStatusRunCommentText = (from e in TranslationStatusEnumList
-                                where e.EnumID == (int?)c.TranslationStatusRunComment
-                                select e.EnumText).FirstOrDefault(),
-                        TranslationStatusRunWeatherCommentText = (from e in TranslationStatusEnumList
-                                where e.EnumID == (int?)c.TranslationStatusRunWeatherComment
-                                select e.EnumText).FirstOrDefault(),
+                        LastUpdateContactText = LastUpdateContactText,
+                        LanguageText = LanguageText,
+                        TranslationStatusRunCommentText = TranslationStatusRunCommentText,
+                        TranslationStatusRunWeatherCommentText = TranslationStatusRunWeatherCommentText,
                         MWQMRunLanguageID = c.MWQMRunLanguageID,
                         MWQMRunID = c.MWQMRunID,
                         Language = c.Language,

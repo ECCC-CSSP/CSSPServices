@@ -30,22 +30,23 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
-                let SubsectorTVItemLanguage = (from cl in db.TVItemLanguages
+                let SubsectorText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.InfrastructureTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
+                let VPScenarioStatusText = (from e in ScenarioStatusEnumList
+                    where e.EnumID == (int?)c.VPScenarioStatus
+                    select e.EnumText).FirstOrDefault()
                     select new VPScenarioExtraB
                     {
                         VPScenarioReportTest = VPScenarioReportTest,
-                        SubsectorTVItemLanguage = SubsectorTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        VPScenarioStatusText = (from e in ScenarioStatusEnumList
-                                where e.EnumID == (int?)c.VPScenarioStatus
-                                select e.EnumText).FirstOrDefault(),
+                        SubsectorText = SubsectorText,
+                        LastUpdateContactText = LastUpdateContactText,
+                        VPScenarioStatusText = VPScenarioStatusText,
                         VPScenarioID = c.VPScenarioID,
                         InfrastructureTVItemID = c.InfrastructureTVItemID,
                         VPScenarioStatus = c.VPScenarioStatus,

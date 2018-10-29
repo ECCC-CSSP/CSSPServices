@@ -26,21 +26,22 @@ namespace CSSPServices
             List<EnumIDAndText> ScenarioStatusEnumList = enums.GetEnumTextOrderedList(typeof(ScenarioStatusEnum));
 
              IQueryable<MikeScenarioExtraA> MikeScenarioExtraAQuery = (from c in db.MikeScenarios
-                let MikeScenarioTVItemLanguage = (from cl in db.TVItemLanguages
+                let MikeScenarioText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MikeScenarioTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
+                let ScenarioStatusText = (from e in ScenarioStatusEnumList
+                    where e.EnumID == (int?)c.ScenarioStatus
+                    select e.EnumText).FirstOrDefault()
                     select new MikeScenarioExtraA
                     {
-                        MikeScenarioTVItemLanguage = MikeScenarioTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        ScenarioStatusText = (from e in ScenarioStatusEnumList
-                                where e.EnumID == (int?)c.ScenarioStatus
-                                select e.EnumText).FirstOrDefault(),
+                        MikeScenarioText = MikeScenarioText,
+                        LastUpdateContactText = LastUpdateContactText,
+                        ScenarioStatusText = ScenarioStatusText,
                         MikeScenarioID = c.MikeScenarioID,
                         MikeScenarioTVItemID = c.MikeScenarioTVItemID,
                         ParentMikeScenarioID = c.ParentMikeScenarioID,

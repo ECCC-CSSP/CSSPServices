@@ -91,7 +91,7 @@ namespace CSSPServices
 
             //PercOver260 has no Range Attribute
 
-            retStr = ""; // added to stop compiling error
+            retStr = ""; // added to stop compiling CSSPError
             if (retStr != "") // will never be true
             {
                 mwqmSiteSampleFC.HasErrors = true;

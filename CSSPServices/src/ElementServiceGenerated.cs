@@ -68,10 +68,10 @@ namespace CSSPServices
 
             //ZNode0 has no Range Attribute
 
-                //Error: Type not implemented [NodeList] of type [List`1]
+                //CSSPError: Type not implemented [NodeList] of type [List`1]
 
-                //Error: Type not implemented [NodeList] of type [Node]
-            retStr = ""; // added to stop compiling error
+                //CSSPError: Type not implemented [NodeList] of type [Node]
+            retStr = ""; // added to stop compiling CSSPError
             if (retStr != "") // will never be true
             {
                 element.HasErrors = true;

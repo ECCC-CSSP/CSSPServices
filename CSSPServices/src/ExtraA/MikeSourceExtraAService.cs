@@ -22,18 +22,18 @@ namespace CSSPServices
         private IQueryable<MikeSourceExtraA> FillMikeSourceExtraA()
         {
              IQueryable<MikeSourceExtraA> MikeSourceExtraAQuery = (from c in db.MikeSources
-                let MikeSourceTVItemLanguage = (from cl in db.TVItemLanguages
+                let MikeSourceText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MikeSourceTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
                     select new MikeSourceExtraA
                     {
-                        MikeSourceTVItemLanguage = MikeSourceTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        MikeSourceText = MikeSourceText,
+                        LastUpdateContactText = LastUpdateContactText,
                         MikeSourceID = c.MikeSourceID,
                         MikeSourceTVItemID = c.MikeSourceTVItemID,
                         IsContinuous = c.IsContinuous,

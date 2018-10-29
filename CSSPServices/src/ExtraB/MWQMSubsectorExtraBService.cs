@@ -26,19 +26,19 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
-                let SubsectorTVItemLanguage = (from cl in db.TVItemLanguages
+                let SubsectorText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MWQMSubsectorTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
                     select new MWQMSubsectorExtraB
                     {
                         MWQMSubsectorReportTest = MWQMSubsectorReportTest,
-                        SubsectorTVItemLanguage = SubsectorTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        SubsectorText = SubsectorText,
+                        LastUpdateContactText = LastUpdateContactText,
                         MWQMSubsectorID = c.MWQMSubsectorID,
                         MWQMSubsectorTVItemID = c.MWQMSubsectorTVItemID,
                         SubsectorHistoricKey = c.SubsectorHistoricKey,

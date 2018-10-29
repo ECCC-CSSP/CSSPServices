@@ -31,23 +31,26 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
+                let LanguageText = (from e in LanguageEnumList
+                    where e.EnumID == (int?)c.Language
+                    select e.EnumText).FirstOrDefault()
+                let TranslationStatusReportSectionNameText = (from e in TranslationStatusEnumList
+                    where e.EnumID == (int?)c.TranslationStatusReportSectionName
+                    select e.EnumText).FirstOrDefault()
+                let TranslationStatusReportSectionNameTextText = (from e in TranslationStatusEnumList
+                    where e.EnumID == (int?)c.TranslationStatusReportSectionText
+                    select e.EnumText).FirstOrDefault()
                     select new ReportSectionLanguageExtraB
                     {
                         ReportSectionLanguageReportTest = ReportSectionLanguageReportTest,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        LanguageText = (from e in LanguageEnumList
-                                where e.EnumID == (int?)c.Language
-                                select e.EnumText).FirstOrDefault(),
-                        TranslationStatusReportSectionNameText = (from e in TranslationStatusEnumList
-                                where e.EnumID == (int?)c.TranslationStatusReportSectionName
-                                select e.EnumText).FirstOrDefault(),
-                        TranslationStatusReportSectionNameTextText = (from e in TranslationStatusEnumList
-                                where e.EnumID == (int?)c.TranslationStatusReportSectionText
-                                select e.EnumText).FirstOrDefault(),
+                        LastUpdateContactText = LastUpdateContactText,
+                        LanguageText = LanguageText,
+                        TranslationStatusReportSectionNameText = TranslationStatusReportSectionNameText,
+                        TranslationStatusReportSectionNameTextText = TranslationStatusReportSectionNameTextText,
                         ReportSectionLanguageID = c.ReportSectionLanguageID,
                         ReportSectionID = c.ReportSectionID,
                         Language = c.Language,

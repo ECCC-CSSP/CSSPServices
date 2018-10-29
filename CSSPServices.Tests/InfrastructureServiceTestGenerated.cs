@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                     count = infrastructureService.GetInfrastructureList().Count();
 
-                    Assert.AreEqual(infrastructureService.GetInfrastructureList().Count(), (from c in dbTestDB.Infrastructures select c).Take(200).Count());
+                    Assert.AreEqual(count, (from c in dbTestDB.Infrastructures select c).Count());
 
                     infrastructureService.Add(infrastructure);
                     if (infrastructure.HasErrors)
@@ -429,9 +429,9 @@ namespace CSSPServices.Tests
                     // infrastructure.DesignFlow_m3_day   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [DesignFlow_m3_day]
+                    //CSSPError: Type not implemented [DesignFlow_m3_day]
 
-                    //Error: Type not implemented [DesignFlow_m3_day]
+                    //CSSPError: Type not implemented [DesignFlow_m3_day]
 
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
@@ -452,9 +452,9 @@ namespace CSSPServices.Tests
                     // infrastructure.AverageFlow_m3_day   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [AverageFlow_m3_day]
+                    //CSSPError: Type not implemented [AverageFlow_m3_day]
 
-                    //Error: Type not implemented [AverageFlow_m3_day]
+                    //CSSPError: Type not implemented [AverageFlow_m3_day]
 
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
@@ -475,9 +475,9 @@ namespace CSSPServices.Tests
                     // infrastructure.PeakFlow_m3_day   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [PeakFlow_m3_day]
+                    //CSSPError: Type not implemented [PeakFlow_m3_day]
 
-                    //Error: Type not implemented [PeakFlow_m3_day]
+                    //CSSPError: Type not implemented [PeakFlow_m3_day]
 
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
@@ -523,9 +523,9 @@ namespace CSSPServices.Tests
                     // infrastructure.PercFlowOfTotal   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [PercFlowOfTotal]
+                    //CSSPError: Type not implemented [PercFlowOfTotal]
 
-                    //Error: Type not implemented [PercFlowOfTotal]
+                    //CSSPError: Type not implemented [PercFlowOfTotal]
 
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
@@ -546,9 +546,9 @@ namespace CSSPServices.Tests
                     // infrastructure.TimeOffset_hour   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [TimeOffset_hour]
+                    //CSSPError: Type not implemented [TimeOffset_hour]
 
-                    //Error: Type not implemented [TimeOffset_hour]
+                    //CSSPError: Type not implemented [TimeOffset_hour]
 
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
@@ -575,9 +575,9 @@ namespace CSSPServices.Tests
                     // infrastructure.AverageDepth_m   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [AverageDepth_m]
+                    //CSSPError: Type not implemented [AverageDepth_m]
 
-                    //Error: Type not implemented [AverageDepth_m]
+                    //CSSPError: Type not implemented [AverageDepth_m]
 
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
@@ -617,9 +617,9 @@ namespace CSSPServices.Tests
                     // infrastructure.PortDiameter_m   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [PortDiameter_m]
+                    //CSSPError: Type not implemented [PortDiameter_m]
 
-                    //Error: Type not implemented [PortDiameter_m]
+                    //CSSPError: Type not implemented [PortDiameter_m]
 
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
@@ -640,9 +640,9 @@ namespace CSSPServices.Tests
                     // infrastructure.PortSpacing_m   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [PortSpacing_m]
+                    //CSSPError: Type not implemented [PortSpacing_m]
 
-                    //Error: Type not implemented [PortSpacing_m]
+                    //CSSPError: Type not implemented [PortSpacing_m]
 
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
@@ -663,9 +663,9 @@ namespace CSSPServices.Tests
                     // infrastructure.PortElevation_m   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [PortElevation_m]
+                    //CSSPError: Type not implemented [PortElevation_m]
 
-                    //Error: Type not implemented [PortElevation_m]
+                    //CSSPError: Type not implemented [PortElevation_m]
 
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
@@ -686,9 +686,9 @@ namespace CSSPServices.Tests
                     // infrastructure.VerticalAngle_deg   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [VerticalAngle_deg]
+                    //CSSPError: Type not implemented [VerticalAngle_deg]
 
-                    //Error: Type not implemented [VerticalAngle_deg]
+                    //CSSPError: Type not implemented [VerticalAngle_deg]
 
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
@@ -709,9 +709,9 @@ namespace CSSPServices.Tests
                     // infrastructure.HorizontalAngle_deg   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [HorizontalAngle_deg]
+                    //CSSPError: Type not implemented [HorizontalAngle_deg]
 
-                    //Error: Type not implemented [HorizontalAngle_deg]
+                    //CSSPError: Type not implemented [HorizontalAngle_deg]
 
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
@@ -732,9 +732,9 @@ namespace CSSPServices.Tests
                     // infrastructure.DecayRate_per_day   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [DecayRate_per_day]
+                    //CSSPError: Type not implemented [DecayRate_per_day]
 
-                    //Error: Type not implemented [DecayRate_per_day]
+                    //CSSPError: Type not implemented [DecayRate_per_day]
 
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
@@ -755,9 +755,9 @@ namespace CSSPServices.Tests
                     // infrastructure.NearFieldVelocity_m_s   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [NearFieldVelocity_m_s]
+                    //CSSPError: Type not implemented [NearFieldVelocity_m_s]
 
-                    //Error: Type not implemented [NearFieldVelocity_m_s]
+                    //CSSPError: Type not implemented [NearFieldVelocity_m_s]
 
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
@@ -778,9 +778,9 @@ namespace CSSPServices.Tests
                     // infrastructure.FarFieldVelocity_m_s   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [FarFieldVelocity_m_s]
+                    //CSSPError: Type not implemented [FarFieldVelocity_m_s]
 
-                    //Error: Type not implemented [FarFieldVelocity_m_s]
+                    //CSSPError: Type not implemented [FarFieldVelocity_m_s]
 
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
@@ -801,9 +801,9 @@ namespace CSSPServices.Tests
                     // infrastructure.ReceivingWaterSalinity_PSU   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [ReceivingWaterSalinity_PSU]
+                    //CSSPError: Type not implemented [ReceivingWaterSalinity_PSU]
 
-                    //Error: Type not implemented [ReceivingWaterSalinity_PSU]
+                    //CSSPError: Type not implemented [ReceivingWaterSalinity_PSU]
 
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
@@ -824,9 +824,9 @@ namespace CSSPServices.Tests
                     // infrastructure.ReceivingWaterTemperature_C   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [ReceivingWaterTemperature_C]
+                    //CSSPError: Type not implemented [ReceivingWaterTemperature_C]
 
-                    //Error: Type not implemented [ReceivingWaterTemperature_C]
+                    //CSSPError: Type not implemented [ReceivingWaterTemperature_C]
 
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
@@ -866,9 +866,9 @@ namespace CSSPServices.Tests
                     // infrastructure.DistanceFromShore_m   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [DistanceFromShore_m]
+                    //CSSPError: Type not implemented [DistanceFromShore_m]
 
-                    //Error: Type not implemented [DistanceFromShore_m]
+                    //CSSPError: Type not implemented [DistanceFromShore_m]
 
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
@@ -991,23 +991,23 @@ namespace CSSPServices.Tests
                     Infrastructure infrastructure = (from c in dbTestDB.Infrastructures select c).FirstOrDefault();
                     Assert.IsNotNull(infrastructure);
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        infrastructureService.Query.Detail = detail;
+                        infrastructureService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             Infrastructure infrastructureRet = infrastructureService.GetInfrastructureWithInfrastructureID(infrastructure.InfrastructureID);
                             CheckInfrastructureFields(new List<Infrastructure>() { infrastructureRet });
                             Assert.AreEqual(infrastructure.InfrastructureID, infrastructureRet.InfrastructureID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             InfrastructureExtraA infrastructureExtraARet = infrastructureService.GetInfrastructureExtraAWithInfrastructureID(infrastructure.InfrastructureID);
                             CheckInfrastructureExtraAFields(new List<InfrastructureExtraA>() { infrastructureExtraARet });
                             Assert.AreEqual(infrastructure.InfrastructureID, infrastructureExtraARet.InfrastructureID);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             InfrastructureExtraB infrastructureExtraBRet = infrastructureService.GetInfrastructureExtraBWithInfrastructureID(infrastructure.InfrastructureID);
                             CheckInfrastructureExtraBFields(new List<InfrastructureExtraB>() { infrastructureExtraBRet });
@@ -1040,24 +1040,24 @@ namespace CSSPServices.Tests
                     List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
                     infrastructureDirectQueryList = (from c in dbTestDB.Infrastructures select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        infrastructureService.Query.Detail = detail;
+                        infrastructureService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Infrastructure> infrastructureList = new List<Infrastructure>();
                             infrastructureList = infrastructureService.GetInfrastructureList().ToList();
                             CheckInfrastructureFields(infrastructureList);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
                             infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
                             CheckInfrastructureExtraAFields(infrastructureExtraAList);
                             Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
                             infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
@@ -1084,7 +1084,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1093,14 +1093,14 @@ namespace CSSPServices.Tests
                         List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
                         infrastructureDirectQueryList = (from c in dbTestDB.Infrastructures select c).Skip(1).Take(1).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Infrastructure> infrastructureList = new List<Infrastructure>();
                             infrastructureList = infrastructureService.GetInfrastructureList().ToList();
                             CheckInfrastructureFields(infrastructureList);
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
                             infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
@@ -1108,7 +1108,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraAList[0].InfrastructureID);
                             Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
                             infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
@@ -1136,7 +1136,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1145,14 +1145,14 @@ namespace CSSPServices.Tests
                         List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
                         infrastructureDirectQueryList = (from c in dbTestDB.Infrastructures select c).Skip(1).Take(1).OrderBy(c => c.InfrastructureID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Infrastructure> infrastructureList = new List<Infrastructure>();
                             infrastructureList = infrastructureService.GetInfrastructureList().ToList();
                             CheckInfrastructureFields(infrastructureList);
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
                             infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
@@ -1160,7 +1160,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraAList[0].InfrastructureID);
                             Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
                             infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
@@ -1188,7 +1188,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1197,14 +1197,14 @@ namespace CSSPServices.Tests
                         List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
                         infrastructureDirectQueryList = (from c in dbTestDB.Infrastructures select c).Skip(1).Take(1).OrderBy(c => c.InfrastructureID).ThenBy(c => c.InfrastructureTVItemID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Infrastructure> infrastructureList = new List<Infrastructure>();
                             infrastructureList = infrastructureService.GetInfrastructureList().ToList();
                             CheckInfrastructureFields(infrastructureList);
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
                             infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
@@ -1212,7 +1212,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraAList[0].InfrastructureID);
                             Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
                             infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
@@ -1240,7 +1240,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1249,14 +1249,14 @@ namespace CSSPServices.Tests
                         List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
                         infrastructureDirectQueryList = (from c in dbTestDB.Infrastructures select c).Where(c => c.InfrastructureID == 4).Skip(0).Take(1).OrderBy(c => c.InfrastructureID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Infrastructure> infrastructureList = new List<Infrastructure>();
                             infrastructureList = infrastructureService.GetInfrastructureList().ToList();
                             CheckInfrastructureFields(infrastructureList);
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
                             infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
@@ -1264,7 +1264,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraAList[0].InfrastructureID);
                             Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
                             infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
@@ -1292,7 +1292,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1301,14 +1301,14 @@ namespace CSSPServices.Tests
                         List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
                         infrastructureDirectQueryList = (from c in dbTestDB.Infrastructures select c).Where(c => c.InfrastructureID > 2 && c.InfrastructureID < 5).Skip(0).Take(1).OrderBy(c => c.InfrastructureID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Infrastructure> infrastructureList = new List<Infrastructure>();
                             infrastructureList = infrastructureService.GetInfrastructureList().ToList();
                             CheckInfrastructureFields(infrastructureList);
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
                             infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
@@ -1316,7 +1316,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraAList[0].InfrastructureID);
                             Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
                             infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
@@ -1344,7 +1344,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1353,14 +1353,14 @@ namespace CSSPServices.Tests
                         List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
                         infrastructureDirectQueryList = (from c in dbTestDB.Infrastructures select c).Where(c => c.InfrastructureID > 2 && c.InfrastructureID < 5).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Infrastructure> infrastructureList = new List<Infrastructure>();
                             infrastructureList = infrastructureService.GetInfrastructureList().ToList();
                             CheckInfrastructureFields(infrastructureList);
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
                             infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
@@ -1368,7 +1368,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraAList[0].InfrastructureID);
                             Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
                             infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
@@ -1573,16 +1573,16 @@ namespace CSSPServices.Tests
         }
         private void CheckInfrastructureExtraAFields(List<InfrastructureExtraA> infrastructureExtraAList)
         {
-            Assert.IsNotNull(infrastructureExtraAList[0].InfrastructureTVItemLanguage);
-            if (infrastructureExtraAList[0].SeeOtherTVItemLanguage != null)
+            Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].InfrastructureText));
+            if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].SeeOtherText))
             {
-                Assert.IsNotNull(infrastructureExtraAList[0].SeeOtherTVItemLanguage);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].SeeOtherText));
             }
-            if (infrastructureExtraAList[0].CivicAddressTVItemLanguage != null)
+            if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].CivicAddressText))
             {
-                Assert.IsNotNull(infrastructureExtraAList[0].CivicAddressTVItemLanguage);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].CivicAddressText));
             }
-            Assert.IsNotNull(infrastructureExtraAList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].InfrastructureTypeText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].InfrastructureTypeText));
@@ -1815,16 +1815,16 @@ namespace CSSPServices.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].InfrastructureReportTest));
             }
-            Assert.IsNotNull(infrastructureExtraBList[0].InfrastructureTVItemLanguage);
-            if (infrastructureExtraBList[0].SeeOtherTVItemLanguage != null)
+            Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].InfrastructureText));
+            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].SeeOtherText))
             {
-                Assert.IsNotNull(infrastructureExtraBList[0].SeeOtherTVItemLanguage);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].SeeOtherText));
             }
-            if (infrastructureExtraBList[0].CivicAddressTVItemLanguage != null)
+            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].CivicAddressText))
             {
-                Assert.IsNotNull(infrastructureExtraBList[0].CivicAddressTVItemLanguage);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].CivicAddressText));
             }
-            Assert.IsNotNull(infrastructureExtraBList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].InfrastructureTypeText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].InfrastructureTypeText));

@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                     count = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().Count();
 
-                    Assert.AreEqual(emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().Count(), (from c in dbTestDB.EmailDistributionListContactLanguages select c).Take(200).Count());
+                    Assert.AreEqual(count, (from c in dbTestDB.EmailDistributionListContactLanguages select c).Count());
 
                     emailDistributionListContactLanguageService.Add(emailDistributionListContactLanguage);
                     if (emailDistributionListContactLanguage.HasErrors)
@@ -239,23 +239,23 @@ namespace CSSPServices.Tests
                     EmailDistributionListContactLanguage emailDistributionListContactLanguage = (from c in dbTestDB.EmailDistributionListContactLanguages select c).FirstOrDefault();
                     Assert.IsNotNull(emailDistributionListContactLanguage);
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        emailDistributionListContactLanguageService.Query.Detail = detail;
+                        emailDistributionListContactLanguageService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             EmailDistributionListContactLanguage emailDistributionListContactLanguageRet = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageWithEmailDistributionListContactLanguageID(emailDistributionListContactLanguage.EmailDistributionListContactLanguageID);
                             CheckEmailDistributionListContactLanguageFields(new List<EmailDistributionListContactLanguage>() { emailDistributionListContactLanguageRet });
                             Assert.AreEqual(emailDistributionListContactLanguage.EmailDistributionListContactLanguageID, emailDistributionListContactLanguageRet.EmailDistributionListContactLanguageID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             EmailDistributionListContactLanguageExtraA emailDistributionListContactLanguageExtraARet = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraAWithEmailDistributionListContactLanguageID(emailDistributionListContactLanguage.EmailDistributionListContactLanguageID);
                             CheckEmailDistributionListContactLanguageExtraAFields(new List<EmailDistributionListContactLanguageExtraA>() { emailDistributionListContactLanguageExtraARet });
                             Assert.AreEqual(emailDistributionListContactLanguage.EmailDistributionListContactLanguageID, emailDistributionListContactLanguageExtraARet.EmailDistributionListContactLanguageID);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             EmailDistributionListContactLanguageExtraB emailDistributionListContactLanguageExtraBRet = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraBWithEmailDistributionListContactLanguageID(emailDistributionListContactLanguage.EmailDistributionListContactLanguageID);
                             CheckEmailDistributionListContactLanguageExtraBFields(new List<EmailDistributionListContactLanguageExtraB>() { emailDistributionListContactLanguageExtraBRet });
@@ -288,24 +288,24 @@ namespace CSSPServices.Tests
                     List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageDirectQueryList = new List<EmailDistributionListContactLanguage>();
                     emailDistributionListContactLanguageDirectQueryList = (from c in dbTestDB.EmailDistributionListContactLanguages select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        emailDistributionListContactLanguageService.Query.Detail = detail;
+                        emailDistributionListContactLanguageService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageList = new List<EmailDistributionListContactLanguage>();
                             emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
                             CheckEmailDistributionListContactLanguageFields(emailDistributionListContactLanguageList);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<EmailDistributionListContactLanguageExtraA> emailDistributionListContactLanguageExtraAList = new List<EmailDistributionListContactLanguageExtraA>();
                             emailDistributionListContactLanguageExtraAList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraAList().ToList();
                             CheckEmailDistributionListContactLanguageExtraAFields(emailDistributionListContactLanguageExtraAList);
                             Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<EmailDistributionListContactLanguageExtraB> emailDistributionListContactLanguageExtraBList = new List<EmailDistributionListContactLanguageExtraB>();
                             emailDistributionListContactLanguageExtraBList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraBList().ToList();
@@ -332,7 +332,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         EmailDistributionListContactLanguageService emailDistributionListContactLanguageService = new EmailDistributionListContactLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -341,14 +341,14 @@ namespace CSSPServices.Tests
                         List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageDirectQueryList = new List<EmailDistributionListContactLanguage>();
                         emailDistributionListContactLanguageDirectQueryList = (from c in dbTestDB.EmailDistributionListContactLanguages select c).Skip(1).Take(1).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageList = new List<EmailDistributionListContactLanguage>();
                             emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
                             CheckEmailDistributionListContactLanguageFields(emailDistributionListContactLanguageList);
                             Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<EmailDistributionListContactLanguageExtraA> emailDistributionListContactLanguageExtraAList = new List<EmailDistributionListContactLanguageExtraA>();
                             emailDistributionListContactLanguageExtraAList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraAList().ToList();
@@ -356,7 +356,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageExtraAList[0].EmailDistributionListContactLanguageID);
                             Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<EmailDistributionListContactLanguageExtraB> emailDistributionListContactLanguageExtraBList = new List<EmailDistributionListContactLanguageExtraB>();
                             emailDistributionListContactLanguageExtraBList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraBList().ToList();
@@ -384,7 +384,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         EmailDistributionListContactLanguageService emailDistributionListContactLanguageService = new EmailDistributionListContactLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -393,14 +393,14 @@ namespace CSSPServices.Tests
                         List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageDirectQueryList = new List<EmailDistributionListContactLanguage>();
                         emailDistributionListContactLanguageDirectQueryList = (from c in dbTestDB.EmailDistributionListContactLanguages select c).Skip(1).Take(1).OrderBy(c => c.EmailDistributionListContactLanguageID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageList = new List<EmailDistributionListContactLanguage>();
                             emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
                             CheckEmailDistributionListContactLanguageFields(emailDistributionListContactLanguageList);
                             Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<EmailDistributionListContactLanguageExtraA> emailDistributionListContactLanguageExtraAList = new List<EmailDistributionListContactLanguageExtraA>();
                             emailDistributionListContactLanguageExtraAList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraAList().ToList();
@@ -408,7 +408,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageExtraAList[0].EmailDistributionListContactLanguageID);
                             Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<EmailDistributionListContactLanguageExtraB> emailDistributionListContactLanguageExtraBList = new List<EmailDistributionListContactLanguageExtraB>();
                             emailDistributionListContactLanguageExtraBList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraBList().ToList();
@@ -436,7 +436,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         EmailDistributionListContactLanguageService emailDistributionListContactLanguageService = new EmailDistributionListContactLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -445,14 +445,14 @@ namespace CSSPServices.Tests
                         List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageDirectQueryList = new List<EmailDistributionListContactLanguage>();
                         emailDistributionListContactLanguageDirectQueryList = (from c in dbTestDB.EmailDistributionListContactLanguages select c).Skip(1).Take(1).OrderBy(c => c.EmailDistributionListContactLanguageID).ThenBy(c => c.EmailDistributionListContactID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageList = new List<EmailDistributionListContactLanguage>();
                             emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
                             CheckEmailDistributionListContactLanguageFields(emailDistributionListContactLanguageList);
                             Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<EmailDistributionListContactLanguageExtraA> emailDistributionListContactLanguageExtraAList = new List<EmailDistributionListContactLanguageExtraA>();
                             emailDistributionListContactLanguageExtraAList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraAList().ToList();
@@ -460,7 +460,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageExtraAList[0].EmailDistributionListContactLanguageID);
                             Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<EmailDistributionListContactLanguageExtraB> emailDistributionListContactLanguageExtraBList = new List<EmailDistributionListContactLanguageExtraB>();
                             emailDistributionListContactLanguageExtraBList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraBList().ToList();
@@ -488,7 +488,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         EmailDistributionListContactLanguageService emailDistributionListContactLanguageService = new EmailDistributionListContactLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -497,14 +497,14 @@ namespace CSSPServices.Tests
                         List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageDirectQueryList = new List<EmailDistributionListContactLanguage>();
                         emailDistributionListContactLanguageDirectQueryList = (from c in dbTestDB.EmailDistributionListContactLanguages select c).Where(c => c.EmailDistributionListContactLanguageID == 4).Skip(0).Take(1).OrderBy(c => c.EmailDistributionListContactLanguageID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageList = new List<EmailDistributionListContactLanguage>();
                             emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
                             CheckEmailDistributionListContactLanguageFields(emailDistributionListContactLanguageList);
                             Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<EmailDistributionListContactLanguageExtraA> emailDistributionListContactLanguageExtraAList = new List<EmailDistributionListContactLanguageExtraA>();
                             emailDistributionListContactLanguageExtraAList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraAList().ToList();
@@ -512,7 +512,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageExtraAList[0].EmailDistributionListContactLanguageID);
                             Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<EmailDistributionListContactLanguageExtraB> emailDistributionListContactLanguageExtraBList = new List<EmailDistributionListContactLanguageExtraB>();
                             emailDistributionListContactLanguageExtraBList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraBList().ToList();
@@ -540,7 +540,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         EmailDistributionListContactLanguageService emailDistributionListContactLanguageService = new EmailDistributionListContactLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -549,14 +549,14 @@ namespace CSSPServices.Tests
                         List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageDirectQueryList = new List<EmailDistributionListContactLanguage>();
                         emailDistributionListContactLanguageDirectQueryList = (from c in dbTestDB.EmailDistributionListContactLanguages select c).Where(c => c.EmailDistributionListContactLanguageID > 2 && c.EmailDistributionListContactLanguageID < 5).Skip(0).Take(1).OrderBy(c => c.EmailDistributionListContactLanguageID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageList = new List<EmailDistributionListContactLanguage>();
                             emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
                             CheckEmailDistributionListContactLanguageFields(emailDistributionListContactLanguageList);
                             Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<EmailDistributionListContactLanguageExtraA> emailDistributionListContactLanguageExtraAList = new List<EmailDistributionListContactLanguageExtraA>();
                             emailDistributionListContactLanguageExtraAList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraAList().ToList();
@@ -564,7 +564,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageExtraAList[0].EmailDistributionListContactLanguageID);
                             Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<EmailDistributionListContactLanguageExtraB> emailDistributionListContactLanguageExtraBList = new List<EmailDistributionListContactLanguageExtraB>();
                             emailDistributionListContactLanguageExtraBList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraBList().ToList();
@@ -592,7 +592,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         EmailDistributionListContactLanguageService emailDistributionListContactLanguageService = new EmailDistributionListContactLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -601,14 +601,14 @@ namespace CSSPServices.Tests
                         List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageDirectQueryList = new List<EmailDistributionListContactLanguage>();
                         emailDistributionListContactLanguageDirectQueryList = (from c in dbTestDB.EmailDistributionListContactLanguages select c).Where(c => c.EmailDistributionListContactLanguageID > 2 && c.EmailDistributionListContactLanguageID < 5).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageList = new List<EmailDistributionListContactLanguage>();
                             emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
                             CheckEmailDistributionListContactLanguageFields(emailDistributionListContactLanguageList);
                             Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<EmailDistributionListContactLanguageExtraA> emailDistributionListContactLanguageExtraAList = new List<EmailDistributionListContactLanguageExtraA>();
                             emailDistributionListContactLanguageExtraAList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraAList().ToList();
@@ -616,7 +616,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageExtraAList[0].EmailDistributionListContactLanguageID);
                             Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<EmailDistributionListContactLanguageExtraB> emailDistributionListContactLanguageExtraBList = new List<EmailDistributionListContactLanguageExtraB>();
                             emailDistributionListContactLanguageExtraBList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraBList().ToList();
@@ -648,7 +648,7 @@ namespace CSSPServices.Tests
         }
         private void CheckEmailDistributionListContactLanguageExtraAFields(List<EmailDistributionListContactLanguageExtraA> emailDistributionListContactLanguageExtraAList)
         {
-            Assert.IsNotNull(emailDistributionListContactLanguageExtraAList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageExtraAList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(emailDistributionListContactLanguageExtraAList[0].LanguageText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageExtraAList[0].LanguageText));
@@ -672,7 +672,7 @@ namespace CSSPServices.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageExtraBList[0].EmailDistributionListContactLanguageReportTest));
             }
-            Assert.IsNotNull(emailDistributionListContactLanguageExtraBList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageExtraBList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(emailDistributionListContactLanguageExtraBList[0].LanguageText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageExtraBList[0].LanguageText));

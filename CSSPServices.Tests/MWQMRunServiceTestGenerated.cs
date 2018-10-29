@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                     count = mwqmRunService.GetMWQMRunList().Count();
 
-                    Assert.AreEqual(mwqmRunService.GetMWQMRunList().Count(), (from c in dbTestDB.MWQMRuns select c).Take(200).Count());
+                    Assert.AreEqual(count, (from c in dbTestDB.MWQMRuns select c).Count());
 
                     mwqmRunService.Add(mwqmRun);
                     if (mwqmRun.HasErrors)
@@ -237,9 +237,9 @@ namespace CSSPServices.Tests
                     // mwqmRun.TemperatureControl1_C   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [TemperatureControl1_C]
+                    //CSSPError: Type not implemented [TemperatureControl1_C]
 
-                    //Error: Type not implemented [TemperatureControl1_C]
+                    //CSSPError: Type not implemented [TemperatureControl1_C]
 
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
@@ -260,9 +260,9 @@ namespace CSSPServices.Tests
                     // mwqmRun.TemperatureControl2_C   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [TemperatureControl2_C]
+                    //CSSPError: Type not implemented [TemperatureControl2_C]
 
-                    //Error: Type not implemented [TemperatureControl2_C]
+                    //CSSPError: Type not implemented [TemperatureControl2_C]
 
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
@@ -309,9 +309,9 @@ namespace CSSPServices.Tests
                     // mwqmRun.WaterLevelAtBrook_m   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [WaterLevelAtBrook_m]
+                    //CSSPError: Type not implemented [WaterLevelAtBrook_m]
 
-                    //Error: Type not implemented [WaterLevelAtBrook_m]
+                    //CSSPError: Type not implemented [WaterLevelAtBrook_m]
 
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
@@ -332,9 +332,9 @@ namespace CSSPServices.Tests
                     // mwqmRun.WaveHightAtStart_m   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [WaveHightAtStart_m]
+                    //CSSPError: Type not implemented [WaveHightAtStart_m]
 
-                    //Error: Type not implemented [WaveHightAtStart_m]
+                    //CSSPError: Type not implemented [WaveHightAtStart_m]
 
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
@@ -355,9 +355,9 @@ namespace CSSPServices.Tests
                     // mwqmRun.WaveHightAtEnd_m   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [WaveHightAtEnd_m]
+                    //CSSPError: Type not implemented [WaveHightAtEnd_m]
 
-                    //Error: Type not implemented [WaveHightAtEnd_m]
+                    //CSSPError: Type not implemented [WaveHightAtEnd_m]
 
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
@@ -536,9 +536,9 @@ namespace CSSPServices.Tests
                     // mwqmRun.RainDay0_mm   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [RainDay0_mm]
+                    //CSSPError: Type not implemented [RainDay0_mm]
 
-                    //Error: Type not implemented [RainDay0_mm]
+                    //CSSPError: Type not implemented [RainDay0_mm]
 
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
@@ -559,9 +559,9 @@ namespace CSSPServices.Tests
                     // mwqmRun.RainDay1_mm   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [RainDay1_mm]
+                    //CSSPError: Type not implemented [RainDay1_mm]
 
-                    //Error: Type not implemented [RainDay1_mm]
+                    //CSSPError: Type not implemented [RainDay1_mm]
 
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
@@ -582,9 +582,9 @@ namespace CSSPServices.Tests
                     // mwqmRun.RainDay2_mm   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [RainDay2_mm]
+                    //CSSPError: Type not implemented [RainDay2_mm]
 
-                    //Error: Type not implemented [RainDay2_mm]
+                    //CSSPError: Type not implemented [RainDay2_mm]
 
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
@@ -605,9 +605,9 @@ namespace CSSPServices.Tests
                     // mwqmRun.RainDay3_mm   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [RainDay3_mm]
+                    //CSSPError: Type not implemented [RainDay3_mm]
 
-                    //Error: Type not implemented [RainDay3_mm]
+                    //CSSPError: Type not implemented [RainDay3_mm]
 
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
@@ -628,9 +628,9 @@ namespace CSSPServices.Tests
                     // mwqmRun.RainDay4_mm   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [RainDay4_mm]
+                    //CSSPError: Type not implemented [RainDay4_mm]
 
-                    //Error: Type not implemented [RainDay4_mm]
+                    //CSSPError: Type not implemented [RainDay4_mm]
 
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
@@ -651,9 +651,9 @@ namespace CSSPServices.Tests
                     // mwqmRun.RainDay5_mm   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [RainDay5_mm]
+                    //CSSPError: Type not implemented [RainDay5_mm]
 
-                    //Error: Type not implemented [RainDay5_mm]
+                    //CSSPError: Type not implemented [RainDay5_mm]
 
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
@@ -674,9 +674,9 @@ namespace CSSPServices.Tests
                     // mwqmRun.RainDay6_mm   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [RainDay6_mm]
+                    //CSSPError: Type not implemented [RainDay6_mm]
 
-                    //Error: Type not implemented [RainDay6_mm]
+                    //CSSPError: Type not implemented [RainDay6_mm]
 
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
@@ -697,9 +697,9 @@ namespace CSSPServices.Tests
                     // mwqmRun.RainDay7_mm   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [RainDay7_mm]
+                    //CSSPError: Type not implemented [RainDay7_mm]
 
-                    //Error: Type not implemented [RainDay7_mm]
+                    //CSSPError: Type not implemented [RainDay7_mm]
 
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
@@ -720,9 +720,9 @@ namespace CSSPServices.Tests
                     // mwqmRun.RainDay8_mm   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [RainDay8_mm]
+                    //CSSPError: Type not implemented [RainDay8_mm]
 
-                    //Error: Type not implemented [RainDay8_mm]
+                    //CSSPError: Type not implemented [RainDay8_mm]
 
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
@@ -743,9 +743,9 @@ namespace CSSPServices.Tests
                     // mwqmRun.RainDay9_mm   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [RainDay9_mm]
+                    //CSSPError: Type not implemented [RainDay9_mm]
 
-                    //Error: Type not implemented [RainDay9_mm]
+                    //CSSPError: Type not implemented [RainDay9_mm]
 
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
@@ -766,9 +766,9 @@ namespace CSSPServices.Tests
                     // mwqmRun.RainDay10_mm   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [RainDay10_mm]
+                    //CSSPError: Type not implemented [RainDay10_mm]
 
-                    //Error: Type not implemented [RainDay10_mm]
+                    //CSSPError: Type not implemented [RainDay10_mm]
 
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
@@ -859,23 +859,23 @@ namespace CSSPServices.Tests
                     MWQMRun mwqmRun = (from c in dbTestDB.MWQMRuns select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmRun);
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        mwqmRunService.Query.Detail = detail;
+                        mwqmRunService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             MWQMRun mwqmRunRet = mwqmRunService.GetMWQMRunWithMWQMRunID(mwqmRun.MWQMRunID);
                             CheckMWQMRunFields(new List<MWQMRun>() { mwqmRunRet });
                             Assert.AreEqual(mwqmRun.MWQMRunID, mwqmRunRet.MWQMRunID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             MWQMRunExtraA mwqmRunExtraARet = mwqmRunService.GetMWQMRunExtraAWithMWQMRunID(mwqmRun.MWQMRunID);
                             CheckMWQMRunExtraAFields(new List<MWQMRunExtraA>() { mwqmRunExtraARet });
                             Assert.AreEqual(mwqmRun.MWQMRunID, mwqmRunExtraARet.MWQMRunID);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             MWQMRunExtraB mwqmRunExtraBRet = mwqmRunService.GetMWQMRunExtraBWithMWQMRunID(mwqmRun.MWQMRunID);
                             CheckMWQMRunExtraBFields(new List<MWQMRunExtraB>() { mwqmRunExtraBRet });
@@ -908,24 +908,24 @@ namespace CSSPServices.Tests
                     List<MWQMRun> mwqmRunDirectQueryList = new List<MWQMRun>();
                     mwqmRunDirectQueryList = (from c in dbTestDB.MWQMRuns select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        mwqmRunService.Query.Detail = detail;
+                        mwqmRunService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMRun> mwqmRunList = new List<MWQMRun>();
                             mwqmRunList = mwqmRunService.GetMWQMRunList().ToList();
                             CheckMWQMRunFields(mwqmRunList);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMRunExtraA> mwqmRunExtraAList = new List<MWQMRunExtraA>();
                             mwqmRunExtraAList = mwqmRunService.GetMWQMRunExtraAList().ToList();
                             CheckMWQMRunExtraAFields(mwqmRunExtraAList);
                             Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMRunExtraB> mwqmRunExtraBList = new List<MWQMRunExtraB>();
                             mwqmRunExtraBList = mwqmRunService.GetMWQMRunExtraBList().ToList();
@@ -952,7 +952,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMRunService mwqmRunService = new MWQMRunService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -961,14 +961,14 @@ namespace CSSPServices.Tests
                         List<MWQMRun> mwqmRunDirectQueryList = new List<MWQMRun>();
                         mwqmRunDirectQueryList = (from c in dbTestDB.MWQMRuns select c).Skip(1).Take(1).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMRun> mwqmRunList = new List<MWQMRun>();
                             mwqmRunList = mwqmRunService.GetMWQMRunList().ToList();
                             CheckMWQMRunFields(mwqmRunList);
                             Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunList[0].MWQMRunID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMRunExtraA> mwqmRunExtraAList = new List<MWQMRunExtraA>();
                             mwqmRunExtraAList = mwqmRunService.GetMWQMRunExtraAList().ToList();
@@ -976,7 +976,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunExtraAList[0].MWQMRunID);
                             Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMRunExtraB> mwqmRunExtraBList = new List<MWQMRunExtraB>();
                             mwqmRunExtraBList = mwqmRunService.GetMWQMRunExtraBList().ToList();
@@ -1004,7 +1004,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMRunService mwqmRunService = new MWQMRunService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1013,14 +1013,14 @@ namespace CSSPServices.Tests
                         List<MWQMRun> mwqmRunDirectQueryList = new List<MWQMRun>();
                         mwqmRunDirectQueryList = (from c in dbTestDB.MWQMRuns select c).Skip(1).Take(1).OrderBy(c => c.MWQMRunID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMRun> mwqmRunList = new List<MWQMRun>();
                             mwqmRunList = mwqmRunService.GetMWQMRunList().ToList();
                             CheckMWQMRunFields(mwqmRunList);
                             Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunList[0].MWQMRunID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMRunExtraA> mwqmRunExtraAList = new List<MWQMRunExtraA>();
                             mwqmRunExtraAList = mwqmRunService.GetMWQMRunExtraAList().ToList();
@@ -1028,7 +1028,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunExtraAList[0].MWQMRunID);
                             Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMRunExtraB> mwqmRunExtraBList = new List<MWQMRunExtraB>();
                             mwqmRunExtraBList = mwqmRunService.GetMWQMRunExtraBList().ToList();
@@ -1056,7 +1056,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMRunService mwqmRunService = new MWQMRunService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1065,14 +1065,14 @@ namespace CSSPServices.Tests
                         List<MWQMRun> mwqmRunDirectQueryList = new List<MWQMRun>();
                         mwqmRunDirectQueryList = (from c in dbTestDB.MWQMRuns select c).Skip(1).Take(1).OrderBy(c => c.MWQMRunID).ThenBy(c => c.SubsectorTVItemID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMRun> mwqmRunList = new List<MWQMRun>();
                             mwqmRunList = mwqmRunService.GetMWQMRunList().ToList();
                             CheckMWQMRunFields(mwqmRunList);
                             Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunList[0].MWQMRunID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMRunExtraA> mwqmRunExtraAList = new List<MWQMRunExtraA>();
                             mwqmRunExtraAList = mwqmRunService.GetMWQMRunExtraAList().ToList();
@@ -1080,7 +1080,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunExtraAList[0].MWQMRunID);
                             Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMRunExtraB> mwqmRunExtraBList = new List<MWQMRunExtraB>();
                             mwqmRunExtraBList = mwqmRunService.GetMWQMRunExtraBList().ToList();
@@ -1108,7 +1108,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMRunService mwqmRunService = new MWQMRunService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1117,14 +1117,14 @@ namespace CSSPServices.Tests
                         List<MWQMRun> mwqmRunDirectQueryList = new List<MWQMRun>();
                         mwqmRunDirectQueryList = (from c in dbTestDB.MWQMRuns select c).Where(c => c.MWQMRunID == 4).Skip(0).Take(1).OrderBy(c => c.MWQMRunID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMRun> mwqmRunList = new List<MWQMRun>();
                             mwqmRunList = mwqmRunService.GetMWQMRunList().ToList();
                             CheckMWQMRunFields(mwqmRunList);
                             Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunList[0].MWQMRunID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMRunExtraA> mwqmRunExtraAList = new List<MWQMRunExtraA>();
                             mwqmRunExtraAList = mwqmRunService.GetMWQMRunExtraAList().ToList();
@@ -1132,7 +1132,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunExtraAList[0].MWQMRunID);
                             Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMRunExtraB> mwqmRunExtraBList = new List<MWQMRunExtraB>();
                             mwqmRunExtraBList = mwqmRunService.GetMWQMRunExtraBList().ToList();
@@ -1160,7 +1160,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMRunService mwqmRunService = new MWQMRunService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1169,14 +1169,14 @@ namespace CSSPServices.Tests
                         List<MWQMRun> mwqmRunDirectQueryList = new List<MWQMRun>();
                         mwqmRunDirectQueryList = (from c in dbTestDB.MWQMRuns select c).Where(c => c.MWQMRunID > 2 && c.MWQMRunID < 5).Skip(0).Take(1).OrderBy(c => c.MWQMRunID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMRun> mwqmRunList = new List<MWQMRun>();
                             mwqmRunList = mwqmRunService.GetMWQMRunList().ToList();
                             CheckMWQMRunFields(mwqmRunList);
                             Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunList[0].MWQMRunID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMRunExtraA> mwqmRunExtraAList = new List<MWQMRunExtraA>();
                             mwqmRunExtraAList = mwqmRunService.GetMWQMRunExtraAList().ToList();
@@ -1184,7 +1184,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunExtraAList[0].MWQMRunID);
                             Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMRunExtraB> mwqmRunExtraBList = new List<MWQMRunExtraB>();
                             mwqmRunExtraBList = mwqmRunService.GetMWQMRunExtraBList().ToList();
@@ -1212,7 +1212,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMRunService mwqmRunService = new MWQMRunService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1221,14 +1221,14 @@ namespace CSSPServices.Tests
                         List<MWQMRun> mwqmRunDirectQueryList = new List<MWQMRun>();
                         mwqmRunDirectQueryList = (from c in dbTestDB.MWQMRuns select c).Where(c => c.MWQMRunID > 2 && c.MWQMRunID < 5).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMRun> mwqmRunList = new List<MWQMRun>();
                             mwqmRunList = mwqmRunService.GetMWQMRunList().ToList();
                             CheckMWQMRunFields(mwqmRunList);
                             Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunList[0].MWQMRunID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMRunExtraA> mwqmRunExtraAList = new List<MWQMRunExtraA>();
                             mwqmRunExtraAList = mwqmRunService.GetMWQMRunExtraAList().ToList();
@@ -1236,7 +1236,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunExtraAList[0].MWQMRunID);
                             Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMRunExtraB> mwqmRunExtraBList = new List<MWQMRunExtraB>();
                             mwqmRunExtraBList = mwqmRunService.GetMWQMRunExtraBList().ToList();
@@ -1405,10 +1405,10 @@ namespace CSSPServices.Tests
         }
         private void CheckMWQMRunExtraAFields(List<MWQMRunExtraA> mwqmRunExtraAList)
         {
-            Assert.IsNotNull(mwqmRunExtraAList[0].SubsectorTVItemLanguage);
-            Assert.IsNotNull(mwqmRunExtraAList[0].MWQMRunTVItemLanguage);
-            Assert.IsNotNull(mwqmRunExtraAList[0].LabSampleApprovalContactTVItemLanguage);
-            Assert.IsNotNull(mwqmRunExtraAList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunExtraAList[0].SubsectorText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunExtraAList[0].MWQMRunText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunExtraAList[0].LabSampleApprovalContactName));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunExtraAList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(mwqmRunExtraAList[0].RunSampleTypeText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunExtraAList[0].RunSampleTypeText));
@@ -1597,10 +1597,10 @@ namespace CSSPServices.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunExtraBList[0].MWQMRunReportTest));
             }
-            Assert.IsNotNull(mwqmRunExtraBList[0].SubsectorTVItemLanguage);
-            Assert.IsNotNull(mwqmRunExtraBList[0].MWQMRunTVItemLanguage);
-            Assert.IsNotNull(mwqmRunExtraBList[0].LabSampleApprovalContactTVItemLanguage);
-            Assert.IsNotNull(mwqmRunExtraBList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunExtraBList[0].SubsectorText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunExtraBList[0].MWQMRunText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunExtraBList[0].LabSampleApprovalContactName));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunExtraBList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(mwqmRunExtraBList[0].RunSampleTypeText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunExtraBList[0].RunSampleTypeText));

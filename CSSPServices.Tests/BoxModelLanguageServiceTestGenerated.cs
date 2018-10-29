@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                     count = boxModelLanguageService.GetBoxModelLanguageList().Count();
 
-                    Assert.AreEqual(boxModelLanguageService.GetBoxModelLanguageList().Count(), (from c in dbTestDB.BoxModelLanguages select c).Take(200).Count());
+                    Assert.AreEqual(count, (from c in dbTestDB.BoxModelLanguages select c).Count());
 
                     boxModelLanguageService.Add(boxModelLanguage);
                     if (boxModelLanguage.HasErrors)
@@ -237,23 +237,23 @@ namespace CSSPServices.Tests
                     BoxModelLanguage boxModelLanguage = (from c in dbTestDB.BoxModelLanguages select c).FirstOrDefault();
                     Assert.IsNotNull(boxModelLanguage);
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        boxModelLanguageService.Query.Detail = detail;
+                        boxModelLanguageService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             BoxModelLanguage boxModelLanguageRet = boxModelLanguageService.GetBoxModelLanguageWithBoxModelLanguageID(boxModelLanguage.BoxModelLanguageID);
                             CheckBoxModelLanguageFields(new List<BoxModelLanguage>() { boxModelLanguageRet });
                             Assert.AreEqual(boxModelLanguage.BoxModelLanguageID, boxModelLanguageRet.BoxModelLanguageID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             BoxModelLanguageExtraA boxModelLanguageExtraARet = boxModelLanguageService.GetBoxModelLanguageExtraAWithBoxModelLanguageID(boxModelLanguage.BoxModelLanguageID);
                             CheckBoxModelLanguageExtraAFields(new List<BoxModelLanguageExtraA>() { boxModelLanguageExtraARet });
                             Assert.AreEqual(boxModelLanguage.BoxModelLanguageID, boxModelLanguageExtraARet.BoxModelLanguageID);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             BoxModelLanguageExtraB boxModelLanguageExtraBRet = boxModelLanguageService.GetBoxModelLanguageExtraBWithBoxModelLanguageID(boxModelLanguage.BoxModelLanguageID);
                             CheckBoxModelLanguageExtraBFields(new List<BoxModelLanguageExtraB>() { boxModelLanguageExtraBRet });
@@ -286,24 +286,24 @@ namespace CSSPServices.Tests
                     List<BoxModelLanguage> boxModelLanguageDirectQueryList = new List<BoxModelLanguage>();
                     boxModelLanguageDirectQueryList = (from c in dbTestDB.BoxModelLanguages select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        boxModelLanguageService.Query.Detail = detail;
+                        boxModelLanguageService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<BoxModelLanguage> boxModelLanguageList = new List<BoxModelLanguage>();
                             boxModelLanguageList = boxModelLanguageService.GetBoxModelLanguageList().ToList();
                             CheckBoxModelLanguageFields(boxModelLanguageList);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<BoxModelLanguageExtraA> boxModelLanguageExtraAList = new List<BoxModelLanguageExtraA>();
                             boxModelLanguageExtraAList = boxModelLanguageService.GetBoxModelLanguageExtraAList().ToList();
                             CheckBoxModelLanguageExtraAFields(boxModelLanguageExtraAList);
                             Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguageExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<BoxModelLanguageExtraB> boxModelLanguageExtraBList = new List<BoxModelLanguageExtraB>();
                             boxModelLanguageExtraBList = boxModelLanguageService.GetBoxModelLanguageExtraBList().ToList();
@@ -330,7 +330,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         BoxModelLanguageService boxModelLanguageService = new BoxModelLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -339,14 +339,14 @@ namespace CSSPServices.Tests
                         List<BoxModelLanguage> boxModelLanguageDirectQueryList = new List<BoxModelLanguage>();
                         boxModelLanguageDirectQueryList = (from c in dbTestDB.BoxModelLanguages select c).Skip(1).Take(1).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<BoxModelLanguage> boxModelLanguageList = new List<BoxModelLanguage>();
                             boxModelLanguageList = boxModelLanguageService.GetBoxModelLanguageList().ToList();
                             CheckBoxModelLanguageFields(boxModelLanguageList);
                             Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguageList[0].BoxModelLanguageID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<BoxModelLanguageExtraA> boxModelLanguageExtraAList = new List<BoxModelLanguageExtraA>();
                             boxModelLanguageExtraAList = boxModelLanguageService.GetBoxModelLanguageExtraAList().ToList();
@@ -354,7 +354,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguageExtraAList[0].BoxModelLanguageID);
                             Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguageExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<BoxModelLanguageExtraB> boxModelLanguageExtraBList = new List<BoxModelLanguageExtraB>();
                             boxModelLanguageExtraBList = boxModelLanguageService.GetBoxModelLanguageExtraBList().ToList();
@@ -382,7 +382,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         BoxModelLanguageService boxModelLanguageService = new BoxModelLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -391,14 +391,14 @@ namespace CSSPServices.Tests
                         List<BoxModelLanguage> boxModelLanguageDirectQueryList = new List<BoxModelLanguage>();
                         boxModelLanguageDirectQueryList = (from c in dbTestDB.BoxModelLanguages select c).Skip(1).Take(1).OrderBy(c => c.BoxModelLanguageID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<BoxModelLanguage> boxModelLanguageList = new List<BoxModelLanguage>();
                             boxModelLanguageList = boxModelLanguageService.GetBoxModelLanguageList().ToList();
                             CheckBoxModelLanguageFields(boxModelLanguageList);
                             Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguageList[0].BoxModelLanguageID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<BoxModelLanguageExtraA> boxModelLanguageExtraAList = new List<BoxModelLanguageExtraA>();
                             boxModelLanguageExtraAList = boxModelLanguageService.GetBoxModelLanguageExtraAList().ToList();
@@ -406,7 +406,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguageExtraAList[0].BoxModelLanguageID);
                             Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguageExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<BoxModelLanguageExtraB> boxModelLanguageExtraBList = new List<BoxModelLanguageExtraB>();
                             boxModelLanguageExtraBList = boxModelLanguageService.GetBoxModelLanguageExtraBList().ToList();
@@ -434,7 +434,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         BoxModelLanguageService boxModelLanguageService = new BoxModelLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -443,14 +443,14 @@ namespace CSSPServices.Tests
                         List<BoxModelLanguage> boxModelLanguageDirectQueryList = new List<BoxModelLanguage>();
                         boxModelLanguageDirectQueryList = (from c in dbTestDB.BoxModelLanguages select c).Skip(1).Take(1).OrderBy(c => c.BoxModelLanguageID).ThenBy(c => c.BoxModelID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<BoxModelLanguage> boxModelLanguageList = new List<BoxModelLanguage>();
                             boxModelLanguageList = boxModelLanguageService.GetBoxModelLanguageList().ToList();
                             CheckBoxModelLanguageFields(boxModelLanguageList);
                             Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguageList[0].BoxModelLanguageID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<BoxModelLanguageExtraA> boxModelLanguageExtraAList = new List<BoxModelLanguageExtraA>();
                             boxModelLanguageExtraAList = boxModelLanguageService.GetBoxModelLanguageExtraAList().ToList();
@@ -458,7 +458,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguageExtraAList[0].BoxModelLanguageID);
                             Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguageExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<BoxModelLanguageExtraB> boxModelLanguageExtraBList = new List<BoxModelLanguageExtraB>();
                             boxModelLanguageExtraBList = boxModelLanguageService.GetBoxModelLanguageExtraBList().ToList();
@@ -486,7 +486,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         BoxModelLanguageService boxModelLanguageService = new BoxModelLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -495,14 +495,14 @@ namespace CSSPServices.Tests
                         List<BoxModelLanguage> boxModelLanguageDirectQueryList = new List<BoxModelLanguage>();
                         boxModelLanguageDirectQueryList = (from c in dbTestDB.BoxModelLanguages select c).Where(c => c.BoxModelLanguageID == 4).Skip(0).Take(1).OrderBy(c => c.BoxModelLanguageID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<BoxModelLanguage> boxModelLanguageList = new List<BoxModelLanguage>();
                             boxModelLanguageList = boxModelLanguageService.GetBoxModelLanguageList().ToList();
                             CheckBoxModelLanguageFields(boxModelLanguageList);
                             Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguageList[0].BoxModelLanguageID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<BoxModelLanguageExtraA> boxModelLanguageExtraAList = new List<BoxModelLanguageExtraA>();
                             boxModelLanguageExtraAList = boxModelLanguageService.GetBoxModelLanguageExtraAList().ToList();
@@ -510,7 +510,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguageExtraAList[0].BoxModelLanguageID);
                             Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguageExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<BoxModelLanguageExtraB> boxModelLanguageExtraBList = new List<BoxModelLanguageExtraB>();
                             boxModelLanguageExtraBList = boxModelLanguageService.GetBoxModelLanguageExtraBList().ToList();
@@ -538,7 +538,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         BoxModelLanguageService boxModelLanguageService = new BoxModelLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -547,14 +547,14 @@ namespace CSSPServices.Tests
                         List<BoxModelLanguage> boxModelLanguageDirectQueryList = new List<BoxModelLanguage>();
                         boxModelLanguageDirectQueryList = (from c in dbTestDB.BoxModelLanguages select c).Where(c => c.BoxModelLanguageID > 2 && c.BoxModelLanguageID < 5).Skip(0).Take(1).OrderBy(c => c.BoxModelLanguageID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<BoxModelLanguage> boxModelLanguageList = new List<BoxModelLanguage>();
                             boxModelLanguageList = boxModelLanguageService.GetBoxModelLanguageList().ToList();
                             CheckBoxModelLanguageFields(boxModelLanguageList);
                             Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguageList[0].BoxModelLanguageID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<BoxModelLanguageExtraA> boxModelLanguageExtraAList = new List<BoxModelLanguageExtraA>();
                             boxModelLanguageExtraAList = boxModelLanguageService.GetBoxModelLanguageExtraAList().ToList();
@@ -562,7 +562,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguageExtraAList[0].BoxModelLanguageID);
                             Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguageExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<BoxModelLanguageExtraB> boxModelLanguageExtraBList = new List<BoxModelLanguageExtraB>();
                             boxModelLanguageExtraBList = boxModelLanguageService.GetBoxModelLanguageExtraBList().ToList();
@@ -590,7 +590,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         BoxModelLanguageService boxModelLanguageService = new BoxModelLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -599,14 +599,14 @@ namespace CSSPServices.Tests
                         List<BoxModelLanguage> boxModelLanguageDirectQueryList = new List<BoxModelLanguage>();
                         boxModelLanguageDirectQueryList = (from c in dbTestDB.BoxModelLanguages select c).Where(c => c.BoxModelLanguageID > 2 && c.BoxModelLanguageID < 5).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<BoxModelLanguage> boxModelLanguageList = new List<BoxModelLanguage>();
                             boxModelLanguageList = boxModelLanguageService.GetBoxModelLanguageList().ToList();
                             CheckBoxModelLanguageFields(boxModelLanguageList);
                             Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguageList[0].BoxModelLanguageID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<BoxModelLanguageExtraA> boxModelLanguageExtraAList = new List<BoxModelLanguageExtraA>();
                             boxModelLanguageExtraAList = boxModelLanguageService.GetBoxModelLanguageExtraAList().ToList();
@@ -614,7 +614,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(boxModelLanguageDirectQueryList[0].BoxModelLanguageID, boxModelLanguageExtraAList[0].BoxModelLanguageID);
                             Assert.AreEqual(boxModelLanguageDirectQueryList.Count, boxModelLanguageExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<BoxModelLanguageExtraB> boxModelLanguageExtraBList = new List<BoxModelLanguageExtraB>();
                             boxModelLanguageExtraBList = boxModelLanguageService.GetBoxModelLanguageExtraBList().ToList();
@@ -646,7 +646,7 @@ namespace CSSPServices.Tests
         }
         private void CheckBoxModelLanguageExtraAFields(List<BoxModelLanguageExtraA> boxModelLanguageExtraAList)
         {
-            Assert.IsNotNull(boxModelLanguageExtraAList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageExtraAList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(boxModelLanguageExtraAList[0].LanguageText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageExtraAList[0].LanguageText));
@@ -670,7 +670,7 @@ namespace CSSPServices.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageExtraBList[0].BoxModelLanguageReportTest));
             }
-            Assert.IsNotNull(boxModelLanguageExtraBList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageExtraBList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(boxModelLanguageExtraBList[0].LanguageText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageExtraBList[0].LanguageText));

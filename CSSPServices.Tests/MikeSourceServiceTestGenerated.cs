@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                     count = mikeSourceService.GetMikeSourceList().Count();
 
-                    Assert.AreEqual(mikeSourceService.GetMikeSourceList().Count(), (from c in dbTestDB.MikeSources select c).Take(200).Count());
+                    Assert.AreEqual(count, (from c in dbTestDB.MikeSources select c).Count());
 
                     mikeSourceService.Add(mikeSource);
                     if (mikeSource.HasErrors)
@@ -175,9 +175,9 @@ namespace CSSPServices.Tests
                     // mikeSource.DrainageArea_km2   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [DrainageArea_km2]
+                    //CSSPError: Type not implemented [DrainageArea_km2]
 
-                    //Error: Type not implemented [DrainageArea_km2]
+                    //CSSPError: Type not implemented [DrainageArea_km2]
 
                     mikeSource = null;
                     mikeSource = GetFilledRandomMikeSource("");
@@ -198,9 +198,9 @@ namespace CSSPServices.Tests
                     // mikeSource.Factor   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [Factor]
+                    //CSSPError: Type not implemented [Factor]
 
-                    //Error: Type not implemented [Factor]
+                    //CSSPError: Type not implemented [Factor]
 
                     mikeSource = null;
                     mikeSource = GetFilledRandomMikeSource("");
@@ -306,23 +306,23 @@ namespace CSSPServices.Tests
                     MikeSource mikeSource = (from c in dbTestDB.MikeSources select c).FirstOrDefault();
                     Assert.IsNotNull(mikeSource);
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        mikeSourceService.Query.Detail = detail;
+                        mikeSourceService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             MikeSource mikeSourceRet = mikeSourceService.GetMikeSourceWithMikeSourceID(mikeSource.MikeSourceID);
                             CheckMikeSourceFields(new List<MikeSource>() { mikeSourceRet });
                             Assert.AreEqual(mikeSource.MikeSourceID, mikeSourceRet.MikeSourceID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             MikeSourceExtraA mikeSourceExtraARet = mikeSourceService.GetMikeSourceExtraAWithMikeSourceID(mikeSource.MikeSourceID);
                             CheckMikeSourceExtraAFields(new List<MikeSourceExtraA>() { mikeSourceExtraARet });
                             Assert.AreEqual(mikeSource.MikeSourceID, mikeSourceExtraARet.MikeSourceID);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             MikeSourceExtraB mikeSourceExtraBRet = mikeSourceService.GetMikeSourceExtraBWithMikeSourceID(mikeSource.MikeSourceID);
                             CheckMikeSourceExtraBFields(new List<MikeSourceExtraB>() { mikeSourceExtraBRet });
@@ -355,24 +355,24 @@ namespace CSSPServices.Tests
                     List<MikeSource> mikeSourceDirectQueryList = new List<MikeSource>();
                     mikeSourceDirectQueryList = (from c in dbTestDB.MikeSources select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        mikeSourceService.Query.Detail = detail;
+                        mikeSourceService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MikeSource> mikeSourceList = new List<MikeSource>();
                             mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
                             CheckMikeSourceFields(mikeSourceList);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MikeSourceExtraA> mikeSourceExtraAList = new List<MikeSourceExtraA>();
                             mikeSourceExtraAList = mikeSourceService.GetMikeSourceExtraAList().ToList();
                             CheckMikeSourceExtraAFields(mikeSourceExtraAList);
                             Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MikeSourceExtraB> mikeSourceExtraBList = new List<MikeSourceExtraB>();
                             mikeSourceExtraBList = mikeSourceService.GetMikeSourceExtraBList().ToList();
@@ -399,7 +399,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MikeSourceService mikeSourceService = new MikeSourceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -408,14 +408,14 @@ namespace CSSPServices.Tests
                         List<MikeSource> mikeSourceDirectQueryList = new List<MikeSource>();
                         mikeSourceDirectQueryList = (from c in dbTestDB.MikeSources select c).Skip(1).Take(1).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MikeSource> mikeSourceList = new List<MikeSource>();
                             mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
                             CheckMikeSourceFields(mikeSourceList);
                             Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceList[0].MikeSourceID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MikeSourceExtraA> mikeSourceExtraAList = new List<MikeSourceExtraA>();
                             mikeSourceExtraAList = mikeSourceService.GetMikeSourceExtraAList().ToList();
@@ -423,7 +423,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceExtraAList[0].MikeSourceID);
                             Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MikeSourceExtraB> mikeSourceExtraBList = new List<MikeSourceExtraB>();
                             mikeSourceExtraBList = mikeSourceService.GetMikeSourceExtraBList().ToList();
@@ -451,7 +451,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MikeSourceService mikeSourceService = new MikeSourceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -460,14 +460,14 @@ namespace CSSPServices.Tests
                         List<MikeSource> mikeSourceDirectQueryList = new List<MikeSource>();
                         mikeSourceDirectQueryList = (from c in dbTestDB.MikeSources select c).Skip(1).Take(1).OrderBy(c => c.MikeSourceID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MikeSource> mikeSourceList = new List<MikeSource>();
                             mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
                             CheckMikeSourceFields(mikeSourceList);
                             Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceList[0].MikeSourceID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MikeSourceExtraA> mikeSourceExtraAList = new List<MikeSourceExtraA>();
                             mikeSourceExtraAList = mikeSourceService.GetMikeSourceExtraAList().ToList();
@@ -475,7 +475,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceExtraAList[0].MikeSourceID);
                             Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MikeSourceExtraB> mikeSourceExtraBList = new List<MikeSourceExtraB>();
                             mikeSourceExtraBList = mikeSourceService.GetMikeSourceExtraBList().ToList();
@@ -503,7 +503,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MikeSourceService mikeSourceService = new MikeSourceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -512,14 +512,14 @@ namespace CSSPServices.Tests
                         List<MikeSource> mikeSourceDirectQueryList = new List<MikeSource>();
                         mikeSourceDirectQueryList = (from c in dbTestDB.MikeSources select c).Skip(1).Take(1).OrderBy(c => c.MikeSourceID).ThenBy(c => c.MikeSourceTVItemID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MikeSource> mikeSourceList = new List<MikeSource>();
                             mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
                             CheckMikeSourceFields(mikeSourceList);
                             Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceList[0].MikeSourceID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MikeSourceExtraA> mikeSourceExtraAList = new List<MikeSourceExtraA>();
                             mikeSourceExtraAList = mikeSourceService.GetMikeSourceExtraAList().ToList();
@@ -527,7 +527,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceExtraAList[0].MikeSourceID);
                             Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MikeSourceExtraB> mikeSourceExtraBList = new List<MikeSourceExtraB>();
                             mikeSourceExtraBList = mikeSourceService.GetMikeSourceExtraBList().ToList();
@@ -555,7 +555,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MikeSourceService mikeSourceService = new MikeSourceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -564,14 +564,14 @@ namespace CSSPServices.Tests
                         List<MikeSource> mikeSourceDirectQueryList = new List<MikeSource>();
                         mikeSourceDirectQueryList = (from c in dbTestDB.MikeSources select c).Where(c => c.MikeSourceID == 4).Skip(0).Take(1).OrderBy(c => c.MikeSourceID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MikeSource> mikeSourceList = new List<MikeSource>();
                             mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
                             CheckMikeSourceFields(mikeSourceList);
                             Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceList[0].MikeSourceID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MikeSourceExtraA> mikeSourceExtraAList = new List<MikeSourceExtraA>();
                             mikeSourceExtraAList = mikeSourceService.GetMikeSourceExtraAList().ToList();
@@ -579,7 +579,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceExtraAList[0].MikeSourceID);
                             Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MikeSourceExtraB> mikeSourceExtraBList = new List<MikeSourceExtraB>();
                             mikeSourceExtraBList = mikeSourceService.GetMikeSourceExtraBList().ToList();
@@ -607,7 +607,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MikeSourceService mikeSourceService = new MikeSourceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -616,14 +616,14 @@ namespace CSSPServices.Tests
                         List<MikeSource> mikeSourceDirectQueryList = new List<MikeSource>();
                         mikeSourceDirectQueryList = (from c in dbTestDB.MikeSources select c).Where(c => c.MikeSourceID > 2 && c.MikeSourceID < 5).Skip(0).Take(1).OrderBy(c => c.MikeSourceID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MikeSource> mikeSourceList = new List<MikeSource>();
                             mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
                             CheckMikeSourceFields(mikeSourceList);
                             Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceList[0].MikeSourceID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MikeSourceExtraA> mikeSourceExtraAList = new List<MikeSourceExtraA>();
                             mikeSourceExtraAList = mikeSourceService.GetMikeSourceExtraAList().ToList();
@@ -631,7 +631,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceExtraAList[0].MikeSourceID);
                             Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MikeSourceExtraB> mikeSourceExtraBList = new List<MikeSourceExtraB>();
                             mikeSourceExtraBList = mikeSourceService.GetMikeSourceExtraBList().ToList();
@@ -659,7 +659,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MikeSourceService mikeSourceService = new MikeSourceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -668,14 +668,14 @@ namespace CSSPServices.Tests
                         List<MikeSource> mikeSourceDirectQueryList = new List<MikeSource>();
                         mikeSourceDirectQueryList = (from c in dbTestDB.MikeSources select c).Where(c => c.MikeSourceID > 2 && c.MikeSourceID < 5).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MikeSource> mikeSourceList = new List<MikeSource>();
                             mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
                             CheckMikeSourceFields(mikeSourceList);
                             Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceList[0].MikeSourceID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MikeSourceExtraA> mikeSourceExtraAList = new List<MikeSourceExtraA>();
                             mikeSourceExtraAList = mikeSourceService.GetMikeSourceExtraAList().ToList();
@@ -683,7 +683,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceExtraAList[0].MikeSourceID);
                             Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MikeSourceExtraB> mikeSourceExtraBList = new List<MikeSourceExtraB>();
                             mikeSourceExtraBList = mikeSourceService.GetMikeSourceExtraBList().ToList();
@@ -729,8 +729,8 @@ namespace CSSPServices.Tests
         }
         private void CheckMikeSourceExtraAFields(List<MikeSourceExtraA> mikeSourceExtraAList)
         {
-            Assert.IsNotNull(mikeSourceExtraAList[0].MikeSourceTVItemLanguage);
-            Assert.IsNotNull(mikeSourceExtraAList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceExtraAList[0].MikeSourceText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceExtraAList[0].LastUpdateContactText));
             Assert.IsNotNull(mikeSourceExtraAList[0].MikeSourceID);
             Assert.IsNotNull(mikeSourceExtraAList[0].MikeSourceTVItemID);
             Assert.IsNotNull(mikeSourceExtraAList[0].IsContinuous);
@@ -760,8 +760,8 @@ namespace CSSPServices.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceExtraBList[0].MikeSourceReportTest));
             }
-            Assert.IsNotNull(mikeSourceExtraBList[0].MikeSourceTVItemLanguage);
-            Assert.IsNotNull(mikeSourceExtraBList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceExtraBList[0].MikeSourceText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceExtraBList[0].LastUpdateContactText));
             Assert.IsNotNull(mikeSourceExtraBList[0].MikeSourceID);
             Assert.IsNotNull(mikeSourceExtraBList[0].MikeSourceTVItemID);
             Assert.IsNotNull(mikeSourceExtraBList[0].IsContinuous);

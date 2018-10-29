@@ -30,27 +30,28 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
-                let SiteTVItemLanguage = (from cl in db.TVItemLanguages
+                let SiteText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.SiteTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let SubsectorTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let SubsectorText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.SubsectorTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
+                let SiteTypeText = (from e in SiteTypeEnumList
+                    where e.EnumID == (int?)c.SiteType
+                    select e.EnumText).FirstOrDefault()
                     select new UseOfSiteExtraB
                     {
                         UseOfSiteReportTest = UseOfSiteReportTest,
-                        SiteTVItemLanguage = SiteTVItemLanguage,
-                        SubsectorTVItemLanguage = SubsectorTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        SiteTypeText = (from e in SiteTypeEnumList
-                                where e.EnumID == (int?)c.SiteType
-                                select e.EnumText).FirstOrDefault(),
+                        SiteText = SiteText,
+                        SubsectorText = SubsectorText,
+                        LastUpdateContactText = LastUpdateContactText,
+                        SiteTypeText = SiteTypeText,
                         UseOfSiteID = c.UseOfSiteID,
                         SiteTVItemID = c.SiteTVItemID,
                         SubsectorTVItemID = c.SubsectorTVItemID,

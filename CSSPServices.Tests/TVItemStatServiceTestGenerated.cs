@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                     count = tvItemStatService.GetTVItemStatList().Count();
 
-                    Assert.AreEqual(tvItemStatService.GetTVItemStatList().Count(), (from c in dbTestDB.TVItemStats select c).Take(200).Count());
+                    Assert.AreEqual(count, (from c in dbTestDB.TVItemStats select c).Count());
 
                     tvItemStatService.Add(tvItemStat);
                     if (tvItemStat.HasErrors)
@@ -228,23 +228,23 @@ namespace CSSPServices.Tests
                     TVItemStat tvItemStat = (from c in dbTestDB.TVItemStats select c).FirstOrDefault();
                     Assert.IsNotNull(tvItemStat);
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        tvItemStatService.Query.Detail = detail;
+                        tvItemStatService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             TVItemStat tvItemStatRet = tvItemStatService.GetTVItemStatWithTVItemStatID(tvItemStat.TVItemStatID);
                             CheckTVItemStatFields(new List<TVItemStat>() { tvItemStatRet });
                             Assert.AreEqual(tvItemStat.TVItemStatID, tvItemStatRet.TVItemStatID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             TVItemStatExtraA tvItemStatExtraARet = tvItemStatService.GetTVItemStatExtraAWithTVItemStatID(tvItemStat.TVItemStatID);
                             CheckTVItemStatExtraAFields(new List<TVItemStatExtraA>() { tvItemStatExtraARet });
                             Assert.AreEqual(tvItemStat.TVItemStatID, tvItemStatExtraARet.TVItemStatID);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             TVItemStatExtraB tvItemStatExtraBRet = tvItemStatService.GetTVItemStatExtraBWithTVItemStatID(tvItemStat.TVItemStatID);
                             CheckTVItemStatExtraBFields(new List<TVItemStatExtraB>() { tvItemStatExtraBRet });
@@ -277,24 +277,24 @@ namespace CSSPServices.Tests
                     List<TVItemStat> tvItemStatDirectQueryList = new List<TVItemStat>();
                     tvItemStatDirectQueryList = (from c in dbTestDB.TVItemStats select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        tvItemStatService.Query.Detail = detail;
+                        tvItemStatService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<TVItemStat> tvItemStatList = new List<TVItemStat>();
                             tvItemStatList = tvItemStatService.GetTVItemStatList().ToList();
                             CheckTVItemStatFields(tvItemStatList);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TVItemStatExtraA> tvItemStatExtraAList = new List<TVItemStatExtraA>();
                             tvItemStatExtraAList = tvItemStatService.GetTVItemStatExtraAList().ToList();
                             CheckTVItemStatExtraAFields(tvItemStatExtraAList);
                             Assert.AreEqual(tvItemStatDirectQueryList.Count, tvItemStatExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TVItemStatExtraB> tvItemStatExtraBList = new List<TVItemStatExtraB>();
                             tvItemStatExtraBList = tvItemStatService.GetTVItemStatExtraBList().ToList();
@@ -321,7 +321,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TVItemStatService tvItemStatService = new TVItemStatService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -330,14 +330,14 @@ namespace CSSPServices.Tests
                         List<TVItemStat> tvItemStatDirectQueryList = new List<TVItemStat>();
                         tvItemStatDirectQueryList = (from c in dbTestDB.TVItemStats select c).Skip(1).Take(1).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<TVItemStat> tvItemStatList = new List<TVItemStat>();
                             tvItemStatList = tvItemStatService.GetTVItemStatList().ToList();
                             CheckTVItemStatFields(tvItemStatList);
                             Assert.AreEqual(tvItemStatDirectQueryList[0].TVItemStatID, tvItemStatList[0].TVItemStatID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TVItemStatExtraA> tvItemStatExtraAList = new List<TVItemStatExtraA>();
                             tvItemStatExtraAList = tvItemStatService.GetTVItemStatExtraAList().ToList();
@@ -345,7 +345,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvItemStatDirectQueryList[0].TVItemStatID, tvItemStatExtraAList[0].TVItemStatID);
                             Assert.AreEqual(tvItemStatDirectQueryList.Count, tvItemStatExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TVItemStatExtraB> tvItemStatExtraBList = new List<TVItemStatExtraB>();
                             tvItemStatExtraBList = tvItemStatService.GetTVItemStatExtraBList().ToList();
@@ -373,7 +373,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TVItemStatService tvItemStatService = new TVItemStatService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -382,14 +382,14 @@ namespace CSSPServices.Tests
                         List<TVItemStat> tvItemStatDirectQueryList = new List<TVItemStat>();
                         tvItemStatDirectQueryList = (from c in dbTestDB.TVItemStats select c).Skip(1).Take(1).OrderBy(c => c.TVItemStatID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<TVItemStat> tvItemStatList = new List<TVItemStat>();
                             tvItemStatList = tvItemStatService.GetTVItemStatList().ToList();
                             CheckTVItemStatFields(tvItemStatList);
                             Assert.AreEqual(tvItemStatDirectQueryList[0].TVItemStatID, tvItemStatList[0].TVItemStatID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TVItemStatExtraA> tvItemStatExtraAList = new List<TVItemStatExtraA>();
                             tvItemStatExtraAList = tvItemStatService.GetTVItemStatExtraAList().ToList();
@@ -397,7 +397,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvItemStatDirectQueryList[0].TVItemStatID, tvItemStatExtraAList[0].TVItemStatID);
                             Assert.AreEqual(tvItemStatDirectQueryList.Count, tvItemStatExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TVItemStatExtraB> tvItemStatExtraBList = new List<TVItemStatExtraB>();
                             tvItemStatExtraBList = tvItemStatService.GetTVItemStatExtraBList().ToList();
@@ -425,7 +425,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TVItemStatService tvItemStatService = new TVItemStatService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -434,14 +434,14 @@ namespace CSSPServices.Tests
                         List<TVItemStat> tvItemStatDirectQueryList = new List<TVItemStat>();
                         tvItemStatDirectQueryList = (from c in dbTestDB.TVItemStats select c).Skip(1).Take(1).OrderBy(c => c.TVItemStatID).ThenBy(c => c.TVItemID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<TVItemStat> tvItemStatList = new List<TVItemStat>();
                             tvItemStatList = tvItemStatService.GetTVItemStatList().ToList();
                             CheckTVItemStatFields(tvItemStatList);
                             Assert.AreEqual(tvItemStatDirectQueryList[0].TVItemStatID, tvItemStatList[0].TVItemStatID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TVItemStatExtraA> tvItemStatExtraAList = new List<TVItemStatExtraA>();
                             tvItemStatExtraAList = tvItemStatService.GetTVItemStatExtraAList().ToList();
@@ -449,7 +449,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvItemStatDirectQueryList[0].TVItemStatID, tvItemStatExtraAList[0].TVItemStatID);
                             Assert.AreEqual(tvItemStatDirectQueryList.Count, tvItemStatExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TVItemStatExtraB> tvItemStatExtraBList = new List<TVItemStatExtraB>();
                             tvItemStatExtraBList = tvItemStatService.GetTVItemStatExtraBList().ToList();
@@ -477,7 +477,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TVItemStatService tvItemStatService = new TVItemStatService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -486,14 +486,14 @@ namespace CSSPServices.Tests
                         List<TVItemStat> tvItemStatDirectQueryList = new List<TVItemStat>();
                         tvItemStatDirectQueryList = (from c in dbTestDB.TVItemStats select c).Where(c => c.TVItemStatID == 4).Skip(0).Take(1).OrderBy(c => c.TVItemStatID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<TVItemStat> tvItemStatList = new List<TVItemStat>();
                             tvItemStatList = tvItemStatService.GetTVItemStatList().ToList();
                             CheckTVItemStatFields(tvItemStatList);
                             Assert.AreEqual(tvItemStatDirectQueryList[0].TVItemStatID, tvItemStatList[0].TVItemStatID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TVItemStatExtraA> tvItemStatExtraAList = new List<TVItemStatExtraA>();
                             tvItemStatExtraAList = tvItemStatService.GetTVItemStatExtraAList().ToList();
@@ -501,7 +501,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvItemStatDirectQueryList[0].TVItemStatID, tvItemStatExtraAList[0].TVItemStatID);
                             Assert.AreEqual(tvItemStatDirectQueryList.Count, tvItemStatExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TVItemStatExtraB> tvItemStatExtraBList = new List<TVItemStatExtraB>();
                             tvItemStatExtraBList = tvItemStatService.GetTVItemStatExtraBList().ToList();
@@ -529,7 +529,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TVItemStatService tvItemStatService = new TVItemStatService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -538,14 +538,14 @@ namespace CSSPServices.Tests
                         List<TVItemStat> tvItemStatDirectQueryList = new List<TVItemStat>();
                         tvItemStatDirectQueryList = (from c in dbTestDB.TVItemStats select c).Where(c => c.TVItemStatID > 2 && c.TVItemStatID < 5).Skip(0).Take(1).OrderBy(c => c.TVItemStatID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<TVItemStat> tvItemStatList = new List<TVItemStat>();
                             tvItemStatList = tvItemStatService.GetTVItemStatList().ToList();
                             CheckTVItemStatFields(tvItemStatList);
                             Assert.AreEqual(tvItemStatDirectQueryList[0].TVItemStatID, tvItemStatList[0].TVItemStatID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TVItemStatExtraA> tvItemStatExtraAList = new List<TVItemStatExtraA>();
                             tvItemStatExtraAList = tvItemStatService.GetTVItemStatExtraAList().ToList();
@@ -553,7 +553,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvItemStatDirectQueryList[0].TVItemStatID, tvItemStatExtraAList[0].TVItemStatID);
                             Assert.AreEqual(tvItemStatDirectQueryList.Count, tvItemStatExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TVItemStatExtraB> tvItemStatExtraBList = new List<TVItemStatExtraB>();
                             tvItemStatExtraBList = tvItemStatService.GetTVItemStatExtraBList().ToList();
@@ -581,7 +581,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TVItemStatService tvItemStatService = new TVItemStatService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -590,14 +590,14 @@ namespace CSSPServices.Tests
                         List<TVItemStat> tvItemStatDirectQueryList = new List<TVItemStat>();
                         tvItemStatDirectQueryList = (from c in dbTestDB.TVItemStats select c).Where(c => c.TVItemStatID > 2 && c.TVItemStatID < 5).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<TVItemStat> tvItemStatList = new List<TVItemStat>();
                             tvItemStatList = tvItemStatService.GetTVItemStatList().ToList();
                             CheckTVItemStatFields(tvItemStatList);
                             Assert.AreEqual(tvItemStatDirectQueryList[0].TVItemStatID, tvItemStatList[0].TVItemStatID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TVItemStatExtraA> tvItemStatExtraAList = new List<TVItemStatExtraA>();
                             tvItemStatExtraAList = tvItemStatService.GetTVItemStatExtraAList().ToList();
@@ -605,7 +605,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvItemStatDirectQueryList[0].TVItemStatID, tvItemStatExtraAList[0].TVItemStatID);
                             Assert.AreEqual(tvItemStatDirectQueryList.Count, tvItemStatExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TVItemStatExtraB> tvItemStatExtraBList = new List<TVItemStatExtraB>();
                             tvItemStatExtraBList = tvItemStatService.GetTVItemStatExtraBList().ToList();
@@ -636,8 +636,8 @@ namespace CSSPServices.Tests
         }
         private void CheckTVItemStatExtraAFields(List<TVItemStatExtraA> tvItemStatExtraAList)
         {
-            Assert.IsNotNull(tvItemStatExtraAList[0].TVItemLanguage);
-            Assert.IsNotNull(tvItemStatExtraAList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatExtraAList[0].TVItemText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatExtraAList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(tvItemStatExtraAList[0].TVTypeText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatExtraAList[0].TVTypeText));
@@ -656,8 +656,8 @@ namespace CSSPServices.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatExtraBList[0].TVItemStatReportTest));
             }
-            Assert.IsNotNull(tvItemStatExtraBList[0].TVItemLanguage);
-            Assert.IsNotNull(tvItemStatExtraBList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatExtraBList[0].TVItemText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatExtraBList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(tvItemStatExtraBList[0].TVTypeText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatExtraBList[0].TVTypeText));

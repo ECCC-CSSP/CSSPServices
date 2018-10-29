@@ -61,10 +61,10 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "MapObjMapInfoDrawTypeText", "100"), new[] { "MapInfoDrawTypeText" });
             }
 
-                //Error: Type not implemented [CoordList] of type [List`1]
+                //CSSPError: Type not implemented [CoordList] of type [List`1]
 
-                //Error: Type not implemented [CoordList] of type [Coord]
-            retStr = ""; // added to stop compiling error
+                //CSSPError: Type not implemented [CoordList] of type [Coord]
+            retStr = ""; // added to stop compiling CSSPError
             if (retStr != "") // will never be true
             {
                 mapObj.HasErrors = true;

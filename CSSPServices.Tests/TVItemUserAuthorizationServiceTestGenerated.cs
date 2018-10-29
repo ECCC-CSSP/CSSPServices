@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                     count = tvItemUserAuthorizationService.GetTVItemUserAuthorizationList().Count();
 
-                    Assert.AreEqual(tvItemUserAuthorizationService.GetTVItemUserAuthorizationList().Count(), (from c in dbTestDB.TVItemUserAuthorizations select c).Take(200).Count());
+                    Assert.AreEqual(count, (from c in dbTestDB.TVItemUserAuthorizations select c).Count());
 
                     tvItemUserAuthorizationService.Add(tvItemUserAuthorization);
                     if (tvItemUserAuthorization.HasErrors)
@@ -285,23 +285,23 @@ namespace CSSPServices.Tests
                     TVItemUserAuthorization tvItemUserAuthorization = (from c in dbTestDB.TVItemUserAuthorizations select c).FirstOrDefault();
                     Assert.IsNotNull(tvItemUserAuthorization);
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        tvItemUserAuthorizationService.Query.Detail = detail;
+                        tvItemUserAuthorizationService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             TVItemUserAuthorization tvItemUserAuthorizationRet = tvItemUserAuthorizationService.GetTVItemUserAuthorizationWithTVItemUserAuthorizationID(tvItemUserAuthorization.TVItemUserAuthorizationID);
                             CheckTVItemUserAuthorizationFields(new List<TVItemUserAuthorization>() { tvItemUserAuthorizationRet });
                             Assert.AreEqual(tvItemUserAuthorization.TVItemUserAuthorizationID, tvItemUserAuthorizationRet.TVItemUserAuthorizationID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             TVItemUserAuthorizationExtraA tvItemUserAuthorizationExtraARet = tvItemUserAuthorizationService.GetTVItemUserAuthorizationExtraAWithTVItemUserAuthorizationID(tvItemUserAuthorization.TVItemUserAuthorizationID);
                             CheckTVItemUserAuthorizationExtraAFields(new List<TVItemUserAuthorizationExtraA>() { tvItemUserAuthorizationExtraARet });
                             Assert.AreEqual(tvItemUserAuthorization.TVItemUserAuthorizationID, tvItemUserAuthorizationExtraARet.TVItemUserAuthorizationID);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             TVItemUserAuthorizationExtraB tvItemUserAuthorizationExtraBRet = tvItemUserAuthorizationService.GetTVItemUserAuthorizationExtraBWithTVItemUserAuthorizationID(tvItemUserAuthorization.TVItemUserAuthorizationID);
                             CheckTVItemUserAuthorizationExtraBFields(new List<TVItemUserAuthorizationExtraB>() { tvItemUserAuthorizationExtraBRet });
@@ -334,24 +334,24 @@ namespace CSSPServices.Tests
                     List<TVItemUserAuthorization> tvItemUserAuthorizationDirectQueryList = new List<TVItemUserAuthorization>();
                     tvItemUserAuthorizationDirectQueryList = (from c in dbTestDB.TVItemUserAuthorizations select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        tvItemUserAuthorizationService.Query.Detail = detail;
+                        tvItemUserAuthorizationService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<TVItemUserAuthorization> tvItemUserAuthorizationList = new List<TVItemUserAuthorization>();
                             tvItemUserAuthorizationList = tvItemUserAuthorizationService.GetTVItemUserAuthorizationList().ToList();
                             CheckTVItemUserAuthorizationFields(tvItemUserAuthorizationList);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TVItemUserAuthorizationExtraA> tvItemUserAuthorizationExtraAList = new List<TVItemUserAuthorizationExtraA>();
                             tvItemUserAuthorizationExtraAList = tvItemUserAuthorizationService.GetTVItemUserAuthorizationExtraAList().ToList();
                             CheckTVItemUserAuthorizationExtraAFields(tvItemUserAuthorizationExtraAList);
                             Assert.AreEqual(tvItemUserAuthorizationDirectQueryList.Count, tvItemUserAuthorizationExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TVItemUserAuthorizationExtraB> tvItemUserAuthorizationExtraBList = new List<TVItemUserAuthorizationExtraB>();
                             tvItemUserAuthorizationExtraBList = tvItemUserAuthorizationService.GetTVItemUserAuthorizationExtraBList().ToList();
@@ -378,7 +378,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TVItemUserAuthorizationService tvItemUserAuthorizationService = new TVItemUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -387,14 +387,14 @@ namespace CSSPServices.Tests
                         List<TVItemUserAuthorization> tvItemUserAuthorizationDirectQueryList = new List<TVItemUserAuthorization>();
                         tvItemUserAuthorizationDirectQueryList = (from c in dbTestDB.TVItemUserAuthorizations select c).Skip(1).Take(1).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<TVItemUserAuthorization> tvItemUserAuthorizationList = new List<TVItemUserAuthorization>();
                             tvItemUserAuthorizationList = tvItemUserAuthorizationService.GetTVItemUserAuthorizationList().ToList();
                             CheckTVItemUserAuthorizationFields(tvItemUserAuthorizationList);
                             Assert.AreEqual(tvItemUserAuthorizationDirectQueryList[0].TVItemUserAuthorizationID, tvItemUserAuthorizationList[0].TVItemUserAuthorizationID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TVItemUserAuthorizationExtraA> tvItemUserAuthorizationExtraAList = new List<TVItemUserAuthorizationExtraA>();
                             tvItemUserAuthorizationExtraAList = tvItemUserAuthorizationService.GetTVItemUserAuthorizationExtraAList().ToList();
@@ -402,7 +402,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvItemUserAuthorizationDirectQueryList[0].TVItemUserAuthorizationID, tvItemUserAuthorizationExtraAList[0].TVItemUserAuthorizationID);
                             Assert.AreEqual(tvItemUserAuthorizationDirectQueryList.Count, tvItemUserAuthorizationExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TVItemUserAuthorizationExtraB> tvItemUserAuthorizationExtraBList = new List<TVItemUserAuthorizationExtraB>();
                             tvItemUserAuthorizationExtraBList = tvItemUserAuthorizationService.GetTVItemUserAuthorizationExtraBList().ToList();
@@ -430,7 +430,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TVItemUserAuthorizationService tvItemUserAuthorizationService = new TVItemUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -439,14 +439,14 @@ namespace CSSPServices.Tests
                         List<TVItemUserAuthorization> tvItemUserAuthorizationDirectQueryList = new List<TVItemUserAuthorization>();
                         tvItemUserAuthorizationDirectQueryList = (from c in dbTestDB.TVItemUserAuthorizations select c).Skip(1).Take(1).OrderBy(c => c.TVItemUserAuthorizationID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<TVItemUserAuthorization> tvItemUserAuthorizationList = new List<TVItemUserAuthorization>();
                             tvItemUserAuthorizationList = tvItemUserAuthorizationService.GetTVItemUserAuthorizationList().ToList();
                             CheckTVItemUserAuthorizationFields(tvItemUserAuthorizationList);
                             Assert.AreEqual(tvItemUserAuthorizationDirectQueryList[0].TVItemUserAuthorizationID, tvItemUserAuthorizationList[0].TVItemUserAuthorizationID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TVItemUserAuthorizationExtraA> tvItemUserAuthorizationExtraAList = new List<TVItemUserAuthorizationExtraA>();
                             tvItemUserAuthorizationExtraAList = tvItemUserAuthorizationService.GetTVItemUserAuthorizationExtraAList().ToList();
@@ -454,7 +454,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvItemUserAuthorizationDirectQueryList[0].TVItemUserAuthorizationID, tvItemUserAuthorizationExtraAList[0].TVItemUserAuthorizationID);
                             Assert.AreEqual(tvItemUserAuthorizationDirectQueryList.Count, tvItemUserAuthorizationExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TVItemUserAuthorizationExtraB> tvItemUserAuthorizationExtraBList = new List<TVItemUserAuthorizationExtraB>();
                             tvItemUserAuthorizationExtraBList = tvItemUserAuthorizationService.GetTVItemUserAuthorizationExtraBList().ToList();
@@ -482,7 +482,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TVItemUserAuthorizationService tvItemUserAuthorizationService = new TVItemUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -491,14 +491,14 @@ namespace CSSPServices.Tests
                         List<TVItemUserAuthorization> tvItemUserAuthorizationDirectQueryList = new List<TVItemUserAuthorization>();
                         tvItemUserAuthorizationDirectQueryList = (from c in dbTestDB.TVItemUserAuthorizations select c).Skip(1).Take(1).OrderBy(c => c.TVItemUserAuthorizationID).ThenBy(c => c.ContactTVItemID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<TVItemUserAuthorization> tvItemUserAuthorizationList = new List<TVItemUserAuthorization>();
                             tvItemUserAuthorizationList = tvItemUserAuthorizationService.GetTVItemUserAuthorizationList().ToList();
                             CheckTVItemUserAuthorizationFields(tvItemUserAuthorizationList);
                             Assert.AreEqual(tvItemUserAuthorizationDirectQueryList[0].TVItemUserAuthorizationID, tvItemUserAuthorizationList[0].TVItemUserAuthorizationID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TVItemUserAuthorizationExtraA> tvItemUserAuthorizationExtraAList = new List<TVItemUserAuthorizationExtraA>();
                             tvItemUserAuthorizationExtraAList = tvItemUserAuthorizationService.GetTVItemUserAuthorizationExtraAList().ToList();
@@ -506,7 +506,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvItemUserAuthorizationDirectQueryList[0].TVItemUserAuthorizationID, tvItemUserAuthorizationExtraAList[0].TVItemUserAuthorizationID);
                             Assert.AreEqual(tvItemUserAuthorizationDirectQueryList.Count, tvItemUserAuthorizationExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TVItemUserAuthorizationExtraB> tvItemUserAuthorizationExtraBList = new List<TVItemUserAuthorizationExtraB>();
                             tvItemUserAuthorizationExtraBList = tvItemUserAuthorizationService.GetTVItemUserAuthorizationExtraBList().ToList();
@@ -534,7 +534,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TVItemUserAuthorizationService tvItemUserAuthorizationService = new TVItemUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -543,14 +543,14 @@ namespace CSSPServices.Tests
                         List<TVItemUserAuthorization> tvItemUserAuthorizationDirectQueryList = new List<TVItemUserAuthorization>();
                         tvItemUserAuthorizationDirectQueryList = (from c in dbTestDB.TVItemUserAuthorizations select c).Where(c => c.TVItemUserAuthorizationID == 4).Skip(0).Take(1).OrderBy(c => c.TVItemUserAuthorizationID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<TVItemUserAuthorization> tvItemUserAuthorizationList = new List<TVItemUserAuthorization>();
                             tvItemUserAuthorizationList = tvItemUserAuthorizationService.GetTVItemUserAuthorizationList().ToList();
                             CheckTVItemUserAuthorizationFields(tvItemUserAuthorizationList);
                             Assert.AreEqual(tvItemUserAuthorizationDirectQueryList[0].TVItemUserAuthorizationID, tvItemUserAuthorizationList[0].TVItemUserAuthorizationID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TVItemUserAuthorizationExtraA> tvItemUserAuthorizationExtraAList = new List<TVItemUserAuthorizationExtraA>();
                             tvItemUserAuthorizationExtraAList = tvItemUserAuthorizationService.GetTVItemUserAuthorizationExtraAList().ToList();
@@ -558,7 +558,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvItemUserAuthorizationDirectQueryList[0].TVItemUserAuthorizationID, tvItemUserAuthorizationExtraAList[0].TVItemUserAuthorizationID);
                             Assert.AreEqual(tvItemUserAuthorizationDirectQueryList.Count, tvItemUserAuthorizationExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TVItemUserAuthorizationExtraB> tvItemUserAuthorizationExtraBList = new List<TVItemUserAuthorizationExtraB>();
                             tvItemUserAuthorizationExtraBList = tvItemUserAuthorizationService.GetTVItemUserAuthorizationExtraBList().ToList();
@@ -586,7 +586,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TVItemUserAuthorizationService tvItemUserAuthorizationService = new TVItemUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -595,14 +595,14 @@ namespace CSSPServices.Tests
                         List<TVItemUserAuthorization> tvItemUserAuthorizationDirectQueryList = new List<TVItemUserAuthorization>();
                         tvItemUserAuthorizationDirectQueryList = (from c in dbTestDB.TVItemUserAuthorizations select c).Where(c => c.TVItemUserAuthorizationID > 2 && c.TVItemUserAuthorizationID < 5).Skip(0).Take(1).OrderBy(c => c.TVItemUserAuthorizationID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<TVItemUserAuthorization> tvItemUserAuthorizationList = new List<TVItemUserAuthorization>();
                             tvItemUserAuthorizationList = tvItemUserAuthorizationService.GetTVItemUserAuthorizationList().ToList();
                             CheckTVItemUserAuthorizationFields(tvItemUserAuthorizationList);
                             Assert.AreEqual(tvItemUserAuthorizationDirectQueryList[0].TVItemUserAuthorizationID, tvItemUserAuthorizationList[0].TVItemUserAuthorizationID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TVItemUserAuthorizationExtraA> tvItemUserAuthorizationExtraAList = new List<TVItemUserAuthorizationExtraA>();
                             tvItemUserAuthorizationExtraAList = tvItemUserAuthorizationService.GetTVItemUserAuthorizationExtraAList().ToList();
@@ -610,7 +610,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvItemUserAuthorizationDirectQueryList[0].TVItemUserAuthorizationID, tvItemUserAuthorizationExtraAList[0].TVItemUserAuthorizationID);
                             Assert.AreEqual(tvItemUserAuthorizationDirectQueryList.Count, tvItemUserAuthorizationExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TVItemUserAuthorizationExtraB> tvItemUserAuthorizationExtraBList = new List<TVItemUserAuthorizationExtraB>();
                             tvItemUserAuthorizationExtraBList = tvItemUserAuthorizationService.GetTVItemUserAuthorizationExtraBList().ToList();
@@ -638,7 +638,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         TVItemUserAuthorizationService tvItemUserAuthorizationService = new TVItemUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -647,14 +647,14 @@ namespace CSSPServices.Tests
                         List<TVItemUserAuthorization> tvItemUserAuthorizationDirectQueryList = new List<TVItemUserAuthorization>();
                         tvItemUserAuthorizationDirectQueryList = (from c in dbTestDB.TVItemUserAuthorizations select c).Where(c => c.TVItemUserAuthorizationID > 2 && c.TVItemUserAuthorizationID < 5).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<TVItemUserAuthorization> tvItemUserAuthorizationList = new List<TVItemUserAuthorization>();
                             tvItemUserAuthorizationList = tvItemUserAuthorizationService.GetTVItemUserAuthorizationList().ToList();
                             CheckTVItemUserAuthorizationFields(tvItemUserAuthorizationList);
                             Assert.AreEqual(tvItemUserAuthorizationDirectQueryList[0].TVItemUserAuthorizationID, tvItemUserAuthorizationList[0].TVItemUserAuthorizationID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<TVItemUserAuthorizationExtraA> tvItemUserAuthorizationExtraAList = new List<TVItemUserAuthorizationExtraA>();
                             tvItemUserAuthorizationExtraAList = tvItemUserAuthorizationService.GetTVItemUserAuthorizationExtraAList().ToList();
@@ -662,7 +662,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvItemUserAuthorizationDirectQueryList[0].TVItemUserAuthorizationID, tvItemUserAuthorizationExtraAList[0].TVItemUserAuthorizationID);
                             Assert.AreEqual(tvItemUserAuthorizationDirectQueryList.Count, tvItemUserAuthorizationExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<TVItemUserAuthorizationExtraB> tvItemUserAuthorizationExtraBList = new List<TVItemUserAuthorizationExtraB>();
                             tvItemUserAuthorizationExtraBList = tvItemUserAuthorizationService.GetTVItemUserAuthorizationExtraBList().ToList();
@@ -705,21 +705,21 @@ namespace CSSPServices.Tests
         }
         private void CheckTVItemUserAuthorizationExtraAFields(List<TVItemUserAuthorizationExtraA> tvItemUserAuthorizationExtraAList)
         {
-            Assert.IsNotNull(tvItemUserAuthorizationExtraAList[0].ContactTVItemLanguage);
-            Assert.IsNotNull(tvItemUserAuthorizationExtraAList[0].TVItemLanguage1);
-            if (tvItemUserAuthorizationExtraAList[0].TVItemLanguage2 != null)
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationExtraAList[0].ContactName));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationExtraAList[0].TVItemText1));
+            if (!string.IsNullOrWhiteSpace(tvItemUserAuthorizationExtraAList[0].TVItemText2))
             {
-                Assert.IsNotNull(tvItemUserAuthorizationExtraAList[0].TVItemLanguage2);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationExtraAList[0].TVItemText2));
             }
-            if (tvItemUserAuthorizationExtraAList[0].TVItemLanguage3 != null)
+            if (!string.IsNullOrWhiteSpace(tvItemUserAuthorizationExtraAList[0].TVItemText3))
             {
-                Assert.IsNotNull(tvItemUserAuthorizationExtraAList[0].TVItemLanguage3);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationExtraAList[0].TVItemText3));
             }
-            if (tvItemUserAuthorizationExtraAList[0].TVItemLanguage4 != null)
+            if (!string.IsNullOrWhiteSpace(tvItemUserAuthorizationExtraAList[0].TVItemText4))
             {
-                Assert.IsNotNull(tvItemUserAuthorizationExtraAList[0].TVItemLanguage4);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationExtraAList[0].TVItemText4));
             }
-            Assert.IsNotNull(tvItemUserAuthorizationExtraAList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationExtraAList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(tvItemUserAuthorizationExtraAList[0].TVAuthText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationExtraAList[0].TVAuthText));
@@ -750,21 +750,21 @@ namespace CSSPServices.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationExtraBList[0].TVItemUserAuthorizationReportTest));
             }
-            Assert.IsNotNull(tvItemUserAuthorizationExtraBList[0].ContactTVItemLanguage);
-            Assert.IsNotNull(tvItemUserAuthorizationExtraBList[0].TVItemLanguage1);
-            if (tvItemUserAuthorizationExtraBList[0].TVItemLanguage2 != null)
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationExtraBList[0].ContactName));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationExtraBList[0].TVItemText1));
+            if (!string.IsNullOrWhiteSpace(tvItemUserAuthorizationExtraBList[0].TVItemText2))
             {
-                Assert.IsNotNull(tvItemUserAuthorizationExtraBList[0].TVItemLanguage2);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationExtraBList[0].TVItemText2));
             }
-            if (tvItemUserAuthorizationExtraBList[0].TVItemLanguage3 != null)
+            if (!string.IsNullOrWhiteSpace(tvItemUserAuthorizationExtraBList[0].TVItemText3))
             {
-                Assert.IsNotNull(tvItemUserAuthorizationExtraBList[0].TVItemLanguage3);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationExtraBList[0].TVItemText3));
             }
-            if (tvItemUserAuthorizationExtraBList[0].TVItemLanguage4 != null)
+            if (!string.IsNullOrWhiteSpace(tvItemUserAuthorizationExtraBList[0].TVItemText4))
             {
-                Assert.IsNotNull(tvItemUserAuthorizationExtraBList[0].TVItemLanguage4);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationExtraBList[0].TVItemText4));
             }
-            Assert.IsNotNull(tvItemUserAuthorizationExtraBList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationExtraBList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(tvItemUserAuthorizationExtraBList[0].TVAuthText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationExtraBList[0].TVAuthText));

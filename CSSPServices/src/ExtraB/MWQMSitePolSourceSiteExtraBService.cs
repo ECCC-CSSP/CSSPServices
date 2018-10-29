@@ -30,27 +30,28 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
-                let MWQMSiteTVItemLanguage = (from cl in db.TVItemLanguages
+                let MWQMSiteText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MWQMSiteTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let PolSourceSiteTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let PolSourceSiteText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.PolSourceSiteTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
+                let TVTypeText = (from e in TVTypeEnumList
+                    where e.EnumID == (int?)c.TVType
+                    select e.EnumText).FirstOrDefault()
                     select new MWQMSitePolSourceSiteExtraB
                     {
                         MWQMSitePolSourceSiteReportTest = MWQMSitePolSourceSiteReportTest,
-                        MWQMSiteTVItemLanguage = MWQMSiteTVItemLanguage,
-                        PolSourceSiteTVItemLanguage = PolSourceSiteTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        TVTypeText = (from e in TVTypeEnumList
-                                where e.EnumID == (int?)c.TVType
-                                select e.EnumText).FirstOrDefault(),
+                        MWQMSiteText = MWQMSiteText,
+                        PolSourceSiteText = PolSourceSiteText,
+                        LastUpdateContactText = LastUpdateContactText,
+                        TVTypeText = TVTypeText,
                         MWQMSitePolSourceSiteID = c.MWQMSitePolSourceSiteID,
                         MWQMSiteTVItemID = c.MWQMSiteTVItemID,
                         PolSourceSiteTVItemID = c.PolSourceSiteTVItemID,

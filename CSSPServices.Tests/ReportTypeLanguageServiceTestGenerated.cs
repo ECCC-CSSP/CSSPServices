@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                     count = reportTypeLanguageService.GetReportTypeLanguageList().Count();
 
-                    Assert.AreEqual(reportTypeLanguageService.GetReportTypeLanguageList().Count(), (from c in dbTestDB.ReportTypeLanguages select c).Take(200).Count());
+                    Assert.AreEqual(count, (from c in dbTestDB.ReportTypeLanguages select c).Count());
 
                     reportTypeLanguageService.Add(reportTypeLanguage);
                     if (reportTypeLanguage.HasErrors)
@@ -305,23 +305,23 @@ namespace CSSPServices.Tests
                     ReportTypeLanguage reportTypeLanguage = (from c in dbTestDB.ReportTypeLanguages select c).FirstOrDefault();
                     Assert.IsNotNull(reportTypeLanguage);
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        reportTypeLanguageService.Query.Detail = detail;
+                        reportTypeLanguageService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             ReportTypeLanguage reportTypeLanguageRet = reportTypeLanguageService.GetReportTypeLanguageWithReportTypeLanguageID(reportTypeLanguage.ReportTypeLanguageID);
                             CheckReportTypeLanguageFields(new List<ReportTypeLanguage>() { reportTypeLanguageRet });
                             Assert.AreEqual(reportTypeLanguage.ReportTypeLanguageID, reportTypeLanguageRet.ReportTypeLanguageID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             ReportTypeLanguageExtraA reportTypeLanguageExtraARet = reportTypeLanguageService.GetReportTypeLanguageExtraAWithReportTypeLanguageID(reportTypeLanguage.ReportTypeLanguageID);
                             CheckReportTypeLanguageExtraAFields(new List<ReportTypeLanguageExtraA>() { reportTypeLanguageExtraARet });
                             Assert.AreEqual(reportTypeLanguage.ReportTypeLanguageID, reportTypeLanguageExtraARet.ReportTypeLanguageID);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             ReportTypeLanguageExtraB reportTypeLanguageExtraBRet = reportTypeLanguageService.GetReportTypeLanguageExtraBWithReportTypeLanguageID(reportTypeLanguage.ReportTypeLanguageID);
                             CheckReportTypeLanguageExtraBFields(new List<ReportTypeLanguageExtraB>() { reportTypeLanguageExtraBRet });
@@ -354,24 +354,24 @@ namespace CSSPServices.Tests
                     List<ReportTypeLanguage> reportTypeLanguageDirectQueryList = new List<ReportTypeLanguage>();
                     reportTypeLanguageDirectQueryList = (from c in dbTestDB.ReportTypeLanguages select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        reportTypeLanguageService.Query.Detail = detail;
+                        reportTypeLanguageService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<ReportTypeLanguage> reportTypeLanguageList = new List<ReportTypeLanguage>();
                             reportTypeLanguageList = reportTypeLanguageService.GetReportTypeLanguageList().ToList();
                             CheckReportTypeLanguageFields(reportTypeLanguageList);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ReportTypeLanguageExtraA> reportTypeLanguageExtraAList = new List<ReportTypeLanguageExtraA>();
                             reportTypeLanguageExtraAList = reportTypeLanguageService.GetReportTypeLanguageExtraAList().ToList();
                             CheckReportTypeLanguageExtraAFields(reportTypeLanguageExtraAList);
                             Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguageExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ReportTypeLanguageExtraB> reportTypeLanguageExtraBList = new List<ReportTypeLanguageExtraB>();
                             reportTypeLanguageExtraBList = reportTypeLanguageService.GetReportTypeLanguageExtraBList().ToList();
@@ -398,7 +398,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ReportTypeLanguageService reportTypeLanguageService = new ReportTypeLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -407,14 +407,14 @@ namespace CSSPServices.Tests
                         List<ReportTypeLanguage> reportTypeLanguageDirectQueryList = new List<ReportTypeLanguage>();
                         reportTypeLanguageDirectQueryList = (from c in dbTestDB.ReportTypeLanguages select c).Skip(1).Take(1).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<ReportTypeLanguage> reportTypeLanguageList = new List<ReportTypeLanguage>();
                             reportTypeLanguageList = reportTypeLanguageService.GetReportTypeLanguageList().ToList();
                             CheckReportTypeLanguageFields(reportTypeLanguageList);
                             Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguageList[0].ReportTypeLanguageID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ReportTypeLanguageExtraA> reportTypeLanguageExtraAList = new List<ReportTypeLanguageExtraA>();
                             reportTypeLanguageExtraAList = reportTypeLanguageService.GetReportTypeLanguageExtraAList().ToList();
@@ -422,7 +422,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguageExtraAList[0].ReportTypeLanguageID);
                             Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguageExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ReportTypeLanguageExtraB> reportTypeLanguageExtraBList = new List<ReportTypeLanguageExtraB>();
                             reportTypeLanguageExtraBList = reportTypeLanguageService.GetReportTypeLanguageExtraBList().ToList();
@@ -450,7 +450,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ReportTypeLanguageService reportTypeLanguageService = new ReportTypeLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -459,14 +459,14 @@ namespace CSSPServices.Tests
                         List<ReportTypeLanguage> reportTypeLanguageDirectQueryList = new List<ReportTypeLanguage>();
                         reportTypeLanguageDirectQueryList = (from c in dbTestDB.ReportTypeLanguages select c).Skip(1).Take(1).OrderBy(c => c.ReportTypeLanguageID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<ReportTypeLanguage> reportTypeLanguageList = new List<ReportTypeLanguage>();
                             reportTypeLanguageList = reportTypeLanguageService.GetReportTypeLanguageList().ToList();
                             CheckReportTypeLanguageFields(reportTypeLanguageList);
                             Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguageList[0].ReportTypeLanguageID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ReportTypeLanguageExtraA> reportTypeLanguageExtraAList = new List<ReportTypeLanguageExtraA>();
                             reportTypeLanguageExtraAList = reportTypeLanguageService.GetReportTypeLanguageExtraAList().ToList();
@@ -474,7 +474,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguageExtraAList[0].ReportTypeLanguageID);
                             Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguageExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ReportTypeLanguageExtraB> reportTypeLanguageExtraBList = new List<ReportTypeLanguageExtraB>();
                             reportTypeLanguageExtraBList = reportTypeLanguageService.GetReportTypeLanguageExtraBList().ToList();
@@ -502,7 +502,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ReportTypeLanguageService reportTypeLanguageService = new ReportTypeLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -511,14 +511,14 @@ namespace CSSPServices.Tests
                         List<ReportTypeLanguage> reportTypeLanguageDirectQueryList = new List<ReportTypeLanguage>();
                         reportTypeLanguageDirectQueryList = (from c in dbTestDB.ReportTypeLanguages select c).Skip(1).Take(1).OrderBy(c => c.ReportTypeLanguageID).ThenBy(c => c.ReportTypeID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<ReportTypeLanguage> reportTypeLanguageList = new List<ReportTypeLanguage>();
                             reportTypeLanguageList = reportTypeLanguageService.GetReportTypeLanguageList().ToList();
                             CheckReportTypeLanguageFields(reportTypeLanguageList);
                             Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguageList[0].ReportTypeLanguageID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ReportTypeLanguageExtraA> reportTypeLanguageExtraAList = new List<ReportTypeLanguageExtraA>();
                             reportTypeLanguageExtraAList = reportTypeLanguageService.GetReportTypeLanguageExtraAList().ToList();
@@ -526,7 +526,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguageExtraAList[0].ReportTypeLanguageID);
                             Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguageExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ReportTypeLanguageExtraB> reportTypeLanguageExtraBList = new List<ReportTypeLanguageExtraB>();
                             reportTypeLanguageExtraBList = reportTypeLanguageService.GetReportTypeLanguageExtraBList().ToList();
@@ -554,7 +554,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ReportTypeLanguageService reportTypeLanguageService = new ReportTypeLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -563,14 +563,14 @@ namespace CSSPServices.Tests
                         List<ReportTypeLanguage> reportTypeLanguageDirectQueryList = new List<ReportTypeLanguage>();
                         reportTypeLanguageDirectQueryList = (from c in dbTestDB.ReportTypeLanguages select c).Where(c => c.ReportTypeLanguageID == 4).Skip(0).Take(1).OrderBy(c => c.ReportTypeLanguageID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<ReportTypeLanguage> reportTypeLanguageList = new List<ReportTypeLanguage>();
                             reportTypeLanguageList = reportTypeLanguageService.GetReportTypeLanguageList().ToList();
                             CheckReportTypeLanguageFields(reportTypeLanguageList);
                             Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguageList[0].ReportTypeLanguageID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ReportTypeLanguageExtraA> reportTypeLanguageExtraAList = new List<ReportTypeLanguageExtraA>();
                             reportTypeLanguageExtraAList = reportTypeLanguageService.GetReportTypeLanguageExtraAList().ToList();
@@ -578,7 +578,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguageExtraAList[0].ReportTypeLanguageID);
                             Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguageExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ReportTypeLanguageExtraB> reportTypeLanguageExtraBList = new List<ReportTypeLanguageExtraB>();
                             reportTypeLanguageExtraBList = reportTypeLanguageService.GetReportTypeLanguageExtraBList().ToList();
@@ -606,7 +606,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ReportTypeLanguageService reportTypeLanguageService = new ReportTypeLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -615,14 +615,14 @@ namespace CSSPServices.Tests
                         List<ReportTypeLanguage> reportTypeLanguageDirectQueryList = new List<ReportTypeLanguage>();
                         reportTypeLanguageDirectQueryList = (from c in dbTestDB.ReportTypeLanguages select c).Where(c => c.ReportTypeLanguageID > 2 && c.ReportTypeLanguageID < 5).Skip(0).Take(1).OrderBy(c => c.ReportTypeLanguageID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<ReportTypeLanguage> reportTypeLanguageList = new List<ReportTypeLanguage>();
                             reportTypeLanguageList = reportTypeLanguageService.GetReportTypeLanguageList().ToList();
                             CheckReportTypeLanguageFields(reportTypeLanguageList);
                             Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguageList[0].ReportTypeLanguageID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ReportTypeLanguageExtraA> reportTypeLanguageExtraAList = new List<ReportTypeLanguageExtraA>();
                             reportTypeLanguageExtraAList = reportTypeLanguageService.GetReportTypeLanguageExtraAList().ToList();
@@ -630,7 +630,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguageExtraAList[0].ReportTypeLanguageID);
                             Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguageExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ReportTypeLanguageExtraB> reportTypeLanguageExtraBList = new List<ReportTypeLanguageExtraB>();
                             reportTypeLanguageExtraBList = reportTypeLanguageService.GetReportTypeLanguageExtraBList().ToList();
@@ -658,7 +658,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ReportTypeLanguageService reportTypeLanguageService = new ReportTypeLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -667,14 +667,14 @@ namespace CSSPServices.Tests
                         List<ReportTypeLanguage> reportTypeLanguageDirectQueryList = new List<ReportTypeLanguage>();
                         reportTypeLanguageDirectQueryList = (from c in dbTestDB.ReportTypeLanguages select c).Where(c => c.ReportTypeLanguageID > 2 && c.ReportTypeLanguageID < 5).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<ReportTypeLanguage> reportTypeLanguageList = new List<ReportTypeLanguage>();
                             reportTypeLanguageList = reportTypeLanguageService.GetReportTypeLanguageList().ToList();
                             CheckReportTypeLanguageFields(reportTypeLanguageList);
                             Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguageList[0].ReportTypeLanguageID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ReportTypeLanguageExtraA> reportTypeLanguageExtraAList = new List<ReportTypeLanguageExtraA>();
                             reportTypeLanguageExtraAList = reportTypeLanguageService.GetReportTypeLanguageExtraAList().ToList();
@@ -682,7 +682,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(reportTypeLanguageDirectQueryList[0].ReportTypeLanguageID, reportTypeLanguageExtraAList[0].ReportTypeLanguageID);
                             Assert.AreEqual(reportTypeLanguageDirectQueryList.Count, reportTypeLanguageExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ReportTypeLanguageExtraB> reportTypeLanguageExtraBList = new List<ReportTypeLanguageExtraB>();
                             reportTypeLanguageExtraBList = reportTypeLanguageService.GetReportTypeLanguageExtraBList().ToList();
@@ -718,7 +718,7 @@ namespace CSSPServices.Tests
         }
         private void CheckReportTypeLanguageExtraAFields(List<ReportTypeLanguageExtraA> reportTypeLanguageExtraAList)
         {
-            Assert.IsNotNull(reportTypeLanguageExtraAList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguageExtraAList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(reportTypeLanguageExtraAList[0].LanguageText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguageExtraAList[0].LanguageText));
@@ -754,7 +754,7 @@ namespace CSSPServices.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguageExtraBList[0].ReportTypeLanguageReportTest));
             }
-            Assert.IsNotNull(reportTypeLanguageExtraBList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguageExtraBList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(reportTypeLanguageExtraBList[0].LanguageText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguageExtraBList[0].LanguageText));

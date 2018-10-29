@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                     count = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailList().Count();
 
-                    Assert.AreEqual(labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailList().Count(), (from c in dbTestDB.LabSheetTubeMPNDetails select c).Take(200).Count());
+                    Assert.AreEqual(count, (from c in dbTestDB.LabSheetTubeMPNDetails select c).Count());
 
                     labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail);
                     if (labSheetTubeMPNDetail.HasErrors)
@@ -252,9 +252,9 @@ namespace CSSPServices.Tests
                     // labSheetTubeMPNDetail.Salinity   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [Salinity]
+                    //CSSPError: Type not implemented [Salinity]
 
-                    //Error: Type not implemented [Salinity]
+                    //CSSPError: Type not implemented [Salinity]
 
                     labSheetTubeMPNDetail = null;
                     labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
@@ -275,9 +275,9 @@ namespace CSSPServices.Tests
                     // labSheetTubeMPNDetail.Temperature   (Double)
                     // -----------------------------------
 
-                    //Error: Type not implemented [Temperature]
+                    //CSSPError: Type not implemented [Temperature]
 
-                    //Error: Type not implemented [Temperature]
+                    //CSSPError: Type not implemented [Temperature]
 
                     labSheetTubeMPNDetail = null;
                     labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
@@ -401,23 +401,23 @@ namespace CSSPServices.Tests
                     LabSheetTubeMPNDetail labSheetTubeMPNDetail = (from c in dbTestDB.LabSheetTubeMPNDetails select c).FirstOrDefault();
                     Assert.IsNotNull(labSheetTubeMPNDetail);
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        labSheetTubeMPNDetailService.Query.Detail = detail;
+                        labSheetTubeMPNDetailService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             LabSheetTubeMPNDetail labSheetTubeMPNDetailRet = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailWithLabSheetTubeMPNDetailID(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID);
                             CheckLabSheetTubeMPNDetailFields(new List<LabSheetTubeMPNDetail>() { labSheetTubeMPNDetailRet });
                             Assert.AreEqual(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID, labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             LabSheetTubeMPNDetailExtraA labSheetTubeMPNDetailExtraARet = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraAWithLabSheetTubeMPNDetailID(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID);
                             CheckLabSheetTubeMPNDetailExtraAFields(new List<LabSheetTubeMPNDetailExtraA>() { labSheetTubeMPNDetailExtraARet });
                             Assert.AreEqual(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID, labSheetTubeMPNDetailExtraARet.LabSheetTubeMPNDetailID);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             LabSheetTubeMPNDetailExtraB labSheetTubeMPNDetailExtraBRet = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraBWithLabSheetTubeMPNDetailID(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID);
                             CheckLabSheetTubeMPNDetailExtraBFields(new List<LabSheetTubeMPNDetailExtraB>() { labSheetTubeMPNDetailExtraBRet });
@@ -450,24 +450,24 @@ namespace CSSPServices.Tests
                     List<LabSheetTubeMPNDetail> labSheetTubeMPNDetailDirectQueryList = new List<LabSheetTubeMPNDetail>();
                     labSheetTubeMPNDetailDirectQueryList = (from c in dbTestDB.LabSheetTubeMPNDetails select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        labSheetTubeMPNDetailService.Query.Detail = detail;
+                        labSheetTubeMPNDetailService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<LabSheetTubeMPNDetail> labSheetTubeMPNDetailList = new List<LabSheetTubeMPNDetail>();
                             labSheetTubeMPNDetailList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailList().ToList();
                             CheckLabSheetTubeMPNDetailFields(labSheetTubeMPNDetailList);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<LabSheetTubeMPNDetailExtraA> labSheetTubeMPNDetailExtraAList = new List<LabSheetTubeMPNDetailExtraA>();
                             labSheetTubeMPNDetailExtraAList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraAList().ToList();
                             CheckLabSheetTubeMPNDetailExtraAFields(labSheetTubeMPNDetailExtraAList);
                             Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<LabSheetTubeMPNDetailExtraB> labSheetTubeMPNDetailExtraBList = new List<LabSheetTubeMPNDetailExtraB>();
                             labSheetTubeMPNDetailExtraBList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraBList().ToList();
@@ -494,7 +494,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         LabSheetTubeMPNDetailService labSheetTubeMPNDetailService = new LabSheetTubeMPNDetailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -503,14 +503,14 @@ namespace CSSPServices.Tests
                         List<LabSheetTubeMPNDetail> labSheetTubeMPNDetailDirectQueryList = new List<LabSheetTubeMPNDetail>();
                         labSheetTubeMPNDetailDirectQueryList = (from c in dbTestDB.LabSheetTubeMPNDetails select c).Skip(1).Take(1).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<LabSheetTubeMPNDetail> labSheetTubeMPNDetailList = new List<LabSheetTubeMPNDetail>();
                             labSheetTubeMPNDetailList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailList().ToList();
                             CheckLabSheetTubeMPNDetailFields(labSheetTubeMPNDetailList);
                             Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<LabSheetTubeMPNDetailExtraA> labSheetTubeMPNDetailExtraAList = new List<LabSheetTubeMPNDetailExtraA>();
                             labSheetTubeMPNDetailExtraAList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraAList().ToList();
@@ -518,7 +518,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailExtraAList[0].LabSheetTubeMPNDetailID);
                             Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<LabSheetTubeMPNDetailExtraB> labSheetTubeMPNDetailExtraBList = new List<LabSheetTubeMPNDetailExtraB>();
                             labSheetTubeMPNDetailExtraBList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraBList().ToList();
@@ -546,7 +546,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         LabSheetTubeMPNDetailService labSheetTubeMPNDetailService = new LabSheetTubeMPNDetailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -555,14 +555,14 @@ namespace CSSPServices.Tests
                         List<LabSheetTubeMPNDetail> labSheetTubeMPNDetailDirectQueryList = new List<LabSheetTubeMPNDetail>();
                         labSheetTubeMPNDetailDirectQueryList = (from c in dbTestDB.LabSheetTubeMPNDetails select c).Skip(1).Take(1).OrderBy(c => c.LabSheetTubeMPNDetailID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<LabSheetTubeMPNDetail> labSheetTubeMPNDetailList = new List<LabSheetTubeMPNDetail>();
                             labSheetTubeMPNDetailList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailList().ToList();
                             CheckLabSheetTubeMPNDetailFields(labSheetTubeMPNDetailList);
                             Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<LabSheetTubeMPNDetailExtraA> labSheetTubeMPNDetailExtraAList = new List<LabSheetTubeMPNDetailExtraA>();
                             labSheetTubeMPNDetailExtraAList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraAList().ToList();
@@ -570,7 +570,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailExtraAList[0].LabSheetTubeMPNDetailID);
                             Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<LabSheetTubeMPNDetailExtraB> labSheetTubeMPNDetailExtraBList = new List<LabSheetTubeMPNDetailExtraB>();
                             labSheetTubeMPNDetailExtraBList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraBList().ToList();
@@ -598,7 +598,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         LabSheetTubeMPNDetailService labSheetTubeMPNDetailService = new LabSheetTubeMPNDetailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -607,14 +607,14 @@ namespace CSSPServices.Tests
                         List<LabSheetTubeMPNDetail> labSheetTubeMPNDetailDirectQueryList = new List<LabSheetTubeMPNDetail>();
                         labSheetTubeMPNDetailDirectQueryList = (from c in dbTestDB.LabSheetTubeMPNDetails select c).Skip(1).Take(1).OrderBy(c => c.LabSheetTubeMPNDetailID).ThenBy(c => c.LabSheetDetailID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<LabSheetTubeMPNDetail> labSheetTubeMPNDetailList = new List<LabSheetTubeMPNDetail>();
                             labSheetTubeMPNDetailList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailList().ToList();
                             CheckLabSheetTubeMPNDetailFields(labSheetTubeMPNDetailList);
                             Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<LabSheetTubeMPNDetailExtraA> labSheetTubeMPNDetailExtraAList = new List<LabSheetTubeMPNDetailExtraA>();
                             labSheetTubeMPNDetailExtraAList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraAList().ToList();
@@ -622,7 +622,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailExtraAList[0].LabSheetTubeMPNDetailID);
                             Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<LabSheetTubeMPNDetailExtraB> labSheetTubeMPNDetailExtraBList = new List<LabSheetTubeMPNDetailExtraB>();
                             labSheetTubeMPNDetailExtraBList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraBList().ToList();
@@ -650,7 +650,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         LabSheetTubeMPNDetailService labSheetTubeMPNDetailService = new LabSheetTubeMPNDetailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -659,14 +659,14 @@ namespace CSSPServices.Tests
                         List<LabSheetTubeMPNDetail> labSheetTubeMPNDetailDirectQueryList = new List<LabSheetTubeMPNDetail>();
                         labSheetTubeMPNDetailDirectQueryList = (from c in dbTestDB.LabSheetTubeMPNDetails select c).Where(c => c.LabSheetTubeMPNDetailID == 4).Skip(0).Take(1).OrderBy(c => c.LabSheetTubeMPNDetailID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<LabSheetTubeMPNDetail> labSheetTubeMPNDetailList = new List<LabSheetTubeMPNDetail>();
                             labSheetTubeMPNDetailList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailList().ToList();
                             CheckLabSheetTubeMPNDetailFields(labSheetTubeMPNDetailList);
                             Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<LabSheetTubeMPNDetailExtraA> labSheetTubeMPNDetailExtraAList = new List<LabSheetTubeMPNDetailExtraA>();
                             labSheetTubeMPNDetailExtraAList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraAList().ToList();
@@ -674,7 +674,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailExtraAList[0].LabSheetTubeMPNDetailID);
                             Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<LabSheetTubeMPNDetailExtraB> labSheetTubeMPNDetailExtraBList = new List<LabSheetTubeMPNDetailExtraB>();
                             labSheetTubeMPNDetailExtraBList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraBList().ToList();
@@ -702,7 +702,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         LabSheetTubeMPNDetailService labSheetTubeMPNDetailService = new LabSheetTubeMPNDetailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -711,14 +711,14 @@ namespace CSSPServices.Tests
                         List<LabSheetTubeMPNDetail> labSheetTubeMPNDetailDirectQueryList = new List<LabSheetTubeMPNDetail>();
                         labSheetTubeMPNDetailDirectQueryList = (from c in dbTestDB.LabSheetTubeMPNDetails select c).Where(c => c.LabSheetTubeMPNDetailID > 2 && c.LabSheetTubeMPNDetailID < 5).Skip(0).Take(1).OrderBy(c => c.LabSheetTubeMPNDetailID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<LabSheetTubeMPNDetail> labSheetTubeMPNDetailList = new List<LabSheetTubeMPNDetail>();
                             labSheetTubeMPNDetailList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailList().ToList();
                             CheckLabSheetTubeMPNDetailFields(labSheetTubeMPNDetailList);
                             Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<LabSheetTubeMPNDetailExtraA> labSheetTubeMPNDetailExtraAList = new List<LabSheetTubeMPNDetailExtraA>();
                             labSheetTubeMPNDetailExtraAList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraAList().ToList();
@@ -726,7 +726,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailExtraAList[0].LabSheetTubeMPNDetailID);
                             Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<LabSheetTubeMPNDetailExtraB> labSheetTubeMPNDetailExtraBList = new List<LabSheetTubeMPNDetailExtraB>();
                             labSheetTubeMPNDetailExtraBList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraBList().ToList();
@@ -754,7 +754,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         LabSheetTubeMPNDetailService labSheetTubeMPNDetailService = new LabSheetTubeMPNDetailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -763,14 +763,14 @@ namespace CSSPServices.Tests
                         List<LabSheetTubeMPNDetail> labSheetTubeMPNDetailDirectQueryList = new List<LabSheetTubeMPNDetail>();
                         labSheetTubeMPNDetailDirectQueryList = (from c in dbTestDB.LabSheetTubeMPNDetails select c).Where(c => c.LabSheetTubeMPNDetailID > 2 && c.LabSheetTubeMPNDetailID < 5).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<LabSheetTubeMPNDetail> labSheetTubeMPNDetailList = new List<LabSheetTubeMPNDetail>();
                             labSheetTubeMPNDetailList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailList().ToList();
                             CheckLabSheetTubeMPNDetailFields(labSheetTubeMPNDetailList);
                             Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<LabSheetTubeMPNDetailExtraA> labSheetTubeMPNDetailExtraAList = new List<LabSheetTubeMPNDetailExtraA>();
                             labSheetTubeMPNDetailExtraAList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraAList().ToList();
@@ -778,7 +778,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList[0].LabSheetTubeMPNDetailID, labSheetTubeMPNDetailExtraAList[0].LabSheetTubeMPNDetailID);
                             Assert.AreEqual(labSheetTubeMPNDetailDirectQueryList.Count, labSheetTubeMPNDetailExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<LabSheetTubeMPNDetailExtraB> labSheetTubeMPNDetailExtraBList = new List<LabSheetTubeMPNDetailExtraB>();
                             labSheetTubeMPNDetailExtraBList = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraBList().ToList();
@@ -846,8 +846,8 @@ namespace CSSPServices.Tests
         }
         private void CheckLabSheetTubeMPNDetailExtraAFields(List<LabSheetTubeMPNDetailExtraA> labSheetTubeMPNDetailExtraAList)
         {
-            Assert.IsNotNull(labSheetTubeMPNDetailExtraAList[0].MWQMSiteTVItemLanguage);
-            Assert.IsNotNull(labSheetTubeMPNDetailExtraAList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailExtraAList[0].MWQMSiteText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailExtraAList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetailExtraAList[0].SampleTypeText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailExtraAList[0].SampleTypeText));
@@ -903,8 +903,8 @@ namespace CSSPServices.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailExtraBList[0].LabSheetTubeMPNDetailReportTest));
             }
-            Assert.IsNotNull(labSheetTubeMPNDetailExtraBList[0].MWQMSiteTVItemLanguage);
-            Assert.IsNotNull(labSheetTubeMPNDetailExtraBList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailExtraBList[0].MWQMSiteText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailExtraBList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetailExtraBList[0].SampleTypeText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailExtraBList[0].SampleTypeText));

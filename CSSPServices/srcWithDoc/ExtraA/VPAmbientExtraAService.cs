@@ -22,13 +22,13 @@ namespace CSSPServices
         private IQueryable<VPAmbientExtraA> FillVPAmbientExtraA()
         {
              IQueryable<VPAmbientExtraA> VPAmbientExtraAQuery = (from c in db.VPAmbients
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
                     select new VPAmbientExtraA
                     {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        LastUpdateContactText = LastUpdateContactText,
                         VPAmbientID = c.VPAmbientID,
                         VPScenarioID = c.VPScenarioID,
                         Row = c.Row,

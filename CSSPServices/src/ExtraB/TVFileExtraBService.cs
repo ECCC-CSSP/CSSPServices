@@ -33,31 +33,35 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
-                let TVFileTVItemLanguage = (from cl in db.TVItemLanguages
+                let TVFileName = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.TVFileTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
+                let TemplateTVTypeText = (from e in TVTypeEnumList
+                    where e.EnumID == (int?)c.TemplateTVType
+                    select e.EnumText).FirstOrDefault()
+                let LanguageText = (from e in LanguageEnumList
+                    where e.EnumID == (int?)c.Language
+                    select e.EnumText).FirstOrDefault()
+                let FilePurposeText = (from e in FilePurposeEnumList
+                    where e.EnumID == (int?)c.FilePurpose
+                    select e.EnumText).FirstOrDefault()
+                let FileTypeText = (from e in FileTypeEnumList
+                    where e.EnumID == (int?)c.FileType
+                    select e.EnumText).FirstOrDefault()
                     select new TVFileExtraB
                     {
                         TVFileReportTest = TVFileReportTest,
-                        TVFileTVItemLanguage = TVFileTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        TemplateTVTypeText = (from e in TVTypeEnumList
-                                where e.EnumID == (int?)c.TemplateTVType
-                                select e.EnumText).FirstOrDefault(),
-                        LanguageText = (from e in LanguageEnumList
-                                where e.EnumID == (int?)c.Language
-                                select e.EnumText).FirstOrDefault(),
-                        FilePurposeText = (from e in FilePurposeEnumList
-                                where e.EnumID == (int?)c.FilePurpose
-                                select e.EnumText).FirstOrDefault(),
-                        FileTypeText = (from e in FileTypeEnumList
-                                where e.EnumID == (int?)c.FileType
-                                select e.EnumText).FirstOrDefault(),
+                        TVFileName = TVFileName,
+                        LastUpdateContactText = LastUpdateContactText,
+                        TemplateTVTypeText = TemplateTVTypeText,
+                        LanguageText = LanguageText,
+                        FilePurposeText = FilePurposeText,
+                        FileTypeText = FileTypeText,
                         TVFileID = c.TVFileID,
                         TVFileTVItemID = c.TVFileTVItemID,
                         TemplateTVType = c.TemplateTVType,

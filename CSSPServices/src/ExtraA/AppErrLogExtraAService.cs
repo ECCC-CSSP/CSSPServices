@@ -22,13 +22,13 @@ namespace CSSPServices
         private IQueryable<AppErrLogExtraA> FillAppErrLogExtraA()
         {
              IQueryable<AppErrLogExtraA> AppErrLogExtraAQuery = (from c in db.AppErrLogs
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
                     select new AppErrLogExtraA
                     {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        LastUpdateContactText = LastUpdateContactText,
                         AppErrLogID = c.AppErrLogID,
                         Tag = c.Tag,
                         LineNumber = c.LineNumber,

@@ -30,17 +30,18 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
+                let ClassificationTVText = (from e in ClassificationTypeEnumList
+                    where e.EnumID == (int?)c.ClassificationType
+                    select e.EnumText).FirstOrDefault()
                     select new ClassificationExtraB
                     {
                         ClassificationReportTest = ClassificationReportTest,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        ClassificationTVText = (from e in ClassificationTypeEnumList
-                                where e.EnumID == (int?)c.ClassificationType
-                                select e.EnumText).FirstOrDefault(),
+                        LastUpdateContactText = LastUpdateContactText,
+                        ClassificationTVText = ClassificationTVText,
                         ClassificationID = c.ClassificationID,
                         ClassificationTVItemID = c.ClassificationTVItemID,
                         ClassificationType = c.ClassificationType,

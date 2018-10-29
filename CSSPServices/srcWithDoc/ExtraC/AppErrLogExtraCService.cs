@@ -30,15 +30,15 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
                     select new AppErrLogExtraC
                     {
                         AppErrLogReportTest2 = AppErrLogReportTest2,
                         AppErrLogReportTest = AppErrLogReportTest,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        LastUpdateContactText = LastUpdateContactText,
                         AppErrLogID = c.AppErrLogID,
                         Tag = c.Tag,
                         LineNumber = c.LineNumber,

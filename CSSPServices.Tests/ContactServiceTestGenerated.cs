@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                     count = contactService.GetContactList().Count();
 
-                    Assert.AreEqual(contactService.GetContactList().Count(), (from c in dbTestDB.Contacts select c).Take(200).Count());
+                    Assert.AreEqual(count, (from c in dbTestDB.Contacts select c).Count());
 
                     contactService.Add(contact, AddContactTypeEnum.LoggedIn);
                     if (contact.HasErrors)
@@ -372,23 +372,23 @@ namespace CSSPServices.Tests
                     Contact contact = (from c in dbTestDB.Contacts select c).FirstOrDefault();
                     Assert.IsNotNull(contact);
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        contactService.Query.Detail = detail;
+                        contactService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             Contact contactRet = contactService.GetContactWithContactID(contact.ContactID);
                             CheckContactFields(new List<Contact>() { contactRet });
                             Assert.AreEqual(contact.ContactID, contactRet.ContactID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             ContactExtraA contactExtraARet = contactService.GetContactExtraAWithContactID(contact.ContactID);
                             CheckContactExtraAFields(new List<ContactExtraA>() { contactExtraARet });
                             Assert.AreEqual(contact.ContactID, contactExtraARet.ContactID);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             ContactExtraB contactExtraBRet = contactService.GetContactExtraBWithContactID(contact.ContactID);
                             CheckContactExtraBFields(new List<ContactExtraB>() { contactExtraBRet });
@@ -421,24 +421,24 @@ namespace CSSPServices.Tests
                     List<Contact> contactDirectQueryList = new List<Contact>();
                     contactDirectQueryList = (from c in dbTestDB.Contacts select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        contactService.Query.Detail = detail;
+                        contactService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Contact> contactList = new List<Contact>();
                             contactList = contactService.GetContactList().ToList();
                             CheckContactFields(contactList);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ContactExtraA> contactExtraAList = new List<ContactExtraA>();
                             contactExtraAList = contactService.GetContactExtraAList().ToList();
                             CheckContactExtraAFields(contactExtraAList);
                             Assert.AreEqual(contactDirectQueryList.Count, contactExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ContactExtraB> contactExtraBList = new List<ContactExtraB>();
                             contactExtraBList = contactService.GetContactExtraBList().ToList();
@@ -465,7 +465,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ContactService contactService = new ContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -474,14 +474,14 @@ namespace CSSPServices.Tests
                         List<Contact> contactDirectQueryList = new List<Contact>();
                         contactDirectQueryList = (from c in dbTestDB.Contacts select c).Skip(1).Take(1).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Contact> contactList = new List<Contact>();
                             contactList = contactService.GetContactList().ToList();
                             CheckContactFields(contactList);
                             Assert.AreEqual(contactDirectQueryList[0].ContactID, contactList[0].ContactID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ContactExtraA> contactExtraAList = new List<ContactExtraA>();
                             contactExtraAList = contactService.GetContactExtraAList().ToList();
@@ -489,7 +489,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(contactDirectQueryList[0].ContactID, contactExtraAList[0].ContactID);
                             Assert.AreEqual(contactDirectQueryList.Count, contactExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ContactExtraB> contactExtraBList = new List<ContactExtraB>();
                             contactExtraBList = contactService.GetContactExtraBList().ToList();
@@ -517,7 +517,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ContactService contactService = new ContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -526,14 +526,14 @@ namespace CSSPServices.Tests
                         List<Contact> contactDirectQueryList = new List<Contact>();
                         contactDirectQueryList = (from c in dbTestDB.Contacts select c).Skip(1).Take(1).OrderBy(c => c.ContactID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Contact> contactList = new List<Contact>();
                             contactList = contactService.GetContactList().ToList();
                             CheckContactFields(contactList);
                             Assert.AreEqual(contactDirectQueryList[0].ContactID, contactList[0].ContactID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ContactExtraA> contactExtraAList = new List<ContactExtraA>();
                             contactExtraAList = contactService.GetContactExtraAList().ToList();
@@ -541,7 +541,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(contactDirectQueryList[0].ContactID, contactExtraAList[0].ContactID);
                             Assert.AreEqual(contactDirectQueryList.Count, contactExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ContactExtraB> contactExtraBList = new List<ContactExtraB>();
                             contactExtraBList = contactService.GetContactExtraBList().ToList();
@@ -569,7 +569,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ContactService contactService = new ContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -578,14 +578,14 @@ namespace CSSPServices.Tests
                         List<Contact> contactDirectQueryList = new List<Contact>();
                         contactDirectQueryList = (from c in dbTestDB.Contacts select c).Skip(1).Take(1).OrderBy(c => c.ContactID).ThenBy(c => c.Id).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Contact> contactList = new List<Contact>();
                             contactList = contactService.GetContactList().ToList();
                             CheckContactFields(contactList);
                             Assert.AreEqual(contactDirectQueryList[0].ContactID, contactList[0].ContactID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ContactExtraA> contactExtraAList = new List<ContactExtraA>();
                             contactExtraAList = contactService.GetContactExtraAList().ToList();
@@ -593,7 +593,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(contactDirectQueryList[0].ContactID, contactExtraAList[0].ContactID);
                             Assert.AreEqual(contactDirectQueryList.Count, contactExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ContactExtraB> contactExtraBList = new List<ContactExtraB>();
                             contactExtraBList = contactService.GetContactExtraBList().ToList();
@@ -621,7 +621,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ContactService contactService = new ContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -630,14 +630,14 @@ namespace CSSPServices.Tests
                         List<Contact> contactDirectQueryList = new List<Contact>();
                         contactDirectQueryList = (from c in dbTestDB.Contacts select c).Where(c => c.ContactID == 4).Skip(0).Take(1).OrderBy(c => c.ContactID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Contact> contactList = new List<Contact>();
                             contactList = contactService.GetContactList().ToList();
                             CheckContactFields(contactList);
                             Assert.AreEqual(contactDirectQueryList[0].ContactID, contactList[0].ContactID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ContactExtraA> contactExtraAList = new List<ContactExtraA>();
                             contactExtraAList = contactService.GetContactExtraAList().ToList();
@@ -645,7 +645,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(contactDirectQueryList[0].ContactID, contactExtraAList[0].ContactID);
                             Assert.AreEqual(contactDirectQueryList.Count, contactExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ContactExtraB> contactExtraBList = new List<ContactExtraB>();
                             contactExtraBList = contactService.GetContactExtraBList().ToList();
@@ -673,7 +673,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ContactService contactService = new ContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -682,14 +682,14 @@ namespace CSSPServices.Tests
                         List<Contact> contactDirectQueryList = new List<Contact>();
                         contactDirectQueryList = (from c in dbTestDB.Contacts select c).Where(c => c.ContactID > 2 && c.ContactID < 5).Skip(0).Take(1).OrderBy(c => c.ContactID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Contact> contactList = new List<Contact>();
                             contactList = contactService.GetContactList().ToList();
                             CheckContactFields(contactList);
                             Assert.AreEqual(contactDirectQueryList[0].ContactID, contactList[0].ContactID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ContactExtraA> contactExtraAList = new List<ContactExtraA>();
                             contactExtraAList = contactService.GetContactExtraAList().ToList();
@@ -697,7 +697,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(contactDirectQueryList[0].ContactID, contactExtraAList[0].ContactID);
                             Assert.AreEqual(contactDirectQueryList.Count, contactExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ContactExtraB> contactExtraBList = new List<ContactExtraB>();
                             contactExtraBList = contactService.GetContactExtraBList().ToList();
@@ -725,7 +725,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         ContactService contactService = new ContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -734,14 +734,14 @@ namespace CSSPServices.Tests
                         List<Contact> contactDirectQueryList = new List<Contact>();
                         contactDirectQueryList = (from c in dbTestDB.Contacts select c).Where(c => c.ContactID > 2 && c.ContactID < 5).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<Contact> contactList = new List<Contact>();
                             contactList = contactService.GetContactList().ToList();
                             CheckContactFields(contactList);
                             Assert.AreEqual(contactDirectQueryList[0].ContactID, contactList[0].ContactID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<ContactExtraA> contactExtraAList = new List<ContactExtraA>();
                             contactExtraAList = contactService.GetContactExtraAList().ToList();
@@ -749,7 +749,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(contactDirectQueryList[0].ContactID, contactExtraAList[0].ContactID);
                             Assert.AreEqual(contactDirectQueryList.Count, contactExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<ContactExtraB> contactExtraBList = new List<ContactExtraB>();
                             contactExtraBList = contactService.GetContactExtraBList().ToList();
@@ -799,9 +799,8 @@ namespace CSSPServices.Tests
         }
         private void CheckContactExtraAFields(List<ContactExtraA> contactExtraAList)
         {
-            Assert.IsNotNull(contactExtraAList[0].ContactTVItemLanguage);
-            Assert.IsNotNull(contactExtraAList[0].LastUpdateContactTVItemLanguage);
-            Assert.IsNotNull(contactExtraAList[0].ParentTVItemID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(contactExtraAList[0].ContactName));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(contactExtraAList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(contactExtraAList[0].ContactTitleText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(contactExtraAList[0].ContactTitleText));
@@ -839,9 +838,8 @@ namespace CSSPServices.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(contactExtraBList[0].ContactReportTest));
             }
-            Assert.IsNotNull(contactExtraBList[0].ContactTVItemLanguage);
-            Assert.IsNotNull(contactExtraBList[0].LastUpdateContactTVItemLanguage);
-            Assert.IsNotNull(contactExtraBList[0].ParentTVItemID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(contactExtraBList[0].ContactName));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(contactExtraBList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(contactExtraBList[0].ContactTitleText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(contactExtraBList[0].ContactTitleText));

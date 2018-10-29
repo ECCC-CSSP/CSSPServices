@@ -27,19 +27,21 @@ namespace CSSPServices
             List<EnumIDAndText> TranslationStatusEnumList = enums.GetEnumTextOrderedList(typeof(TranslationStatusEnum));
 
              IQueryable<BoxModelLanguageExtraA> BoxModelLanguageExtraAQuery = (from c in db.BoxModelLanguages
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
+                let LanguageText = (from e in LanguageEnumList
+                    where e.EnumID == (int?)c.Language
+                    select e.EnumText).FirstOrDefault()
+                let TranslationStatusText = (from e in TranslationStatusEnumList
+                    where e.EnumID == (int?)c.TranslationStatus
+                    select e.EnumText).FirstOrDefault()
                     select new BoxModelLanguageExtraA
                     {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        LanguageText = (from e in LanguageEnumList
-                                where e.EnumID == (int?)c.Language
-                                select e.EnumText).FirstOrDefault(),
-                        TranslationStatusText = (from e in TranslationStatusEnumList
-                                where e.EnumID == (int?)c.TranslationStatus
-                                select e.EnumText).FirstOrDefault(),
+                        LastUpdateContactText = LastUpdateContactText,
+                        LanguageText = LanguageText,
+                        TranslationStatusText = TranslationStatusText,
                         BoxModelLanguageID = c.BoxModelLanguageID,
                         BoxModelID = c.BoxModelID,
                         Language = c.Language,

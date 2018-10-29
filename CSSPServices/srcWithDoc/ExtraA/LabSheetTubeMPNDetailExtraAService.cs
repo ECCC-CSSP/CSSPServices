@@ -26,21 +26,22 @@ namespace CSSPServices
             List<EnumIDAndText> SampleTypeEnumList = enums.GetEnumTextOrderedList(typeof(SampleTypeEnum));
 
              IQueryable<LabSheetTubeMPNDetailExtraA> LabSheetTubeMPNDetailExtraAQuery = (from c in db.LabSheetTubeMPNDetails
-                let MWQMSiteTVItemLanguage = (from cl in db.TVItemLanguages
+                let MWQMSiteText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MWQMSiteTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
+                let SampleTypeText = (from e in SampleTypeEnumList
+                    where e.EnumID == (int?)c.SampleType
+                    select e.EnumText).FirstOrDefault()
                     select new LabSheetTubeMPNDetailExtraA
                     {
-                        MWQMSiteTVItemLanguage = MWQMSiteTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        SampleTypeText = (from e in SampleTypeEnumList
-                                where e.EnumID == (int?)c.SampleType
-                                select e.EnumText).FirstOrDefault(),
+                        MWQMSiteText = MWQMSiteText,
+                        LastUpdateContactText = LastUpdateContactText,
+                        SampleTypeText = SampleTypeText,
                         LabSheetTubeMPNDetailID = c.LabSheetTubeMPNDetailID,
                         LabSheetDetailID = c.LabSheetDetailID,
                         Ordinal = c.Ordinal,

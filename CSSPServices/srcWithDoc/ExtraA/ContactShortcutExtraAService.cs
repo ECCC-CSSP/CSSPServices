@@ -22,13 +22,13 @@ namespace CSSPServices
         private IQueryable<ContactShortcutExtraA> FillContactShortcutExtraA()
         {
              IQueryable<ContactShortcutExtraA> ContactShortcutExtraAQuery = (from c in db.ContactShortcuts
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
                     select new ContactShortcutExtraA
                     {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        LastUpdateContactText = LastUpdateContactText,
                         ContactShortcutID = c.ContactShortcutID,
                         ContactID = c.ContactID,
                         ShortCutText = c.ShortCutText,

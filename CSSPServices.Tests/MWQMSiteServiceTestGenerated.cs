@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                     count = mwqmSiteService.GetMWQMSiteList().Count();
 
-                    Assert.AreEqual(mwqmSiteService.GetMWQMSiteList().Count(), (from c in dbTestDB.MWQMSites select c).Take(200).Count());
+                    Assert.AreEqual(count, (from c in dbTestDB.MWQMSites select c).Count());
 
                     mwqmSiteService.Add(mwqmSite);
                     if (mwqmSite.HasErrors)
@@ -270,23 +270,23 @@ namespace CSSPServices.Tests
                     MWQMSite mwqmSite = (from c in dbTestDB.MWQMSites select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmSite);
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        mwqmSiteService.Query.Detail = detail;
+                        mwqmSiteService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             MWQMSite mwqmSiteRet = mwqmSiteService.GetMWQMSiteWithMWQMSiteID(mwqmSite.MWQMSiteID);
                             CheckMWQMSiteFields(new List<MWQMSite>() { mwqmSiteRet });
                             Assert.AreEqual(mwqmSite.MWQMSiteID, mwqmSiteRet.MWQMSiteID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             MWQMSiteExtraA mwqmSiteExtraARet = mwqmSiteService.GetMWQMSiteExtraAWithMWQMSiteID(mwqmSite.MWQMSiteID);
                             CheckMWQMSiteExtraAFields(new List<MWQMSiteExtraA>() { mwqmSiteExtraARet });
                             Assert.AreEqual(mwqmSite.MWQMSiteID, mwqmSiteExtraARet.MWQMSiteID);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             MWQMSiteExtraB mwqmSiteExtraBRet = mwqmSiteService.GetMWQMSiteExtraBWithMWQMSiteID(mwqmSite.MWQMSiteID);
                             CheckMWQMSiteExtraBFields(new List<MWQMSiteExtraB>() { mwqmSiteExtraBRet });
@@ -319,24 +319,24 @@ namespace CSSPServices.Tests
                     List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
                     mwqmSiteDirectQueryList = (from c in dbTestDB.MWQMSites select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        mwqmSiteService.Query.Detail = detail;
+                        mwqmSiteService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMSite> mwqmSiteList = new List<MWQMSite>();
                             mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
                             CheckMWQMSiteFields(mwqmSiteList);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMSiteExtraA> mwqmSiteExtraAList = new List<MWQMSiteExtraA>();
                             mwqmSiteExtraAList = mwqmSiteService.GetMWQMSiteExtraAList().ToList();
                             CheckMWQMSiteExtraAFields(mwqmSiteExtraAList);
                             Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMSiteExtraB> mwqmSiteExtraBList = new List<MWQMSiteExtraB>();
                             mwqmSiteExtraBList = mwqmSiteService.GetMWQMSiteExtraBList().ToList();
@@ -363,7 +363,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMSiteService mwqmSiteService = new MWQMSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -372,14 +372,14 @@ namespace CSSPServices.Tests
                         List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
                         mwqmSiteDirectQueryList = (from c in dbTestDB.MWQMSites select c).Skip(1).Take(1).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMSite> mwqmSiteList = new List<MWQMSite>();
                             mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
                             CheckMWQMSiteFields(mwqmSiteList);
                             Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteList[0].MWQMSiteID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMSiteExtraA> mwqmSiteExtraAList = new List<MWQMSiteExtraA>();
                             mwqmSiteExtraAList = mwqmSiteService.GetMWQMSiteExtraAList().ToList();
@@ -387,7 +387,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteExtraAList[0].MWQMSiteID);
                             Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMSiteExtraB> mwqmSiteExtraBList = new List<MWQMSiteExtraB>();
                             mwqmSiteExtraBList = mwqmSiteService.GetMWQMSiteExtraBList().ToList();
@@ -415,7 +415,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMSiteService mwqmSiteService = new MWQMSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -424,14 +424,14 @@ namespace CSSPServices.Tests
                         List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
                         mwqmSiteDirectQueryList = (from c in dbTestDB.MWQMSites select c).Skip(1).Take(1).OrderBy(c => c.MWQMSiteID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMSite> mwqmSiteList = new List<MWQMSite>();
                             mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
                             CheckMWQMSiteFields(mwqmSiteList);
                             Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteList[0].MWQMSiteID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMSiteExtraA> mwqmSiteExtraAList = new List<MWQMSiteExtraA>();
                             mwqmSiteExtraAList = mwqmSiteService.GetMWQMSiteExtraAList().ToList();
@@ -439,7 +439,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteExtraAList[0].MWQMSiteID);
                             Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMSiteExtraB> mwqmSiteExtraBList = new List<MWQMSiteExtraB>();
                             mwqmSiteExtraBList = mwqmSiteService.GetMWQMSiteExtraBList().ToList();
@@ -467,7 +467,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMSiteService mwqmSiteService = new MWQMSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -476,14 +476,14 @@ namespace CSSPServices.Tests
                         List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
                         mwqmSiteDirectQueryList = (from c in dbTestDB.MWQMSites select c).Skip(1).Take(1).OrderBy(c => c.MWQMSiteID).ThenBy(c => c.MWQMSiteTVItemID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMSite> mwqmSiteList = new List<MWQMSite>();
                             mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
                             CheckMWQMSiteFields(mwqmSiteList);
                             Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteList[0].MWQMSiteID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMSiteExtraA> mwqmSiteExtraAList = new List<MWQMSiteExtraA>();
                             mwqmSiteExtraAList = mwqmSiteService.GetMWQMSiteExtraAList().ToList();
@@ -491,7 +491,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteExtraAList[0].MWQMSiteID);
                             Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMSiteExtraB> mwqmSiteExtraBList = new List<MWQMSiteExtraB>();
                             mwqmSiteExtraBList = mwqmSiteService.GetMWQMSiteExtraBList().ToList();
@@ -519,7 +519,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMSiteService mwqmSiteService = new MWQMSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -528,14 +528,14 @@ namespace CSSPServices.Tests
                         List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
                         mwqmSiteDirectQueryList = (from c in dbTestDB.MWQMSites select c).Where(c => c.MWQMSiteID == 4).Skip(0).Take(1).OrderBy(c => c.MWQMSiteID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMSite> mwqmSiteList = new List<MWQMSite>();
                             mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
                             CheckMWQMSiteFields(mwqmSiteList);
                             Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteList[0].MWQMSiteID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMSiteExtraA> mwqmSiteExtraAList = new List<MWQMSiteExtraA>();
                             mwqmSiteExtraAList = mwqmSiteService.GetMWQMSiteExtraAList().ToList();
@@ -543,7 +543,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteExtraAList[0].MWQMSiteID);
                             Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMSiteExtraB> mwqmSiteExtraBList = new List<MWQMSiteExtraB>();
                             mwqmSiteExtraBList = mwqmSiteService.GetMWQMSiteExtraBList().ToList();
@@ -571,7 +571,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMSiteService mwqmSiteService = new MWQMSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -580,14 +580,14 @@ namespace CSSPServices.Tests
                         List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
                         mwqmSiteDirectQueryList = (from c in dbTestDB.MWQMSites select c).Where(c => c.MWQMSiteID > 2 && c.MWQMSiteID < 5).Skip(0).Take(1).OrderBy(c => c.MWQMSiteID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMSite> mwqmSiteList = new List<MWQMSite>();
                             mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
                             CheckMWQMSiteFields(mwqmSiteList);
                             Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteList[0].MWQMSiteID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMSiteExtraA> mwqmSiteExtraAList = new List<MWQMSiteExtraA>();
                             mwqmSiteExtraAList = mwqmSiteService.GetMWQMSiteExtraAList().ToList();
@@ -595,7 +595,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteExtraAList[0].MWQMSiteID);
                             Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMSiteExtraB> mwqmSiteExtraBList = new List<MWQMSiteExtraB>();
                             mwqmSiteExtraBList = mwqmSiteService.GetMWQMSiteExtraBList().ToList();
@@ -623,7 +623,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMSiteService mwqmSiteService = new MWQMSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -632,14 +632,14 @@ namespace CSSPServices.Tests
                         List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
                         mwqmSiteDirectQueryList = (from c in dbTestDB.MWQMSites select c).Where(c => c.MWQMSiteID > 2 && c.MWQMSiteID < 5).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMSite> mwqmSiteList = new List<MWQMSite>();
                             mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
                             CheckMWQMSiteFields(mwqmSiteList);
                             Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteList[0].MWQMSiteID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMSiteExtraA> mwqmSiteExtraAList = new List<MWQMSiteExtraA>();
                             mwqmSiteExtraAList = mwqmSiteService.GetMWQMSiteExtraAList().ToList();
@@ -647,7 +647,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteExtraAList[0].MWQMSiteID);
                             Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMSiteExtraB> mwqmSiteExtraBList = new List<MWQMSiteExtraB>();
                             mwqmSiteExtraBList = mwqmSiteService.GetMWQMSiteExtraBList().ToList();
@@ -680,8 +680,8 @@ namespace CSSPServices.Tests
         }
         private void CheckMWQMSiteExtraAFields(List<MWQMSiteExtraA> mwqmSiteExtraAList)
         {
-            Assert.IsNotNull(mwqmSiteExtraAList[0].MWQMSiteTVItemLanguage);
-            Assert.IsNotNull(mwqmSiteExtraAList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteExtraAList[0].MWQMSiteText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteExtraAList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(mwqmSiteExtraAList[0].MWQMSiteLatestClassificationText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteExtraAList[0].MWQMSiteLatestClassificationText));
@@ -702,8 +702,8 @@ namespace CSSPServices.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteExtraBList[0].MWQMSiteReportTest));
             }
-            Assert.IsNotNull(mwqmSiteExtraBList[0].MWQMSiteTVItemLanguage);
-            Assert.IsNotNull(mwqmSiteExtraBList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteExtraBList[0].MWQMSiteText));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteExtraBList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(mwqmSiteExtraBList[0].MWQMSiteLatestClassificationText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteExtraBList[0].MWQMSiteLatestClassificationText));

@@ -26,21 +26,22 @@ namespace CSSPServices
             List<EnumIDAndText> PolSourceInactiveReasonEnumList = enums.GetEnumTextOrderedList(typeof(PolSourceInactiveReasonEnum));
 
              IQueryable<PolSourceSiteExtraA> PolSourceSiteExtraAQuery = (from c in db.PolSourceSites
-                let PolSourceSiteTVItemLanguage = (from cl in db.TVItemLanguages
+                let PolSourceSiteText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.PolSourceSiteTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
+                let InactiveReasonText = (from e in PolSourceInactiveReasonEnumList
+                    where e.EnumID == (int?)c.InactiveReason
+                    select e.EnumText).FirstOrDefault()
                     select new PolSourceSiteExtraA
                     {
-                        PolSourceSiteTVItemLanguage = PolSourceSiteTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        InactiveReasonText = (from e in PolSourceInactiveReasonEnumList
-                                where e.EnumID == (int?)c.InactiveReason
-                                select e.EnumText).FirstOrDefault(),
+                        PolSourceSiteText = PolSourceSiteText,
+                        LastUpdateContactText = LastUpdateContactText,
+                        InactiveReasonText = InactiveReasonText,
                         PolSourceSiteID = c.PolSourceSiteID,
                         PolSourceSiteTVItemID = c.PolSourceSiteTVItemID,
                         Temp_Locator_CanDelete = c.Temp_Locator_CanDelete,

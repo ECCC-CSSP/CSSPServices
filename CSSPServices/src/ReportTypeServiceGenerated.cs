@@ -117,7 +117,7 @@ namespace CSSPServices
                 }
             }
 
-            retStr = ""; // added to stop compiling error
+            retStr = ""; // added to stop compiling CSSPError
             if (retStr != "") // will never be true
             {
                 reportType.HasErrors = true;

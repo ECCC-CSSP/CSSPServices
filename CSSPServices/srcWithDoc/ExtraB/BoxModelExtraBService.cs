@@ -26,22 +26,22 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
-                let InfrastructureTVItemLanguage = (from cl in db.TVItemLanguages
+                let InfrastructureText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.InfrastructureTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
                     select new BoxModelExtraB
                     {
                         BoxModelReportTest = BoxModelReportTest,
-                        InfrastructureTVItemLanguage = InfrastructureTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        InfrastructureText = InfrastructureText,
+                        LastUpdateContactText = LastUpdateContactText,
                         BoxModelID = c.BoxModelID,
                         InfrastructureTVItemID = c.InfrastructureTVItemID,
-                        Flow_m3_day = c.Flow_m3_day,
+                        Discharge_m3_day = c.Discharge_m3_day,
                         Depth_m = c.Depth_m,
                         Temperature_C = c.Temperature_C,
                         Dilution = c.Dilution,

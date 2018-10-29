@@ -32,33 +32,36 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
-                let TVItemTVItemLanguage = (from cl in db.TVItemLanguages
+                let TVItemText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.TVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let TVItem2TVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let TVItem2Text = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.TVItemID2
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
+                let AppTaskCommandText = (from e in AppTaskCommandEnumList
+                    where e.EnumID == (int?)c.AppTaskCommand
+                    select e.EnumText).FirstOrDefault()
+                let AppTaskStatusText = (from e in AppTaskStatusEnumList
+                    where e.EnumID == (int?)c.AppTaskStatus
+                    select e.EnumText).FirstOrDefault()
+                let LanguageText = (from e in LanguageEnumList
+                    where e.EnumID == (int?)c.Language
+                    select e.EnumText).FirstOrDefault()
                     select new AppTaskExtraB
                     {
                         AppTaskReportTest = AppTaskReportTest,
-                        TVItemTVItemLanguage = TVItemTVItemLanguage,
-                        TVItem2TVItemLanguage = TVItem2TVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        AppTaskCommandText = (from e in AppTaskCommandEnumList
-                                where e.EnumID == (int?)c.AppTaskCommand
-                                select e.EnumText).FirstOrDefault(),
-                        AppTaskStatusText = (from e in AppTaskStatusEnumList
-                                where e.EnumID == (int?)c.AppTaskStatus
-                                select e.EnumText).FirstOrDefault(),
-                        LanguageText = (from e in LanguageEnumList
-                                where e.EnumID == (int?)c.Language
-                                select e.EnumText).FirstOrDefault(),
+                        TVItemText = TVItemText,
+                        TVItem2Text = TVItem2Text,
+                        LastUpdateContactText = LastUpdateContactText,
+                        AppTaskCommandText = AppTaskCommandText,
+                        AppTaskStatusText = AppTaskStatusText,
+                        LanguageText = LanguageText,
                         AppTaskID = c.AppTaskID,
                         TVItemID = c.TVItemID,
                         TVItemID2 = c.TVItemID2,

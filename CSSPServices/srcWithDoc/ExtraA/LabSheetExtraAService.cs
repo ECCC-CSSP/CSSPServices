@@ -29,40 +29,44 @@ namespace CSSPServices
             List<EnumIDAndText> LabSheetStatusEnumList = enums.GetEnumTextOrderedList(typeof(LabSheetStatusEnum));
 
              IQueryable<LabSheetExtraA> LabSheetExtraAQuery = (from c in db.LabSheets
-                let SubsectorTVItemLanguage = (from cl in db.TVItemLanguages
+                let SubsectorText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.SubsectorTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let MWQMRunTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let MWQMRunText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MWQMRunTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let AcceptedOrRejectedByContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let AcceptedOrRejectedByContactName = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.AcceptedOrRejectedByContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
+                let SamplingPlanTypeText = (from e in SamplingPlanTypeEnumList
+                    where e.EnumID == (int?)c.SamplingPlanType
+                    select e.EnumText).FirstOrDefault()
+                let SampleTypeText = (from e in SampleTypeEnumList
+                    where e.EnumID == (int?)c.SampleType
+                    select e.EnumText).FirstOrDefault()
+                let LabSheetTypeText = (from e in LabSheetTypeEnumList
+                    where e.EnumID == (int?)c.LabSheetType
+                    select e.EnumText).FirstOrDefault()
+                let LabSheetStatusText = (from e in LabSheetStatusEnumList
+                    where e.EnumID == (int?)c.LabSheetStatus
+                    select e.EnumText).FirstOrDefault()
                     select new LabSheetExtraA
                     {
-                        SubsectorTVItemLanguage = SubsectorTVItemLanguage,
-                        MWQMRunTVItemLanguage = MWQMRunTVItemLanguage,
-                        AcceptedOrRejectedByContactTVItemLanguage = AcceptedOrRejectedByContactTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        SamplingPlanTypeText = (from e in SamplingPlanTypeEnumList
-                                where e.EnumID == (int?)c.SamplingPlanType
-                                select e.EnumText).FirstOrDefault(),
-                        SampleTypeText = (from e in SampleTypeEnumList
-                                where e.EnumID == (int?)c.SampleType
-                                select e.EnumText).FirstOrDefault(),
-                        LabSheetTypeText = (from e in LabSheetTypeEnumList
-                                where e.EnumID == (int?)c.LabSheetType
-                                select e.EnumText).FirstOrDefault(),
-                        LabSheetStatusText = (from e in LabSheetStatusEnumList
-                                where e.EnumID == (int?)c.LabSheetStatus
-                                select e.EnumText).FirstOrDefault(),
+                        SubsectorText = SubsectorText,
+                        MWQMRunText = MWQMRunText,
+                        AcceptedOrRejectedByContactName = AcceptedOrRejectedByContactName,
+                        LastUpdateContactText = LastUpdateContactText,
+                        SamplingPlanTypeText = SamplingPlanTypeText,
+                        SampleTypeText = SampleTypeText,
+                        LabSheetTypeText = LabSheetTypeText,
+                        LabSheetStatusText = LabSheetStatusText,
                         LabSheetID = c.LabSheetID,
                         OtherServerLabSheetID = c.OtherServerLabSheetID,
                         SamplingPlanID = c.SamplingPlanID,

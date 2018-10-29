@@ -25,13 +25,13 @@ namespace CSSPServices
 
 
              IQueryable<ReportTypeExtraA> ReportTypeExtraAQuery = (from c in db.ReportTypes
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
                     select new ReportTypeExtraA
                     {
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        LastUpdateContactText = LastUpdateContactText,
                         ReportTypeID = c.ReportTypeID,
                         TVType = c.TVType,
                         FileType = c.FileType,

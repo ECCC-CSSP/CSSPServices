@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                     count = docTemplateService.GetDocTemplateList().Count();
 
-                    Assert.AreEqual(docTemplateService.GetDocTemplateList().Count(), (from c in dbTestDB.DocTemplates select c).Take(200).Count());
+                    Assert.AreEqual(count, (from c in dbTestDB.DocTemplates select c).Count());
 
                     docTemplateService.Add(docTemplate);
                     if (docTemplate.HasErrors)
@@ -243,23 +243,23 @@ namespace CSSPServices.Tests
                     DocTemplate docTemplate = (from c in dbTestDB.DocTemplates select c).FirstOrDefault();
                     Assert.IsNotNull(docTemplate);
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        docTemplateService.Query.Detail = detail;
+                        docTemplateService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             DocTemplate docTemplateRet = docTemplateService.GetDocTemplateWithDocTemplateID(docTemplate.DocTemplateID);
                             CheckDocTemplateFields(new List<DocTemplate>() { docTemplateRet });
                             Assert.AreEqual(docTemplate.DocTemplateID, docTemplateRet.DocTemplateID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             DocTemplateExtraA docTemplateExtraARet = docTemplateService.GetDocTemplateExtraAWithDocTemplateID(docTemplate.DocTemplateID);
                             CheckDocTemplateExtraAFields(new List<DocTemplateExtraA>() { docTemplateExtraARet });
                             Assert.AreEqual(docTemplate.DocTemplateID, docTemplateExtraARet.DocTemplateID);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             DocTemplateExtraB docTemplateExtraBRet = docTemplateService.GetDocTemplateExtraBWithDocTemplateID(docTemplate.DocTemplateID);
                             CheckDocTemplateExtraBFields(new List<DocTemplateExtraB>() { docTemplateExtraBRet });
@@ -292,24 +292,24 @@ namespace CSSPServices.Tests
                     List<DocTemplate> docTemplateDirectQueryList = new List<DocTemplate>();
                     docTemplateDirectQueryList = (from c in dbTestDB.DocTemplates select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        docTemplateService.Query.Detail = detail;
+                        docTemplateService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<DocTemplate> docTemplateList = new List<DocTemplate>();
                             docTemplateList = docTemplateService.GetDocTemplateList().ToList();
                             CheckDocTemplateFields(docTemplateList);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<DocTemplateExtraA> docTemplateExtraAList = new List<DocTemplateExtraA>();
                             docTemplateExtraAList = docTemplateService.GetDocTemplateExtraAList().ToList();
                             CheckDocTemplateExtraAFields(docTemplateExtraAList);
                             Assert.AreEqual(docTemplateDirectQueryList.Count, docTemplateExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<DocTemplateExtraB> docTemplateExtraBList = new List<DocTemplateExtraB>();
                             docTemplateExtraBList = docTemplateService.GetDocTemplateExtraBList().ToList();
@@ -336,7 +336,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         DocTemplateService docTemplateService = new DocTemplateService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -345,14 +345,14 @@ namespace CSSPServices.Tests
                         List<DocTemplate> docTemplateDirectQueryList = new List<DocTemplate>();
                         docTemplateDirectQueryList = (from c in dbTestDB.DocTemplates select c).Skip(1).Take(1).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<DocTemplate> docTemplateList = new List<DocTemplate>();
                             docTemplateList = docTemplateService.GetDocTemplateList().ToList();
                             CheckDocTemplateFields(docTemplateList);
                             Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateList[0].DocTemplateID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<DocTemplateExtraA> docTemplateExtraAList = new List<DocTemplateExtraA>();
                             docTemplateExtraAList = docTemplateService.GetDocTemplateExtraAList().ToList();
@@ -360,7 +360,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateExtraAList[0].DocTemplateID);
                             Assert.AreEqual(docTemplateDirectQueryList.Count, docTemplateExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<DocTemplateExtraB> docTemplateExtraBList = new List<DocTemplateExtraB>();
                             docTemplateExtraBList = docTemplateService.GetDocTemplateExtraBList().ToList();
@@ -388,7 +388,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         DocTemplateService docTemplateService = new DocTemplateService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -397,14 +397,14 @@ namespace CSSPServices.Tests
                         List<DocTemplate> docTemplateDirectQueryList = new List<DocTemplate>();
                         docTemplateDirectQueryList = (from c in dbTestDB.DocTemplates select c).Skip(1).Take(1).OrderBy(c => c.DocTemplateID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<DocTemplate> docTemplateList = new List<DocTemplate>();
                             docTemplateList = docTemplateService.GetDocTemplateList().ToList();
                             CheckDocTemplateFields(docTemplateList);
                             Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateList[0].DocTemplateID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<DocTemplateExtraA> docTemplateExtraAList = new List<DocTemplateExtraA>();
                             docTemplateExtraAList = docTemplateService.GetDocTemplateExtraAList().ToList();
@@ -412,7 +412,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateExtraAList[0].DocTemplateID);
                             Assert.AreEqual(docTemplateDirectQueryList.Count, docTemplateExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<DocTemplateExtraB> docTemplateExtraBList = new List<DocTemplateExtraB>();
                             docTemplateExtraBList = docTemplateService.GetDocTemplateExtraBList().ToList();
@@ -440,7 +440,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         DocTemplateService docTemplateService = new DocTemplateService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -449,14 +449,14 @@ namespace CSSPServices.Tests
                         List<DocTemplate> docTemplateDirectQueryList = new List<DocTemplate>();
                         docTemplateDirectQueryList = (from c in dbTestDB.DocTemplates select c).Skip(1).Take(1).OrderBy(c => c.DocTemplateID).ThenBy(c => c.Language).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<DocTemplate> docTemplateList = new List<DocTemplate>();
                             docTemplateList = docTemplateService.GetDocTemplateList().ToList();
                             CheckDocTemplateFields(docTemplateList);
                             Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateList[0].DocTemplateID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<DocTemplateExtraA> docTemplateExtraAList = new List<DocTemplateExtraA>();
                             docTemplateExtraAList = docTemplateService.GetDocTemplateExtraAList().ToList();
@@ -464,7 +464,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateExtraAList[0].DocTemplateID);
                             Assert.AreEqual(docTemplateDirectQueryList.Count, docTemplateExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<DocTemplateExtraB> docTemplateExtraBList = new List<DocTemplateExtraB>();
                             docTemplateExtraBList = docTemplateService.GetDocTemplateExtraBList().ToList();
@@ -492,7 +492,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         DocTemplateService docTemplateService = new DocTemplateService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -501,14 +501,14 @@ namespace CSSPServices.Tests
                         List<DocTemplate> docTemplateDirectQueryList = new List<DocTemplate>();
                         docTemplateDirectQueryList = (from c in dbTestDB.DocTemplates select c).Where(c => c.DocTemplateID == 4).Skip(0).Take(1).OrderBy(c => c.DocTemplateID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<DocTemplate> docTemplateList = new List<DocTemplate>();
                             docTemplateList = docTemplateService.GetDocTemplateList().ToList();
                             CheckDocTemplateFields(docTemplateList);
                             Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateList[0].DocTemplateID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<DocTemplateExtraA> docTemplateExtraAList = new List<DocTemplateExtraA>();
                             docTemplateExtraAList = docTemplateService.GetDocTemplateExtraAList().ToList();
@@ -516,7 +516,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateExtraAList[0].DocTemplateID);
                             Assert.AreEqual(docTemplateDirectQueryList.Count, docTemplateExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<DocTemplateExtraB> docTemplateExtraBList = new List<DocTemplateExtraB>();
                             docTemplateExtraBList = docTemplateService.GetDocTemplateExtraBList().ToList();
@@ -544,7 +544,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         DocTemplateService docTemplateService = new DocTemplateService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -553,14 +553,14 @@ namespace CSSPServices.Tests
                         List<DocTemplate> docTemplateDirectQueryList = new List<DocTemplate>();
                         docTemplateDirectQueryList = (from c in dbTestDB.DocTemplates select c).Where(c => c.DocTemplateID > 2 && c.DocTemplateID < 5).Skip(0).Take(1).OrderBy(c => c.DocTemplateID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<DocTemplate> docTemplateList = new List<DocTemplate>();
                             docTemplateList = docTemplateService.GetDocTemplateList().ToList();
                             CheckDocTemplateFields(docTemplateList);
                             Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateList[0].DocTemplateID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<DocTemplateExtraA> docTemplateExtraAList = new List<DocTemplateExtraA>();
                             docTemplateExtraAList = docTemplateService.GetDocTemplateExtraAList().ToList();
@@ -568,7 +568,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateExtraAList[0].DocTemplateID);
                             Assert.AreEqual(docTemplateDirectQueryList.Count, docTemplateExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<DocTemplateExtraB> docTemplateExtraBList = new List<DocTemplateExtraB>();
                             docTemplateExtraBList = docTemplateService.GetDocTemplateExtraBList().ToList();
@@ -596,7 +596,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         DocTemplateService docTemplateService = new DocTemplateService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -605,14 +605,14 @@ namespace CSSPServices.Tests
                         List<DocTemplate> docTemplateDirectQueryList = new List<DocTemplate>();
                         docTemplateDirectQueryList = (from c in dbTestDB.DocTemplates select c).Where(c => c.DocTemplateID > 2 && c.DocTemplateID < 5).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<DocTemplate> docTemplateList = new List<DocTemplate>();
                             docTemplateList = docTemplateService.GetDocTemplateList().ToList();
                             CheckDocTemplateFields(docTemplateList);
                             Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateList[0].DocTemplateID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<DocTemplateExtraA> docTemplateExtraAList = new List<DocTemplateExtraA>();
                             docTemplateExtraAList = docTemplateService.GetDocTemplateExtraAList().ToList();
@@ -620,7 +620,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateExtraAList[0].DocTemplateID);
                             Assert.AreEqual(docTemplateDirectQueryList.Count, docTemplateExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<DocTemplateExtraB> docTemplateExtraBList = new List<DocTemplateExtraB>();
                             docTemplateExtraBList = docTemplateService.GetDocTemplateExtraBList().ToList();
@@ -652,7 +652,7 @@ namespace CSSPServices.Tests
         }
         private void CheckDocTemplateExtraAFields(List<DocTemplateExtraA> docTemplateExtraAList)
         {
-            Assert.IsNotNull(docTemplateExtraAList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateExtraAList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(docTemplateExtraAList[0].LanguageText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateExtraAList[0].LanguageText));
@@ -676,7 +676,7 @@ namespace CSSPServices.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateExtraBList[0].DocTemplateReportTest));
             }
-            Assert.IsNotNull(docTemplateExtraBList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateExtraBList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(docTemplateExtraBList[0].LanguageText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateExtraBList[0].LanguageText));

@@ -30,30 +30,32 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
-                let FromTVItemLanguage = (from cl in db.TVItemLanguages
+                let FromText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.FromTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let ToTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let ToText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.ToTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
+                let FromTVTypeText = (from e in TVTypeEnumList
+                    where e.EnumID == (int?)c.FromTVType
+                    select e.EnumText).FirstOrDefault()
+                let ToTVTypeText = (from e in TVTypeEnumList
+                    where e.EnumID == (int?)c.ToTVType
+                    select e.EnumText).FirstOrDefault()
                     select new TVItemLinkExtraB
                     {
                         TVItemLinkReportTest = TVItemLinkReportTest,
-                        FromTVItemLanguage = FromTVItemLanguage,
-                        ToTVItemLanguage = ToTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        FromTVTypeText = (from e in TVTypeEnumList
-                                where e.EnumID == (int?)c.FromTVType
-                                select e.EnumText).FirstOrDefault(),
-                        ToTVTypeText = (from e in TVTypeEnumList
-                                where e.EnumID == (int?)c.ToTVType
-                                select e.EnumText).FirstOrDefault(),
+                        FromText = FromText,
+                        ToText = ToText,
+                        LastUpdateContactText = LastUpdateContactText,
+                        FromTVTypeText = FromTVTypeText,
+                        ToTVTypeText = ToTVTypeText,
                         TVItemLinkID = c.TVItemLinkID,
                         FromTVItemID = c.FromTVItemID,
                         ToTVItemID = c.ToTVItemID,

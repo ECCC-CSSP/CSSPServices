@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                     count = mwqmSampleLanguageService.GetMWQMSampleLanguageList().Count();
 
-                    Assert.AreEqual(mwqmSampleLanguageService.GetMWQMSampleLanguageList().Count(), (from c in dbTestDB.MWQMSampleLanguages select c).Take(200).Count());
+                    Assert.AreEqual(count, (from c in dbTestDB.MWQMSampleLanguages select c).Count());
 
                     mwqmSampleLanguageService.Add(mwqmSampleLanguage);
                     if (mwqmSampleLanguage.HasErrors)
@@ -230,23 +230,23 @@ namespace CSSPServices.Tests
                     MWQMSampleLanguage mwqmSampleLanguage = (from c in dbTestDB.MWQMSampleLanguages select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmSampleLanguage);
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        mwqmSampleLanguageService.Query.Detail = detail;
+                        mwqmSampleLanguageService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             MWQMSampleLanguage mwqmSampleLanguageRet = mwqmSampleLanguageService.GetMWQMSampleLanguageWithMWQMSampleLanguageID(mwqmSampleLanguage.MWQMSampleLanguageID);
                             CheckMWQMSampleLanguageFields(new List<MWQMSampleLanguage>() { mwqmSampleLanguageRet });
                             Assert.AreEqual(mwqmSampleLanguage.MWQMSampleLanguageID, mwqmSampleLanguageRet.MWQMSampleLanguageID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             MWQMSampleLanguageExtraA mwqmSampleLanguageExtraARet = mwqmSampleLanguageService.GetMWQMSampleLanguageExtraAWithMWQMSampleLanguageID(mwqmSampleLanguage.MWQMSampleLanguageID);
                             CheckMWQMSampleLanguageExtraAFields(new List<MWQMSampleLanguageExtraA>() { mwqmSampleLanguageExtraARet });
                             Assert.AreEqual(mwqmSampleLanguage.MWQMSampleLanguageID, mwqmSampleLanguageExtraARet.MWQMSampleLanguageID);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             MWQMSampleLanguageExtraB mwqmSampleLanguageExtraBRet = mwqmSampleLanguageService.GetMWQMSampleLanguageExtraBWithMWQMSampleLanguageID(mwqmSampleLanguage.MWQMSampleLanguageID);
                             CheckMWQMSampleLanguageExtraBFields(new List<MWQMSampleLanguageExtraB>() { mwqmSampleLanguageExtraBRet });
@@ -279,24 +279,24 @@ namespace CSSPServices.Tests
                     List<MWQMSampleLanguage> mwqmSampleLanguageDirectQueryList = new List<MWQMSampleLanguage>();
                     mwqmSampleLanguageDirectQueryList = (from c in dbTestDB.MWQMSampleLanguages select c).Take(200).ToList();
 
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
-                        mwqmSampleLanguageService.Query.Detail = detail;
+                        mwqmSampleLanguageService.Query.Extra = extra;
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMSampleLanguage> mwqmSampleLanguageList = new List<MWQMSampleLanguage>();
                             mwqmSampleLanguageList = mwqmSampleLanguageService.GetMWQMSampleLanguageList().ToList();
                             CheckMWQMSampleLanguageFields(mwqmSampleLanguageList);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMSampleLanguageExtraA> mwqmSampleLanguageExtraAList = new List<MWQMSampleLanguageExtraA>();
                             mwqmSampleLanguageExtraAList = mwqmSampleLanguageService.GetMWQMSampleLanguageExtraAList().ToList();
                             CheckMWQMSampleLanguageExtraAFields(mwqmSampleLanguageExtraAList);
                             Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguageExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMSampleLanguageExtraB> mwqmSampleLanguageExtraBList = new List<MWQMSampleLanguageExtraB>();
                             mwqmSampleLanguageExtraBList = mwqmSampleLanguageService.GetMWQMSampleLanguageExtraBList().ToList();
@@ -323,7 +323,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMSampleLanguageService mwqmSampleLanguageService = new MWQMSampleLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -332,14 +332,14 @@ namespace CSSPServices.Tests
                         List<MWQMSampleLanguage> mwqmSampleLanguageDirectQueryList = new List<MWQMSampleLanguage>();
                         mwqmSampleLanguageDirectQueryList = (from c in dbTestDB.MWQMSampleLanguages select c).Skip(1).Take(1).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMSampleLanguage> mwqmSampleLanguageList = new List<MWQMSampleLanguage>();
                             mwqmSampleLanguageList = mwqmSampleLanguageService.GetMWQMSampleLanguageList().ToList();
                             CheckMWQMSampleLanguageFields(mwqmSampleLanguageList);
                             Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguageList[0].MWQMSampleLanguageID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMSampleLanguageExtraA> mwqmSampleLanguageExtraAList = new List<MWQMSampleLanguageExtraA>();
                             mwqmSampleLanguageExtraAList = mwqmSampleLanguageService.GetMWQMSampleLanguageExtraAList().ToList();
@@ -347,7 +347,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguageExtraAList[0].MWQMSampleLanguageID);
                             Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguageExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMSampleLanguageExtraB> mwqmSampleLanguageExtraBList = new List<MWQMSampleLanguageExtraB>();
                             mwqmSampleLanguageExtraBList = mwqmSampleLanguageService.GetMWQMSampleLanguageExtraBList().ToList();
@@ -375,7 +375,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMSampleLanguageService mwqmSampleLanguageService = new MWQMSampleLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -384,14 +384,14 @@ namespace CSSPServices.Tests
                         List<MWQMSampleLanguage> mwqmSampleLanguageDirectQueryList = new List<MWQMSampleLanguage>();
                         mwqmSampleLanguageDirectQueryList = (from c in dbTestDB.MWQMSampleLanguages select c).Skip(1).Take(1).OrderBy(c => c.MWQMSampleLanguageID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMSampleLanguage> mwqmSampleLanguageList = new List<MWQMSampleLanguage>();
                             mwqmSampleLanguageList = mwqmSampleLanguageService.GetMWQMSampleLanguageList().ToList();
                             CheckMWQMSampleLanguageFields(mwqmSampleLanguageList);
                             Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguageList[0].MWQMSampleLanguageID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMSampleLanguageExtraA> mwqmSampleLanguageExtraAList = new List<MWQMSampleLanguageExtraA>();
                             mwqmSampleLanguageExtraAList = mwqmSampleLanguageService.GetMWQMSampleLanguageExtraAList().ToList();
@@ -399,7 +399,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguageExtraAList[0].MWQMSampleLanguageID);
                             Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguageExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMSampleLanguageExtraB> mwqmSampleLanguageExtraBList = new List<MWQMSampleLanguageExtraB>();
                             mwqmSampleLanguageExtraBList = mwqmSampleLanguageService.GetMWQMSampleLanguageExtraBList().ToList();
@@ -427,7 +427,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMSampleLanguageService mwqmSampleLanguageService = new MWQMSampleLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -436,14 +436,14 @@ namespace CSSPServices.Tests
                         List<MWQMSampleLanguage> mwqmSampleLanguageDirectQueryList = new List<MWQMSampleLanguage>();
                         mwqmSampleLanguageDirectQueryList = (from c in dbTestDB.MWQMSampleLanguages select c).Skip(1).Take(1).OrderBy(c => c.MWQMSampleLanguageID).ThenBy(c => c.MWQMSampleID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMSampleLanguage> mwqmSampleLanguageList = new List<MWQMSampleLanguage>();
                             mwqmSampleLanguageList = mwqmSampleLanguageService.GetMWQMSampleLanguageList().ToList();
                             CheckMWQMSampleLanguageFields(mwqmSampleLanguageList);
                             Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguageList[0].MWQMSampleLanguageID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMSampleLanguageExtraA> mwqmSampleLanguageExtraAList = new List<MWQMSampleLanguageExtraA>();
                             mwqmSampleLanguageExtraAList = mwqmSampleLanguageService.GetMWQMSampleLanguageExtraAList().ToList();
@@ -451,7 +451,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguageExtraAList[0].MWQMSampleLanguageID);
                             Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguageExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMSampleLanguageExtraB> mwqmSampleLanguageExtraBList = new List<MWQMSampleLanguageExtraB>();
                             mwqmSampleLanguageExtraBList = mwqmSampleLanguageService.GetMWQMSampleLanguageExtraBList().ToList();
@@ -479,7 +479,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMSampleLanguageService mwqmSampleLanguageService = new MWQMSampleLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -488,14 +488,14 @@ namespace CSSPServices.Tests
                         List<MWQMSampleLanguage> mwqmSampleLanguageDirectQueryList = new List<MWQMSampleLanguage>();
                         mwqmSampleLanguageDirectQueryList = (from c in dbTestDB.MWQMSampleLanguages select c).Where(c => c.MWQMSampleLanguageID == 4).Skip(0).Take(1).OrderBy(c => c.MWQMSampleLanguageID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMSampleLanguage> mwqmSampleLanguageList = new List<MWQMSampleLanguage>();
                             mwqmSampleLanguageList = mwqmSampleLanguageService.GetMWQMSampleLanguageList().ToList();
                             CheckMWQMSampleLanguageFields(mwqmSampleLanguageList);
                             Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguageList[0].MWQMSampleLanguageID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMSampleLanguageExtraA> mwqmSampleLanguageExtraAList = new List<MWQMSampleLanguageExtraA>();
                             mwqmSampleLanguageExtraAList = mwqmSampleLanguageService.GetMWQMSampleLanguageExtraAList().ToList();
@@ -503,7 +503,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguageExtraAList[0].MWQMSampleLanguageID);
                             Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguageExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMSampleLanguageExtraB> mwqmSampleLanguageExtraBList = new List<MWQMSampleLanguageExtraB>();
                             mwqmSampleLanguageExtraBList = mwqmSampleLanguageService.GetMWQMSampleLanguageExtraBList().ToList();
@@ -531,7 +531,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMSampleLanguageService mwqmSampleLanguageService = new MWQMSampleLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -540,14 +540,14 @@ namespace CSSPServices.Tests
                         List<MWQMSampleLanguage> mwqmSampleLanguageDirectQueryList = new List<MWQMSampleLanguage>();
                         mwqmSampleLanguageDirectQueryList = (from c in dbTestDB.MWQMSampleLanguages select c).Where(c => c.MWQMSampleLanguageID > 2 && c.MWQMSampleLanguageID < 5).Skip(0).Take(1).OrderBy(c => c.MWQMSampleLanguageID).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMSampleLanguage> mwqmSampleLanguageList = new List<MWQMSampleLanguage>();
                             mwqmSampleLanguageList = mwqmSampleLanguageService.GetMWQMSampleLanguageList().ToList();
                             CheckMWQMSampleLanguageFields(mwqmSampleLanguageList);
                             Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguageList[0].MWQMSampleLanguageID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMSampleLanguageExtraA> mwqmSampleLanguageExtraAList = new List<MWQMSampleLanguageExtraA>();
                             mwqmSampleLanguageExtraAList = mwqmSampleLanguageService.GetMWQMSampleLanguageExtraAList().ToList();
@@ -555,7 +555,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguageExtraAList[0].MWQMSampleLanguageID);
                             Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguageExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMSampleLanguageExtraB> mwqmSampleLanguageExtraBList = new List<MWQMSampleLanguageExtraB>();
                             mwqmSampleLanguageExtraBList = mwqmSampleLanguageService.GetMWQMSampleLanguageExtraBList().ToList();
@@ -583,7 +583,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string detail in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
                     {
                         MWQMSampleLanguageService mwqmSampleLanguageService = new MWQMSampleLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -592,14 +592,14 @@ namespace CSSPServices.Tests
                         List<MWQMSampleLanguage> mwqmSampleLanguageDirectQueryList = new List<MWQMSampleLanguage>();
                         mwqmSampleLanguageDirectQueryList = (from c in dbTestDB.MWQMSampleLanguages select c).Where(c => c.MWQMSampleLanguageID > 2 && c.MWQMSampleLanguageID < 5).ToList();
 
-                        if (string.IsNullOrWhiteSpace(detail))
+                        if (string.IsNullOrWhiteSpace(extra))
                         {
                             List<MWQMSampleLanguage> mwqmSampleLanguageList = new List<MWQMSampleLanguage>();
                             mwqmSampleLanguageList = mwqmSampleLanguageService.GetMWQMSampleLanguageList().ToList();
                             CheckMWQMSampleLanguageFields(mwqmSampleLanguageList);
                             Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguageList[0].MWQMSampleLanguageID);
                         }
-                        else if (detail == "ExtraA")
+                        else if (extra == "ExtraA")
                         {
                             List<MWQMSampleLanguageExtraA> mwqmSampleLanguageExtraAList = new List<MWQMSampleLanguageExtraA>();
                             mwqmSampleLanguageExtraAList = mwqmSampleLanguageService.GetMWQMSampleLanguageExtraAList().ToList();
@@ -607,7 +607,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmSampleLanguageDirectQueryList[0].MWQMSampleLanguageID, mwqmSampleLanguageExtraAList[0].MWQMSampleLanguageID);
                             Assert.AreEqual(mwqmSampleLanguageDirectQueryList.Count, mwqmSampleLanguageExtraAList.Count);
                         }
-                        else if (detail == "ExtraB")
+                        else if (extra == "ExtraB")
                         {
                             List<MWQMSampleLanguageExtraB> mwqmSampleLanguageExtraBList = new List<MWQMSampleLanguageExtraB>();
                             mwqmSampleLanguageExtraBList = mwqmSampleLanguageService.GetMWQMSampleLanguageExtraBList().ToList();
@@ -639,7 +639,7 @@ namespace CSSPServices.Tests
         }
         private void CheckMWQMSampleLanguageExtraAFields(List<MWQMSampleLanguageExtraA> mwqmSampleLanguageExtraAList)
         {
-            Assert.IsNotNull(mwqmSampleLanguageExtraAList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleLanguageExtraAList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(mwqmSampleLanguageExtraAList[0].LanguageText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleLanguageExtraAList[0].LanguageText));
@@ -663,7 +663,7 @@ namespace CSSPServices.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleLanguageExtraBList[0].MWQMSampleLanguageReportTest));
             }
-            Assert.IsNotNull(mwqmSampleLanguageExtraBList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleLanguageExtraBList[0].LastUpdateContactText));
             if (!string.IsNullOrWhiteSpace(mwqmSampleLanguageExtraBList[0].LanguageText))
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleLanguageExtraBList[0].LanguageText));

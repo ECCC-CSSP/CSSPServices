@@ -30,17 +30,18 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
+                let StorageDataTypeEnumText = (from e in StorageDataTypeEnumList
+                    where e.EnumID == (int?)c.StorageDataType
+                    select e.EnumText).FirstOrDefault()
                     select new ClimateDataValueExtraB
                     {
                         ClimateDataValueReportTest = ClimateDataValueReportTest,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        StorageDataTypeEnumText = (from e in StorageDataTypeEnumList
-                                where e.EnumID == (int?)c.StorageDataType
-                                select e.EnumText).FirstOrDefault(),
+                        LastUpdateContactText = LastUpdateContactText,
+                        StorageDataTypeEnumText = StorageDataTypeEnumText,
                         ClimateDataValueID = c.ClimateDataValueID,
                         ClimateSiteID = c.ClimateSiteID,
                         DateTime_Local = c.DateTime_Local,

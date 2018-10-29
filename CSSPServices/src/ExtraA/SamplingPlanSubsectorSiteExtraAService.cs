@@ -22,18 +22,18 @@ namespace CSSPServices
         private IQueryable<SamplingPlanSubsectorSiteExtraA> FillSamplingPlanSubsectorSiteExtraA()
         {
              IQueryable<SamplingPlanSubsectorSiteExtraA> SamplingPlanSubsectorSiteExtraAQuery = (from c in db.SamplingPlanSubsectorSites
-                let MWQMSiteTVItemLanguage = (from cl in db.TVItemLanguages
+                let MWQMSiteText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MWQMSiteTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
                     select new SamplingPlanSubsectorSiteExtraA
                     {
-                        MWQMSiteTVItemLanguage = MWQMSiteTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        MWQMSiteText = MWQMSiteText,
+                        LastUpdateContactText = LastUpdateContactText,
                         SamplingPlanSubsectorSiteID = c.SamplingPlanSubsectorSiteID,
                         SamplingPlanSubsectorID = c.SamplingPlanSubsectorID,
                         MWQMSiteTVItemID = c.MWQMSiteTVItemID,

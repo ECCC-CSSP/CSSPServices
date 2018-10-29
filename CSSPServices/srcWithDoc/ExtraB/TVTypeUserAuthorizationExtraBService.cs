@@ -31,25 +31,27 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
-                let ContactTVItemLanguage = (from cl in db.TVItemLanguages
+                let ContactName = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.ContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
-                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl).FirstOrDefault()
+                    select cl.TVText).FirstOrDefault()
+                let TVTypeText = (from e in TVTypeEnumList
+                    where e.EnumID == (int?)c.TVType
+                    select e.EnumText).FirstOrDefault()
+                let TVAuthText = (from e in TVAuthEnumList
+                    where e.EnumID == (int?)c.TVAuth
+                    select e.EnumText).FirstOrDefault()
                     select new TVTypeUserAuthorizationExtraB
                     {
                         TVTypeUserAuthorizationReportTest = TVTypeUserAuthorizationReportTest,
-                        ContactTVItemLanguage = ContactTVItemLanguage,
-                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        TVTypeText = (from e in TVTypeEnumList
-                                where e.EnumID == (int?)c.TVType
-                                select e.EnumText).FirstOrDefault(),
-                        TVAuthText = (from e in TVAuthEnumList
-                                where e.EnumID == (int?)c.TVAuth
-                                select e.EnumText).FirstOrDefault(),
+                        ContactName = ContactName,
+                        LastUpdateContactText = LastUpdateContactText,
+                        TVTypeText = TVTypeText,
+                        TVAuthText = TVAuthText,
                         TVTypeUserAuthorizationID = c.TVTypeUserAuthorizationID,
                         ContactTVItemID = c.ContactTVItemID,
                         TVType = c.TVType,
