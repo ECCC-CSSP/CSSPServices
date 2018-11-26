@@ -70,13 +70,13 @@ namespace CSSPServices
                 if (spill.SpillID == 0)
                 {
                     spill.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "SpillSpillID"), new[] { "SpillID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "SpillID"), new[] { "SpillID" });
                 }
 
                 if (!(from c in db.Spills select c).Where(c => c.SpillID == spill.SpillID).Any())
                 {
                     spill.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "Spill", "SpillSpillID", spill.SpillID.ToString()), new[] { "SpillID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "Spill", "SpillID", spill.SpillID.ToString()), new[] { "SpillID" });
                 }
             }
 
@@ -85,7 +85,7 @@ namespace CSSPServices
             if (TVItemMunicipalityTVItemID == null)
             {
                 spill.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "SpillMunicipalityTVItemID", spill.MunicipalityTVItemID.ToString()), new[] { "MunicipalityTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MunicipalityTVItemID", spill.MunicipalityTVItemID.ToString()), new[] { "MunicipalityTVItemID" });
             }
             else
             {
@@ -96,7 +96,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemMunicipalityTVItemID.TVType))
                 {
                     spill.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "SpillMunicipalityTVItemID", "Municipality"), new[] { "MunicipalityTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MunicipalityTVItemID", "Municipality"), new[] { "MunicipalityTVItemID" });
                 }
             }
 
@@ -107,7 +107,7 @@ namespace CSSPServices
                 if (TVItemInfrastructureTVItemID == null)
                 {
                     spill.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "SpillInfrastructureTVItemID", (spill.InfrastructureTVItemID == null ? "" : spill.InfrastructureTVItemID.ToString())), new[] { "InfrastructureTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "InfrastructureTVItemID", (spill.InfrastructureTVItemID == null ? "" : spill.InfrastructureTVItemID.ToString())), new[] { "InfrastructureTVItemID" });
                 }
                 else
                 {
@@ -118,7 +118,7 @@ namespace CSSPServices
                     if (!AllowableTVTypes.Contains(TVItemInfrastructureTVItemID.TVType))
                     {
                         spill.HasErrors = true;
-                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "SpillInfrastructureTVItemID", "Infrastructure"), new[] { "InfrastructureTVItemID" });
+                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "InfrastructureTVItemID", "Infrastructure"), new[] { "InfrastructureTVItemID" });
                     }
                 }
             }
@@ -126,46 +126,46 @@ namespace CSSPServices
             if (spill.StartDateTime_Local.Year == 1)
             {
                 spill.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "SpillStartDateTime_Local"), new[] { "StartDateTime_Local" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "StartDateTime_Local"), new[] { "StartDateTime_Local" });
             }
             else
             {
                 if (spill.StartDateTime_Local.Year < 1980)
                 {
                 spill.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "SpillStartDateTime_Local", "1980"), new[] { "StartDateTime_Local" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "StartDateTime_Local", "1980"), new[] { "StartDateTime_Local" });
                 }
             }
 
             if (spill.EndDateTime_Local != null && ((DateTime)spill.EndDateTime_Local).Year < 1980)
             {
                 spill.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "SpillEndDateTime_Local", "1980"), new[] { "SpillEndDateTime_Local" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "EndDateTime_Local", "1980"), new[] { "EndDateTime_Local" });
             }
 
             if (spill.StartDateTime_Local > spill.EndDateTime_Local)
             {
                 spill.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._DateIsBiggerThan_, "SpillEndDateTime_Local", "SpillStartDateTime_Local"), new[] { "SpillEndDateTime_Local" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._DateIsBiggerThan_, "EndDateTime_Local", "SpillStartDateTime_Local"), new[] { "EndDateTime_Local" });
             }
 
             if (spill.AverageFlow_m3_day < 0 || spill.AverageFlow_m3_day > 1000000)
             {
                 spill.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "SpillAverageFlow_m3_day", "0", "1000000"), new[] { "AverageFlow_m3_day" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "AverageFlow_m3_day", "0", "1000000"), new[] { "AverageFlow_m3_day" });
             }
 
             if (spill.LastUpdateDate_UTC.Year == 1)
             {
                 spill.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "SpillLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (spill.LastUpdateDate_UTC.Year < 1980)
                 {
                 spill.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "SpillLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "LastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -174,7 +174,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 spill.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "SpillLastUpdateContactTVItemID", spill.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "LastUpdateContactTVItemID", spill.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -185,7 +185,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     spill.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "SpillLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "LastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 

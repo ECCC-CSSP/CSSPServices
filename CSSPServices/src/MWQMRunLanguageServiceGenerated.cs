@@ -51,13 +51,13 @@ namespace CSSPServices
                 if (mwqmRunLanguage.MWQMRunLanguageID == 0)
                 {
                     mwqmRunLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMRunLanguageMWQMRunLanguageID"), new[] { "MWQMRunLanguageID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMRunLanguageID"), new[] { "MWQMRunLanguageID" });
                 }
 
                 if (!(from c in db.MWQMRunLanguages select c).Where(c => c.MWQMRunLanguageID == mwqmRunLanguage.MWQMRunLanguageID).Any())
                 {
                     mwqmRunLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MWQMRunLanguage", "MWQMRunLanguageMWQMRunLanguageID", mwqmRunLanguage.MWQMRunLanguageID.ToString()), new[] { "MWQMRunLanguageID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MWQMRunLanguage", "MWQMRunLanguageID", mwqmRunLanguage.MWQMRunLanguageID.ToString()), new[] { "MWQMRunLanguageID" });
                 }
             }
 
@@ -66,20 +66,20 @@ namespace CSSPServices
             if (MWQMRunMWQMRunID == null)
             {
                 mwqmRunLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MWQMRun", "MWQMRunLanguageMWQMRunID", mwqmRunLanguage.MWQMRunID.ToString()), new[] { "MWQMRunID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MWQMRun", "MWQMRunID", mwqmRunLanguage.MWQMRunID.ToString()), new[] { "MWQMRunID" });
             }
 
             retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)mwqmRunLanguage.Language);
             if (!string.IsNullOrWhiteSpace(retStr))
             {
                 mwqmRunLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMRunLanguageLanguage"), new[] { "Language" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "Language"), new[] { "Language" });
             }
 
             if (string.IsNullOrWhiteSpace(mwqmRunLanguage.RunComment))
             {
                 mwqmRunLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMRunLanguageRunComment"), new[] { "RunComment" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "RunComment"), new[] { "RunComment" });
             }
 
             //RunComment has no StringLength Attribute
@@ -88,13 +88,13 @@ namespace CSSPServices
             if (!string.IsNullOrWhiteSpace(retStr))
             {
                 mwqmRunLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMRunLanguageTranslationStatusRunComment"), new[] { "TranslationStatusRunComment" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TranslationStatusRunComment"), new[] { "TranslationStatusRunComment" });
             }
 
             if (string.IsNullOrWhiteSpace(mwqmRunLanguage.RunWeatherComment))
             {
                 mwqmRunLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMRunLanguageRunWeatherComment"), new[] { "RunWeatherComment" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "RunWeatherComment"), new[] { "RunWeatherComment" });
             }
 
             //RunWeatherComment has no StringLength Attribute
@@ -103,20 +103,20 @@ namespace CSSPServices
             if (!string.IsNullOrWhiteSpace(retStr))
             {
                 mwqmRunLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMRunLanguageTranslationStatusRunWeatherComment"), new[] { "TranslationStatusRunWeatherComment" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TranslationStatusRunWeatherComment"), new[] { "TranslationStatusRunWeatherComment" });
             }
 
             if (mwqmRunLanguage.LastUpdateDate_UTC.Year == 1)
             {
                 mwqmRunLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMRunLanguageLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (mwqmRunLanguage.LastUpdateDate_UTC.Year < 1980)
                 {
                 mwqmRunLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "MWQMRunLanguageLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "LastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -125,7 +125,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 mwqmRunLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MWQMRunLanguageLastUpdateContactTVItemID", mwqmRunLanguage.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "LastUpdateContactTVItemID", mwqmRunLanguage.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -136,7 +136,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     mwqmRunLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MWQMRunLanguageLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "LastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 

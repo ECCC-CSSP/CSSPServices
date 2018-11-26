@@ -49,19 +49,19 @@ namespace CSSPServices
             if (rTBStringPos.StartPos < 0)
             {
                 rTBStringPos.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "RTBStringPosStartPos", "0"), new[] { "StartPos" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "StartPos", "0"), new[] { "StartPos" });
             }
 
             if (rTBStringPos.EndPos < 0)
             {
                 rTBStringPos.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "RTBStringPosEndPos", "0"), new[] { "EndPos" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "EndPos", "0"), new[] { "EndPos" });
             }
 
             if (string.IsNullOrWhiteSpace(rTBStringPos.Text))
             {
                 rTBStringPos.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "RTBStringPosText"), new[] { "Text" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "Text"), new[] { "Text" });
             }
 
             //Text has no StringLength Attribute
@@ -69,7 +69,7 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(rTBStringPos.TagText))
             {
                 rTBStringPos.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "RTBStringPosTagText"), new[] { "TagText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TagText"), new[] { "TagText" });
             }
 
             //TagText has no StringLength Attribute

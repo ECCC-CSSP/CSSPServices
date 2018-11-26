@@ -49,7 +49,7 @@ namespace CSSPServices
             if (nodeLayer.Layer < 1 || nodeLayer.Layer > 100)
             {
                 nodeLayer.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "NodeLayerLayer", "1", "100"), new[] { "Layer" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "Layer", "1", "100"), new[] { "Layer" });
             }
 
             //Z has no Range Attribute

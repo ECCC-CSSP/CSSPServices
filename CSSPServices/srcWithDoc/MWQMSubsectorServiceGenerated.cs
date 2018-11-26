@@ -70,13 +70,13 @@ namespace CSSPServices
                 if (mwqmSubsector.MWQMSubsectorID == 0)
                 {
                     mwqmSubsector.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSubsectorMWQMSubsectorID"), new[] { "MWQMSubsectorID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSubsectorID"), new[] { "MWQMSubsectorID" });
                 }
 
                 if (!(from c in db.MWQMSubsectors select c).Where(c => c.MWQMSubsectorID == mwqmSubsector.MWQMSubsectorID).Any())
                 {
                     mwqmSubsector.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MWQMSubsector", "MWQMSubsectorMWQMSubsectorID", mwqmSubsector.MWQMSubsectorID.ToString()), new[] { "MWQMSubsectorID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MWQMSubsector", "MWQMSubsectorID", mwqmSubsector.MWQMSubsectorID.ToString()), new[] { "MWQMSubsectorID" });
                 }
             }
 
@@ -85,7 +85,7 @@ namespace CSSPServices
             if (TVItemMWQMSubsectorTVItemID == null)
             {
                 mwqmSubsector.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MWQMSubsectorMWQMSubsectorTVItemID", mwqmSubsector.MWQMSubsectorTVItemID.ToString()), new[] { "MWQMSubsectorTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MWQMSubsectorTVItemID", mwqmSubsector.MWQMSubsectorTVItemID.ToString()), new[] { "MWQMSubsectorTVItemID" });
             }
             else
             {
@@ -96,39 +96,39 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemMWQMSubsectorTVItemID.TVType))
                 {
                     mwqmSubsector.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MWQMSubsectorMWQMSubsectorTVItemID", "Subsector"), new[] { "MWQMSubsectorTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MWQMSubsectorTVItemID", "Subsector"), new[] { "MWQMSubsectorTVItemID" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(mwqmSubsector.SubsectorHistoricKey))
             {
                 mwqmSubsector.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSubsectorSubsectorHistoricKey"), new[] { "SubsectorHistoricKey" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "SubsectorHistoricKey"), new[] { "SubsectorHistoricKey" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmSubsector.SubsectorHistoricKey) && mwqmSubsector.SubsectorHistoricKey.Length > 20)
             {
                 mwqmSubsector.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "MWQMSubsectorSubsectorHistoricKey", "20"), new[] { "SubsectorHistoricKey" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "SubsectorHistoricKey", "20"), new[] { "SubsectorHistoricKey" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmSubsector.TideLocationSIDText) && mwqmSubsector.TideLocationSIDText.Length > 20)
             {
                 mwqmSubsector.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "MWQMSubsectorTideLocationSIDText", "20"), new[] { "TideLocationSIDText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "TideLocationSIDText", "20"), new[] { "TideLocationSIDText" });
             }
 
             if (mwqmSubsector.LastUpdateDate_UTC.Year == 1)
             {
                 mwqmSubsector.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSubsectorLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (mwqmSubsector.LastUpdateDate_UTC.Year < 1980)
                 {
                 mwqmSubsector.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "MWQMSubsectorLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "LastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -137,7 +137,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 mwqmSubsector.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MWQMSubsectorLastUpdateContactTVItemID", mwqmSubsector.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "LastUpdateContactTVItemID", mwqmSubsector.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -148,7 +148,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     mwqmSubsector.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MWQMSubsectorLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "LastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 

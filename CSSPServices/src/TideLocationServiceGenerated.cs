@@ -51,75 +51,75 @@ namespace CSSPServices
                 if (tideLocation.TideLocationID == 0)
                 {
                     tideLocation.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TideLocationTideLocationID"), new[] { "TideLocationID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TideLocationID"), new[] { "TideLocationID" });
                 }
 
                 if (!(from c in db.TideLocations select c).Where(c => c.TideLocationID == tideLocation.TideLocationID).Any())
                 {
                     tideLocation.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TideLocation", "TideLocationTideLocationID", tideLocation.TideLocationID.ToString()), new[] { "TideLocationID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TideLocation", "TideLocationID", tideLocation.TideLocationID.ToString()), new[] { "TideLocationID" });
                 }
             }
 
             if (tideLocation.Zone < 0 || tideLocation.Zone > 10000)
             {
                 tideLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "TideLocationZone", "0", "10000"), new[] { "Zone" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "Zone", "0", "10000"), new[] { "Zone" });
             }
 
             if (string.IsNullOrWhiteSpace(tideLocation.Name))
             {
                 tideLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TideLocationName"), new[] { "Name" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "Name"), new[] { "Name" });
             }
 
             if (!string.IsNullOrWhiteSpace(tideLocation.Name) && tideLocation.Name.Length > 100)
             {
                 tideLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "TideLocationName", "100"), new[] { "Name" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "Name", "100"), new[] { "Name" });
             }
 
             if (string.IsNullOrWhiteSpace(tideLocation.Prov))
             {
                 tideLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TideLocationProv"), new[] { "Prov" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "Prov"), new[] { "Prov" });
             }
 
             if (!string.IsNullOrWhiteSpace(tideLocation.Prov) && tideLocation.Prov.Length > 100)
             {
                 tideLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "TideLocationProv", "100"), new[] { "Prov" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "Prov", "100"), new[] { "Prov" });
             }
 
             if (tideLocation.sid < 0 || tideLocation.sid > 100000)
             {
                 tideLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "TideLocationsid", "0", "100000"), new[] { "sid" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "sid", "0", "100000"), new[] { "sid" });
             }
 
             if (tideLocation.Lat < -90 || tideLocation.Lat > 90)
             {
                 tideLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "TideLocationLat", "-90", "90"), new[] { "Lat" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "Lat", "-90", "90"), new[] { "Lat" });
             }
 
             if (tideLocation.Lng < -180 || tideLocation.Lng > 180)
             {
                 tideLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "TideLocationLng", "-180", "180"), new[] { "Lng" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "Lng", "-180", "180"), new[] { "Lng" });
             }
 
             if (tideLocation.LastUpdateDate_UTC.Year == 1)
             {
                 tideLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TideLocationLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (tideLocation.LastUpdateDate_UTC.Year < 1980)
                 {
                 tideLocation.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "TideLocationLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "LastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -128,7 +128,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 tideLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "TideLocationLastUpdateContactTVItemID", tideLocation.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "LastUpdateContactTVItemID", tideLocation.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -139,7 +139,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     tideLocation.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "TideLocationLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "LastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 

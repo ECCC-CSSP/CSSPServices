@@ -67,25 +67,25 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(mwqmSampleDuplicateItem.ParentSite))
             {
                 mwqmSampleDuplicateItem.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSampleDuplicateItemParentSite"), new[] { "ParentSite" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ParentSite"), new[] { "ParentSite" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmSampleDuplicateItem.ParentSite) && (mwqmSampleDuplicateItem.ParentSite.Length < 1 || mwqmSampleDuplicateItem.ParentSite.Length > 200))
             {
                 mwqmSampleDuplicateItem.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "MWQMSampleDuplicateItemParentSite", "1", "200"), new[] { "ParentSite" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "ParentSite", "1", "200"), new[] { "ParentSite" });
             }
 
             if (string.IsNullOrWhiteSpace(mwqmSampleDuplicateItem.DuplicateSite))
             {
                 mwqmSampleDuplicateItem.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSampleDuplicateItemDuplicateSite"), new[] { "DuplicateSite" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "DuplicateSite"), new[] { "DuplicateSite" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmSampleDuplicateItem.DuplicateSite) && (mwqmSampleDuplicateItem.DuplicateSite.Length < 1 || mwqmSampleDuplicateItem.DuplicateSite.Length > 200))
             {
                 mwqmSampleDuplicateItem.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "MWQMSampleDuplicateItemDuplicateSite", "1", "200"), new[] { "DuplicateSite" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "DuplicateSite", "1", "200"), new[] { "DuplicateSite" });
             }
 
             retStr = ""; // added to stop compiling CSSPError

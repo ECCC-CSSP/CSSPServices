@@ -70,13 +70,13 @@ namespace CSSPServices
                 if (mwqmSiteStartEndDate.MWQMSiteStartEndDateID == 0)
                 {
                     mwqmSiteStartEndDate.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSiteStartEndDateMWQMSiteStartEndDateID"), new[] { "MWQMSiteStartEndDateID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSiteStartEndDateID"), new[] { "MWQMSiteStartEndDateID" });
                 }
 
                 if (!(from c in db.MWQMSiteStartEndDates select c).Where(c => c.MWQMSiteStartEndDateID == mwqmSiteStartEndDate.MWQMSiteStartEndDateID).Any())
                 {
                     mwqmSiteStartEndDate.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MWQMSiteStartEndDate", "MWQMSiteStartEndDateMWQMSiteStartEndDateID", mwqmSiteStartEndDate.MWQMSiteStartEndDateID.ToString()), new[] { "MWQMSiteStartEndDateID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MWQMSiteStartEndDate", "MWQMSiteStartEndDateID", mwqmSiteStartEndDate.MWQMSiteStartEndDateID.ToString()), new[] { "MWQMSiteStartEndDateID" });
                 }
             }
 
@@ -85,7 +85,7 @@ namespace CSSPServices
             if (TVItemMWQMSiteTVItemID == null)
             {
                 mwqmSiteStartEndDate.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MWQMSiteStartEndDateMWQMSiteTVItemID", mwqmSiteStartEndDate.MWQMSiteTVItemID.ToString()), new[] { "MWQMSiteTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MWQMSiteTVItemID", mwqmSiteStartEndDate.MWQMSiteTVItemID.ToString()), new[] { "MWQMSiteTVItemID" });
             }
             else
             {
@@ -96,47 +96,47 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemMWQMSiteTVItemID.TVType))
                 {
                     mwqmSiteStartEndDate.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MWQMSiteStartEndDateMWQMSiteTVItemID", "MWQMSite"), new[] { "MWQMSiteTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MWQMSiteTVItemID", "MWQMSite"), new[] { "MWQMSiteTVItemID" });
                 }
             }
 
             if (mwqmSiteStartEndDate.StartDate.Year == 1)
             {
                 mwqmSiteStartEndDate.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSiteStartEndDateStartDate"), new[] { "StartDate" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "StartDate"), new[] { "StartDate" });
             }
             else
             {
                 if (mwqmSiteStartEndDate.StartDate.Year < 1980)
                 {
                 mwqmSiteStartEndDate.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "MWQMSiteStartEndDateStartDate", "1980"), new[] { "StartDate" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "StartDate", "1980"), new[] { "StartDate" });
                 }
             }
 
             if (mwqmSiteStartEndDate.EndDate != null && ((DateTime)mwqmSiteStartEndDate.EndDate).Year < 1980)
             {
                 mwqmSiteStartEndDate.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "MWQMSiteStartEndDateEndDate", "1980"), new[] { "MWQMSiteStartEndDateEndDate" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "EndDate", "1980"), new[] { "EndDate" });
             }
 
             if (mwqmSiteStartEndDate.StartDate > mwqmSiteStartEndDate.EndDate)
             {
                 mwqmSiteStartEndDate.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._DateIsBiggerThan_, "MWQMSiteStartEndDateEndDate", "MWQMSiteStartEndDateStartDate"), new[] { "MWQMSiteStartEndDateEndDate" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._DateIsBiggerThan_, "EndDate", "MWQMSiteStartEndDateStartDate"), new[] { "EndDate" });
             }
 
             if (mwqmSiteStartEndDate.LastUpdateDate_UTC.Year == 1)
             {
                 mwqmSiteStartEndDate.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSiteStartEndDateLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (mwqmSiteStartEndDate.LastUpdateDate_UTC.Year < 1980)
                 {
                 mwqmSiteStartEndDate.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "MWQMSiteStartEndDateLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "LastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -145,7 +145,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 mwqmSiteStartEndDate.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MWQMSiteStartEndDateLastUpdateContactTVItemID", mwqmSiteStartEndDate.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "LastUpdateContactTVItemID", mwqmSiteStartEndDate.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -156,7 +156,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     mwqmSiteStartEndDate.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MWQMSiteStartEndDateLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "LastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 

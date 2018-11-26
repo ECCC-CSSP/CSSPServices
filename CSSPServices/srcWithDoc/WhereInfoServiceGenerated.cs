@@ -68,79 +68,82 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(whereInfo.PropertyName))
             {
                 whereInfo.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "WhereInfoPropertyName"), new[] { "PropertyName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "PropertyName"), new[] { "PropertyName" });
             }
 
             if (!string.IsNullOrWhiteSpace(whereInfo.PropertyName) && whereInfo.PropertyName.Length > 100)
             {
                 whereInfo.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "WhereInfoPropertyName", "100"), new[] { "PropertyName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "PropertyName", "100"), new[] { "PropertyName" });
             }
 
             retStr = enums.EnumTypeOK(typeof(PropertyTypeEnum), (int?)whereInfo.PropertyType);
             if (!string.IsNullOrWhiteSpace(retStr))
             {
                 whereInfo.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "WhereInfoPropertyType"), new[] { "PropertyType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "PropertyType"), new[] { "PropertyType" });
             }
 
             retStr = enums.EnumTypeOK(typeof(WhereOperatorEnum), (int?)whereInfo.WhereOperator);
             if (!string.IsNullOrWhiteSpace(retStr))
             {
                 whereInfo.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "WhereInfoWhereOperator"), new[] { "WhereOperator" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "WhereOperator"), new[] { "WhereOperator" });
             }
 
             if (string.IsNullOrWhiteSpace(whereInfo.Value))
             {
                 whereInfo.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "WhereInfoValue"), new[] { "Value" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "Value"), new[] { "Value" });
             }
 
             if (!string.IsNullOrWhiteSpace(whereInfo.Value) && whereInfo.Value.Length > 100)
             {
                 whereInfo.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "WhereInfoValue", "100"), new[] { "Value" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "Value", "100"), new[] { "Value" });
             }
 
             if (whereInfo.ValueInt < -1 || whereInfo.ValueInt > -1)
             {
                 whereInfo.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "WhereInfoValueInt", "-1", "-1"), new[] { "ValueInt" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ValueInt", "-1", "-1"), new[] { "ValueInt" });
             }
 
             if (whereInfo.ValueDouble < -1 || whereInfo.ValueDouble > -1)
             {
                 whereInfo.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "WhereInfoValueDouble", "-1", "-1"), new[] { "ValueDouble" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ValueDouble", "-1", "-1"), new[] { "ValueDouble" });
             }
 
             if (whereInfo.ValueDateTime.Year == 1)
             {
                 whereInfo.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "WhereInfoValueDateTime"), new[] { "ValueDateTime" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ValueDateTime"), new[] { "ValueDateTime" });
             }
             else
             {
                 if (whereInfo.ValueDateTime.Year < 1900)
                 {
                 whereInfo.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "WhereInfoValueDateTime", "1900"), new[] { "ValueDateTime" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ValueDateTime", "1900"), new[] { "ValueDateTime" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(whereInfo.ValueEnumText))
             {
                 whereInfo.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "WhereInfoValueEnumText"), new[] { "ValueEnumText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ValueEnumText"), new[] { "ValueEnumText" });
             }
 
             if (!string.IsNullOrWhiteSpace(whereInfo.ValueEnumText) && whereInfo.ValueEnumText.Length > 100)
             {
                 whereInfo.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "WhereInfoValueEnumText", "100"), new[] { "ValueEnumText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ValueEnumText", "100"), new[] { "ValueEnumText" });
             }
 
+                //CSSPError: Type not implemented [EnumType] of type [Type]
+
+                //CSSPError: Type not implemented [EnumType] of type [Type]
             retStr = ""; // added to stop compiling CSSPError
             if (retStr != "") // will never be true
             {

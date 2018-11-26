@@ -67,13 +67,13 @@ namespace CSSPServices
             if (contactOK.ContactID < 1)
             {
                 contactOK.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "ContactOKContactID", "1"), new[] { "ContactID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "ContactID", "1"), new[] { "ContactID" });
             }
 
             if (contactOK.ContactTVItemID < 1)
             {
                 contactOK.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "ContactOKContactTVItemID", "1"), new[] { "ContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "ContactTVItemID", "1"), new[] { "ContactTVItemID" });
             }
 
             retStr = ""; // added to stop compiling CSSPError

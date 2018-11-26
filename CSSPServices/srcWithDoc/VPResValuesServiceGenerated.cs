@@ -67,7 +67,7 @@ namespace CSSPServices
             if (vpResValues.Conc < 0)
             {
                 vpResValues.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "VPResValuesConc", "0"), new[] { "Conc" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "Conc", "0"), new[] { "Conc" });
             }
 
             //Dilu has no Range Attribute

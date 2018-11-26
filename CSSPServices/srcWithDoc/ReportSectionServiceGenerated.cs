@@ -70,13 +70,13 @@ namespace CSSPServices
                 if (reportSection.ReportSectionID == 0)
                 {
                     reportSection.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportSectionReportSectionID"), new[] { "ReportSectionID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportSectionID"), new[] { "ReportSectionID" });
                 }
 
                 if (!(from c in db.ReportSections select c).Where(c => c.ReportSectionID == reportSection.ReportSectionID).Any())
                 {
                     reportSection.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ReportSection", "ReportSectionReportSectionID", reportSection.ReportSectionID.ToString()), new[] { "ReportSectionID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ReportSection", "ReportSectionID", reportSection.ReportSectionID.ToString()), new[] { "ReportSectionID" });
                 }
             }
 
@@ -85,7 +85,7 @@ namespace CSSPServices
             if (ReportTypeReportTypeID == null)
             {
                 reportSection.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ReportType", "ReportSectionReportTypeID", reportSection.ReportTypeID.ToString()), new[] { "ReportTypeID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ReportType", "ReportTypeID", reportSection.ReportTypeID.ToString()), new[] { "ReportTypeID" });
             }
 
             if (reportSection.TVItemID != null)
@@ -95,7 +95,7 @@ namespace CSSPServices
                 if (TVItemTVItemID == null)
                 {
                     reportSection.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "ReportSectionTVItemID", (reportSection.TVItemID == null ? "" : reportSection.TVItemID.ToString())), new[] { "TVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "TVItemID", (reportSection.TVItemID == null ? "" : reportSection.TVItemID.ToString())), new[] { "TVItemID" });
                 }
                 else
                 {
@@ -105,7 +105,7 @@ namespace CSSPServices
                     if (!AllowableTVTypes.Contains(TVItemTVItemID.TVType))
                     {
                         reportSection.HasErrors = true;
-                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "ReportSectionTVItemID", ""), new[] { "TVItemID" });
+                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "TVItemID", ""), new[] { "TVItemID" });
                     }
                 }
             }
@@ -113,7 +113,7 @@ namespace CSSPServices
             if (reportSection.Ordinal < 0 || reportSection.Ordinal > 1000)
             {
                 reportSection.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ReportSectionOrdinal", "0", "1000"), new[] { "Ordinal" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "Ordinal", "0", "1000"), new[] { "Ordinal" });
             }
 
             if (reportSection.ParentReportSectionID != null)
@@ -123,7 +123,7 @@ namespace CSSPServices
                 if (ReportSectionParentReportSectionID == null)
                 {
                     reportSection.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ReportSection", "ReportSectionParentReportSectionID", (reportSection.ParentReportSectionID == null ? "" : reportSection.ParentReportSectionID.ToString())), new[] { "ParentReportSectionID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ReportSection", "ParentReportSectionID", (reportSection.ParentReportSectionID == null ? "" : reportSection.ParentReportSectionID.ToString())), new[] { "ParentReportSectionID" });
                 }
             }
 
@@ -132,7 +132,7 @@ namespace CSSPServices
                 if (reportSection.Year < 1979 || reportSection.Year > 2050)
                 {
                     reportSection.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ReportSectionYear", "1979", "2050"), new[] { "Year" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "Year", "1979", "2050"), new[] { "Year" });
                 }
             }
 
@@ -143,21 +143,21 @@ namespace CSSPServices
                 if (ReportSectionTemplateReportSectionID == null)
                 {
                     reportSection.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ReportSection", "ReportSectionTemplateReportSectionID", (reportSection.TemplateReportSectionID == null ? "" : reportSection.TemplateReportSectionID.ToString())), new[] { "TemplateReportSectionID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ReportSection", "TemplateReportSectionID", (reportSection.TemplateReportSectionID == null ? "" : reportSection.TemplateReportSectionID.ToString())), new[] { "TemplateReportSectionID" });
                 }
             }
 
             if (reportSection.LastUpdateDate_UTC.Year == 1)
             {
                 reportSection.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportSectionLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (reportSection.LastUpdateDate_UTC.Year < 1980)
                 {
                 reportSection.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ReportSectionLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "LastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -166,7 +166,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 reportSection.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "ReportSectionLastUpdateContactTVItemID", reportSection.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "LastUpdateContactTVItemID", reportSection.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -177,7 +177,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     reportSection.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "ReportSectionLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "LastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 

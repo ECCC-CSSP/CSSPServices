@@ -68,43 +68,43 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(newContact.LoginEmail))
             {
                 newContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "NewContactLoginEmail"), new[] { "LoginEmail" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LoginEmail"), new[] { "LoginEmail" });
             }
 
             if (!string.IsNullOrWhiteSpace(newContact.LoginEmail) && (newContact.LoginEmail.Length < 1 || newContact.LoginEmail.Length > 200))
             {
                 newContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "NewContactLoginEmail", "1", "200"), new[] { "LoginEmail" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "LoginEmail", "1", "200"), new[] { "LoginEmail" });
             }
 
             if (string.IsNullOrWhiteSpace(newContact.FirstName))
             {
                 newContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "NewContactFirstName"), new[] { "FirstName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "FirstName"), new[] { "FirstName" });
             }
 
             if (!string.IsNullOrWhiteSpace(newContact.FirstName) && (newContact.FirstName.Length < 1 || newContact.FirstName.Length > 200))
             {
                 newContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "NewContactFirstName", "1", "200"), new[] { "FirstName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "FirstName", "1", "200"), new[] { "FirstName" });
             }
 
             if (string.IsNullOrWhiteSpace(newContact.LastName))
             {
                 newContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "NewContactLastName"), new[] { "LastName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LastName"), new[] { "LastName" });
             }
 
             if (!string.IsNullOrWhiteSpace(newContact.LastName) && (newContact.LastName.Length < 1 || newContact.LastName.Length > 200))
             {
                 newContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "NewContactLastName", "1", "200"), new[] { "LastName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "LastName", "1", "200"), new[] { "LastName" });
             }
 
             if (!string.IsNullOrWhiteSpace(newContact.Initial) && newContact.Initial.Length > 50)
             {
                 newContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "NewContactInitial", "50"), new[] { "Initial" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "Initial", "50"), new[] { "Initial" });
             }
 
             if (newContact.ContactTitle != null)
@@ -113,14 +113,14 @@ namespace CSSPServices
                 if (newContact.ContactTitle == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     newContact.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "NewContactContactTitle"), new[] { "ContactTitle" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ContactTitle"), new[] { "ContactTitle" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(newContact.ContactTitleText) && newContact.ContactTitleText.Length > 100)
             {
                 newContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "NewContactContactTitleText", "100"), new[] { "ContactTitleText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ContactTitleText", "100"), new[] { "ContactTitleText" });
             }
 
             retStr = ""; // added to stop compiling CSSPError

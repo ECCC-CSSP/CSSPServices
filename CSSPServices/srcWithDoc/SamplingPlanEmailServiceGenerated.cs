@@ -70,13 +70,13 @@ namespace CSSPServices
                 if (samplingPlanEmail.SamplingPlanEmailID == 0)
                 {
                     samplingPlanEmail.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "SamplingPlanEmailSamplingPlanEmailID"), new[] { "SamplingPlanEmailID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "SamplingPlanEmailID"), new[] { "SamplingPlanEmailID" });
                 }
 
                 if (!(from c in db.SamplingPlanEmails select c).Where(c => c.SamplingPlanEmailID == samplingPlanEmail.SamplingPlanEmailID).Any())
                 {
                     samplingPlanEmail.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "SamplingPlanEmail", "SamplingPlanEmailSamplingPlanEmailID", samplingPlanEmail.SamplingPlanEmailID.ToString()), new[] { "SamplingPlanEmailID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "SamplingPlanEmail", "SamplingPlanEmailID", samplingPlanEmail.SamplingPlanEmailID.ToString()), new[] { "SamplingPlanEmailID" });
                 }
             }
 
@@ -85,19 +85,19 @@ namespace CSSPServices
             if (SamplingPlanSamplingPlanID == null)
             {
                 samplingPlanEmail.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "SamplingPlan", "SamplingPlanEmailSamplingPlanID", samplingPlanEmail.SamplingPlanID.ToString()), new[] { "SamplingPlanID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "SamplingPlan", "SamplingPlanID", samplingPlanEmail.SamplingPlanID.ToString()), new[] { "SamplingPlanID" });
             }
 
             if (string.IsNullOrWhiteSpace(samplingPlanEmail.Email))
             {
                 samplingPlanEmail.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "SamplingPlanEmailEmail"), new[] { "Email" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "Email"), new[] { "Email" });
             }
 
             if (!string.IsNullOrWhiteSpace(samplingPlanEmail.Email) && samplingPlanEmail.Email.Length > 150)
             {
                 samplingPlanEmail.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "SamplingPlanEmailEmail", "150"), new[] { "Email" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "Email", "150"), new[] { "Email" });
             }
 
             if (!string.IsNullOrWhiteSpace(samplingPlanEmail.Email))
@@ -106,21 +106,21 @@ namespace CSSPServices
                 if (!regex.IsMatch(samplingPlanEmail.Email))
                 {
                     samplingPlanEmail.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotAValidEmail, "SamplingPlanEmailEmail"), new[] { "Email" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotAValidEmail, "Email"), new[] { "Email" });
                 }
             }
 
             if (samplingPlanEmail.LastUpdateDate_UTC.Year == 1)
             {
                 samplingPlanEmail.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "SamplingPlanEmailLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (samplingPlanEmail.LastUpdateDate_UTC.Year < 1980)
                 {
                 samplingPlanEmail.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "SamplingPlanEmailLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "LastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -129,7 +129,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 samplingPlanEmail.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "SamplingPlanEmailLastUpdateContactTVItemID", samplingPlanEmail.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "LastUpdateContactTVItemID", samplingPlanEmail.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -140,7 +140,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     samplingPlanEmail.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "SamplingPlanEmailLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "LastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 

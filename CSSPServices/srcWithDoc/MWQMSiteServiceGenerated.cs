@@ -71,13 +71,13 @@ namespace CSSPServices
                 if (mwqmSite.MWQMSiteID == 0)
                 {
                     mwqmSite.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSiteMWQMSiteID"), new[] { "MWQMSiteID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSiteID"), new[] { "MWQMSiteID" });
                 }
 
                 if (!(from c in db.MWQMSites select c).Where(c => c.MWQMSiteID == mwqmSite.MWQMSiteID).Any())
                 {
                     mwqmSite.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MWQMSite", "MWQMSiteMWQMSiteID", mwqmSite.MWQMSiteID.ToString()), new[] { "MWQMSiteID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MWQMSite", "MWQMSiteID", mwqmSite.MWQMSiteID.ToString()), new[] { "MWQMSiteID" });
                 }
             }
 
@@ -86,7 +86,7 @@ namespace CSSPServices
             if (TVItemMWQMSiteTVItemID == null)
             {
                 mwqmSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MWQMSiteMWQMSiteTVItemID", mwqmSite.MWQMSiteTVItemID.ToString()), new[] { "MWQMSiteTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MWQMSiteTVItemID", mwqmSite.MWQMSiteTVItemID.ToString()), new[] { "MWQMSiteTVItemID" });
             }
             else
             {
@@ -97,58 +97,58 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemMWQMSiteTVItemID.TVType))
                 {
                     mwqmSite.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MWQMSiteMWQMSiteTVItemID", "MWQMSite"), new[] { "MWQMSiteTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MWQMSiteTVItemID", "MWQMSite"), new[] { "MWQMSiteTVItemID" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(mwqmSite.MWQMSiteNumber))
             {
                 mwqmSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSiteMWQMSiteNumber"), new[] { "MWQMSiteNumber" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSiteNumber"), new[] { "MWQMSiteNumber" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmSite.MWQMSiteNumber) && mwqmSite.MWQMSiteNumber.Length > 8)
             {
                 mwqmSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "MWQMSiteMWQMSiteNumber", "8"), new[] { "MWQMSiteNumber" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "MWQMSiteNumber", "8"), new[] { "MWQMSiteNumber" });
             }
 
             if (string.IsNullOrWhiteSpace(mwqmSite.MWQMSiteDescription))
             {
                 mwqmSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSiteMWQMSiteDescription"), new[] { "MWQMSiteDescription" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSiteDescription"), new[] { "MWQMSiteDescription" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmSite.MWQMSiteDescription) && mwqmSite.MWQMSiteDescription.Length > 200)
             {
                 mwqmSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "MWQMSiteMWQMSiteDescription", "200"), new[] { "MWQMSiteDescription" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "MWQMSiteDescription", "200"), new[] { "MWQMSiteDescription" });
             }
 
             retStr = enums.EnumTypeOK(typeof(MWQMSiteLatestClassificationEnum), (int?)mwqmSite.MWQMSiteLatestClassification);
             if (!string.IsNullOrWhiteSpace(retStr))
             {
                 mwqmSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSiteMWQMSiteLatestClassification"), new[] { "MWQMSiteLatestClassification" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSiteLatestClassification"), new[] { "MWQMSiteLatestClassification" });
             }
 
             if (mwqmSite.Ordinal < 0 || mwqmSite.Ordinal > 1000)
             {
                 mwqmSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMSiteOrdinal", "0", "1000"), new[] { "Ordinal" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "Ordinal", "0", "1000"), new[] { "Ordinal" });
             }
 
             if (mwqmSite.LastUpdateDate_UTC.Year == 1)
             {
                 mwqmSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSiteLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (mwqmSite.LastUpdateDate_UTC.Year < 1980)
                 {
                 mwqmSite.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "MWQMSiteLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "LastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -157,7 +157,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 mwqmSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MWQMSiteLastUpdateContactTVItemID", mwqmSite.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "LastUpdateContactTVItemID", mwqmSite.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -168,7 +168,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     mwqmSite.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MWQMSiteLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "LastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 

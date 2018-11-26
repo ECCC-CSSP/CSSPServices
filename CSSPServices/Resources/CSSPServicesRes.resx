@@ -271,7 +271,7 @@
     <value>Could not find file [{0}]</value>
   </data>
   <data name="WhereOperator_NotImplementedYet" xml:space="preserve">
-    <value>Where operator {0} not implemented yet</value>
+    <value>Where operator [{0}] not implemented yet</value>
   </data>
   <data name="_DoesNotExistForModelType_" xml:space="preserve">
     <value>{0} does not exist for ModelType = {1}</value>
@@ -305,5 +305,20 @@
   </data>
   <data name="_ShouldNotBeNullOrEmpty" xml:space="preserve">
     <value>{0} should not be null or empty</value>
+  </data>
+  <data name="WhereOperator_For_OfModel_IsNotValidOnlyEQIsAllowed" xml:space="preserve">
+    <value>Where operator [{0}] for [{1}] of model [{2}] is not valid. Only [EQ] is allowed.</value>
+  </data>
+  <data name="Extra_OfModel_IsInvalidAllowableValuesAre_" xml:space="preserve">
+    <value>Extra [{0}] of model [{1}] is invalid. Allowable values are [{2}]</value>
+  </data>
+  <data name="WhereOperator_NotValidAllowableValuesAre_" xml:space="preserve">
+    <value>Where operator [{0}] not valid. Allowable values are [{1}]</value>
+  </data>
+  <data name="_NeedsToBeAValidEnumNumberFor_OfModel_AllowableValuesAre_" xml:space="preserve">
+    <value>[{0}] needs to be a valid Enum number for [{1}] of model [{2}] allowable values are [{3}]</value>
+  </data>
+  <data name="_NeedsToBeAValidEnumTextFor_OfModel_AllowableValuesAre_" xml:space="preserve">
+    <value>[{0}] needs to be a valid Enum text for [{1}] of model [{2}] allowable values are [{3}]</value>
   </data>
 </root>

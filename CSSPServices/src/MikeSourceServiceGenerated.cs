@@ -51,13 +51,13 @@ namespace CSSPServices
                 if (mikeSource.MikeSourceID == 0)
                 {
                     mikeSource.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MikeSourceMikeSourceID"), new[] { "MikeSourceID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MikeSourceID"), new[] { "MikeSourceID" });
                 }
 
                 if (!(from c in db.MikeSources select c).Where(c => c.MikeSourceID == mikeSource.MikeSourceID).Any())
                 {
                     mikeSource.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MikeSource", "MikeSourceMikeSourceID", mikeSource.MikeSourceID.ToString()), new[] { "MikeSourceID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MikeSource", "MikeSourceID", mikeSource.MikeSourceID.ToString()), new[] { "MikeSourceID" });
                 }
             }
 
@@ -66,7 +66,7 @@ namespace CSSPServices
             if (TVItemMikeSourceTVItemID == null)
             {
                 mikeSource.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MikeSourceMikeSourceTVItemID", mikeSource.MikeSourceTVItemID.ToString()), new[] { "MikeSourceTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MikeSourceTVItemID", mikeSource.MikeSourceTVItemID.ToString()), new[] { "MikeSourceTVItemID" });
             }
             else
             {
@@ -77,7 +77,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemMikeSourceTVItemID.TVType))
                 {
                     mikeSource.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MikeSourceMikeSourceTVItemID", "MikeSource"), new[] { "MikeSourceTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MikeSourceTVItemID", "MikeSource"), new[] { "MikeSourceTVItemID" });
                 }
             }
 
@@ -88,7 +88,7 @@ namespace CSSPServices
                 if (TVItemHydrometricTVItemID == null)
                 {
                     mikeSource.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MikeSourceHydrometricTVItemID", (mikeSource.HydrometricTVItemID == null ? "" : mikeSource.HydrometricTVItemID.ToString())), new[] { "HydrometricTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "HydrometricTVItemID", (mikeSource.HydrometricTVItemID == null ? "" : mikeSource.HydrometricTVItemID.ToString())), new[] { "HydrometricTVItemID" });
                 }
                 else
                 {
@@ -99,7 +99,7 @@ namespace CSSPServices
                     if (!AllowableTVTypes.Contains(TVItemHydrometricTVItemID.TVType))
                     {
                         mikeSource.HasErrors = true;
-                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MikeSourceHydrometricTVItemID", "HydrometricSite"), new[] { "HydrometricTVItemID" });
+                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "HydrometricTVItemID", "HydrometricSite"), new[] { "HydrometricTVItemID" });
                     }
                 }
             }
@@ -109,7 +109,7 @@ namespace CSSPServices
                 if (mikeSource.DrainageArea_km2 < 0 || mikeSource.DrainageArea_km2 > 1000000)
                 {
                     mikeSource.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeSourceDrainageArea_km2", "0", "1000000"), new[] { "DrainageArea_km2" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "DrainageArea_km2", "0", "1000000"), new[] { "DrainageArea_km2" });
                 }
             }
 
@@ -118,33 +118,33 @@ namespace CSSPServices
                 if (mikeSource.Factor < 0 || mikeSource.Factor > 1000000)
                 {
                     mikeSource.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeSourceFactor", "0", "1000000"), new[] { "Factor" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "Factor", "0", "1000000"), new[] { "Factor" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(mikeSource.SourceNumberString))
             {
                 mikeSource.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MikeSourceSourceNumberString"), new[] { "SourceNumberString" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "SourceNumberString"), new[] { "SourceNumberString" });
             }
 
             if (!string.IsNullOrWhiteSpace(mikeSource.SourceNumberString) && mikeSource.SourceNumberString.Length > 50)
             {
                 mikeSource.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "MikeSourceSourceNumberString", "50"), new[] { "SourceNumberString" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "SourceNumberString", "50"), new[] { "SourceNumberString" });
             }
 
             if (mikeSource.LastUpdateDate_UTC.Year == 1)
             {
                 mikeSource.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MikeSourceLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (mikeSource.LastUpdateDate_UTC.Year < 1980)
                 {
                 mikeSource.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "MikeSourceLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "LastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -153,7 +153,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 mikeSource.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MikeSourceLastUpdateContactTVItemID", mikeSource.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "LastUpdateContactTVItemID", mikeSource.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -164,7 +164,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     mikeSource.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MikeSourceLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "LastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 

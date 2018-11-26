@@ -49,21 +49,21 @@ namespace CSSPServices
             if (lastUpdateAndContact.LastUpdateAndContactDate_UTC.Year == 1)
             {
                 lastUpdateAndContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LastUpdateAndContactLastUpdateAndContactDate_UTC"), new[] { "LastUpdateAndContactDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LastUpdateAndContactDate_UTC"), new[] { "LastUpdateAndContactDate_UTC" });
             }
             else
             {
                 if (lastUpdateAndContact.LastUpdateAndContactDate_UTC.Year < 1980)
                 {
                 lastUpdateAndContact.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "LastUpdateAndContactLastUpdateAndContactDate_UTC", "1980"), new[] { "LastUpdateAndContactDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "LastUpdateAndContactDate_UTC", "1980"), new[] { "LastUpdateAndContactDate_UTC" });
                 }
             }
 
             if (lastUpdateAndContact.LastUpdateAndContactTVItemID < 1)
             {
                 lastUpdateAndContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "LastUpdateAndContactLastUpdateAndContactTVItemID", "1"), new[] { "LastUpdateAndContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "LastUpdateAndContactTVItemID", "1"), new[] { "LastUpdateAndContactTVItemID" });
             }
 
             retStr = ""; // added to stop compiling CSSPError

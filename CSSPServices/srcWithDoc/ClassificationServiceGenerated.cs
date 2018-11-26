@@ -71,13 +71,13 @@ namespace CSSPServices
                 if (classification.ClassificationID == 0)
                 {
                     classification.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ClassificationClassificationID"), new[] { "ClassificationID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ClassificationID"), new[] { "ClassificationID" });
                 }
 
                 if (!(from c in db.Classifications select c).Where(c => c.ClassificationID == classification.ClassificationID).Any())
                 {
                     classification.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "Classification", "ClassificationClassificationID", classification.ClassificationID.ToString()), new[] { "ClassificationID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "Classification", "ClassificationID", classification.ClassificationID.ToString()), new[] { "ClassificationID" });
                 }
             }
 
@@ -86,7 +86,7 @@ namespace CSSPServices
             if (TVItemClassificationTVItemID == null)
             {
                 classification.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "ClassificationClassificationTVItemID", classification.ClassificationTVItemID.ToString()), new[] { "ClassificationTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "ClassificationTVItemID", classification.ClassificationTVItemID.ToString()), new[] { "ClassificationTVItemID" });
             }
             else
             {
@@ -97,7 +97,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemClassificationTVItemID.TVType))
                 {
                     classification.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "ClassificationClassificationTVItemID", "Classification"), new[] { "ClassificationTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "ClassificationTVItemID", "Classification"), new[] { "ClassificationTVItemID" });
                 }
             }
 
@@ -105,26 +105,26 @@ namespace CSSPServices
             if (!string.IsNullOrWhiteSpace(retStr))
             {
                 classification.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ClassificationClassificationType"), new[] { "ClassificationType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ClassificationType"), new[] { "ClassificationType" });
             }
 
             if (classification.Ordinal < 0 || classification.Ordinal > 10000)
             {
                 classification.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ClassificationOrdinal", "0", "10000"), new[] { "Ordinal" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "Ordinal", "0", "10000"), new[] { "Ordinal" });
             }
 
             if (classification.LastUpdateDate_UTC.Year == 1)
             {
                 classification.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ClassificationLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (classification.LastUpdateDate_UTC.Year < 1980)
                 {
                 classification.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ClassificationLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "LastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -133,7 +133,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 classification.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "ClassificationLastUpdateContactTVItemID", classification.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "LastUpdateContactTVItemID", classification.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -144,7 +144,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     classification.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "ClassificationLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "LastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 

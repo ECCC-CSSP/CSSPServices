@@ -67,62 +67,62 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(cSSPWQInputApp.AccessCode))
             {
                 cSSPWQInputApp.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "CSSPWQInputAppAccessCode"), new[] { "AccessCode" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "AccessCode"), new[] { "AccessCode" });
             }
 
             if (!string.IsNullOrWhiteSpace(cSSPWQInputApp.AccessCode) && (cSSPWQInputApp.AccessCode.Length < 1 || cSSPWQInputApp.AccessCode.Length > 100))
             {
                 cSSPWQInputApp.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "CSSPWQInputAppAccessCode", "1", "100"), new[] { "AccessCode" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "AccessCode", "1", "100"), new[] { "AccessCode" });
             }
 
             if (string.IsNullOrWhiteSpace(cSSPWQInputApp.ActiveYear))
             {
                 cSSPWQInputApp.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "CSSPWQInputAppActiveYear"), new[] { "ActiveYear" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ActiveYear"), new[] { "ActiveYear" });
             }
 
             if (!string.IsNullOrWhiteSpace(cSSPWQInputApp.ActiveYear) && (cSSPWQInputApp.ActiveYear.Length < 4 || cSSPWQInputApp.ActiveYear.Length > 4))
             {
                 cSSPWQInputApp.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "CSSPWQInputAppActiveYear", "4", "4"), new[] { "ActiveYear" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "ActiveYear", "4", "4"), new[] { "ActiveYear" });
             }
 
             if (cSSPWQInputApp.DailyDuplicatePrecisionCriteria < 0 || cSSPWQInputApp.DailyDuplicatePrecisionCriteria > 100)
             {
                 cSSPWQInputApp.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "CSSPWQInputAppDailyDuplicatePrecisionCriteria", "0", "100"), new[] { "DailyDuplicatePrecisionCriteria" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "DailyDuplicatePrecisionCriteria", "0", "100"), new[] { "DailyDuplicatePrecisionCriteria" });
             }
 
             if (cSSPWQInputApp.IntertechDuplicatePrecisionCriteria < 0 || cSSPWQInputApp.IntertechDuplicatePrecisionCriteria > 100)
             {
                 cSSPWQInputApp.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "CSSPWQInputAppIntertechDuplicatePrecisionCriteria", "0", "100"), new[] { "IntertechDuplicatePrecisionCriteria" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "IntertechDuplicatePrecisionCriteria", "0", "100"), new[] { "IntertechDuplicatePrecisionCriteria" });
             }
 
             if (string.IsNullOrWhiteSpace(cSSPWQInputApp.ApprovalCode))
             {
                 cSSPWQInputApp.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "CSSPWQInputAppApprovalCode"), new[] { "ApprovalCode" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ApprovalCode"), new[] { "ApprovalCode" });
             }
 
             if (!string.IsNullOrWhiteSpace(cSSPWQInputApp.ApprovalCode) && (cSSPWQInputApp.ApprovalCode.Length < 1 || cSSPWQInputApp.ApprovalCode.Length > 100))
             {
                 cSSPWQInputApp.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "CSSPWQInputAppApprovalCode", "1", "100"), new[] { "ApprovalCode" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "ApprovalCode", "1", "100"), new[] { "ApprovalCode" });
             }
 
             if (cSSPWQInputApp.ApprovalDate.Year == 1)
             {
                 cSSPWQInputApp.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "CSSPWQInputAppApprovalDate"), new[] { "ApprovalDate" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ApprovalDate"), new[] { "ApprovalDate" });
             }
             else
             {
                 if (cSSPWQInputApp.ApprovalDate.Year < 1980)
                 {
                 cSSPWQInputApp.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "CSSPWQInputAppApprovalDate", "1980"), new[] { "ApprovalDate" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ApprovalDate", "1980"), new[] { "ApprovalDate" });
                 }
             }
 

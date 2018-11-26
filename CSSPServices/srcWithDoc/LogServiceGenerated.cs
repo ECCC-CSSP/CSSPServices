@@ -71,45 +71,45 @@ namespace CSSPServices
                 if (log.LogID == 0)
                 {
                     log.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LogLogID"), new[] { "LogID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LogID"), new[] { "LogID" });
                 }
 
                 if (!(from c in db.Logs select c).Where(c => c.LogID == log.LogID).Any())
                 {
                     log.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "Log", "LogLogID", log.LogID.ToString()), new[] { "LogID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "Log", "LogID", log.LogID.ToString()), new[] { "LogID" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(log.TableName))
             {
                 log.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LogTableName"), new[] { "TableName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TableName"), new[] { "TableName" });
             }
 
             if (!string.IsNullOrWhiteSpace(log.TableName) && log.TableName.Length > 50)
             {
                 log.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "LogTableName", "50"), new[] { "TableName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "TableName", "50"), new[] { "TableName" });
             }
 
             if (log.ID < 1)
             {
                 log.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "LogID", "1"), new[] { "ID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "ID", "1"), new[] { "ID" });
             }
 
             retStr = enums.EnumTypeOK(typeof(LogCommandEnum), (int?)log.LogCommand);
             if (!string.IsNullOrWhiteSpace(retStr))
             {
                 log.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LogLogCommand"), new[] { "LogCommand" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LogCommand"), new[] { "LogCommand" });
             }
 
             if (string.IsNullOrWhiteSpace(log.Information))
             {
                 log.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LogInformation"), new[] { "Information" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "Information"), new[] { "Information" });
             }
 
             //Information has no StringLength Attribute
@@ -117,14 +117,14 @@ namespace CSSPServices
             if (log.LastUpdateDate_UTC.Year == 1)
             {
                 log.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LogLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (log.LastUpdateDate_UTC.Year < 1980)
                 {
                 log.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "LogLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "LastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -133,7 +133,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 log.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "LogLastUpdateContactTVItemID", log.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "LastUpdateContactTVItemID", log.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -144,7 +144,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     log.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "LogLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "LastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 

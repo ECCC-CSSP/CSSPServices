@@ -67,7 +67,7 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(inputSummary.Summary))
             {
                 inputSummary.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "InputSummarySummary"), new[] { "Summary" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "Summary"), new[] { "Summary" });
             }
 
             //Summary has no StringLength Attribute

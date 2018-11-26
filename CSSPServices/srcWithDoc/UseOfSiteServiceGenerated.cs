@@ -71,13 +71,13 @@ namespace CSSPServices
                 if (useOfSite.UseOfSiteID == 0)
                 {
                     useOfSite.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "UseOfSiteUseOfSiteID"), new[] { "UseOfSiteID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "UseOfSiteID"), new[] { "UseOfSiteID" });
                 }
 
                 if (!(from c in db.UseOfSites select c).Where(c => c.UseOfSiteID == useOfSite.UseOfSiteID).Any())
                 {
                     useOfSite.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "UseOfSite", "UseOfSiteUseOfSiteID", useOfSite.UseOfSiteID.ToString()), new[] { "UseOfSiteID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "UseOfSite", "UseOfSiteID", useOfSite.UseOfSiteID.ToString()), new[] { "UseOfSiteID" });
                 }
             }
 
@@ -86,7 +86,7 @@ namespace CSSPServices
             if (TVItemSiteTVItemID == null)
             {
                 useOfSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "UseOfSiteSiteTVItemID", useOfSite.SiteTVItemID.ToString()), new[] { "SiteTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "SiteTVItemID", useOfSite.SiteTVItemID.ToString()), new[] { "SiteTVItemID" });
             }
             else
             {
@@ -99,7 +99,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemSiteTVItemID.TVType))
                 {
                     useOfSite.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "UseOfSiteSiteTVItemID", "ClimateSite,HydrometricSite,TideSite"), new[] { "SiteTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "SiteTVItemID", "ClimateSite,HydrometricSite,TideSite"), new[] { "SiteTVItemID" });
                 }
             }
 
@@ -108,7 +108,7 @@ namespace CSSPServices
             if (TVItemSubsectorTVItemID == null)
             {
                 useOfSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "UseOfSiteSubsectorTVItemID", useOfSite.SubsectorTVItemID.ToString()), new[] { "SubsectorTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "SubsectorTVItemID", useOfSite.SubsectorTVItemID.ToString()), new[] { "SubsectorTVItemID" });
             }
             else
             {
@@ -119,7 +119,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemSubsectorTVItemID.TVType))
                 {
                     useOfSite.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "UseOfSiteSubsectorTVItemID", "Subsector"), new[] { "SubsectorTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "SubsectorTVItemID", "Subsector"), new[] { "SubsectorTVItemID" });
                 }
             }
 
@@ -127,19 +127,19 @@ namespace CSSPServices
             if (!string.IsNullOrWhiteSpace(retStr))
             {
                 useOfSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "UseOfSiteSiteType"), new[] { "SiteType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "SiteType"), new[] { "SiteType" });
             }
 
             if (useOfSite.Ordinal < 0 || useOfSite.Ordinal > 1000)
             {
                 useOfSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "UseOfSiteOrdinal", "0", "1000"), new[] { "Ordinal" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "Ordinal", "0", "1000"), new[] { "Ordinal" });
             }
 
             if (useOfSite.StartYear < 1980 || useOfSite.StartYear > 2050)
             {
                 useOfSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "UseOfSiteStartYear", "1980", "2050"), new[] { "StartYear" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "StartYear", "1980", "2050"), new[] { "StartYear" });
             }
 
             if (useOfSite.EndYear != null)
@@ -147,7 +147,7 @@ namespace CSSPServices
                 if (useOfSite.EndYear < 1980 || useOfSite.EndYear > 2050)
                 {
                     useOfSite.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "UseOfSiteEndYear", "1980", "2050"), new[] { "EndYear" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "EndYear", "1980", "2050"), new[] { "EndYear" });
                 }
             }
 
@@ -156,7 +156,7 @@ namespace CSSPServices
                 if (useOfSite.Weight_perc < 0 || useOfSite.Weight_perc > 100)
                 {
                     useOfSite.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "UseOfSiteWeight_perc", "0", "100"), new[] { "Weight_perc" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "Weight_perc", "0", "100"), new[] { "Weight_perc" });
                 }
             }
 
@@ -165,7 +165,7 @@ namespace CSSPServices
                 if (useOfSite.Param1 < 0 || useOfSite.Param1 > 100)
                 {
                     useOfSite.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "UseOfSiteParam1", "0", "100"), new[] { "Param1" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "Param1", "0", "100"), new[] { "Param1" });
                 }
             }
 
@@ -174,7 +174,7 @@ namespace CSSPServices
                 if (useOfSite.Param2 < 0 || useOfSite.Param2 > 100)
                 {
                     useOfSite.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "UseOfSiteParam2", "0", "100"), new[] { "Param2" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "Param2", "0", "100"), new[] { "Param2" });
                 }
             }
 
@@ -183,7 +183,7 @@ namespace CSSPServices
                 if (useOfSite.Param3 < 0 || useOfSite.Param3 > 100)
                 {
                     useOfSite.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "UseOfSiteParam3", "0", "100"), new[] { "Param3" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "Param3", "0", "100"), new[] { "Param3" });
                 }
             }
 
@@ -192,21 +192,21 @@ namespace CSSPServices
                 if (useOfSite.Param4 < 0 || useOfSite.Param4 > 100)
                 {
                     useOfSite.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "UseOfSiteParam4", "0", "100"), new[] { "Param4" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "Param4", "0", "100"), new[] { "Param4" });
                 }
             }
 
             if (useOfSite.LastUpdateDate_UTC.Year == 1)
             {
                 useOfSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "UseOfSiteLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (useOfSite.LastUpdateDate_UTC.Year < 1980)
                 {
                 useOfSite.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "UseOfSiteLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "LastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -215,7 +215,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 useOfSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "UseOfSiteLastUpdateContactTVItemID", useOfSite.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "LastUpdateContactTVItemID", useOfSite.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -226,7 +226,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     useOfSite.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "UseOfSiteLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "LastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 

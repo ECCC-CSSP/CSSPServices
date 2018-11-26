@@ -49,19 +49,19 @@ namespace CSSPServices
             if (element.ID < 1)
             {
                 element.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "ElementID", "1"), new[] { "ID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "ID", "1"), new[] { "ID" });
             }
 
             if (element.Type < 1)
             {
                 element.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "ElementType", "1"), new[] { "Type" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "Type", "1"), new[] { "Type" });
             }
 
             if (element.NumbOfNodes < 1)
             {
                 element.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "ElementNumbOfNodes", "1"), new[] { "NumbOfNodes" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "NumbOfNodes", "1"), new[] { "NumbOfNodes" });
             }
 
             //Value has no Range Attribute

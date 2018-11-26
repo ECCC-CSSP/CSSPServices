@@ -51,13 +51,13 @@ namespace CSSPServices
                 if (contactShortcut.ContactShortcutID == 0)
                 {
                     contactShortcut.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ContactShortcutContactShortcutID"), new[] { "ContactShortcutID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ContactShortcutID"), new[] { "ContactShortcutID" });
                 }
 
                 if (!(from c in db.ContactShortcuts select c).Where(c => c.ContactShortcutID == contactShortcut.ContactShortcutID).Any())
                 {
                     contactShortcut.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ContactShortcut", "ContactShortcutContactShortcutID", contactShortcut.ContactShortcutID.ToString()), new[] { "ContactShortcutID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ContactShortcut", "ContactShortcutID", contactShortcut.ContactShortcutID.ToString()), new[] { "ContactShortcutID" });
                 }
             }
 
@@ -66,44 +66,44 @@ namespace CSSPServices
             if (ContactContactID == null)
             {
                 contactShortcut.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "Contact", "ContactShortcutContactID", contactShortcut.ContactID.ToString()), new[] { "ContactID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "Contact", "ContactID", contactShortcut.ContactID.ToString()), new[] { "ContactID" });
             }
 
             if (string.IsNullOrWhiteSpace(contactShortcut.ShortCutText))
             {
                 contactShortcut.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ContactShortcutShortCutText"), new[] { "ShortCutText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ShortCutText"), new[] { "ShortCutText" });
             }
 
             if (!string.IsNullOrWhiteSpace(contactShortcut.ShortCutText) && contactShortcut.ShortCutText.Length > 100)
             {
                 contactShortcut.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ContactShortcutShortCutText", "100"), new[] { "ShortCutText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ShortCutText", "100"), new[] { "ShortCutText" });
             }
 
             if (string.IsNullOrWhiteSpace(contactShortcut.ShortCutAddress))
             {
                 contactShortcut.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ContactShortcutShortCutAddress"), new[] { "ShortCutAddress" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ShortCutAddress"), new[] { "ShortCutAddress" });
             }
 
             if (!string.IsNullOrWhiteSpace(contactShortcut.ShortCutAddress) && contactShortcut.ShortCutAddress.Length > 200)
             {
                 contactShortcut.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ContactShortcutShortCutAddress", "200"), new[] { "ShortCutAddress" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ShortCutAddress", "200"), new[] { "ShortCutAddress" });
             }
 
             if (contactShortcut.LastUpdateDate_UTC.Year == 1)
             {
                 contactShortcut.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ContactShortcutLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (contactShortcut.LastUpdateDate_UTC.Year < 1980)
                 {
                 contactShortcut.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ContactShortcutLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "LastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -112,7 +112,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 contactShortcut.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "ContactShortcutLastUpdateContactTVItemID", contactShortcut.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "LastUpdateContactTVItemID", contactShortcut.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -123,7 +123,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     contactShortcut.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "ContactShortcutLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "LastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 

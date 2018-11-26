@@ -67,13 +67,13 @@ namespace CSSPServices
             if (samplingPlanAndFilesLabSheetCount.LabSheetHistoryCount < 0)
             {
                 samplingPlanAndFilesLabSheetCount.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "SamplingPlanAndFilesLabSheetCountLabSheetHistoryCount", "0"), new[] { "LabSheetHistoryCount" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "LabSheetHistoryCount", "0"), new[] { "LabSheetHistoryCount" });
             }
 
             if (samplingPlanAndFilesLabSheetCount.LabSheetTransferredCount < 0)
             {
                 samplingPlanAndFilesLabSheetCount.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "SamplingPlanAndFilesLabSheetCountLabSheetTransferredCount", "0"), new[] { "LabSheetTransferredCount" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "LabSheetTransferredCount", "0"), new[] { "LabSheetTransferredCount" });
             }
 
                 //CSSPError: Type not implemented [SamplingPlan] of type [SamplingPlan]

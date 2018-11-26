@@ -51,13 +51,13 @@ namespace CSSPServices
                 if (email.EmailID == 0)
                 {
                     email.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "EmailEmailID"), new[] { "EmailID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "EmailID"), new[] { "EmailID" });
                 }
 
                 if (!(from c in db.Emails select c).Where(c => c.EmailID == email.EmailID).Any())
                 {
                     email.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "Email", "EmailEmailID", email.EmailID.ToString()), new[] { "EmailID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "Email", "EmailID", email.EmailID.ToString()), new[] { "EmailID" });
                 }
             }
 
@@ -66,7 +66,7 @@ namespace CSSPServices
             if (TVItemEmailTVItemID == null)
             {
                 email.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "EmailEmailTVItemID", email.EmailTVItemID.ToString()), new[] { "EmailTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "EmailTVItemID", email.EmailTVItemID.ToString()), new[] { "EmailTVItemID" });
             }
             else
             {
@@ -77,20 +77,20 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemEmailTVItemID.TVType))
                 {
                     email.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "EmailEmailTVItemID", "Email"), new[] { "EmailTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "EmailTVItemID", "Email"), new[] { "EmailTVItemID" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(email.EmailAddress))
             {
                 email.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "EmailEmailAddress"), new[] { "EmailAddress" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "EmailAddress"), new[] { "EmailAddress" });
             }
 
             if (!string.IsNullOrWhiteSpace(email.EmailAddress) && email.EmailAddress.Length > 255)
             {
                 email.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "EmailEmailAddress", "255"), new[] { "EmailAddress" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "EmailAddress", "255"), new[] { "EmailAddress" });
             }
 
             if (!string.IsNullOrWhiteSpace(email.EmailAddress))
@@ -99,7 +99,7 @@ namespace CSSPServices
                 if (!regex.IsMatch(email.EmailAddress))
                 {
                     email.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotAValidEmail, "EmailEmailAddress"), new[] { "EmailAddress" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotAValidEmail, "EmailAddress"), new[] { "EmailAddress" });
                 }
             }
 
@@ -107,20 +107,20 @@ namespace CSSPServices
             if (!string.IsNullOrWhiteSpace(retStr))
             {
                 email.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "EmailEmailType"), new[] { "EmailType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "EmailType"), new[] { "EmailType" });
             }
 
             if (email.LastUpdateDate_UTC.Year == 1)
             {
                 email.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "EmailLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (email.LastUpdateDate_UTC.Year < 1980)
                 {
                 email.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "EmailLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "LastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -129,7 +129,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 email.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "EmailLastUpdateContactTVItemID", email.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "LastUpdateContactTVItemID", email.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -140,7 +140,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     email.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "EmailLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "LastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 

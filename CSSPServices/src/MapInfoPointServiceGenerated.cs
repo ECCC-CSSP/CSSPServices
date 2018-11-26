@@ -51,13 +51,13 @@ namespace CSSPServices
                 if (mapInfoPoint.MapInfoPointID == 0)
                 {
                     mapInfoPoint.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MapInfoPointMapInfoPointID"), new[] { "MapInfoPointID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MapInfoPointID"), new[] { "MapInfoPointID" });
                 }
 
                 if (!(from c in db.MapInfoPoints select c).Where(c => c.MapInfoPointID == mapInfoPoint.MapInfoPointID).Any())
                 {
                     mapInfoPoint.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MapInfoPoint", "MapInfoPointMapInfoPointID", mapInfoPoint.MapInfoPointID.ToString()), new[] { "MapInfoPointID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MapInfoPoint", "MapInfoPointID", mapInfoPoint.MapInfoPointID.ToString()), new[] { "MapInfoPointID" });
                 }
             }
 
@@ -66,38 +66,38 @@ namespace CSSPServices
             if (MapInfoMapInfoID == null)
             {
                 mapInfoPoint.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MapInfo", "MapInfoPointMapInfoID", mapInfoPoint.MapInfoID.ToString()), new[] { "MapInfoID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MapInfo", "MapInfoID", mapInfoPoint.MapInfoID.ToString()), new[] { "MapInfoID" });
             }
 
             if (mapInfoPoint.Ordinal < 0)
             {
                 mapInfoPoint.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "MapInfoPointOrdinal", "0"), new[] { "Ordinal" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "Ordinal", "0"), new[] { "Ordinal" });
             }
 
             if (mapInfoPoint.Lat < -90 || mapInfoPoint.Lat > 90)
             {
                 mapInfoPoint.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MapInfoPointLat", "-90", "90"), new[] { "Lat" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "Lat", "-90", "90"), new[] { "Lat" });
             }
 
             if (mapInfoPoint.Lng < -180 || mapInfoPoint.Lng > 180)
             {
                 mapInfoPoint.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MapInfoPointLng", "-180", "180"), new[] { "Lng" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "Lng", "-180", "180"), new[] { "Lng" });
             }
 
             if (mapInfoPoint.LastUpdateDate_UTC.Year == 1)
             {
                 mapInfoPoint.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MapInfoPointLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (mapInfoPoint.LastUpdateDate_UTC.Year < 1980)
                 {
                 mapInfoPoint.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "MapInfoPointLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "LastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -106,7 +106,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 mapInfoPoint.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MapInfoPointLastUpdateContactTVItemID", mapInfoPoint.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "LastUpdateContactTVItemID", mapInfoPoint.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -117,7 +117,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     mapInfoPoint.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MapInfoPointLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "LastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 

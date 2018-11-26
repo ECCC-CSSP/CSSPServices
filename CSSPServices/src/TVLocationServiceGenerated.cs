@@ -49,45 +49,45 @@ namespace CSSPServices
             if (tvLocation.TVItemID < 1)
             {
                 tvLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "TVLocationTVItemID", "1"), new[] { "TVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "TVItemID", "1"), new[] { "TVItemID" });
             }
 
             if (string.IsNullOrWhiteSpace(tvLocation.TVText))
             {
                 tvLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVLocationTVText"), new[] { "TVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVText"), new[] { "TVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvLocation.TVText) && (tvLocation.TVText.Length < 1 || tvLocation.TVText.Length > 255))
             {
                 tvLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "TVLocationTVText", "1", "255"), new[] { "TVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "TVText", "1", "255"), new[] { "TVText" });
             }
 
             retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)tvLocation.TVType);
             if (!string.IsNullOrWhiteSpace(retStr))
             {
                 tvLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVLocationTVType"), new[] { "TVType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVType"), new[] { "TVType" });
             }
 
             retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)tvLocation.SubTVType);
             if (!string.IsNullOrWhiteSpace(retStr))
             {
                 tvLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVLocationSubTVType"), new[] { "SubTVType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "SubTVType"), new[] { "SubTVType" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvLocation.TVTypeText) && tvLocation.TVTypeText.Length > 100)
             {
                 tvLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "TVLocationTVTypeText", "100"), new[] { "TVTypeText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "TVTypeText", "100"), new[] { "TVTypeText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvLocation.SubTVTypeText) && tvLocation.SubTVTypeText.Length > 100)
             {
                 tvLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "TVLocationSubTVTypeText", "100"), new[] { "SubTVTypeText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "SubTVTypeText", "100"), new[] { "SubTVTypeText" });
             }
 
                 //CSSPError: Type not implemented [MapObjList] of type [List`1]

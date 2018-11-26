@@ -49,13 +49,13 @@ namespace CSSPServices
             if (vpScenarioIDAndRawResults.VPScenarioID < 1)
             {
                 vpScenarioIDAndRawResults.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "VPScenarioIDAndRawResultsVPScenarioID", "1"), new[] { "VPScenarioID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "VPScenarioID", "1"), new[] { "VPScenarioID" });
             }
 
             if (string.IsNullOrWhiteSpace(vpScenarioIDAndRawResults.RawResults))
             {
                 vpScenarioIDAndRawResults.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "VPScenarioIDAndRawResultsRawResults"), new[] { "RawResults" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "RawResults"), new[] { "RawResults" });
             }
 
             //RawResults has no StringLength Attribute

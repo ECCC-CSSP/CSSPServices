@@ -70,13 +70,13 @@ namespace CSSPServices
                 if (vpResult.VPResultID == 0)
                 {
                     vpResult.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "VPResultVPResultID"), new[] { "VPResultID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "VPResultID"), new[] { "VPResultID" });
                 }
 
                 if (!(from c in db.VPResults select c).Where(c => c.VPResultID == vpResult.VPResultID).Any())
                 {
                     vpResult.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "VPResult", "VPResultVPResultID", vpResult.VPResultID.ToString()), new[] { "VPResultID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "VPResult", "VPResultID", vpResult.VPResultID.ToString()), new[] { "VPResultID" });
                 }
             }
 
@@ -85,56 +85,56 @@ namespace CSSPServices
             if (VPScenarioVPScenarioID == null)
             {
                 vpResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "VPScenario", "VPResultVPScenarioID", vpResult.VPScenarioID.ToString()), new[] { "VPScenarioID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "VPScenario", "VPScenarioID", vpResult.VPScenarioID.ToString()), new[] { "VPScenarioID" });
             }
 
             if (vpResult.Ordinal < 0 || vpResult.Ordinal > 1000)
             {
                 vpResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPResultOrdinal", "0", "1000"), new[] { "Ordinal" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "Ordinal", "0", "1000"), new[] { "Ordinal" });
             }
 
             if (vpResult.Concentration_MPN_100ml < 0 || vpResult.Concentration_MPN_100ml > 10000000)
             {
                 vpResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPResultConcentration_MPN_100ml", "0", "10000000"), new[] { "Concentration_MPN_100ml" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "Concentration_MPN_100ml", "0", "10000000"), new[] { "Concentration_MPN_100ml" });
             }
 
             if (vpResult.Dilution < 0 || vpResult.Dilution > 1000000)
             {
                 vpResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPResultDilution", "0", "1000000"), new[] { "Dilution" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "Dilution", "0", "1000000"), new[] { "Dilution" });
             }
 
             if (vpResult.FarFieldWidth_m < 0 || vpResult.FarFieldWidth_m > 10000)
             {
                 vpResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPResultFarFieldWidth_m", "0", "10000"), new[] { "FarFieldWidth_m" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "FarFieldWidth_m", "0", "10000"), new[] { "FarFieldWidth_m" });
             }
 
             if (vpResult.DispersionDistance_m < 0 || vpResult.DispersionDistance_m > 100000)
             {
                 vpResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPResultDispersionDistance_m", "0", "100000"), new[] { "DispersionDistance_m" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "DispersionDistance_m", "0", "100000"), new[] { "DispersionDistance_m" });
             }
 
             if (vpResult.TravelTime_hour < 0 || vpResult.TravelTime_hour > 100)
             {
                 vpResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPResultTravelTime_hour", "0", "100"), new[] { "TravelTime_hour" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "TravelTime_hour", "0", "100"), new[] { "TravelTime_hour" });
             }
 
             if (vpResult.LastUpdateDate_UTC.Year == 1)
             {
                 vpResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "VPResultLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (vpResult.LastUpdateDate_UTC.Year < 1980)
                 {
                 vpResult.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "VPResultLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "LastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -143,7 +143,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 vpResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "VPResultLastUpdateContactTVItemID", vpResult.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "LastUpdateContactTVItemID", vpResult.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -154,7 +154,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     vpResult.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "VPResultLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "LastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 

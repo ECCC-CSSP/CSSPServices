@@ -67,13 +67,13 @@ namespace CSSPServices
             if (latLng.Lat < -180 || latLng.Lat > 180)
             {
                 latLng.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "LatLngLat", "-180", "180"), new[] { "Lat" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "Lat", "-180", "180"), new[] { "Lat" });
             }
 
             if (latLng.Lng < -90 || latLng.Lng > 90)
             {
                 latLng.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "LatLngLng", "-90", "90"), new[] { "Lng" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "Lng", "-90", "90"), new[] { "Lng" });
             }
 
             retStr = ""; // added to stop compiling CSSPError

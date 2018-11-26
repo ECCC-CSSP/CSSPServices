@@ -51,13 +51,13 @@ namespace CSSPServices
                 if (reportSectionLanguage.ReportSectionLanguageID == 0)
                 {
                     reportSectionLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportSectionLanguageReportSectionLanguageID"), new[] { "ReportSectionLanguageID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportSectionLanguageID"), new[] { "ReportSectionLanguageID" });
                 }
 
                 if (!(from c in db.ReportSectionLanguages select c).Where(c => c.ReportSectionLanguageID == reportSectionLanguage.ReportSectionLanguageID).Any())
                 {
                     reportSectionLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ReportSectionLanguage", "ReportSectionLanguageReportSectionLanguageID", reportSectionLanguage.ReportSectionLanguageID.ToString()), new[] { "ReportSectionLanguageID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ReportSectionLanguage", "ReportSectionLanguageID", reportSectionLanguage.ReportSectionLanguageID.ToString()), new[] { "ReportSectionLanguageID" });
                 }
             }
 
@@ -66,65 +66,65 @@ namespace CSSPServices
             if (ReportSectionReportSectionID == null)
             {
                 reportSectionLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ReportSection", "ReportSectionLanguageReportSectionID", reportSectionLanguage.ReportSectionID.ToString()), new[] { "ReportSectionID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ReportSection", "ReportSectionID", reportSectionLanguage.ReportSectionID.ToString()), new[] { "ReportSectionID" });
             }
 
             retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)reportSectionLanguage.Language);
             if (!string.IsNullOrWhiteSpace(retStr))
             {
                 reportSectionLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportSectionLanguageLanguage"), new[] { "Language" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "Language"), new[] { "Language" });
             }
 
             if (string.IsNullOrWhiteSpace(reportSectionLanguage.ReportSectionName))
             {
                 reportSectionLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportSectionLanguageReportSectionName"), new[] { "ReportSectionName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportSectionName"), new[] { "ReportSectionName" });
             }
 
             if (!string.IsNullOrWhiteSpace(reportSectionLanguage.ReportSectionName) && reportSectionLanguage.ReportSectionName.Length > 100)
             {
                 reportSectionLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ReportSectionLanguageReportSectionName", "100"), new[] { "ReportSectionName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ReportSectionName", "100"), new[] { "ReportSectionName" });
             }
 
             retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)reportSectionLanguage.TranslationStatusReportSectionName);
             if (!string.IsNullOrWhiteSpace(retStr))
             {
                 reportSectionLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportSectionLanguageTranslationStatusReportSectionName"), new[] { "TranslationStatusReportSectionName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TranslationStatusReportSectionName"), new[] { "TranslationStatusReportSectionName" });
             }
 
             if (string.IsNullOrWhiteSpace(reportSectionLanguage.ReportSectionText))
             {
                 reportSectionLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportSectionLanguageReportSectionText"), new[] { "ReportSectionText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportSectionText"), new[] { "ReportSectionText" });
             }
 
             if (!string.IsNullOrWhiteSpace(reportSectionLanguage.ReportSectionText) && reportSectionLanguage.ReportSectionText.Length > 10000)
             {
                 reportSectionLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ReportSectionLanguageReportSectionText", "10000"), new[] { "ReportSectionText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ReportSectionText", "10000"), new[] { "ReportSectionText" });
             }
 
             retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)reportSectionLanguage.TranslationStatusReportSectionText);
             if (!string.IsNullOrWhiteSpace(retStr))
             {
                 reportSectionLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportSectionLanguageTranslationStatusReportSectionText"), new[] { "TranslationStatusReportSectionText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TranslationStatusReportSectionText"), new[] { "TranslationStatusReportSectionText" });
             }
 
             if (reportSectionLanguage.LastUpdateDate_UTC.Year == 1)
             {
                 reportSectionLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportSectionLanguageLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (reportSectionLanguage.LastUpdateDate_UTC.Year < 1980)
                 {
                 reportSectionLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ReportSectionLanguageLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "LastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -133,7 +133,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 reportSectionLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "ReportSectionLanguageLastUpdateContactTVItemID", reportSectionLanguage.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "LastUpdateContactTVItemID", reportSectionLanguage.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -144,7 +144,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     reportSectionLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "ReportSectionLanguageLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "LastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 

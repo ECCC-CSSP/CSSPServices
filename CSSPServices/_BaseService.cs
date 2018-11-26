@@ -45,13 +45,18 @@ namespace CSSPServices
         #region Constructors
         public BaseService(Query query, CSSPDBContext db, int ContactID)
         {
+            Query = query;
             if (!LanguageListAllowable.Contains((LanguageEnum)query.Language))
             {
-                this.LanguageRequest = LanguageEnum.en;
+                Query.Lang = "en";
+                Query.Language = LanguageEnum.en;
+                LanguageRequest = LanguageEnum.en;
             }
             else
             {
-                this.LanguageRequest = (LanguageEnum)query.Language;
+                Query.Lang = query.Lang;
+                Query.Language = query.Lang == "fr" ? LanguageEnum.fr : LanguageEnum.en;
+                LanguageRequest = (LanguageEnum)Query.Language;
             }
 
             if (LanguageRequest == LanguageEnum.fr)
@@ -68,7 +73,7 @@ namespace CSSPServices
             this.db = db;
             CanSendEmail = true;
             FromEmail = "ec.pccsm-cssp.ec@canada.ca";
-            Query = query;
+            //Query = query;
         }
         #endregion Constructors  
 
@@ -84,6 +89,59 @@ namespace CSSPServices
                 query.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ShouldNotBeNullOrEmpty, "ModelType"), new[] { "ModelType" });
             }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(query.Extra) && !query.ModelType.Name.Substring(query.ModelType.Name.Length - 6).StartsWith("Extra"))
+                {
+                    string AllowableExtra = "";
+                    bool QueryExtraExist = false;
+                    FileInfo fiDLL = new FileInfo($@"{ AppDomain.CurrentDomain.BaseDirectory }\CSSPModels.dll");
+
+                    if (!fiDLL.Exists)
+                    {
+                        fiDLL = new FileInfo($@"{ AppDomain.CurrentDomain.BaseDirectory }\bin\CSSPModels.dll");
+                        if (!fiDLL.Exists)
+                        {
+                            query.HasErrors = true;
+                            yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFindFile_, $@"{ AppDomain.CurrentDomain.BaseDirectory }\CSSPModels.dll or { AppDomain.CurrentDomain.BaseDirectory }\bin\CSSPModels.dll"), new[] { "Where" });
+                        }
+                    }
+
+                    var importAssembly = Assembly.LoadFile(fiDLL.FullName);
+                    List<Type> TypeList = importAssembly.GetTypes().ToList();
+
+                    foreach (string s in new List<string>() { "A", "B", "C", "D", "E" })
+                    {
+                        bool exist = false;
+                        foreach (Type type in TypeList)
+                        {
+                            string ExtraName = $"{ query.ModelType.Name }Extra{ s }";
+                            if (ExtraName == type.Name)
+                            {
+                                exist = true;
+                                break;
+                            }
+                        }
+
+                        if (exist)
+                        {
+                            if (query.Extra == s)
+                            {
+                                QueryExtraExist = true;
+                            }
+                            AllowableExtra = AllowableExtra + s + ", ";
+                        }
+                    }
+
+                    if (!QueryExtraExist)
+                    {
+                        AllowableExtra = AllowableExtra.Trim();
+                        AllowableExtra = AllowableExtra.Substring(0, AllowableExtra.Length - 1);
+                        query.HasErrors = true;
+                        yield return new ValidationResult(string.Format(CSSPServicesRes.Extra_OfModel_IsInvalidAllowableValuesAre_, query.Extra, query.ModelType.Name, $"[{ AllowableExtra }]"), new[] { "extra" });
+                    }
+                }
+            }
 
             if (!(query.Lang == "fr" || query.Lang == "en"))
             {
@@ -94,7 +152,7 @@ namespace CSSPServices
             if (query.Skip < 0)
             {
                 query.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ShouldBeAbove_, "Skip", "0"), new[] { "Skip" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ShouldBeAbove_, "Skip", "-1"), new[] { "Skip" });
             }
 
             if (query.Skip > 1000000)
@@ -106,7 +164,7 @@ namespace CSSPServices
             if (query.Take < 1)
             {
                 query.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ShouldBeAbove_, "Take", "1"), new[] { "Skip" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ShouldBeAbove_, "Take", "0"), new[] { "Take" });
             }
 
             if (query.Take > 1000000)
@@ -115,12 +173,27 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ShouldBeBelow_, "Take", "1000000"), new[] { "Take" });
             }
 
-            query.OrderList = new List<string>();
-            if (!string.IsNullOrWhiteSpace(query.Order))
+            query.AscList = new List<string>();
+            if (!string.IsNullOrWhiteSpace(query.Asc))
             {
-                query.OrderList = query.Order.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(c => c.Trim()).ToList();
+                query.AscList = query.Asc.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(c => c.Trim()).ToList();
 
-                foreach (string PropertyName in query.OrderList)
+                foreach (string PropertyName in query.AscList)
+                {
+                    if (!query.ModelType.GetProperties().Where(c => c.Name == PropertyName).Any())
+                    {
+                        query.HasErrors = true;
+                        yield return new ValidationResult(string.Format(CSSPServicesRes._DoesNotExistForModelType_, PropertyName, query.ModelType.Name), new[] { "Order" });
+                    }
+                }
+            }
+
+            query.DescList = new List<string>();
+            if (!string.IsNullOrWhiteSpace(query.Desc))
+            {
+                query.DescList = query.Desc.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(c => c.Trim()).ToList();
+
+                foreach (string PropertyName in query.DescList)
                 {
                     if (!query.ModelType.GetProperties().Where(c => c.Name == PropertyName).Any())
                     {
@@ -138,7 +211,7 @@ namespace CSSPServices
 
                 foreach (string w in WhereList)
                 {
-                    // Example of where == "TVItemID,EQ,5"
+                    // Example of where == "TVItemID,GT,5|TVItemID,LT,20"
                     List<string> ValList = w.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(c => c.Trim()).ToList();
                     if (ValList.Count != 3)
                     {
@@ -149,7 +222,8 @@ namespace CSSPServices
                     {
                         WhereInfo whereInfo = new WhereInfo();
 
-                        if (!query.ModelType.GetProperties().Where(c => c.Name == ValList[0]).Any())
+                        PropertyInfo propertyInfo = query.ModelType.GetProperties().Where(c => c.Name == ValList[0]).FirstOrDefault();
+                        if (propertyInfo == null)
                         {
                             query.HasErrors = true;
                             yield return new ValidationResult(string.Format(CSSPServicesRes._DoesNotExistForModelType_, ValList[0], query.ModelType.Name), new[] { "Where" });
@@ -157,114 +231,120 @@ namespace CSSPServices
                         else
                         {
                             whereInfo.PropertyName = ValList[0];
+                            whereInfo.Value = ValList[2];
 
-                            PropertyInfo propertyInfo = query.ModelType.GetProperties().Where(c => c.Name == ValList[0]).FirstOrDefault();
-                            if (propertyInfo == null)
+                            string PropTypeName = propertyInfo.PropertyType.FullName;
+                            if (PropTypeName.Contains("Nullable"))
                             {
-                                query.HasErrors = true;
-                                yield return new ValidationResult(string.Format(CSSPServicesRes._DoesNotExistForModelType_, ValList[0], query.ModelType.Name), new[] { "Where" });
+                                PropTypeName = PropTypeName.Substring(PropTypeName.IndexOf("[[") + 2);
+                                PropTypeName = PropTypeName.Substring(0, PropTypeName.IndexOf(","));
                             }
-                            else
+
+                            switch (PropTypeName)
                             {
-                                whereInfo.Value = ValList[2];
-
-                                switch (propertyInfo.PropertyType.FullName)
-                                {
-                                    case "System.Int16":
-                                    case "System.Int32":
-                                    case "System.Int64":
+                                case "System.Boolean":
+                                    {
+                                        whereInfo.PropertyType = PropertyTypeEnum.Boolean;
+                                        bool TempBool;
+                                        if (bool.TryParse(whereInfo.Value, out TempBool))
                                         {
-                                            whereInfo.PropertyType = PropertyTypeEnum.Int;
-                                            int TempInt;
-                                            if (int.TryParse(whereInfo.Value, out TempInt))
-                                            {
-                                                whereInfo.ValueInt = TempInt;
-                                            }
-                                            else
-                                            {
-                                                query.HasErrors = true;
-                                                yield return new ValidationResult(string.Format(CSSPServicesRes._NeedsToBeANumberFor_OfModel_, whereInfo.Value, whereInfo.PropertyName, query.ModelType.Name), new[] { "Where" });
-                                            }
+                                            whereInfo.ValueBool = TempBool;
                                         }
-                                        break;
-                                    case "System.Double":
+                                        else
                                         {
-                                            whereInfo.PropertyType = PropertyTypeEnum.Double;
-                                            double TempDouble;
-                                            if (Double.TryParse(whereInfo.Value, out TempDouble))
-                                            {
-                                                whereInfo.ValueDouble = TempDouble;
-                                            }
-                                            else
-                                            {
-                                                query.HasErrors = true;
-                                                yield return new ValidationResult(string.Format(CSSPServicesRes._NeedsToBeANumberFor_OfModel_, whereInfo.Value, whereInfo.PropertyName, query.ModelType.Name), new[] { "Where" });
-                                            }
+                                            query.HasErrors = true;
+                                            yield return new ValidationResult(string.Format(CSSPServicesRes._NeedsToBeTrueOrFalseFor_OfModel_, whereInfo.Value, whereInfo.PropertyName, query.ModelType.Name), new[] { "Where" });
                                         }
-                                        break;
-                                    case "System.String":
+                                    }
+                                    break;
+                                case "System.DateTime":
+                                    {
+                                        whereInfo.PropertyType = PropertyTypeEnum.DateTime;
+                                        DateTime TempDateTime;
+                                        if (DateTime.TryParse(whereInfo.Value, out TempDateTime))
                                         {
-                                            whereInfo.PropertyType = PropertyTypeEnum.String;
-                                            // no need to do anything here as the string value has already been saved under the whereInfo.Value
+                                            whereInfo.ValueDateTime = TempDateTime;
                                         }
-                                        break;
-                                    case "System.Boolean":
+                                        else
                                         {
-                                            whereInfo.PropertyType = PropertyTypeEnum.Boolean;
-                                            bool TempBool;
-                                            if (bool.TryParse(whereInfo.Value, out TempBool))
-                                            {
-                                                whereInfo.ValueBool = TempBool;
-                                            }
-                                            else
-                                            {
-                                                query.HasErrors = true;
-                                                yield return new ValidationResult(string.Format(CSSPServicesRes._NeedsToBeTrueOrFalseFor_OfModel_, whereInfo.Value, whereInfo.PropertyName, query.ModelType.Name), new[] { "Where" });
-                                            }
+                                            query.HasErrors = true;
+                                            yield return new ValidationResult(string.Format(CSSPServicesRes._NeedsToBeADateFor_OfModel_, whereInfo.Value, whereInfo.PropertyName, query.ModelType.Name), new[] { "Where" });
                                         }
-                                        break;
-                                    case "System.DateTime":
+                                    }
+                                    break;
+                                case "System.Double":
+                                    {
+                                        whereInfo.PropertyType = PropertyTypeEnum.Double;
+                                        double TempDouble;
+                                        if (Double.TryParse(whereInfo.Value, out TempDouble))
                                         {
-                                            whereInfo.PropertyType = PropertyTypeEnum.DateTime;
-                                            DateTime TempDateTime;
-                                            if (DateTime.TryParse(whereInfo.Value, out TempDateTime))
-                                            {
-                                                whereInfo.ValueDateTime = TempDateTime;
-                                            }
-                                            else
-                                            {
-                                                query.HasErrors = true;
-                                                yield return new ValidationResult(string.Format(CSSPServicesRes._NeedsToBeADateFor_OfModel_, whereInfo.Value, whereInfo.PropertyName, query.ModelType.Name), new[] { "Where" });
-                                            }
+                                            whereInfo.ValueDouble = TempDouble;
                                         }
-                                        break;
-                                    default:
+                                        else
                                         {
-                                            if (propertyInfo.PropertyType.FullName.Contains("Enum, CSSPEnums, "))
+                                            query.HasErrors = true;
+                                            yield return new ValidationResult(string.Format(CSSPServicesRes._NeedsToBeANumberFor_OfModel_, whereInfo.Value, whereInfo.PropertyName, query.ModelType.Name), new[] { "Where" });
+                                        }
+                                    }
+                                    break;
+                                case "System.Int16":
+                                case "System.Int32":
+                                case "System.Int64":
+                                    {
+                                        whereInfo.PropertyType = PropertyTypeEnum.Int;
+                                        int TempInt;
+                                        if (int.TryParse(whereInfo.Value, out TempInt))
+                                        {
+                                            whereInfo.ValueInt = TempInt;
+                                        }
+                                        else
+                                        {
+                                            query.HasErrors = true;
+                                            yield return new ValidationResult(string.Format(CSSPServicesRes._NeedsToBeANumberFor_OfModel_, whereInfo.Value, whereInfo.PropertyName, query.ModelType.Name), new[] { "Where" });
+                                        }
+                                    }
+                                    break;
+                                case "System.String":
+                                    {
+                                        whereInfo.PropertyType = PropertyTypeEnum.String;
+                                        // no need to do anything here as the string value has already been saved under the whereInfo.Value
+                                    }
+                                    break;
+                                default:
+                                    {
+                                        if (propertyInfo.PropertyType.FullName.Contains("CSSPEnums."))
+                                        {
+                                            whereInfo.PropertyType = PropertyTypeEnum.Enum;
+                                            if (ValList[1] == "EQ")
                                             {
-                                                whereInfo.PropertyType = PropertyTypeEnum.Enum;
                                                 string EnumTypeName = propertyInfo.PropertyType.FullName.Substring(propertyInfo.PropertyType.FullName.IndexOf("CSSPEnums.") + "CSSPEnums.".Length);
-                                                EnumTypeName = EnumTypeName.Substring(0, EnumTypeName.IndexOf(","));
-
-                                                FileInfo fiDLL = new FileInfo(@"C:\CSSPCode\CSSPEnums\CSSPEnums\bin\Debug\CSSPEnums.dll");
+                                                if (EnumTypeName.Contains(","))
+                                                {
+                                                    EnumTypeName = EnumTypeName.Substring(0, EnumTypeName.IndexOf(","));
+                                                }
+                                                FileInfo fiDLL = new FileInfo($@"{ AppDomain.CurrentDomain.BaseDirectory }\CSSPEnums.dll");
 
                                                 if (!fiDLL.Exists)
                                                 {
-                                                    query.HasErrors = true;
-                                                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFindFile_, @"C:\CSSPCode\CSSPEnums\CSSPEnums\bin\Debug\CSSPEnums.dll"), new[] { "Where" });
+                                                    fiDLL = new FileInfo($@"{ AppDomain.CurrentDomain.BaseDirectory }\bin\CSSPEnums.dll");
+                                                    if (!fiDLL.Exists)
+                                                    {
+                                                        query.HasErrors = true;
+                                                        yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFindFile_, $@"{ AppDomain.CurrentDomain.BaseDirectory }\CSSPEnums.dll or { AppDomain.CurrentDomain.BaseDirectory }\bin\CSSPEnums.dll"), new[] { "Where" });
+                                                    }
                                                 }
 
                                                 var importAssembly = Assembly.LoadFile(fiDLL.FullName);
-                                                Type[] types = importAssembly.GetTypes();
+                                                List<Type> TypeList = importAssembly.GetTypes().ToList();
 
-                                                foreach (Type type in types)
+                                                foreach (Type type in TypeList)
                                                 {
                                                     if (type.Name == EnumTypeName)
                                                     {
+                                                        whereInfo.EnumType = type;
                                                         if (Char.IsNumber(whereInfo.Value[0]))
                                                         {
-                                                            int TempInt;
-                                                            if (int.TryParse(whereInfo.Value, out TempInt))
+                                                            if (int.TryParse(whereInfo.Value, out int TempInt))
                                                             {
                                                                 whereInfo.ValueInt = TempInt;
                                                             }
@@ -276,8 +356,15 @@ namespace CSSPServices
 
                                                             if (!(from c in Enum.GetValues(type) as int[] where c == whereInfo.ValueInt select c).Any())
                                                             {
+                                                                List<int> EnumValueList = (from c in Enum.GetValues(type) as int[] select c).ToList();
+                                                                List<string> EnumValueTextList = (from c in Enum.GetNames(type) as string[] select c).ToList();
+                                                                StringBuilder sb = new StringBuilder();
+                                                                for (int i = 0, count = EnumValueList.Count; i < count; i++)
+                                                                {
+                                                                    sb.Append($"{ EnumValueList[i] } = { EnumValueTextList[i] }, ");
+                                                                }
                                                                 query.HasErrors = true;
-                                                                yield return new ValidationResult(string.Format(CSSPServicesRes._NeedsToBeAValidEnumNumberFor_OfModel_, whereInfo.Value, whereInfo.PropertyName, query.ModelType.Name), new[] { "Where" });
+                                                                yield return new ValidationResult(string.Format(CSSPServicesRes._NeedsToBeAValidEnumNumberFor_OfModel_AllowableValuesAre_, whereInfo.Value, whereInfo.PropertyName, query.ModelType.Name, $"[{ sb.ToString() }]"), new[] { "Where" });
                                                             }
                                                             else
                                                             {
@@ -299,8 +386,15 @@ namespace CSSPServices
                                                         {
                                                             if (!(from c in Enum.GetNames(type) where c == whereInfo.Value select c).Any())
                                                             {
+                                                                List<int> EnumValueList = (from c in Enum.GetValues(type) as int[] select c).ToList();
+                                                                List<string> EnumValueTextList = (from c in Enum.GetNames(type) as string[] select c).ToList();
+                                                                StringBuilder sb = new StringBuilder();
+                                                                for (int i = 0, count = EnumValueList.Count; i < count; i++)
+                                                                {
+                                                                    sb.Append($"{ EnumValueList[i] } = { EnumValueTextList[i] }, ");
+                                                                }
                                                                 query.HasErrors = true;
-                                                                yield return new ValidationResult(string.Format(CSSPServicesRes._NeedsToBeAValidEnumTextFor_OfModel_, whereInfo.Value, whereInfo.PropertyName, query.ModelType.Name), new[] { "Where" });
+                                                                yield return new ValidationResult(string.Format(CSSPServicesRes._NeedsToBeAValidEnumTextFor_OfModel_AllowableValuesAre_, whereInfo.Value, whereInfo.PropertyName, query.ModelType.Name, $"[{ sb.ToString() }]"), new[] { "Where" });
                                                             }
                                                             else
                                                             {
@@ -318,61 +412,66 @@ namespace CSSPServices
                                                                 }
                                                             }
                                                         }
+                                                        break;
                                                     }
                                                 }
                                             }
                                             else
                                             {
                                                 query.HasErrors = true;
-                                                yield return new ValidationResult(string.Format(CSSPServicesRes._NotImplementedYet, propertyInfo.PropertyType.FullName), new[] { "Where" });
+                                                yield return new ValidationResult(string.Format(CSSPServicesRes.WhereOperator_For_OfModel_IsNotValidOnlyEQIsAllowed, ValList[1], whereInfo.PropertyName, query.ModelType.Name), new[] { "Where" });
                                             }
                                         }
-                                        break;
-                                }
-
-
-                                switch (ValList[1].ToUpper())
-                                {
-                                    case "EQ":
-                                        {
-                                            whereInfo.WhereOperator = WhereOperatorEnum.Equal;
-                                        }
-                                        break;
-                                    case "LT":
-                                        {
-                                            whereInfo.WhereOperator = WhereOperatorEnum.LessThan;
-                                        }
-                                        break;
-                                    case "GT":
-                                        {
-                                            whereInfo.WhereOperator = WhereOperatorEnum.GreaterThan;
-                                        }
-                                        break;
-                                    case "C":
-                                        {
-                                            whereInfo.WhereOperator = WhereOperatorEnum.Contains;
-                                        }
-                                        break;
-                                    case "SW":
-                                        {
-                                            whereInfo.WhereOperator = WhereOperatorEnum.StartsWith;
-                                        }
-                                        break;
-                                    case "EW":
-                                        {
-                                            whereInfo.WhereOperator = WhereOperatorEnum.EndsWith;
-                                        }
-                                        break;
-                                    default:
+                                        else
                                         {
                                             query.HasErrors = true;
-                                            yield return new ValidationResult(string.Format(CSSPServicesRes.WhereOperator_NotImplementedYet, ValList[1]), new[] { "Where" });
+                                            yield return new ValidationResult(string.Format(CSSPServicesRes._NotImplementedYet, PropTypeName), new[] { "Where" });
                                         }
-                                        break;
-                                }
-
-                                query.WhereInfoList.Add(whereInfo);
+                                    }
+                                    break;
                             }
+
+                            switch (ValList[1])
+                            {
+                                case "EQ":
+                                    {
+                                        whereInfo.WhereOperator = WhereOperatorEnum.Equal;
+                                    }
+                                    break;
+                                case "LT":
+                                    {
+                                        whereInfo.WhereOperator = WhereOperatorEnum.LessThan;
+                                    }
+                                    break;
+                                case "GT":
+                                    {
+                                        whereInfo.WhereOperator = WhereOperatorEnum.GreaterThan;
+                                    }
+                                    break;
+                                case "C":
+                                    {
+                                        whereInfo.WhereOperator = WhereOperatorEnum.Contains;
+                                    }
+                                    break;
+                                case "SW":
+                                    {
+                                        whereInfo.WhereOperator = WhereOperatorEnum.StartsWith;
+                                    }
+                                    break;
+                                case "EW":
+                                    {
+                                        whereInfo.WhereOperator = WhereOperatorEnum.EndsWith;
+                                    }
+                                    break;
+                                default:
+                                    {
+                                        query.HasErrors = true;
+                                        yield return new ValidationResult(string.Format(CSSPServicesRes.WhereOperator_NotValidAllowableValuesAre_, ValList[1], "[EQ = EQUAL, LT = LESS THAN, GT = GREATER THAN, C = CONTAINS, SW = STARTS WITH, EW = ENDS WITH]"), new[] { "Where" });
+                                    }
+                                    break;
+                            }
+
+                            query.WhereInfoList.Add(whereInfo);
                         }
                     }
                 }
@@ -419,7 +518,8 @@ namespace CSSPServices
                                     query = EF_Where_Expression.WhereEqual(query, whereInfo.PropertyName, whereInfo.ValueDateTime);
                                     break;
                                 case PropertyTypeEnum.Enum:
-                                    query = EF_Where_Expression.WhereEqual(query, whereInfo.PropertyName, whereInfo.ValueInt);
+                                    var ValueEnum = ExtentionEnumCasting.GetEnumCasting(whereInfo);
+                                    query = EF_Where_Expression.WhereEqual(query, whereInfo.PropertyName, ValueEnum);
                                     break;
                                 default:
                                     query = EF_Where_Expression.WhereEqual(query, whereInfo.PropertyName, whereInfo.Value);
@@ -446,9 +546,6 @@ namespace CSSPServices
                                 case PropertyTypeEnum.DateTime:
                                     query = EF_Where_Expression.WhereGreaterThan(query, whereInfo.PropertyName, whereInfo.ValueDateTime);
                                     break;
-                                case PropertyTypeEnum.Enum:
-                                    query = EF_Where_Expression.WhereGreaterThan(query, whereInfo.PropertyName, whereInfo.ValueInt);
-                                    break;
                                 default:
                                     query = EF_Where_Expression.WhereGreaterThan(query, whereInfo.PropertyName, whereInfo.Value);
                                     break;
@@ -474,9 +571,6 @@ namespace CSSPServices
                                 case PropertyTypeEnum.DateTime:
                                     query = EF_Where_Expression.WhereLessThan(query, whereInfo.PropertyName, whereInfo.ValueDateTime);
                                     break;
-                                case PropertyTypeEnum.Enum:
-                                    query = EF_Where_Expression.WhereLessThan(query, whereInfo.PropertyName, whereInfo.ValueInt);
-                                    break;
                                 default:
                                     query = EF_Where_Expression.WhereLessThan(query, whereInfo.PropertyName, whereInfo.Value);
                                     break;
@@ -493,10 +587,12 @@ namespace CSSPServices
                 }
             }
 
-            if (Query.OrderList.Count > 0)
+           
+
+            if (Query.AscList.Count > 0)
             {
                 int CountOrder = 0;
-                foreach (string PropertyName in Query.OrderList)
+                foreach (string PropertyName in Query.AscList)
                 {
                     CountOrder += 1;
                     if (CountOrder > 1)
@@ -511,17 +607,37 @@ namespace CSSPServices
             }
             else
             {
-                string PropertyName = "";
-                if (typeof(T).Name.EndsWith("ExtraA") || typeof(T).Name.EndsWith("ExtraB") || typeof(T).Name.EndsWith("ExtraC") || typeof(T).Name.EndsWith("ExtraD") || typeof(T).Name.EndsWith("ExtraE"))
+                if (Query.DescList.Count == 0)
                 {
-                    PropertyName = typeof(T).Name.Substring(0, typeof(T).Name.Length - 6) + "ID";
-                }
-                else
-                {
-                    PropertyName = typeof(T).Name + "ID";
-                }
+                    string PropertyName = "";
+                    if (typeof(T).Name.EndsWith("ExtraA") || typeof(T).Name.EndsWith("ExtraB") || typeof(T).Name.EndsWith("ExtraC") || typeof(T).Name.EndsWith("ExtraD") || typeof(T).Name.EndsWith("ExtraE"))
+                    {
+                        PropertyName = typeof(T).Name.Substring(0, typeof(T).Name.Length - 6) + "ID";
+                    }
+                    else
+                    {
+                        PropertyName = typeof(T).Name + "ID";
+                    }
 
-                query = OrderExpression.OrderByProp(query, PropertyName);
+                    query = OrderExpression.OrderByProp(query, PropertyName);
+                }
+            }
+
+            if (Query.DescList.Count > 0)
+            {
+                int CountOrder = 0;
+                foreach (string PropertyName in Query.DescList)
+                {
+                    CountOrder += 1;
+                    if (CountOrder > 1)
+                    {
+                        query = OrderExpression.ThenByDescendingProp(query, PropertyName);
+                    }
+                    else
+                    {
+                        query = OrderExpression.OrderByDescendingProp(query, PropertyName);
+                    }
+                }
             }
 
             if (Query.Skip > 0)
@@ -533,7 +649,7 @@ namespace CSSPServices
 
             return query;
         }
-        public Query FillQuery(Type modelType, string lang = "en", int skip = 0, int take = 200, string order = "", string where = "",
+        public Query FillQuery(Type modelType, string lang = "en", int skip = 0, int take = 200, string asc = "", string desc = "", string where = "",
                 string extra = "")
         {
             Query query = new Query();
@@ -542,8 +658,9 @@ namespace CSSPServices
             query.Language = (lang == "fr" ? LanguageEnum.fr : LanguageEnum.en);
             query.Lang = lang ?? "en";
             query.Skip = skip;
-            query.Take = (take < 1 ? 1 : take);
-            query.Order = order ?? "";
+            query.Take = take;
+            query.Asc = asc ?? "";
+            query.Desc = desc ?? "";
             query.Where = where ?? "";
             query.Extra = extra ?? "";
 

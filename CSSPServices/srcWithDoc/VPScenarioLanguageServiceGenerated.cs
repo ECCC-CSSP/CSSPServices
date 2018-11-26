@@ -71,13 +71,13 @@ namespace CSSPServices
                 if (vpScenarioLanguage.VPScenarioLanguageID == 0)
                 {
                     vpScenarioLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "VPScenarioLanguageVPScenarioLanguageID"), new[] { "VPScenarioLanguageID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "VPScenarioLanguageID"), new[] { "VPScenarioLanguageID" });
                 }
 
                 if (!(from c in db.VPScenarioLanguages select c).Where(c => c.VPScenarioLanguageID == vpScenarioLanguage.VPScenarioLanguageID).Any())
                 {
                     vpScenarioLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "VPScenarioLanguage", "VPScenarioLanguageVPScenarioLanguageID", vpScenarioLanguage.VPScenarioLanguageID.ToString()), new[] { "VPScenarioLanguageID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "VPScenarioLanguage", "VPScenarioLanguageID", vpScenarioLanguage.VPScenarioLanguageID.ToString()), new[] { "VPScenarioLanguageID" });
                 }
             }
 
@@ -86,46 +86,46 @@ namespace CSSPServices
             if (VPScenarioVPScenarioID == null)
             {
                 vpScenarioLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "VPScenario", "VPScenarioLanguageVPScenarioID", vpScenarioLanguage.VPScenarioID.ToString()), new[] { "VPScenarioID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "VPScenario", "VPScenarioID", vpScenarioLanguage.VPScenarioID.ToString()), new[] { "VPScenarioID" });
             }
 
             retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)vpScenarioLanguage.Language);
             if (!string.IsNullOrWhiteSpace(retStr))
             {
                 vpScenarioLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "VPScenarioLanguageLanguage"), new[] { "Language" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "Language"), new[] { "Language" });
             }
 
             if (string.IsNullOrWhiteSpace(vpScenarioLanguage.VPScenarioName))
             {
                 vpScenarioLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "VPScenarioLanguageVPScenarioName"), new[] { "VPScenarioName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "VPScenarioName"), new[] { "VPScenarioName" });
             }
 
             if (!string.IsNullOrWhiteSpace(vpScenarioLanguage.VPScenarioName) && vpScenarioLanguage.VPScenarioName.Length > 100)
             {
                 vpScenarioLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "VPScenarioLanguageVPScenarioName", "100"), new[] { "VPScenarioName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "VPScenarioName", "100"), new[] { "VPScenarioName" });
             }
 
             retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)vpScenarioLanguage.TranslationStatus);
             if (!string.IsNullOrWhiteSpace(retStr))
             {
                 vpScenarioLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "VPScenarioLanguageTranslationStatus"), new[] { "TranslationStatus" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TranslationStatus"), new[] { "TranslationStatus" });
             }
 
             if (vpScenarioLanguage.LastUpdateDate_UTC.Year == 1)
             {
                 vpScenarioLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "VPScenarioLanguageLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (vpScenarioLanguage.LastUpdateDate_UTC.Year < 1980)
                 {
                 vpScenarioLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "VPScenarioLanguageLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "LastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -134,7 +134,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 vpScenarioLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "VPScenarioLanguageLastUpdateContactTVItemID", vpScenarioLanguage.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "LastUpdateContactTVItemID", vpScenarioLanguage.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -145,7 +145,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     vpScenarioLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "VPScenarioLanguageLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "LastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 

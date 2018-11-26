@@ -71,13 +71,13 @@ namespace CSSPServices
                 if (reportType.ReportTypeID == 0)
                 {
                     reportType.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportTypeReportTypeID"), new[] { "ReportTypeID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportTypeID"), new[] { "ReportTypeID" });
                 }
 
                 if (!(from c in db.ReportTypes select c).Where(c => c.ReportTypeID == reportType.ReportTypeID).Any())
                 {
                     reportType.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ReportType", "ReportTypeReportTypeID", reportType.ReportTypeID.ToString()), new[] { "ReportTypeID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ReportType", "ReportTypeID", reportType.ReportTypeID.ToString()), new[] { "ReportTypeID" });
                 }
             }
 
@@ -85,39 +85,39 @@ namespace CSSPServices
             if (!string.IsNullOrWhiteSpace(retStr))
             {
                 reportType.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportTypeTVType"), new[] { "TVType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVType"), new[] { "TVType" });
             }
 
             retStr = enums.EnumTypeOK(typeof(FileTypeEnum), (int?)reportType.FileType);
             if (!string.IsNullOrWhiteSpace(retStr))
             {
                 reportType.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportTypeFileType"), new[] { "FileType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "FileType"), new[] { "FileType" });
             }
 
             if (string.IsNullOrWhiteSpace(reportType.UniqueCode))
             {
                 reportType.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportTypeUniqueCode"), new[] { "UniqueCode" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "UniqueCode"), new[] { "UniqueCode" });
             }
 
             if (!string.IsNullOrWhiteSpace(reportType.UniqueCode) && reportType.UniqueCode.Length > 100)
             {
                 reportType.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ReportTypeUniqueCode", "100"), new[] { "UniqueCode" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "UniqueCode", "100"), new[] { "UniqueCode" });
             }
 
             if (reportType.LastUpdateDate_UTC.Year == 1)
             {
                 reportType.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportTypeLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (reportType.LastUpdateDate_UTC.Year < 1980)
                 {
                 reportType.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ReportTypeLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "LastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -126,7 +126,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 reportType.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "ReportTypeLastUpdateContactTVItemID", reportType.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "LastUpdateContactTVItemID", reportType.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -137,7 +137,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     reportType.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "ReportTypeLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "LastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 

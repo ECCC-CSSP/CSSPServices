@@ -67,19 +67,19 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(fileItem.Name))
             {
                 fileItem.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "FileItemName"), new[] { "Name" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "Name"), new[] { "Name" });
             }
 
             if (!string.IsNullOrWhiteSpace(fileItem.Name) && (fileItem.Name.Length < 0 || fileItem.Name.Length > 255))
             {
                 fileItem.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "FileItemName", "0", "255"), new[] { "Name" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "Name", "0", "255"), new[] { "Name" });
             }
 
             if (fileItem.TVItemID < 1)
             {
                 fileItem.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "FileItemTVItemID", "1"), new[] { "TVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "TVItemID", "1"), new[] { "TVItemID" });
             }
 
             retStr = ""; // added to stop compiling CSSPError

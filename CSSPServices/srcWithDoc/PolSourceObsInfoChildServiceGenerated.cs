@@ -69,26 +69,26 @@ namespace CSSPServices
             if (!string.IsNullOrWhiteSpace(retStr))
             {
                 polSourceObsInfoChild.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "PolSourceObsInfoChildPolSourceObsInfo"), new[] { "PolSourceObsInfo" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "PolSourceObsInfo"), new[] { "PolSourceObsInfo" });
             }
 
             retStr = enums.EnumTypeOK(typeof(PolSourceObsInfoEnum), (int?)polSourceObsInfoChild.PolSourceObsInfoChildStart);
             if (!string.IsNullOrWhiteSpace(retStr))
             {
                 polSourceObsInfoChild.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "PolSourceObsInfoChildPolSourceObsInfoChildStart"), new[] { "PolSourceObsInfoChildStart" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "PolSourceObsInfoChildStart"), new[] { "PolSourceObsInfoChildStart" });
             }
 
             if (!string.IsNullOrWhiteSpace(polSourceObsInfoChild.PolSourceObsInfoText) && polSourceObsInfoChild.PolSourceObsInfoText.Length > 100)
             {
                 polSourceObsInfoChild.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "PolSourceObsInfoChildPolSourceObsInfoText", "100"), new[] { "PolSourceObsInfoText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "PolSourceObsInfoText", "100"), new[] { "PolSourceObsInfoText" });
             }
 
             if (!string.IsNullOrWhiteSpace(polSourceObsInfoChild.PolSourceObsInfoChildStartText) && polSourceObsInfoChild.PolSourceObsInfoChildStartText.Length > 100)
             {
                 polSourceObsInfoChild.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "PolSourceObsInfoChildPolSourceObsInfoChildStartText", "100"), new[] { "PolSourceObsInfoChildStartText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "PolSourceObsInfoChildStartText", "100"), new[] { "PolSourceObsInfoChildStartText" });
             }
 
             retStr = ""; // added to stop compiling CSSPError

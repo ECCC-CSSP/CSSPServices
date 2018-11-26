@@ -51,13 +51,13 @@ namespace CSSPServices
                 if (appTask.AppTaskID == 0)
                 {
                     appTask.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "AppTaskAppTaskID"), new[] { "AppTaskID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "AppTaskID"), new[] { "AppTaskID" });
                 }
 
                 if (!(from c in db.AppTasks select c).Where(c => c.AppTaskID == appTask.AppTaskID).Any())
                 {
                     appTask.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "AppTask", "AppTaskAppTaskID", appTask.AppTaskID.ToString()), new[] { "AppTaskID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "AppTask", "AppTaskID", appTask.AppTaskID.ToString()), new[] { "AppTaskID" });
                 }
             }
 
@@ -66,7 +66,7 @@ namespace CSSPServices
             if (TVItemTVItemID == null)
             {
                 appTask.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "AppTaskTVItemID", appTask.TVItemID.ToString()), new[] { "TVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "TVItemID", appTask.TVItemID.ToString()), new[] { "TVItemID" });
             }
             else
             {
@@ -100,7 +100,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemTVItemID.TVType))
                 {
                     appTask.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "AppTaskTVItemID", "Root,Address,Area,ClimateSite,Country,File,HydrometricSite,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,Outfall,OtherInfrastructure,SeeOther,LineOverflow"), new[] { "TVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "TVItemID", "Root,Address,Area,ClimateSite,Country,File,HydrometricSite,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,Outfall,OtherInfrastructure,SeeOther,LineOverflow"), new[] { "TVItemID" });
                 }
             }
 
@@ -109,7 +109,7 @@ namespace CSSPServices
             if (TVItemTVItemID2 == null)
             {
                 appTask.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "AppTaskTVItemID2", appTask.TVItemID2.ToString()), new[] { "TVItemID2" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "TVItemID2", appTask.TVItemID2.ToString()), new[] { "TVItemID2" });
             }
             else
             {
@@ -143,7 +143,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemTVItemID2.TVType))
                 {
                     appTask.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "AppTaskTVItemID2", "Root,Address,Area,ClimateSite,Country,File,HydrometricSite,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,Outfall,OtherInfrastructure,SeeOther,LineOverflow"), new[] { "TVItemID2" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "TVItemID2", "Root,Address,Area,ClimateSite,Country,File,HydrometricSite,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,Outfall,OtherInfrastructure,SeeOther,LineOverflow"), new[] { "TVItemID2" });
                 }
             }
 
@@ -151,26 +151,26 @@ namespace CSSPServices
             if (!string.IsNullOrWhiteSpace(retStr))
             {
                 appTask.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "AppTaskAppTaskCommand"), new[] { "AppTaskCommand" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "AppTaskCommand"), new[] { "AppTaskCommand" });
             }
 
             retStr = enums.EnumTypeOK(typeof(AppTaskStatusEnum), (int?)appTask.AppTaskStatus);
             if (!string.IsNullOrWhiteSpace(retStr))
             {
                 appTask.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "AppTaskAppTaskStatus"), new[] { "AppTaskStatus" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "AppTaskStatus"), new[] { "AppTaskStatus" });
             }
 
             if (appTask.PercentCompleted < 0 || appTask.PercentCompleted > 100)
             {
                 appTask.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "AppTaskPercentCompleted", "0", "100"), new[] { "PercentCompleted" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "PercentCompleted", "0", "100"), new[] { "PercentCompleted" });
             }
 
             if (string.IsNullOrWhiteSpace(appTask.Parameters))
             {
                 appTask.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "AppTaskParameters"), new[] { "Parameters" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "Parameters"), new[] { "Parameters" });
             }
 
             //Parameters has no StringLength Attribute
@@ -179,33 +179,33 @@ namespace CSSPServices
             if (!string.IsNullOrWhiteSpace(retStr))
             {
                 appTask.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "AppTaskLanguage"), new[] { "Language" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "Language"), new[] { "Language" });
             }
 
             if (appTask.StartDateTime_UTC.Year == 1)
             {
                 appTask.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "AppTaskStartDateTime_UTC"), new[] { "StartDateTime_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "StartDateTime_UTC"), new[] { "StartDateTime_UTC" });
             }
             else
             {
                 if (appTask.StartDateTime_UTC.Year < 1980)
                 {
                 appTask.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "AppTaskStartDateTime_UTC", "1980"), new[] { "StartDateTime_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "StartDateTime_UTC", "1980"), new[] { "StartDateTime_UTC" });
                 }
             }
 
             if (appTask.EndDateTime_UTC != null && ((DateTime)appTask.EndDateTime_UTC).Year < 1980)
             {
                 appTask.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "AppTaskEndDateTime_UTC", "1980"), new[] { "AppTaskEndDateTime_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "EndDateTime_UTC", "1980"), new[] { "EndDateTime_UTC" });
             }
 
             if (appTask.StartDateTime_UTC > appTask.EndDateTime_UTC)
             {
                 appTask.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._DateIsBiggerThan_, "AppTaskEndDateTime_UTC", "AppTaskStartDateTime_UTC"), new[] { "AppTaskEndDateTime_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._DateIsBiggerThan_, "EndDateTime_UTC", "AppTaskStartDateTime_UTC"), new[] { "EndDateTime_UTC" });
             }
 
             if (appTask.EstimatedLength_second != null)
@@ -213,7 +213,7 @@ namespace CSSPServices
                 if (appTask.EstimatedLength_second < 0 || appTask.EstimatedLength_second > 1000000)
                 {
                     appTask.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "AppTaskEstimatedLength_second", "0", "1000000"), new[] { "EstimatedLength_second" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "EstimatedLength_second", "0", "1000000"), new[] { "EstimatedLength_second" });
                 }
             }
 
@@ -222,21 +222,21 @@ namespace CSSPServices
                 if (appTask.RemainingTime_second < 0 || appTask.RemainingTime_second > 1000000)
                 {
                     appTask.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "AppTaskRemainingTime_second", "0", "1000000"), new[] { "RemainingTime_second" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "RemainingTime_second", "0", "1000000"), new[] { "RemainingTime_second" });
                 }
             }
 
             if (appTask.LastUpdateDate_UTC.Year == 1)
             {
                 appTask.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "AppTaskLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (appTask.LastUpdateDate_UTC.Year < 1980)
                 {
                 appTask.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "AppTaskLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "LastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -245,7 +245,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 appTask.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "AppTaskLastUpdateContactTVItemID", appTask.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "LastUpdateContactTVItemID", appTask.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -256,7 +256,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     appTask.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "AppTaskLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "LastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 

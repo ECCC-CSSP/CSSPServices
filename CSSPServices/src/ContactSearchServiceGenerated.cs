@@ -49,25 +49,25 @@ namespace CSSPServices
             if (contactSearch.ContactID < 1)
             {
                 contactSearch.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "ContactSearchContactID", "1"), new[] { "ContactID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "ContactID", "1"), new[] { "ContactID" });
             }
 
             if (contactSearch.ContactTVItemID < 1)
             {
                 contactSearch.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "ContactSearchContactTVItemID", "1"), new[] { "ContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "ContactTVItemID", "1"), new[] { "ContactTVItemID" });
             }
 
             if (string.IsNullOrWhiteSpace(contactSearch.FullName))
             {
                 contactSearch.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ContactSearchFullName"), new[] { "FullName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "FullName"), new[] { "FullName" });
             }
 
             if (!string.IsNullOrWhiteSpace(contactSearch.FullName) && contactSearch.FullName.Length > 255)
             {
                 contactSearch.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ContactSearchFullName", "255"), new[] { "FullName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "FullName", "255"), new[] { "FullName" });
             }
 
             retStr = ""; // added to stop compiling CSSPError

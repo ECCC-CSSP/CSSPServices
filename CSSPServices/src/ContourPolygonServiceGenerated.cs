@@ -49,19 +49,19 @@ namespace CSSPServices
             if (contourPolygon.ContourValue < 0)
             {
                 contourPolygon.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "ContourPolygonContourValue", "0"), new[] { "ContourValue" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "ContourValue", "0"), new[] { "ContourValue" });
             }
 
             if (contourPolygon.Layer < 1 || contourPolygon.Layer > 100)
             {
                 contourPolygon.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ContourPolygonLayer", "1", "100"), new[] { "Layer" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "Layer", "1", "100"), new[] { "Layer" });
             }
 
             if (contourPolygon.Depth_m < 1 || contourPolygon.Depth_m > 10000)
             {
                 contourPolygon.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ContourPolygonDepth_m", "1", "10000"), new[] { "Depth_m" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "Depth_m", "1", "10000"), new[] { "Depth_m" });
             }
 
                 //CSSPError: Type not implemented [ContourNodeList] of type [List`1]

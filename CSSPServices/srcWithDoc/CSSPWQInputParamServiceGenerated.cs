@@ -69,31 +69,31 @@ namespace CSSPServices
             if (!string.IsNullOrWhiteSpace(retStr))
             {
                 cSSPWQInputParam.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "CSSPWQInputParamCSSPWQInputType"), new[] { "CSSPWQInputType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "CSSPWQInputType"), new[] { "CSSPWQInputType" });
             }
 
             if (string.IsNullOrWhiteSpace(cSSPWQInputParam.Name))
             {
                 cSSPWQInputParam.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "CSSPWQInputParamName"), new[] { "Name" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "Name"), new[] { "Name" });
             }
 
             if (!string.IsNullOrWhiteSpace(cSSPWQInputParam.Name) && (cSSPWQInputParam.Name.Length < 1 || cSSPWQInputParam.Name.Length > 200))
             {
                 cSSPWQInputParam.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "CSSPWQInputParamName", "1", "200"), new[] { "Name" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "Name", "1", "200"), new[] { "Name" });
             }
 
             if (cSSPWQInputParam.TVItemID < 1)
             {
                 cSSPWQInputParam.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "CSSPWQInputParamTVItemID", "1"), new[] { "TVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "TVItemID", "1"), new[] { "TVItemID" });
             }
 
             if (!string.IsNullOrWhiteSpace(cSSPWQInputParam.CSSPWQInputTypeText) && cSSPWQInputParam.CSSPWQInputTypeText.Length > 100)
             {
                 cSSPWQInputParam.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "CSSPWQInputParamCSSPWQInputTypeText", "100"), new[] { "CSSPWQInputTypeText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "CSSPWQInputTypeText", "100"), new[] { "CSSPWQInputTypeText" });
             }
 
                 //CSSPError: Type not implemented [sidList] of type [List`1]

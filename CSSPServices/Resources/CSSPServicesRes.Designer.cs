@@ -277,11 +277,29 @@ namespace CSSPServices.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to [{0}] needs to be a valid Enum number for [{1}] of model [{2}] allowable values are [{3}].
+        /// </summary>
+        public static string _NeedsToBeAValidEnumNumberFor_OfModel_AllowableValuesAre_ {
+            get {
+                return ResourceManager.GetString("_NeedsToBeAValidEnumNumberFor_OfModel_AllowableValuesAre_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to [{0}] needs to be a valid enum text for {1} of model {2}.
         /// </summary>
         public static string _NeedsToBeAValidEnumTextFor_OfModel_ {
             get {
                 return ResourceManager.GetString("_NeedsToBeAValidEnumTextFor_OfModel_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [{0}] needs to be a valid Enum text for [{1}] of model [{2}] allowable values are [{3}].
+        /// </summary>
+        public static string _NeedsToBeAValidEnumTextFor_OfModel_AllowableValuesAre_ {
+            get {
+                return ResourceManager.GetString("_NeedsToBeAValidEnumTextFor_OfModel_AllowableValuesAre_", resourceCulture);
             }
         }
         
@@ -475,6 +493,15 @@ namespace CSSPServices.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Extra [{0}] of model [{1}] is invalid. Allowable values are [{2}].
+        /// </summary>
+        public static string Extra_OfModel_IsInvalidAllowableValuesAre_ {
+            get {
+                return ResourceManager.GetString("Extra_OfModel_IsInvalidAllowableValuesAre_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Full Name.
         /// </summary>
         public static string FullName {
@@ -601,11 +628,29 @@ namespace CSSPServices.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Where operator {0} not implemented yet.
+        ///   Looks up a localized string similar to Where operator [{0}] for [{1}] of model [{2}] is not valid. Only [EQ] is allowed..
+        /// </summary>
+        public static string WhereOperator_For_OfModel_IsNotValidOnlyEQIsAllowed {
+            get {
+                return ResourceManager.GetString("WhereOperator_For_OfModel_IsNotValidOnlyEQIsAllowed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Where operator [{0}] not implemented yet.
         /// </summary>
         public static string WhereOperator_NotImplementedYet {
             get {
                 return ResourceManager.GetString("WhereOperator_NotImplementedYet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Where operator [{0}] not valid. Allowable values are [{1}].
+        /// </summary>
+        public static string WhereOperator_NotValidAllowableValuesAre_ {
+            get {
+                return ResourceManager.GetString("WhereOperator_NotValidAllowableValuesAre_", resourceCulture);
             }
         }
         

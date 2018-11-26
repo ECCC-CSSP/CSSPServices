@@ -49,7 +49,7 @@ namespace CSSPServices
             if (calDecay.Decay < 0)
             {
                 calDecay.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "CalDecayDecay", "0"), new[] { "Decay" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "Decay", "0"), new[] { "Decay" });
             }
 
             retStr = ""; // added to stop compiling CSSPError

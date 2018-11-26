@@ -68,13 +68,13 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(dataPathOfTide.Text))
             {
                 dataPathOfTide.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "DataPathOfTideText"), new[] { "Text" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "Text"), new[] { "Text" });
             }
 
             if (!string.IsNullOrWhiteSpace(dataPathOfTide.Text) && (dataPathOfTide.Text.Length < 1 || dataPathOfTide.Text.Length > 200))
             {
                 dataPathOfTide.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "DataPathOfTideText", "1", "200"), new[] { "Text" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "Text", "1", "200"), new[] { "Text" });
             }
 
             if (dataPathOfTide.WebTideDataSet != null)
@@ -83,14 +83,14 @@ namespace CSSPServices
                 if (dataPathOfTide.WebTideDataSet == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     dataPathOfTide.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "DataPathOfTideWebTideDataSet"), new[] { "WebTideDataSet" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "WebTideDataSet"), new[] { "WebTideDataSet" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(dataPathOfTide.WebTideDataSetText) && dataPathOfTide.WebTideDataSetText.Length > 100)
             {
                 dataPathOfTide.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "DataPathOfTideWebTideDataSetText", "100"), new[] { "WebTideDataSetText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "WebTideDataSetText", "100"), new[] { "WebTideDataSetText" });
             }
 
             retStr = ""; // added to stop compiling CSSPError

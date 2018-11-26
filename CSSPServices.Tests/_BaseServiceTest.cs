@@ -13,6 +13,7 @@ using CSSPServices.Resources;
 using CSSPModels.Resources;
 using CSSPEnums.Resources;
 using System.Threading;
+using System.Text;
 
 namespace CSSPServices.Tests
 {
@@ -43,8 +44,6 @@ namespace CSSPServices.Tests
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
-                ChangeCulture(culture);
-
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     BaseService baseService = new BaseService(new Query { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
@@ -60,9 +59,25 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(true, baseService.CanSendEmail);
                     Assert.AreEqual(ContactID, baseService.ContactID);
                     Assert.AreEqual("ec.pccsm-cssp.ec@canada.ca", baseService.FromEmail);
-                    Assert.AreEqual(LanguageEnum.en, baseService.LanguageRequest);
-                    Assert.AreEqual(new CultureInfo("en-CA"), Thread.CurrentThread.CurrentCulture);
-                    Assert.AreEqual(new CultureInfo("en-CA"), Thread.CurrentThread.CurrentUICulture);
+                    Assert.AreEqual(culture.TwoLetterISOLanguageName == "fr" ? LanguageEnum.fr : LanguageEnum.en, baseService.LanguageRequest);
+                    Assert.AreEqual(culture, Thread.CurrentThread.CurrentCulture);
+                    Assert.AreEqual(culture, Thread.CurrentThread.CurrentUICulture);
+
+                    // Query
+                    Assert.AreEqual("", baseService.Query.Extra);
+                    Assert.AreEqual(false, baseService.Query.HasErrors);
+                    Assert.AreEqual(culture.TwoLetterISOLanguageName, baseService.Query.Lang);
+                    Assert.AreEqual(culture.TwoLetterISOLanguageName == "fr" ? LanguageEnum.fr : LanguageEnum.en, baseService.Query.Language);
+                    Assert.AreEqual(null, baseService.Query.ModelType);
+                    Assert.AreEqual("", baseService.Query.Asc);
+                    Assert.AreEqual(0, baseService.Query.AscList.Count);
+                    Assert.AreEqual("", baseService.Query.Desc);
+                    Assert.AreEqual(0, baseService.Query.DescList.Count);
+                    Assert.AreEqual(0, baseService.Query.Skip);
+                    Assert.AreEqual(200, baseService.Query.Take);
+                    Assert.AreEqual(0, baseService.Query.ValidationResults.Count());
+                    Assert.AreEqual("", baseService.Query.Where);
+                    Assert.AreEqual(0, baseService.Query.WhereInfoList.Count);
                 }
             }
         }
@@ -72,14 +87,13 @@ namespace CSSPServices.Tests
             string lang;
             int skip;
             int take;
-            string orderByName;
+            string ascByName;
+            string descByName;
             string where;
             string extra;
 
             foreach (CultureInfo culture in AllowableCulture)
             {
-                ChangeCulture(culture);
-
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     BaseService baseService = new BaseService(new Query(), dbTestDB, ContactID);
@@ -91,10 +105,12 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
                     Assert.AreEqual(0, baseService.Query.Skip);
                     Assert.AreEqual(200, baseService.Query.Take);
-                    Assert.AreEqual("", baseService.Query.Order);
+                    Assert.AreEqual("", baseService.Query.Asc);
+                    Assert.AreEqual("", baseService.Query.Desc);
                     Assert.AreEqual("", baseService.Query.Where);
                     Assert.AreEqual("", baseService.Query.Extra);
-                    Assert.AreEqual(0, baseService.Query.OrderList.Count);
+                    Assert.AreEqual(0, baseService.Query.AscList.Count);
+                    Assert.AreEqual(0, baseService.Query.DescList.Count);
                     Assert.AreEqual(0, baseService.Query.WhereInfoList.Count);
 
                     // FillQuery lang = "fr"
@@ -105,10 +121,12 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(LanguageEnum.fr, baseService.Query.Language);
                     Assert.AreEqual(0, baseService.Query.Skip);
                     Assert.AreEqual(200, baseService.Query.Take);
-                    Assert.AreEqual("", baseService.Query.Order);
+                    Assert.AreEqual("", baseService.Query.Asc);
+                    Assert.AreEqual("", baseService.Query.Desc);
                     Assert.AreEqual("", baseService.Query.Where);
                     Assert.AreEqual("", baseService.Query.Extra);
-                    Assert.AreEqual(0, baseService.Query.OrderList.Count);
+                    Assert.AreEqual(0, baseService.Query.AscList.Count);
+                    Assert.AreEqual(0, baseService.Query.DescList.Count);
                     Assert.AreEqual(0, baseService.Query.WhereInfoList.Count);
 
                     // FillQuery skip = 1
@@ -119,10 +137,12 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
                     Assert.AreEqual(1, baseService.Query.Skip);
                     Assert.AreEqual(200, baseService.Query.Take);
-                    Assert.AreEqual("", baseService.Query.Order);
+                    Assert.AreEqual("", baseService.Query.Asc);
+                    Assert.AreEqual("", baseService.Query.Desc);
                     Assert.AreEqual("", baseService.Query.Where);
                     Assert.AreEqual("", baseService.Query.Extra);
-                    Assert.AreEqual(0, baseService.Query.OrderList.Count);
+                    Assert.AreEqual(0, baseService.Query.AscList.Count);
+                    Assert.AreEqual(0, baseService.Query.DescList.Count);
                     Assert.AreEqual(0, baseService.Query.WhereInfoList.Count);
 
                     // FillQuery take = 2
@@ -133,46 +153,113 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
                     Assert.AreEqual(0, baseService.Query.Skip);
                     Assert.AreEqual(2, baseService.Query.Take);
-                    Assert.AreEqual("", baseService.Query.Order);
+                    Assert.AreEqual("", baseService.Query.Asc);
+                    Assert.AreEqual("", baseService.Query.Desc);
                     Assert.AreEqual("", baseService.Query.Where);
                     Assert.AreEqual("", baseService.Query.Extra);
-                    Assert.AreEqual(0, baseService.Query.OrderList.Count);
+                    Assert.AreEqual(0, baseService.Query.AscList.Count);
+                    Assert.AreEqual(0, baseService.Query.DescList.Count);
                     Assert.AreEqual(0, baseService.Query.WhereInfoList.Count);
 
-                    // FillQuery Order = "Bonjour,Testing,Allo"
-                    orderByName = "AddressID,StreetType,StreetNumber,StreetName";
-                    baseService.Query = baseService.FillQuery(modelType: typeof(Address), order: orderByName);
+                    // FillQuery Asc = "AddressID,StreetType,StreetNumber,StreetName"
+                    ascByName = "AddressID,StreetType,StreetNumber,StreetName";
+                    baseService.Query = baseService.FillQuery(modelType: typeof(Address), asc: ascByName);
 
                     Assert.AreEqual(typeof(Address), baseService.Query.ModelType);
                     Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
                     Assert.AreEqual(0, baseService.Query.Skip);
                     Assert.AreEqual(200, baseService.Query.Take);
-                    Assert.AreEqual(orderByName, baseService.Query.Order);
+                    Assert.AreEqual(ascByName, baseService.Query.Asc);
+                    Assert.AreEqual("", baseService.Query.Desc);
                     Assert.AreEqual("", baseService.Query.Where);
                     Assert.AreEqual("", baseService.Query.Extra);
-                    Assert.AreEqual(4, baseService.Query.OrderList.Count);
-                    Assert.AreEqual("AddressID", baseService.Query.OrderList[0]);
-                    Assert.AreEqual("StreetType", baseService.Query.OrderList[1]);
-                    Assert.AreEqual("StreetNumber", baseService.Query.OrderList[2]);
-                    Assert.AreEqual("StreetName", baseService.Query.OrderList[3]);
+                    Assert.AreEqual(4, baseService.Query.AscList.Count);
+                    Assert.AreEqual(0, baseService.Query.DescList.Count);
+                    Assert.AreEqual("AddressID", baseService.Query.AscList[0]);
+                    Assert.AreEqual("StreetType", baseService.Query.AscList[1]);
+                    Assert.AreEqual("StreetNumber", baseService.Query.AscList[2]);
+                    Assert.AreEqual("StreetName", baseService.Query.AscList[3]);
                     Assert.AreEqual(0, baseService.Query.WhereInfoList.Count);
 
-                    // FillQuery Order = "Bonjour,Testing,Allo" with spaces
-                    orderByName = "AddressID, StreetType, StreetNumber ,StreetName";
-                    baseService.Query = baseService.FillQuery(modelType: typeof(Address), order: orderByName);
+                    // FillQuery Desc = "AddressID,StreetType,StreetNumber,StreetName"
+                    descByName = "AddressID,StreetType,StreetNumber,StreetName";
+                    baseService.Query = baseService.FillQuery(modelType: typeof(Address), desc: descByName);
 
                     Assert.AreEqual(typeof(Address), baseService.Query.ModelType);
                     Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
                     Assert.AreEqual(0, baseService.Query.Skip);
                     Assert.AreEqual(200, baseService.Query.Take);
-                    Assert.AreEqual(orderByName, baseService.Query.Order);
+                    Assert.AreEqual("", baseService.Query.Asc);
+                    Assert.AreEqual(descByName, baseService.Query.Desc);
                     Assert.AreEqual("", baseService.Query.Where);
                     Assert.AreEqual("", baseService.Query.Extra);
-                    Assert.AreEqual(4, baseService.Query.OrderList.Count);
-                    Assert.AreEqual("AddressID", baseService.Query.OrderList[0]);
-                    Assert.AreEqual("StreetType", baseService.Query.OrderList[1]);
-                    Assert.AreEqual("StreetNumber", baseService.Query.OrderList[2]);
-                    Assert.AreEqual("StreetName", baseService.Query.OrderList[3]);
+                    Assert.AreEqual(0, baseService.Query.AscList.Count);
+                    Assert.AreEqual(4, baseService.Query.DescList.Count);
+                    Assert.AreEqual("AddressID", baseService.Query.DescList[0]);
+                    Assert.AreEqual("StreetType", baseService.Query.DescList[1]);
+                    Assert.AreEqual("StreetNumber", baseService.Query.DescList[2]);
+                    Assert.AreEqual("StreetName", baseService.Query.DescList[3]);
+                    Assert.AreEqual(0, baseService.Query.WhereInfoList.Count);
+
+                    // FillQuery Asc  = "AddressID, StreetType, StreetNumber ,StreetName" with spaces
+                    ascByName = "AddressID, StreetType, StreetNumber ,StreetName";
+                    baseService.Query = baseService.FillQuery(modelType: typeof(Address), asc: ascByName);
+
+                    Assert.AreEqual(typeof(Address), baseService.Query.ModelType);
+                    Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
+                    Assert.AreEqual(0, baseService.Query.Skip);
+                    Assert.AreEqual(200, baseService.Query.Take);
+                    Assert.AreEqual(ascByName, baseService.Query.Asc);
+                    Assert.AreEqual("", baseService.Query.Desc);
+                    Assert.AreEqual("", baseService.Query.Where);
+                    Assert.AreEqual("", baseService.Query.Extra);
+                    Assert.AreEqual(4, baseService.Query.AscList.Count);
+                    Assert.AreEqual(0, baseService.Query.DescList.Count);
+                    Assert.AreEqual("AddressID", baseService.Query.AscList[0]);
+                    Assert.AreEqual("StreetType", baseService.Query.AscList[1]);
+                    Assert.AreEqual("StreetNumber", baseService.Query.AscList[2]);
+                    Assert.AreEqual("StreetName", baseService.Query.AscList[3]);
+                    Assert.AreEqual(0, baseService.Query.WhereInfoList.Count);
+
+                    // FillQuery Desc  = "AddressID, StreetType, StreetNumber ,StreetName" with spaces
+                    descByName = "AddressID, StreetType, StreetNumber ,StreetName";
+                    baseService.Query = baseService.FillQuery(modelType: typeof(Address), desc: descByName);
+
+                    Assert.AreEqual(typeof(Address), baseService.Query.ModelType);
+                    Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
+                    Assert.AreEqual(0, baseService.Query.Skip);
+                    Assert.AreEqual(200, baseService.Query.Take);
+                    Assert.AreEqual("", baseService.Query.Asc);
+                    Assert.AreEqual(descByName, baseService.Query.Desc);
+                    Assert.AreEqual("", baseService.Query.Where);
+                    Assert.AreEqual("", baseService.Query.Extra);
+                    Assert.AreEqual(0, baseService.Query.AscList.Count);
+                    Assert.AreEqual(4, baseService.Query.DescList.Count);
+                    Assert.AreEqual("AddressID", baseService.Query.DescList[0]);
+                    Assert.AreEqual("StreetType", baseService.Query.DescList[1]);
+                    Assert.AreEqual("StreetNumber", baseService.Query.DescList[2]);
+                    Assert.AreEqual("StreetName", baseService.Query.DescList[3]);
+                    Assert.AreEqual(0, baseService.Query.WhereInfoList.Count);
+
+                    // FillQuery Asc "AddressID,StreetType" and Desc "StreetNumber,StreetName"
+                    ascByName = "AddressID,StreetType";
+                    descByName = "StreetNumber,StreetName";
+                    baseService.Query = baseService.FillQuery(modelType: typeof(Address), asc: ascByName, desc: descByName);
+
+                    Assert.AreEqual(typeof(Address), baseService.Query.ModelType);
+                    Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
+                    Assert.AreEqual(0, baseService.Query.Skip);
+                    Assert.AreEqual(200, baseService.Query.Take);
+                    Assert.AreEqual(ascByName, baseService.Query.Asc);
+                    Assert.AreEqual(descByName, baseService.Query.Desc);
+                    Assert.AreEqual("", baseService.Query.Where);
+                    Assert.AreEqual("", baseService.Query.Extra);
+                    Assert.AreEqual(2, baseService.Query.AscList.Count);
+                    Assert.AreEqual(2, baseService.Query.DescList.Count);
+                    Assert.AreEqual("AddressID", baseService.Query.AscList[0]);
+                    Assert.AreEqual("StreetType", baseService.Query.AscList[1]);
+                    Assert.AreEqual("StreetNumber", baseService.Query.DescList[0]);
+                    Assert.AreEqual("StreetName", baseService.Query.DescList[1]);
                     Assert.AreEqual(0, baseService.Query.WhereInfoList.Count);
 
                     // FillQuery where = "Bonjour,EQ,4|Testing,LT,Allo"
@@ -183,10 +270,12 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
                     Assert.AreEqual(0, baseService.Query.Skip);
                     Assert.AreEqual(200, baseService.Query.Take);
-                    Assert.AreEqual("", baseService.Query.Order);
+                    Assert.AreEqual("", baseService.Query.Asc);
+                    Assert.AreEqual("", baseService.Query.Desc);
                     Assert.AreEqual(where, baseService.Query.Where);
                     Assert.AreEqual("", baseService.Query.Extra);
-                    Assert.AreEqual(0, baseService.Query.OrderList.Count);
+                    Assert.AreEqual(0, baseService.Query.AscList.Count);
+                    Assert.AreEqual(0, baseService.Query.DescList.Count);
                     Assert.AreEqual(2, baseService.Query.WhereInfoList.Count);
                     Assert.AreEqual("AddressID", baseService.Query.WhereInfoList[0].PropertyName);
                     Assert.AreEqual(WhereOperatorEnum.LessThan, baseService.Query.WhereInfoList[0].WhereOperator);
@@ -195,18 +284,20 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(WhereOperatorEnum.Equal, baseService.Query.WhereInfoList[1].WhereOperator);
                     Assert.AreEqual("Rouge", baseService.Query.WhereInfoList[1].Value);
 
-                    // FillQuery where = "Bonjour,EQ,4|Testing,LT,Allo" with spaces
-                    where = "AddressID, LT, 400 | StreetName, EQ, Rouge";
+                    // FillQuery where = "AddressID, LT ,400 | StreetName   ,   EQ,    Rouge    " with spaces
+                    where = "AddressID, LT ,400 | StreetName   ,   EQ,    Rouge    ";
                     baseService.Query = baseService.FillQuery(typeof(Address), where: where);
 
                     Assert.AreEqual(typeof(Address), baseService.Query.ModelType);
                     Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
                     Assert.AreEqual(0, baseService.Query.Skip);
                     Assert.AreEqual(200, baseService.Query.Take);
-                    Assert.AreEqual("", baseService.Query.Order);
+                    Assert.AreEqual("", baseService.Query.Asc);
+                    Assert.AreEqual("", baseService.Query.Desc);
                     Assert.AreEqual(where, baseService.Query.Where);
                     Assert.AreEqual("", baseService.Query.Extra);
-                    Assert.AreEqual(0, baseService.Query.OrderList.Count);
+                    Assert.AreEqual(0, baseService.Query.AscList.Count);
+                    Assert.AreEqual(0, baseService.Query.DescList.Count);
                     Assert.AreEqual(2, baseService.Query.WhereInfoList.Count);
                     Assert.AreEqual("AddressID", baseService.Query.WhereInfoList[0].PropertyName);
                     Assert.AreEqual(WhereOperatorEnum.LessThan, baseService.Query.WhereInfoList[0].WhereOperator);
@@ -223,10 +314,12 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
                     Assert.AreEqual(0, baseService.Query.Skip);
                     Assert.AreEqual(200, baseService.Query.Take);
-                    Assert.AreEqual("", baseService.Query.Order);
+                    Assert.AreEqual("", baseService.Query.Asc);
+                    Assert.AreEqual("", baseService.Query.Desc);
                     Assert.AreEqual(where, baseService.Query.Where);
                     Assert.AreEqual("", baseService.Query.Extra);
-                    Assert.AreEqual(0, baseService.Query.OrderList.Count);
+                    Assert.AreEqual(0, baseService.Query.AscList.Count);
+                    Assert.AreEqual(0, baseService.Query.DescList.Count);
                     Assert.AreEqual(1, baseService.Query.WhereInfoList.Count);
                     Assert.AreEqual("AddressID", baseService.Query.WhereInfoList[0].PropertyName);
                     Assert.AreEqual(WhereOperatorEnum.Equal, baseService.Query.WhereInfoList[0].WhereOperator);
@@ -241,10 +334,12 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
                     Assert.AreEqual(0, baseService.Query.Skip);
                     Assert.AreEqual(200, baseService.Query.Take);
-                    Assert.AreEqual("", baseService.Query.Order);
+                    Assert.AreEqual("", baseService.Query.Asc);
+                    Assert.AreEqual("", baseService.Query.Desc);
                     Assert.AreEqual(where, baseService.Query.Where);
                     Assert.AreEqual("", baseService.Query.Extra);
-                    Assert.AreEqual(0, baseService.Query.OrderList.Count);
+                    Assert.AreEqual(0, baseService.Query.AscList.Count);
+                    Assert.AreEqual(0, baseService.Query.DescList.Count);
                     Assert.AreEqual(1, baseService.Query.WhereInfoList.Count);
                     Assert.AreEqual("FixLength", baseService.Query.WhereInfoList[0].PropertyName);
                     Assert.AreEqual(WhereOperatorEnum.Equal, baseService.Query.WhereInfoList[0].WhereOperator);
@@ -259,10 +354,12 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
                     Assert.AreEqual(0, baseService.Query.Skip);
                     Assert.AreEqual(200, baseService.Query.Take);
-                    Assert.AreEqual("", baseService.Query.Order);
+                    Assert.AreEqual("", baseService.Query.Asc);
+                    Assert.AreEqual("", baseService.Query.Desc);
                     Assert.AreEqual(where, baseService.Query.Where);
                     Assert.AreEqual("", baseService.Query.Extra);
-                    Assert.AreEqual(0, baseService.Query.OrderList.Count);
+                    Assert.AreEqual(0, baseService.Query.AscList.Count);
+                    Assert.AreEqual(0, baseService.Query.DescList.Count);
                     Assert.AreEqual(1, baseService.Query.WhereInfoList.Count);
                     Assert.AreEqual("LastUpdateDate_UTC", baseService.Query.WhereInfoList[0].PropertyName);
                     Assert.AreEqual(WhereOperatorEnum.Equal, baseService.Query.WhereInfoList[0].WhereOperator);
@@ -277,10 +374,12 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
                     Assert.AreEqual(0, baseService.Query.Skip);
                     Assert.AreEqual(200, baseService.Query.Take);
-                    Assert.AreEqual("", baseService.Query.Order);
+                    Assert.AreEqual("", baseService.Query.Asc);
+                    Assert.AreEqual("", baseService.Query.Desc);
                     Assert.AreEqual(where, baseService.Query.Where);
                     Assert.AreEqual("", baseService.Query.Extra);
-                    Assert.AreEqual(0, baseService.Query.OrderList.Count);
+                    Assert.AreEqual(0, baseService.Query.AscList.Count);
+                    Assert.AreEqual(0, baseService.Query.DescList.Count);
                     Assert.AreEqual(1, baseService.Query.WhereInfoList.Count);
                     Assert.AreEqual("LastUpdateDate_UTC", baseService.Query.WhereInfoList[0].PropertyName);
                     Assert.AreEqual(WhereOperatorEnum.Equal, baseService.Query.WhereInfoList[0].WhereOperator);
@@ -295,10 +394,12 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
                     Assert.AreEqual(0, baseService.Query.Skip);
                     Assert.AreEqual(200, baseService.Query.Take);
-                    Assert.AreEqual("", baseService.Query.Order);
+                    Assert.AreEqual("", baseService.Query.Asc);
+                    Assert.AreEqual("", baseService.Query.Desc);
                     Assert.AreEqual(where, baseService.Query.Where);
                     Assert.AreEqual("", baseService.Query.Extra);
-                    Assert.AreEqual(0, baseService.Query.OrderList.Count);
+                    Assert.AreEqual(0, baseService.Query.AscList.Count);
+                    Assert.AreEqual(0, baseService.Query.DescList.Count);
                     Assert.AreEqual(1, baseService.Query.WhereInfoList.Count);
                     Assert.AreEqual("LastUpdateDate_UTC", baseService.Query.WhereInfoList[0].PropertyName);
                     Assert.AreEqual(WhereOperatorEnum.Equal, baseService.Query.WhereInfoList[0].WhereOperator);
@@ -313,10 +414,12 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
                     Assert.AreEqual(0, baseService.Query.Skip);
                     Assert.AreEqual(200, baseService.Query.Take);
-                    Assert.AreEqual("", baseService.Query.Order);
+                    Assert.AreEqual("", baseService.Query.Asc);
+                    Assert.AreEqual("", baseService.Query.Desc);
                     Assert.AreEqual(where, baseService.Query.Where);
                     Assert.AreEqual("", baseService.Query.Extra);
-                    Assert.AreEqual(0, baseService.Query.OrderList.Count);
+                    Assert.AreEqual(0, baseService.Query.AscList.Count);
+                    Assert.AreEqual(0, baseService.Query.DescList.Count);
                     Assert.AreEqual(1, baseService.Query.WhereInfoList.Count);
                     Assert.AreEqual("Radius_m", baseService.Query.WhereInfoList[0].PropertyName);
                     Assert.AreEqual(WhereOperatorEnum.Equal, baseService.Query.WhereInfoList[0].WhereOperator);
@@ -331,10 +434,12 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
                     Assert.AreEqual(0, baseService.Query.Skip);
                     Assert.AreEqual(200, baseService.Query.Take);
-                    Assert.AreEqual("", baseService.Query.Order);
+                    Assert.AreEqual("", baseService.Query.Asc);
+                    Assert.AreEqual("", baseService.Query.Desc);
                     Assert.AreEqual(where, baseService.Query.Where);
                     Assert.AreEqual("", baseService.Query.Extra);
-                    Assert.AreEqual(0, baseService.Query.OrderList.Count);
+                    Assert.AreEqual(0, baseService.Query.AscList.Count);
+                    Assert.AreEqual(0, baseService.Query.DescList.Count);
                     Assert.AreEqual(1, baseService.Query.WhereInfoList.Count);
                     Assert.AreEqual("StreetType", baseService.Query.WhereInfoList[0].PropertyName);
                     Assert.AreEqual(WhereOperatorEnum.Equal, baseService.Query.WhereInfoList[0].WhereOperator);
@@ -350,10 +455,12 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
                     Assert.AreEqual(0, baseService.Query.Skip);
                     Assert.AreEqual(200, baseService.Query.Take);
-                    Assert.AreEqual("", baseService.Query.Order);
+                    Assert.AreEqual("", baseService.Query.Asc);
+                    Assert.AreEqual("", baseService.Query.Desc);
                     Assert.AreEqual(where, baseService.Query.Where);
                     Assert.AreEqual("", baseService.Query.Extra);
-                    Assert.AreEqual(0, baseService.Query.OrderList.Count);
+                    Assert.AreEqual(0, baseService.Query.AscList.Count);
+                    Assert.AreEqual(0, baseService.Query.DescList.Count);
                     Assert.AreEqual(1, baseService.Query.WhereInfoList.Count);
                     Assert.AreEqual("StreetType", baseService.Query.WhereInfoList[0].PropertyName);
                     Assert.AreEqual(WhereOperatorEnum.Equal, baseService.Query.WhereInfoList[0].WhereOperator);
@@ -369,32 +476,38 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
                     Assert.AreEqual(0, baseService.Query.Skip);
                     Assert.AreEqual(200, baseService.Query.Take);
-                    Assert.AreEqual("", baseService.Query.Order);
+                    Assert.AreEqual("", baseService.Query.Asc);
+                    Assert.AreEqual("", baseService.Query.Desc);
                     Assert.AreEqual("", baseService.Query.Where);
                     Assert.AreEqual("A", baseService.Query.Extra);
-                    Assert.AreEqual(0, baseService.Query.OrderList.Count);
+                    Assert.AreEqual(0, baseService.Query.AscList.Count);
+                    Assert.AreEqual(0, baseService.Query.DescList.Count);
                     Assert.AreEqual(0, baseService.Query.WhereInfoList.Count);
 
                     // FillQuery all
                     lang = "fr";
                     skip = 2;
                     take = 4;
-                    orderByName = "AddressID,StreetName,StreetNumber";
+                    ascByName = "AddressID,StreetName";
+                    descByName = "AddressType,StreetNumber";
                     where = "AddressID,GT,4|StreetName,EQ,Allo";
                     extra = "B";
 
-                    baseService.Query = baseService.FillQuery(typeof(Address), lang, skip, take, orderByName, where, extra);
+                    baseService.Query = baseService.FillQuery(typeof(Address), lang, skip, take, ascByName, descByName, where, extra);
 
                     Assert.AreEqual(LanguageEnum.fr, baseService.Query.Language);
                     Assert.AreEqual(2, baseService.Query.Skip);
                     Assert.AreEqual(4, baseService.Query.Take);
-                    Assert.AreEqual(orderByName, baseService.Query.Order);
+                    Assert.AreEqual(ascByName, baseService.Query.Asc);
+                    Assert.AreEqual(descByName, baseService.Query.Desc);
                     Assert.AreEqual(where, baseService.Query.Where);
                     Assert.AreEqual("B", baseService.Query.Extra);
-                    Assert.AreEqual(3, baseService.Query.OrderList.Count);
-                    Assert.AreEqual("AddressID", baseService.Query.OrderList[0]);
-                    Assert.AreEqual("StreetName", baseService.Query.OrderList[1]);
-                    Assert.AreEqual("StreetNumber", baseService.Query.OrderList[2]);
+                    Assert.AreEqual(2, baseService.Query.AscList.Count);
+                    Assert.AreEqual(2, baseService.Query.DescList.Count);
+                    Assert.AreEqual("AddressID", baseService.Query.AscList[0]);
+                    Assert.AreEqual("StreetName", baseService.Query.AscList[1]);
+                    Assert.AreEqual("AddressType", baseService.Query.DescList[0]);
+                    Assert.AreEqual("StreetNumber", baseService.Query.DescList[1]);
                     Assert.AreEqual(2, baseService.Query.WhereInfoList.Count);
                     Assert.AreEqual("AddressID", baseService.Query.WhereInfoList[0].PropertyName);
                     Assert.AreEqual(WhereOperatorEnum.GreaterThan, baseService.Query.WhereInfoList[0].WhereOperator);
@@ -410,8 +523,6 @@ namespace CSSPServices.Tests
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
-                ChangeCulture(culture);
-
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     BaseService baseService = new BaseService(new Query(), dbTestDB, ContactID);
@@ -437,36 +548,76 @@ namespace CSSPServices.Tests
                     baseService.Query = baseService.FillQuery(typeof(Address), skip: skip);
 
                     Assert.IsTrue(baseService.Query.HasErrors);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ShouldBeAbove_, "Skip", "0"), baseService.Query.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ShouldBeAbove_, "Skip", "-1"), baseService.Query.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    // Testing ErrorMessage for Skip > 1000000
+                    skip = 1000001;
+
+                    baseService.Query = baseService.FillQuery(typeof(Address), skip: skip);
+
+                    Assert.IsTrue(baseService.Query.HasErrors);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ShouldBeBelow_, "Skip", "1000000"), baseService.Query.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    // Testing ErrorMessage for Take < 1
+                    int take = 0;
+
+                    baseService.Query = baseService.FillQuery(typeof(Address), take: take);
+
+                    Assert.IsTrue(baseService.Query.HasErrors);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ShouldBeAbove_, "Take", "0"), baseService.Query.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // Testing ErrorMessage for Take > 1000000
-                    int take = 1000001;
+                    take = 1000001;
 
                     baseService.Query = baseService.FillQuery(typeof(Address), take: take);
 
                     Assert.IsTrue(baseService.Query.HasErrors);
                     Assert.AreEqual(string.Format(CSSPServicesRes._ShouldBeBelow_, "Take", "1000000"), baseService.Query.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                    // Testing ErrorMessage for Order 
-                    string Order = "AddressID_Not";
+                    // Testing ErrorMessage for Asc 
+                    string Asc = "AddressID_Not";
 
-                    baseService.Query = baseService.FillQuery(typeof(Address), order: Order);
+                    baseService.Query = baseService.FillQuery(typeof(Address), asc: Asc);
+
+                    Assert.IsTrue(baseService.Query.HasErrors);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._DoesNotExistForModelType_, "AddressID_Not", typeof(Address).Name), baseService.Query.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    // Testing ErrorMessage for Desc 
+                    string Desc = "AddressID_Not";
+
+                    baseService.Query = baseService.FillQuery(typeof(Address), desc: Desc);
 
                     Assert.IsTrue(baseService.Query.HasErrors);
                     Assert.AreEqual(string.Format(CSSPServicesRes._DoesNotExistForModelType_, "AddressID_Not", typeof(Address).Name), baseService.Query.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // Testing ErrorMessage for Order with multiple PropertyNames
-                    Order = "AddressID,StreetName,AddressID_Not";
+                    Asc = "AddressID,StreetName,AddressID_Not";
 
-                    baseService.Query = baseService.FillQuery(typeof(Address), order: Order);
+                    baseService.Query = baseService.FillQuery(typeof(Address), asc: Asc);
+
+                    Assert.IsTrue(baseService.Query.HasErrors);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._DoesNotExistForModelType_, "AddressID_Not", typeof(Address).Name), baseService.Query.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    // Testing ErrorMessage for Order with multiple PropertyNames
+                    Desc = "AddressID,StreetName,AddressID_Not";
+
+                    baseService.Query = baseService.FillQuery(typeof(Address), desc: Desc);
 
                     Assert.IsTrue(baseService.Query.HasErrors);
                     Assert.AreEqual(string.Format(CSSPServicesRes._DoesNotExistForModelType_, "AddressID_Not", typeof(Address).Name), baseService.Query.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // Testing ErrorMessage for Order with multiple PropertyNames with space
-                    Order = "AddressID, StreetName, AddressID_Not";
+                    Asc = "AddressID, StreetName, AddressID_Not";
 
-                    baseService.Query = baseService.FillQuery(typeof(Address), order: Order);
+                    baseService.Query = baseService.FillQuery(typeof(Address), asc: Asc);
+
+                    Assert.IsTrue(baseService.Query.HasErrors);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._DoesNotExistForModelType_, "AddressID_Not", typeof(Address).Name), baseService.Query.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    // Testing ErrorMessage for Order with multiple PropertyNames with space
+                    Desc = "AddressID, StreetName, AddressID_Not";
+
+                    baseService.Query = baseService.FillQuery(typeof(Address), asc: Desc);
 
                     Assert.IsTrue(baseService.Query.HasErrors);
                     Assert.AreEqual(string.Format(CSSPServicesRes._DoesNotExistForModelType_, "AddressID_Not", typeof(Address).Name), baseService.Query.ValidationResults.FirstOrDefault().ErrorMessage);
@@ -495,15 +646,15 @@ namespace CSSPServices.Tests
                     Assert.IsTrue(baseService.Query.HasErrors);
                     Assert.AreEqual(string.Format(CSSPServicesRes._NeedToHaveValidStringFormatEx_, "Where", "TVItemID,GT,5|TVItemID,LT,20"), baseService.Query.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                    // Testing ErrorMessage for where _NeedsToBeANumberFor_ForModel
-                    where = "AddressID,GT,aStringButShouldBeANumber";
+                    // Testing ErrorMessage for where _DoesNotExistForModelType_
+                    where = "AddressID2,GT,2";
 
                     baseService.Query = baseService.FillQuery(typeof(Address), where: where);
 
                     Assert.IsTrue(baseService.Query.HasErrors);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._NeedsToBeANumberFor_OfModel_, "aStringButShouldBeANumber", "AddressID", typeof(Address).Name), baseService.Query.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._DoesNotExistForModelType_, "AddressID2", typeof(Address).Name), baseService.Query.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                    // Testing ErrorMessage for where  _NeedsToBeTrueOrFalseFor_OfModel_
+                    // Testing ErrorMessage for where  _NeedsToBeTrueOrFalseFor_OfModel_ System.Boolean
                     where = "FixLength,EQ,falseNot";
 
                     baseService.Query = baseService.FillQuery(typeof(BoxModelResult), where: where);
@@ -511,7 +662,7 @@ namespace CSSPServices.Tests
                     Assert.IsTrue(baseService.Query.HasErrors);
                     Assert.AreEqual(string.Format(CSSPServicesRes._NeedsToBeTrueOrFalseFor_OfModel_, "falseNot", "FixLength", typeof(BoxModelResult).Name), baseService.Query.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                    // Testing ErrorMessage for where  _NeedsToBeADateFor_OfModel_
+                    // Testing ErrorMessage for where  _NeedsToBeADateFor_OfModel_  System.DateTime
                     where = "LastUpdateDate_UTC,EQ,2018-04-05Not";
 
                     baseService.Query = baseService.FillQuery(typeof(Address), where: where);
@@ -519,7 +670,23 @@ namespace CSSPServices.Tests
                     Assert.IsTrue(baseService.Query.HasErrors);
                     Assert.AreEqual(string.Format(CSSPServicesRes._NeedsToBeADateFor_OfModel_, "2018-04-05Not", "LastUpdateDate_UTC", typeof(Address).Name), baseService.Query.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                    // Testing ErrorMessage for where  _NeedsToBeANumberFor_OfModel_
+                    // Testing ErrorMessage for where _NeedsToBeANumberFor_ForModel   System.Double
+                    where = "Snow_cm,GT,aStringButShouldBeANumber";
+
+                    baseService.Query = baseService.FillQuery(typeof(ClimateDataValue), where: where);
+
+                    Assert.IsTrue(baseService.Query.HasErrors);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._NeedsToBeANumberFor_OfModel_, "aStringButShouldBeANumber", "Snow_cm", typeof(ClimateDataValue).Name), baseService.Query.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    // Testing ErrorMessage for where _NeedsToBeANumberFor_ForModel   System.Int16, System.Int32, System.Int64
+                    where = "AddressID,GT,aStringButShouldBeANumber";
+
+                    baseService.Query = baseService.FillQuery(typeof(Address), where: where);
+
+                    Assert.IsTrue(baseService.Query.HasErrors);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._NeedsToBeANumberFor_OfModel_, "aStringButShouldBeANumber", "AddressID", typeof(Address).Name), baseService.Query.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    // Testing ErrorMessage for where  _NeedsToBeANumberFor_OfModel_       Enumeration
                     where = "StreetType,EQ,2NotANumber";
 
                     baseService.Query = baseService.FillQuery(typeof(Address), where: where);
@@ -532,8 +699,15 @@ namespace CSSPServices.Tests
 
                     baseService.Query = baseService.FillQuery(typeof(Address), where: where);
 
+                    List<int> EnumValueList = (from c in Enum.GetValues(typeof(StreetTypeEnum)) as int[] select c).ToList();
+                    List<string> EnumValueTextList = (from c in Enum.GetNames(typeof(StreetTypeEnum)) as string[] select c).ToList();
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0, count = EnumValueList.Count; i < count; i++)
+                    {
+                        sb.Append($"{ EnumValueList[i] } = { EnumValueTextList[i] }, ");
+                    }
                     Assert.IsTrue(baseService.Query.HasErrors);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._NeedsToBeAValidEnumNumberFor_OfModel_, "2222", "StreetType", typeof(Address).Name), baseService.Query.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._NeedsToBeAValidEnumNumberFor_OfModel_AllowableValuesAre_, "2222", "StreetType", typeof(Address).Name, $"[{ sb.ToString() }]"), baseService.Query.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // Testing ErrorMessage for where  _NeedsToBeAValidEnumNumberFor_OfModel_
                     where = "StreetType,EQ,NotAnOption";
@@ -541,7 +715,30 @@ namespace CSSPServices.Tests
                     baseService.Query = baseService.FillQuery(typeof(Address), where: where);
 
                     Assert.IsTrue(baseService.Query.HasErrors);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._NeedsToBeAValidEnumTextFor_OfModel_, "NotAnOption", "StreetType", typeof(Address).Name), baseService.Query.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._NeedsToBeAValidEnumTextFor_OfModel_AllowableValuesAre_, "NotAnOption", "StreetType", typeof(Address).Name, $"[{ sb.ToString() }]"), baseService.Query.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    // Testing ErrorMessage for where  WhereOperator_For_OfModel_IsNotValidOnlyEQIsAllowed    Enum should only allow EQ
+                    where = "StreetType,LT,2";
+
+                    baseService.Query = baseService.FillQuery(typeof(Address), where: where);
+
+                    Assert.IsTrue(baseService.Query.HasErrors);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.WhereOperator_For_OfModel_IsNotValidOnlyEQIsAllowed, "LT", "StreetType", typeof(Address).Name), baseService.Query.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    // Testing ErrorMessage for where  WhereOperator_NotImplementedYet
+                    where = "AddressID,Not,2";
+
+                    baseService.Query = baseService.FillQuery(typeof(Address), where: where);
+
+                    Assert.IsTrue(baseService.Query.HasErrors);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.WhereOperator_NotValidAllowableValuesAre_, "Not", "[EQ = EQUAL, LT = LESS THAN, GT = GREATER THAN, C = CONTAINS, SW = STARTS WITH, EW = ENDS WITH]"), baseService.Query.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    // Testing ErrorMessage for where Invalidate Extra
+                    string extra = "b";
+                    baseService.Query = baseService.FillQuery(typeof(TVItem), extra: extra);
+
+                    Assert.IsTrue(baseService.Query.HasErrors);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.Extra_OfModel_IsInvalidAllowableValuesAre_, "b", "TVItem", "[A, B]"), baseService.Query.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
             }
         }

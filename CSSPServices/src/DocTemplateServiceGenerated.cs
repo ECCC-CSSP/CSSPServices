@@ -51,13 +51,13 @@ namespace CSSPServices
                 if (docTemplate.DocTemplateID == 0)
                 {
                     docTemplate.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "DocTemplateDocTemplateID"), new[] { "DocTemplateID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "DocTemplateID"), new[] { "DocTemplateID" });
                 }
 
                 if (!(from c in db.DocTemplates select c).Where(c => c.DocTemplateID == docTemplate.DocTemplateID).Any())
                 {
                     docTemplate.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "DocTemplate", "DocTemplateDocTemplateID", docTemplate.DocTemplateID.ToString()), new[] { "DocTemplateID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "DocTemplate", "DocTemplateID", docTemplate.DocTemplateID.ToString()), new[] { "DocTemplateID" });
                 }
             }
 
@@ -65,14 +65,14 @@ namespace CSSPServices
             if (!string.IsNullOrWhiteSpace(retStr))
             {
                 docTemplate.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "DocTemplateLanguage"), new[] { "Language" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "Language"), new[] { "Language" });
             }
 
             retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)docTemplate.TVType);
             if (!string.IsNullOrWhiteSpace(retStr))
             {
                 docTemplate.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "DocTemplateTVType"), new[] { "TVType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVType"), new[] { "TVType" });
             }
 
             TVItem TVItemTVFileTVItemID = (from c in db.TVItems where c.TVItemID == docTemplate.TVFileTVItemID select c).FirstOrDefault();
@@ -80,7 +80,7 @@ namespace CSSPServices
             if (TVItemTVFileTVItemID == null)
             {
                 docTemplate.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "DocTemplateTVFileTVItemID", docTemplate.TVFileTVItemID.ToString()), new[] { "TVFileTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "TVFileTVItemID", docTemplate.TVFileTVItemID.ToString()), new[] { "TVFileTVItemID" });
             }
             else
             {
@@ -91,33 +91,33 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemTVFileTVItemID.TVType))
                 {
                     docTemplate.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "DocTemplateTVFileTVItemID", "File"), new[] { "TVFileTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "TVFileTVItemID", "File"), new[] { "TVFileTVItemID" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(docTemplate.FileName))
             {
                 docTemplate.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "DocTemplateFileName"), new[] { "FileName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "FileName"), new[] { "FileName" });
             }
 
             if (!string.IsNullOrWhiteSpace(docTemplate.FileName) && docTemplate.FileName.Length > 150)
             {
                 docTemplate.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "DocTemplateFileName", "150"), new[] { "FileName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "FileName", "150"), new[] { "FileName" });
             }
 
             if (docTemplate.LastUpdateDate_UTC.Year == 1)
             {
                 docTemplate.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "DocTemplateLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (docTemplate.LastUpdateDate_UTC.Year < 1980)
                 {
                 docTemplate.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "DocTemplateLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "LastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -126,7 +126,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 docTemplate.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "DocTemplateLastUpdateContactTVItemID", docTemplate.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "LastUpdateContactTVItemID", docTemplate.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -137,7 +137,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     docTemplate.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "DocTemplateLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "LastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 

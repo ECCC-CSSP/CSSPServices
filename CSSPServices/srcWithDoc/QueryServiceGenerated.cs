@@ -74,73 +74,89 @@ namespace CSSPServices
                 if (query.Language == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     query.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "QueryLanguage"), new[] { "Language" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "Language"), new[] { "Language" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(query.Lang))
             {
                 query.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "QueryLang"), new[] { "Lang" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "Lang"), new[] { "Lang" });
             }
 
             if (!string.IsNullOrWhiteSpace(query.Lang) && query.Lang.Length > 2)
             {
                 query.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "QueryLang", "2"), new[] { "Lang" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "Lang", "2"), new[] { "Lang" });
             }
 
             if (query.Skip < 0 || query.Skip > 1000000)
             {
                 query.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "QuerySkip", "0", "1000000"), new[] { "Skip" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "Skip", "0", "1000000"), new[] { "Skip" });
             }
 
             if (query.Take < 1 || query.Take > 1000000)
             {
                 query.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "QueryTake", "1", "1000000"), new[] { "Take" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "Take", "1", "1000000"), new[] { "Take" });
             }
 
-            if (string.IsNullOrWhiteSpace(query.Order))
+            if (string.IsNullOrWhiteSpace(query.Asc))
             {
                 query.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "QueryOrder"), new[] { "Order" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "Asc"), new[] { "Asc" });
             }
 
-            if (!string.IsNullOrWhiteSpace(query.Order) && query.Order.Length > 200)
+            if (!string.IsNullOrWhiteSpace(query.Asc) && query.Asc.Length > 200)
             {
                 query.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "QueryOrder", "200"), new[] { "Order" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "Asc", "200"), new[] { "Asc" });
+            }
+
+            if (string.IsNullOrWhiteSpace(query.Desc))
+            {
+                query.HasErrors = true;
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "Desc"), new[] { "Desc" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(query.Desc) && query.Desc.Length > 200)
+            {
+                query.HasErrors = true;
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "Desc", "200"), new[] { "Desc" });
             }
 
             if (string.IsNullOrWhiteSpace(query.Where))
             {
                 query.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "QueryWhere"), new[] { "Where" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "Where"), new[] { "Where" });
             }
 
             if (!string.IsNullOrWhiteSpace(query.Where) && query.Where.Length > 200)
             {
                 query.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "QueryWhere", "200"), new[] { "Where" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "Where", "200"), new[] { "Where" });
             }
 
             if (string.IsNullOrWhiteSpace(query.Extra))
             {
                 query.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "QueryExtra"), new[] { "Extra" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "Extra"), new[] { "Extra" });
             }
 
             if (!string.IsNullOrWhiteSpace(query.Extra) && query.Extra.Length > 1)
             {
                 query.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "QueryExtra", "1"), new[] { "Extra" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "Extra", "1"), new[] { "Extra" });
             }
 
-                //CSSPError: Type not implemented [OrderList] of type [List`1]
+                //CSSPError: Type not implemented [AscList] of type [List`1]
 
-            //OrderList has no StringLength Attribute
+            //AscList has no StringLength Attribute
+
+                //CSSPError: Type not implemented [DescList] of type [List`1]
+
+            //DescList has no StringLength Attribute
 
                 //CSSPError: Type not implemented [WhereInfoList] of type [List`1]
 

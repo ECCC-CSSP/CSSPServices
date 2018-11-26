@@ -70,26 +70,26 @@ namespace CSSPServices
                 if (resetPassword.ResetPasswordID == 0)
                 {
                     resetPassword.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ResetPasswordResetPasswordID"), new[] { "ResetPasswordID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ResetPasswordID"), new[] { "ResetPasswordID" });
                 }
 
                 if (!(from c in db.ResetPasswords select c).Where(c => c.ResetPasswordID == resetPassword.ResetPasswordID).Any())
                 {
                     resetPassword.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ResetPassword", "ResetPasswordResetPasswordID", resetPassword.ResetPasswordID.ToString()), new[] { "ResetPasswordID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ResetPassword", "ResetPasswordID", resetPassword.ResetPasswordID.ToString()), new[] { "ResetPasswordID" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(resetPassword.Email))
             {
                 resetPassword.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ResetPasswordEmail"), new[] { "Email" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "Email"), new[] { "Email" });
             }
 
             if (!string.IsNullOrWhiteSpace(resetPassword.Email) && resetPassword.Email.Length > 256)
             {
                 resetPassword.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ResetPasswordEmail", "256"), new[] { "Email" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "Email", "256"), new[] { "Email" });
             }
 
             if (!string.IsNullOrWhiteSpace(resetPassword.Email))
@@ -98,47 +98,47 @@ namespace CSSPServices
                 if (!regex.IsMatch(resetPassword.Email))
                 {
                     resetPassword.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotAValidEmail, "ResetPasswordEmail"), new[] { "Email" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotAValidEmail, "Email"), new[] { "Email" });
                 }
             }
 
             if (resetPassword.ExpireDate_Local.Year == 1)
             {
                 resetPassword.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ResetPasswordExpireDate_Local"), new[] { "ExpireDate_Local" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ExpireDate_Local"), new[] { "ExpireDate_Local" });
             }
             else
             {
                 if (resetPassword.ExpireDate_Local.Year < 1980)
                 {
                 resetPassword.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ResetPasswordExpireDate_Local", "1980"), new[] { "ExpireDate_Local" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ExpireDate_Local", "1980"), new[] { "ExpireDate_Local" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(resetPassword.Code))
             {
                 resetPassword.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ResetPasswordCode"), new[] { "Code" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "Code"), new[] { "Code" });
             }
 
             if (!string.IsNullOrWhiteSpace(resetPassword.Code) && resetPassword.Code.Length > 8)
             {
                 resetPassword.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ResetPasswordCode", "8"), new[] { "Code" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "Code", "8"), new[] { "Code" });
             }
 
             if (resetPassword.LastUpdateDate_UTC.Year == 1)
             {
                 resetPassword.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ResetPasswordLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (resetPassword.LastUpdateDate_UTC.Year < 1980)
                 {
                 resetPassword.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ResetPasswordLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "LastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -147,7 +147,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 resetPassword.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "ResetPasswordLastUpdateContactTVItemID", resetPassword.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "LastUpdateContactTVItemID", resetPassword.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -158,7 +158,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     resetPassword.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "ResetPasswordLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "LastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 

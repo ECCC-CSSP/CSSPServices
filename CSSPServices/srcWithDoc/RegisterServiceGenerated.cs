@@ -67,79 +67,79 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(register.LoginEmail))
             {
                 register.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "RegisterLoginEmail"), new[] { "LoginEmail" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LoginEmail"), new[] { "LoginEmail" });
             }
 
             if (!string.IsNullOrWhiteSpace(register.LoginEmail) && (register.LoginEmail.Length < 6 || register.LoginEmail.Length > 255))
             {
                 register.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "RegisterLoginEmail", "6", "255"), new[] { "LoginEmail" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "LoginEmail", "6", "255"), new[] { "LoginEmail" });
             }
 
             if (string.IsNullOrWhiteSpace(register.FirstName))
             {
                 register.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "RegisterFirstName"), new[] { "FirstName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "FirstName"), new[] { "FirstName" });
             }
 
             if (!string.IsNullOrWhiteSpace(register.FirstName) && (register.FirstName.Length < 1 || register.FirstName.Length > 100))
             {
                 register.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "RegisterFirstName", "1", "100"), new[] { "FirstName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "FirstName", "1", "100"), new[] { "FirstName" });
             }
 
             if (!string.IsNullOrWhiteSpace(register.Initial) && register.Initial.Length > 50)
             {
                 register.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "RegisterInitial", "50"), new[] { "Initial" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "Initial", "50"), new[] { "Initial" });
             }
 
             if (string.IsNullOrWhiteSpace(register.LastName))
             {
                 register.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "RegisterLastName"), new[] { "LastName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LastName"), new[] { "LastName" });
             }
 
             if (!string.IsNullOrWhiteSpace(register.LastName) && (register.LastName.Length < 1 || register.LastName.Length > 100))
             {
                 register.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "RegisterLastName", "1", "100"), new[] { "LastName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "LastName", "1", "100"), new[] { "LastName" });
             }
 
             if (string.IsNullOrWhiteSpace(register.WebName))
             {
                 register.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "RegisterWebName"), new[] { "WebName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "WebName"), new[] { "WebName" });
             }
 
             if (!string.IsNullOrWhiteSpace(register.WebName) && (register.WebName.Length < 1 || register.WebName.Length > 100))
             {
                 register.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "RegisterWebName", "1", "100"), new[] { "WebName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "WebName", "1", "100"), new[] { "WebName" });
             }
 
             if (string.IsNullOrWhiteSpace(register.Password))
             {
                 register.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "RegisterPassword"), new[] { "Password" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "Password"), new[] { "Password" });
             }
 
             if (!string.IsNullOrWhiteSpace(register.Password) && (register.Password.Length < 6 || register.Password.Length > 100))
             {
                 register.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "RegisterPassword", "6", "100"), new[] { "Password" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "Password", "6", "100"), new[] { "Password" });
             }
 
             if (string.IsNullOrWhiteSpace(register.ConfirmPassword))
             {
                 register.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "RegisterConfirmPassword"), new[] { "ConfirmPassword" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ConfirmPassword"), new[] { "ConfirmPassword" });
             }
 
             if (!string.IsNullOrWhiteSpace(register.ConfirmPassword) && (register.ConfirmPassword.Length < 6 || register.ConfirmPassword.Length > 100))
             {
                 register.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "RegisterConfirmPassword", "6", "100"), new[] { "ConfirmPassword" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "ConfirmPassword", "6", "100"), new[] { "ConfirmPassword" });
             }
 
             retStr = ""; // added to stop compiling CSSPError
