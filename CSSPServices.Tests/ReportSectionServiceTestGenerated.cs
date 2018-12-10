@@ -38,9 +38,9 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
+        #region Tests Generated CRUD
         [TestMethod]
-        public void ReportSection_CRUD_And_Properties_Test()
+        public void ReportSection_CRUD_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -86,6 +86,33 @@ namespace CSSPServices.Tests
                         Assert.AreEqual("", reportSection.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
                     Assert.AreEqual(count, reportSectionService.GetReportSectionList().Count());
+
+                }
+            }
+        }
+        #endregion Tests Generated CRUD
+
+        #region Tests Generated Properties
+        [TestMethod]
+        public void ReportSection_Properties_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    ReportSectionService reportSectionService = new ReportSectionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    count = reportSectionService.GetReportSectionList().Count();
+
+                    ReportSection reportSection = GetFilledRandomReportSection("");
 
                     // -------------------------------
                     // -------------------------------
@@ -275,7 +302,7 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Generated CRUD and Properties
+        #endregion Tests Generated Properties
 
         #region Tests Generated for GetReportSectionWithReportSectionID(reportSection.ReportSectionID)
         [TestMethod]
@@ -291,7 +318,7 @@ namespace CSSPServices.Tests
                     ReportSection reportSection = (from c in dbTestDB.ReportSections select c).FirstOrDefault();
                     Assert.IsNotNull(reportSection);
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         reportSectionService.Query.Extra = extra;
 
@@ -301,13 +328,13 @@ namespace CSSPServices.Tests
                             CheckReportSectionFields(new List<ReportSection>() { reportSectionRet });
                             Assert.AreEqual(reportSection.ReportSectionID, reportSectionRet.ReportSectionID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             ReportSectionExtraA reportSectionExtraARet = reportSectionService.GetReportSectionExtraAWithReportSectionID(reportSection.ReportSectionID);
                             CheckReportSectionExtraAFields(new List<ReportSectionExtraA>() { reportSectionExtraARet });
                             Assert.AreEqual(reportSection.ReportSectionID, reportSectionExtraARet.ReportSectionID);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             ReportSectionExtraB reportSectionExtraBRet = reportSectionService.GetReportSectionExtraBWithReportSectionID(reportSection.ReportSectionID);
                             CheckReportSectionExtraBFields(new List<ReportSectionExtraB>() { reportSectionExtraBRet });
@@ -315,7 +342,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -340,7 +367,7 @@ namespace CSSPServices.Tests
                     List<ReportSection> reportSectionDirectQueryList = new List<ReportSection>();
                     reportSectionDirectQueryList = (from c in dbTestDB.ReportSections select c).Take(200).ToList();
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         reportSectionService.Query.Extra = extra;
 
@@ -350,14 +377,14 @@ namespace CSSPServices.Tests
                             reportSectionList = reportSectionService.GetReportSectionList().ToList();
                             CheckReportSectionFields(reportSectionList);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<ReportSectionExtraA> reportSectionExtraAList = new List<ReportSectionExtraA>();
                             reportSectionExtraAList = reportSectionService.GetReportSectionExtraAList().ToList();
                             CheckReportSectionExtraAFields(reportSectionExtraAList);
                             Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<ReportSectionExtraB> reportSectionExtraBList = new List<ReportSectionExtraB>();
                             reportSectionExtraBList = reportSectionService.GetReportSectionExtraBList().ToList();
@@ -366,7 +393,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -384,11 +411,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         ReportSectionService reportSectionService = new ReportSectionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        reportSectionService.Query = reportSectionService.FillQuery(typeof(ReportSection), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
+                        reportSectionService.Query = reportSectionService.FillQuery(typeof(ReportSection), culture.TwoLetterISOLanguageName, 1, 1, "", "", "", extra);
 
                         List<ReportSection> reportSectionDirectQueryList = new List<ReportSection>();
                         reportSectionDirectQueryList = (from c in dbTestDB.ReportSections select c).Skip(1).Take(1).ToList();
@@ -400,7 +427,7 @@ namespace CSSPServices.Tests
                             CheckReportSectionFields(reportSectionList);
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionList[0].ReportSectionID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<ReportSectionExtraA> reportSectionExtraAList = new List<ReportSectionExtraA>();
                             reportSectionExtraAList = reportSectionService.GetReportSectionExtraAList().ToList();
@@ -408,7 +435,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraAList[0].ReportSectionID);
                             Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<ReportSectionExtraB> reportSectionExtraBList = new List<ReportSectionExtraB>();
                             reportSectionExtraBList = reportSectionService.GetReportSectionExtraBList().ToList();
@@ -418,7 +445,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -426,9 +453,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated for GetReportSectionList() Skip Take
 
-        #region Tests Generated for GetReportSectionList() Skip Take Order
+        #region Tests Generated for GetReportSectionList() Skip Take Asc
         [TestMethod]
-        public void GetReportSectionList_Skip_Take_Order_Test()
+        public void GetReportSectionList_Skip_Take_Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -436,14 +463,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         ReportSectionService reportSectionService = new ReportSectionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        reportSectionService.Query = reportSectionService.FillQuery(typeof(ReportSection), culture.TwoLetterISOLanguageName, 1, 1,  "ReportSectionID", "");
+                        reportSectionService.Query = reportSectionService.FillQuery(typeof(ReportSection), culture.TwoLetterISOLanguageName, 1, 1,  "ReportSectionID", "", "", extra);
 
                         List<ReportSection> reportSectionDirectQueryList = new List<ReportSection>();
-                        reportSectionDirectQueryList = (from c in dbTestDB.ReportSections select c).Skip(1).Take(1).OrderBy(c => c.ReportSectionID).ToList();
+                        reportSectionDirectQueryList = (from c in dbTestDB.ReportSections select c).OrderBy(c => c.ReportSectionID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -452,7 +479,7 @@ namespace CSSPServices.Tests
                             CheckReportSectionFields(reportSectionList);
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionList[0].ReportSectionID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<ReportSectionExtraA> reportSectionExtraAList = new List<ReportSectionExtraA>();
                             reportSectionExtraAList = reportSectionService.GetReportSectionExtraAList().ToList();
@@ -460,7 +487,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraAList[0].ReportSectionID);
                             Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<ReportSectionExtraB> reportSectionExtraBList = new List<ReportSectionExtraB>();
                             reportSectionExtraBList = reportSectionService.GetReportSectionExtraBList().ToList();
@@ -470,17 +497,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetReportSectionList() Skip Take Order
+        #endregion Tests Generated for GetReportSectionList() Skip Take Asc
 
-        #region Tests Generated for GetReportSectionList() Skip Take 2Order
+        #region Tests Generated for GetReportSectionList() Skip Take 2 Asc
         [TestMethod]
-        public void GetReportSectionList_Skip_Take_2Order_Test()
+        public void GetReportSectionList_Skip_Take_2Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -488,14 +515,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         ReportSectionService reportSectionService = new ReportSectionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        reportSectionService.Query = reportSectionService.FillQuery(typeof(ReportSection), culture.TwoLetterISOLanguageName, 1, 1, "ReportSectionID,ReportTypeID", "");
+                        reportSectionService.Query = reportSectionService.FillQuery(typeof(ReportSection), culture.TwoLetterISOLanguageName, 1, 1, "ReportSectionID,ReportTypeID", "", "", extra);
 
                         List<ReportSection> reportSectionDirectQueryList = new List<ReportSection>();
-                        reportSectionDirectQueryList = (from c in dbTestDB.ReportSections select c).Skip(1).Take(1).OrderBy(c => c.ReportSectionID).ThenBy(c => c.ReportTypeID).ToList();
+                        reportSectionDirectQueryList = (from c in dbTestDB.ReportSections select c).OrderBy(c => c.ReportSectionID).ThenBy(c => c.ReportTypeID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -504,7 +531,7 @@ namespace CSSPServices.Tests
                             CheckReportSectionFields(reportSectionList);
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionList[0].ReportSectionID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<ReportSectionExtraA> reportSectionExtraAList = new List<ReportSectionExtraA>();
                             reportSectionExtraAList = reportSectionService.GetReportSectionExtraAList().ToList();
@@ -512,7 +539,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraAList[0].ReportSectionID);
                             Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<ReportSectionExtraB> reportSectionExtraBList = new List<ReportSectionExtraB>();
                             reportSectionExtraBList = reportSectionService.GetReportSectionExtraBList().ToList();
@@ -522,17 +549,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetReportSectionList() Skip Take 2Order
+        #endregion Tests Generated for GetReportSectionList() Skip Take 2 Asc
 
-        #region Tests Generated for GetReportSectionList() Skip Take Order Where
+        #region Tests Generated for GetReportSectionList() Skip Take Asc Where
         [TestMethod]
-        public void GetReportSectionList_Skip_Take_Order_Where_Test()
+        public void GetReportSectionList_Skip_Take_Asc_Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -540,14 +567,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         ReportSectionService reportSectionService = new ReportSectionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        reportSectionService.Query = reportSectionService.FillQuery(typeof(ReportSection), culture.TwoLetterISOLanguageName, 0, 1, "ReportSectionID", "ReportSectionID,EQ,4", "");
+                        reportSectionService.Query = reportSectionService.FillQuery(typeof(ReportSection), culture.TwoLetterISOLanguageName, 0, 1, "ReportSectionID", "", "ReportSectionID,EQ,4", "");
 
                         List<ReportSection> reportSectionDirectQueryList = new List<ReportSection>();
-                        reportSectionDirectQueryList = (from c in dbTestDB.ReportSections select c).Where(c => c.ReportSectionID == 4).Skip(0).Take(1).OrderBy(c => c.ReportSectionID).ToList();
+                        reportSectionDirectQueryList = (from c in dbTestDB.ReportSections select c).Where(c => c.ReportSectionID == 4).OrderBy(c => c.ReportSectionID).Skip(0).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -556,7 +583,7 @@ namespace CSSPServices.Tests
                             CheckReportSectionFields(reportSectionList);
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionList[0].ReportSectionID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<ReportSectionExtraA> reportSectionExtraAList = new List<ReportSectionExtraA>();
                             reportSectionExtraAList = reportSectionService.GetReportSectionExtraAList().ToList();
@@ -564,7 +591,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraAList[0].ReportSectionID);
                             Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<ReportSectionExtraB> reportSectionExtraBList = new List<ReportSectionExtraB>();
                             reportSectionExtraBList = reportSectionService.GetReportSectionExtraBList().ToList();
@@ -574,17 +601,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetReportSectionList() Skip Take Order Where
+        #endregion Tests Generated for GetReportSectionList() Skip Take Asc Where
 
-        #region Tests Generated for GetReportSectionList() Skip Take Order 2Where
+        #region Tests Generated for GetReportSectionList() Skip Take Asc 2 Where
         [TestMethod]
-        public void GetReportSectionList_Skip_Take_Order_2Where_Test()
+        public void GetReportSectionList_Skip_Take_Asc_2Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -592,11 +619,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         ReportSectionService reportSectionService = new ReportSectionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        reportSectionService.Query = reportSectionService.FillQuery(typeof(ReportSection), culture.TwoLetterISOLanguageName, 0, 1, "ReportSectionID", "ReportSectionID,GT,2|ReportSectionID,LT,5", "");
+                        reportSectionService.Query = reportSectionService.FillQuery(typeof(ReportSection), culture.TwoLetterISOLanguageName, 0, 1, "ReportSectionID", "", "ReportSectionID,GT,2|ReportSectionID,LT,5", "");
 
                         List<ReportSection> reportSectionDirectQueryList = new List<ReportSection>();
                         reportSectionDirectQueryList = (from c in dbTestDB.ReportSections select c).Where(c => c.ReportSectionID > 2 && c.ReportSectionID < 5).Skip(0).Take(1).OrderBy(c => c.ReportSectionID).ToList();
@@ -608,7 +635,7 @@ namespace CSSPServices.Tests
                             CheckReportSectionFields(reportSectionList);
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionList[0].ReportSectionID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<ReportSectionExtraA> reportSectionExtraAList = new List<ReportSectionExtraA>();
                             reportSectionExtraAList = reportSectionService.GetReportSectionExtraAList().ToList();
@@ -616,7 +643,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraAList[0].ReportSectionID);
                             Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<ReportSectionExtraB> reportSectionExtraBList = new List<ReportSectionExtraB>();
                             reportSectionExtraBList = reportSectionService.GetReportSectionExtraBList().ToList();
@@ -626,15 +653,223 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetReportSectionList() Skip Take Order 2Where
+        #endregion Tests Generated for GetReportSectionList() Skip Take Asc 2 Where
 
-        #region Tests Generated for GetReportSectionList() 2Where
+        #region Tests Generated for GetReportSectionList() Skip Take Desc
+        [TestMethod]
+        public void GetReportSectionList_Skip_Take_Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        ReportSectionService reportSectionService = new ReportSectionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        reportSectionService.Query = reportSectionService.FillQuery(typeof(ReportSection), culture.TwoLetterISOLanguageName, 1, 1, "", "ReportSectionID", "", extra);
+
+                        List<ReportSection> reportSectionDirectQueryList = new List<ReportSection>();
+                        reportSectionDirectQueryList = (from c in dbTestDB.ReportSections select c).OrderByDescending(c => c.ReportSectionID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<ReportSection> reportSectionList = new List<ReportSection>();
+                            reportSectionList = reportSectionService.GetReportSectionList().ToList();
+                            CheckReportSectionFields(reportSectionList);
+                            Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionList[0].ReportSectionID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<ReportSectionExtraA> reportSectionExtraAList = new List<ReportSectionExtraA>();
+                            reportSectionExtraAList = reportSectionService.GetReportSectionExtraAList().ToList();
+                            CheckReportSectionExtraAFields(reportSectionExtraAList);
+                            Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraAList[0].ReportSectionID);
+                            Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<ReportSectionExtraB> reportSectionExtraBList = new List<ReportSectionExtraB>();
+                            reportSectionExtraBList = reportSectionService.GetReportSectionExtraBList().ToList();
+                            CheckReportSectionExtraBFields(reportSectionExtraBList);
+                            Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraBList[0].ReportSectionID);
+                            Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetReportSectionList() Skip Take Desc
+
+        #region Tests Generated for GetReportSectionList() Skip Take 2 Desc
+        [TestMethod]
+        public void GetReportSectionList_Skip_Take_2Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        ReportSectionService reportSectionService = new ReportSectionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        reportSectionService.Query = reportSectionService.FillQuery(typeof(ReportSection), culture.TwoLetterISOLanguageName, 1, 1, "", "ReportSectionID,ReportTypeID", "", extra);
+
+                        List<ReportSection> reportSectionDirectQueryList = new List<ReportSection>();
+                        reportSectionDirectQueryList = (from c in dbTestDB.ReportSections select c).OrderByDescending(c => c.ReportSectionID).ThenByDescending(c => c.ReportTypeID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<ReportSection> reportSectionList = new List<ReportSection>();
+                            reportSectionList = reportSectionService.GetReportSectionList().ToList();
+                            CheckReportSectionFields(reportSectionList);
+                            Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionList[0].ReportSectionID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<ReportSectionExtraA> reportSectionExtraAList = new List<ReportSectionExtraA>();
+                            reportSectionExtraAList = reportSectionService.GetReportSectionExtraAList().ToList();
+                            CheckReportSectionExtraAFields(reportSectionExtraAList);
+                            Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraAList[0].ReportSectionID);
+                            Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<ReportSectionExtraB> reportSectionExtraBList = new List<ReportSectionExtraB>();
+                            reportSectionExtraBList = reportSectionService.GetReportSectionExtraBList().ToList();
+                            CheckReportSectionExtraBFields(reportSectionExtraBList);
+                            Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraBList[0].ReportSectionID);
+                            Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetReportSectionList() Skip Take 2 Desc
+
+        #region Tests Generated for GetReportSectionList() Skip Take Desc Where
+        [TestMethod]
+        public void GetReportSectionList_Skip_Take_Desc_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        ReportSectionService reportSectionService = new ReportSectionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        reportSectionService.Query = reportSectionService.FillQuery(typeof(ReportSection), culture.TwoLetterISOLanguageName, 0, 1, "ReportSectionID", "", "ReportSectionID,EQ,4", "");
+
+                        List<ReportSection> reportSectionDirectQueryList = new List<ReportSection>();
+                        reportSectionDirectQueryList = (from c in dbTestDB.ReportSections select c).Where(c => c.ReportSectionID == 4).OrderByDescending(c => c.ReportSectionID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<ReportSection> reportSectionList = new List<ReportSection>();
+                            reportSectionList = reportSectionService.GetReportSectionList().ToList();
+                            CheckReportSectionFields(reportSectionList);
+                            Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionList[0].ReportSectionID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<ReportSectionExtraA> reportSectionExtraAList = new List<ReportSectionExtraA>();
+                            reportSectionExtraAList = reportSectionService.GetReportSectionExtraAList().ToList();
+                            CheckReportSectionExtraAFields(reportSectionExtraAList);
+                            Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraAList[0].ReportSectionID);
+                            Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<ReportSectionExtraB> reportSectionExtraBList = new List<ReportSectionExtraB>();
+                            reportSectionExtraBList = reportSectionService.GetReportSectionExtraBList().ToList();
+                            CheckReportSectionExtraBFields(reportSectionExtraBList);
+                            Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraBList[0].ReportSectionID);
+                            Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetReportSectionList() Skip Take Desc Where
+
+        #region Tests Generated for GetReportSectionList() Skip Take Desc 2 Where
+        [TestMethod]
+        public void GetReportSectionList_Skip_Take_Desc_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        ReportSectionService reportSectionService = new ReportSectionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        reportSectionService.Query = reportSectionService.FillQuery(typeof(ReportSection), culture.TwoLetterISOLanguageName, 0, 1, "", "ReportSectionID", "ReportSectionID,GT,2|ReportSectionID,LT,5", "");
+
+                        List<ReportSection> reportSectionDirectQueryList = new List<ReportSection>();
+                        reportSectionDirectQueryList = (from c in dbTestDB.ReportSections select c).Where(c => c.ReportSectionID > 2 && c.ReportSectionID < 5).OrderByDescending(c => c.ReportSectionID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<ReportSection> reportSectionList = new List<ReportSection>();
+                            reportSectionList = reportSectionService.GetReportSectionList().ToList();
+                            CheckReportSectionFields(reportSectionList);
+                            Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionList[0].ReportSectionID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<ReportSectionExtraA> reportSectionExtraAList = new List<ReportSectionExtraA>();
+                            reportSectionExtraAList = reportSectionService.GetReportSectionExtraAList().ToList();
+                            CheckReportSectionExtraAFields(reportSectionExtraAList);
+                            Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraAList[0].ReportSectionID);
+                            Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<ReportSectionExtraB> reportSectionExtraBList = new List<ReportSectionExtraB>();
+                            reportSectionExtraBList = reportSectionService.GetReportSectionExtraBList().ToList();
+                            CheckReportSectionExtraBFields(reportSectionExtraBList);
+                            Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraBList[0].ReportSectionID);
+                            Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetReportSectionList() Skip Take Desc 2 Where
+
+        #region Tests Generated for GetReportSectionList() 2 Where
         [TestMethod]
         public void GetReportSectionList_2Where_Test()
         {
@@ -644,11 +879,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         ReportSectionService reportSectionService = new ReportSectionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        reportSectionService.Query = reportSectionService.FillQuery(typeof(ReportSection), culture.TwoLetterISOLanguageName, 0, 10000, "", "ReportSectionID,GT,2|ReportSectionID,LT,5", "");
+                        reportSectionService.Query = reportSectionService.FillQuery(typeof(ReportSection), culture.TwoLetterISOLanguageName, 0, 10000, "", "", "ReportSectionID,GT,2|ReportSectionID,LT,5", extra);
 
                         List<ReportSection> reportSectionDirectQueryList = new List<ReportSection>();
                         reportSectionDirectQueryList = (from c in dbTestDB.ReportSections select c).Where(c => c.ReportSectionID > 2 && c.ReportSectionID < 5).ToList();
@@ -660,7 +895,7 @@ namespace CSSPServices.Tests
                             CheckReportSectionFields(reportSectionList);
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionList[0].ReportSectionID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<ReportSectionExtraA> reportSectionExtraAList = new List<ReportSectionExtraA>();
                             reportSectionExtraAList = reportSectionService.GetReportSectionExtraAList().ToList();
@@ -668,7 +903,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraAList[0].ReportSectionID);
                             Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<ReportSectionExtraB> reportSectionExtraBList = new List<ReportSectionExtraB>();
                             reportSectionExtraBList = reportSectionService.GetReportSectionExtraBList().ToList();
@@ -678,13 +913,13 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetReportSectionList() 2Where
+        #endregion Tests Generated for GetReportSectionList() 2 Where
 
         #region Functions private
         private void CheckReportSectionFields(List<ReportSection> reportSectionList)

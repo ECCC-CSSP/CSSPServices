@@ -38,9 +38,9 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
+        #region Tests Generated CRUD
         [TestMethod]
-        public void AppTask_CRUD_And_Properties_Test()
+        public void AppTask_CRUD_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -86,6 +86,33 @@ namespace CSSPServices.Tests
                         Assert.AreEqual("", appTask.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
                     Assert.AreEqual(count, appTaskService.GetAppTaskList().Count());
+
+                }
+            }
+        }
+        #endregion Tests Generated CRUD
+
+        #region Tests Generated Properties
+        [TestMethod]
+        public void AppTask_Properties_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    AppTaskService appTaskService = new AppTaskService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    count = appTaskService.GetAppTaskList().Count();
+
+                    AppTask appTask = GetFilledRandomAppTask("");
 
                     // -------------------------------
                     // -------------------------------
@@ -345,7 +372,7 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Generated CRUD and Properties
+        #endregion Tests Generated Properties
 
         #region Tests Generated for GetAppTaskWithAppTaskID(appTask.AppTaskID)
         [TestMethod]
@@ -361,7 +388,7 @@ namespace CSSPServices.Tests
                     AppTask appTask = (from c in dbTestDB.AppTasks select c).FirstOrDefault();
                     Assert.IsNotNull(appTask);
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         appTaskService.Query.Extra = extra;
 
@@ -371,13 +398,13 @@ namespace CSSPServices.Tests
                             CheckAppTaskFields(new List<AppTask>() { appTaskRet });
                             Assert.AreEqual(appTask.AppTaskID, appTaskRet.AppTaskID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             AppTaskExtraA appTaskExtraARet = appTaskService.GetAppTaskExtraAWithAppTaskID(appTask.AppTaskID);
                             CheckAppTaskExtraAFields(new List<AppTaskExtraA>() { appTaskExtraARet });
                             Assert.AreEqual(appTask.AppTaskID, appTaskExtraARet.AppTaskID);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             AppTaskExtraB appTaskExtraBRet = appTaskService.GetAppTaskExtraBWithAppTaskID(appTask.AppTaskID);
                             CheckAppTaskExtraBFields(new List<AppTaskExtraB>() { appTaskExtraBRet });
@@ -385,7 +412,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -410,7 +437,7 @@ namespace CSSPServices.Tests
                     List<AppTask> appTaskDirectQueryList = new List<AppTask>();
                     appTaskDirectQueryList = (from c in dbTestDB.AppTasks select c).Take(200).ToList();
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         appTaskService.Query.Extra = extra;
 
@@ -420,14 +447,14 @@ namespace CSSPServices.Tests
                             appTaskList = appTaskService.GetAppTaskList().ToList();
                             CheckAppTaskFields(appTaskList);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<AppTaskExtraA> appTaskExtraAList = new List<AppTaskExtraA>();
                             appTaskExtraAList = appTaskService.GetAppTaskExtraAList().ToList();
                             CheckAppTaskExtraAFields(appTaskExtraAList);
                             Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<AppTaskExtraB> appTaskExtraBList = new List<AppTaskExtraB>();
                             appTaskExtraBList = appTaskService.GetAppTaskExtraBList().ToList();
@@ -436,7 +463,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -454,11 +481,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         AppTaskService appTaskService = new AppTaskService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        appTaskService.Query = appTaskService.FillQuery(typeof(AppTask), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
+                        appTaskService.Query = appTaskService.FillQuery(typeof(AppTask), culture.TwoLetterISOLanguageName, 1, 1, "", "", "", extra);
 
                         List<AppTask> appTaskDirectQueryList = new List<AppTask>();
                         appTaskDirectQueryList = (from c in dbTestDB.AppTasks select c).Skip(1).Take(1).ToList();
@@ -470,7 +497,7 @@ namespace CSSPServices.Tests
                             CheckAppTaskFields(appTaskList);
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<AppTaskExtraA> appTaskExtraAList = new List<AppTaskExtraA>();
                             appTaskExtraAList = appTaskService.GetAppTaskExtraAList().ToList();
@@ -478,7 +505,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraAList[0].AppTaskID);
                             Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<AppTaskExtraB> appTaskExtraBList = new List<AppTaskExtraB>();
                             appTaskExtraBList = appTaskService.GetAppTaskExtraBList().ToList();
@@ -488,7 +515,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -496,9 +523,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated for GetAppTaskList() Skip Take
 
-        #region Tests Generated for GetAppTaskList() Skip Take Order
+        #region Tests Generated for GetAppTaskList() Skip Take Asc
         [TestMethod]
-        public void GetAppTaskList_Skip_Take_Order_Test()
+        public void GetAppTaskList_Skip_Take_Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -506,14 +533,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         AppTaskService appTaskService = new AppTaskService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        appTaskService.Query = appTaskService.FillQuery(typeof(AppTask), culture.TwoLetterISOLanguageName, 1, 1,  "AppTaskID", "");
+                        appTaskService.Query = appTaskService.FillQuery(typeof(AppTask), culture.TwoLetterISOLanguageName, 1, 1,  "AppTaskID", "", "", extra);
 
                         List<AppTask> appTaskDirectQueryList = new List<AppTask>();
-                        appTaskDirectQueryList = (from c in dbTestDB.AppTasks select c).Skip(1).Take(1).OrderBy(c => c.AppTaskID).ToList();
+                        appTaskDirectQueryList = (from c in dbTestDB.AppTasks select c).OrderBy(c => c.AppTaskID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -522,7 +549,7 @@ namespace CSSPServices.Tests
                             CheckAppTaskFields(appTaskList);
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<AppTaskExtraA> appTaskExtraAList = new List<AppTaskExtraA>();
                             appTaskExtraAList = appTaskService.GetAppTaskExtraAList().ToList();
@@ -530,7 +557,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraAList[0].AppTaskID);
                             Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<AppTaskExtraB> appTaskExtraBList = new List<AppTaskExtraB>();
                             appTaskExtraBList = appTaskService.GetAppTaskExtraBList().ToList();
@@ -540,17 +567,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetAppTaskList() Skip Take Order
+        #endregion Tests Generated for GetAppTaskList() Skip Take Asc
 
-        #region Tests Generated for GetAppTaskList() Skip Take 2Order
+        #region Tests Generated for GetAppTaskList() Skip Take 2 Asc
         [TestMethod]
-        public void GetAppTaskList_Skip_Take_2Order_Test()
+        public void GetAppTaskList_Skip_Take_2Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -558,14 +585,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         AppTaskService appTaskService = new AppTaskService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        appTaskService.Query = appTaskService.FillQuery(typeof(AppTask), culture.TwoLetterISOLanguageName, 1, 1, "AppTaskID,TVItemID", "");
+                        appTaskService.Query = appTaskService.FillQuery(typeof(AppTask), culture.TwoLetterISOLanguageName, 1, 1, "AppTaskID,TVItemID", "", "", extra);
 
                         List<AppTask> appTaskDirectQueryList = new List<AppTask>();
-                        appTaskDirectQueryList = (from c in dbTestDB.AppTasks select c).Skip(1).Take(1).OrderBy(c => c.AppTaskID).ThenBy(c => c.TVItemID).ToList();
+                        appTaskDirectQueryList = (from c in dbTestDB.AppTasks select c).OrderBy(c => c.AppTaskID).ThenBy(c => c.TVItemID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -574,7 +601,7 @@ namespace CSSPServices.Tests
                             CheckAppTaskFields(appTaskList);
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<AppTaskExtraA> appTaskExtraAList = new List<AppTaskExtraA>();
                             appTaskExtraAList = appTaskService.GetAppTaskExtraAList().ToList();
@@ -582,7 +609,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraAList[0].AppTaskID);
                             Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<AppTaskExtraB> appTaskExtraBList = new List<AppTaskExtraB>();
                             appTaskExtraBList = appTaskService.GetAppTaskExtraBList().ToList();
@@ -592,17 +619,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetAppTaskList() Skip Take 2Order
+        #endregion Tests Generated for GetAppTaskList() Skip Take 2 Asc
 
-        #region Tests Generated for GetAppTaskList() Skip Take Order Where
+        #region Tests Generated for GetAppTaskList() Skip Take Asc Where
         [TestMethod]
-        public void GetAppTaskList_Skip_Take_Order_Where_Test()
+        public void GetAppTaskList_Skip_Take_Asc_Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -610,14 +637,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         AppTaskService appTaskService = new AppTaskService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        appTaskService.Query = appTaskService.FillQuery(typeof(AppTask), culture.TwoLetterISOLanguageName, 0, 1, "AppTaskID", "AppTaskID,EQ,4", "");
+                        appTaskService.Query = appTaskService.FillQuery(typeof(AppTask), culture.TwoLetterISOLanguageName, 0, 1, "AppTaskID", "", "AppTaskID,EQ,4", "");
 
                         List<AppTask> appTaskDirectQueryList = new List<AppTask>();
-                        appTaskDirectQueryList = (from c in dbTestDB.AppTasks select c).Where(c => c.AppTaskID == 4).Skip(0).Take(1).OrderBy(c => c.AppTaskID).ToList();
+                        appTaskDirectQueryList = (from c in dbTestDB.AppTasks select c).Where(c => c.AppTaskID == 4).OrderBy(c => c.AppTaskID).Skip(0).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -626,7 +653,7 @@ namespace CSSPServices.Tests
                             CheckAppTaskFields(appTaskList);
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<AppTaskExtraA> appTaskExtraAList = new List<AppTaskExtraA>();
                             appTaskExtraAList = appTaskService.GetAppTaskExtraAList().ToList();
@@ -634,7 +661,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraAList[0].AppTaskID);
                             Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<AppTaskExtraB> appTaskExtraBList = new List<AppTaskExtraB>();
                             appTaskExtraBList = appTaskService.GetAppTaskExtraBList().ToList();
@@ -644,17 +671,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetAppTaskList() Skip Take Order Where
+        #endregion Tests Generated for GetAppTaskList() Skip Take Asc Where
 
-        #region Tests Generated for GetAppTaskList() Skip Take Order 2Where
+        #region Tests Generated for GetAppTaskList() Skip Take Asc 2 Where
         [TestMethod]
-        public void GetAppTaskList_Skip_Take_Order_2Where_Test()
+        public void GetAppTaskList_Skip_Take_Asc_2Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -662,11 +689,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         AppTaskService appTaskService = new AppTaskService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        appTaskService.Query = appTaskService.FillQuery(typeof(AppTask), culture.TwoLetterISOLanguageName, 0, 1, "AppTaskID", "AppTaskID,GT,2|AppTaskID,LT,5", "");
+                        appTaskService.Query = appTaskService.FillQuery(typeof(AppTask), culture.TwoLetterISOLanguageName, 0, 1, "AppTaskID", "", "AppTaskID,GT,2|AppTaskID,LT,5", "");
 
                         List<AppTask> appTaskDirectQueryList = new List<AppTask>();
                         appTaskDirectQueryList = (from c in dbTestDB.AppTasks select c).Where(c => c.AppTaskID > 2 && c.AppTaskID < 5).Skip(0).Take(1).OrderBy(c => c.AppTaskID).ToList();
@@ -678,7 +705,7 @@ namespace CSSPServices.Tests
                             CheckAppTaskFields(appTaskList);
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<AppTaskExtraA> appTaskExtraAList = new List<AppTaskExtraA>();
                             appTaskExtraAList = appTaskService.GetAppTaskExtraAList().ToList();
@@ -686,7 +713,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraAList[0].AppTaskID);
                             Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<AppTaskExtraB> appTaskExtraBList = new List<AppTaskExtraB>();
                             appTaskExtraBList = appTaskService.GetAppTaskExtraBList().ToList();
@@ -696,15 +723,223 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetAppTaskList() Skip Take Order 2Where
+        #endregion Tests Generated for GetAppTaskList() Skip Take Asc 2 Where
 
-        #region Tests Generated for GetAppTaskList() 2Where
+        #region Tests Generated for GetAppTaskList() Skip Take Desc
+        [TestMethod]
+        public void GetAppTaskList_Skip_Take_Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        AppTaskService appTaskService = new AppTaskService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        appTaskService.Query = appTaskService.FillQuery(typeof(AppTask), culture.TwoLetterISOLanguageName, 1, 1, "", "AppTaskID", "", extra);
+
+                        List<AppTask> appTaskDirectQueryList = new List<AppTask>();
+                        appTaskDirectQueryList = (from c in dbTestDB.AppTasks select c).OrderByDescending(c => c.AppTaskID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<AppTask> appTaskList = new List<AppTask>();
+                            appTaskList = appTaskService.GetAppTaskList().ToList();
+                            CheckAppTaskFields(appTaskList);
+                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<AppTaskExtraA> appTaskExtraAList = new List<AppTaskExtraA>();
+                            appTaskExtraAList = appTaskService.GetAppTaskExtraAList().ToList();
+                            CheckAppTaskExtraAFields(appTaskExtraAList);
+                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraAList[0].AppTaskID);
+                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<AppTaskExtraB> appTaskExtraBList = new List<AppTaskExtraB>();
+                            appTaskExtraBList = appTaskService.GetAppTaskExtraBList().ToList();
+                            CheckAppTaskExtraBFields(appTaskExtraBList);
+                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraBList[0].AppTaskID);
+                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetAppTaskList() Skip Take Desc
+
+        #region Tests Generated for GetAppTaskList() Skip Take 2 Desc
+        [TestMethod]
+        public void GetAppTaskList_Skip_Take_2Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        AppTaskService appTaskService = new AppTaskService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        appTaskService.Query = appTaskService.FillQuery(typeof(AppTask), culture.TwoLetterISOLanguageName, 1, 1, "", "AppTaskID,TVItemID", "", extra);
+
+                        List<AppTask> appTaskDirectQueryList = new List<AppTask>();
+                        appTaskDirectQueryList = (from c in dbTestDB.AppTasks select c).OrderByDescending(c => c.AppTaskID).ThenByDescending(c => c.TVItemID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<AppTask> appTaskList = new List<AppTask>();
+                            appTaskList = appTaskService.GetAppTaskList().ToList();
+                            CheckAppTaskFields(appTaskList);
+                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<AppTaskExtraA> appTaskExtraAList = new List<AppTaskExtraA>();
+                            appTaskExtraAList = appTaskService.GetAppTaskExtraAList().ToList();
+                            CheckAppTaskExtraAFields(appTaskExtraAList);
+                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraAList[0].AppTaskID);
+                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<AppTaskExtraB> appTaskExtraBList = new List<AppTaskExtraB>();
+                            appTaskExtraBList = appTaskService.GetAppTaskExtraBList().ToList();
+                            CheckAppTaskExtraBFields(appTaskExtraBList);
+                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraBList[0].AppTaskID);
+                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetAppTaskList() Skip Take 2 Desc
+
+        #region Tests Generated for GetAppTaskList() Skip Take Desc Where
+        [TestMethod]
+        public void GetAppTaskList_Skip_Take_Desc_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        AppTaskService appTaskService = new AppTaskService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        appTaskService.Query = appTaskService.FillQuery(typeof(AppTask), culture.TwoLetterISOLanguageName, 0, 1, "AppTaskID", "", "AppTaskID,EQ,4", "");
+
+                        List<AppTask> appTaskDirectQueryList = new List<AppTask>();
+                        appTaskDirectQueryList = (from c in dbTestDB.AppTasks select c).Where(c => c.AppTaskID == 4).OrderByDescending(c => c.AppTaskID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<AppTask> appTaskList = new List<AppTask>();
+                            appTaskList = appTaskService.GetAppTaskList().ToList();
+                            CheckAppTaskFields(appTaskList);
+                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<AppTaskExtraA> appTaskExtraAList = new List<AppTaskExtraA>();
+                            appTaskExtraAList = appTaskService.GetAppTaskExtraAList().ToList();
+                            CheckAppTaskExtraAFields(appTaskExtraAList);
+                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraAList[0].AppTaskID);
+                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<AppTaskExtraB> appTaskExtraBList = new List<AppTaskExtraB>();
+                            appTaskExtraBList = appTaskService.GetAppTaskExtraBList().ToList();
+                            CheckAppTaskExtraBFields(appTaskExtraBList);
+                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraBList[0].AppTaskID);
+                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetAppTaskList() Skip Take Desc Where
+
+        #region Tests Generated for GetAppTaskList() Skip Take Desc 2 Where
+        [TestMethod]
+        public void GetAppTaskList_Skip_Take_Desc_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        AppTaskService appTaskService = new AppTaskService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        appTaskService.Query = appTaskService.FillQuery(typeof(AppTask), culture.TwoLetterISOLanguageName, 0, 1, "", "AppTaskID", "AppTaskID,GT,2|AppTaskID,LT,5", "");
+
+                        List<AppTask> appTaskDirectQueryList = new List<AppTask>();
+                        appTaskDirectQueryList = (from c in dbTestDB.AppTasks select c).Where(c => c.AppTaskID > 2 && c.AppTaskID < 5).OrderByDescending(c => c.AppTaskID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<AppTask> appTaskList = new List<AppTask>();
+                            appTaskList = appTaskService.GetAppTaskList().ToList();
+                            CheckAppTaskFields(appTaskList);
+                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<AppTaskExtraA> appTaskExtraAList = new List<AppTaskExtraA>();
+                            appTaskExtraAList = appTaskService.GetAppTaskExtraAList().ToList();
+                            CheckAppTaskExtraAFields(appTaskExtraAList);
+                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraAList[0].AppTaskID);
+                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<AppTaskExtraB> appTaskExtraBList = new List<AppTaskExtraB>();
+                            appTaskExtraBList = appTaskService.GetAppTaskExtraBList().ToList();
+                            CheckAppTaskExtraBFields(appTaskExtraBList);
+                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraBList[0].AppTaskID);
+                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetAppTaskList() Skip Take Desc 2 Where
+
+        #region Tests Generated for GetAppTaskList() 2 Where
         [TestMethod]
         public void GetAppTaskList_2Where_Test()
         {
@@ -714,11 +949,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         AppTaskService appTaskService = new AppTaskService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        appTaskService.Query = appTaskService.FillQuery(typeof(AppTask), culture.TwoLetterISOLanguageName, 0, 10000, "", "AppTaskID,GT,2|AppTaskID,LT,5", "");
+                        appTaskService.Query = appTaskService.FillQuery(typeof(AppTask), culture.TwoLetterISOLanguageName, 0, 10000, "", "", "AppTaskID,GT,2|AppTaskID,LT,5", extra);
 
                         List<AppTask> appTaskDirectQueryList = new List<AppTask>();
                         appTaskDirectQueryList = (from c in dbTestDB.AppTasks select c).Where(c => c.AppTaskID > 2 && c.AppTaskID < 5).ToList();
@@ -730,7 +965,7 @@ namespace CSSPServices.Tests
                             CheckAppTaskFields(appTaskList);
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<AppTaskExtraA> appTaskExtraAList = new List<AppTaskExtraA>();
                             appTaskExtraAList = appTaskService.GetAppTaskExtraAList().ToList();
@@ -738,7 +973,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraAList[0].AppTaskID);
                             Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<AppTaskExtraB> appTaskExtraBList = new List<AppTaskExtraB>();
                             appTaskExtraBList = appTaskService.GetAppTaskExtraBList().ToList();
@@ -748,13 +983,13 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetAppTaskList() 2Where
+        #endregion Tests Generated for GetAppTaskList() 2 Where
 
         #region Functions private
         private void CheckAppTaskFields(List<AppTask> appTaskList)

@@ -38,9 +38,9 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
+        #region Tests Generated CRUD
         [TestMethod]
-        public void MWQMLookupMPN_CRUD_And_Properties_Test()
+        public void MWQMLookupMPN_CRUD_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -86,6 +86,33 @@ namespace CSSPServices.Tests
                         Assert.AreEqual("", mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
                     Assert.AreEqual(count, mwqmLookupMPNService.GetMWQMLookupMPNList().Count());
+
+                }
+            }
+        }
+        #endregion Tests Generated CRUD
+
+        #region Tests Generated Properties
+        [TestMethod]
+        public void MWQMLookupMPN_Properties_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    count = mwqmLookupMPNService.GetMWQMLookupMPNList().Count();
+
+                    MWQMLookupMPN mwqmLookupMPN = GetFilledRandomMWQMLookupMPN("");
 
                     // -------------------------------
                     // -------------------------------
@@ -243,7 +270,7 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Generated CRUD and Properties
+        #endregion Tests Generated Properties
 
         #region Tests Generated for GetMWQMLookupMPNWithMWQMLookupMPNID(mwqmLookupMPN.MWQMLookupMPNID)
         [TestMethod]
@@ -259,7 +286,7 @@ namespace CSSPServices.Tests
                     MWQMLookupMPN mwqmLookupMPN = (from c in dbTestDB.MWQMLookupMPNs select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmLookupMPN);
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         mwqmLookupMPNService.Query.Extra = extra;
 
@@ -269,13 +296,13 @@ namespace CSSPServices.Tests
                             CheckMWQMLookupMPNFields(new List<MWQMLookupMPN>() { mwqmLookupMPNRet });
                             Assert.AreEqual(mwqmLookupMPN.MWQMLookupMPNID, mwqmLookupMPNRet.MWQMLookupMPNID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             MWQMLookupMPNExtraA mwqmLookupMPNExtraARet = mwqmLookupMPNService.GetMWQMLookupMPNExtraAWithMWQMLookupMPNID(mwqmLookupMPN.MWQMLookupMPNID);
                             CheckMWQMLookupMPNExtraAFields(new List<MWQMLookupMPNExtraA>() { mwqmLookupMPNExtraARet });
                             Assert.AreEqual(mwqmLookupMPN.MWQMLookupMPNID, mwqmLookupMPNExtraARet.MWQMLookupMPNID);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             MWQMLookupMPNExtraB mwqmLookupMPNExtraBRet = mwqmLookupMPNService.GetMWQMLookupMPNExtraBWithMWQMLookupMPNID(mwqmLookupMPN.MWQMLookupMPNID);
                             CheckMWQMLookupMPNExtraBFields(new List<MWQMLookupMPNExtraB>() { mwqmLookupMPNExtraBRet });
@@ -283,7 +310,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -308,7 +335,7 @@ namespace CSSPServices.Tests
                     List<MWQMLookupMPN> mwqmLookupMPNDirectQueryList = new List<MWQMLookupMPN>();
                     mwqmLookupMPNDirectQueryList = (from c in dbTestDB.MWQMLookupMPNs select c).Take(200).ToList();
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         mwqmLookupMPNService.Query.Extra = extra;
 
@@ -318,14 +345,14 @@ namespace CSSPServices.Tests
                             mwqmLookupMPNList = mwqmLookupMPNService.GetMWQMLookupMPNList().ToList();
                             CheckMWQMLookupMPNFields(mwqmLookupMPNList);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MWQMLookupMPNExtraA> mwqmLookupMPNExtraAList = new List<MWQMLookupMPNExtraA>();
                             mwqmLookupMPNExtraAList = mwqmLookupMPNService.GetMWQMLookupMPNExtraAList().ToList();
                             CheckMWQMLookupMPNExtraAFields(mwqmLookupMPNExtraAList);
                             Assert.AreEqual(mwqmLookupMPNDirectQueryList.Count, mwqmLookupMPNExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MWQMLookupMPNExtraB> mwqmLookupMPNExtraBList = new List<MWQMLookupMPNExtraB>();
                             mwqmLookupMPNExtraBList = mwqmLookupMPNService.GetMWQMLookupMPNExtraBList().ToList();
@@ -334,7 +361,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -352,11 +379,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmLookupMPNService.Query = mwqmLookupMPNService.FillQuery(typeof(MWQMLookupMPN), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
+                        mwqmLookupMPNService.Query = mwqmLookupMPNService.FillQuery(typeof(MWQMLookupMPN), culture.TwoLetterISOLanguageName, 1, 1, "", "", "", extra);
 
                         List<MWQMLookupMPN> mwqmLookupMPNDirectQueryList = new List<MWQMLookupMPN>();
                         mwqmLookupMPNDirectQueryList = (from c in dbTestDB.MWQMLookupMPNs select c).Skip(1).Take(1).ToList();
@@ -368,7 +395,7 @@ namespace CSSPServices.Tests
                             CheckMWQMLookupMPNFields(mwqmLookupMPNList);
                             Assert.AreEqual(mwqmLookupMPNDirectQueryList[0].MWQMLookupMPNID, mwqmLookupMPNList[0].MWQMLookupMPNID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MWQMLookupMPNExtraA> mwqmLookupMPNExtraAList = new List<MWQMLookupMPNExtraA>();
                             mwqmLookupMPNExtraAList = mwqmLookupMPNService.GetMWQMLookupMPNExtraAList().ToList();
@@ -376,7 +403,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmLookupMPNDirectQueryList[0].MWQMLookupMPNID, mwqmLookupMPNExtraAList[0].MWQMLookupMPNID);
                             Assert.AreEqual(mwqmLookupMPNDirectQueryList.Count, mwqmLookupMPNExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MWQMLookupMPNExtraB> mwqmLookupMPNExtraBList = new List<MWQMLookupMPNExtraB>();
                             mwqmLookupMPNExtraBList = mwqmLookupMPNService.GetMWQMLookupMPNExtraBList().ToList();
@@ -386,7 +413,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -394,9 +421,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated for GetMWQMLookupMPNList() Skip Take
 
-        #region Tests Generated for GetMWQMLookupMPNList() Skip Take Order
+        #region Tests Generated for GetMWQMLookupMPNList() Skip Take Asc
         [TestMethod]
-        public void GetMWQMLookupMPNList_Skip_Take_Order_Test()
+        public void GetMWQMLookupMPNList_Skip_Take_Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -404,14 +431,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmLookupMPNService.Query = mwqmLookupMPNService.FillQuery(typeof(MWQMLookupMPN), culture.TwoLetterISOLanguageName, 1, 1,  "MWQMLookupMPNID", "");
+                        mwqmLookupMPNService.Query = mwqmLookupMPNService.FillQuery(typeof(MWQMLookupMPN), culture.TwoLetterISOLanguageName, 1, 1,  "MWQMLookupMPNID", "", "", extra);
 
                         List<MWQMLookupMPN> mwqmLookupMPNDirectQueryList = new List<MWQMLookupMPN>();
-                        mwqmLookupMPNDirectQueryList = (from c in dbTestDB.MWQMLookupMPNs select c).Skip(1).Take(1).OrderBy(c => c.MWQMLookupMPNID).ToList();
+                        mwqmLookupMPNDirectQueryList = (from c in dbTestDB.MWQMLookupMPNs select c).OrderBy(c => c.MWQMLookupMPNID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -420,7 +447,7 @@ namespace CSSPServices.Tests
                             CheckMWQMLookupMPNFields(mwqmLookupMPNList);
                             Assert.AreEqual(mwqmLookupMPNDirectQueryList[0].MWQMLookupMPNID, mwqmLookupMPNList[0].MWQMLookupMPNID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MWQMLookupMPNExtraA> mwqmLookupMPNExtraAList = new List<MWQMLookupMPNExtraA>();
                             mwqmLookupMPNExtraAList = mwqmLookupMPNService.GetMWQMLookupMPNExtraAList().ToList();
@@ -428,7 +455,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmLookupMPNDirectQueryList[0].MWQMLookupMPNID, mwqmLookupMPNExtraAList[0].MWQMLookupMPNID);
                             Assert.AreEqual(mwqmLookupMPNDirectQueryList.Count, mwqmLookupMPNExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MWQMLookupMPNExtraB> mwqmLookupMPNExtraBList = new List<MWQMLookupMPNExtraB>();
                             mwqmLookupMPNExtraBList = mwqmLookupMPNService.GetMWQMLookupMPNExtraBList().ToList();
@@ -438,17 +465,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetMWQMLookupMPNList() Skip Take Order
+        #endregion Tests Generated for GetMWQMLookupMPNList() Skip Take Asc
 
-        #region Tests Generated for GetMWQMLookupMPNList() Skip Take 2Order
+        #region Tests Generated for GetMWQMLookupMPNList() Skip Take 2 Asc
         [TestMethod]
-        public void GetMWQMLookupMPNList_Skip_Take_2Order_Test()
+        public void GetMWQMLookupMPNList_Skip_Take_2Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -456,14 +483,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmLookupMPNService.Query = mwqmLookupMPNService.FillQuery(typeof(MWQMLookupMPN), culture.TwoLetterISOLanguageName, 1, 1, "MWQMLookupMPNID,Tubes10", "");
+                        mwqmLookupMPNService.Query = mwqmLookupMPNService.FillQuery(typeof(MWQMLookupMPN), culture.TwoLetterISOLanguageName, 1, 1, "MWQMLookupMPNID,Tubes10", "", "", extra);
 
                         List<MWQMLookupMPN> mwqmLookupMPNDirectQueryList = new List<MWQMLookupMPN>();
-                        mwqmLookupMPNDirectQueryList = (from c in dbTestDB.MWQMLookupMPNs select c).Skip(1).Take(1).OrderBy(c => c.MWQMLookupMPNID).ThenBy(c => c.Tubes10).ToList();
+                        mwqmLookupMPNDirectQueryList = (from c in dbTestDB.MWQMLookupMPNs select c).OrderBy(c => c.MWQMLookupMPNID).ThenBy(c => c.Tubes10).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -472,7 +499,7 @@ namespace CSSPServices.Tests
                             CheckMWQMLookupMPNFields(mwqmLookupMPNList);
                             Assert.AreEqual(mwqmLookupMPNDirectQueryList[0].MWQMLookupMPNID, mwqmLookupMPNList[0].MWQMLookupMPNID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MWQMLookupMPNExtraA> mwqmLookupMPNExtraAList = new List<MWQMLookupMPNExtraA>();
                             mwqmLookupMPNExtraAList = mwqmLookupMPNService.GetMWQMLookupMPNExtraAList().ToList();
@@ -480,7 +507,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmLookupMPNDirectQueryList[0].MWQMLookupMPNID, mwqmLookupMPNExtraAList[0].MWQMLookupMPNID);
                             Assert.AreEqual(mwqmLookupMPNDirectQueryList.Count, mwqmLookupMPNExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MWQMLookupMPNExtraB> mwqmLookupMPNExtraBList = new List<MWQMLookupMPNExtraB>();
                             mwqmLookupMPNExtraBList = mwqmLookupMPNService.GetMWQMLookupMPNExtraBList().ToList();
@@ -490,17 +517,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetMWQMLookupMPNList() Skip Take 2Order
+        #endregion Tests Generated for GetMWQMLookupMPNList() Skip Take 2 Asc
 
-        #region Tests Generated for GetMWQMLookupMPNList() Skip Take Order Where
+        #region Tests Generated for GetMWQMLookupMPNList() Skip Take Asc Where
         [TestMethod]
-        public void GetMWQMLookupMPNList_Skip_Take_Order_Where_Test()
+        public void GetMWQMLookupMPNList_Skip_Take_Asc_Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -508,14 +535,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmLookupMPNService.Query = mwqmLookupMPNService.FillQuery(typeof(MWQMLookupMPN), culture.TwoLetterISOLanguageName, 0, 1, "MWQMLookupMPNID", "MWQMLookupMPNID,EQ,4", "");
+                        mwqmLookupMPNService.Query = mwqmLookupMPNService.FillQuery(typeof(MWQMLookupMPN), culture.TwoLetterISOLanguageName, 0, 1, "MWQMLookupMPNID", "", "MWQMLookupMPNID,EQ,4", "");
 
                         List<MWQMLookupMPN> mwqmLookupMPNDirectQueryList = new List<MWQMLookupMPN>();
-                        mwqmLookupMPNDirectQueryList = (from c in dbTestDB.MWQMLookupMPNs select c).Where(c => c.MWQMLookupMPNID == 4).Skip(0).Take(1).OrderBy(c => c.MWQMLookupMPNID).ToList();
+                        mwqmLookupMPNDirectQueryList = (from c in dbTestDB.MWQMLookupMPNs select c).Where(c => c.MWQMLookupMPNID == 4).OrderBy(c => c.MWQMLookupMPNID).Skip(0).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -524,7 +551,7 @@ namespace CSSPServices.Tests
                             CheckMWQMLookupMPNFields(mwqmLookupMPNList);
                             Assert.AreEqual(mwqmLookupMPNDirectQueryList[0].MWQMLookupMPNID, mwqmLookupMPNList[0].MWQMLookupMPNID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MWQMLookupMPNExtraA> mwqmLookupMPNExtraAList = new List<MWQMLookupMPNExtraA>();
                             mwqmLookupMPNExtraAList = mwqmLookupMPNService.GetMWQMLookupMPNExtraAList().ToList();
@@ -532,7 +559,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmLookupMPNDirectQueryList[0].MWQMLookupMPNID, mwqmLookupMPNExtraAList[0].MWQMLookupMPNID);
                             Assert.AreEqual(mwqmLookupMPNDirectQueryList.Count, mwqmLookupMPNExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MWQMLookupMPNExtraB> mwqmLookupMPNExtraBList = new List<MWQMLookupMPNExtraB>();
                             mwqmLookupMPNExtraBList = mwqmLookupMPNService.GetMWQMLookupMPNExtraBList().ToList();
@@ -542,17 +569,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetMWQMLookupMPNList() Skip Take Order Where
+        #endregion Tests Generated for GetMWQMLookupMPNList() Skip Take Asc Where
 
-        #region Tests Generated for GetMWQMLookupMPNList() Skip Take Order 2Where
+        #region Tests Generated for GetMWQMLookupMPNList() Skip Take Asc 2 Where
         [TestMethod]
-        public void GetMWQMLookupMPNList_Skip_Take_Order_2Where_Test()
+        public void GetMWQMLookupMPNList_Skip_Take_Asc_2Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -560,11 +587,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmLookupMPNService.Query = mwqmLookupMPNService.FillQuery(typeof(MWQMLookupMPN), culture.TwoLetterISOLanguageName, 0, 1, "MWQMLookupMPNID", "MWQMLookupMPNID,GT,2|MWQMLookupMPNID,LT,5", "");
+                        mwqmLookupMPNService.Query = mwqmLookupMPNService.FillQuery(typeof(MWQMLookupMPN), culture.TwoLetterISOLanguageName, 0, 1, "MWQMLookupMPNID", "", "MWQMLookupMPNID,GT,2|MWQMLookupMPNID,LT,5", "");
 
                         List<MWQMLookupMPN> mwqmLookupMPNDirectQueryList = new List<MWQMLookupMPN>();
                         mwqmLookupMPNDirectQueryList = (from c in dbTestDB.MWQMLookupMPNs select c).Where(c => c.MWQMLookupMPNID > 2 && c.MWQMLookupMPNID < 5).Skip(0).Take(1).OrderBy(c => c.MWQMLookupMPNID).ToList();
@@ -576,7 +603,7 @@ namespace CSSPServices.Tests
                             CheckMWQMLookupMPNFields(mwqmLookupMPNList);
                             Assert.AreEqual(mwqmLookupMPNDirectQueryList[0].MWQMLookupMPNID, mwqmLookupMPNList[0].MWQMLookupMPNID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MWQMLookupMPNExtraA> mwqmLookupMPNExtraAList = new List<MWQMLookupMPNExtraA>();
                             mwqmLookupMPNExtraAList = mwqmLookupMPNService.GetMWQMLookupMPNExtraAList().ToList();
@@ -584,7 +611,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmLookupMPNDirectQueryList[0].MWQMLookupMPNID, mwqmLookupMPNExtraAList[0].MWQMLookupMPNID);
                             Assert.AreEqual(mwqmLookupMPNDirectQueryList.Count, mwqmLookupMPNExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MWQMLookupMPNExtraB> mwqmLookupMPNExtraBList = new List<MWQMLookupMPNExtraB>();
                             mwqmLookupMPNExtraBList = mwqmLookupMPNService.GetMWQMLookupMPNExtraBList().ToList();
@@ -594,15 +621,223 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetMWQMLookupMPNList() Skip Take Order 2Where
+        #endregion Tests Generated for GetMWQMLookupMPNList() Skip Take Asc 2 Where
 
-        #region Tests Generated for GetMWQMLookupMPNList() 2Where
+        #region Tests Generated for GetMWQMLookupMPNList() Skip Take Desc
+        [TestMethod]
+        public void GetMWQMLookupMPNList_Skip_Take_Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mwqmLookupMPNService.Query = mwqmLookupMPNService.FillQuery(typeof(MWQMLookupMPN), culture.TwoLetterISOLanguageName, 1, 1, "", "MWQMLookupMPNID", "", extra);
+
+                        List<MWQMLookupMPN> mwqmLookupMPNDirectQueryList = new List<MWQMLookupMPN>();
+                        mwqmLookupMPNDirectQueryList = (from c in dbTestDB.MWQMLookupMPNs select c).OrderByDescending(c => c.MWQMLookupMPNID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<MWQMLookupMPN> mwqmLookupMPNList = new List<MWQMLookupMPN>();
+                            mwqmLookupMPNList = mwqmLookupMPNService.GetMWQMLookupMPNList().ToList();
+                            CheckMWQMLookupMPNFields(mwqmLookupMPNList);
+                            Assert.AreEqual(mwqmLookupMPNDirectQueryList[0].MWQMLookupMPNID, mwqmLookupMPNList[0].MWQMLookupMPNID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<MWQMLookupMPNExtraA> mwqmLookupMPNExtraAList = new List<MWQMLookupMPNExtraA>();
+                            mwqmLookupMPNExtraAList = mwqmLookupMPNService.GetMWQMLookupMPNExtraAList().ToList();
+                            CheckMWQMLookupMPNExtraAFields(mwqmLookupMPNExtraAList);
+                            Assert.AreEqual(mwqmLookupMPNDirectQueryList[0].MWQMLookupMPNID, mwqmLookupMPNExtraAList[0].MWQMLookupMPNID);
+                            Assert.AreEqual(mwqmLookupMPNDirectQueryList.Count, mwqmLookupMPNExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<MWQMLookupMPNExtraB> mwqmLookupMPNExtraBList = new List<MWQMLookupMPNExtraB>();
+                            mwqmLookupMPNExtraBList = mwqmLookupMPNService.GetMWQMLookupMPNExtraBList().ToList();
+                            CheckMWQMLookupMPNExtraBFields(mwqmLookupMPNExtraBList);
+                            Assert.AreEqual(mwqmLookupMPNDirectQueryList[0].MWQMLookupMPNID, mwqmLookupMPNExtraBList[0].MWQMLookupMPNID);
+                            Assert.AreEqual(mwqmLookupMPNDirectQueryList.Count, mwqmLookupMPNExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMLookupMPNList() Skip Take Desc
+
+        #region Tests Generated for GetMWQMLookupMPNList() Skip Take 2 Desc
+        [TestMethod]
+        public void GetMWQMLookupMPNList_Skip_Take_2Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mwqmLookupMPNService.Query = mwqmLookupMPNService.FillQuery(typeof(MWQMLookupMPN), culture.TwoLetterISOLanguageName, 1, 1, "", "MWQMLookupMPNID,Tubes10", "", extra);
+
+                        List<MWQMLookupMPN> mwqmLookupMPNDirectQueryList = new List<MWQMLookupMPN>();
+                        mwqmLookupMPNDirectQueryList = (from c in dbTestDB.MWQMLookupMPNs select c).OrderByDescending(c => c.MWQMLookupMPNID).ThenByDescending(c => c.Tubes10).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<MWQMLookupMPN> mwqmLookupMPNList = new List<MWQMLookupMPN>();
+                            mwqmLookupMPNList = mwqmLookupMPNService.GetMWQMLookupMPNList().ToList();
+                            CheckMWQMLookupMPNFields(mwqmLookupMPNList);
+                            Assert.AreEqual(mwqmLookupMPNDirectQueryList[0].MWQMLookupMPNID, mwqmLookupMPNList[0].MWQMLookupMPNID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<MWQMLookupMPNExtraA> mwqmLookupMPNExtraAList = new List<MWQMLookupMPNExtraA>();
+                            mwqmLookupMPNExtraAList = mwqmLookupMPNService.GetMWQMLookupMPNExtraAList().ToList();
+                            CheckMWQMLookupMPNExtraAFields(mwqmLookupMPNExtraAList);
+                            Assert.AreEqual(mwqmLookupMPNDirectQueryList[0].MWQMLookupMPNID, mwqmLookupMPNExtraAList[0].MWQMLookupMPNID);
+                            Assert.AreEqual(mwqmLookupMPNDirectQueryList.Count, mwqmLookupMPNExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<MWQMLookupMPNExtraB> mwqmLookupMPNExtraBList = new List<MWQMLookupMPNExtraB>();
+                            mwqmLookupMPNExtraBList = mwqmLookupMPNService.GetMWQMLookupMPNExtraBList().ToList();
+                            CheckMWQMLookupMPNExtraBFields(mwqmLookupMPNExtraBList);
+                            Assert.AreEqual(mwqmLookupMPNDirectQueryList[0].MWQMLookupMPNID, mwqmLookupMPNExtraBList[0].MWQMLookupMPNID);
+                            Assert.AreEqual(mwqmLookupMPNDirectQueryList.Count, mwqmLookupMPNExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMLookupMPNList() Skip Take 2 Desc
+
+        #region Tests Generated for GetMWQMLookupMPNList() Skip Take Desc Where
+        [TestMethod]
+        public void GetMWQMLookupMPNList_Skip_Take_Desc_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mwqmLookupMPNService.Query = mwqmLookupMPNService.FillQuery(typeof(MWQMLookupMPN), culture.TwoLetterISOLanguageName, 0, 1, "MWQMLookupMPNID", "", "MWQMLookupMPNID,EQ,4", "");
+
+                        List<MWQMLookupMPN> mwqmLookupMPNDirectQueryList = new List<MWQMLookupMPN>();
+                        mwqmLookupMPNDirectQueryList = (from c in dbTestDB.MWQMLookupMPNs select c).Where(c => c.MWQMLookupMPNID == 4).OrderByDescending(c => c.MWQMLookupMPNID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<MWQMLookupMPN> mwqmLookupMPNList = new List<MWQMLookupMPN>();
+                            mwqmLookupMPNList = mwqmLookupMPNService.GetMWQMLookupMPNList().ToList();
+                            CheckMWQMLookupMPNFields(mwqmLookupMPNList);
+                            Assert.AreEqual(mwqmLookupMPNDirectQueryList[0].MWQMLookupMPNID, mwqmLookupMPNList[0].MWQMLookupMPNID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<MWQMLookupMPNExtraA> mwqmLookupMPNExtraAList = new List<MWQMLookupMPNExtraA>();
+                            mwqmLookupMPNExtraAList = mwqmLookupMPNService.GetMWQMLookupMPNExtraAList().ToList();
+                            CheckMWQMLookupMPNExtraAFields(mwqmLookupMPNExtraAList);
+                            Assert.AreEqual(mwqmLookupMPNDirectQueryList[0].MWQMLookupMPNID, mwqmLookupMPNExtraAList[0].MWQMLookupMPNID);
+                            Assert.AreEqual(mwqmLookupMPNDirectQueryList.Count, mwqmLookupMPNExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<MWQMLookupMPNExtraB> mwqmLookupMPNExtraBList = new List<MWQMLookupMPNExtraB>();
+                            mwqmLookupMPNExtraBList = mwqmLookupMPNService.GetMWQMLookupMPNExtraBList().ToList();
+                            CheckMWQMLookupMPNExtraBFields(mwqmLookupMPNExtraBList);
+                            Assert.AreEqual(mwqmLookupMPNDirectQueryList[0].MWQMLookupMPNID, mwqmLookupMPNExtraBList[0].MWQMLookupMPNID);
+                            Assert.AreEqual(mwqmLookupMPNDirectQueryList.Count, mwqmLookupMPNExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMLookupMPNList() Skip Take Desc Where
+
+        #region Tests Generated for GetMWQMLookupMPNList() Skip Take Desc 2 Where
+        [TestMethod]
+        public void GetMWQMLookupMPNList_Skip_Take_Desc_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mwqmLookupMPNService.Query = mwqmLookupMPNService.FillQuery(typeof(MWQMLookupMPN), culture.TwoLetterISOLanguageName, 0, 1, "", "MWQMLookupMPNID", "MWQMLookupMPNID,GT,2|MWQMLookupMPNID,LT,5", "");
+
+                        List<MWQMLookupMPN> mwqmLookupMPNDirectQueryList = new List<MWQMLookupMPN>();
+                        mwqmLookupMPNDirectQueryList = (from c in dbTestDB.MWQMLookupMPNs select c).Where(c => c.MWQMLookupMPNID > 2 && c.MWQMLookupMPNID < 5).OrderByDescending(c => c.MWQMLookupMPNID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<MWQMLookupMPN> mwqmLookupMPNList = new List<MWQMLookupMPN>();
+                            mwqmLookupMPNList = mwqmLookupMPNService.GetMWQMLookupMPNList().ToList();
+                            CheckMWQMLookupMPNFields(mwqmLookupMPNList);
+                            Assert.AreEqual(mwqmLookupMPNDirectQueryList[0].MWQMLookupMPNID, mwqmLookupMPNList[0].MWQMLookupMPNID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<MWQMLookupMPNExtraA> mwqmLookupMPNExtraAList = new List<MWQMLookupMPNExtraA>();
+                            mwqmLookupMPNExtraAList = mwqmLookupMPNService.GetMWQMLookupMPNExtraAList().ToList();
+                            CheckMWQMLookupMPNExtraAFields(mwqmLookupMPNExtraAList);
+                            Assert.AreEqual(mwqmLookupMPNDirectQueryList[0].MWQMLookupMPNID, mwqmLookupMPNExtraAList[0].MWQMLookupMPNID);
+                            Assert.AreEqual(mwqmLookupMPNDirectQueryList.Count, mwqmLookupMPNExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<MWQMLookupMPNExtraB> mwqmLookupMPNExtraBList = new List<MWQMLookupMPNExtraB>();
+                            mwqmLookupMPNExtraBList = mwqmLookupMPNService.GetMWQMLookupMPNExtraBList().ToList();
+                            CheckMWQMLookupMPNExtraBFields(mwqmLookupMPNExtraBList);
+                            Assert.AreEqual(mwqmLookupMPNDirectQueryList[0].MWQMLookupMPNID, mwqmLookupMPNExtraBList[0].MWQMLookupMPNID);
+                            Assert.AreEqual(mwqmLookupMPNDirectQueryList.Count, mwqmLookupMPNExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMLookupMPNList() Skip Take Desc 2 Where
+
+        #region Tests Generated for GetMWQMLookupMPNList() 2 Where
         [TestMethod]
         public void GetMWQMLookupMPNList_2Where_Test()
         {
@@ -612,11 +847,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmLookupMPNService.Query = mwqmLookupMPNService.FillQuery(typeof(MWQMLookupMPN), culture.TwoLetterISOLanguageName, 0, 10000, "", "MWQMLookupMPNID,GT,2|MWQMLookupMPNID,LT,5", "");
+                        mwqmLookupMPNService.Query = mwqmLookupMPNService.FillQuery(typeof(MWQMLookupMPN), culture.TwoLetterISOLanguageName, 0, 10000, "", "", "MWQMLookupMPNID,GT,2|MWQMLookupMPNID,LT,5", extra);
 
                         List<MWQMLookupMPN> mwqmLookupMPNDirectQueryList = new List<MWQMLookupMPN>();
                         mwqmLookupMPNDirectQueryList = (from c in dbTestDB.MWQMLookupMPNs select c).Where(c => c.MWQMLookupMPNID > 2 && c.MWQMLookupMPNID < 5).ToList();
@@ -628,7 +863,7 @@ namespace CSSPServices.Tests
                             CheckMWQMLookupMPNFields(mwqmLookupMPNList);
                             Assert.AreEqual(mwqmLookupMPNDirectQueryList[0].MWQMLookupMPNID, mwqmLookupMPNList[0].MWQMLookupMPNID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MWQMLookupMPNExtraA> mwqmLookupMPNExtraAList = new List<MWQMLookupMPNExtraA>();
                             mwqmLookupMPNExtraAList = mwqmLookupMPNService.GetMWQMLookupMPNExtraAList().ToList();
@@ -636,7 +871,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmLookupMPNDirectQueryList[0].MWQMLookupMPNID, mwqmLookupMPNExtraAList[0].MWQMLookupMPNID);
                             Assert.AreEqual(mwqmLookupMPNDirectQueryList.Count, mwqmLookupMPNExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MWQMLookupMPNExtraB> mwqmLookupMPNExtraBList = new List<MWQMLookupMPNExtraB>();
                             mwqmLookupMPNExtraBList = mwqmLookupMPNService.GetMWQMLookupMPNExtraBList().ToList();
@@ -646,13 +881,13 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetMWQMLookupMPNList() 2Where
+        #endregion Tests Generated for GetMWQMLookupMPNList() 2 Where
 
         #region Functions private
         private void CheckMWQMLookupMPNFields(List<MWQMLookupMPN> mwqmLookupMPNList)

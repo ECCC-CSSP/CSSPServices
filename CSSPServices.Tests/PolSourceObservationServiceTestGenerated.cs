@@ -38,9 +38,9 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
+        #region Tests Generated CRUD
         [TestMethod]
-        public void PolSourceObservation_CRUD_And_Properties_Test()
+        public void PolSourceObservation_CRUD_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -86,6 +86,33 @@ namespace CSSPServices.Tests
                         Assert.AreEqual("", polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
                     Assert.AreEqual(count, polSourceObservationService.GetPolSourceObservationList().Count());
+
+                }
+            }
+        }
+        #endregion Tests Generated CRUD
+
+        #region Tests Generated Properties
+        [TestMethod]
+        public void PolSourceObservation_Properties_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    PolSourceObservationService polSourceObservationService = new PolSourceObservationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    count = polSourceObservationService.GetPolSourceObservationList().Count();
+
+                    PolSourceObservation polSourceObservation = GetFilledRandomPolSourceObservation("");
 
                     // -------------------------------
                     // -------------------------------
@@ -230,7 +257,7 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Generated CRUD and Properties
+        #endregion Tests Generated Properties
 
         #region Tests Generated for GetPolSourceObservationWithPolSourceObservationID(polSourceObservation.PolSourceObservationID)
         [TestMethod]
@@ -246,7 +273,7 @@ namespace CSSPServices.Tests
                     PolSourceObservation polSourceObservation = (from c in dbTestDB.PolSourceObservations select c).FirstOrDefault();
                     Assert.IsNotNull(polSourceObservation);
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         polSourceObservationService.Query.Extra = extra;
 
@@ -256,13 +283,13 @@ namespace CSSPServices.Tests
                             CheckPolSourceObservationFields(new List<PolSourceObservation>() { polSourceObservationRet });
                             Assert.AreEqual(polSourceObservation.PolSourceObservationID, polSourceObservationRet.PolSourceObservationID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             PolSourceObservationExtraA polSourceObservationExtraARet = polSourceObservationService.GetPolSourceObservationExtraAWithPolSourceObservationID(polSourceObservation.PolSourceObservationID);
                             CheckPolSourceObservationExtraAFields(new List<PolSourceObservationExtraA>() { polSourceObservationExtraARet });
                             Assert.AreEqual(polSourceObservation.PolSourceObservationID, polSourceObservationExtraARet.PolSourceObservationID);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             PolSourceObservationExtraB polSourceObservationExtraBRet = polSourceObservationService.GetPolSourceObservationExtraBWithPolSourceObservationID(polSourceObservation.PolSourceObservationID);
                             CheckPolSourceObservationExtraBFields(new List<PolSourceObservationExtraB>() { polSourceObservationExtraBRet });
@@ -270,7 +297,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -295,7 +322,7 @@ namespace CSSPServices.Tests
                     List<PolSourceObservation> polSourceObservationDirectQueryList = new List<PolSourceObservation>();
                     polSourceObservationDirectQueryList = (from c in dbTestDB.PolSourceObservations select c).Take(200).ToList();
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         polSourceObservationService.Query.Extra = extra;
 
@@ -305,14 +332,14 @@ namespace CSSPServices.Tests
                             polSourceObservationList = polSourceObservationService.GetPolSourceObservationList().ToList();
                             CheckPolSourceObservationFields(polSourceObservationList);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<PolSourceObservationExtraA> polSourceObservationExtraAList = new List<PolSourceObservationExtraA>();
                             polSourceObservationExtraAList = polSourceObservationService.GetPolSourceObservationExtraAList().ToList();
                             CheckPolSourceObservationExtraAFields(polSourceObservationExtraAList);
                             Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<PolSourceObservationExtraB> polSourceObservationExtraBList = new List<PolSourceObservationExtraB>();
                             polSourceObservationExtraBList = polSourceObservationService.GetPolSourceObservationExtraBList().ToList();
@@ -321,7 +348,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -339,11 +366,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         PolSourceObservationService polSourceObservationService = new PolSourceObservationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        polSourceObservationService.Query = polSourceObservationService.FillQuery(typeof(PolSourceObservation), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
+                        polSourceObservationService.Query = polSourceObservationService.FillQuery(typeof(PolSourceObservation), culture.TwoLetterISOLanguageName, 1, 1, "", "", "", extra);
 
                         List<PolSourceObservation> polSourceObservationDirectQueryList = new List<PolSourceObservation>();
                         polSourceObservationDirectQueryList = (from c in dbTestDB.PolSourceObservations select c).Skip(1).Take(1).ToList();
@@ -355,7 +382,7 @@ namespace CSSPServices.Tests
                             CheckPolSourceObservationFields(polSourceObservationList);
                             Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationList[0].PolSourceObservationID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<PolSourceObservationExtraA> polSourceObservationExtraAList = new List<PolSourceObservationExtraA>();
                             polSourceObservationExtraAList = polSourceObservationService.GetPolSourceObservationExtraAList().ToList();
@@ -363,7 +390,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraAList[0].PolSourceObservationID);
                             Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<PolSourceObservationExtraB> polSourceObservationExtraBList = new List<PolSourceObservationExtraB>();
                             polSourceObservationExtraBList = polSourceObservationService.GetPolSourceObservationExtraBList().ToList();
@@ -373,7 +400,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -381,9 +408,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated for GetPolSourceObservationList() Skip Take
 
-        #region Tests Generated for GetPolSourceObservationList() Skip Take Order
+        #region Tests Generated for GetPolSourceObservationList() Skip Take Asc
         [TestMethod]
-        public void GetPolSourceObservationList_Skip_Take_Order_Test()
+        public void GetPolSourceObservationList_Skip_Take_Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -391,14 +418,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         PolSourceObservationService polSourceObservationService = new PolSourceObservationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        polSourceObservationService.Query = polSourceObservationService.FillQuery(typeof(PolSourceObservation), culture.TwoLetterISOLanguageName, 1, 1,  "PolSourceObservationID", "");
+                        polSourceObservationService.Query = polSourceObservationService.FillQuery(typeof(PolSourceObservation), culture.TwoLetterISOLanguageName, 1, 1,  "PolSourceObservationID", "", "", extra);
 
                         List<PolSourceObservation> polSourceObservationDirectQueryList = new List<PolSourceObservation>();
-                        polSourceObservationDirectQueryList = (from c in dbTestDB.PolSourceObservations select c).Skip(1).Take(1).OrderBy(c => c.PolSourceObservationID).ToList();
+                        polSourceObservationDirectQueryList = (from c in dbTestDB.PolSourceObservations select c).OrderBy(c => c.PolSourceObservationID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -407,7 +434,7 @@ namespace CSSPServices.Tests
                             CheckPolSourceObservationFields(polSourceObservationList);
                             Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationList[0].PolSourceObservationID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<PolSourceObservationExtraA> polSourceObservationExtraAList = new List<PolSourceObservationExtraA>();
                             polSourceObservationExtraAList = polSourceObservationService.GetPolSourceObservationExtraAList().ToList();
@@ -415,7 +442,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraAList[0].PolSourceObservationID);
                             Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<PolSourceObservationExtraB> polSourceObservationExtraBList = new List<PolSourceObservationExtraB>();
                             polSourceObservationExtraBList = polSourceObservationService.GetPolSourceObservationExtraBList().ToList();
@@ -425,17 +452,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetPolSourceObservationList() Skip Take Order
+        #endregion Tests Generated for GetPolSourceObservationList() Skip Take Asc
 
-        #region Tests Generated for GetPolSourceObservationList() Skip Take 2Order
+        #region Tests Generated for GetPolSourceObservationList() Skip Take 2 Asc
         [TestMethod]
-        public void GetPolSourceObservationList_Skip_Take_2Order_Test()
+        public void GetPolSourceObservationList_Skip_Take_2Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -443,14 +470,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         PolSourceObservationService polSourceObservationService = new PolSourceObservationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        polSourceObservationService.Query = polSourceObservationService.FillQuery(typeof(PolSourceObservation), culture.TwoLetterISOLanguageName, 1, 1, "PolSourceObservationID,PolSourceSiteID", "");
+                        polSourceObservationService.Query = polSourceObservationService.FillQuery(typeof(PolSourceObservation), culture.TwoLetterISOLanguageName, 1, 1, "PolSourceObservationID,PolSourceSiteID", "", "", extra);
 
                         List<PolSourceObservation> polSourceObservationDirectQueryList = new List<PolSourceObservation>();
-                        polSourceObservationDirectQueryList = (from c in dbTestDB.PolSourceObservations select c).Skip(1).Take(1).OrderBy(c => c.PolSourceObservationID).ThenBy(c => c.PolSourceSiteID).ToList();
+                        polSourceObservationDirectQueryList = (from c in dbTestDB.PolSourceObservations select c).OrderBy(c => c.PolSourceObservationID).ThenBy(c => c.PolSourceSiteID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -459,7 +486,7 @@ namespace CSSPServices.Tests
                             CheckPolSourceObservationFields(polSourceObservationList);
                             Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationList[0].PolSourceObservationID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<PolSourceObservationExtraA> polSourceObservationExtraAList = new List<PolSourceObservationExtraA>();
                             polSourceObservationExtraAList = polSourceObservationService.GetPolSourceObservationExtraAList().ToList();
@@ -467,7 +494,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraAList[0].PolSourceObservationID);
                             Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<PolSourceObservationExtraB> polSourceObservationExtraBList = new List<PolSourceObservationExtraB>();
                             polSourceObservationExtraBList = polSourceObservationService.GetPolSourceObservationExtraBList().ToList();
@@ -477,17 +504,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetPolSourceObservationList() Skip Take 2Order
+        #endregion Tests Generated for GetPolSourceObservationList() Skip Take 2 Asc
 
-        #region Tests Generated for GetPolSourceObservationList() Skip Take Order Where
+        #region Tests Generated for GetPolSourceObservationList() Skip Take Asc Where
         [TestMethod]
-        public void GetPolSourceObservationList_Skip_Take_Order_Where_Test()
+        public void GetPolSourceObservationList_Skip_Take_Asc_Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -495,14 +522,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         PolSourceObservationService polSourceObservationService = new PolSourceObservationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        polSourceObservationService.Query = polSourceObservationService.FillQuery(typeof(PolSourceObservation), culture.TwoLetterISOLanguageName, 0, 1, "PolSourceObservationID", "PolSourceObservationID,EQ,4", "");
+                        polSourceObservationService.Query = polSourceObservationService.FillQuery(typeof(PolSourceObservation), culture.TwoLetterISOLanguageName, 0, 1, "PolSourceObservationID", "", "PolSourceObservationID,EQ,4", "");
 
                         List<PolSourceObservation> polSourceObservationDirectQueryList = new List<PolSourceObservation>();
-                        polSourceObservationDirectQueryList = (from c in dbTestDB.PolSourceObservations select c).Where(c => c.PolSourceObservationID == 4).Skip(0).Take(1).OrderBy(c => c.PolSourceObservationID).ToList();
+                        polSourceObservationDirectQueryList = (from c in dbTestDB.PolSourceObservations select c).Where(c => c.PolSourceObservationID == 4).OrderBy(c => c.PolSourceObservationID).Skip(0).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -511,7 +538,7 @@ namespace CSSPServices.Tests
                             CheckPolSourceObservationFields(polSourceObservationList);
                             Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationList[0].PolSourceObservationID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<PolSourceObservationExtraA> polSourceObservationExtraAList = new List<PolSourceObservationExtraA>();
                             polSourceObservationExtraAList = polSourceObservationService.GetPolSourceObservationExtraAList().ToList();
@@ -519,7 +546,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraAList[0].PolSourceObservationID);
                             Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<PolSourceObservationExtraB> polSourceObservationExtraBList = new List<PolSourceObservationExtraB>();
                             polSourceObservationExtraBList = polSourceObservationService.GetPolSourceObservationExtraBList().ToList();
@@ -529,17 +556,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetPolSourceObservationList() Skip Take Order Where
+        #endregion Tests Generated for GetPolSourceObservationList() Skip Take Asc Where
 
-        #region Tests Generated for GetPolSourceObservationList() Skip Take Order 2Where
+        #region Tests Generated for GetPolSourceObservationList() Skip Take Asc 2 Where
         [TestMethod]
-        public void GetPolSourceObservationList_Skip_Take_Order_2Where_Test()
+        public void GetPolSourceObservationList_Skip_Take_Asc_2Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -547,11 +574,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         PolSourceObservationService polSourceObservationService = new PolSourceObservationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        polSourceObservationService.Query = polSourceObservationService.FillQuery(typeof(PolSourceObservation), culture.TwoLetterISOLanguageName, 0, 1, "PolSourceObservationID", "PolSourceObservationID,GT,2|PolSourceObservationID,LT,5", "");
+                        polSourceObservationService.Query = polSourceObservationService.FillQuery(typeof(PolSourceObservation), culture.TwoLetterISOLanguageName, 0, 1, "PolSourceObservationID", "", "PolSourceObservationID,GT,2|PolSourceObservationID,LT,5", "");
 
                         List<PolSourceObservation> polSourceObservationDirectQueryList = new List<PolSourceObservation>();
                         polSourceObservationDirectQueryList = (from c in dbTestDB.PolSourceObservations select c).Where(c => c.PolSourceObservationID > 2 && c.PolSourceObservationID < 5).Skip(0).Take(1).OrderBy(c => c.PolSourceObservationID).ToList();
@@ -563,7 +590,7 @@ namespace CSSPServices.Tests
                             CheckPolSourceObservationFields(polSourceObservationList);
                             Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationList[0].PolSourceObservationID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<PolSourceObservationExtraA> polSourceObservationExtraAList = new List<PolSourceObservationExtraA>();
                             polSourceObservationExtraAList = polSourceObservationService.GetPolSourceObservationExtraAList().ToList();
@@ -571,7 +598,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraAList[0].PolSourceObservationID);
                             Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<PolSourceObservationExtraB> polSourceObservationExtraBList = new List<PolSourceObservationExtraB>();
                             polSourceObservationExtraBList = polSourceObservationService.GetPolSourceObservationExtraBList().ToList();
@@ -581,15 +608,223 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetPolSourceObservationList() Skip Take Order 2Where
+        #endregion Tests Generated for GetPolSourceObservationList() Skip Take Asc 2 Where
 
-        #region Tests Generated for GetPolSourceObservationList() 2Where
+        #region Tests Generated for GetPolSourceObservationList() Skip Take Desc
+        [TestMethod]
+        public void GetPolSourceObservationList_Skip_Take_Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        PolSourceObservationService polSourceObservationService = new PolSourceObservationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        polSourceObservationService.Query = polSourceObservationService.FillQuery(typeof(PolSourceObservation), culture.TwoLetterISOLanguageName, 1, 1, "", "PolSourceObservationID", "", extra);
+
+                        List<PolSourceObservation> polSourceObservationDirectQueryList = new List<PolSourceObservation>();
+                        polSourceObservationDirectQueryList = (from c in dbTestDB.PolSourceObservations select c).OrderByDescending(c => c.PolSourceObservationID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<PolSourceObservation> polSourceObservationList = new List<PolSourceObservation>();
+                            polSourceObservationList = polSourceObservationService.GetPolSourceObservationList().ToList();
+                            CheckPolSourceObservationFields(polSourceObservationList);
+                            Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationList[0].PolSourceObservationID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<PolSourceObservationExtraA> polSourceObservationExtraAList = new List<PolSourceObservationExtraA>();
+                            polSourceObservationExtraAList = polSourceObservationService.GetPolSourceObservationExtraAList().ToList();
+                            CheckPolSourceObservationExtraAFields(polSourceObservationExtraAList);
+                            Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraAList[0].PolSourceObservationID);
+                            Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<PolSourceObservationExtraB> polSourceObservationExtraBList = new List<PolSourceObservationExtraB>();
+                            polSourceObservationExtraBList = polSourceObservationService.GetPolSourceObservationExtraBList().ToList();
+                            CheckPolSourceObservationExtraBFields(polSourceObservationExtraBList);
+                            Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraBList[0].PolSourceObservationID);
+                            Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetPolSourceObservationList() Skip Take Desc
+
+        #region Tests Generated for GetPolSourceObservationList() Skip Take 2 Desc
+        [TestMethod]
+        public void GetPolSourceObservationList_Skip_Take_2Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        PolSourceObservationService polSourceObservationService = new PolSourceObservationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        polSourceObservationService.Query = polSourceObservationService.FillQuery(typeof(PolSourceObservation), culture.TwoLetterISOLanguageName, 1, 1, "", "PolSourceObservationID,PolSourceSiteID", "", extra);
+
+                        List<PolSourceObservation> polSourceObservationDirectQueryList = new List<PolSourceObservation>();
+                        polSourceObservationDirectQueryList = (from c in dbTestDB.PolSourceObservations select c).OrderByDescending(c => c.PolSourceObservationID).ThenByDescending(c => c.PolSourceSiteID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<PolSourceObservation> polSourceObservationList = new List<PolSourceObservation>();
+                            polSourceObservationList = polSourceObservationService.GetPolSourceObservationList().ToList();
+                            CheckPolSourceObservationFields(polSourceObservationList);
+                            Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationList[0].PolSourceObservationID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<PolSourceObservationExtraA> polSourceObservationExtraAList = new List<PolSourceObservationExtraA>();
+                            polSourceObservationExtraAList = polSourceObservationService.GetPolSourceObservationExtraAList().ToList();
+                            CheckPolSourceObservationExtraAFields(polSourceObservationExtraAList);
+                            Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraAList[0].PolSourceObservationID);
+                            Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<PolSourceObservationExtraB> polSourceObservationExtraBList = new List<PolSourceObservationExtraB>();
+                            polSourceObservationExtraBList = polSourceObservationService.GetPolSourceObservationExtraBList().ToList();
+                            CheckPolSourceObservationExtraBFields(polSourceObservationExtraBList);
+                            Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraBList[0].PolSourceObservationID);
+                            Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetPolSourceObservationList() Skip Take 2 Desc
+
+        #region Tests Generated for GetPolSourceObservationList() Skip Take Desc Where
+        [TestMethod]
+        public void GetPolSourceObservationList_Skip_Take_Desc_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        PolSourceObservationService polSourceObservationService = new PolSourceObservationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        polSourceObservationService.Query = polSourceObservationService.FillQuery(typeof(PolSourceObservation), culture.TwoLetterISOLanguageName, 0, 1, "PolSourceObservationID", "", "PolSourceObservationID,EQ,4", "");
+
+                        List<PolSourceObservation> polSourceObservationDirectQueryList = new List<PolSourceObservation>();
+                        polSourceObservationDirectQueryList = (from c in dbTestDB.PolSourceObservations select c).Where(c => c.PolSourceObservationID == 4).OrderByDescending(c => c.PolSourceObservationID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<PolSourceObservation> polSourceObservationList = new List<PolSourceObservation>();
+                            polSourceObservationList = polSourceObservationService.GetPolSourceObservationList().ToList();
+                            CheckPolSourceObservationFields(polSourceObservationList);
+                            Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationList[0].PolSourceObservationID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<PolSourceObservationExtraA> polSourceObservationExtraAList = new List<PolSourceObservationExtraA>();
+                            polSourceObservationExtraAList = polSourceObservationService.GetPolSourceObservationExtraAList().ToList();
+                            CheckPolSourceObservationExtraAFields(polSourceObservationExtraAList);
+                            Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraAList[0].PolSourceObservationID);
+                            Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<PolSourceObservationExtraB> polSourceObservationExtraBList = new List<PolSourceObservationExtraB>();
+                            polSourceObservationExtraBList = polSourceObservationService.GetPolSourceObservationExtraBList().ToList();
+                            CheckPolSourceObservationExtraBFields(polSourceObservationExtraBList);
+                            Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraBList[0].PolSourceObservationID);
+                            Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetPolSourceObservationList() Skip Take Desc Where
+
+        #region Tests Generated for GetPolSourceObservationList() Skip Take Desc 2 Where
+        [TestMethod]
+        public void GetPolSourceObservationList_Skip_Take_Desc_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        PolSourceObservationService polSourceObservationService = new PolSourceObservationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        polSourceObservationService.Query = polSourceObservationService.FillQuery(typeof(PolSourceObservation), culture.TwoLetterISOLanguageName, 0, 1, "", "PolSourceObservationID", "PolSourceObservationID,GT,2|PolSourceObservationID,LT,5", "");
+
+                        List<PolSourceObservation> polSourceObservationDirectQueryList = new List<PolSourceObservation>();
+                        polSourceObservationDirectQueryList = (from c in dbTestDB.PolSourceObservations select c).Where(c => c.PolSourceObservationID > 2 && c.PolSourceObservationID < 5).OrderByDescending(c => c.PolSourceObservationID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<PolSourceObservation> polSourceObservationList = new List<PolSourceObservation>();
+                            polSourceObservationList = polSourceObservationService.GetPolSourceObservationList().ToList();
+                            CheckPolSourceObservationFields(polSourceObservationList);
+                            Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationList[0].PolSourceObservationID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<PolSourceObservationExtraA> polSourceObservationExtraAList = new List<PolSourceObservationExtraA>();
+                            polSourceObservationExtraAList = polSourceObservationService.GetPolSourceObservationExtraAList().ToList();
+                            CheckPolSourceObservationExtraAFields(polSourceObservationExtraAList);
+                            Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraAList[0].PolSourceObservationID);
+                            Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<PolSourceObservationExtraB> polSourceObservationExtraBList = new List<PolSourceObservationExtraB>();
+                            polSourceObservationExtraBList = polSourceObservationService.GetPolSourceObservationExtraBList().ToList();
+                            CheckPolSourceObservationExtraBFields(polSourceObservationExtraBList);
+                            Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraBList[0].PolSourceObservationID);
+                            Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetPolSourceObservationList() Skip Take Desc 2 Where
+
+        #region Tests Generated for GetPolSourceObservationList() 2 Where
         [TestMethod]
         public void GetPolSourceObservationList_2Where_Test()
         {
@@ -599,11 +834,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         PolSourceObservationService polSourceObservationService = new PolSourceObservationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        polSourceObservationService.Query = polSourceObservationService.FillQuery(typeof(PolSourceObservation), culture.TwoLetterISOLanguageName, 0, 10000, "", "PolSourceObservationID,GT,2|PolSourceObservationID,LT,5", "");
+                        polSourceObservationService.Query = polSourceObservationService.FillQuery(typeof(PolSourceObservation), culture.TwoLetterISOLanguageName, 0, 10000, "", "", "PolSourceObservationID,GT,2|PolSourceObservationID,LT,5", extra);
 
                         List<PolSourceObservation> polSourceObservationDirectQueryList = new List<PolSourceObservation>();
                         polSourceObservationDirectQueryList = (from c in dbTestDB.PolSourceObservations select c).Where(c => c.PolSourceObservationID > 2 && c.PolSourceObservationID < 5).ToList();
@@ -615,7 +850,7 @@ namespace CSSPServices.Tests
                             CheckPolSourceObservationFields(polSourceObservationList);
                             Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationList[0].PolSourceObservationID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<PolSourceObservationExtraA> polSourceObservationExtraAList = new List<PolSourceObservationExtraA>();
                             polSourceObservationExtraAList = polSourceObservationService.GetPolSourceObservationExtraAList().ToList();
@@ -623,7 +858,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraAList[0].PolSourceObservationID);
                             Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<PolSourceObservationExtraB> polSourceObservationExtraBList = new List<PolSourceObservationExtraB>();
                             polSourceObservationExtraBList = polSourceObservationService.GetPolSourceObservationExtraBList().ToList();
@@ -633,13 +868,13 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetPolSourceObservationList() 2Where
+        #endregion Tests Generated for GetPolSourceObservationList() 2 Where
 
         #region Functions private
         private void CheckPolSourceObservationFields(List<PolSourceObservation> polSourceObservationList)

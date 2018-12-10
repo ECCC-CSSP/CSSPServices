@@ -38,9 +38,9 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
+        #region Tests Generated CRUD
         [TestMethod]
-        public void SamplingPlanEmail_CRUD_And_Properties_Test()
+        public void SamplingPlanEmail_CRUD_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -86,6 +86,33 @@ namespace CSSPServices.Tests
                         Assert.AreEqual("", samplingPlanEmail.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
                     Assert.AreEqual(count, samplingPlanEmailService.GetSamplingPlanEmailList().Count());
+
+                }
+            }
+        }
+        #endregion Tests Generated CRUD
+
+        #region Tests Generated Properties
+        [TestMethod]
+        public void SamplingPlanEmail_Properties_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    SamplingPlanEmailService samplingPlanEmailService = new SamplingPlanEmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    count = samplingPlanEmailService.GetSamplingPlanEmailList().Count();
+
+                    SamplingPlanEmail samplingPlanEmail = GetFilledRandomSamplingPlanEmail("");
 
                     // -------------------------------
                     // -------------------------------
@@ -232,7 +259,7 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Generated CRUD and Properties
+        #endregion Tests Generated Properties
 
         #region Tests Generated for GetSamplingPlanEmailWithSamplingPlanEmailID(samplingPlanEmail.SamplingPlanEmailID)
         [TestMethod]
@@ -248,7 +275,7 @@ namespace CSSPServices.Tests
                     SamplingPlanEmail samplingPlanEmail = (from c in dbTestDB.SamplingPlanEmails select c).FirstOrDefault();
                     Assert.IsNotNull(samplingPlanEmail);
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         samplingPlanEmailService.Query.Extra = extra;
 
@@ -258,13 +285,13 @@ namespace CSSPServices.Tests
                             CheckSamplingPlanEmailFields(new List<SamplingPlanEmail>() { samplingPlanEmailRet });
                             Assert.AreEqual(samplingPlanEmail.SamplingPlanEmailID, samplingPlanEmailRet.SamplingPlanEmailID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             SamplingPlanEmailExtraA samplingPlanEmailExtraARet = samplingPlanEmailService.GetSamplingPlanEmailExtraAWithSamplingPlanEmailID(samplingPlanEmail.SamplingPlanEmailID);
                             CheckSamplingPlanEmailExtraAFields(new List<SamplingPlanEmailExtraA>() { samplingPlanEmailExtraARet });
                             Assert.AreEqual(samplingPlanEmail.SamplingPlanEmailID, samplingPlanEmailExtraARet.SamplingPlanEmailID);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             SamplingPlanEmailExtraB samplingPlanEmailExtraBRet = samplingPlanEmailService.GetSamplingPlanEmailExtraBWithSamplingPlanEmailID(samplingPlanEmail.SamplingPlanEmailID);
                             CheckSamplingPlanEmailExtraBFields(new List<SamplingPlanEmailExtraB>() { samplingPlanEmailExtraBRet });
@@ -272,7 +299,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -297,7 +324,7 @@ namespace CSSPServices.Tests
                     List<SamplingPlanEmail> samplingPlanEmailDirectQueryList = new List<SamplingPlanEmail>();
                     samplingPlanEmailDirectQueryList = (from c in dbTestDB.SamplingPlanEmails select c).Take(200).ToList();
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         samplingPlanEmailService.Query.Extra = extra;
 
@@ -307,14 +334,14 @@ namespace CSSPServices.Tests
                             samplingPlanEmailList = samplingPlanEmailService.GetSamplingPlanEmailList().ToList();
                             CheckSamplingPlanEmailFields(samplingPlanEmailList);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<SamplingPlanEmailExtraA> samplingPlanEmailExtraAList = new List<SamplingPlanEmailExtraA>();
                             samplingPlanEmailExtraAList = samplingPlanEmailService.GetSamplingPlanEmailExtraAList().ToList();
                             CheckSamplingPlanEmailExtraAFields(samplingPlanEmailExtraAList);
                             Assert.AreEqual(samplingPlanEmailDirectQueryList.Count, samplingPlanEmailExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<SamplingPlanEmailExtraB> samplingPlanEmailExtraBList = new List<SamplingPlanEmailExtraB>();
                             samplingPlanEmailExtraBList = samplingPlanEmailService.GetSamplingPlanEmailExtraBList().ToList();
@@ -323,7 +350,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -341,11 +368,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         SamplingPlanEmailService samplingPlanEmailService = new SamplingPlanEmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        samplingPlanEmailService.Query = samplingPlanEmailService.FillQuery(typeof(SamplingPlanEmail), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
+                        samplingPlanEmailService.Query = samplingPlanEmailService.FillQuery(typeof(SamplingPlanEmail), culture.TwoLetterISOLanguageName, 1, 1, "", "", "", extra);
 
                         List<SamplingPlanEmail> samplingPlanEmailDirectQueryList = new List<SamplingPlanEmail>();
                         samplingPlanEmailDirectQueryList = (from c in dbTestDB.SamplingPlanEmails select c).Skip(1).Take(1).ToList();
@@ -357,7 +384,7 @@ namespace CSSPServices.Tests
                             CheckSamplingPlanEmailFields(samplingPlanEmailList);
                             Assert.AreEqual(samplingPlanEmailDirectQueryList[0].SamplingPlanEmailID, samplingPlanEmailList[0].SamplingPlanEmailID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<SamplingPlanEmailExtraA> samplingPlanEmailExtraAList = new List<SamplingPlanEmailExtraA>();
                             samplingPlanEmailExtraAList = samplingPlanEmailService.GetSamplingPlanEmailExtraAList().ToList();
@@ -365,7 +392,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(samplingPlanEmailDirectQueryList[0].SamplingPlanEmailID, samplingPlanEmailExtraAList[0].SamplingPlanEmailID);
                             Assert.AreEqual(samplingPlanEmailDirectQueryList.Count, samplingPlanEmailExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<SamplingPlanEmailExtraB> samplingPlanEmailExtraBList = new List<SamplingPlanEmailExtraB>();
                             samplingPlanEmailExtraBList = samplingPlanEmailService.GetSamplingPlanEmailExtraBList().ToList();
@@ -375,7 +402,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -383,9 +410,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated for GetSamplingPlanEmailList() Skip Take
 
-        #region Tests Generated for GetSamplingPlanEmailList() Skip Take Order
+        #region Tests Generated for GetSamplingPlanEmailList() Skip Take Asc
         [TestMethod]
-        public void GetSamplingPlanEmailList_Skip_Take_Order_Test()
+        public void GetSamplingPlanEmailList_Skip_Take_Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -393,14 +420,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         SamplingPlanEmailService samplingPlanEmailService = new SamplingPlanEmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        samplingPlanEmailService.Query = samplingPlanEmailService.FillQuery(typeof(SamplingPlanEmail), culture.TwoLetterISOLanguageName, 1, 1,  "SamplingPlanEmailID", "");
+                        samplingPlanEmailService.Query = samplingPlanEmailService.FillQuery(typeof(SamplingPlanEmail), culture.TwoLetterISOLanguageName, 1, 1,  "SamplingPlanEmailID", "", "", extra);
 
                         List<SamplingPlanEmail> samplingPlanEmailDirectQueryList = new List<SamplingPlanEmail>();
-                        samplingPlanEmailDirectQueryList = (from c in dbTestDB.SamplingPlanEmails select c).Skip(1).Take(1).OrderBy(c => c.SamplingPlanEmailID).ToList();
+                        samplingPlanEmailDirectQueryList = (from c in dbTestDB.SamplingPlanEmails select c).OrderBy(c => c.SamplingPlanEmailID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -409,7 +436,7 @@ namespace CSSPServices.Tests
                             CheckSamplingPlanEmailFields(samplingPlanEmailList);
                             Assert.AreEqual(samplingPlanEmailDirectQueryList[0].SamplingPlanEmailID, samplingPlanEmailList[0].SamplingPlanEmailID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<SamplingPlanEmailExtraA> samplingPlanEmailExtraAList = new List<SamplingPlanEmailExtraA>();
                             samplingPlanEmailExtraAList = samplingPlanEmailService.GetSamplingPlanEmailExtraAList().ToList();
@@ -417,7 +444,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(samplingPlanEmailDirectQueryList[0].SamplingPlanEmailID, samplingPlanEmailExtraAList[0].SamplingPlanEmailID);
                             Assert.AreEqual(samplingPlanEmailDirectQueryList.Count, samplingPlanEmailExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<SamplingPlanEmailExtraB> samplingPlanEmailExtraBList = new List<SamplingPlanEmailExtraB>();
                             samplingPlanEmailExtraBList = samplingPlanEmailService.GetSamplingPlanEmailExtraBList().ToList();
@@ -427,17 +454,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetSamplingPlanEmailList() Skip Take Order
+        #endregion Tests Generated for GetSamplingPlanEmailList() Skip Take Asc
 
-        #region Tests Generated for GetSamplingPlanEmailList() Skip Take 2Order
+        #region Tests Generated for GetSamplingPlanEmailList() Skip Take 2 Asc
         [TestMethod]
-        public void GetSamplingPlanEmailList_Skip_Take_2Order_Test()
+        public void GetSamplingPlanEmailList_Skip_Take_2Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -445,14 +472,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         SamplingPlanEmailService samplingPlanEmailService = new SamplingPlanEmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        samplingPlanEmailService.Query = samplingPlanEmailService.FillQuery(typeof(SamplingPlanEmail), culture.TwoLetterISOLanguageName, 1, 1, "SamplingPlanEmailID,SamplingPlanID", "");
+                        samplingPlanEmailService.Query = samplingPlanEmailService.FillQuery(typeof(SamplingPlanEmail), culture.TwoLetterISOLanguageName, 1, 1, "SamplingPlanEmailID,SamplingPlanID", "", "", extra);
 
                         List<SamplingPlanEmail> samplingPlanEmailDirectQueryList = new List<SamplingPlanEmail>();
-                        samplingPlanEmailDirectQueryList = (from c in dbTestDB.SamplingPlanEmails select c).Skip(1).Take(1).OrderBy(c => c.SamplingPlanEmailID).ThenBy(c => c.SamplingPlanID).ToList();
+                        samplingPlanEmailDirectQueryList = (from c in dbTestDB.SamplingPlanEmails select c).OrderBy(c => c.SamplingPlanEmailID).ThenBy(c => c.SamplingPlanID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -461,7 +488,7 @@ namespace CSSPServices.Tests
                             CheckSamplingPlanEmailFields(samplingPlanEmailList);
                             Assert.AreEqual(samplingPlanEmailDirectQueryList[0].SamplingPlanEmailID, samplingPlanEmailList[0].SamplingPlanEmailID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<SamplingPlanEmailExtraA> samplingPlanEmailExtraAList = new List<SamplingPlanEmailExtraA>();
                             samplingPlanEmailExtraAList = samplingPlanEmailService.GetSamplingPlanEmailExtraAList().ToList();
@@ -469,7 +496,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(samplingPlanEmailDirectQueryList[0].SamplingPlanEmailID, samplingPlanEmailExtraAList[0].SamplingPlanEmailID);
                             Assert.AreEqual(samplingPlanEmailDirectQueryList.Count, samplingPlanEmailExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<SamplingPlanEmailExtraB> samplingPlanEmailExtraBList = new List<SamplingPlanEmailExtraB>();
                             samplingPlanEmailExtraBList = samplingPlanEmailService.GetSamplingPlanEmailExtraBList().ToList();
@@ -479,17 +506,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetSamplingPlanEmailList() Skip Take 2Order
+        #endregion Tests Generated for GetSamplingPlanEmailList() Skip Take 2 Asc
 
-        #region Tests Generated for GetSamplingPlanEmailList() Skip Take Order Where
+        #region Tests Generated for GetSamplingPlanEmailList() Skip Take Asc Where
         [TestMethod]
-        public void GetSamplingPlanEmailList_Skip_Take_Order_Where_Test()
+        public void GetSamplingPlanEmailList_Skip_Take_Asc_Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -497,14 +524,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         SamplingPlanEmailService samplingPlanEmailService = new SamplingPlanEmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        samplingPlanEmailService.Query = samplingPlanEmailService.FillQuery(typeof(SamplingPlanEmail), culture.TwoLetterISOLanguageName, 0, 1, "SamplingPlanEmailID", "SamplingPlanEmailID,EQ,4", "");
+                        samplingPlanEmailService.Query = samplingPlanEmailService.FillQuery(typeof(SamplingPlanEmail), culture.TwoLetterISOLanguageName, 0, 1, "SamplingPlanEmailID", "", "SamplingPlanEmailID,EQ,4", "");
 
                         List<SamplingPlanEmail> samplingPlanEmailDirectQueryList = new List<SamplingPlanEmail>();
-                        samplingPlanEmailDirectQueryList = (from c in dbTestDB.SamplingPlanEmails select c).Where(c => c.SamplingPlanEmailID == 4).Skip(0).Take(1).OrderBy(c => c.SamplingPlanEmailID).ToList();
+                        samplingPlanEmailDirectQueryList = (from c in dbTestDB.SamplingPlanEmails select c).Where(c => c.SamplingPlanEmailID == 4).OrderBy(c => c.SamplingPlanEmailID).Skip(0).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -513,7 +540,7 @@ namespace CSSPServices.Tests
                             CheckSamplingPlanEmailFields(samplingPlanEmailList);
                             Assert.AreEqual(samplingPlanEmailDirectQueryList[0].SamplingPlanEmailID, samplingPlanEmailList[0].SamplingPlanEmailID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<SamplingPlanEmailExtraA> samplingPlanEmailExtraAList = new List<SamplingPlanEmailExtraA>();
                             samplingPlanEmailExtraAList = samplingPlanEmailService.GetSamplingPlanEmailExtraAList().ToList();
@@ -521,7 +548,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(samplingPlanEmailDirectQueryList[0].SamplingPlanEmailID, samplingPlanEmailExtraAList[0].SamplingPlanEmailID);
                             Assert.AreEqual(samplingPlanEmailDirectQueryList.Count, samplingPlanEmailExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<SamplingPlanEmailExtraB> samplingPlanEmailExtraBList = new List<SamplingPlanEmailExtraB>();
                             samplingPlanEmailExtraBList = samplingPlanEmailService.GetSamplingPlanEmailExtraBList().ToList();
@@ -531,17 +558,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetSamplingPlanEmailList() Skip Take Order Where
+        #endregion Tests Generated for GetSamplingPlanEmailList() Skip Take Asc Where
 
-        #region Tests Generated for GetSamplingPlanEmailList() Skip Take Order 2Where
+        #region Tests Generated for GetSamplingPlanEmailList() Skip Take Asc 2 Where
         [TestMethod]
-        public void GetSamplingPlanEmailList_Skip_Take_Order_2Where_Test()
+        public void GetSamplingPlanEmailList_Skip_Take_Asc_2Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -549,11 +576,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         SamplingPlanEmailService samplingPlanEmailService = new SamplingPlanEmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        samplingPlanEmailService.Query = samplingPlanEmailService.FillQuery(typeof(SamplingPlanEmail), culture.TwoLetterISOLanguageName, 0, 1, "SamplingPlanEmailID", "SamplingPlanEmailID,GT,2|SamplingPlanEmailID,LT,5", "");
+                        samplingPlanEmailService.Query = samplingPlanEmailService.FillQuery(typeof(SamplingPlanEmail), culture.TwoLetterISOLanguageName, 0, 1, "SamplingPlanEmailID", "", "SamplingPlanEmailID,GT,2|SamplingPlanEmailID,LT,5", "");
 
                         List<SamplingPlanEmail> samplingPlanEmailDirectQueryList = new List<SamplingPlanEmail>();
                         samplingPlanEmailDirectQueryList = (from c in dbTestDB.SamplingPlanEmails select c).Where(c => c.SamplingPlanEmailID > 2 && c.SamplingPlanEmailID < 5).Skip(0).Take(1).OrderBy(c => c.SamplingPlanEmailID).ToList();
@@ -565,7 +592,7 @@ namespace CSSPServices.Tests
                             CheckSamplingPlanEmailFields(samplingPlanEmailList);
                             Assert.AreEqual(samplingPlanEmailDirectQueryList[0].SamplingPlanEmailID, samplingPlanEmailList[0].SamplingPlanEmailID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<SamplingPlanEmailExtraA> samplingPlanEmailExtraAList = new List<SamplingPlanEmailExtraA>();
                             samplingPlanEmailExtraAList = samplingPlanEmailService.GetSamplingPlanEmailExtraAList().ToList();
@@ -573,7 +600,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(samplingPlanEmailDirectQueryList[0].SamplingPlanEmailID, samplingPlanEmailExtraAList[0].SamplingPlanEmailID);
                             Assert.AreEqual(samplingPlanEmailDirectQueryList.Count, samplingPlanEmailExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<SamplingPlanEmailExtraB> samplingPlanEmailExtraBList = new List<SamplingPlanEmailExtraB>();
                             samplingPlanEmailExtraBList = samplingPlanEmailService.GetSamplingPlanEmailExtraBList().ToList();
@@ -583,15 +610,223 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetSamplingPlanEmailList() Skip Take Order 2Where
+        #endregion Tests Generated for GetSamplingPlanEmailList() Skip Take Asc 2 Where
 
-        #region Tests Generated for GetSamplingPlanEmailList() 2Where
+        #region Tests Generated for GetSamplingPlanEmailList() Skip Take Desc
+        [TestMethod]
+        public void GetSamplingPlanEmailList_Skip_Take_Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        SamplingPlanEmailService samplingPlanEmailService = new SamplingPlanEmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        samplingPlanEmailService.Query = samplingPlanEmailService.FillQuery(typeof(SamplingPlanEmail), culture.TwoLetterISOLanguageName, 1, 1, "", "SamplingPlanEmailID", "", extra);
+
+                        List<SamplingPlanEmail> samplingPlanEmailDirectQueryList = new List<SamplingPlanEmail>();
+                        samplingPlanEmailDirectQueryList = (from c in dbTestDB.SamplingPlanEmails select c).OrderByDescending(c => c.SamplingPlanEmailID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<SamplingPlanEmail> samplingPlanEmailList = new List<SamplingPlanEmail>();
+                            samplingPlanEmailList = samplingPlanEmailService.GetSamplingPlanEmailList().ToList();
+                            CheckSamplingPlanEmailFields(samplingPlanEmailList);
+                            Assert.AreEqual(samplingPlanEmailDirectQueryList[0].SamplingPlanEmailID, samplingPlanEmailList[0].SamplingPlanEmailID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<SamplingPlanEmailExtraA> samplingPlanEmailExtraAList = new List<SamplingPlanEmailExtraA>();
+                            samplingPlanEmailExtraAList = samplingPlanEmailService.GetSamplingPlanEmailExtraAList().ToList();
+                            CheckSamplingPlanEmailExtraAFields(samplingPlanEmailExtraAList);
+                            Assert.AreEqual(samplingPlanEmailDirectQueryList[0].SamplingPlanEmailID, samplingPlanEmailExtraAList[0].SamplingPlanEmailID);
+                            Assert.AreEqual(samplingPlanEmailDirectQueryList.Count, samplingPlanEmailExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<SamplingPlanEmailExtraB> samplingPlanEmailExtraBList = new List<SamplingPlanEmailExtraB>();
+                            samplingPlanEmailExtraBList = samplingPlanEmailService.GetSamplingPlanEmailExtraBList().ToList();
+                            CheckSamplingPlanEmailExtraBFields(samplingPlanEmailExtraBList);
+                            Assert.AreEqual(samplingPlanEmailDirectQueryList[0].SamplingPlanEmailID, samplingPlanEmailExtraBList[0].SamplingPlanEmailID);
+                            Assert.AreEqual(samplingPlanEmailDirectQueryList.Count, samplingPlanEmailExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetSamplingPlanEmailList() Skip Take Desc
+
+        #region Tests Generated for GetSamplingPlanEmailList() Skip Take 2 Desc
+        [TestMethod]
+        public void GetSamplingPlanEmailList_Skip_Take_2Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        SamplingPlanEmailService samplingPlanEmailService = new SamplingPlanEmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        samplingPlanEmailService.Query = samplingPlanEmailService.FillQuery(typeof(SamplingPlanEmail), culture.TwoLetterISOLanguageName, 1, 1, "", "SamplingPlanEmailID,SamplingPlanID", "", extra);
+
+                        List<SamplingPlanEmail> samplingPlanEmailDirectQueryList = new List<SamplingPlanEmail>();
+                        samplingPlanEmailDirectQueryList = (from c in dbTestDB.SamplingPlanEmails select c).OrderByDescending(c => c.SamplingPlanEmailID).ThenByDescending(c => c.SamplingPlanID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<SamplingPlanEmail> samplingPlanEmailList = new List<SamplingPlanEmail>();
+                            samplingPlanEmailList = samplingPlanEmailService.GetSamplingPlanEmailList().ToList();
+                            CheckSamplingPlanEmailFields(samplingPlanEmailList);
+                            Assert.AreEqual(samplingPlanEmailDirectQueryList[0].SamplingPlanEmailID, samplingPlanEmailList[0].SamplingPlanEmailID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<SamplingPlanEmailExtraA> samplingPlanEmailExtraAList = new List<SamplingPlanEmailExtraA>();
+                            samplingPlanEmailExtraAList = samplingPlanEmailService.GetSamplingPlanEmailExtraAList().ToList();
+                            CheckSamplingPlanEmailExtraAFields(samplingPlanEmailExtraAList);
+                            Assert.AreEqual(samplingPlanEmailDirectQueryList[0].SamplingPlanEmailID, samplingPlanEmailExtraAList[0].SamplingPlanEmailID);
+                            Assert.AreEqual(samplingPlanEmailDirectQueryList.Count, samplingPlanEmailExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<SamplingPlanEmailExtraB> samplingPlanEmailExtraBList = new List<SamplingPlanEmailExtraB>();
+                            samplingPlanEmailExtraBList = samplingPlanEmailService.GetSamplingPlanEmailExtraBList().ToList();
+                            CheckSamplingPlanEmailExtraBFields(samplingPlanEmailExtraBList);
+                            Assert.AreEqual(samplingPlanEmailDirectQueryList[0].SamplingPlanEmailID, samplingPlanEmailExtraBList[0].SamplingPlanEmailID);
+                            Assert.AreEqual(samplingPlanEmailDirectQueryList.Count, samplingPlanEmailExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetSamplingPlanEmailList() Skip Take 2 Desc
+
+        #region Tests Generated for GetSamplingPlanEmailList() Skip Take Desc Where
+        [TestMethod]
+        public void GetSamplingPlanEmailList_Skip_Take_Desc_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        SamplingPlanEmailService samplingPlanEmailService = new SamplingPlanEmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        samplingPlanEmailService.Query = samplingPlanEmailService.FillQuery(typeof(SamplingPlanEmail), culture.TwoLetterISOLanguageName, 0, 1, "SamplingPlanEmailID", "", "SamplingPlanEmailID,EQ,4", "");
+
+                        List<SamplingPlanEmail> samplingPlanEmailDirectQueryList = new List<SamplingPlanEmail>();
+                        samplingPlanEmailDirectQueryList = (from c in dbTestDB.SamplingPlanEmails select c).Where(c => c.SamplingPlanEmailID == 4).OrderByDescending(c => c.SamplingPlanEmailID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<SamplingPlanEmail> samplingPlanEmailList = new List<SamplingPlanEmail>();
+                            samplingPlanEmailList = samplingPlanEmailService.GetSamplingPlanEmailList().ToList();
+                            CheckSamplingPlanEmailFields(samplingPlanEmailList);
+                            Assert.AreEqual(samplingPlanEmailDirectQueryList[0].SamplingPlanEmailID, samplingPlanEmailList[0].SamplingPlanEmailID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<SamplingPlanEmailExtraA> samplingPlanEmailExtraAList = new List<SamplingPlanEmailExtraA>();
+                            samplingPlanEmailExtraAList = samplingPlanEmailService.GetSamplingPlanEmailExtraAList().ToList();
+                            CheckSamplingPlanEmailExtraAFields(samplingPlanEmailExtraAList);
+                            Assert.AreEqual(samplingPlanEmailDirectQueryList[0].SamplingPlanEmailID, samplingPlanEmailExtraAList[0].SamplingPlanEmailID);
+                            Assert.AreEqual(samplingPlanEmailDirectQueryList.Count, samplingPlanEmailExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<SamplingPlanEmailExtraB> samplingPlanEmailExtraBList = new List<SamplingPlanEmailExtraB>();
+                            samplingPlanEmailExtraBList = samplingPlanEmailService.GetSamplingPlanEmailExtraBList().ToList();
+                            CheckSamplingPlanEmailExtraBFields(samplingPlanEmailExtraBList);
+                            Assert.AreEqual(samplingPlanEmailDirectQueryList[0].SamplingPlanEmailID, samplingPlanEmailExtraBList[0].SamplingPlanEmailID);
+                            Assert.AreEqual(samplingPlanEmailDirectQueryList.Count, samplingPlanEmailExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetSamplingPlanEmailList() Skip Take Desc Where
+
+        #region Tests Generated for GetSamplingPlanEmailList() Skip Take Desc 2 Where
+        [TestMethod]
+        public void GetSamplingPlanEmailList_Skip_Take_Desc_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        SamplingPlanEmailService samplingPlanEmailService = new SamplingPlanEmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        samplingPlanEmailService.Query = samplingPlanEmailService.FillQuery(typeof(SamplingPlanEmail), culture.TwoLetterISOLanguageName, 0, 1, "", "SamplingPlanEmailID", "SamplingPlanEmailID,GT,2|SamplingPlanEmailID,LT,5", "");
+
+                        List<SamplingPlanEmail> samplingPlanEmailDirectQueryList = new List<SamplingPlanEmail>();
+                        samplingPlanEmailDirectQueryList = (from c in dbTestDB.SamplingPlanEmails select c).Where(c => c.SamplingPlanEmailID > 2 && c.SamplingPlanEmailID < 5).OrderByDescending(c => c.SamplingPlanEmailID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<SamplingPlanEmail> samplingPlanEmailList = new List<SamplingPlanEmail>();
+                            samplingPlanEmailList = samplingPlanEmailService.GetSamplingPlanEmailList().ToList();
+                            CheckSamplingPlanEmailFields(samplingPlanEmailList);
+                            Assert.AreEqual(samplingPlanEmailDirectQueryList[0].SamplingPlanEmailID, samplingPlanEmailList[0].SamplingPlanEmailID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<SamplingPlanEmailExtraA> samplingPlanEmailExtraAList = new List<SamplingPlanEmailExtraA>();
+                            samplingPlanEmailExtraAList = samplingPlanEmailService.GetSamplingPlanEmailExtraAList().ToList();
+                            CheckSamplingPlanEmailExtraAFields(samplingPlanEmailExtraAList);
+                            Assert.AreEqual(samplingPlanEmailDirectQueryList[0].SamplingPlanEmailID, samplingPlanEmailExtraAList[0].SamplingPlanEmailID);
+                            Assert.AreEqual(samplingPlanEmailDirectQueryList.Count, samplingPlanEmailExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<SamplingPlanEmailExtraB> samplingPlanEmailExtraBList = new List<SamplingPlanEmailExtraB>();
+                            samplingPlanEmailExtraBList = samplingPlanEmailService.GetSamplingPlanEmailExtraBList().ToList();
+                            CheckSamplingPlanEmailExtraBFields(samplingPlanEmailExtraBList);
+                            Assert.AreEqual(samplingPlanEmailDirectQueryList[0].SamplingPlanEmailID, samplingPlanEmailExtraBList[0].SamplingPlanEmailID);
+                            Assert.AreEqual(samplingPlanEmailDirectQueryList.Count, samplingPlanEmailExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetSamplingPlanEmailList() Skip Take Desc 2 Where
+
+        #region Tests Generated for GetSamplingPlanEmailList() 2 Where
         [TestMethod]
         public void GetSamplingPlanEmailList_2Where_Test()
         {
@@ -601,11 +836,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         SamplingPlanEmailService samplingPlanEmailService = new SamplingPlanEmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        samplingPlanEmailService.Query = samplingPlanEmailService.FillQuery(typeof(SamplingPlanEmail), culture.TwoLetterISOLanguageName, 0, 10000, "", "SamplingPlanEmailID,GT,2|SamplingPlanEmailID,LT,5", "");
+                        samplingPlanEmailService.Query = samplingPlanEmailService.FillQuery(typeof(SamplingPlanEmail), culture.TwoLetterISOLanguageName, 0, 10000, "", "", "SamplingPlanEmailID,GT,2|SamplingPlanEmailID,LT,5", extra);
 
                         List<SamplingPlanEmail> samplingPlanEmailDirectQueryList = new List<SamplingPlanEmail>();
                         samplingPlanEmailDirectQueryList = (from c in dbTestDB.SamplingPlanEmails select c).Where(c => c.SamplingPlanEmailID > 2 && c.SamplingPlanEmailID < 5).ToList();
@@ -617,7 +852,7 @@ namespace CSSPServices.Tests
                             CheckSamplingPlanEmailFields(samplingPlanEmailList);
                             Assert.AreEqual(samplingPlanEmailDirectQueryList[0].SamplingPlanEmailID, samplingPlanEmailList[0].SamplingPlanEmailID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<SamplingPlanEmailExtraA> samplingPlanEmailExtraAList = new List<SamplingPlanEmailExtraA>();
                             samplingPlanEmailExtraAList = samplingPlanEmailService.GetSamplingPlanEmailExtraAList().ToList();
@@ -625,7 +860,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(samplingPlanEmailDirectQueryList[0].SamplingPlanEmailID, samplingPlanEmailExtraAList[0].SamplingPlanEmailID);
                             Assert.AreEqual(samplingPlanEmailDirectQueryList.Count, samplingPlanEmailExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<SamplingPlanEmailExtraB> samplingPlanEmailExtraBList = new List<SamplingPlanEmailExtraB>();
                             samplingPlanEmailExtraBList = samplingPlanEmailService.GetSamplingPlanEmailExtraBList().ToList();
@@ -635,13 +870,13 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetSamplingPlanEmailList() 2Where
+        #endregion Tests Generated for GetSamplingPlanEmailList() 2 Where
 
         #region Functions private
         private void CheckSamplingPlanEmailFields(List<SamplingPlanEmail> samplingPlanEmailList)

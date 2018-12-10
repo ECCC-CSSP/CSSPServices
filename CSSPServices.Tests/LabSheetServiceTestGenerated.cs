@@ -38,9 +38,9 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
+        #region Tests Generated CRUD
         [TestMethod]
-        public void LabSheet_CRUD_And_Properties_Test()
+        public void LabSheet_CRUD_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -86,6 +86,33 @@ namespace CSSPServices.Tests
                         Assert.AreEqual("", labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
                     Assert.AreEqual(count, labSheetService.GetLabSheetList().Count());
+
+                }
+            }
+        }
+        #endregion Tests Generated CRUD
+
+        #region Tests Generated Properties
+        [TestMethod]
+        public void LabSheet_Properties_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    LabSheetService labSheetService = new LabSheetService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    count = labSheetService.GetLabSheetList().Count();
+
+                    LabSheet labSheet = GetFilledRandomLabSheet("");
 
                     // -------------------------------
                     // -------------------------------
@@ -474,7 +501,7 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Generated CRUD and Properties
+        #endregion Tests Generated Properties
 
         #region Tests Generated for GetLabSheetWithLabSheetID(labSheet.LabSheetID)
         [TestMethod]
@@ -490,7 +517,7 @@ namespace CSSPServices.Tests
                     LabSheet labSheet = (from c in dbTestDB.LabSheets select c).FirstOrDefault();
                     Assert.IsNotNull(labSheet);
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         labSheetService.Query.Extra = extra;
 
@@ -500,13 +527,13 @@ namespace CSSPServices.Tests
                             CheckLabSheetFields(new List<LabSheet>() { labSheetRet });
                             Assert.AreEqual(labSheet.LabSheetID, labSheetRet.LabSheetID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             LabSheetExtraA labSheetExtraARet = labSheetService.GetLabSheetExtraAWithLabSheetID(labSheet.LabSheetID);
                             CheckLabSheetExtraAFields(new List<LabSheetExtraA>() { labSheetExtraARet });
                             Assert.AreEqual(labSheet.LabSheetID, labSheetExtraARet.LabSheetID);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             LabSheetExtraB labSheetExtraBRet = labSheetService.GetLabSheetExtraBWithLabSheetID(labSheet.LabSheetID);
                             CheckLabSheetExtraBFields(new List<LabSheetExtraB>() { labSheetExtraBRet });
@@ -514,7 +541,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -539,7 +566,7 @@ namespace CSSPServices.Tests
                     List<LabSheet> labSheetDirectQueryList = new List<LabSheet>();
                     labSheetDirectQueryList = (from c in dbTestDB.LabSheets select c).Take(200).ToList();
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         labSheetService.Query.Extra = extra;
 
@@ -549,14 +576,14 @@ namespace CSSPServices.Tests
                             labSheetList = labSheetService.GetLabSheetList().ToList();
                             CheckLabSheetFields(labSheetList);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<LabSheetExtraA> labSheetExtraAList = new List<LabSheetExtraA>();
                             labSheetExtraAList = labSheetService.GetLabSheetExtraAList().ToList();
                             CheckLabSheetExtraAFields(labSheetExtraAList);
                             Assert.AreEqual(labSheetDirectQueryList.Count, labSheetExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<LabSheetExtraB> labSheetExtraBList = new List<LabSheetExtraB>();
                             labSheetExtraBList = labSheetService.GetLabSheetExtraBList().ToList();
@@ -565,7 +592,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -583,11 +610,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         LabSheetService labSheetService = new LabSheetService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        labSheetService.Query = labSheetService.FillQuery(typeof(LabSheet), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
+                        labSheetService.Query = labSheetService.FillQuery(typeof(LabSheet), culture.TwoLetterISOLanguageName, 1, 1, "", "", "", extra);
 
                         List<LabSheet> labSheetDirectQueryList = new List<LabSheet>();
                         labSheetDirectQueryList = (from c in dbTestDB.LabSheets select c).Skip(1).Take(1).ToList();
@@ -599,7 +626,7 @@ namespace CSSPServices.Tests
                             CheckLabSheetFields(labSheetList);
                             Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetList[0].LabSheetID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<LabSheetExtraA> labSheetExtraAList = new List<LabSheetExtraA>();
                             labSheetExtraAList = labSheetService.GetLabSheetExtraAList().ToList();
@@ -607,7 +634,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetExtraAList[0].LabSheetID);
                             Assert.AreEqual(labSheetDirectQueryList.Count, labSheetExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<LabSheetExtraB> labSheetExtraBList = new List<LabSheetExtraB>();
                             labSheetExtraBList = labSheetService.GetLabSheetExtraBList().ToList();
@@ -617,7 +644,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -625,9 +652,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated for GetLabSheetList() Skip Take
 
-        #region Tests Generated for GetLabSheetList() Skip Take Order
+        #region Tests Generated for GetLabSheetList() Skip Take Asc
         [TestMethod]
-        public void GetLabSheetList_Skip_Take_Order_Test()
+        public void GetLabSheetList_Skip_Take_Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -635,14 +662,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         LabSheetService labSheetService = new LabSheetService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        labSheetService.Query = labSheetService.FillQuery(typeof(LabSheet), culture.TwoLetterISOLanguageName, 1, 1,  "LabSheetID", "");
+                        labSheetService.Query = labSheetService.FillQuery(typeof(LabSheet), culture.TwoLetterISOLanguageName, 1, 1,  "LabSheetID", "", "", extra);
 
                         List<LabSheet> labSheetDirectQueryList = new List<LabSheet>();
-                        labSheetDirectQueryList = (from c in dbTestDB.LabSheets select c).Skip(1).Take(1).OrderBy(c => c.LabSheetID).ToList();
+                        labSheetDirectQueryList = (from c in dbTestDB.LabSheets select c).OrderBy(c => c.LabSheetID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -651,7 +678,7 @@ namespace CSSPServices.Tests
                             CheckLabSheetFields(labSheetList);
                             Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetList[0].LabSheetID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<LabSheetExtraA> labSheetExtraAList = new List<LabSheetExtraA>();
                             labSheetExtraAList = labSheetService.GetLabSheetExtraAList().ToList();
@@ -659,7 +686,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetExtraAList[0].LabSheetID);
                             Assert.AreEqual(labSheetDirectQueryList.Count, labSheetExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<LabSheetExtraB> labSheetExtraBList = new List<LabSheetExtraB>();
                             labSheetExtraBList = labSheetService.GetLabSheetExtraBList().ToList();
@@ -669,17 +696,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetLabSheetList() Skip Take Order
+        #endregion Tests Generated for GetLabSheetList() Skip Take Asc
 
-        #region Tests Generated for GetLabSheetList() Skip Take 2Order
+        #region Tests Generated for GetLabSheetList() Skip Take 2 Asc
         [TestMethod]
-        public void GetLabSheetList_Skip_Take_2Order_Test()
+        public void GetLabSheetList_Skip_Take_2Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -687,14 +714,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         LabSheetService labSheetService = new LabSheetService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        labSheetService.Query = labSheetService.FillQuery(typeof(LabSheet), culture.TwoLetterISOLanguageName, 1, 1, "LabSheetID,OtherServerLabSheetID", "");
+                        labSheetService.Query = labSheetService.FillQuery(typeof(LabSheet), culture.TwoLetterISOLanguageName, 1, 1, "LabSheetID,OtherServerLabSheetID", "", "", extra);
 
                         List<LabSheet> labSheetDirectQueryList = new List<LabSheet>();
-                        labSheetDirectQueryList = (from c in dbTestDB.LabSheets select c).Skip(1).Take(1).OrderBy(c => c.LabSheetID).ThenBy(c => c.OtherServerLabSheetID).ToList();
+                        labSheetDirectQueryList = (from c in dbTestDB.LabSheets select c).OrderBy(c => c.LabSheetID).ThenBy(c => c.OtherServerLabSheetID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -703,7 +730,7 @@ namespace CSSPServices.Tests
                             CheckLabSheetFields(labSheetList);
                             Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetList[0].LabSheetID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<LabSheetExtraA> labSheetExtraAList = new List<LabSheetExtraA>();
                             labSheetExtraAList = labSheetService.GetLabSheetExtraAList().ToList();
@@ -711,7 +738,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetExtraAList[0].LabSheetID);
                             Assert.AreEqual(labSheetDirectQueryList.Count, labSheetExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<LabSheetExtraB> labSheetExtraBList = new List<LabSheetExtraB>();
                             labSheetExtraBList = labSheetService.GetLabSheetExtraBList().ToList();
@@ -721,17 +748,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetLabSheetList() Skip Take 2Order
+        #endregion Tests Generated for GetLabSheetList() Skip Take 2 Asc
 
-        #region Tests Generated for GetLabSheetList() Skip Take Order Where
+        #region Tests Generated for GetLabSheetList() Skip Take Asc Where
         [TestMethod]
-        public void GetLabSheetList_Skip_Take_Order_Where_Test()
+        public void GetLabSheetList_Skip_Take_Asc_Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -739,14 +766,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         LabSheetService labSheetService = new LabSheetService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        labSheetService.Query = labSheetService.FillQuery(typeof(LabSheet), culture.TwoLetterISOLanguageName, 0, 1, "LabSheetID", "LabSheetID,EQ,4", "");
+                        labSheetService.Query = labSheetService.FillQuery(typeof(LabSheet), culture.TwoLetterISOLanguageName, 0, 1, "LabSheetID", "", "LabSheetID,EQ,4", "");
 
                         List<LabSheet> labSheetDirectQueryList = new List<LabSheet>();
-                        labSheetDirectQueryList = (from c in dbTestDB.LabSheets select c).Where(c => c.LabSheetID == 4).Skip(0).Take(1).OrderBy(c => c.LabSheetID).ToList();
+                        labSheetDirectQueryList = (from c in dbTestDB.LabSheets select c).Where(c => c.LabSheetID == 4).OrderBy(c => c.LabSheetID).Skip(0).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -755,7 +782,7 @@ namespace CSSPServices.Tests
                             CheckLabSheetFields(labSheetList);
                             Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetList[0].LabSheetID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<LabSheetExtraA> labSheetExtraAList = new List<LabSheetExtraA>();
                             labSheetExtraAList = labSheetService.GetLabSheetExtraAList().ToList();
@@ -763,7 +790,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetExtraAList[0].LabSheetID);
                             Assert.AreEqual(labSheetDirectQueryList.Count, labSheetExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<LabSheetExtraB> labSheetExtraBList = new List<LabSheetExtraB>();
                             labSheetExtraBList = labSheetService.GetLabSheetExtraBList().ToList();
@@ -773,17 +800,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetLabSheetList() Skip Take Order Where
+        #endregion Tests Generated for GetLabSheetList() Skip Take Asc Where
 
-        #region Tests Generated for GetLabSheetList() Skip Take Order 2Where
+        #region Tests Generated for GetLabSheetList() Skip Take Asc 2 Where
         [TestMethod]
-        public void GetLabSheetList_Skip_Take_Order_2Where_Test()
+        public void GetLabSheetList_Skip_Take_Asc_2Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -791,11 +818,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         LabSheetService labSheetService = new LabSheetService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        labSheetService.Query = labSheetService.FillQuery(typeof(LabSheet), culture.TwoLetterISOLanguageName, 0, 1, "LabSheetID", "LabSheetID,GT,2|LabSheetID,LT,5", "");
+                        labSheetService.Query = labSheetService.FillQuery(typeof(LabSheet), culture.TwoLetterISOLanguageName, 0, 1, "LabSheetID", "", "LabSheetID,GT,2|LabSheetID,LT,5", "");
 
                         List<LabSheet> labSheetDirectQueryList = new List<LabSheet>();
                         labSheetDirectQueryList = (from c in dbTestDB.LabSheets select c).Where(c => c.LabSheetID > 2 && c.LabSheetID < 5).Skip(0).Take(1).OrderBy(c => c.LabSheetID).ToList();
@@ -807,7 +834,7 @@ namespace CSSPServices.Tests
                             CheckLabSheetFields(labSheetList);
                             Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetList[0].LabSheetID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<LabSheetExtraA> labSheetExtraAList = new List<LabSheetExtraA>();
                             labSheetExtraAList = labSheetService.GetLabSheetExtraAList().ToList();
@@ -815,7 +842,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetExtraAList[0].LabSheetID);
                             Assert.AreEqual(labSheetDirectQueryList.Count, labSheetExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<LabSheetExtraB> labSheetExtraBList = new List<LabSheetExtraB>();
                             labSheetExtraBList = labSheetService.GetLabSheetExtraBList().ToList();
@@ -825,15 +852,223 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetLabSheetList() Skip Take Order 2Where
+        #endregion Tests Generated for GetLabSheetList() Skip Take Asc 2 Where
 
-        #region Tests Generated for GetLabSheetList() 2Where
+        #region Tests Generated for GetLabSheetList() Skip Take Desc
+        [TestMethod]
+        public void GetLabSheetList_Skip_Take_Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        LabSheetService labSheetService = new LabSheetService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        labSheetService.Query = labSheetService.FillQuery(typeof(LabSheet), culture.TwoLetterISOLanguageName, 1, 1, "", "LabSheetID", "", extra);
+
+                        List<LabSheet> labSheetDirectQueryList = new List<LabSheet>();
+                        labSheetDirectQueryList = (from c in dbTestDB.LabSheets select c).OrderByDescending(c => c.LabSheetID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<LabSheet> labSheetList = new List<LabSheet>();
+                            labSheetList = labSheetService.GetLabSheetList().ToList();
+                            CheckLabSheetFields(labSheetList);
+                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetList[0].LabSheetID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<LabSheetExtraA> labSheetExtraAList = new List<LabSheetExtraA>();
+                            labSheetExtraAList = labSheetService.GetLabSheetExtraAList().ToList();
+                            CheckLabSheetExtraAFields(labSheetExtraAList);
+                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetExtraAList[0].LabSheetID);
+                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheetExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<LabSheetExtraB> labSheetExtraBList = new List<LabSheetExtraB>();
+                            labSheetExtraBList = labSheetService.GetLabSheetExtraBList().ToList();
+                            CheckLabSheetExtraBFields(labSheetExtraBList);
+                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetExtraBList[0].LabSheetID);
+                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheetExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetLabSheetList() Skip Take Desc
+
+        #region Tests Generated for GetLabSheetList() Skip Take 2 Desc
+        [TestMethod]
+        public void GetLabSheetList_Skip_Take_2Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        LabSheetService labSheetService = new LabSheetService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        labSheetService.Query = labSheetService.FillQuery(typeof(LabSheet), culture.TwoLetterISOLanguageName, 1, 1, "", "LabSheetID,OtherServerLabSheetID", "", extra);
+
+                        List<LabSheet> labSheetDirectQueryList = new List<LabSheet>();
+                        labSheetDirectQueryList = (from c in dbTestDB.LabSheets select c).OrderByDescending(c => c.LabSheetID).ThenByDescending(c => c.OtherServerLabSheetID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<LabSheet> labSheetList = new List<LabSheet>();
+                            labSheetList = labSheetService.GetLabSheetList().ToList();
+                            CheckLabSheetFields(labSheetList);
+                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetList[0].LabSheetID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<LabSheetExtraA> labSheetExtraAList = new List<LabSheetExtraA>();
+                            labSheetExtraAList = labSheetService.GetLabSheetExtraAList().ToList();
+                            CheckLabSheetExtraAFields(labSheetExtraAList);
+                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetExtraAList[0].LabSheetID);
+                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheetExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<LabSheetExtraB> labSheetExtraBList = new List<LabSheetExtraB>();
+                            labSheetExtraBList = labSheetService.GetLabSheetExtraBList().ToList();
+                            CheckLabSheetExtraBFields(labSheetExtraBList);
+                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetExtraBList[0].LabSheetID);
+                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheetExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetLabSheetList() Skip Take 2 Desc
+
+        #region Tests Generated for GetLabSheetList() Skip Take Desc Where
+        [TestMethod]
+        public void GetLabSheetList_Skip_Take_Desc_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        LabSheetService labSheetService = new LabSheetService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        labSheetService.Query = labSheetService.FillQuery(typeof(LabSheet), culture.TwoLetterISOLanguageName, 0, 1, "LabSheetID", "", "LabSheetID,EQ,4", "");
+
+                        List<LabSheet> labSheetDirectQueryList = new List<LabSheet>();
+                        labSheetDirectQueryList = (from c in dbTestDB.LabSheets select c).Where(c => c.LabSheetID == 4).OrderByDescending(c => c.LabSheetID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<LabSheet> labSheetList = new List<LabSheet>();
+                            labSheetList = labSheetService.GetLabSheetList().ToList();
+                            CheckLabSheetFields(labSheetList);
+                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetList[0].LabSheetID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<LabSheetExtraA> labSheetExtraAList = new List<LabSheetExtraA>();
+                            labSheetExtraAList = labSheetService.GetLabSheetExtraAList().ToList();
+                            CheckLabSheetExtraAFields(labSheetExtraAList);
+                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetExtraAList[0].LabSheetID);
+                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheetExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<LabSheetExtraB> labSheetExtraBList = new List<LabSheetExtraB>();
+                            labSheetExtraBList = labSheetService.GetLabSheetExtraBList().ToList();
+                            CheckLabSheetExtraBFields(labSheetExtraBList);
+                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetExtraBList[0].LabSheetID);
+                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheetExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetLabSheetList() Skip Take Desc Where
+
+        #region Tests Generated for GetLabSheetList() Skip Take Desc 2 Where
+        [TestMethod]
+        public void GetLabSheetList_Skip_Take_Desc_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        LabSheetService labSheetService = new LabSheetService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        labSheetService.Query = labSheetService.FillQuery(typeof(LabSheet), culture.TwoLetterISOLanguageName, 0, 1, "", "LabSheetID", "LabSheetID,GT,2|LabSheetID,LT,5", "");
+
+                        List<LabSheet> labSheetDirectQueryList = new List<LabSheet>();
+                        labSheetDirectQueryList = (from c in dbTestDB.LabSheets select c).Where(c => c.LabSheetID > 2 && c.LabSheetID < 5).OrderByDescending(c => c.LabSheetID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<LabSheet> labSheetList = new List<LabSheet>();
+                            labSheetList = labSheetService.GetLabSheetList().ToList();
+                            CheckLabSheetFields(labSheetList);
+                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetList[0].LabSheetID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<LabSheetExtraA> labSheetExtraAList = new List<LabSheetExtraA>();
+                            labSheetExtraAList = labSheetService.GetLabSheetExtraAList().ToList();
+                            CheckLabSheetExtraAFields(labSheetExtraAList);
+                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetExtraAList[0].LabSheetID);
+                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheetExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<LabSheetExtraB> labSheetExtraBList = new List<LabSheetExtraB>();
+                            labSheetExtraBList = labSheetService.GetLabSheetExtraBList().ToList();
+                            CheckLabSheetExtraBFields(labSheetExtraBList);
+                            Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetExtraBList[0].LabSheetID);
+                            Assert.AreEqual(labSheetDirectQueryList.Count, labSheetExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetLabSheetList() Skip Take Desc 2 Where
+
+        #region Tests Generated for GetLabSheetList() 2 Where
         [TestMethod]
         public void GetLabSheetList_2Where_Test()
         {
@@ -843,11 +1078,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         LabSheetService labSheetService = new LabSheetService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        labSheetService.Query = labSheetService.FillQuery(typeof(LabSheet), culture.TwoLetterISOLanguageName, 0, 10000, "", "LabSheetID,GT,2|LabSheetID,LT,5", "");
+                        labSheetService.Query = labSheetService.FillQuery(typeof(LabSheet), culture.TwoLetterISOLanguageName, 0, 10000, "", "", "LabSheetID,GT,2|LabSheetID,LT,5", extra);
 
                         List<LabSheet> labSheetDirectQueryList = new List<LabSheet>();
                         labSheetDirectQueryList = (from c in dbTestDB.LabSheets select c).Where(c => c.LabSheetID > 2 && c.LabSheetID < 5).ToList();
@@ -859,7 +1094,7 @@ namespace CSSPServices.Tests
                             CheckLabSheetFields(labSheetList);
                             Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetList[0].LabSheetID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<LabSheetExtraA> labSheetExtraAList = new List<LabSheetExtraA>();
                             labSheetExtraAList = labSheetService.GetLabSheetExtraAList().ToList();
@@ -867,7 +1102,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(labSheetDirectQueryList[0].LabSheetID, labSheetExtraAList[0].LabSheetID);
                             Assert.AreEqual(labSheetDirectQueryList.Count, labSheetExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<LabSheetExtraB> labSheetExtraBList = new List<LabSheetExtraB>();
                             labSheetExtraBList = labSheetService.GetLabSheetExtraBList().ToList();
@@ -877,13 +1112,13 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetLabSheetList() 2Where
+        #endregion Tests Generated for GetLabSheetList() 2 Where
 
         #region Functions private
         private void CheckLabSheetFields(List<LabSheet> labSheetList)

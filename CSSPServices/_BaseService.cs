@@ -91,54 +91,57 @@ namespace CSSPServices
             }
             else
             {
-                if (!string.IsNullOrWhiteSpace(query.Extra) && !query.ModelType.Name.Substring(query.ModelType.Name.Length - 6).StartsWith("Extra"))
+                if (!string.IsNullOrWhiteSpace(query.Extra))
                 {
-                    string AllowableExtra = "";
-                    bool QueryExtraExist = false;
-                    FileInfo fiDLL = new FileInfo($@"{ AppDomain.CurrentDomain.BaseDirectory }\CSSPModels.dll");
-
-                    if (!fiDLL.Exists)
+                    if (!(query.ModelType.Name.Length > 6 && !query.ModelType.Name.Substring(query.ModelType.Name.Length - 6).StartsWith("Extra")))
                     {
-                        fiDLL = new FileInfo($@"{ AppDomain.CurrentDomain.BaseDirectory }\bin\CSSPModels.dll");
+                        string AllowableExtra = "";
+                        bool QueryExtraExist = false;
+                        FileInfo fiDLL = new FileInfo($@"{ AppDomain.CurrentDomain.BaseDirectory }\CSSPModels.dll");
+
                         if (!fiDLL.Exists)
                         {
+                            fiDLL = new FileInfo($@"{ AppDomain.CurrentDomain.BaseDirectory }\bin\CSSPModels.dll");
+                            if (!fiDLL.Exists)
+                            {
+                                query.HasErrors = true;
+                                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFindFile_, $@"{ AppDomain.CurrentDomain.BaseDirectory }\CSSPModels.dll or { AppDomain.CurrentDomain.BaseDirectory }\bin\CSSPModels.dll"), new[] { "Where" });
+                            }
+                        }
+
+                        var importAssembly = Assembly.LoadFile(fiDLL.FullName);
+                        List<Type> TypeList = importAssembly.GetTypes().ToList();
+
+                        foreach (string s in new List<string>() { "A", "B", "C", "D", "E" })
+                        {
+                            bool exist = false;
+                            foreach (Type type in TypeList)
+                            {
+                                string ExtraName = $"{ query.ModelType.Name }Extra{ s }";
+                                if (ExtraName == type.Name)
+                                {
+                                    exist = true;
+                                    break;
+                                }
+                            }
+
+                            if (exist)
+                            {
+                                if (query.Extra == s)
+                                {
+                                    QueryExtraExist = true;
+                                }
+                                AllowableExtra = AllowableExtra + s + ", ";
+                            }
+                        }
+
+                        if (!QueryExtraExist)
+                        {
+                            AllowableExtra = AllowableExtra.Trim();
+                            AllowableExtra = AllowableExtra.Substring(0, AllowableExtra.Length - 1);
                             query.HasErrors = true;
-                            yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFindFile_, $@"{ AppDomain.CurrentDomain.BaseDirectory }\CSSPModels.dll or { AppDomain.CurrentDomain.BaseDirectory }\bin\CSSPModels.dll"), new[] { "Where" });
+                            yield return new ValidationResult(string.Format(CSSPServicesRes.Extra_OfModel_IsInvalidAllowableValuesAre_, query.Extra, query.ModelType.Name, $"[{ AllowableExtra }]"), new[] { "extra" });
                         }
-                    }
-
-                    var importAssembly = Assembly.LoadFile(fiDLL.FullName);
-                    List<Type> TypeList = importAssembly.GetTypes().ToList();
-
-                    foreach (string s in new List<string>() { "A", "B", "C", "D", "E" })
-                    {
-                        bool exist = false;
-                        foreach (Type type in TypeList)
-                        {
-                            string ExtraName = $"{ query.ModelType.Name }Extra{ s }";
-                            if (ExtraName == type.Name)
-                            {
-                                exist = true;
-                                break;
-                            }
-                        }
-
-                        if (exist)
-                        {
-                            if (query.Extra == s)
-                            {
-                                QueryExtraExist = true;
-                            }
-                            AllowableExtra = AllowableExtra + s + ", ";
-                        }
-                    }
-
-                    if (!QueryExtraExist)
-                    {
-                        AllowableExtra = AllowableExtra.Trim();
-                        AllowableExtra = AllowableExtra.Substring(0, AllowableExtra.Length - 1);
-                        query.HasErrors = true;
-                        yield return new ValidationResult(string.Format(CSSPServicesRes.Extra_OfModel_IsInvalidAllowableValuesAre_, query.Extra, query.ModelType.Name, $"[{ AllowableExtra }]"), new[] { "extra" });
                     }
                 }
             }
@@ -587,7 +590,7 @@ namespace CSSPServices
                 }
             }
 
-           
+
 
             if (Query.AscList.Count > 0)
             {

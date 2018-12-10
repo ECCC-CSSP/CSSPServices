@@ -38,9 +38,9 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
+        #region Tests Generated CRUD
         [TestMethod]
-        public void TVTypeUserAuthorization_CRUD_And_Properties_Test()
+        public void TVTypeUserAuthorization_CRUD_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -86,6 +86,33 @@ namespace CSSPServices.Tests
                         Assert.AreEqual("", tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
                     Assert.AreEqual(count, tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationList().Count());
+
+                }
+            }
+        }
+        #endregion Tests Generated CRUD
+
+        #region Tests Generated Properties
+        [TestMethod]
+        public void TVTypeUserAuthorization_Properties_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    count = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationList().Count();
+
+                    TVTypeUserAuthorization tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
 
                     // -------------------------------
                     // -------------------------------
@@ -212,7 +239,7 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Generated CRUD and Properties
+        #endregion Tests Generated Properties
 
         #region Tests Generated for GetTVTypeUserAuthorizationWithTVTypeUserAuthorizationID(tvTypeUserAuthorization.TVTypeUserAuthorizationID)
         [TestMethod]
@@ -228,7 +255,7 @@ namespace CSSPServices.Tests
                     TVTypeUserAuthorization tvTypeUserAuthorization = (from c in dbTestDB.TVTypeUserAuthorizations select c).FirstOrDefault();
                     Assert.IsNotNull(tvTypeUserAuthorization);
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         tvTypeUserAuthorizationService.Query.Extra = extra;
 
@@ -238,13 +265,13 @@ namespace CSSPServices.Tests
                             CheckTVTypeUserAuthorizationFields(new List<TVTypeUserAuthorization>() { tvTypeUserAuthorizationRet });
                             Assert.AreEqual(tvTypeUserAuthorization.TVTypeUserAuthorizationID, tvTypeUserAuthorizationRet.TVTypeUserAuthorizationID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             TVTypeUserAuthorizationExtraA tvTypeUserAuthorizationExtraARet = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraAWithTVTypeUserAuthorizationID(tvTypeUserAuthorization.TVTypeUserAuthorizationID);
                             CheckTVTypeUserAuthorizationExtraAFields(new List<TVTypeUserAuthorizationExtraA>() { tvTypeUserAuthorizationExtraARet });
                             Assert.AreEqual(tvTypeUserAuthorization.TVTypeUserAuthorizationID, tvTypeUserAuthorizationExtraARet.TVTypeUserAuthorizationID);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             TVTypeUserAuthorizationExtraB tvTypeUserAuthorizationExtraBRet = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraBWithTVTypeUserAuthorizationID(tvTypeUserAuthorization.TVTypeUserAuthorizationID);
                             CheckTVTypeUserAuthorizationExtraBFields(new List<TVTypeUserAuthorizationExtraB>() { tvTypeUserAuthorizationExtraBRet });
@@ -252,7 +279,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -277,7 +304,7 @@ namespace CSSPServices.Tests
                     List<TVTypeUserAuthorization> tvTypeUserAuthorizationDirectQueryList = new List<TVTypeUserAuthorization>();
                     tvTypeUserAuthorizationDirectQueryList = (from c in dbTestDB.TVTypeUserAuthorizations select c).Take(200).ToList();
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         tvTypeUserAuthorizationService.Query.Extra = extra;
 
@@ -287,14 +314,14 @@ namespace CSSPServices.Tests
                             tvTypeUserAuthorizationList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationList().ToList();
                             CheckTVTypeUserAuthorizationFields(tvTypeUserAuthorizationList);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TVTypeUserAuthorizationExtraA> tvTypeUserAuthorizationExtraAList = new List<TVTypeUserAuthorizationExtraA>();
                             tvTypeUserAuthorizationExtraAList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraAList().ToList();
                             CheckTVTypeUserAuthorizationExtraAFields(tvTypeUserAuthorizationExtraAList);
                             Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorizationExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TVTypeUserAuthorizationExtraB> tvTypeUserAuthorizationExtraBList = new List<TVTypeUserAuthorizationExtraB>();
                             tvTypeUserAuthorizationExtraBList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraBList().ToList();
@@ -303,7 +330,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -321,11 +348,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tvTypeUserAuthorizationService.Query = tvTypeUserAuthorizationService.FillQuery(typeof(TVTypeUserAuthorization), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
+                        tvTypeUserAuthorizationService.Query = tvTypeUserAuthorizationService.FillQuery(typeof(TVTypeUserAuthorization), culture.TwoLetterISOLanguageName, 1, 1, "", "", "", extra);
 
                         List<TVTypeUserAuthorization> tvTypeUserAuthorizationDirectQueryList = new List<TVTypeUserAuthorization>();
                         tvTypeUserAuthorizationDirectQueryList = (from c in dbTestDB.TVTypeUserAuthorizations select c).Skip(1).Take(1).ToList();
@@ -337,7 +364,7 @@ namespace CSSPServices.Tests
                             CheckTVTypeUserAuthorizationFields(tvTypeUserAuthorizationList);
                             Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TVTypeUserAuthorizationExtraA> tvTypeUserAuthorizationExtraAList = new List<TVTypeUserAuthorizationExtraA>();
                             tvTypeUserAuthorizationExtraAList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraAList().ToList();
@@ -345,7 +372,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationExtraAList[0].TVTypeUserAuthorizationID);
                             Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorizationExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TVTypeUserAuthorizationExtraB> tvTypeUserAuthorizationExtraBList = new List<TVTypeUserAuthorizationExtraB>();
                             tvTypeUserAuthorizationExtraBList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraBList().ToList();
@@ -355,7 +382,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -363,9 +390,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated for GetTVTypeUserAuthorizationList() Skip Take
 
-        #region Tests Generated for GetTVTypeUserAuthorizationList() Skip Take Order
+        #region Tests Generated for GetTVTypeUserAuthorizationList() Skip Take Asc
         [TestMethod]
-        public void GetTVTypeUserAuthorizationList_Skip_Take_Order_Test()
+        public void GetTVTypeUserAuthorizationList_Skip_Take_Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -373,14 +400,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tvTypeUserAuthorizationService.Query = tvTypeUserAuthorizationService.FillQuery(typeof(TVTypeUserAuthorization), culture.TwoLetterISOLanguageName, 1, 1,  "TVTypeUserAuthorizationID", "");
+                        tvTypeUserAuthorizationService.Query = tvTypeUserAuthorizationService.FillQuery(typeof(TVTypeUserAuthorization), culture.TwoLetterISOLanguageName, 1, 1,  "TVTypeUserAuthorizationID", "", "", extra);
 
                         List<TVTypeUserAuthorization> tvTypeUserAuthorizationDirectQueryList = new List<TVTypeUserAuthorization>();
-                        tvTypeUserAuthorizationDirectQueryList = (from c in dbTestDB.TVTypeUserAuthorizations select c).Skip(1).Take(1).OrderBy(c => c.TVTypeUserAuthorizationID).ToList();
+                        tvTypeUserAuthorizationDirectQueryList = (from c in dbTestDB.TVTypeUserAuthorizations select c).OrderBy(c => c.TVTypeUserAuthorizationID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -389,7 +416,7 @@ namespace CSSPServices.Tests
                             CheckTVTypeUserAuthorizationFields(tvTypeUserAuthorizationList);
                             Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TVTypeUserAuthorizationExtraA> tvTypeUserAuthorizationExtraAList = new List<TVTypeUserAuthorizationExtraA>();
                             tvTypeUserAuthorizationExtraAList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraAList().ToList();
@@ -397,7 +424,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationExtraAList[0].TVTypeUserAuthorizationID);
                             Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorizationExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TVTypeUserAuthorizationExtraB> tvTypeUserAuthorizationExtraBList = new List<TVTypeUserAuthorizationExtraB>();
                             tvTypeUserAuthorizationExtraBList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraBList().ToList();
@@ -407,17 +434,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetTVTypeUserAuthorizationList() Skip Take Order
+        #endregion Tests Generated for GetTVTypeUserAuthorizationList() Skip Take Asc
 
-        #region Tests Generated for GetTVTypeUserAuthorizationList() Skip Take 2Order
+        #region Tests Generated for GetTVTypeUserAuthorizationList() Skip Take 2 Asc
         [TestMethod]
-        public void GetTVTypeUserAuthorizationList_Skip_Take_2Order_Test()
+        public void GetTVTypeUserAuthorizationList_Skip_Take_2Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -425,14 +452,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tvTypeUserAuthorizationService.Query = tvTypeUserAuthorizationService.FillQuery(typeof(TVTypeUserAuthorization), culture.TwoLetterISOLanguageName, 1, 1, "TVTypeUserAuthorizationID,ContactTVItemID", "");
+                        tvTypeUserAuthorizationService.Query = tvTypeUserAuthorizationService.FillQuery(typeof(TVTypeUserAuthorization), culture.TwoLetterISOLanguageName, 1, 1, "TVTypeUserAuthorizationID,ContactTVItemID", "", "", extra);
 
                         List<TVTypeUserAuthorization> tvTypeUserAuthorizationDirectQueryList = new List<TVTypeUserAuthorization>();
-                        tvTypeUserAuthorizationDirectQueryList = (from c in dbTestDB.TVTypeUserAuthorizations select c).Skip(1).Take(1).OrderBy(c => c.TVTypeUserAuthorizationID).ThenBy(c => c.ContactTVItemID).ToList();
+                        tvTypeUserAuthorizationDirectQueryList = (from c in dbTestDB.TVTypeUserAuthorizations select c).OrderBy(c => c.TVTypeUserAuthorizationID).ThenBy(c => c.ContactTVItemID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -441,7 +468,7 @@ namespace CSSPServices.Tests
                             CheckTVTypeUserAuthorizationFields(tvTypeUserAuthorizationList);
                             Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TVTypeUserAuthorizationExtraA> tvTypeUserAuthorizationExtraAList = new List<TVTypeUserAuthorizationExtraA>();
                             tvTypeUserAuthorizationExtraAList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraAList().ToList();
@@ -449,7 +476,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationExtraAList[0].TVTypeUserAuthorizationID);
                             Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorizationExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TVTypeUserAuthorizationExtraB> tvTypeUserAuthorizationExtraBList = new List<TVTypeUserAuthorizationExtraB>();
                             tvTypeUserAuthorizationExtraBList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraBList().ToList();
@@ -459,17 +486,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetTVTypeUserAuthorizationList() Skip Take 2Order
+        #endregion Tests Generated for GetTVTypeUserAuthorizationList() Skip Take 2 Asc
 
-        #region Tests Generated for GetTVTypeUserAuthorizationList() Skip Take Order Where
+        #region Tests Generated for GetTVTypeUserAuthorizationList() Skip Take Asc Where
         [TestMethod]
-        public void GetTVTypeUserAuthorizationList_Skip_Take_Order_Where_Test()
+        public void GetTVTypeUserAuthorizationList_Skip_Take_Asc_Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -477,14 +504,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tvTypeUserAuthorizationService.Query = tvTypeUserAuthorizationService.FillQuery(typeof(TVTypeUserAuthorization), culture.TwoLetterISOLanguageName, 0, 1, "TVTypeUserAuthorizationID", "TVTypeUserAuthorizationID,EQ,4", "");
+                        tvTypeUserAuthorizationService.Query = tvTypeUserAuthorizationService.FillQuery(typeof(TVTypeUserAuthorization), culture.TwoLetterISOLanguageName, 0, 1, "TVTypeUserAuthorizationID", "", "TVTypeUserAuthorizationID,EQ,4", "");
 
                         List<TVTypeUserAuthorization> tvTypeUserAuthorizationDirectQueryList = new List<TVTypeUserAuthorization>();
-                        tvTypeUserAuthorizationDirectQueryList = (from c in dbTestDB.TVTypeUserAuthorizations select c).Where(c => c.TVTypeUserAuthorizationID == 4).Skip(0).Take(1).OrderBy(c => c.TVTypeUserAuthorizationID).ToList();
+                        tvTypeUserAuthorizationDirectQueryList = (from c in dbTestDB.TVTypeUserAuthorizations select c).Where(c => c.TVTypeUserAuthorizationID == 4).OrderBy(c => c.TVTypeUserAuthorizationID).Skip(0).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -493,7 +520,7 @@ namespace CSSPServices.Tests
                             CheckTVTypeUserAuthorizationFields(tvTypeUserAuthorizationList);
                             Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TVTypeUserAuthorizationExtraA> tvTypeUserAuthorizationExtraAList = new List<TVTypeUserAuthorizationExtraA>();
                             tvTypeUserAuthorizationExtraAList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraAList().ToList();
@@ -501,7 +528,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationExtraAList[0].TVTypeUserAuthorizationID);
                             Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorizationExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TVTypeUserAuthorizationExtraB> tvTypeUserAuthorizationExtraBList = new List<TVTypeUserAuthorizationExtraB>();
                             tvTypeUserAuthorizationExtraBList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraBList().ToList();
@@ -511,17 +538,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetTVTypeUserAuthorizationList() Skip Take Order Where
+        #endregion Tests Generated for GetTVTypeUserAuthorizationList() Skip Take Asc Where
 
-        #region Tests Generated for GetTVTypeUserAuthorizationList() Skip Take Order 2Where
+        #region Tests Generated for GetTVTypeUserAuthorizationList() Skip Take Asc 2 Where
         [TestMethod]
-        public void GetTVTypeUserAuthorizationList_Skip_Take_Order_2Where_Test()
+        public void GetTVTypeUserAuthorizationList_Skip_Take_Asc_2Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -529,11 +556,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tvTypeUserAuthorizationService.Query = tvTypeUserAuthorizationService.FillQuery(typeof(TVTypeUserAuthorization), culture.TwoLetterISOLanguageName, 0, 1, "TVTypeUserAuthorizationID", "TVTypeUserAuthorizationID,GT,2|TVTypeUserAuthorizationID,LT,5", "");
+                        tvTypeUserAuthorizationService.Query = tvTypeUserAuthorizationService.FillQuery(typeof(TVTypeUserAuthorization), culture.TwoLetterISOLanguageName, 0, 1, "TVTypeUserAuthorizationID", "", "TVTypeUserAuthorizationID,GT,2|TVTypeUserAuthorizationID,LT,5", "");
 
                         List<TVTypeUserAuthorization> tvTypeUserAuthorizationDirectQueryList = new List<TVTypeUserAuthorization>();
                         tvTypeUserAuthorizationDirectQueryList = (from c in dbTestDB.TVTypeUserAuthorizations select c).Where(c => c.TVTypeUserAuthorizationID > 2 && c.TVTypeUserAuthorizationID < 5).Skip(0).Take(1).OrderBy(c => c.TVTypeUserAuthorizationID).ToList();
@@ -545,7 +572,7 @@ namespace CSSPServices.Tests
                             CheckTVTypeUserAuthorizationFields(tvTypeUserAuthorizationList);
                             Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TVTypeUserAuthorizationExtraA> tvTypeUserAuthorizationExtraAList = new List<TVTypeUserAuthorizationExtraA>();
                             tvTypeUserAuthorizationExtraAList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraAList().ToList();
@@ -553,7 +580,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationExtraAList[0].TVTypeUserAuthorizationID);
                             Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorizationExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TVTypeUserAuthorizationExtraB> tvTypeUserAuthorizationExtraBList = new List<TVTypeUserAuthorizationExtraB>();
                             tvTypeUserAuthorizationExtraBList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraBList().ToList();
@@ -563,15 +590,223 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetTVTypeUserAuthorizationList() Skip Take Order 2Where
+        #endregion Tests Generated for GetTVTypeUserAuthorizationList() Skip Take Asc 2 Where
 
-        #region Tests Generated for GetTVTypeUserAuthorizationList() 2Where
+        #region Tests Generated for GetTVTypeUserAuthorizationList() Skip Take Desc
+        [TestMethod]
+        public void GetTVTypeUserAuthorizationList_Skip_Take_Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tvTypeUserAuthorizationService.Query = tvTypeUserAuthorizationService.FillQuery(typeof(TVTypeUserAuthorization), culture.TwoLetterISOLanguageName, 1, 1, "", "TVTypeUserAuthorizationID", "", extra);
+
+                        List<TVTypeUserAuthorization> tvTypeUserAuthorizationDirectQueryList = new List<TVTypeUserAuthorization>();
+                        tvTypeUserAuthorizationDirectQueryList = (from c in dbTestDB.TVTypeUserAuthorizations select c).OrderByDescending(c => c.TVTypeUserAuthorizationID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<TVTypeUserAuthorization> tvTypeUserAuthorizationList = new List<TVTypeUserAuthorization>();
+                            tvTypeUserAuthorizationList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationList().ToList();
+                            CheckTVTypeUserAuthorizationFields(tvTypeUserAuthorizationList);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<TVTypeUserAuthorizationExtraA> tvTypeUserAuthorizationExtraAList = new List<TVTypeUserAuthorizationExtraA>();
+                            tvTypeUserAuthorizationExtraAList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraAList().ToList();
+                            CheckTVTypeUserAuthorizationExtraAFields(tvTypeUserAuthorizationExtraAList);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationExtraAList[0].TVTypeUserAuthorizationID);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorizationExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<TVTypeUserAuthorizationExtraB> tvTypeUserAuthorizationExtraBList = new List<TVTypeUserAuthorizationExtraB>();
+                            tvTypeUserAuthorizationExtraBList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraBList().ToList();
+                            CheckTVTypeUserAuthorizationExtraBFields(tvTypeUserAuthorizationExtraBList);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationExtraBList[0].TVTypeUserAuthorizationID);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorizationExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTVTypeUserAuthorizationList() Skip Take Desc
+
+        #region Tests Generated for GetTVTypeUserAuthorizationList() Skip Take 2 Desc
+        [TestMethod]
+        public void GetTVTypeUserAuthorizationList_Skip_Take_2Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tvTypeUserAuthorizationService.Query = tvTypeUserAuthorizationService.FillQuery(typeof(TVTypeUserAuthorization), culture.TwoLetterISOLanguageName, 1, 1, "", "TVTypeUserAuthorizationID,ContactTVItemID", "", extra);
+
+                        List<TVTypeUserAuthorization> tvTypeUserAuthorizationDirectQueryList = new List<TVTypeUserAuthorization>();
+                        tvTypeUserAuthorizationDirectQueryList = (from c in dbTestDB.TVTypeUserAuthorizations select c).OrderByDescending(c => c.TVTypeUserAuthorizationID).ThenByDescending(c => c.ContactTVItemID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<TVTypeUserAuthorization> tvTypeUserAuthorizationList = new List<TVTypeUserAuthorization>();
+                            tvTypeUserAuthorizationList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationList().ToList();
+                            CheckTVTypeUserAuthorizationFields(tvTypeUserAuthorizationList);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<TVTypeUserAuthorizationExtraA> tvTypeUserAuthorizationExtraAList = new List<TVTypeUserAuthorizationExtraA>();
+                            tvTypeUserAuthorizationExtraAList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraAList().ToList();
+                            CheckTVTypeUserAuthorizationExtraAFields(tvTypeUserAuthorizationExtraAList);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationExtraAList[0].TVTypeUserAuthorizationID);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorizationExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<TVTypeUserAuthorizationExtraB> tvTypeUserAuthorizationExtraBList = new List<TVTypeUserAuthorizationExtraB>();
+                            tvTypeUserAuthorizationExtraBList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraBList().ToList();
+                            CheckTVTypeUserAuthorizationExtraBFields(tvTypeUserAuthorizationExtraBList);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationExtraBList[0].TVTypeUserAuthorizationID);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorizationExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTVTypeUserAuthorizationList() Skip Take 2 Desc
+
+        #region Tests Generated for GetTVTypeUserAuthorizationList() Skip Take Desc Where
+        [TestMethod]
+        public void GetTVTypeUserAuthorizationList_Skip_Take_Desc_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tvTypeUserAuthorizationService.Query = tvTypeUserAuthorizationService.FillQuery(typeof(TVTypeUserAuthorization), culture.TwoLetterISOLanguageName, 0, 1, "TVTypeUserAuthorizationID", "", "TVTypeUserAuthorizationID,EQ,4", "");
+
+                        List<TVTypeUserAuthorization> tvTypeUserAuthorizationDirectQueryList = new List<TVTypeUserAuthorization>();
+                        tvTypeUserAuthorizationDirectQueryList = (from c in dbTestDB.TVTypeUserAuthorizations select c).Where(c => c.TVTypeUserAuthorizationID == 4).OrderByDescending(c => c.TVTypeUserAuthorizationID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<TVTypeUserAuthorization> tvTypeUserAuthorizationList = new List<TVTypeUserAuthorization>();
+                            tvTypeUserAuthorizationList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationList().ToList();
+                            CheckTVTypeUserAuthorizationFields(tvTypeUserAuthorizationList);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<TVTypeUserAuthorizationExtraA> tvTypeUserAuthorizationExtraAList = new List<TVTypeUserAuthorizationExtraA>();
+                            tvTypeUserAuthorizationExtraAList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraAList().ToList();
+                            CheckTVTypeUserAuthorizationExtraAFields(tvTypeUserAuthorizationExtraAList);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationExtraAList[0].TVTypeUserAuthorizationID);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorizationExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<TVTypeUserAuthorizationExtraB> tvTypeUserAuthorizationExtraBList = new List<TVTypeUserAuthorizationExtraB>();
+                            tvTypeUserAuthorizationExtraBList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraBList().ToList();
+                            CheckTVTypeUserAuthorizationExtraBFields(tvTypeUserAuthorizationExtraBList);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationExtraBList[0].TVTypeUserAuthorizationID);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorizationExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTVTypeUserAuthorizationList() Skip Take Desc Where
+
+        #region Tests Generated for GetTVTypeUserAuthorizationList() Skip Take Desc 2 Where
+        [TestMethod]
+        public void GetTVTypeUserAuthorizationList_Skip_Take_Desc_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tvTypeUserAuthorizationService.Query = tvTypeUserAuthorizationService.FillQuery(typeof(TVTypeUserAuthorization), culture.TwoLetterISOLanguageName, 0, 1, "", "TVTypeUserAuthorizationID", "TVTypeUserAuthorizationID,GT,2|TVTypeUserAuthorizationID,LT,5", "");
+
+                        List<TVTypeUserAuthorization> tvTypeUserAuthorizationDirectQueryList = new List<TVTypeUserAuthorization>();
+                        tvTypeUserAuthorizationDirectQueryList = (from c in dbTestDB.TVTypeUserAuthorizations select c).Where(c => c.TVTypeUserAuthorizationID > 2 && c.TVTypeUserAuthorizationID < 5).OrderByDescending(c => c.TVTypeUserAuthorizationID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<TVTypeUserAuthorization> tvTypeUserAuthorizationList = new List<TVTypeUserAuthorization>();
+                            tvTypeUserAuthorizationList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationList().ToList();
+                            CheckTVTypeUserAuthorizationFields(tvTypeUserAuthorizationList);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<TVTypeUserAuthorizationExtraA> tvTypeUserAuthorizationExtraAList = new List<TVTypeUserAuthorizationExtraA>();
+                            tvTypeUserAuthorizationExtraAList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraAList().ToList();
+                            CheckTVTypeUserAuthorizationExtraAFields(tvTypeUserAuthorizationExtraAList);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationExtraAList[0].TVTypeUserAuthorizationID);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorizationExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<TVTypeUserAuthorizationExtraB> tvTypeUserAuthorizationExtraBList = new List<TVTypeUserAuthorizationExtraB>();
+                            tvTypeUserAuthorizationExtraBList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraBList().ToList();
+                            CheckTVTypeUserAuthorizationExtraBFields(tvTypeUserAuthorizationExtraBList);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationExtraBList[0].TVTypeUserAuthorizationID);
+                            Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorizationExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTVTypeUserAuthorizationList() Skip Take Desc 2 Where
+
+        #region Tests Generated for GetTVTypeUserAuthorizationList() 2 Where
         [TestMethod]
         public void GetTVTypeUserAuthorizationList_2Where_Test()
         {
@@ -581,11 +816,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tvTypeUserAuthorizationService.Query = tvTypeUserAuthorizationService.FillQuery(typeof(TVTypeUserAuthorization), culture.TwoLetterISOLanguageName, 0, 10000, "", "TVTypeUserAuthorizationID,GT,2|TVTypeUserAuthorizationID,LT,5", "");
+                        tvTypeUserAuthorizationService.Query = tvTypeUserAuthorizationService.FillQuery(typeof(TVTypeUserAuthorization), culture.TwoLetterISOLanguageName, 0, 10000, "", "", "TVTypeUserAuthorizationID,GT,2|TVTypeUserAuthorizationID,LT,5", extra);
 
                         List<TVTypeUserAuthorization> tvTypeUserAuthorizationDirectQueryList = new List<TVTypeUserAuthorization>();
                         tvTypeUserAuthorizationDirectQueryList = (from c in dbTestDB.TVTypeUserAuthorizations select c).Where(c => c.TVTypeUserAuthorizationID > 2 && c.TVTypeUserAuthorizationID < 5).ToList();
@@ -597,7 +832,7 @@ namespace CSSPServices.Tests
                             CheckTVTypeUserAuthorizationFields(tvTypeUserAuthorizationList);
                             Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TVTypeUserAuthorizationExtraA> tvTypeUserAuthorizationExtraAList = new List<TVTypeUserAuthorizationExtraA>();
                             tvTypeUserAuthorizationExtraAList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraAList().ToList();
@@ -605,7 +840,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationExtraAList[0].TVTypeUserAuthorizationID);
                             Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList.Count, tvTypeUserAuthorizationExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TVTypeUserAuthorizationExtraB> tvTypeUserAuthorizationExtraBList = new List<TVTypeUserAuthorizationExtraB>();
                             tvTypeUserAuthorizationExtraBList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraBList().ToList();
@@ -615,13 +850,13 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetTVTypeUserAuthorizationList() 2Where
+        #endregion Tests Generated for GetTVTypeUserAuthorizationList() 2 Where
 
         #region Functions private
         private void CheckTVTypeUserAuthorizationFields(List<TVTypeUserAuthorization> tvTypeUserAuthorizationList)

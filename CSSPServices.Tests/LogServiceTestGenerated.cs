@@ -38,9 +38,9 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
+        #region Tests Generated CRUD
         [TestMethod]
-        public void Log_CRUD_And_Properties_Test()
+        public void Log_CRUD_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -86,6 +86,33 @@ namespace CSSPServices.Tests
                         Assert.AreEqual("", log.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
                     Assert.AreEqual(count, logService.GetLogList().Count());
+
+                }
+            }
+        }
+        #endregion Tests Generated CRUD
+
+        #region Tests Generated Properties
+        [TestMethod]
+        public void Log_Properties_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    LogService logService = new LogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    count = logService.GetLogList().Count();
+
+                    Log log = GetFilledRandomLog("");
 
                     // -------------------------------
                     // -------------------------------
@@ -228,7 +255,7 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Generated CRUD and Properties
+        #endregion Tests Generated Properties
 
         #region Tests Generated for GetLogWithLogID(log.LogID)
         [TestMethod]
@@ -244,7 +271,7 @@ namespace CSSPServices.Tests
                     Log log = (from c in dbTestDB.Logs select c).FirstOrDefault();
                     Assert.IsNotNull(log);
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         logService.Query.Extra = extra;
 
@@ -254,13 +281,13 @@ namespace CSSPServices.Tests
                             CheckLogFields(new List<Log>() { logRet });
                             Assert.AreEqual(log.LogID, logRet.LogID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             LogExtraA logExtraARet = logService.GetLogExtraAWithLogID(log.LogID);
                             CheckLogExtraAFields(new List<LogExtraA>() { logExtraARet });
                             Assert.AreEqual(log.LogID, logExtraARet.LogID);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             LogExtraB logExtraBRet = logService.GetLogExtraBWithLogID(log.LogID);
                             CheckLogExtraBFields(new List<LogExtraB>() { logExtraBRet });
@@ -268,7 +295,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -293,7 +320,7 @@ namespace CSSPServices.Tests
                     List<Log> logDirectQueryList = new List<Log>();
                     logDirectQueryList = (from c in dbTestDB.Logs select c).Take(200).ToList();
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         logService.Query.Extra = extra;
 
@@ -303,14 +330,14 @@ namespace CSSPServices.Tests
                             logList = logService.GetLogList().ToList();
                             CheckLogFields(logList);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<LogExtraA> logExtraAList = new List<LogExtraA>();
                             logExtraAList = logService.GetLogExtraAList().ToList();
                             CheckLogExtraAFields(logExtraAList);
                             Assert.AreEqual(logDirectQueryList.Count, logExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<LogExtraB> logExtraBList = new List<LogExtraB>();
                             logExtraBList = logService.GetLogExtraBList().ToList();
@@ -319,7 +346,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -337,11 +364,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         LogService logService = new LogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
+                        logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 1, 1, "", "", "", extra);
 
                         List<Log> logDirectQueryList = new List<Log>();
                         logDirectQueryList = (from c in dbTestDB.Logs select c).Skip(1).Take(1).ToList();
@@ -353,7 +380,7 @@ namespace CSSPServices.Tests
                             CheckLogFields(logList);
                             Assert.AreEqual(logDirectQueryList[0].LogID, logList[0].LogID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<LogExtraA> logExtraAList = new List<LogExtraA>();
                             logExtraAList = logService.GetLogExtraAList().ToList();
@@ -361,7 +388,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(logDirectQueryList[0].LogID, logExtraAList[0].LogID);
                             Assert.AreEqual(logDirectQueryList.Count, logExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<LogExtraB> logExtraBList = new List<LogExtraB>();
                             logExtraBList = logService.GetLogExtraBList().ToList();
@@ -371,7 +398,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -379,9 +406,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated for GetLogList() Skip Take
 
-        #region Tests Generated for GetLogList() Skip Take Order
+        #region Tests Generated for GetLogList() Skip Take Asc
         [TestMethod]
-        public void GetLogList_Skip_Take_Order_Test()
+        public void GetLogList_Skip_Take_Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -389,14 +416,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         LogService logService = new LogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 1, 1,  "LogID", "");
+                        logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 1, 1,  "LogID", "", "", extra);
 
                         List<Log> logDirectQueryList = new List<Log>();
-                        logDirectQueryList = (from c in dbTestDB.Logs select c).Skip(1).Take(1).OrderBy(c => c.LogID).ToList();
+                        logDirectQueryList = (from c in dbTestDB.Logs select c).OrderBy(c => c.LogID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -405,7 +432,7 @@ namespace CSSPServices.Tests
                             CheckLogFields(logList);
                             Assert.AreEqual(logDirectQueryList[0].LogID, logList[0].LogID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<LogExtraA> logExtraAList = new List<LogExtraA>();
                             logExtraAList = logService.GetLogExtraAList().ToList();
@@ -413,7 +440,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(logDirectQueryList[0].LogID, logExtraAList[0].LogID);
                             Assert.AreEqual(logDirectQueryList.Count, logExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<LogExtraB> logExtraBList = new List<LogExtraB>();
                             logExtraBList = logService.GetLogExtraBList().ToList();
@@ -423,17 +450,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetLogList() Skip Take Order
+        #endregion Tests Generated for GetLogList() Skip Take Asc
 
-        #region Tests Generated for GetLogList() Skip Take 2Order
+        #region Tests Generated for GetLogList() Skip Take 2 Asc
         [TestMethod]
-        public void GetLogList_Skip_Take_2Order_Test()
+        public void GetLogList_Skip_Take_2Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -441,14 +468,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         LogService logService = new LogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 1, 1, "LogID,TableName", "");
+                        logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 1, 1, "LogID,TableName", "", "", extra);
 
                         List<Log> logDirectQueryList = new List<Log>();
-                        logDirectQueryList = (from c in dbTestDB.Logs select c).Skip(1).Take(1).OrderBy(c => c.LogID).ThenBy(c => c.TableName).ToList();
+                        logDirectQueryList = (from c in dbTestDB.Logs select c).OrderBy(c => c.LogID).ThenBy(c => c.TableName).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -457,7 +484,7 @@ namespace CSSPServices.Tests
                             CheckLogFields(logList);
                             Assert.AreEqual(logDirectQueryList[0].LogID, logList[0].LogID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<LogExtraA> logExtraAList = new List<LogExtraA>();
                             logExtraAList = logService.GetLogExtraAList().ToList();
@@ -465,7 +492,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(logDirectQueryList[0].LogID, logExtraAList[0].LogID);
                             Assert.AreEqual(logDirectQueryList.Count, logExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<LogExtraB> logExtraBList = new List<LogExtraB>();
                             logExtraBList = logService.GetLogExtraBList().ToList();
@@ -475,17 +502,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetLogList() Skip Take 2Order
+        #endregion Tests Generated for GetLogList() Skip Take 2 Asc
 
-        #region Tests Generated for GetLogList() Skip Take Order Where
+        #region Tests Generated for GetLogList() Skip Take Asc Where
         [TestMethod]
-        public void GetLogList_Skip_Take_Order_Where_Test()
+        public void GetLogList_Skip_Take_Asc_Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -493,14 +520,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         LogService logService = new LogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 0, 1, "LogID", "LogID,EQ,4", "");
+                        logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 0, 1, "LogID", "", "LogID,EQ,4", "");
 
                         List<Log> logDirectQueryList = new List<Log>();
-                        logDirectQueryList = (from c in dbTestDB.Logs select c).Where(c => c.LogID == 4).Skip(0).Take(1).OrderBy(c => c.LogID).ToList();
+                        logDirectQueryList = (from c in dbTestDB.Logs select c).Where(c => c.LogID == 4).OrderBy(c => c.LogID).Skip(0).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -509,7 +536,7 @@ namespace CSSPServices.Tests
                             CheckLogFields(logList);
                             Assert.AreEqual(logDirectQueryList[0].LogID, logList[0].LogID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<LogExtraA> logExtraAList = new List<LogExtraA>();
                             logExtraAList = logService.GetLogExtraAList().ToList();
@@ -517,7 +544,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(logDirectQueryList[0].LogID, logExtraAList[0].LogID);
                             Assert.AreEqual(logDirectQueryList.Count, logExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<LogExtraB> logExtraBList = new List<LogExtraB>();
                             logExtraBList = logService.GetLogExtraBList().ToList();
@@ -527,17 +554,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetLogList() Skip Take Order Where
+        #endregion Tests Generated for GetLogList() Skip Take Asc Where
 
-        #region Tests Generated for GetLogList() Skip Take Order 2Where
+        #region Tests Generated for GetLogList() Skip Take Asc 2 Where
         [TestMethod]
-        public void GetLogList_Skip_Take_Order_2Where_Test()
+        public void GetLogList_Skip_Take_Asc_2Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -545,11 +572,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         LogService logService = new LogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 0, 1, "LogID", "LogID,GT,2|LogID,LT,5", "");
+                        logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 0, 1, "LogID", "", "LogID,GT,2|LogID,LT,5", "");
 
                         List<Log> logDirectQueryList = new List<Log>();
                         logDirectQueryList = (from c in dbTestDB.Logs select c).Where(c => c.LogID > 2 && c.LogID < 5).Skip(0).Take(1).OrderBy(c => c.LogID).ToList();
@@ -561,7 +588,7 @@ namespace CSSPServices.Tests
                             CheckLogFields(logList);
                             Assert.AreEqual(logDirectQueryList[0].LogID, logList[0].LogID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<LogExtraA> logExtraAList = new List<LogExtraA>();
                             logExtraAList = logService.GetLogExtraAList().ToList();
@@ -569,7 +596,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(logDirectQueryList[0].LogID, logExtraAList[0].LogID);
                             Assert.AreEqual(logDirectQueryList.Count, logExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<LogExtraB> logExtraBList = new List<LogExtraB>();
                             logExtraBList = logService.GetLogExtraBList().ToList();
@@ -579,15 +606,223 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetLogList() Skip Take Order 2Where
+        #endregion Tests Generated for GetLogList() Skip Take Asc 2 Where
 
-        #region Tests Generated for GetLogList() 2Where
+        #region Tests Generated for GetLogList() Skip Take Desc
+        [TestMethod]
+        public void GetLogList_Skip_Take_Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        LogService logService = new LogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 1, 1, "", "LogID", "", extra);
+
+                        List<Log> logDirectQueryList = new List<Log>();
+                        logDirectQueryList = (from c in dbTestDB.Logs select c).OrderByDescending(c => c.LogID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<Log> logList = new List<Log>();
+                            logList = logService.GetLogList().ToList();
+                            CheckLogFields(logList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, logList[0].LogID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<LogExtraA> logExtraAList = new List<LogExtraA>();
+                            logExtraAList = logService.GetLogExtraAList().ToList();
+                            CheckLogExtraAFields(logExtraAList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, logExtraAList[0].LogID);
+                            Assert.AreEqual(logDirectQueryList.Count, logExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<LogExtraB> logExtraBList = new List<LogExtraB>();
+                            logExtraBList = logService.GetLogExtraBList().ToList();
+                            CheckLogExtraBFields(logExtraBList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, logExtraBList[0].LogID);
+                            Assert.AreEqual(logDirectQueryList.Count, logExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetLogList() Skip Take Desc
+
+        #region Tests Generated for GetLogList() Skip Take 2 Desc
+        [TestMethod]
+        public void GetLogList_Skip_Take_2Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        LogService logService = new LogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 1, 1, "", "LogID,TableName", "", extra);
+
+                        List<Log> logDirectQueryList = new List<Log>();
+                        logDirectQueryList = (from c in dbTestDB.Logs select c).OrderByDescending(c => c.LogID).ThenByDescending(c => c.TableName).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<Log> logList = new List<Log>();
+                            logList = logService.GetLogList().ToList();
+                            CheckLogFields(logList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, logList[0].LogID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<LogExtraA> logExtraAList = new List<LogExtraA>();
+                            logExtraAList = logService.GetLogExtraAList().ToList();
+                            CheckLogExtraAFields(logExtraAList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, logExtraAList[0].LogID);
+                            Assert.AreEqual(logDirectQueryList.Count, logExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<LogExtraB> logExtraBList = new List<LogExtraB>();
+                            logExtraBList = logService.GetLogExtraBList().ToList();
+                            CheckLogExtraBFields(logExtraBList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, logExtraBList[0].LogID);
+                            Assert.AreEqual(logDirectQueryList.Count, logExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetLogList() Skip Take 2 Desc
+
+        #region Tests Generated for GetLogList() Skip Take Desc Where
+        [TestMethod]
+        public void GetLogList_Skip_Take_Desc_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        LogService logService = new LogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 0, 1, "LogID", "", "LogID,EQ,4", "");
+
+                        List<Log> logDirectQueryList = new List<Log>();
+                        logDirectQueryList = (from c in dbTestDB.Logs select c).Where(c => c.LogID == 4).OrderByDescending(c => c.LogID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<Log> logList = new List<Log>();
+                            logList = logService.GetLogList().ToList();
+                            CheckLogFields(logList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, logList[0].LogID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<LogExtraA> logExtraAList = new List<LogExtraA>();
+                            logExtraAList = logService.GetLogExtraAList().ToList();
+                            CheckLogExtraAFields(logExtraAList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, logExtraAList[0].LogID);
+                            Assert.AreEqual(logDirectQueryList.Count, logExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<LogExtraB> logExtraBList = new List<LogExtraB>();
+                            logExtraBList = logService.GetLogExtraBList().ToList();
+                            CheckLogExtraBFields(logExtraBList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, logExtraBList[0].LogID);
+                            Assert.AreEqual(logDirectQueryList.Count, logExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetLogList() Skip Take Desc Where
+
+        #region Tests Generated for GetLogList() Skip Take Desc 2 Where
+        [TestMethod]
+        public void GetLogList_Skip_Take_Desc_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        LogService logService = new LogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 0, 1, "", "LogID", "LogID,GT,2|LogID,LT,5", "");
+
+                        List<Log> logDirectQueryList = new List<Log>();
+                        logDirectQueryList = (from c in dbTestDB.Logs select c).Where(c => c.LogID > 2 && c.LogID < 5).OrderByDescending(c => c.LogID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<Log> logList = new List<Log>();
+                            logList = logService.GetLogList().ToList();
+                            CheckLogFields(logList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, logList[0].LogID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<LogExtraA> logExtraAList = new List<LogExtraA>();
+                            logExtraAList = logService.GetLogExtraAList().ToList();
+                            CheckLogExtraAFields(logExtraAList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, logExtraAList[0].LogID);
+                            Assert.AreEqual(logDirectQueryList.Count, logExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<LogExtraB> logExtraBList = new List<LogExtraB>();
+                            logExtraBList = logService.GetLogExtraBList().ToList();
+                            CheckLogExtraBFields(logExtraBList);
+                            Assert.AreEqual(logDirectQueryList[0].LogID, logExtraBList[0].LogID);
+                            Assert.AreEqual(logDirectQueryList.Count, logExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetLogList() Skip Take Desc 2 Where
+
+        #region Tests Generated for GetLogList() 2 Where
         [TestMethod]
         public void GetLogList_2Where_Test()
         {
@@ -597,11 +832,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         LogService logService = new LogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 0, 10000, "", "LogID,GT,2|LogID,LT,5", "");
+                        logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 0, 10000, "", "", "LogID,GT,2|LogID,LT,5", extra);
 
                         List<Log> logDirectQueryList = new List<Log>();
                         logDirectQueryList = (from c in dbTestDB.Logs select c).Where(c => c.LogID > 2 && c.LogID < 5).ToList();
@@ -613,7 +848,7 @@ namespace CSSPServices.Tests
                             CheckLogFields(logList);
                             Assert.AreEqual(logDirectQueryList[0].LogID, logList[0].LogID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<LogExtraA> logExtraAList = new List<LogExtraA>();
                             logExtraAList = logService.GetLogExtraAList().ToList();
@@ -621,7 +856,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(logDirectQueryList[0].LogID, logExtraAList[0].LogID);
                             Assert.AreEqual(logDirectQueryList.Count, logExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<LogExtraB> logExtraBList = new List<LogExtraB>();
                             logExtraBList = logService.GetLogExtraBList().ToList();
@@ -631,13 +866,13 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetLogList() 2Where
+        #endregion Tests Generated for GetLogList() 2 Where
 
         #region Functions private
         private void CheckLogFields(List<Log> logList)

@@ -38,9 +38,9 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
+        #region Tests Generated CRUD
         [TestMethod]
-        public void Infrastructure_CRUD_And_Properties_Test()
+        public void Infrastructure_CRUD_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -86,6 +86,33 @@ namespace CSSPServices.Tests
                         Assert.AreEqual("", infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
                     Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
+
+                }
+            }
+        }
+        #endregion Tests Generated CRUD
+
+        #region Tests Generated Properties
+        [TestMethod]
+        public void Infrastructure_Properties_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    count = infrastructureService.GetInfrastructureList().Count();
+
+                    Infrastructure infrastructure = GetFilledRandomInfrastructure("");
 
                     // -------------------------------
                     // -------------------------------
@@ -981,7 +1008,7 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Generated CRUD and Properties
+        #endregion Tests Generated Properties
 
         #region Tests Generated for GetInfrastructureWithInfrastructureID(infrastructure.InfrastructureID)
         [TestMethod]
@@ -997,7 +1024,7 @@ namespace CSSPServices.Tests
                     Infrastructure infrastructure = (from c in dbTestDB.Infrastructures select c).FirstOrDefault();
                     Assert.IsNotNull(infrastructure);
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         infrastructureService.Query.Extra = extra;
 
@@ -1007,13 +1034,13 @@ namespace CSSPServices.Tests
                             CheckInfrastructureFields(new List<Infrastructure>() { infrastructureRet });
                             Assert.AreEqual(infrastructure.InfrastructureID, infrastructureRet.InfrastructureID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             InfrastructureExtraA infrastructureExtraARet = infrastructureService.GetInfrastructureExtraAWithInfrastructureID(infrastructure.InfrastructureID);
                             CheckInfrastructureExtraAFields(new List<InfrastructureExtraA>() { infrastructureExtraARet });
                             Assert.AreEqual(infrastructure.InfrastructureID, infrastructureExtraARet.InfrastructureID);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             InfrastructureExtraB infrastructureExtraBRet = infrastructureService.GetInfrastructureExtraBWithInfrastructureID(infrastructure.InfrastructureID);
                             CheckInfrastructureExtraBFields(new List<InfrastructureExtraB>() { infrastructureExtraBRet });
@@ -1021,7 +1048,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -1046,7 +1073,7 @@ namespace CSSPServices.Tests
                     List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
                     infrastructureDirectQueryList = (from c in dbTestDB.Infrastructures select c).Take(200).ToList();
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         infrastructureService.Query.Extra = extra;
 
@@ -1056,14 +1083,14 @@ namespace CSSPServices.Tests
                             infrastructureList = infrastructureService.GetInfrastructureList().ToList();
                             CheckInfrastructureFields(infrastructureList);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
                             infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
                             CheckInfrastructureExtraAFields(infrastructureExtraAList);
                             Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
                             infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
@@ -1072,7 +1099,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -1090,11 +1117,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        infrastructureService.Query = infrastructureService.FillQuery(typeof(Infrastructure), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
+                        infrastructureService.Query = infrastructureService.FillQuery(typeof(Infrastructure), culture.TwoLetterISOLanguageName, 1, 1, "", "", "", extra);
 
                         List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
                         infrastructureDirectQueryList = (from c in dbTestDB.Infrastructures select c).Skip(1).Take(1).ToList();
@@ -1106,7 +1133,7 @@ namespace CSSPServices.Tests
                             CheckInfrastructureFields(infrastructureList);
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
                             infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
@@ -1114,7 +1141,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraAList[0].InfrastructureID);
                             Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
                             infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
@@ -1124,7 +1151,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -1132,9 +1159,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated for GetInfrastructureList() Skip Take
 
-        #region Tests Generated for GetInfrastructureList() Skip Take Order
+        #region Tests Generated for GetInfrastructureList() Skip Take Asc
         [TestMethod]
-        public void GetInfrastructureList_Skip_Take_Order_Test()
+        public void GetInfrastructureList_Skip_Take_Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -1142,14 +1169,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        infrastructureService.Query = infrastructureService.FillQuery(typeof(Infrastructure), culture.TwoLetterISOLanguageName, 1, 1,  "InfrastructureID", "");
+                        infrastructureService.Query = infrastructureService.FillQuery(typeof(Infrastructure), culture.TwoLetterISOLanguageName, 1, 1,  "InfrastructureID", "", "", extra);
 
                         List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
-                        infrastructureDirectQueryList = (from c in dbTestDB.Infrastructures select c).Skip(1).Take(1).OrderBy(c => c.InfrastructureID).ToList();
+                        infrastructureDirectQueryList = (from c in dbTestDB.Infrastructures select c).OrderBy(c => c.InfrastructureID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -1158,7 +1185,7 @@ namespace CSSPServices.Tests
                             CheckInfrastructureFields(infrastructureList);
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
                             infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
@@ -1166,7 +1193,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraAList[0].InfrastructureID);
                             Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
                             infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
@@ -1176,17 +1203,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetInfrastructureList() Skip Take Order
+        #endregion Tests Generated for GetInfrastructureList() Skip Take Asc
 
-        #region Tests Generated for GetInfrastructureList() Skip Take 2Order
+        #region Tests Generated for GetInfrastructureList() Skip Take 2 Asc
         [TestMethod]
-        public void GetInfrastructureList_Skip_Take_2Order_Test()
+        public void GetInfrastructureList_Skip_Take_2Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -1194,14 +1221,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        infrastructureService.Query = infrastructureService.FillQuery(typeof(Infrastructure), culture.TwoLetterISOLanguageName, 1, 1, "InfrastructureID,InfrastructureTVItemID", "");
+                        infrastructureService.Query = infrastructureService.FillQuery(typeof(Infrastructure), culture.TwoLetterISOLanguageName, 1, 1, "InfrastructureID,InfrastructureTVItemID", "", "", extra);
 
                         List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
-                        infrastructureDirectQueryList = (from c in dbTestDB.Infrastructures select c).Skip(1).Take(1).OrderBy(c => c.InfrastructureID).ThenBy(c => c.InfrastructureTVItemID).ToList();
+                        infrastructureDirectQueryList = (from c in dbTestDB.Infrastructures select c).OrderBy(c => c.InfrastructureID).ThenBy(c => c.InfrastructureTVItemID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -1210,7 +1237,7 @@ namespace CSSPServices.Tests
                             CheckInfrastructureFields(infrastructureList);
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
                             infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
@@ -1218,7 +1245,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraAList[0].InfrastructureID);
                             Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
                             infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
@@ -1228,17 +1255,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetInfrastructureList() Skip Take 2Order
+        #endregion Tests Generated for GetInfrastructureList() Skip Take 2 Asc
 
-        #region Tests Generated for GetInfrastructureList() Skip Take Order Where
+        #region Tests Generated for GetInfrastructureList() Skip Take Asc Where
         [TestMethod]
-        public void GetInfrastructureList_Skip_Take_Order_Where_Test()
+        public void GetInfrastructureList_Skip_Take_Asc_Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -1246,14 +1273,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        infrastructureService.Query = infrastructureService.FillQuery(typeof(Infrastructure), culture.TwoLetterISOLanguageName, 0, 1, "InfrastructureID", "InfrastructureID,EQ,4", "");
+                        infrastructureService.Query = infrastructureService.FillQuery(typeof(Infrastructure), culture.TwoLetterISOLanguageName, 0, 1, "InfrastructureID", "", "InfrastructureID,EQ,4", "");
 
                         List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
-                        infrastructureDirectQueryList = (from c in dbTestDB.Infrastructures select c).Where(c => c.InfrastructureID == 4).Skip(0).Take(1).OrderBy(c => c.InfrastructureID).ToList();
+                        infrastructureDirectQueryList = (from c in dbTestDB.Infrastructures select c).Where(c => c.InfrastructureID == 4).OrderBy(c => c.InfrastructureID).Skip(0).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -1262,7 +1289,7 @@ namespace CSSPServices.Tests
                             CheckInfrastructureFields(infrastructureList);
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
                             infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
@@ -1270,7 +1297,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraAList[0].InfrastructureID);
                             Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
                             infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
@@ -1280,17 +1307,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetInfrastructureList() Skip Take Order Where
+        #endregion Tests Generated for GetInfrastructureList() Skip Take Asc Where
 
-        #region Tests Generated for GetInfrastructureList() Skip Take Order 2Where
+        #region Tests Generated for GetInfrastructureList() Skip Take Asc 2 Where
         [TestMethod]
-        public void GetInfrastructureList_Skip_Take_Order_2Where_Test()
+        public void GetInfrastructureList_Skip_Take_Asc_2Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -1298,11 +1325,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        infrastructureService.Query = infrastructureService.FillQuery(typeof(Infrastructure), culture.TwoLetterISOLanguageName, 0, 1, "InfrastructureID", "InfrastructureID,GT,2|InfrastructureID,LT,5", "");
+                        infrastructureService.Query = infrastructureService.FillQuery(typeof(Infrastructure), culture.TwoLetterISOLanguageName, 0, 1, "InfrastructureID", "", "InfrastructureID,GT,2|InfrastructureID,LT,5", "");
 
                         List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
                         infrastructureDirectQueryList = (from c in dbTestDB.Infrastructures select c).Where(c => c.InfrastructureID > 2 && c.InfrastructureID < 5).Skip(0).Take(1).OrderBy(c => c.InfrastructureID).ToList();
@@ -1314,7 +1341,7 @@ namespace CSSPServices.Tests
                             CheckInfrastructureFields(infrastructureList);
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
                             infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
@@ -1322,7 +1349,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraAList[0].InfrastructureID);
                             Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
                             infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
@@ -1332,15 +1359,223 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetInfrastructureList() Skip Take Order 2Where
+        #endregion Tests Generated for GetInfrastructureList() Skip Take Asc 2 Where
 
-        #region Tests Generated for GetInfrastructureList() 2Where
+        #region Tests Generated for GetInfrastructureList() Skip Take Desc
+        [TestMethod]
+        public void GetInfrastructureList_Skip_Take_Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        infrastructureService.Query = infrastructureService.FillQuery(typeof(Infrastructure), culture.TwoLetterISOLanguageName, 1, 1, "", "InfrastructureID", "", extra);
+
+                        List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
+                        infrastructureDirectQueryList = (from c in dbTestDB.Infrastructures select c).OrderByDescending(c => c.InfrastructureID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<Infrastructure> infrastructureList = new List<Infrastructure>();
+                            infrastructureList = infrastructureService.GetInfrastructureList().ToList();
+                            CheckInfrastructureFields(infrastructureList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
+                            infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
+                            CheckInfrastructureExtraAFields(infrastructureExtraAList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraAList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
+                            infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
+                            CheckInfrastructureExtraBFields(infrastructureExtraBList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraBList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetInfrastructureList() Skip Take Desc
+
+        #region Tests Generated for GetInfrastructureList() Skip Take 2 Desc
+        [TestMethod]
+        public void GetInfrastructureList_Skip_Take_2Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        infrastructureService.Query = infrastructureService.FillQuery(typeof(Infrastructure), culture.TwoLetterISOLanguageName, 1, 1, "", "InfrastructureID,InfrastructureTVItemID", "", extra);
+
+                        List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
+                        infrastructureDirectQueryList = (from c in dbTestDB.Infrastructures select c).OrderByDescending(c => c.InfrastructureID).ThenByDescending(c => c.InfrastructureTVItemID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<Infrastructure> infrastructureList = new List<Infrastructure>();
+                            infrastructureList = infrastructureService.GetInfrastructureList().ToList();
+                            CheckInfrastructureFields(infrastructureList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
+                            infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
+                            CheckInfrastructureExtraAFields(infrastructureExtraAList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraAList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
+                            infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
+                            CheckInfrastructureExtraBFields(infrastructureExtraBList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraBList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetInfrastructureList() Skip Take 2 Desc
+
+        #region Tests Generated for GetInfrastructureList() Skip Take Desc Where
+        [TestMethod]
+        public void GetInfrastructureList_Skip_Take_Desc_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        infrastructureService.Query = infrastructureService.FillQuery(typeof(Infrastructure), culture.TwoLetterISOLanguageName, 0, 1, "InfrastructureID", "", "InfrastructureID,EQ,4", "");
+
+                        List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
+                        infrastructureDirectQueryList = (from c in dbTestDB.Infrastructures select c).Where(c => c.InfrastructureID == 4).OrderByDescending(c => c.InfrastructureID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<Infrastructure> infrastructureList = new List<Infrastructure>();
+                            infrastructureList = infrastructureService.GetInfrastructureList().ToList();
+                            CheckInfrastructureFields(infrastructureList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
+                            infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
+                            CheckInfrastructureExtraAFields(infrastructureExtraAList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraAList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
+                            infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
+                            CheckInfrastructureExtraBFields(infrastructureExtraBList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraBList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetInfrastructureList() Skip Take Desc Where
+
+        #region Tests Generated for GetInfrastructureList() Skip Take Desc 2 Where
+        [TestMethod]
+        public void GetInfrastructureList_Skip_Take_Desc_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        infrastructureService.Query = infrastructureService.FillQuery(typeof(Infrastructure), culture.TwoLetterISOLanguageName, 0, 1, "", "InfrastructureID", "InfrastructureID,GT,2|InfrastructureID,LT,5", "");
+
+                        List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
+                        infrastructureDirectQueryList = (from c in dbTestDB.Infrastructures select c).Where(c => c.InfrastructureID > 2 && c.InfrastructureID < 5).OrderByDescending(c => c.InfrastructureID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<Infrastructure> infrastructureList = new List<Infrastructure>();
+                            infrastructureList = infrastructureService.GetInfrastructureList().ToList();
+                            CheckInfrastructureFields(infrastructureList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
+                            infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
+                            CheckInfrastructureExtraAFields(infrastructureExtraAList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraAList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
+                            infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
+                            CheckInfrastructureExtraBFields(infrastructureExtraBList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraBList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetInfrastructureList() Skip Take Desc 2 Where
+
+        #region Tests Generated for GetInfrastructureList() 2 Where
         [TestMethod]
         public void GetInfrastructureList_2Where_Test()
         {
@@ -1350,11 +1585,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        infrastructureService.Query = infrastructureService.FillQuery(typeof(Infrastructure), culture.TwoLetterISOLanguageName, 0, 10000, "", "InfrastructureID,GT,2|InfrastructureID,LT,5", "");
+                        infrastructureService.Query = infrastructureService.FillQuery(typeof(Infrastructure), culture.TwoLetterISOLanguageName, 0, 10000, "", "", "InfrastructureID,GT,2|InfrastructureID,LT,5", extra);
 
                         List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
                         infrastructureDirectQueryList = (from c in dbTestDB.Infrastructures select c).Where(c => c.InfrastructureID > 2 && c.InfrastructureID < 5).ToList();
@@ -1366,7 +1601,7 @@ namespace CSSPServices.Tests
                             CheckInfrastructureFields(infrastructureList);
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
                             infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
@@ -1374,7 +1609,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraAList[0].InfrastructureID);
                             Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
                             infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
@@ -1384,13 +1619,13 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetInfrastructureList() 2Where
+        #endregion Tests Generated for GetInfrastructureList() 2 Where
 
         #region Functions private
         private void CheckInfrastructureFields(List<Infrastructure> infrastructureList)

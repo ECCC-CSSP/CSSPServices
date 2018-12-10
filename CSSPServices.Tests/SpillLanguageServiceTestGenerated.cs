@@ -38,9 +38,9 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
+        #region Tests Generated CRUD
         [TestMethod]
-        public void SpillLanguage_CRUD_And_Properties_Test()
+        public void SpillLanguage_CRUD_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -86,6 +86,33 @@ namespace CSSPServices.Tests
                         Assert.AreEqual("", spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
                     Assert.AreEqual(count, spillLanguageService.GetSpillLanguageList().Count());
+
+                }
+            }
+        }
+        #endregion Tests Generated CRUD
+
+        #region Tests Generated Properties
+        [TestMethod]
+        public void SpillLanguage_Properties_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    SpillLanguageService spillLanguageService = new SpillLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    count = spillLanguageService.GetSpillLanguageList().Count();
+
+                    SpillLanguage spillLanguage = GetFilledRandomSpillLanguage("");
 
                     // -------------------------------
                     // -------------------------------
@@ -220,7 +247,7 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Generated CRUD and Properties
+        #endregion Tests Generated Properties
 
         #region Tests Generated for GetSpillLanguageWithSpillLanguageID(spillLanguage.SpillLanguageID)
         [TestMethod]
@@ -236,7 +263,7 @@ namespace CSSPServices.Tests
                     SpillLanguage spillLanguage = (from c in dbTestDB.SpillLanguages select c).FirstOrDefault();
                     Assert.IsNotNull(spillLanguage);
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         spillLanguageService.Query.Extra = extra;
 
@@ -246,13 +273,13 @@ namespace CSSPServices.Tests
                             CheckSpillLanguageFields(new List<SpillLanguage>() { spillLanguageRet });
                             Assert.AreEqual(spillLanguage.SpillLanguageID, spillLanguageRet.SpillLanguageID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             SpillLanguageExtraA spillLanguageExtraARet = spillLanguageService.GetSpillLanguageExtraAWithSpillLanguageID(spillLanguage.SpillLanguageID);
                             CheckSpillLanguageExtraAFields(new List<SpillLanguageExtraA>() { spillLanguageExtraARet });
                             Assert.AreEqual(spillLanguage.SpillLanguageID, spillLanguageExtraARet.SpillLanguageID);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             SpillLanguageExtraB spillLanguageExtraBRet = spillLanguageService.GetSpillLanguageExtraBWithSpillLanguageID(spillLanguage.SpillLanguageID);
                             CheckSpillLanguageExtraBFields(new List<SpillLanguageExtraB>() { spillLanguageExtraBRet });
@@ -260,7 +287,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -285,7 +312,7 @@ namespace CSSPServices.Tests
                     List<SpillLanguage> spillLanguageDirectQueryList = new List<SpillLanguage>();
                     spillLanguageDirectQueryList = (from c in dbTestDB.SpillLanguages select c).Take(200).ToList();
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         spillLanguageService.Query.Extra = extra;
 
@@ -295,14 +322,14 @@ namespace CSSPServices.Tests
                             spillLanguageList = spillLanguageService.GetSpillLanguageList().ToList();
                             CheckSpillLanguageFields(spillLanguageList);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<SpillLanguageExtraA> spillLanguageExtraAList = new List<SpillLanguageExtraA>();
                             spillLanguageExtraAList = spillLanguageService.GetSpillLanguageExtraAList().ToList();
                             CheckSpillLanguageExtraAFields(spillLanguageExtraAList);
                             Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguageExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<SpillLanguageExtraB> spillLanguageExtraBList = new List<SpillLanguageExtraB>();
                             spillLanguageExtraBList = spillLanguageService.GetSpillLanguageExtraBList().ToList();
@@ -311,7 +338,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -329,11 +356,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         SpillLanguageService spillLanguageService = new SpillLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        spillLanguageService.Query = spillLanguageService.FillQuery(typeof(SpillLanguage), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
+                        spillLanguageService.Query = spillLanguageService.FillQuery(typeof(SpillLanguage), culture.TwoLetterISOLanguageName, 1, 1, "", "", "", extra);
 
                         List<SpillLanguage> spillLanguageDirectQueryList = new List<SpillLanguage>();
                         spillLanguageDirectQueryList = (from c in dbTestDB.SpillLanguages select c).Skip(1).Take(1).ToList();
@@ -345,7 +372,7 @@ namespace CSSPServices.Tests
                             CheckSpillLanguageFields(spillLanguageList);
                             Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageList[0].SpillLanguageID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<SpillLanguageExtraA> spillLanguageExtraAList = new List<SpillLanguageExtraA>();
                             spillLanguageExtraAList = spillLanguageService.GetSpillLanguageExtraAList().ToList();
@@ -353,7 +380,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageExtraAList[0].SpillLanguageID);
                             Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguageExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<SpillLanguageExtraB> spillLanguageExtraBList = new List<SpillLanguageExtraB>();
                             spillLanguageExtraBList = spillLanguageService.GetSpillLanguageExtraBList().ToList();
@@ -363,7 +390,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -371,9 +398,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated for GetSpillLanguageList() Skip Take
 
-        #region Tests Generated for GetSpillLanguageList() Skip Take Order
+        #region Tests Generated for GetSpillLanguageList() Skip Take Asc
         [TestMethod]
-        public void GetSpillLanguageList_Skip_Take_Order_Test()
+        public void GetSpillLanguageList_Skip_Take_Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -381,14 +408,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         SpillLanguageService spillLanguageService = new SpillLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        spillLanguageService.Query = spillLanguageService.FillQuery(typeof(SpillLanguage), culture.TwoLetterISOLanguageName, 1, 1,  "SpillLanguageID", "");
+                        spillLanguageService.Query = spillLanguageService.FillQuery(typeof(SpillLanguage), culture.TwoLetterISOLanguageName, 1, 1,  "SpillLanguageID", "", "", extra);
 
                         List<SpillLanguage> spillLanguageDirectQueryList = new List<SpillLanguage>();
-                        spillLanguageDirectQueryList = (from c in dbTestDB.SpillLanguages select c).Skip(1).Take(1).OrderBy(c => c.SpillLanguageID).ToList();
+                        spillLanguageDirectQueryList = (from c in dbTestDB.SpillLanguages select c).OrderBy(c => c.SpillLanguageID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -397,7 +424,7 @@ namespace CSSPServices.Tests
                             CheckSpillLanguageFields(spillLanguageList);
                             Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageList[0].SpillLanguageID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<SpillLanguageExtraA> spillLanguageExtraAList = new List<SpillLanguageExtraA>();
                             spillLanguageExtraAList = spillLanguageService.GetSpillLanguageExtraAList().ToList();
@@ -405,7 +432,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageExtraAList[0].SpillLanguageID);
                             Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguageExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<SpillLanguageExtraB> spillLanguageExtraBList = new List<SpillLanguageExtraB>();
                             spillLanguageExtraBList = spillLanguageService.GetSpillLanguageExtraBList().ToList();
@@ -415,17 +442,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetSpillLanguageList() Skip Take Order
+        #endregion Tests Generated for GetSpillLanguageList() Skip Take Asc
 
-        #region Tests Generated for GetSpillLanguageList() Skip Take 2Order
+        #region Tests Generated for GetSpillLanguageList() Skip Take 2 Asc
         [TestMethod]
-        public void GetSpillLanguageList_Skip_Take_2Order_Test()
+        public void GetSpillLanguageList_Skip_Take_2Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -433,14 +460,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         SpillLanguageService spillLanguageService = new SpillLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        spillLanguageService.Query = spillLanguageService.FillQuery(typeof(SpillLanguage), culture.TwoLetterISOLanguageName, 1, 1, "SpillLanguageID,SpillID", "");
+                        spillLanguageService.Query = spillLanguageService.FillQuery(typeof(SpillLanguage), culture.TwoLetterISOLanguageName, 1, 1, "SpillLanguageID,SpillID", "", "", extra);
 
                         List<SpillLanguage> spillLanguageDirectQueryList = new List<SpillLanguage>();
-                        spillLanguageDirectQueryList = (from c in dbTestDB.SpillLanguages select c).Skip(1).Take(1).OrderBy(c => c.SpillLanguageID).ThenBy(c => c.SpillID).ToList();
+                        spillLanguageDirectQueryList = (from c in dbTestDB.SpillLanguages select c).OrderBy(c => c.SpillLanguageID).ThenBy(c => c.SpillID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -449,7 +476,7 @@ namespace CSSPServices.Tests
                             CheckSpillLanguageFields(spillLanguageList);
                             Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageList[0].SpillLanguageID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<SpillLanguageExtraA> spillLanguageExtraAList = new List<SpillLanguageExtraA>();
                             spillLanguageExtraAList = spillLanguageService.GetSpillLanguageExtraAList().ToList();
@@ -457,7 +484,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageExtraAList[0].SpillLanguageID);
                             Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguageExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<SpillLanguageExtraB> spillLanguageExtraBList = new List<SpillLanguageExtraB>();
                             spillLanguageExtraBList = spillLanguageService.GetSpillLanguageExtraBList().ToList();
@@ -467,17 +494,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetSpillLanguageList() Skip Take 2Order
+        #endregion Tests Generated for GetSpillLanguageList() Skip Take 2 Asc
 
-        #region Tests Generated for GetSpillLanguageList() Skip Take Order Where
+        #region Tests Generated for GetSpillLanguageList() Skip Take Asc Where
         [TestMethod]
-        public void GetSpillLanguageList_Skip_Take_Order_Where_Test()
+        public void GetSpillLanguageList_Skip_Take_Asc_Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -485,14 +512,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         SpillLanguageService spillLanguageService = new SpillLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        spillLanguageService.Query = spillLanguageService.FillQuery(typeof(SpillLanguage), culture.TwoLetterISOLanguageName, 0, 1, "SpillLanguageID", "SpillLanguageID,EQ,4", "");
+                        spillLanguageService.Query = spillLanguageService.FillQuery(typeof(SpillLanguage), culture.TwoLetterISOLanguageName, 0, 1, "SpillLanguageID", "", "SpillLanguageID,EQ,4", "");
 
                         List<SpillLanguage> spillLanguageDirectQueryList = new List<SpillLanguage>();
-                        spillLanguageDirectQueryList = (from c in dbTestDB.SpillLanguages select c).Where(c => c.SpillLanguageID == 4).Skip(0).Take(1).OrderBy(c => c.SpillLanguageID).ToList();
+                        spillLanguageDirectQueryList = (from c in dbTestDB.SpillLanguages select c).Where(c => c.SpillLanguageID == 4).OrderBy(c => c.SpillLanguageID).Skip(0).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -501,7 +528,7 @@ namespace CSSPServices.Tests
                             CheckSpillLanguageFields(spillLanguageList);
                             Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageList[0].SpillLanguageID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<SpillLanguageExtraA> spillLanguageExtraAList = new List<SpillLanguageExtraA>();
                             spillLanguageExtraAList = spillLanguageService.GetSpillLanguageExtraAList().ToList();
@@ -509,7 +536,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageExtraAList[0].SpillLanguageID);
                             Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguageExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<SpillLanguageExtraB> spillLanguageExtraBList = new List<SpillLanguageExtraB>();
                             spillLanguageExtraBList = spillLanguageService.GetSpillLanguageExtraBList().ToList();
@@ -519,17 +546,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetSpillLanguageList() Skip Take Order Where
+        #endregion Tests Generated for GetSpillLanguageList() Skip Take Asc Where
 
-        #region Tests Generated for GetSpillLanguageList() Skip Take Order 2Where
+        #region Tests Generated for GetSpillLanguageList() Skip Take Asc 2 Where
         [TestMethod]
-        public void GetSpillLanguageList_Skip_Take_Order_2Where_Test()
+        public void GetSpillLanguageList_Skip_Take_Asc_2Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -537,11 +564,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         SpillLanguageService spillLanguageService = new SpillLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        spillLanguageService.Query = spillLanguageService.FillQuery(typeof(SpillLanguage), culture.TwoLetterISOLanguageName, 0, 1, "SpillLanguageID", "SpillLanguageID,GT,2|SpillLanguageID,LT,5", "");
+                        spillLanguageService.Query = spillLanguageService.FillQuery(typeof(SpillLanguage), culture.TwoLetterISOLanguageName, 0, 1, "SpillLanguageID", "", "SpillLanguageID,GT,2|SpillLanguageID,LT,5", "");
 
                         List<SpillLanguage> spillLanguageDirectQueryList = new List<SpillLanguage>();
                         spillLanguageDirectQueryList = (from c in dbTestDB.SpillLanguages select c).Where(c => c.SpillLanguageID > 2 && c.SpillLanguageID < 5).Skip(0).Take(1).OrderBy(c => c.SpillLanguageID).ToList();
@@ -553,7 +580,7 @@ namespace CSSPServices.Tests
                             CheckSpillLanguageFields(spillLanguageList);
                             Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageList[0].SpillLanguageID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<SpillLanguageExtraA> spillLanguageExtraAList = new List<SpillLanguageExtraA>();
                             spillLanguageExtraAList = spillLanguageService.GetSpillLanguageExtraAList().ToList();
@@ -561,7 +588,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageExtraAList[0].SpillLanguageID);
                             Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguageExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<SpillLanguageExtraB> spillLanguageExtraBList = new List<SpillLanguageExtraB>();
                             spillLanguageExtraBList = spillLanguageService.GetSpillLanguageExtraBList().ToList();
@@ -571,15 +598,223 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetSpillLanguageList() Skip Take Order 2Where
+        #endregion Tests Generated for GetSpillLanguageList() Skip Take Asc 2 Where
 
-        #region Tests Generated for GetSpillLanguageList() 2Where
+        #region Tests Generated for GetSpillLanguageList() Skip Take Desc
+        [TestMethod]
+        public void GetSpillLanguageList_Skip_Take_Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        SpillLanguageService spillLanguageService = new SpillLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        spillLanguageService.Query = spillLanguageService.FillQuery(typeof(SpillLanguage), culture.TwoLetterISOLanguageName, 1, 1, "", "SpillLanguageID", "", extra);
+
+                        List<SpillLanguage> spillLanguageDirectQueryList = new List<SpillLanguage>();
+                        spillLanguageDirectQueryList = (from c in dbTestDB.SpillLanguages select c).OrderByDescending(c => c.SpillLanguageID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<SpillLanguage> spillLanguageList = new List<SpillLanguage>();
+                            spillLanguageList = spillLanguageService.GetSpillLanguageList().ToList();
+                            CheckSpillLanguageFields(spillLanguageList);
+                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageList[0].SpillLanguageID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<SpillLanguageExtraA> spillLanguageExtraAList = new List<SpillLanguageExtraA>();
+                            spillLanguageExtraAList = spillLanguageService.GetSpillLanguageExtraAList().ToList();
+                            CheckSpillLanguageExtraAFields(spillLanguageExtraAList);
+                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageExtraAList[0].SpillLanguageID);
+                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguageExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<SpillLanguageExtraB> spillLanguageExtraBList = new List<SpillLanguageExtraB>();
+                            spillLanguageExtraBList = spillLanguageService.GetSpillLanguageExtraBList().ToList();
+                            CheckSpillLanguageExtraBFields(spillLanguageExtraBList);
+                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageExtraBList[0].SpillLanguageID);
+                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguageExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetSpillLanguageList() Skip Take Desc
+
+        #region Tests Generated for GetSpillLanguageList() Skip Take 2 Desc
+        [TestMethod]
+        public void GetSpillLanguageList_Skip_Take_2Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        SpillLanguageService spillLanguageService = new SpillLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        spillLanguageService.Query = spillLanguageService.FillQuery(typeof(SpillLanguage), culture.TwoLetterISOLanguageName, 1, 1, "", "SpillLanguageID,SpillID", "", extra);
+
+                        List<SpillLanguage> spillLanguageDirectQueryList = new List<SpillLanguage>();
+                        spillLanguageDirectQueryList = (from c in dbTestDB.SpillLanguages select c).OrderByDescending(c => c.SpillLanguageID).ThenByDescending(c => c.SpillID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<SpillLanguage> spillLanguageList = new List<SpillLanguage>();
+                            spillLanguageList = spillLanguageService.GetSpillLanguageList().ToList();
+                            CheckSpillLanguageFields(spillLanguageList);
+                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageList[0].SpillLanguageID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<SpillLanguageExtraA> spillLanguageExtraAList = new List<SpillLanguageExtraA>();
+                            spillLanguageExtraAList = spillLanguageService.GetSpillLanguageExtraAList().ToList();
+                            CheckSpillLanguageExtraAFields(spillLanguageExtraAList);
+                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageExtraAList[0].SpillLanguageID);
+                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguageExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<SpillLanguageExtraB> spillLanguageExtraBList = new List<SpillLanguageExtraB>();
+                            spillLanguageExtraBList = spillLanguageService.GetSpillLanguageExtraBList().ToList();
+                            CheckSpillLanguageExtraBFields(spillLanguageExtraBList);
+                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageExtraBList[0].SpillLanguageID);
+                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguageExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetSpillLanguageList() Skip Take 2 Desc
+
+        #region Tests Generated for GetSpillLanguageList() Skip Take Desc Where
+        [TestMethod]
+        public void GetSpillLanguageList_Skip_Take_Desc_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        SpillLanguageService spillLanguageService = new SpillLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        spillLanguageService.Query = spillLanguageService.FillQuery(typeof(SpillLanguage), culture.TwoLetterISOLanguageName, 0, 1, "SpillLanguageID", "", "SpillLanguageID,EQ,4", "");
+
+                        List<SpillLanguage> spillLanguageDirectQueryList = new List<SpillLanguage>();
+                        spillLanguageDirectQueryList = (from c in dbTestDB.SpillLanguages select c).Where(c => c.SpillLanguageID == 4).OrderByDescending(c => c.SpillLanguageID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<SpillLanguage> spillLanguageList = new List<SpillLanguage>();
+                            spillLanguageList = spillLanguageService.GetSpillLanguageList().ToList();
+                            CheckSpillLanguageFields(spillLanguageList);
+                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageList[0].SpillLanguageID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<SpillLanguageExtraA> spillLanguageExtraAList = new List<SpillLanguageExtraA>();
+                            spillLanguageExtraAList = spillLanguageService.GetSpillLanguageExtraAList().ToList();
+                            CheckSpillLanguageExtraAFields(spillLanguageExtraAList);
+                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageExtraAList[0].SpillLanguageID);
+                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguageExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<SpillLanguageExtraB> spillLanguageExtraBList = new List<SpillLanguageExtraB>();
+                            spillLanguageExtraBList = spillLanguageService.GetSpillLanguageExtraBList().ToList();
+                            CheckSpillLanguageExtraBFields(spillLanguageExtraBList);
+                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageExtraBList[0].SpillLanguageID);
+                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguageExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetSpillLanguageList() Skip Take Desc Where
+
+        #region Tests Generated for GetSpillLanguageList() Skip Take Desc 2 Where
+        [TestMethod]
+        public void GetSpillLanguageList_Skip_Take_Desc_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        SpillLanguageService spillLanguageService = new SpillLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        spillLanguageService.Query = spillLanguageService.FillQuery(typeof(SpillLanguage), culture.TwoLetterISOLanguageName, 0, 1, "", "SpillLanguageID", "SpillLanguageID,GT,2|SpillLanguageID,LT,5", "");
+
+                        List<SpillLanguage> spillLanguageDirectQueryList = new List<SpillLanguage>();
+                        spillLanguageDirectQueryList = (from c in dbTestDB.SpillLanguages select c).Where(c => c.SpillLanguageID > 2 && c.SpillLanguageID < 5).OrderByDescending(c => c.SpillLanguageID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<SpillLanguage> spillLanguageList = new List<SpillLanguage>();
+                            spillLanguageList = spillLanguageService.GetSpillLanguageList().ToList();
+                            CheckSpillLanguageFields(spillLanguageList);
+                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageList[0].SpillLanguageID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<SpillLanguageExtraA> spillLanguageExtraAList = new List<SpillLanguageExtraA>();
+                            spillLanguageExtraAList = spillLanguageService.GetSpillLanguageExtraAList().ToList();
+                            CheckSpillLanguageExtraAFields(spillLanguageExtraAList);
+                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageExtraAList[0].SpillLanguageID);
+                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguageExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<SpillLanguageExtraB> spillLanguageExtraBList = new List<SpillLanguageExtraB>();
+                            spillLanguageExtraBList = spillLanguageService.GetSpillLanguageExtraBList().ToList();
+                            CheckSpillLanguageExtraBFields(spillLanguageExtraBList);
+                            Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageExtraBList[0].SpillLanguageID);
+                            Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguageExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetSpillLanguageList() Skip Take Desc 2 Where
+
+        #region Tests Generated for GetSpillLanguageList() 2 Where
         [TestMethod]
         public void GetSpillLanguageList_2Where_Test()
         {
@@ -589,11 +824,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         SpillLanguageService spillLanguageService = new SpillLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        spillLanguageService.Query = spillLanguageService.FillQuery(typeof(SpillLanguage), culture.TwoLetterISOLanguageName, 0, 10000, "", "SpillLanguageID,GT,2|SpillLanguageID,LT,5", "");
+                        spillLanguageService.Query = spillLanguageService.FillQuery(typeof(SpillLanguage), culture.TwoLetterISOLanguageName, 0, 10000, "", "", "SpillLanguageID,GT,2|SpillLanguageID,LT,5", extra);
 
                         List<SpillLanguage> spillLanguageDirectQueryList = new List<SpillLanguage>();
                         spillLanguageDirectQueryList = (from c in dbTestDB.SpillLanguages select c).Where(c => c.SpillLanguageID > 2 && c.SpillLanguageID < 5).ToList();
@@ -605,7 +840,7 @@ namespace CSSPServices.Tests
                             CheckSpillLanguageFields(spillLanguageList);
                             Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageList[0].SpillLanguageID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<SpillLanguageExtraA> spillLanguageExtraAList = new List<SpillLanguageExtraA>();
                             spillLanguageExtraAList = spillLanguageService.GetSpillLanguageExtraAList().ToList();
@@ -613,7 +848,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(spillLanguageDirectQueryList[0].SpillLanguageID, spillLanguageExtraAList[0].SpillLanguageID);
                             Assert.AreEqual(spillLanguageDirectQueryList.Count, spillLanguageExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<SpillLanguageExtraB> spillLanguageExtraBList = new List<SpillLanguageExtraB>();
                             spillLanguageExtraBList = spillLanguageService.GetSpillLanguageExtraBList().ToList();
@@ -623,13 +858,13 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetSpillLanguageList() 2Where
+        #endregion Tests Generated for GetSpillLanguageList() 2 Where
 
         #region Functions private
         private void CheckSpillLanguageFields(List<SpillLanguage> spillLanguageList)

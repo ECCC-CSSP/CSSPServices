@@ -38,9 +38,9 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
+        #region Tests Generated CRUD
         [TestMethod]
-        public void Classification_CRUD_And_Properties_Test()
+        public void Classification_CRUD_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -86,6 +86,33 @@ namespace CSSPServices.Tests
                         Assert.AreEqual("", classification.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
                     Assert.AreEqual(count, classificationService.GetClassificationList().Count());
+
+                }
+            }
+        }
+        #endregion Tests Generated CRUD
+
+        #region Tests Generated Properties
+        [TestMethod]
+        public void Classification_Properties_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    ClassificationService classificationService = new ClassificationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    count = classificationService.GetClassificationList().Count();
+
+                    Classification classification = GetFilledRandomClassification("");
 
                     // -------------------------------
                     // -------------------------------
@@ -218,7 +245,7 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Generated CRUD and Properties
+        #endregion Tests Generated Properties
 
         #region Tests Generated for GetClassificationWithClassificationID(classification.ClassificationID)
         [TestMethod]
@@ -234,7 +261,7 @@ namespace CSSPServices.Tests
                     Classification classification = (from c in dbTestDB.Classifications select c).FirstOrDefault();
                     Assert.IsNotNull(classification);
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         classificationService.Query.Extra = extra;
 
@@ -244,13 +271,13 @@ namespace CSSPServices.Tests
                             CheckClassificationFields(new List<Classification>() { classificationRet });
                             Assert.AreEqual(classification.ClassificationID, classificationRet.ClassificationID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             ClassificationExtraA classificationExtraARet = classificationService.GetClassificationExtraAWithClassificationID(classification.ClassificationID);
                             CheckClassificationExtraAFields(new List<ClassificationExtraA>() { classificationExtraARet });
                             Assert.AreEqual(classification.ClassificationID, classificationExtraARet.ClassificationID);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             ClassificationExtraB classificationExtraBRet = classificationService.GetClassificationExtraBWithClassificationID(classification.ClassificationID);
                             CheckClassificationExtraBFields(new List<ClassificationExtraB>() { classificationExtraBRet });
@@ -258,7 +285,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -283,7 +310,7 @@ namespace CSSPServices.Tests
                     List<Classification> classificationDirectQueryList = new List<Classification>();
                     classificationDirectQueryList = (from c in dbTestDB.Classifications select c).Take(200).ToList();
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         classificationService.Query.Extra = extra;
 
@@ -293,14 +320,14 @@ namespace CSSPServices.Tests
                             classificationList = classificationService.GetClassificationList().ToList();
                             CheckClassificationFields(classificationList);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<ClassificationExtraA> classificationExtraAList = new List<ClassificationExtraA>();
                             classificationExtraAList = classificationService.GetClassificationExtraAList().ToList();
                             CheckClassificationExtraAFields(classificationExtraAList);
                             Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<ClassificationExtraB> classificationExtraBList = new List<ClassificationExtraB>();
                             classificationExtraBList = classificationService.GetClassificationExtraBList().ToList();
@@ -309,7 +336,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -327,11 +354,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         ClassificationService classificationService = new ClassificationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        classificationService.Query = classificationService.FillQuery(typeof(Classification), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
+                        classificationService.Query = classificationService.FillQuery(typeof(Classification), culture.TwoLetterISOLanguageName, 1, 1, "", "", "", extra);
 
                         List<Classification> classificationDirectQueryList = new List<Classification>();
                         classificationDirectQueryList = (from c in dbTestDB.Classifications select c).Skip(1).Take(1).ToList();
@@ -343,7 +370,7 @@ namespace CSSPServices.Tests
                             CheckClassificationFields(classificationList);
                             Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationList[0].ClassificationID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<ClassificationExtraA> classificationExtraAList = new List<ClassificationExtraA>();
                             classificationExtraAList = classificationService.GetClassificationExtraAList().ToList();
@@ -351,7 +378,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraAList[0].ClassificationID);
                             Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<ClassificationExtraB> classificationExtraBList = new List<ClassificationExtraB>();
                             classificationExtraBList = classificationService.GetClassificationExtraBList().ToList();
@@ -361,7 +388,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -369,9 +396,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated for GetClassificationList() Skip Take
 
-        #region Tests Generated for GetClassificationList() Skip Take Order
+        #region Tests Generated for GetClassificationList() Skip Take Asc
         [TestMethod]
-        public void GetClassificationList_Skip_Take_Order_Test()
+        public void GetClassificationList_Skip_Take_Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -379,14 +406,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         ClassificationService classificationService = new ClassificationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        classificationService.Query = classificationService.FillQuery(typeof(Classification), culture.TwoLetterISOLanguageName, 1, 1,  "ClassificationID", "");
+                        classificationService.Query = classificationService.FillQuery(typeof(Classification), culture.TwoLetterISOLanguageName, 1, 1,  "ClassificationID", "", "", extra);
 
                         List<Classification> classificationDirectQueryList = new List<Classification>();
-                        classificationDirectQueryList = (from c in dbTestDB.Classifications select c).Skip(1).Take(1).OrderBy(c => c.ClassificationID).ToList();
+                        classificationDirectQueryList = (from c in dbTestDB.Classifications select c).OrderBy(c => c.ClassificationID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -395,7 +422,7 @@ namespace CSSPServices.Tests
                             CheckClassificationFields(classificationList);
                             Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationList[0].ClassificationID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<ClassificationExtraA> classificationExtraAList = new List<ClassificationExtraA>();
                             classificationExtraAList = classificationService.GetClassificationExtraAList().ToList();
@@ -403,7 +430,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraAList[0].ClassificationID);
                             Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<ClassificationExtraB> classificationExtraBList = new List<ClassificationExtraB>();
                             classificationExtraBList = classificationService.GetClassificationExtraBList().ToList();
@@ -413,17 +440,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetClassificationList() Skip Take Order
+        #endregion Tests Generated for GetClassificationList() Skip Take Asc
 
-        #region Tests Generated for GetClassificationList() Skip Take 2Order
+        #region Tests Generated for GetClassificationList() Skip Take 2 Asc
         [TestMethod]
-        public void GetClassificationList_Skip_Take_2Order_Test()
+        public void GetClassificationList_Skip_Take_2Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -431,14 +458,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         ClassificationService classificationService = new ClassificationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        classificationService.Query = classificationService.FillQuery(typeof(Classification), culture.TwoLetterISOLanguageName, 1, 1, "ClassificationID,ClassificationTVItemID", "");
+                        classificationService.Query = classificationService.FillQuery(typeof(Classification), culture.TwoLetterISOLanguageName, 1, 1, "ClassificationID,ClassificationTVItemID", "", "", extra);
 
                         List<Classification> classificationDirectQueryList = new List<Classification>();
-                        classificationDirectQueryList = (from c in dbTestDB.Classifications select c).Skip(1).Take(1).OrderBy(c => c.ClassificationID).ThenBy(c => c.ClassificationTVItemID).ToList();
+                        classificationDirectQueryList = (from c in dbTestDB.Classifications select c).OrderBy(c => c.ClassificationID).ThenBy(c => c.ClassificationTVItemID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -447,7 +474,7 @@ namespace CSSPServices.Tests
                             CheckClassificationFields(classificationList);
                             Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationList[0].ClassificationID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<ClassificationExtraA> classificationExtraAList = new List<ClassificationExtraA>();
                             classificationExtraAList = classificationService.GetClassificationExtraAList().ToList();
@@ -455,7 +482,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraAList[0].ClassificationID);
                             Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<ClassificationExtraB> classificationExtraBList = new List<ClassificationExtraB>();
                             classificationExtraBList = classificationService.GetClassificationExtraBList().ToList();
@@ -465,17 +492,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetClassificationList() Skip Take 2Order
+        #endregion Tests Generated for GetClassificationList() Skip Take 2 Asc
 
-        #region Tests Generated for GetClassificationList() Skip Take Order Where
+        #region Tests Generated for GetClassificationList() Skip Take Asc Where
         [TestMethod]
-        public void GetClassificationList_Skip_Take_Order_Where_Test()
+        public void GetClassificationList_Skip_Take_Asc_Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -483,14 +510,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         ClassificationService classificationService = new ClassificationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        classificationService.Query = classificationService.FillQuery(typeof(Classification), culture.TwoLetterISOLanguageName, 0, 1, "ClassificationID", "ClassificationID,EQ,4", "");
+                        classificationService.Query = classificationService.FillQuery(typeof(Classification), culture.TwoLetterISOLanguageName, 0, 1, "ClassificationID", "", "ClassificationID,EQ,4", "");
 
                         List<Classification> classificationDirectQueryList = new List<Classification>();
-                        classificationDirectQueryList = (from c in dbTestDB.Classifications select c).Where(c => c.ClassificationID == 4).Skip(0).Take(1).OrderBy(c => c.ClassificationID).ToList();
+                        classificationDirectQueryList = (from c in dbTestDB.Classifications select c).Where(c => c.ClassificationID == 4).OrderBy(c => c.ClassificationID).Skip(0).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -499,7 +526,7 @@ namespace CSSPServices.Tests
                             CheckClassificationFields(classificationList);
                             Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationList[0].ClassificationID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<ClassificationExtraA> classificationExtraAList = new List<ClassificationExtraA>();
                             classificationExtraAList = classificationService.GetClassificationExtraAList().ToList();
@@ -507,7 +534,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraAList[0].ClassificationID);
                             Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<ClassificationExtraB> classificationExtraBList = new List<ClassificationExtraB>();
                             classificationExtraBList = classificationService.GetClassificationExtraBList().ToList();
@@ -517,17 +544,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetClassificationList() Skip Take Order Where
+        #endregion Tests Generated for GetClassificationList() Skip Take Asc Where
 
-        #region Tests Generated for GetClassificationList() Skip Take Order 2Where
+        #region Tests Generated for GetClassificationList() Skip Take Asc 2 Where
         [TestMethod]
-        public void GetClassificationList_Skip_Take_Order_2Where_Test()
+        public void GetClassificationList_Skip_Take_Asc_2Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -535,11 +562,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         ClassificationService classificationService = new ClassificationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        classificationService.Query = classificationService.FillQuery(typeof(Classification), culture.TwoLetterISOLanguageName, 0, 1, "ClassificationID", "ClassificationID,GT,2|ClassificationID,LT,5", "");
+                        classificationService.Query = classificationService.FillQuery(typeof(Classification), culture.TwoLetterISOLanguageName, 0, 1, "ClassificationID", "", "ClassificationID,GT,2|ClassificationID,LT,5", "");
 
                         List<Classification> classificationDirectQueryList = new List<Classification>();
                         classificationDirectQueryList = (from c in dbTestDB.Classifications select c).Where(c => c.ClassificationID > 2 && c.ClassificationID < 5).Skip(0).Take(1).OrderBy(c => c.ClassificationID).ToList();
@@ -551,7 +578,7 @@ namespace CSSPServices.Tests
                             CheckClassificationFields(classificationList);
                             Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationList[0].ClassificationID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<ClassificationExtraA> classificationExtraAList = new List<ClassificationExtraA>();
                             classificationExtraAList = classificationService.GetClassificationExtraAList().ToList();
@@ -559,7 +586,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraAList[0].ClassificationID);
                             Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<ClassificationExtraB> classificationExtraBList = new List<ClassificationExtraB>();
                             classificationExtraBList = classificationService.GetClassificationExtraBList().ToList();
@@ -569,15 +596,223 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetClassificationList() Skip Take Order 2Where
+        #endregion Tests Generated for GetClassificationList() Skip Take Asc 2 Where
 
-        #region Tests Generated for GetClassificationList() 2Where
+        #region Tests Generated for GetClassificationList() Skip Take Desc
+        [TestMethod]
+        public void GetClassificationList_Skip_Take_Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        ClassificationService classificationService = new ClassificationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        classificationService.Query = classificationService.FillQuery(typeof(Classification), culture.TwoLetterISOLanguageName, 1, 1, "", "ClassificationID", "", extra);
+
+                        List<Classification> classificationDirectQueryList = new List<Classification>();
+                        classificationDirectQueryList = (from c in dbTestDB.Classifications select c).OrderByDescending(c => c.ClassificationID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<Classification> classificationList = new List<Classification>();
+                            classificationList = classificationService.GetClassificationList().ToList();
+                            CheckClassificationFields(classificationList);
+                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationList[0].ClassificationID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<ClassificationExtraA> classificationExtraAList = new List<ClassificationExtraA>();
+                            classificationExtraAList = classificationService.GetClassificationExtraAList().ToList();
+                            CheckClassificationExtraAFields(classificationExtraAList);
+                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraAList[0].ClassificationID);
+                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<ClassificationExtraB> classificationExtraBList = new List<ClassificationExtraB>();
+                            classificationExtraBList = classificationService.GetClassificationExtraBList().ToList();
+                            CheckClassificationExtraBFields(classificationExtraBList);
+                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraBList[0].ClassificationID);
+                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetClassificationList() Skip Take Desc
+
+        #region Tests Generated for GetClassificationList() Skip Take 2 Desc
+        [TestMethod]
+        public void GetClassificationList_Skip_Take_2Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        ClassificationService classificationService = new ClassificationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        classificationService.Query = classificationService.FillQuery(typeof(Classification), culture.TwoLetterISOLanguageName, 1, 1, "", "ClassificationID,ClassificationTVItemID", "", extra);
+
+                        List<Classification> classificationDirectQueryList = new List<Classification>();
+                        classificationDirectQueryList = (from c in dbTestDB.Classifications select c).OrderByDescending(c => c.ClassificationID).ThenByDescending(c => c.ClassificationTVItemID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<Classification> classificationList = new List<Classification>();
+                            classificationList = classificationService.GetClassificationList().ToList();
+                            CheckClassificationFields(classificationList);
+                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationList[0].ClassificationID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<ClassificationExtraA> classificationExtraAList = new List<ClassificationExtraA>();
+                            classificationExtraAList = classificationService.GetClassificationExtraAList().ToList();
+                            CheckClassificationExtraAFields(classificationExtraAList);
+                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraAList[0].ClassificationID);
+                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<ClassificationExtraB> classificationExtraBList = new List<ClassificationExtraB>();
+                            classificationExtraBList = classificationService.GetClassificationExtraBList().ToList();
+                            CheckClassificationExtraBFields(classificationExtraBList);
+                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraBList[0].ClassificationID);
+                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetClassificationList() Skip Take 2 Desc
+
+        #region Tests Generated for GetClassificationList() Skip Take Desc Where
+        [TestMethod]
+        public void GetClassificationList_Skip_Take_Desc_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        ClassificationService classificationService = new ClassificationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        classificationService.Query = classificationService.FillQuery(typeof(Classification), culture.TwoLetterISOLanguageName, 0, 1, "ClassificationID", "", "ClassificationID,EQ,4", "");
+
+                        List<Classification> classificationDirectQueryList = new List<Classification>();
+                        classificationDirectQueryList = (from c in dbTestDB.Classifications select c).Where(c => c.ClassificationID == 4).OrderByDescending(c => c.ClassificationID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<Classification> classificationList = new List<Classification>();
+                            classificationList = classificationService.GetClassificationList().ToList();
+                            CheckClassificationFields(classificationList);
+                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationList[0].ClassificationID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<ClassificationExtraA> classificationExtraAList = new List<ClassificationExtraA>();
+                            classificationExtraAList = classificationService.GetClassificationExtraAList().ToList();
+                            CheckClassificationExtraAFields(classificationExtraAList);
+                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraAList[0].ClassificationID);
+                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<ClassificationExtraB> classificationExtraBList = new List<ClassificationExtraB>();
+                            classificationExtraBList = classificationService.GetClassificationExtraBList().ToList();
+                            CheckClassificationExtraBFields(classificationExtraBList);
+                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraBList[0].ClassificationID);
+                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetClassificationList() Skip Take Desc Where
+
+        #region Tests Generated for GetClassificationList() Skip Take Desc 2 Where
+        [TestMethod]
+        public void GetClassificationList_Skip_Take_Desc_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        ClassificationService classificationService = new ClassificationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        classificationService.Query = classificationService.FillQuery(typeof(Classification), culture.TwoLetterISOLanguageName, 0, 1, "", "ClassificationID", "ClassificationID,GT,2|ClassificationID,LT,5", "");
+
+                        List<Classification> classificationDirectQueryList = new List<Classification>();
+                        classificationDirectQueryList = (from c in dbTestDB.Classifications select c).Where(c => c.ClassificationID > 2 && c.ClassificationID < 5).OrderByDescending(c => c.ClassificationID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<Classification> classificationList = new List<Classification>();
+                            classificationList = classificationService.GetClassificationList().ToList();
+                            CheckClassificationFields(classificationList);
+                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationList[0].ClassificationID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<ClassificationExtraA> classificationExtraAList = new List<ClassificationExtraA>();
+                            classificationExtraAList = classificationService.GetClassificationExtraAList().ToList();
+                            CheckClassificationExtraAFields(classificationExtraAList);
+                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraAList[0].ClassificationID);
+                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<ClassificationExtraB> classificationExtraBList = new List<ClassificationExtraB>();
+                            classificationExtraBList = classificationService.GetClassificationExtraBList().ToList();
+                            CheckClassificationExtraBFields(classificationExtraBList);
+                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraBList[0].ClassificationID);
+                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetClassificationList() Skip Take Desc 2 Where
+
+        #region Tests Generated for GetClassificationList() 2 Where
         [TestMethod]
         public void GetClassificationList_2Where_Test()
         {
@@ -587,11 +822,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         ClassificationService classificationService = new ClassificationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        classificationService.Query = classificationService.FillQuery(typeof(Classification), culture.TwoLetterISOLanguageName, 0, 10000, "", "ClassificationID,GT,2|ClassificationID,LT,5", "");
+                        classificationService.Query = classificationService.FillQuery(typeof(Classification), culture.TwoLetterISOLanguageName, 0, 10000, "", "", "ClassificationID,GT,2|ClassificationID,LT,5", extra);
 
                         List<Classification> classificationDirectQueryList = new List<Classification>();
                         classificationDirectQueryList = (from c in dbTestDB.Classifications select c).Where(c => c.ClassificationID > 2 && c.ClassificationID < 5).ToList();
@@ -603,7 +838,7 @@ namespace CSSPServices.Tests
                             CheckClassificationFields(classificationList);
                             Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationList[0].ClassificationID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<ClassificationExtraA> classificationExtraAList = new List<ClassificationExtraA>();
                             classificationExtraAList = classificationService.GetClassificationExtraAList().ToList();
@@ -611,7 +846,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraAList[0].ClassificationID);
                             Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<ClassificationExtraB> classificationExtraBList = new List<ClassificationExtraB>();
                             classificationExtraBList = classificationService.GetClassificationExtraBList().ToList();
@@ -621,13 +856,13 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetClassificationList() 2Where
+        #endregion Tests Generated for GetClassificationList() 2 Where
 
         #region Functions private
         private void CheckClassificationFields(List<Classification> classificationList)

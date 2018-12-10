@@ -38,9 +38,9 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
+        #region Tests Generated CRUD
         [TestMethod]
-        public void AppTaskLanguage_CRUD_And_Properties_Test()
+        public void AppTaskLanguage_CRUD_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -86,6 +86,33 @@ namespace CSSPServices.Tests
                         Assert.AreEqual("", appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
                     Assert.AreEqual(count, appTaskLanguageService.GetAppTaskLanguageList().Count());
+
+                }
+            }
+        }
+        #endregion Tests Generated CRUD
+
+        #region Tests Generated Properties
+        [TestMethod]
+        public void AppTaskLanguage_Properties_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    AppTaskLanguageService appTaskLanguageService = new AppTaskLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    count = appTaskLanguageService.GetAppTaskLanguageList().Count();
+
+                    AppTaskLanguage appTaskLanguage = GetFilledRandomAppTaskLanguage("");
 
                     // -------------------------------
                     // -------------------------------
@@ -232,7 +259,7 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Generated CRUD and Properties
+        #endregion Tests Generated Properties
 
         #region Tests Generated for GetAppTaskLanguageWithAppTaskLanguageID(appTaskLanguage.AppTaskLanguageID)
         [TestMethod]
@@ -248,7 +275,7 @@ namespace CSSPServices.Tests
                     AppTaskLanguage appTaskLanguage = (from c in dbTestDB.AppTaskLanguages select c).FirstOrDefault();
                     Assert.IsNotNull(appTaskLanguage);
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         appTaskLanguageService.Query.Extra = extra;
 
@@ -258,13 +285,13 @@ namespace CSSPServices.Tests
                             CheckAppTaskLanguageFields(new List<AppTaskLanguage>() { appTaskLanguageRet });
                             Assert.AreEqual(appTaskLanguage.AppTaskLanguageID, appTaskLanguageRet.AppTaskLanguageID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             AppTaskLanguageExtraA appTaskLanguageExtraARet = appTaskLanguageService.GetAppTaskLanguageExtraAWithAppTaskLanguageID(appTaskLanguage.AppTaskLanguageID);
                             CheckAppTaskLanguageExtraAFields(new List<AppTaskLanguageExtraA>() { appTaskLanguageExtraARet });
                             Assert.AreEqual(appTaskLanguage.AppTaskLanguageID, appTaskLanguageExtraARet.AppTaskLanguageID);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             AppTaskLanguageExtraB appTaskLanguageExtraBRet = appTaskLanguageService.GetAppTaskLanguageExtraBWithAppTaskLanguageID(appTaskLanguage.AppTaskLanguageID);
                             CheckAppTaskLanguageExtraBFields(new List<AppTaskLanguageExtraB>() { appTaskLanguageExtraBRet });
@@ -272,7 +299,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -297,7 +324,7 @@ namespace CSSPServices.Tests
                     List<AppTaskLanguage> appTaskLanguageDirectQueryList = new List<AppTaskLanguage>();
                     appTaskLanguageDirectQueryList = (from c in dbTestDB.AppTaskLanguages select c).Take(200).ToList();
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         appTaskLanguageService.Query.Extra = extra;
 
@@ -307,14 +334,14 @@ namespace CSSPServices.Tests
                             appTaskLanguageList = appTaskLanguageService.GetAppTaskLanguageList().ToList();
                             CheckAppTaskLanguageFields(appTaskLanguageList);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<AppTaskLanguageExtraA> appTaskLanguageExtraAList = new List<AppTaskLanguageExtraA>();
                             appTaskLanguageExtraAList = appTaskLanguageService.GetAppTaskLanguageExtraAList().ToList();
                             CheckAppTaskLanguageExtraAFields(appTaskLanguageExtraAList);
                             Assert.AreEqual(appTaskLanguageDirectQueryList.Count, appTaskLanguageExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<AppTaskLanguageExtraB> appTaskLanguageExtraBList = new List<AppTaskLanguageExtraB>();
                             appTaskLanguageExtraBList = appTaskLanguageService.GetAppTaskLanguageExtraBList().ToList();
@@ -323,7 +350,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -341,11 +368,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         AppTaskLanguageService appTaskLanguageService = new AppTaskLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        appTaskLanguageService.Query = appTaskLanguageService.FillQuery(typeof(AppTaskLanguage), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
+                        appTaskLanguageService.Query = appTaskLanguageService.FillQuery(typeof(AppTaskLanguage), culture.TwoLetterISOLanguageName, 1, 1, "", "", "", extra);
 
                         List<AppTaskLanguage> appTaskLanguageDirectQueryList = new List<AppTaskLanguage>();
                         appTaskLanguageDirectQueryList = (from c in dbTestDB.AppTaskLanguages select c).Skip(1).Take(1).ToList();
@@ -357,7 +384,7 @@ namespace CSSPServices.Tests
                             CheckAppTaskLanguageFields(appTaskLanguageList);
                             Assert.AreEqual(appTaskLanguageDirectQueryList[0].AppTaskLanguageID, appTaskLanguageList[0].AppTaskLanguageID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<AppTaskLanguageExtraA> appTaskLanguageExtraAList = new List<AppTaskLanguageExtraA>();
                             appTaskLanguageExtraAList = appTaskLanguageService.GetAppTaskLanguageExtraAList().ToList();
@@ -365,7 +392,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appTaskLanguageDirectQueryList[0].AppTaskLanguageID, appTaskLanguageExtraAList[0].AppTaskLanguageID);
                             Assert.AreEqual(appTaskLanguageDirectQueryList.Count, appTaskLanguageExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<AppTaskLanguageExtraB> appTaskLanguageExtraBList = new List<AppTaskLanguageExtraB>();
                             appTaskLanguageExtraBList = appTaskLanguageService.GetAppTaskLanguageExtraBList().ToList();
@@ -375,7 +402,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -383,9 +410,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated for GetAppTaskLanguageList() Skip Take
 
-        #region Tests Generated for GetAppTaskLanguageList() Skip Take Order
+        #region Tests Generated for GetAppTaskLanguageList() Skip Take Asc
         [TestMethod]
-        public void GetAppTaskLanguageList_Skip_Take_Order_Test()
+        public void GetAppTaskLanguageList_Skip_Take_Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -393,14 +420,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         AppTaskLanguageService appTaskLanguageService = new AppTaskLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        appTaskLanguageService.Query = appTaskLanguageService.FillQuery(typeof(AppTaskLanguage), culture.TwoLetterISOLanguageName, 1, 1,  "AppTaskLanguageID", "");
+                        appTaskLanguageService.Query = appTaskLanguageService.FillQuery(typeof(AppTaskLanguage), culture.TwoLetterISOLanguageName, 1, 1,  "AppTaskLanguageID", "", "", extra);
 
                         List<AppTaskLanguage> appTaskLanguageDirectQueryList = new List<AppTaskLanguage>();
-                        appTaskLanguageDirectQueryList = (from c in dbTestDB.AppTaskLanguages select c).Skip(1).Take(1).OrderBy(c => c.AppTaskLanguageID).ToList();
+                        appTaskLanguageDirectQueryList = (from c in dbTestDB.AppTaskLanguages select c).OrderBy(c => c.AppTaskLanguageID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -409,7 +436,7 @@ namespace CSSPServices.Tests
                             CheckAppTaskLanguageFields(appTaskLanguageList);
                             Assert.AreEqual(appTaskLanguageDirectQueryList[0].AppTaskLanguageID, appTaskLanguageList[0].AppTaskLanguageID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<AppTaskLanguageExtraA> appTaskLanguageExtraAList = new List<AppTaskLanguageExtraA>();
                             appTaskLanguageExtraAList = appTaskLanguageService.GetAppTaskLanguageExtraAList().ToList();
@@ -417,7 +444,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appTaskLanguageDirectQueryList[0].AppTaskLanguageID, appTaskLanguageExtraAList[0].AppTaskLanguageID);
                             Assert.AreEqual(appTaskLanguageDirectQueryList.Count, appTaskLanguageExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<AppTaskLanguageExtraB> appTaskLanguageExtraBList = new List<AppTaskLanguageExtraB>();
                             appTaskLanguageExtraBList = appTaskLanguageService.GetAppTaskLanguageExtraBList().ToList();
@@ -427,17 +454,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetAppTaskLanguageList() Skip Take Order
+        #endregion Tests Generated for GetAppTaskLanguageList() Skip Take Asc
 
-        #region Tests Generated for GetAppTaskLanguageList() Skip Take 2Order
+        #region Tests Generated for GetAppTaskLanguageList() Skip Take 2 Asc
         [TestMethod]
-        public void GetAppTaskLanguageList_Skip_Take_2Order_Test()
+        public void GetAppTaskLanguageList_Skip_Take_2Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -445,14 +472,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         AppTaskLanguageService appTaskLanguageService = new AppTaskLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        appTaskLanguageService.Query = appTaskLanguageService.FillQuery(typeof(AppTaskLanguage), culture.TwoLetterISOLanguageName, 1, 1, "AppTaskLanguageID,AppTaskID", "");
+                        appTaskLanguageService.Query = appTaskLanguageService.FillQuery(typeof(AppTaskLanguage), culture.TwoLetterISOLanguageName, 1, 1, "AppTaskLanguageID,AppTaskID", "", "", extra);
 
                         List<AppTaskLanguage> appTaskLanguageDirectQueryList = new List<AppTaskLanguage>();
-                        appTaskLanguageDirectQueryList = (from c in dbTestDB.AppTaskLanguages select c).Skip(1).Take(1).OrderBy(c => c.AppTaskLanguageID).ThenBy(c => c.AppTaskID).ToList();
+                        appTaskLanguageDirectQueryList = (from c in dbTestDB.AppTaskLanguages select c).OrderBy(c => c.AppTaskLanguageID).ThenBy(c => c.AppTaskID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -461,7 +488,7 @@ namespace CSSPServices.Tests
                             CheckAppTaskLanguageFields(appTaskLanguageList);
                             Assert.AreEqual(appTaskLanguageDirectQueryList[0].AppTaskLanguageID, appTaskLanguageList[0].AppTaskLanguageID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<AppTaskLanguageExtraA> appTaskLanguageExtraAList = new List<AppTaskLanguageExtraA>();
                             appTaskLanguageExtraAList = appTaskLanguageService.GetAppTaskLanguageExtraAList().ToList();
@@ -469,7 +496,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appTaskLanguageDirectQueryList[0].AppTaskLanguageID, appTaskLanguageExtraAList[0].AppTaskLanguageID);
                             Assert.AreEqual(appTaskLanguageDirectQueryList.Count, appTaskLanguageExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<AppTaskLanguageExtraB> appTaskLanguageExtraBList = new List<AppTaskLanguageExtraB>();
                             appTaskLanguageExtraBList = appTaskLanguageService.GetAppTaskLanguageExtraBList().ToList();
@@ -479,17 +506,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetAppTaskLanguageList() Skip Take 2Order
+        #endregion Tests Generated for GetAppTaskLanguageList() Skip Take 2 Asc
 
-        #region Tests Generated for GetAppTaskLanguageList() Skip Take Order Where
+        #region Tests Generated for GetAppTaskLanguageList() Skip Take Asc Where
         [TestMethod]
-        public void GetAppTaskLanguageList_Skip_Take_Order_Where_Test()
+        public void GetAppTaskLanguageList_Skip_Take_Asc_Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -497,14 +524,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         AppTaskLanguageService appTaskLanguageService = new AppTaskLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        appTaskLanguageService.Query = appTaskLanguageService.FillQuery(typeof(AppTaskLanguage), culture.TwoLetterISOLanguageName, 0, 1, "AppTaskLanguageID", "AppTaskLanguageID,EQ,4", "");
+                        appTaskLanguageService.Query = appTaskLanguageService.FillQuery(typeof(AppTaskLanguage), culture.TwoLetterISOLanguageName, 0, 1, "AppTaskLanguageID", "", "AppTaskLanguageID,EQ,4", "");
 
                         List<AppTaskLanguage> appTaskLanguageDirectQueryList = new List<AppTaskLanguage>();
-                        appTaskLanguageDirectQueryList = (from c in dbTestDB.AppTaskLanguages select c).Where(c => c.AppTaskLanguageID == 4).Skip(0).Take(1).OrderBy(c => c.AppTaskLanguageID).ToList();
+                        appTaskLanguageDirectQueryList = (from c in dbTestDB.AppTaskLanguages select c).Where(c => c.AppTaskLanguageID == 4).OrderBy(c => c.AppTaskLanguageID).Skip(0).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -513,7 +540,7 @@ namespace CSSPServices.Tests
                             CheckAppTaskLanguageFields(appTaskLanguageList);
                             Assert.AreEqual(appTaskLanguageDirectQueryList[0].AppTaskLanguageID, appTaskLanguageList[0].AppTaskLanguageID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<AppTaskLanguageExtraA> appTaskLanguageExtraAList = new List<AppTaskLanguageExtraA>();
                             appTaskLanguageExtraAList = appTaskLanguageService.GetAppTaskLanguageExtraAList().ToList();
@@ -521,7 +548,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appTaskLanguageDirectQueryList[0].AppTaskLanguageID, appTaskLanguageExtraAList[0].AppTaskLanguageID);
                             Assert.AreEqual(appTaskLanguageDirectQueryList.Count, appTaskLanguageExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<AppTaskLanguageExtraB> appTaskLanguageExtraBList = new List<AppTaskLanguageExtraB>();
                             appTaskLanguageExtraBList = appTaskLanguageService.GetAppTaskLanguageExtraBList().ToList();
@@ -531,17 +558,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetAppTaskLanguageList() Skip Take Order Where
+        #endregion Tests Generated for GetAppTaskLanguageList() Skip Take Asc Where
 
-        #region Tests Generated for GetAppTaskLanguageList() Skip Take Order 2Where
+        #region Tests Generated for GetAppTaskLanguageList() Skip Take Asc 2 Where
         [TestMethod]
-        public void GetAppTaskLanguageList_Skip_Take_Order_2Where_Test()
+        public void GetAppTaskLanguageList_Skip_Take_Asc_2Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -549,11 +576,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         AppTaskLanguageService appTaskLanguageService = new AppTaskLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        appTaskLanguageService.Query = appTaskLanguageService.FillQuery(typeof(AppTaskLanguage), culture.TwoLetterISOLanguageName, 0, 1, "AppTaskLanguageID", "AppTaskLanguageID,GT,2|AppTaskLanguageID,LT,5", "");
+                        appTaskLanguageService.Query = appTaskLanguageService.FillQuery(typeof(AppTaskLanguage), culture.TwoLetterISOLanguageName, 0, 1, "AppTaskLanguageID", "", "AppTaskLanguageID,GT,2|AppTaskLanguageID,LT,5", "");
 
                         List<AppTaskLanguage> appTaskLanguageDirectQueryList = new List<AppTaskLanguage>();
                         appTaskLanguageDirectQueryList = (from c in dbTestDB.AppTaskLanguages select c).Where(c => c.AppTaskLanguageID > 2 && c.AppTaskLanguageID < 5).Skip(0).Take(1).OrderBy(c => c.AppTaskLanguageID).ToList();
@@ -565,7 +592,7 @@ namespace CSSPServices.Tests
                             CheckAppTaskLanguageFields(appTaskLanguageList);
                             Assert.AreEqual(appTaskLanguageDirectQueryList[0].AppTaskLanguageID, appTaskLanguageList[0].AppTaskLanguageID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<AppTaskLanguageExtraA> appTaskLanguageExtraAList = new List<AppTaskLanguageExtraA>();
                             appTaskLanguageExtraAList = appTaskLanguageService.GetAppTaskLanguageExtraAList().ToList();
@@ -573,7 +600,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appTaskLanguageDirectQueryList[0].AppTaskLanguageID, appTaskLanguageExtraAList[0].AppTaskLanguageID);
                             Assert.AreEqual(appTaskLanguageDirectQueryList.Count, appTaskLanguageExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<AppTaskLanguageExtraB> appTaskLanguageExtraBList = new List<AppTaskLanguageExtraB>();
                             appTaskLanguageExtraBList = appTaskLanguageService.GetAppTaskLanguageExtraBList().ToList();
@@ -583,15 +610,223 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetAppTaskLanguageList() Skip Take Order 2Where
+        #endregion Tests Generated for GetAppTaskLanguageList() Skip Take Asc 2 Where
 
-        #region Tests Generated for GetAppTaskLanguageList() 2Where
+        #region Tests Generated for GetAppTaskLanguageList() Skip Take Desc
+        [TestMethod]
+        public void GetAppTaskLanguageList_Skip_Take_Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        AppTaskLanguageService appTaskLanguageService = new AppTaskLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        appTaskLanguageService.Query = appTaskLanguageService.FillQuery(typeof(AppTaskLanguage), culture.TwoLetterISOLanguageName, 1, 1, "", "AppTaskLanguageID", "", extra);
+
+                        List<AppTaskLanguage> appTaskLanguageDirectQueryList = new List<AppTaskLanguage>();
+                        appTaskLanguageDirectQueryList = (from c in dbTestDB.AppTaskLanguages select c).OrderByDescending(c => c.AppTaskLanguageID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<AppTaskLanguage> appTaskLanguageList = new List<AppTaskLanguage>();
+                            appTaskLanguageList = appTaskLanguageService.GetAppTaskLanguageList().ToList();
+                            CheckAppTaskLanguageFields(appTaskLanguageList);
+                            Assert.AreEqual(appTaskLanguageDirectQueryList[0].AppTaskLanguageID, appTaskLanguageList[0].AppTaskLanguageID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<AppTaskLanguageExtraA> appTaskLanguageExtraAList = new List<AppTaskLanguageExtraA>();
+                            appTaskLanguageExtraAList = appTaskLanguageService.GetAppTaskLanguageExtraAList().ToList();
+                            CheckAppTaskLanguageExtraAFields(appTaskLanguageExtraAList);
+                            Assert.AreEqual(appTaskLanguageDirectQueryList[0].AppTaskLanguageID, appTaskLanguageExtraAList[0].AppTaskLanguageID);
+                            Assert.AreEqual(appTaskLanguageDirectQueryList.Count, appTaskLanguageExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<AppTaskLanguageExtraB> appTaskLanguageExtraBList = new List<AppTaskLanguageExtraB>();
+                            appTaskLanguageExtraBList = appTaskLanguageService.GetAppTaskLanguageExtraBList().ToList();
+                            CheckAppTaskLanguageExtraBFields(appTaskLanguageExtraBList);
+                            Assert.AreEqual(appTaskLanguageDirectQueryList[0].AppTaskLanguageID, appTaskLanguageExtraBList[0].AppTaskLanguageID);
+                            Assert.AreEqual(appTaskLanguageDirectQueryList.Count, appTaskLanguageExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetAppTaskLanguageList() Skip Take Desc
+
+        #region Tests Generated for GetAppTaskLanguageList() Skip Take 2 Desc
+        [TestMethod]
+        public void GetAppTaskLanguageList_Skip_Take_2Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        AppTaskLanguageService appTaskLanguageService = new AppTaskLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        appTaskLanguageService.Query = appTaskLanguageService.FillQuery(typeof(AppTaskLanguage), culture.TwoLetterISOLanguageName, 1, 1, "", "AppTaskLanguageID,AppTaskID", "", extra);
+
+                        List<AppTaskLanguage> appTaskLanguageDirectQueryList = new List<AppTaskLanguage>();
+                        appTaskLanguageDirectQueryList = (from c in dbTestDB.AppTaskLanguages select c).OrderByDescending(c => c.AppTaskLanguageID).ThenByDescending(c => c.AppTaskID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<AppTaskLanguage> appTaskLanguageList = new List<AppTaskLanguage>();
+                            appTaskLanguageList = appTaskLanguageService.GetAppTaskLanguageList().ToList();
+                            CheckAppTaskLanguageFields(appTaskLanguageList);
+                            Assert.AreEqual(appTaskLanguageDirectQueryList[0].AppTaskLanguageID, appTaskLanguageList[0].AppTaskLanguageID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<AppTaskLanguageExtraA> appTaskLanguageExtraAList = new List<AppTaskLanguageExtraA>();
+                            appTaskLanguageExtraAList = appTaskLanguageService.GetAppTaskLanguageExtraAList().ToList();
+                            CheckAppTaskLanguageExtraAFields(appTaskLanguageExtraAList);
+                            Assert.AreEqual(appTaskLanguageDirectQueryList[0].AppTaskLanguageID, appTaskLanguageExtraAList[0].AppTaskLanguageID);
+                            Assert.AreEqual(appTaskLanguageDirectQueryList.Count, appTaskLanguageExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<AppTaskLanguageExtraB> appTaskLanguageExtraBList = new List<AppTaskLanguageExtraB>();
+                            appTaskLanguageExtraBList = appTaskLanguageService.GetAppTaskLanguageExtraBList().ToList();
+                            CheckAppTaskLanguageExtraBFields(appTaskLanguageExtraBList);
+                            Assert.AreEqual(appTaskLanguageDirectQueryList[0].AppTaskLanguageID, appTaskLanguageExtraBList[0].AppTaskLanguageID);
+                            Assert.AreEqual(appTaskLanguageDirectQueryList.Count, appTaskLanguageExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetAppTaskLanguageList() Skip Take 2 Desc
+
+        #region Tests Generated for GetAppTaskLanguageList() Skip Take Desc Where
+        [TestMethod]
+        public void GetAppTaskLanguageList_Skip_Take_Desc_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        AppTaskLanguageService appTaskLanguageService = new AppTaskLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        appTaskLanguageService.Query = appTaskLanguageService.FillQuery(typeof(AppTaskLanguage), culture.TwoLetterISOLanguageName, 0, 1, "AppTaskLanguageID", "", "AppTaskLanguageID,EQ,4", "");
+
+                        List<AppTaskLanguage> appTaskLanguageDirectQueryList = new List<AppTaskLanguage>();
+                        appTaskLanguageDirectQueryList = (from c in dbTestDB.AppTaskLanguages select c).Where(c => c.AppTaskLanguageID == 4).OrderByDescending(c => c.AppTaskLanguageID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<AppTaskLanguage> appTaskLanguageList = new List<AppTaskLanguage>();
+                            appTaskLanguageList = appTaskLanguageService.GetAppTaskLanguageList().ToList();
+                            CheckAppTaskLanguageFields(appTaskLanguageList);
+                            Assert.AreEqual(appTaskLanguageDirectQueryList[0].AppTaskLanguageID, appTaskLanguageList[0].AppTaskLanguageID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<AppTaskLanguageExtraA> appTaskLanguageExtraAList = new List<AppTaskLanguageExtraA>();
+                            appTaskLanguageExtraAList = appTaskLanguageService.GetAppTaskLanguageExtraAList().ToList();
+                            CheckAppTaskLanguageExtraAFields(appTaskLanguageExtraAList);
+                            Assert.AreEqual(appTaskLanguageDirectQueryList[0].AppTaskLanguageID, appTaskLanguageExtraAList[0].AppTaskLanguageID);
+                            Assert.AreEqual(appTaskLanguageDirectQueryList.Count, appTaskLanguageExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<AppTaskLanguageExtraB> appTaskLanguageExtraBList = new List<AppTaskLanguageExtraB>();
+                            appTaskLanguageExtraBList = appTaskLanguageService.GetAppTaskLanguageExtraBList().ToList();
+                            CheckAppTaskLanguageExtraBFields(appTaskLanguageExtraBList);
+                            Assert.AreEqual(appTaskLanguageDirectQueryList[0].AppTaskLanguageID, appTaskLanguageExtraBList[0].AppTaskLanguageID);
+                            Assert.AreEqual(appTaskLanguageDirectQueryList.Count, appTaskLanguageExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetAppTaskLanguageList() Skip Take Desc Where
+
+        #region Tests Generated for GetAppTaskLanguageList() Skip Take Desc 2 Where
+        [TestMethod]
+        public void GetAppTaskLanguageList_Skip_Take_Desc_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        AppTaskLanguageService appTaskLanguageService = new AppTaskLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        appTaskLanguageService.Query = appTaskLanguageService.FillQuery(typeof(AppTaskLanguage), culture.TwoLetterISOLanguageName, 0, 1, "", "AppTaskLanguageID", "AppTaskLanguageID,GT,2|AppTaskLanguageID,LT,5", "");
+
+                        List<AppTaskLanguage> appTaskLanguageDirectQueryList = new List<AppTaskLanguage>();
+                        appTaskLanguageDirectQueryList = (from c in dbTestDB.AppTaskLanguages select c).Where(c => c.AppTaskLanguageID > 2 && c.AppTaskLanguageID < 5).OrderByDescending(c => c.AppTaskLanguageID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<AppTaskLanguage> appTaskLanguageList = new List<AppTaskLanguage>();
+                            appTaskLanguageList = appTaskLanguageService.GetAppTaskLanguageList().ToList();
+                            CheckAppTaskLanguageFields(appTaskLanguageList);
+                            Assert.AreEqual(appTaskLanguageDirectQueryList[0].AppTaskLanguageID, appTaskLanguageList[0].AppTaskLanguageID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<AppTaskLanguageExtraA> appTaskLanguageExtraAList = new List<AppTaskLanguageExtraA>();
+                            appTaskLanguageExtraAList = appTaskLanguageService.GetAppTaskLanguageExtraAList().ToList();
+                            CheckAppTaskLanguageExtraAFields(appTaskLanguageExtraAList);
+                            Assert.AreEqual(appTaskLanguageDirectQueryList[0].AppTaskLanguageID, appTaskLanguageExtraAList[0].AppTaskLanguageID);
+                            Assert.AreEqual(appTaskLanguageDirectQueryList.Count, appTaskLanguageExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<AppTaskLanguageExtraB> appTaskLanguageExtraBList = new List<AppTaskLanguageExtraB>();
+                            appTaskLanguageExtraBList = appTaskLanguageService.GetAppTaskLanguageExtraBList().ToList();
+                            CheckAppTaskLanguageExtraBFields(appTaskLanguageExtraBList);
+                            Assert.AreEqual(appTaskLanguageDirectQueryList[0].AppTaskLanguageID, appTaskLanguageExtraBList[0].AppTaskLanguageID);
+                            Assert.AreEqual(appTaskLanguageDirectQueryList.Count, appTaskLanguageExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetAppTaskLanguageList() Skip Take Desc 2 Where
+
+        #region Tests Generated for GetAppTaskLanguageList() 2 Where
         [TestMethod]
         public void GetAppTaskLanguageList_2Where_Test()
         {
@@ -601,11 +836,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         AppTaskLanguageService appTaskLanguageService = new AppTaskLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        appTaskLanguageService.Query = appTaskLanguageService.FillQuery(typeof(AppTaskLanguage), culture.TwoLetterISOLanguageName, 0, 10000, "", "AppTaskLanguageID,GT,2|AppTaskLanguageID,LT,5", "");
+                        appTaskLanguageService.Query = appTaskLanguageService.FillQuery(typeof(AppTaskLanguage), culture.TwoLetterISOLanguageName, 0, 10000, "", "", "AppTaskLanguageID,GT,2|AppTaskLanguageID,LT,5", extra);
 
                         List<AppTaskLanguage> appTaskLanguageDirectQueryList = new List<AppTaskLanguage>();
                         appTaskLanguageDirectQueryList = (from c in dbTestDB.AppTaskLanguages select c).Where(c => c.AppTaskLanguageID > 2 && c.AppTaskLanguageID < 5).ToList();
@@ -617,7 +852,7 @@ namespace CSSPServices.Tests
                             CheckAppTaskLanguageFields(appTaskLanguageList);
                             Assert.AreEqual(appTaskLanguageDirectQueryList[0].AppTaskLanguageID, appTaskLanguageList[0].AppTaskLanguageID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<AppTaskLanguageExtraA> appTaskLanguageExtraAList = new List<AppTaskLanguageExtraA>();
                             appTaskLanguageExtraAList = appTaskLanguageService.GetAppTaskLanguageExtraAList().ToList();
@@ -625,7 +860,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appTaskLanguageDirectQueryList[0].AppTaskLanguageID, appTaskLanguageExtraAList[0].AppTaskLanguageID);
                             Assert.AreEqual(appTaskLanguageDirectQueryList.Count, appTaskLanguageExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<AppTaskLanguageExtraB> appTaskLanguageExtraBList = new List<AppTaskLanguageExtraB>();
                             appTaskLanguageExtraBList = appTaskLanguageService.GetAppTaskLanguageExtraBList().ToList();
@@ -635,13 +870,13 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetAppTaskLanguageList() 2Where
+        #endregion Tests Generated for GetAppTaskLanguageList() 2 Where
 
         #region Functions private
         private void CheckAppTaskLanguageFields(List<AppTaskLanguage> appTaskLanguageList)

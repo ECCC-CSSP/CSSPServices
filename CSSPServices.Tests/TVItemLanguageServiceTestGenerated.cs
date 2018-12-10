@@ -38,9 +38,9 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
+        #region Tests Generated CRUD
         [TestMethod]
-        public void TVItemLanguage_CRUD_And_Properties_Test()
+        public void TVItemLanguage_CRUD_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -86,6 +86,33 @@ namespace CSSPServices.Tests
                         Assert.AreEqual("", tvItemLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
                     Assert.AreEqual(count, tvItemLanguageService.GetTVItemLanguageList().Count());
+
+                }
+            }
+        }
+        #endregion Tests Generated CRUD
+
+        #region Tests Generated Properties
+        [TestMethod]
+        public void TVItemLanguage_Properties_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    count = tvItemLanguageService.GetTVItemLanguageList().Count();
+
+                    TVItemLanguage tvItemLanguage = GetFilledRandomTVItemLanguage("");
 
                     // -------------------------------
                     // -------------------------------
@@ -233,7 +260,7 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Generated CRUD and Properties
+        #endregion Tests Generated Properties
 
         #region Tests Generated for GetTVItemLanguageWithTVItemLanguageID(tvItemLanguage.TVItemLanguageID)
         [TestMethod]
@@ -249,7 +276,7 @@ namespace CSSPServices.Tests
                     TVItemLanguage tvItemLanguage = (from c in dbTestDB.TVItemLanguages select c).FirstOrDefault();
                     Assert.IsNotNull(tvItemLanguage);
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         tvItemLanguageService.Query.Extra = extra;
 
@@ -259,13 +286,13 @@ namespace CSSPServices.Tests
                             CheckTVItemLanguageFields(new List<TVItemLanguage>() { tvItemLanguageRet });
                             Assert.AreEqual(tvItemLanguage.TVItemLanguageID, tvItemLanguageRet.TVItemLanguageID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             TVItemLanguageExtraA tvItemLanguageExtraARet = tvItemLanguageService.GetTVItemLanguageExtraAWithTVItemLanguageID(tvItemLanguage.TVItemLanguageID);
                             CheckTVItemLanguageExtraAFields(new List<TVItemLanguageExtraA>() { tvItemLanguageExtraARet });
                             Assert.AreEqual(tvItemLanguage.TVItemLanguageID, tvItemLanguageExtraARet.TVItemLanguageID);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             TVItemLanguageExtraB tvItemLanguageExtraBRet = tvItemLanguageService.GetTVItemLanguageExtraBWithTVItemLanguageID(tvItemLanguage.TVItemLanguageID);
                             CheckTVItemLanguageExtraBFields(new List<TVItemLanguageExtraB>() { tvItemLanguageExtraBRet });
@@ -273,7 +300,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -298,7 +325,7 @@ namespace CSSPServices.Tests
                     List<TVItemLanguage> tvItemLanguageDirectQueryList = new List<TVItemLanguage>();
                     tvItemLanguageDirectQueryList = (from c in dbTestDB.TVItemLanguages select c).Take(200).ToList();
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         tvItemLanguageService.Query.Extra = extra;
 
@@ -308,14 +335,14 @@ namespace CSSPServices.Tests
                             tvItemLanguageList = tvItemLanguageService.GetTVItemLanguageList().ToList();
                             CheckTVItemLanguageFields(tvItemLanguageList);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TVItemLanguageExtraA> tvItemLanguageExtraAList = new List<TVItemLanguageExtraA>();
                             tvItemLanguageExtraAList = tvItemLanguageService.GetTVItemLanguageExtraAList().ToList();
                             CheckTVItemLanguageExtraAFields(tvItemLanguageExtraAList);
                             Assert.AreEqual(tvItemLanguageDirectQueryList.Count, tvItemLanguageExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TVItemLanguageExtraB> tvItemLanguageExtraBList = new List<TVItemLanguageExtraB>();
                             tvItemLanguageExtraBList = tvItemLanguageService.GetTVItemLanguageExtraBList().ToList();
@@ -324,7 +351,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -342,11 +369,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tvItemLanguageService.Query = tvItemLanguageService.FillQuery(typeof(TVItemLanguage), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
+                        tvItemLanguageService.Query = tvItemLanguageService.FillQuery(typeof(TVItemLanguage), culture.TwoLetterISOLanguageName, 1, 1, "", "", "", extra);
 
                         List<TVItemLanguage> tvItemLanguageDirectQueryList = new List<TVItemLanguage>();
                         tvItemLanguageDirectQueryList = (from c in dbTestDB.TVItemLanguages select c).Skip(1).Take(1).ToList();
@@ -358,7 +385,7 @@ namespace CSSPServices.Tests
                             CheckTVItemLanguageFields(tvItemLanguageList);
                             Assert.AreEqual(tvItemLanguageDirectQueryList[0].TVItemLanguageID, tvItemLanguageList[0].TVItemLanguageID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TVItemLanguageExtraA> tvItemLanguageExtraAList = new List<TVItemLanguageExtraA>();
                             tvItemLanguageExtraAList = tvItemLanguageService.GetTVItemLanguageExtraAList().ToList();
@@ -366,7 +393,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvItemLanguageDirectQueryList[0].TVItemLanguageID, tvItemLanguageExtraAList[0].TVItemLanguageID);
                             Assert.AreEqual(tvItemLanguageDirectQueryList.Count, tvItemLanguageExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TVItemLanguageExtraB> tvItemLanguageExtraBList = new List<TVItemLanguageExtraB>();
                             tvItemLanguageExtraBList = tvItemLanguageService.GetTVItemLanguageExtraBList().ToList();
@@ -376,7 +403,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -384,9 +411,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated for GetTVItemLanguageList() Skip Take
 
-        #region Tests Generated for GetTVItemLanguageList() Skip Take Order
+        #region Tests Generated for GetTVItemLanguageList() Skip Take Asc
         [TestMethod]
-        public void GetTVItemLanguageList_Skip_Take_Order_Test()
+        public void GetTVItemLanguageList_Skip_Take_Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -394,14 +421,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tvItemLanguageService.Query = tvItemLanguageService.FillQuery(typeof(TVItemLanguage), culture.TwoLetterISOLanguageName, 1, 1,  "TVItemLanguageID", "");
+                        tvItemLanguageService.Query = tvItemLanguageService.FillQuery(typeof(TVItemLanguage), culture.TwoLetterISOLanguageName, 1, 1,  "TVItemLanguageID", "", "", extra);
 
                         List<TVItemLanguage> tvItemLanguageDirectQueryList = new List<TVItemLanguage>();
-                        tvItemLanguageDirectQueryList = (from c in dbTestDB.TVItemLanguages select c).Skip(1).Take(1).OrderBy(c => c.TVItemLanguageID).ToList();
+                        tvItemLanguageDirectQueryList = (from c in dbTestDB.TVItemLanguages select c).OrderBy(c => c.TVItemLanguageID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -410,7 +437,7 @@ namespace CSSPServices.Tests
                             CheckTVItemLanguageFields(tvItemLanguageList);
                             Assert.AreEqual(tvItemLanguageDirectQueryList[0].TVItemLanguageID, tvItemLanguageList[0].TVItemLanguageID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TVItemLanguageExtraA> tvItemLanguageExtraAList = new List<TVItemLanguageExtraA>();
                             tvItemLanguageExtraAList = tvItemLanguageService.GetTVItemLanguageExtraAList().ToList();
@@ -418,7 +445,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvItemLanguageDirectQueryList[0].TVItemLanguageID, tvItemLanguageExtraAList[0].TVItemLanguageID);
                             Assert.AreEqual(tvItemLanguageDirectQueryList.Count, tvItemLanguageExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TVItemLanguageExtraB> tvItemLanguageExtraBList = new List<TVItemLanguageExtraB>();
                             tvItemLanguageExtraBList = tvItemLanguageService.GetTVItemLanguageExtraBList().ToList();
@@ -428,17 +455,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetTVItemLanguageList() Skip Take Order
+        #endregion Tests Generated for GetTVItemLanguageList() Skip Take Asc
 
-        #region Tests Generated for GetTVItemLanguageList() Skip Take 2Order
+        #region Tests Generated for GetTVItemLanguageList() Skip Take 2 Asc
         [TestMethod]
-        public void GetTVItemLanguageList_Skip_Take_2Order_Test()
+        public void GetTVItemLanguageList_Skip_Take_2Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -446,14 +473,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tvItemLanguageService.Query = tvItemLanguageService.FillQuery(typeof(TVItemLanguage), culture.TwoLetterISOLanguageName, 1, 1, "TVItemLanguageID,TVItemID", "");
+                        tvItemLanguageService.Query = tvItemLanguageService.FillQuery(typeof(TVItemLanguage), culture.TwoLetterISOLanguageName, 1, 1, "TVItemLanguageID,TVItemID", "", "", extra);
 
                         List<TVItemLanguage> tvItemLanguageDirectQueryList = new List<TVItemLanguage>();
-                        tvItemLanguageDirectQueryList = (from c in dbTestDB.TVItemLanguages select c).Skip(1).Take(1).OrderBy(c => c.TVItemLanguageID).ThenBy(c => c.TVItemID).ToList();
+                        tvItemLanguageDirectQueryList = (from c in dbTestDB.TVItemLanguages select c).OrderBy(c => c.TVItemLanguageID).ThenBy(c => c.TVItemID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -462,7 +489,7 @@ namespace CSSPServices.Tests
                             CheckTVItemLanguageFields(tvItemLanguageList);
                             Assert.AreEqual(tvItemLanguageDirectQueryList[0].TVItemLanguageID, tvItemLanguageList[0].TVItemLanguageID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TVItemLanguageExtraA> tvItemLanguageExtraAList = new List<TVItemLanguageExtraA>();
                             tvItemLanguageExtraAList = tvItemLanguageService.GetTVItemLanguageExtraAList().ToList();
@@ -470,7 +497,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvItemLanguageDirectQueryList[0].TVItemLanguageID, tvItemLanguageExtraAList[0].TVItemLanguageID);
                             Assert.AreEqual(tvItemLanguageDirectQueryList.Count, tvItemLanguageExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TVItemLanguageExtraB> tvItemLanguageExtraBList = new List<TVItemLanguageExtraB>();
                             tvItemLanguageExtraBList = tvItemLanguageService.GetTVItemLanguageExtraBList().ToList();
@@ -480,17 +507,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetTVItemLanguageList() Skip Take 2Order
+        #endregion Tests Generated for GetTVItemLanguageList() Skip Take 2 Asc
 
-        #region Tests Generated for GetTVItemLanguageList() Skip Take Order Where
+        #region Tests Generated for GetTVItemLanguageList() Skip Take Asc Where
         [TestMethod]
-        public void GetTVItemLanguageList_Skip_Take_Order_Where_Test()
+        public void GetTVItemLanguageList_Skip_Take_Asc_Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -498,14 +525,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tvItemLanguageService.Query = tvItemLanguageService.FillQuery(typeof(TVItemLanguage), culture.TwoLetterISOLanguageName, 0, 1, "TVItemLanguageID", "TVItemLanguageID,EQ,4", "");
+                        tvItemLanguageService.Query = tvItemLanguageService.FillQuery(typeof(TVItemLanguage), culture.TwoLetterISOLanguageName, 0, 1, "TVItemLanguageID", "", "TVItemLanguageID,EQ,4", "");
 
                         List<TVItemLanguage> tvItemLanguageDirectQueryList = new List<TVItemLanguage>();
-                        tvItemLanguageDirectQueryList = (from c in dbTestDB.TVItemLanguages select c).Where(c => c.TVItemLanguageID == 4).Skip(0).Take(1).OrderBy(c => c.TVItemLanguageID).ToList();
+                        tvItemLanguageDirectQueryList = (from c in dbTestDB.TVItemLanguages select c).Where(c => c.TVItemLanguageID == 4).OrderBy(c => c.TVItemLanguageID).Skip(0).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -514,7 +541,7 @@ namespace CSSPServices.Tests
                             CheckTVItemLanguageFields(tvItemLanguageList);
                             Assert.AreEqual(tvItemLanguageDirectQueryList[0].TVItemLanguageID, tvItemLanguageList[0].TVItemLanguageID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TVItemLanguageExtraA> tvItemLanguageExtraAList = new List<TVItemLanguageExtraA>();
                             tvItemLanguageExtraAList = tvItemLanguageService.GetTVItemLanguageExtraAList().ToList();
@@ -522,7 +549,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvItemLanguageDirectQueryList[0].TVItemLanguageID, tvItemLanguageExtraAList[0].TVItemLanguageID);
                             Assert.AreEqual(tvItemLanguageDirectQueryList.Count, tvItemLanguageExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TVItemLanguageExtraB> tvItemLanguageExtraBList = new List<TVItemLanguageExtraB>();
                             tvItemLanguageExtraBList = tvItemLanguageService.GetTVItemLanguageExtraBList().ToList();
@@ -532,17 +559,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetTVItemLanguageList() Skip Take Order Where
+        #endregion Tests Generated for GetTVItemLanguageList() Skip Take Asc Where
 
-        #region Tests Generated for GetTVItemLanguageList() Skip Take Order 2Where
+        #region Tests Generated for GetTVItemLanguageList() Skip Take Asc 2 Where
         [TestMethod]
-        public void GetTVItemLanguageList_Skip_Take_Order_2Where_Test()
+        public void GetTVItemLanguageList_Skip_Take_Asc_2Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -550,11 +577,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tvItemLanguageService.Query = tvItemLanguageService.FillQuery(typeof(TVItemLanguage), culture.TwoLetterISOLanguageName, 0, 1, "TVItemLanguageID", "TVItemLanguageID,GT,2|TVItemLanguageID,LT,5", "");
+                        tvItemLanguageService.Query = tvItemLanguageService.FillQuery(typeof(TVItemLanguage), culture.TwoLetterISOLanguageName, 0, 1, "TVItemLanguageID", "", "TVItemLanguageID,GT,2|TVItemLanguageID,LT,5", "");
 
                         List<TVItemLanguage> tvItemLanguageDirectQueryList = new List<TVItemLanguage>();
                         tvItemLanguageDirectQueryList = (from c in dbTestDB.TVItemLanguages select c).Where(c => c.TVItemLanguageID > 2 && c.TVItemLanguageID < 5).Skip(0).Take(1).OrderBy(c => c.TVItemLanguageID).ToList();
@@ -566,7 +593,7 @@ namespace CSSPServices.Tests
                             CheckTVItemLanguageFields(tvItemLanguageList);
                             Assert.AreEqual(tvItemLanguageDirectQueryList[0].TVItemLanguageID, tvItemLanguageList[0].TVItemLanguageID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TVItemLanguageExtraA> tvItemLanguageExtraAList = new List<TVItemLanguageExtraA>();
                             tvItemLanguageExtraAList = tvItemLanguageService.GetTVItemLanguageExtraAList().ToList();
@@ -574,7 +601,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvItemLanguageDirectQueryList[0].TVItemLanguageID, tvItemLanguageExtraAList[0].TVItemLanguageID);
                             Assert.AreEqual(tvItemLanguageDirectQueryList.Count, tvItemLanguageExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TVItemLanguageExtraB> tvItemLanguageExtraBList = new List<TVItemLanguageExtraB>();
                             tvItemLanguageExtraBList = tvItemLanguageService.GetTVItemLanguageExtraBList().ToList();
@@ -584,15 +611,223 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetTVItemLanguageList() Skip Take Order 2Where
+        #endregion Tests Generated for GetTVItemLanguageList() Skip Take Asc 2 Where
 
-        #region Tests Generated for GetTVItemLanguageList() 2Where
+        #region Tests Generated for GetTVItemLanguageList() Skip Take Desc
+        [TestMethod]
+        public void GetTVItemLanguageList_Skip_Take_Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tvItemLanguageService.Query = tvItemLanguageService.FillQuery(typeof(TVItemLanguage), culture.TwoLetterISOLanguageName, 1, 1, "", "TVItemLanguageID", "", extra);
+
+                        List<TVItemLanguage> tvItemLanguageDirectQueryList = new List<TVItemLanguage>();
+                        tvItemLanguageDirectQueryList = (from c in dbTestDB.TVItemLanguages select c).OrderByDescending(c => c.TVItemLanguageID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<TVItemLanguage> tvItemLanguageList = new List<TVItemLanguage>();
+                            tvItemLanguageList = tvItemLanguageService.GetTVItemLanguageList().ToList();
+                            CheckTVItemLanguageFields(tvItemLanguageList);
+                            Assert.AreEqual(tvItemLanguageDirectQueryList[0].TVItemLanguageID, tvItemLanguageList[0].TVItemLanguageID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<TVItemLanguageExtraA> tvItemLanguageExtraAList = new List<TVItemLanguageExtraA>();
+                            tvItemLanguageExtraAList = tvItemLanguageService.GetTVItemLanguageExtraAList().ToList();
+                            CheckTVItemLanguageExtraAFields(tvItemLanguageExtraAList);
+                            Assert.AreEqual(tvItemLanguageDirectQueryList[0].TVItemLanguageID, tvItemLanguageExtraAList[0].TVItemLanguageID);
+                            Assert.AreEqual(tvItemLanguageDirectQueryList.Count, tvItemLanguageExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<TVItemLanguageExtraB> tvItemLanguageExtraBList = new List<TVItemLanguageExtraB>();
+                            tvItemLanguageExtraBList = tvItemLanguageService.GetTVItemLanguageExtraBList().ToList();
+                            CheckTVItemLanguageExtraBFields(tvItemLanguageExtraBList);
+                            Assert.AreEqual(tvItemLanguageDirectQueryList[0].TVItemLanguageID, tvItemLanguageExtraBList[0].TVItemLanguageID);
+                            Assert.AreEqual(tvItemLanguageDirectQueryList.Count, tvItemLanguageExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTVItemLanguageList() Skip Take Desc
+
+        #region Tests Generated for GetTVItemLanguageList() Skip Take 2 Desc
+        [TestMethod]
+        public void GetTVItemLanguageList_Skip_Take_2Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tvItemLanguageService.Query = tvItemLanguageService.FillQuery(typeof(TVItemLanguage), culture.TwoLetterISOLanguageName, 1, 1, "", "TVItemLanguageID,TVItemID", "", extra);
+
+                        List<TVItemLanguage> tvItemLanguageDirectQueryList = new List<TVItemLanguage>();
+                        tvItemLanguageDirectQueryList = (from c in dbTestDB.TVItemLanguages select c).OrderByDescending(c => c.TVItemLanguageID).ThenByDescending(c => c.TVItemID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<TVItemLanguage> tvItemLanguageList = new List<TVItemLanguage>();
+                            tvItemLanguageList = tvItemLanguageService.GetTVItemLanguageList().ToList();
+                            CheckTVItemLanguageFields(tvItemLanguageList);
+                            Assert.AreEqual(tvItemLanguageDirectQueryList[0].TVItemLanguageID, tvItemLanguageList[0].TVItemLanguageID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<TVItemLanguageExtraA> tvItemLanguageExtraAList = new List<TVItemLanguageExtraA>();
+                            tvItemLanguageExtraAList = tvItemLanguageService.GetTVItemLanguageExtraAList().ToList();
+                            CheckTVItemLanguageExtraAFields(tvItemLanguageExtraAList);
+                            Assert.AreEqual(tvItemLanguageDirectQueryList[0].TVItemLanguageID, tvItemLanguageExtraAList[0].TVItemLanguageID);
+                            Assert.AreEqual(tvItemLanguageDirectQueryList.Count, tvItemLanguageExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<TVItemLanguageExtraB> tvItemLanguageExtraBList = new List<TVItemLanguageExtraB>();
+                            tvItemLanguageExtraBList = tvItemLanguageService.GetTVItemLanguageExtraBList().ToList();
+                            CheckTVItemLanguageExtraBFields(tvItemLanguageExtraBList);
+                            Assert.AreEqual(tvItemLanguageDirectQueryList[0].TVItemLanguageID, tvItemLanguageExtraBList[0].TVItemLanguageID);
+                            Assert.AreEqual(tvItemLanguageDirectQueryList.Count, tvItemLanguageExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTVItemLanguageList() Skip Take 2 Desc
+
+        #region Tests Generated for GetTVItemLanguageList() Skip Take Desc Where
+        [TestMethod]
+        public void GetTVItemLanguageList_Skip_Take_Desc_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tvItemLanguageService.Query = tvItemLanguageService.FillQuery(typeof(TVItemLanguage), culture.TwoLetterISOLanguageName, 0, 1, "TVItemLanguageID", "", "TVItemLanguageID,EQ,4", "");
+
+                        List<TVItemLanguage> tvItemLanguageDirectQueryList = new List<TVItemLanguage>();
+                        tvItemLanguageDirectQueryList = (from c in dbTestDB.TVItemLanguages select c).Where(c => c.TVItemLanguageID == 4).OrderByDescending(c => c.TVItemLanguageID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<TVItemLanguage> tvItemLanguageList = new List<TVItemLanguage>();
+                            tvItemLanguageList = tvItemLanguageService.GetTVItemLanguageList().ToList();
+                            CheckTVItemLanguageFields(tvItemLanguageList);
+                            Assert.AreEqual(tvItemLanguageDirectQueryList[0].TVItemLanguageID, tvItemLanguageList[0].TVItemLanguageID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<TVItemLanguageExtraA> tvItemLanguageExtraAList = new List<TVItemLanguageExtraA>();
+                            tvItemLanguageExtraAList = tvItemLanguageService.GetTVItemLanguageExtraAList().ToList();
+                            CheckTVItemLanguageExtraAFields(tvItemLanguageExtraAList);
+                            Assert.AreEqual(tvItemLanguageDirectQueryList[0].TVItemLanguageID, tvItemLanguageExtraAList[0].TVItemLanguageID);
+                            Assert.AreEqual(tvItemLanguageDirectQueryList.Count, tvItemLanguageExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<TVItemLanguageExtraB> tvItemLanguageExtraBList = new List<TVItemLanguageExtraB>();
+                            tvItemLanguageExtraBList = tvItemLanguageService.GetTVItemLanguageExtraBList().ToList();
+                            CheckTVItemLanguageExtraBFields(tvItemLanguageExtraBList);
+                            Assert.AreEqual(tvItemLanguageDirectQueryList[0].TVItemLanguageID, tvItemLanguageExtraBList[0].TVItemLanguageID);
+                            Assert.AreEqual(tvItemLanguageDirectQueryList.Count, tvItemLanguageExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTVItemLanguageList() Skip Take Desc Where
+
+        #region Tests Generated for GetTVItemLanguageList() Skip Take Desc 2 Where
+        [TestMethod]
+        public void GetTVItemLanguageList_Skip_Take_Desc_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tvItemLanguageService.Query = tvItemLanguageService.FillQuery(typeof(TVItemLanguage), culture.TwoLetterISOLanguageName, 0, 1, "", "TVItemLanguageID", "TVItemLanguageID,GT,2|TVItemLanguageID,LT,5", "");
+
+                        List<TVItemLanguage> tvItemLanguageDirectQueryList = new List<TVItemLanguage>();
+                        tvItemLanguageDirectQueryList = (from c in dbTestDB.TVItemLanguages select c).Where(c => c.TVItemLanguageID > 2 && c.TVItemLanguageID < 5).OrderByDescending(c => c.TVItemLanguageID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<TVItemLanguage> tvItemLanguageList = new List<TVItemLanguage>();
+                            tvItemLanguageList = tvItemLanguageService.GetTVItemLanguageList().ToList();
+                            CheckTVItemLanguageFields(tvItemLanguageList);
+                            Assert.AreEqual(tvItemLanguageDirectQueryList[0].TVItemLanguageID, tvItemLanguageList[0].TVItemLanguageID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<TVItemLanguageExtraA> tvItemLanguageExtraAList = new List<TVItemLanguageExtraA>();
+                            tvItemLanguageExtraAList = tvItemLanguageService.GetTVItemLanguageExtraAList().ToList();
+                            CheckTVItemLanguageExtraAFields(tvItemLanguageExtraAList);
+                            Assert.AreEqual(tvItemLanguageDirectQueryList[0].TVItemLanguageID, tvItemLanguageExtraAList[0].TVItemLanguageID);
+                            Assert.AreEqual(tvItemLanguageDirectQueryList.Count, tvItemLanguageExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<TVItemLanguageExtraB> tvItemLanguageExtraBList = new List<TVItemLanguageExtraB>();
+                            tvItemLanguageExtraBList = tvItemLanguageService.GetTVItemLanguageExtraBList().ToList();
+                            CheckTVItemLanguageExtraBFields(tvItemLanguageExtraBList);
+                            Assert.AreEqual(tvItemLanguageDirectQueryList[0].TVItemLanguageID, tvItemLanguageExtraBList[0].TVItemLanguageID);
+                            Assert.AreEqual(tvItemLanguageDirectQueryList.Count, tvItemLanguageExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTVItemLanguageList() Skip Take Desc 2 Where
+
+        #region Tests Generated for GetTVItemLanguageList() 2 Where
         [TestMethod]
         public void GetTVItemLanguageList_2Where_Test()
         {
@@ -602,11 +837,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tvItemLanguageService.Query = tvItemLanguageService.FillQuery(typeof(TVItemLanguage), culture.TwoLetterISOLanguageName, 0, 10000, "", "TVItemLanguageID,GT,2|TVItemLanguageID,LT,5", "");
+                        tvItemLanguageService.Query = tvItemLanguageService.FillQuery(typeof(TVItemLanguage), culture.TwoLetterISOLanguageName, 0, 10000, "", "", "TVItemLanguageID,GT,2|TVItemLanguageID,LT,5", extra);
 
                         List<TVItemLanguage> tvItemLanguageDirectQueryList = new List<TVItemLanguage>();
                         tvItemLanguageDirectQueryList = (from c in dbTestDB.TVItemLanguages select c).Where(c => c.TVItemLanguageID > 2 && c.TVItemLanguageID < 5).ToList();
@@ -618,7 +853,7 @@ namespace CSSPServices.Tests
                             CheckTVItemLanguageFields(tvItemLanguageList);
                             Assert.AreEqual(tvItemLanguageDirectQueryList[0].TVItemLanguageID, tvItemLanguageList[0].TVItemLanguageID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TVItemLanguageExtraA> tvItemLanguageExtraAList = new List<TVItemLanguageExtraA>();
                             tvItemLanguageExtraAList = tvItemLanguageService.GetTVItemLanguageExtraAList().ToList();
@@ -626,7 +861,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvItemLanguageDirectQueryList[0].TVItemLanguageID, tvItemLanguageExtraAList[0].TVItemLanguageID);
                             Assert.AreEqual(tvItemLanguageDirectQueryList.Count, tvItemLanguageExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TVItemLanguageExtraB> tvItemLanguageExtraBList = new List<TVItemLanguageExtraB>();
                             tvItemLanguageExtraBList = tvItemLanguageService.GetTVItemLanguageExtraBList().ToList();
@@ -636,13 +871,13 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetTVItemLanguageList() 2Where
+        #endregion Tests Generated for GetTVItemLanguageList() 2 Where
 
         #region Functions private
         private void CheckTVItemLanguageFields(List<TVItemLanguage> tvItemLanguageList)

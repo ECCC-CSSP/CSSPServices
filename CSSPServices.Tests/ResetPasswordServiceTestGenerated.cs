@@ -38,9 +38,9 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
+        #region Tests Generated CRUD
         [TestMethod]
-        public void ResetPassword_CRUD_And_Properties_Test()
+        public void ResetPassword_CRUD_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -86,6 +86,33 @@ namespace CSSPServices.Tests
                         Assert.AreEqual("", resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
                     Assert.AreEqual(count, resetPasswordService.GetResetPasswordList().Count());
+
+                }
+            }
+        }
+        #endregion Tests Generated CRUD
+
+        #region Tests Generated Properties
+        [TestMethod]
+        public void ResetPassword_Properties_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    ResetPasswordService resetPasswordService = new ResetPasswordService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    count = resetPasswordService.GetResetPasswordList().Count();
+
+                    ResetPassword resetPassword = GetFilledRandomResetPassword("");
 
                     // -------------------------------
                     // -------------------------------
@@ -227,7 +254,7 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Generated CRUD and Properties
+        #endregion Tests Generated Properties
 
         #region Tests Generated for GetResetPasswordWithResetPasswordID(resetPassword.ResetPasswordID)
         [TestMethod]
@@ -243,7 +270,7 @@ namespace CSSPServices.Tests
                     ResetPassword resetPassword = (from c in dbTestDB.ResetPasswords select c).FirstOrDefault();
                     Assert.IsNotNull(resetPassword);
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         resetPasswordService.Query.Extra = extra;
 
@@ -253,13 +280,13 @@ namespace CSSPServices.Tests
                             CheckResetPasswordFields(new List<ResetPassword>() { resetPasswordRet });
                             Assert.AreEqual(resetPassword.ResetPasswordID, resetPasswordRet.ResetPasswordID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             ResetPasswordExtraA resetPasswordExtraARet = resetPasswordService.GetResetPasswordExtraAWithResetPasswordID(resetPassword.ResetPasswordID);
                             CheckResetPasswordExtraAFields(new List<ResetPasswordExtraA>() { resetPasswordExtraARet });
                             Assert.AreEqual(resetPassword.ResetPasswordID, resetPasswordExtraARet.ResetPasswordID);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             ResetPasswordExtraB resetPasswordExtraBRet = resetPasswordService.GetResetPasswordExtraBWithResetPasswordID(resetPassword.ResetPasswordID);
                             CheckResetPasswordExtraBFields(new List<ResetPasswordExtraB>() { resetPasswordExtraBRet });
@@ -267,7 +294,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -292,7 +319,7 @@ namespace CSSPServices.Tests
                     List<ResetPassword> resetPasswordDirectQueryList = new List<ResetPassword>();
                     resetPasswordDirectQueryList = (from c in dbTestDB.ResetPasswords select c).Take(200).ToList();
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         resetPasswordService.Query.Extra = extra;
 
@@ -302,14 +329,14 @@ namespace CSSPServices.Tests
                             resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
                             CheckResetPasswordFields(resetPasswordList);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<ResetPasswordExtraA> resetPasswordExtraAList = new List<ResetPasswordExtraA>();
                             resetPasswordExtraAList = resetPasswordService.GetResetPasswordExtraAList().ToList();
                             CheckResetPasswordExtraAFields(resetPasswordExtraAList);
                             Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<ResetPasswordExtraB> resetPasswordExtraBList = new List<ResetPasswordExtraB>();
                             resetPasswordExtraBList = resetPasswordService.GetResetPasswordExtraBList().ToList();
@@ -318,7 +345,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -336,11 +363,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         ResetPasswordService resetPasswordService = new ResetPasswordService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        resetPasswordService.Query = resetPasswordService.FillQuery(typeof(ResetPassword), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
+                        resetPasswordService.Query = resetPasswordService.FillQuery(typeof(ResetPassword), culture.TwoLetterISOLanguageName, 1, 1, "", "", "", extra);
 
                         List<ResetPassword> resetPasswordDirectQueryList = new List<ResetPassword>();
                         resetPasswordDirectQueryList = (from c in dbTestDB.ResetPasswords select c).Skip(1).Take(1).ToList();
@@ -352,7 +379,7 @@ namespace CSSPServices.Tests
                             CheckResetPasswordFields(resetPasswordList);
                             Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordList[0].ResetPasswordID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<ResetPasswordExtraA> resetPasswordExtraAList = new List<ResetPasswordExtraA>();
                             resetPasswordExtraAList = resetPasswordService.GetResetPasswordExtraAList().ToList();
@@ -360,7 +387,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraAList[0].ResetPasswordID);
                             Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<ResetPasswordExtraB> resetPasswordExtraBList = new List<ResetPasswordExtraB>();
                             resetPasswordExtraBList = resetPasswordService.GetResetPasswordExtraBList().ToList();
@@ -370,7 +397,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -378,9 +405,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated for GetResetPasswordList() Skip Take
 
-        #region Tests Generated for GetResetPasswordList() Skip Take Order
+        #region Tests Generated for GetResetPasswordList() Skip Take Asc
         [TestMethod]
-        public void GetResetPasswordList_Skip_Take_Order_Test()
+        public void GetResetPasswordList_Skip_Take_Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -388,14 +415,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         ResetPasswordService resetPasswordService = new ResetPasswordService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        resetPasswordService.Query = resetPasswordService.FillQuery(typeof(ResetPassword), culture.TwoLetterISOLanguageName, 1, 1,  "ResetPasswordID", "");
+                        resetPasswordService.Query = resetPasswordService.FillQuery(typeof(ResetPassword), culture.TwoLetterISOLanguageName, 1, 1,  "ResetPasswordID", "", "", extra);
 
                         List<ResetPassword> resetPasswordDirectQueryList = new List<ResetPassword>();
-                        resetPasswordDirectQueryList = (from c in dbTestDB.ResetPasswords select c).Skip(1).Take(1).OrderBy(c => c.ResetPasswordID).ToList();
+                        resetPasswordDirectQueryList = (from c in dbTestDB.ResetPasswords select c).OrderBy(c => c.ResetPasswordID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -404,7 +431,7 @@ namespace CSSPServices.Tests
                             CheckResetPasswordFields(resetPasswordList);
                             Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordList[0].ResetPasswordID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<ResetPasswordExtraA> resetPasswordExtraAList = new List<ResetPasswordExtraA>();
                             resetPasswordExtraAList = resetPasswordService.GetResetPasswordExtraAList().ToList();
@@ -412,7 +439,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraAList[0].ResetPasswordID);
                             Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<ResetPasswordExtraB> resetPasswordExtraBList = new List<ResetPasswordExtraB>();
                             resetPasswordExtraBList = resetPasswordService.GetResetPasswordExtraBList().ToList();
@@ -422,17 +449,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetResetPasswordList() Skip Take Order
+        #endregion Tests Generated for GetResetPasswordList() Skip Take Asc
 
-        #region Tests Generated for GetResetPasswordList() Skip Take 2Order
+        #region Tests Generated for GetResetPasswordList() Skip Take 2 Asc
         [TestMethod]
-        public void GetResetPasswordList_Skip_Take_2Order_Test()
+        public void GetResetPasswordList_Skip_Take_2Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -440,14 +467,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         ResetPasswordService resetPasswordService = new ResetPasswordService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        resetPasswordService.Query = resetPasswordService.FillQuery(typeof(ResetPassword), culture.TwoLetterISOLanguageName, 1, 1, "ResetPasswordID,Email", "");
+                        resetPasswordService.Query = resetPasswordService.FillQuery(typeof(ResetPassword), culture.TwoLetterISOLanguageName, 1, 1, "ResetPasswordID,Email", "", "", extra);
 
                         List<ResetPassword> resetPasswordDirectQueryList = new List<ResetPassword>();
-                        resetPasswordDirectQueryList = (from c in dbTestDB.ResetPasswords select c).Skip(1).Take(1).OrderBy(c => c.ResetPasswordID).ThenBy(c => c.Email).ToList();
+                        resetPasswordDirectQueryList = (from c in dbTestDB.ResetPasswords select c).OrderBy(c => c.ResetPasswordID).ThenBy(c => c.Email).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -456,7 +483,7 @@ namespace CSSPServices.Tests
                             CheckResetPasswordFields(resetPasswordList);
                             Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordList[0].ResetPasswordID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<ResetPasswordExtraA> resetPasswordExtraAList = new List<ResetPasswordExtraA>();
                             resetPasswordExtraAList = resetPasswordService.GetResetPasswordExtraAList().ToList();
@@ -464,7 +491,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraAList[0].ResetPasswordID);
                             Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<ResetPasswordExtraB> resetPasswordExtraBList = new List<ResetPasswordExtraB>();
                             resetPasswordExtraBList = resetPasswordService.GetResetPasswordExtraBList().ToList();
@@ -474,17 +501,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetResetPasswordList() Skip Take 2Order
+        #endregion Tests Generated for GetResetPasswordList() Skip Take 2 Asc
 
-        #region Tests Generated for GetResetPasswordList() Skip Take Order Where
+        #region Tests Generated for GetResetPasswordList() Skip Take Asc Where
         [TestMethod]
-        public void GetResetPasswordList_Skip_Take_Order_Where_Test()
+        public void GetResetPasswordList_Skip_Take_Asc_Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -492,14 +519,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         ResetPasswordService resetPasswordService = new ResetPasswordService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        resetPasswordService.Query = resetPasswordService.FillQuery(typeof(ResetPassword), culture.TwoLetterISOLanguageName, 0, 1, "ResetPasswordID", "ResetPasswordID,EQ,4", "");
+                        resetPasswordService.Query = resetPasswordService.FillQuery(typeof(ResetPassword), culture.TwoLetterISOLanguageName, 0, 1, "ResetPasswordID", "", "ResetPasswordID,EQ,4", "");
 
                         List<ResetPassword> resetPasswordDirectQueryList = new List<ResetPassword>();
-                        resetPasswordDirectQueryList = (from c in dbTestDB.ResetPasswords select c).Where(c => c.ResetPasswordID == 4).Skip(0).Take(1).OrderBy(c => c.ResetPasswordID).ToList();
+                        resetPasswordDirectQueryList = (from c in dbTestDB.ResetPasswords select c).Where(c => c.ResetPasswordID == 4).OrderBy(c => c.ResetPasswordID).Skip(0).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -508,7 +535,7 @@ namespace CSSPServices.Tests
                             CheckResetPasswordFields(resetPasswordList);
                             Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordList[0].ResetPasswordID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<ResetPasswordExtraA> resetPasswordExtraAList = new List<ResetPasswordExtraA>();
                             resetPasswordExtraAList = resetPasswordService.GetResetPasswordExtraAList().ToList();
@@ -516,7 +543,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraAList[0].ResetPasswordID);
                             Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<ResetPasswordExtraB> resetPasswordExtraBList = new List<ResetPasswordExtraB>();
                             resetPasswordExtraBList = resetPasswordService.GetResetPasswordExtraBList().ToList();
@@ -526,17 +553,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetResetPasswordList() Skip Take Order Where
+        #endregion Tests Generated for GetResetPasswordList() Skip Take Asc Where
 
-        #region Tests Generated for GetResetPasswordList() Skip Take Order 2Where
+        #region Tests Generated for GetResetPasswordList() Skip Take Asc 2 Where
         [TestMethod]
-        public void GetResetPasswordList_Skip_Take_Order_2Where_Test()
+        public void GetResetPasswordList_Skip_Take_Asc_2Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -544,11 +571,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         ResetPasswordService resetPasswordService = new ResetPasswordService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        resetPasswordService.Query = resetPasswordService.FillQuery(typeof(ResetPassword), culture.TwoLetterISOLanguageName, 0, 1, "ResetPasswordID", "ResetPasswordID,GT,2|ResetPasswordID,LT,5", "");
+                        resetPasswordService.Query = resetPasswordService.FillQuery(typeof(ResetPassword), culture.TwoLetterISOLanguageName, 0, 1, "ResetPasswordID", "", "ResetPasswordID,GT,2|ResetPasswordID,LT,5", "");
 
                         List<ResetPassword> resetPasswordDirectQueryList = new List<ResetPassword>();
                         resetPasswordDirectQueryList = (from c in dbTestDB.ResetPasswords select c).Where(c => c.ResetPasswordID > 2 && c.ResetPasswordID < 5).Skip(0).Take(1).OrderBy(c => c.ResetPasswordID).ToList();
@@ -560,7 +587,7 @@ namespace CSSPServices.Tests
                             CheckResetPasswordFields(resetPasswordList);
                             Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordList[0].ResetPasswordID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<ResetPasswordExtraA> resetPasswordExtraAList = new List<ResetPasswordExtraA>();
                             resetPasswordExtraAList = resetPasswordService.GetResetPasswordExtraAList().ToList();
@@ -568,7 +595,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraAList[0].ResetPasswordID);
                             Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<ResetPasswordExtraB> resetPasswordExtraBList = new List<ResetPasswordExtraB>();
                             resetPasswordExtraBList = resetPasswordService.GetResetPasswordExtraBList().ToList();
@@ -578,15 +605,223 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetResetPasswordList() Skip Take Order 2Where
+        #endregion Tests Generated for GetResetPasswordList() Skip Take Asc 2 Where
 
-        #region Tests Generated for GetResetPasswordList() 2Where
+        #region Tests Generated for GetResetPasswordList() Skip Take Desc
+        [TestMethod]
+        public void GetResetPasswordList_Skip_Take_Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        ResetPasswordService resetPasswordService = new ResetPasswordService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        resetPasswordService.Query = resetPasswordService.FillQuery(typeof(ResetPassword), culture.TwoLetterISOLanguageName, 1, 1, "", "ResetPasswordID", "", extra);
+
+                        List<ResetPassword> resetPasswordDirectQueryList = new List<ResetPassword>();
+                        resetPasswordDirectQueryList = (from c in dbTestDB.ResetPasswords select c).OrderByDescending(c => c.ResetPasswordID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<ResetPassword> resetPasswordList = new List<ResetPassword>();
+                            resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
+                            CheckResetPasswordFields(resetPasswordList);
+                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordList[0].ResetPasswordID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<ResetPasswordExtraA> resetPasswordExtraAList = new List<ResetPasswordExtraA>();
+                            resetPasswordExtraAList = resetPasswordService.GetResetPasswordExtraAList().ToList();
+                            CheckResetPasswordExtraAFields(resetPasswordExtraAList);
+                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraAList[0].ResetPasswordID);
+                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<ResetPasswordExtraB> resetPasswordExtraBList = new List<ResetPasswordExtraB>();
+                            resetPasswordExtraBList = resetPasswordService.GetResetPasswordExtraBList().ToList();
+                            CheckResetPasswordExtraBFields(resetPasswordExtraBList);
+                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraBList[0].ResetPasswordID);
+                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetResetPasswordList() Skip Take Desc
+
+        #region Tests Generated for GetResetPasswordList() Skip Take 2 Desc
+        [TestMethod]
+        public void GetResetPasswordList_Skip_Take_2Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        ResetPasswordService resetPasswordService = new ResetPasswordService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        resetPasswordService.Query = resetPasswordService.FillQuery(typeof(ResetPassword), culture.TwoLetterISOLanguageName, 1, 1, "", "ResetPasswordID,Email", "", extra);
+
+                        List<ResetPassword> resetPasswordDirectQueryList = new List<ResetPassword>();
+                        resetPasswordDirectQueryList = (from c in dbTestDB.ResetPasswords select c).OrderByDescending(c => c.ResetPasswordID).ThenByDescending(c => c.Email).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<ResetPassword> resetPasswordList = new List<ResetPassword>();
+                            resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
+                            CheckResetPasswordFields(resetPasswordList);
+                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordList[0].ResetPasswordID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<ResetPasswordExtraA> resetPasswordExtraAList = new List<ResetPasswordExtraA>();
+                            resetPasswordExtraAList = resetPasswordService.GetResetPasswordExtraAList().ToList();
+                            CheckResetPasswordExtraAFields(resetPasswordExtraAList);
+                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraAList[0].ResetPasswordID);
+                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<ResetPasswordExtraB> resetPasswordExtraBList = new List<ResetPasswordExtraB>();
+                            resetPasswordExtraBList = resetPasswordService.GetResetPasswordExtraBList().ToList();
+                            CheckResetPasswordExtraBFields(resetPasswordExtraBList);
+                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraBList[0].ResetPasswordID);
+                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetResetPasswordList() Skip Take 2 Desc
+
+        #region Tests Generated for GetResetPasswordList() Skip Take Desc Where
+        [TestMethod]
+        public void GetResetPasswordList_Skip_Take_Desc_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        ResetPasswordService resetPasswordService = new ResetPasswordService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        resetPasswordService.Query = resetPasswordService.FillQuery(typeof(ResetPassword), culture.TwoLetterISOLanguageName, 0, 1, "ResetPasswordID", "", "ResetPasswordID,EQ,4", "");
+
+                        List<ResetPassword> resetPasswordDirectQueryList = new List<ResetPassword>();
+                        resetPasswordDirectQueryList = (from c in dbTestDB.ResetPasswords select c).Where(c => c.ResetPasswordID == 4).OrderByDescending(c => c.ResetPasswordID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<ResetPassword> resetPasswordList = new List<ResetPassword>();
+                            resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
+                            CheckResetPasswordFields(resetPasswordList);
+                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordList[0].ResetPasswordID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<ResetPasswordExtraA> resetPasswordExtraAList = new List<ResetPasswordExtraA>();
+                            resetPasswordExtraAList = resetPasswordService.GetResetPasswordExtraAList().ToList();
+                            CheckResetPasswordExtraAFields(resetPasswordExtraAList);
+                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraAList[0].ResetPasswordID);
+                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<ResetPasswordExtraB> resetPasswordExtraBList = new List<ResetPasswordExtraB>();
+                            resetPasswordExtraBList = resetPasswordService.GetResetPasswordExtraBList().ToList();
+                            CheckResetPasswordExtraBFields(resetPasswordExtraBList);
+                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraBList[0].ResetPasswordID);
+                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetResetPasswordList() Skip Take Desc Where
+
+        #region Tests Generated for GetResetPasswordList() Skip Take Desc 2 Where
+        [TestMethod]
+        public void GetResetPasswordList_Skip_Take_Desc_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        ResetPasswordService resetPasswordService = new ResetPasswordService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        resetPasswordService.Query = resetPasswordService.FillQuery(typeof(ResetPassword), culture.TwoLetterISOLanguageName, 0, 1, "", "ResetPasswordID", "ResetPasswordID,GT,2|ResetPasswordID,LT,5", "");
+
+                        List<ResetPassword> resetPasswordDirectQueryList = new List<ResetPassword>();
+                        resetPasswordDirectQueryList = (from c in dbTestDB.ResetPasswords select c).Where(c => c.ResetPasswordID > 2 && c.ResetPasswordID < 5).OrderByDescending(c => c.ResetPasswordID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<ResetPassword> resetPasswordList = new List<ResetPassword>();
+                            resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
+                            CheckResetPasswordFields(resetPasswordList);
+                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordList[0].ResetPasswordID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<ResetPasswordExtraA> resetPasswordExtraAList = new List<ResetPasswordExtraA>();
+                            resetPasswordExtraAList = resetPasswordService.GetResetPasswordExtraAList().ToList();
+                            CheckResetPasswordExtraAFields(resetPasswordExtraAList);
+                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraAList[0].ResetPasswordID);
+                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<ResetPasswordExtraB> resetPasswordExtraBList = new List<ResetPasswordExtraB>();
+                            resetPasswordExtraBList = resetPasswordService.GetResetPasswordExtraBList().ToList();
+                            CheckResetPasswordExtraBFields(resetPasswordExtraBList);
+                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraBList[0].ResetPasswordID);
+                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetResetPasswordList() Skip Take Desc 2 Where
+
+        #region Tests Generated for GetResetPasswordList() 2 Where
         [TestMethod]
         public void GetResetPasswordList_2Where_Test()
         {
@@ -596,11 +831,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         ResetPasswordService resetPasswordService = new ResetPasswordService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        resetPasswordService.Query = resetPasswordService.FillQuery(typeof(ResetPassword), culture.TwoLetterISOLanguageName, 0, 10000, "", "ResetPasswordID,GT,2|ResetPasswordID,LT,5", "");
+                        resetPasswordService.Query = resetPasswordService.FillQuery(typeof(ResetPassword), culture.TwoLetterISOLanguageName, 0, 10000, "", "", "ResetPasswordID,GT,2|ResetPasswordID,LT,5", extra);
 
                         List<ResetPassword> resetPasswordDirectQueryList = new List<ResetPassword>();
                         resetPasswordDirectQueryList = (from c in dbTestDB.ResetPasswords select c).Where(c => c.ResetPasswordID > 2 && c.ResetPasswordID < 5).ToList();
@@ -612,7 +847,7 @@ namespace CSSPServices.Tests
                             CheckResetPasswordFields(resetPasswordList);
                             Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordList[0].ResetPasswordID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<ResetPasswordExtraA> resetPasswordExtraAList = new List<ResetPasswordExtraA>();
                             resetPasswordExtraAList = resetPasswordService.GetResetPasswordExtraAList().ToList();
@@ -620,7 +855,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraAList[0].ResetPasswordID);
                             Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<ResetPasswordExtraB> resetPasswordExtraBList = new List<ResetPasswordExtraB>();
                             resetPasswordExtraBList = resetPasswordService.GetResetPasswordExtraBList().ToList();
@@ -630,13 +865,13 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetResetPasswordList() 2Where
+        #endregion Tests Generated for GetResetPasswordList() 2 Where
 
         #region Functions private
         private void CheckResetPasswordFields(List<ResetPassword> resetPasswordList)

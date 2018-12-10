@@ -38,9 +38,9 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
+        #region Tests Generated CRUD
         [TestMethod]
-        public void MapInfoPoint_CRUD_And_Properties_Test()
+        public void MapInfoPoint_CRUD_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -86,6 +86,33 @@ namespace CSSPServices.Tests
                         Assert.AreEqual("", mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
                     Assert.AreEqual(count, mapInfoPointService.GetMapInfoPointList().Count());
+
+                }
+            }
+        }
+        #endregion Tests Generated CRUD
+
+        #region Tests Generated Properties
+        [TestMethod]
+        public void MapInfoPoint_Properties_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    MapInfoPointService mapInfoPointService = new MapInfoPointService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    count = mapInfoPointService.GetMapInfoPointList().Count();
+
+                    MapInfoPoint mapInfoPoint = GetFilledRandomMapInfoPoint("");
 
                     // -------------------------------
                     // -------------------------------
@@ -239,7 +266,7 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Generated CRUD and Properties
+        #endregion Tests Generated Properties
 
         #region Tests Generated for GetMapInfoPointWithMapInfoPointID(mapInfoPoint.MapInfoPointID)
         [TestMethod]
@@ -255,7 +282,7 @@ namespace CSSPServices.Tests
                     MapInfoPoint mapInfoPoint = (from c in dbTestDB.MapInfoPoints select c).FirstOrDefault();
                     Assert.IsNotNull(mapInfoPoint);
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         mapInfoPointService.Query.Extra = extra;
 
@@ -265,13 +292,13 @@ namespace CSSPServices.Tests
                             CheckMapInfoPointFields(new List<MapInfoPoint>() { mapInfoPointRet });
                             Assert.AreEqual(mapInfoPoint.MapInfoPointID, mapInfoPointRet.MapInfoPointID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             MapInfoPointExtraA mapInfoPointExtraARet = mapInfoPointService.GetMapInfoPointExtraAWithMapInfoPointID(mapInfoPoint.MapInfoPointID);
                             CheckMapInfoPointExtraAFields(new List<MapInfoPointExtraA>() { mapInfoPointExtraARet });
                             Assert.AreEqual(mapInfoPoint.MapInfoPointID, mapInfoPointExtraARet.MapInfoPointID);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             MapInfoPointExtraB mapInfoPointExtraBRet = mapInfoPointService.GetMapInfoPointExtraBWithMapInfoPointID(mapInfoPoint.MapInfoPointID);
                             CheckMapInfoPointExtraBFields(new List<MapInfoPointExtraB>() { mapInfoPointExtraBRet });
@@ -279,7 +306,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -304,7 +331,7 @@ namespace CSSPServices.Tests
                     List<MapInfoPoint> mapInfoPointDirectQueryList = new List<MapInfoPoint>();
                     mapInfoPointDirectQueryList = (from c in dbTestDB.MapInfoPoints select c).Take(200).ToList();
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         mapInfoPointService.Query.Extra = extra;
 
@@ -314,14 +341,14 @@ namespace CSSPServices.Tests
                             mapInfoPointList = mapInfoPointService.GetMapInfoPointList().ToList();
                             CheckMapInfoPointFields(mapInfoPointList);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MapInfoPointExtraA> mapInfoPointExtraAList = new List<MapInfoPointExtraA>();
                             mapInfoPointExtraAList = mapInfoPointService.GetMapInfoPointExtraAList().ToList();
                             CheckMapInfoPointExtraAFields(mapInfoPointExtraAList);
                             Assert.AreEqual(mapInfoPointDirectQueryList.Count, mapInfoPointExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MapInfoPointExtraB> mapInfoPointExtraBList = new List<MapInfoPointExtraB>();
                             mapInfoPointExtraBList = mapInfoPointService.GetMapInfoPointExtraBList().ToList();
@@ -330,7 +357,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -348,11 +375,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MapInfoPointService mapInfoPointService = new MapInfoPointService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mapInfoPointService.Query = mapInfoPointService.FillQuery(typeof(MapInfoPoint), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
+                        mapInfoPointService.Query = mapInfoPointService.FillQuery(typeof(MapInfoPoint), culture.TwoLetterISOLanguageName, 1, 1, "", "", "", extra);
 
                         List<MapInfoPoint> mapInfoPointDirectQueryList = new List<MapInfoPoint>();
                         mapInfoPointDirectQueryList = (from c in dbTestDB.MapInfoPoints select c).Skip(1).Take(1).ToList();
@@ -364,7 +391,7 @@ namespace CSSPServices.Tests
                             CheckMapInfoPointFields(mapInfoPointList);
                             Assert.AreEqual(mapInfoPointDirectQueryList[0].MapInfoPointID, mapInfoPointList[0].MapInfoPointID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MapInfoPointExtraA> mapInfoPointExtraAList = new List<MapInfoPointExtraA>();
                             mapInfoPointExtraAList = mapInfoPointService.GetMapInfoPointExtraAList().ToList();
@@ -372,7 +399,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mapInfoPointDirectQueryList[0].MapInfoPointID, mapInfoPointExtraAList[0].MapInfoPointID);
                             Assert.AreEqual(mapInfoPointDirectQueryList.Count, mapInfoPointExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MapInfoPointExtraB> mapInfoPointExtraBList = new List<MapInfoPointExtraB>();
                             mapInfoPointExtraBList = mapInfoPointService.GetMapInfoPointExtraBList().ToList();
@@ -382,7 +409,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -390,9 +417,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated for GetMapInfoPointList() Skip Take
 
-        #region Tests Generated for GetMapInfoPointList() Skip Take Order
+        #region Tests Generated for GetMapInfoPointList() Skip Take Asc
         [TestMethod]
-        public void GetMapInfoPointList_Skip_Take_Order_Test()
+        public void GetMapInfoPointList_Skip_Take_Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -400,14 +427,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MapInfoPointService mapInfoPointService = new MapInfoPointService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mapInfoPointService.Query = mapInfoPointService.FillQuery(typeof(MapInfoPoint), culture.TwoLetterISOLanguageName, 1, 1,  "MapInfoPointID", "");
+                        mapInfoPointService.Query = mapInfoPointService.FillQuery(typeof(MapInfoPoint), culture.TwoLetterISOLanguageName, 1, 1,  "MapInfoPointID", "", "", extra);
 
                         List<MapInfoPoint> mapInfoPointDirectQueryList = new List<MapInfoPoint>();
-                        mapInfoPointDirectQueryList = (from c in dbTestDB.MapInfoPoints select c).Skip(1).Take(1).OrderBy(c => c.MapInfoPointID).ToList();
+                        mapInfoPointDirectQueryList = (from c in dbTestDB.MapInfoPoints select c).OrderBy(c => c.MapInfoPointID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -416,7 +443,7 @@ namespace CSSPServices.Tests
                             CheckMapInfoPointFields(mapInfoPointList);
                             Assert.AreEqual(mapInfoPointDirectQueryList[0].MapInfoPointID, mapInfoPointList[0].MapInfoPointID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MapInfoPointExtraA> mapInfoPointExtraAList = new List<MapInfoPointExtraA>();
                             mapInfoPointExtraAList = mapInfoPointService.GetMapInfoPointExtraAList().ToList();
@@ -424,7 +451,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mapInfoPointDirectQueryList[0].MapInfoPointID, mapInfoPointExtraAList[0].MapInfoPointID);
                             Assert.AreEqual(mapInfoPointDirectQueryList.Count, mapInfoPointExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MapInfoPointExtraB> mapInfoPointExtraBList = new List<MapInfoPointExtraB>();
                             mapInfoPointExtraBList = mapInfoPointService.GetMapInfoPointExtraBList().ToList();
@@ -434,17 +461,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetMapInfoPointList() Skip Take Order
+        #endregion Tests Generated for GetMapInfoPointList() Skip Take Asc
 
-        #region Tests Generated for GetMapInfoPointList() Skip Take 2Order
+        #region Tests Generated for GetMapInfoPointList() Skip Take 2 Asc
         [TestMethod]
-        public void GetMapInfoPointList_Skip_Take_2Order_Test()
+        public void GetMapInfoPointList_Skip_Take_2Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -452,14 +479,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MapInfoPointService mapInfoPointService = new MapInfoPointService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mapInfoPointService.Query = mapInfoPointService.FillQuery(typeof(MapInfoPoint), culture.TwoLetterISOLanguageName, 1, 1, "MapInfoPointID,MapInfoID", "");
+                        mapInfoPointService.Query = mapInfoPointService.FillQuery(typeof(MapInfoPoint), culture.TwoLetterISOLanguageName, 1, 1, "MapInfoPointID,MapInfoID", "", "", extra);
 
                         List<MapInfoPoint> mapInfoPointDirectQueryList = new List<MapInfoPoint>();
-                        mapInfoPointDirectQueryList = (from c in dbTestDB.MapInfoPoints select c).Skip(1).Take(1).OrderBy(c => c.MapInfoPointID).ThenBy(c => c.MapInfoID).ToList();
+                        mapInfoPointDirectQueryList = (from c in dbTestDB.MapInfoPoints select c).OrderBy(c => c.MapInfoPointID).ThenBy(c => c.MapInfoID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -468,7 +495,7 @@ namespace CSSPServices.Tests
                             CheckMapInfoPointFields(mapInfoPointList);
                             Assert.AreEqual(mapInfoPointDirectQueryList[0].MapInfoPointID, mapInfoPointList[0].MapInfoPointID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MapInfoPointExtraA> mapInfoPointExtraAList = new List<MapInfoPointExtraA>();
                             mapInfoPointExtraAList = mapInfoPointService.GetMapInfoPointExtraAList().ToList();
@@ -476,7 +503,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mapInfoPointDirectQueryList[0].MapInfoPointID, mapInfoPointExtraAList[0].MapInfoPointID);
                             Assert.AreEqual(mapInfoPointDirectQueryList.Count, mapInfoPointExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MapInfoPointExtraB> mapInfoPointExtraBList = new List<MapInfoPointExtraB>();
                             mapInfoPointExtraBList = mapInfoPointService.GetMapInfoPointExtraBList().ToList();
@@ -486,17 +513,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetMapInfoPointList() Skip Take 2Order
+        #endregion Tests Generated for GetMapInfoPointList() Skip Take 2 Asc
 
-        #region Tests Generated for GetMapInfoPointList() Skip Take Order Where
+        #region Tests Generated for GetMapInfoPointList() Skip Take Asc Where
         [TestMethod]
-        public void GetMapInfoPointList_Skip_Take_Order_Where_Test()
+        public void GetMapInfoPointList_Skip_Take_Asc_Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -504,14 +531,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MapInfoPointService mapInfoPointService = new MapInfoPointService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mapInfoPointService.Query = mapInfoPointService.FillQuery(typeof(MapInfoPoint), culture.TwoLetterISOLanguageName, 0, 1, "MapInfoPointID", "MapInfoPointID,EQ,4", "");
+                        mapInfoPointService.Query = mapInfoPointService.FillQuery(typeof(MapInfoPoint), culture.TwoLetterISOLanguageName, 0, 1, "MapInfoPointID", "", "MapInfoPointID,EQ,4", "");
 
                         List<MapInfoPoint> mapInfoPointDirectQueryList = new List<MapInfoPoint>();
-                        mapInfoPointDirectQueryList = (from c in dbTestDB.MapInfoPoints select c).Where(c => c.MapInfoPointID == 4).Skip(0).Take(1).OrderBy(c => c.MapInfoPointID).ToList();
+                        mapInfoPointDirectQueryList = (from c in dbTestDB.MapInfoPoints select c).Where(c => c.MapInfoPointID == 4).OrderBy(c => c.MapInfoPointID).Skip(0).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -520,7 +547,7 @@ namespace CSSPServices.Tests
                             CheckMapInfoPointFields(mapInfoPointList);
                             Assert.AreEqual(mapInfoPointDirectQueryList[0].MapInfoPointID, mapInfoPointList[0].MapInfoPointID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MapInfoPointExtraA> mapInfoPointExtraAList = new List<MapInfoPointExtraA>();
                             mapInfoPointExtraAList = mapInfoPointService.GetMapInfoPointExtraAList().ToList();
@@ -528,7 +555,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mapInfoPointDirectQueryList[0].MapInfoPointID, mapInfoPointExtraAList[0].MapInfoPointID);
                             Assert.AreEqual(mapInfoPointDirectQueryList.Count, mapInfoPointExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MapInfoPointExtraB> mapInfoPointExtraBList = new List<MapInfoPointExtraB>();
                             mapInfoPointExtraBList = mapInfoPointService.GetMapInfoPointExtraBList().ToList();
@@ -538,17 +565,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetMapInfoPointList() Skip Take Order Where
+        #endregion Tests Generated for GetMapInfoPointList() Skip Take Asc Where
 
-        #region Tests Generated for GetMapInfoPointList() Skip Take Order 2Where
+        #region Tests Generated for GetMapInfoPointList() Skip Take Asc 2 Where
         [TestMethod]
-        public void GetMapInfoPointList_Skip_Take_Order_2Where_Test()
+        public void GetMapInfoPointList_Skip_Take_Asc_2Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -556,11 +583,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MapInfoPointService mapInfoPointService = new MapInfoPointService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mapInfoPointService.Query = mapInfoPointService.FillQuery(typeof(MapInfoPoint), culture.TwoLetterISOLanguageName, 0, 1, "MapInfoPointID", "MapInfoPointID,GT,2|MapInfoPointID,LT,5", "");
+                        mapInfoPointService.Query = mapInfoPointService.FillQuery(typeof(MapInfoPoint), culture.TwoLetterISOLanguageName, 0, 1, "MapInfoPointID", "", "MapInfoPointID,GT,2|MapInfoPointID,LT,5", "");
 
                         List<MapInfoPoint> mapInfoPointDirectQueryList = new List<MapInfoPoint>();
                         mapInfoPointDirectQueryList = (from c in dbTestDB.MapInfoPoints select c).Where(c => c.MapInfoPointID > 2 && c.MapInfoPointID < 5).Skip(0).Take(1).OrderBy(c => c.MapInfoPointID).ToList();
@@ -572,7 +599,7 @@ namespace CSSPServices.Tests
                             CheckMapInfoPointFields(mapInfoPointList);
                             Assert.AreEqual(mapInfoPointDirectQueryList[0].MapInfoPointID, mapInfoPointList[0].MapInfoPointID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MapInfoPointExtraA> mapInfoPointExtraAList = new List<MapInfoPointExtraA>();
                             mapInfoPointExtraAList = mapInfoPointService.GetMapInfoPointExtraAList().ToList();
@@ -580,7 +607,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mapInfoPointDirectQueryList[0].MapInfoPointID, mapInfoPointExtraAList[0].MapInfoPointID);
                             Assert.AreEqual(mapInfoPointDirectQueryList.Count, mapInfoPointExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MapInfoPointExtraB> mapInfoPointExtraBList = new List<MapInfoPointExtraB>();
                             mapInfoPointExtraBList = mapInfoPointService.GetMapInfoPointExtraBList().ToList();
@@ -590,15 +617,223 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetMapInfoPointList() Skip Take Order 2Where
+        #endregion Tests Generated for GetMapInfoPointList() Skip Take Asc 2 Where
 
-        #region Tests Generated for GetMapInfoPointList() 2Where
+        #region Tests Generated for GetMapInfoPointList() Skip Take Desc
+        [TestMethod]
+        public void GetMapInfoPointList_Skip_Take_Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        MapInfoPointService mapInfoPointService = new MapInfoPointService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mapInfoPointService.Query = mapInfoPointService.FillQuery(typeof(MapInfoPoint), culture.TwoLetterISOLanguageName, 1, 1, "", "MapInfoPointID", "", extra);
+
+                        List<MapInfoPoint> mapInfoPointDirectQueryList = new List<MapInfoPoint>();
+                        mapInfoPointDirectQueryList = (from c in dbTestDB.MapInfoPoints select c).OrderByDescending(c => c.MapInfoPointID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<MapInfoPoint> mapInfoPointList = new List<MapInfoPoint>();
+                            mapInfoPointList = mapInfoPointService.GetMapInfoPointList().ToList();
+                            CheckMapInfoPointFields(mapInfoPointList);
+                            Assert.AreEqual(mapInfoPointDirectQueryList[0].MapInfoPointID, mapInfoPointList[0].MapInfoPointID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<MapInfoPointExtraA> mapInfoPointExtraAList = new List<MapInfoPointExtraA>();
+                            mapInfoPointExtraAList = mapInfoPointService.GetMapInfoPointExtraAList().ToList();
+                            CheckMapInfoPointExtraAFields(mapInfoPointExtraAList);
+                            Assert.AreEqual(mapInfoPointDirectQueryList[0].MapInfoPointID, mapInfoPointExtraAList[0].MapInfoPointID);
+                            Assert.AreEqual(mapInfoPointDirectQueryList.Count, mapInfoPointExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<MapInfoPointExtraB> mapInfoPointExtraBList = new List<MapInfoPointExtraB>();
+                            mapInfoPointExtraBList = mapInfoPointService.GetMapInfoPointExtraBList().ToList();
+                            CheckMapInfoPointExtraBFields(mapInfoPointExtraBList);
+                            Assert.AreEqual(mapInfoPointDirectQueryList[0].MapInfoPointID, mapInfoPointExtraBList[0].MapInfoPointID);
+                            Assert.AreEqual(mapInfoPointDirectQueryList.Count, mapInfoPointExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMapInfoPointList() Skip Take Desc
+
+        #region Tests Generated for GetMapInfoPointList() Skip Take 2 Desc
+        [TestMethod]
+        public void GetMapInfoPointList_Skip_Take_2Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        MapInfoPointService mapInfoPointService = new MapInfoPointService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mapInfoPointService.Query = mapInfoPointService.FillQuery(typeof(MapInfoPoint), culture.TwoLetterISOLanguageName, 1, 1, "", "MapInfoPointID,MapInfoID", "", extra);
+
+                        List<MapInfoPoint> mapInfoPointDirectQueryList = new List<MapInfoPoint>();
+                        mapInfoPointDirectQueryList = (from c in dbTestDB.MapInfoPoints select c).OrderByDescending(c => c.MapInfoPointID).ThenByDescending(c => c.MapInfoID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<MapInfoPoint> mapInfoPointList = new List<MapInfoPoint>();
+                            mapInfoPointList = mapInfoPointService.GetMapInfoPointList().ToList();
+                            CheckMapInfoPointFields(mapInfoPointList);
+                            Assert.AreEqual(mapInfoPointDirectQueryList[0].MapInfoPointID, mapInfoPointList[0].MapInfoPointID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<MapInfoPointExtraA> mapInfoPointExtraAList = new List<MapInfoPointExtraA>();
+                            mapInfoPointExtraAList = mapInfoPointService.GetMapInfoPointExtraAList().ToList();
+                            CheckMapInfoPointExtraAFields(mapInfoPointExtraAList);
+                            Assert.AreEqual(mapInfoPointDirectQueryList[0].MapInfoPointID, mapInfoPointExtraAList[0].MapInfoPointID);
+                            Assert.AreEqual(mapInfoPointDirectQueryList.Count, mapInfoPointExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<MapInfoPointExtraB> mapInfoPointExtraBList = new List<MapInfoPointExtraB>();
+                            mapInfoPointExtraBList = mapInfoPointService.GetMapInfoPointExtraBList().ToList();
+                            CheckMapInfoPointExtraBFields(mapInfoPointExtraBList);
+                            Assert.AreEqual(mapInfoPointDirectQueryList[0].MapInfoPointID, mapInfoPointExtraBList[0].MapInfoPointID);
+                            Assert.AreEqual(mapInfoPointDirectQueryList.Count, mapInfoPointExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMapInfoPointList() Skip Take 2 Desc
+
+        #region Tests Generated for GetMapInfoPointList() Skip Take Desc Where
+        [TestMethod]
+        public void GetMapInfoPointList_Skip_Take_Desc_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        MapInfoPointService mapInfoPointService = new MapInfoPointService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mapInfoPointService.Query = mapInfoPointService.FillQuery(typeof(MapInfoPoint), culture.TwoLetterISOLanguageName, 0, 1, "MapInfoPointID", "", "MapInfoPointID,EQ,4", "");
+
+                        List<MapInfoPoint> mapInfoPointDirectQueryList = new List<MapInfoPoint>();
+                        mapInfoPointDirectQueryList = (from c in dbTestDB.MapInfoPoints select c).Where(c => c.MapInfoPointID == 4).OrderByDescending(c => c.MapInfoPointID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<MapInfoPoint> mapInfoPointList = new List<MapInfoPoint>();
+                            mapInfoPointList = mapInfoPointService.GetMapInfoPointList().ToList();
+                            CheckMapInfoPointFields(mapInfoPointList);
+                            Assert.AreEqual(mapInfoPointDirectQueryList[0].MapInfoPointID, mapInfoPointList[0].MapInfoPointID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<MapInfoPointExtraA> mapInfoPointExtraAList = new List<MapInfoPointExtraA>();
+                            mapInfoPointExtraAList = mapInfoPointService.GetMapInfoPointExtraAList().ToList();
+                            CheckMapInfoPointExtraAFields(mapInfoPointExtraAList);
+                            Assert.AreEqual(mapInfoPointDirectQueryList[0].MapInfoPointID, mapInfoPointExtraAList[0].MapInfoPointID);
+                            Assert.AreEqual(mapInfoPointDirectQueryList.Count, mapInfoPointExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<MapInfoPointExtraB> mapInfoPointExtraBList = new List<MapInfoPointExtraB>();
+                            mapInfoPointExtraBList = mapInfoPointService.GetMapInfoPointExtraBList().ToList();
+                            CheckMapInfoPointExtraBFields(mapInfoPointExtraBList);
+                            Assert.AreEqual(mapInfoPointDirectQueryList[0].MapInfoPointID, mapInfoPointExtraBList[0].MapInfoPointID);
+                            Assert.AreEqual(mapInfoPointDirectQueryList.Count, mapInfoPointExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMapInfoPointList() Skip Take Desc Where
+
+        #region Tests Generated for GetMapInfoPointList() Skip Take Desc 2 Where
+        [TestMethod]
+        public void GetMapInfoPointList_Skip_Take_Desc_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        MapInfoPointService mapInfoPointService = new MapInfoPointService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mapInfoPointService.Query = mapInfoPointService.FillQuery(typeof(MapInfoPoint), culture.TwoLetterISOLanguageName, 0, 1, "", "MapInfoPointID", "MapInfoPointID,GT,2|MapInfoPointID,LT,5", "");
+
+                        List<MapInfoPoint> mapInfoPointDirectQueryList = new List<MapInfoPoint>();
+                        mapInfoPointDirectQueryList = (from c in dbTestDB.MapInfoPoints select c).Where(c => c.MapInfoPointID > 2 && c.MapInfoPointID < 5).OrderByDescending(c => c.MapInfoPointID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<MapInfoPoint> mapInfoPointList = new List<MapInfoPoint>();
+                            mapInfoPointList = mapInfoPointService.GetMapInfoPointList().ToList();
+                            CheckMapInfoPointFields(mapInfoPointList);
+                            Assert.AreEqual(mapInfoPointDirectQueryList[0].MapInfoPointID, mapInfoPointList[0].MapInfoPointID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<MapInfoPointExtraA> mapInfoPointExtraAList = new List<MapInfoPointExtraA>();
+                            mapInfoPointExtraAList = mapInfoPointService.GetMapInfoPointExtraAList().ToList();
+                            CheckMapInfoPointExtraAFields(mapInfoPointExtraAList);
+                            Assert.AreEqual(mapInfoPointDirectQueryList[0].MapInfoPointID, mapInfoPointExtraAList[0].MapInfoPointID);
+                            Assert.AreEqual(mapInfoPointDirectQueryList.Count, mapInfoPointExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<MapInfoPointExtraB> mapInfoPointExtraBList = new List<MapInfoPointExtraB>();
+                            mapInfoPointExtraBList = mapInfoPointService.GetMapInfoPointExtraBList().ToList();
+                            CheckMapInfoPointExtraBFields(mapInfoPointExtraBList);
+                            Assert.AreEqual(mapInfoPointDirectQueryList[0].MapInfoPointID, mapInfoPointExtraBList[0].MapInfoPointID);
+                            Assert.AreEqual(mapInfoPointDirectQueryList.Count, mapInfoPointExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMapInfoPointList() Skip Take Desc 2 Where
+
+        #region Tests Generated for GetMapInfoPointList() 2 Where
         [TestMethod]
         public void GetMapInfoPointList_2Where_Test()
         {
@@ -608,11 +843,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MapInfoPointService mapInfoPointService = new MapInfoPointService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mapInfoPointService.Query = mapInfoPointService.FillQuery(typeof(MapInfoPoint), culture.TwoLetterISOLanguageName, 0, 10000, "", "MapInfoPointID,GT,2|MapInfoPointID,LT,5", "");
+                        mapInfoPointService.Query = mapInfoPointService.FillQuery(typeof(MapInfoPoint), culture.TwoLetterISOLanguageName, 0, 10000, "", "", "MapInfoPointID,GT,2|MapInfoPointID,LT,5", extra);
 
                         List<MapInfoPoint> mapInfoPointDirectQueryList = new List<MapInfoPoint>();
                         mapInfoPointDirectQueryList = (from c in dbTestDB.MapInfoPoints select c).Where(c => c.MapInfoPointID > 2 && c.MapInfoPointID < 5).ToList();
@@ -624,7 +859,7 @@ namespace CSSPServices.Tests
                             CheckMapInfoPointFields(mapInfoPointList);
                             Assert.AreEqual(mapInfoPointDirectQueryList[0].MapInfoPointID, mapInfoPointList[0].MapInfoPointID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MapInfoPointExtraA> mapInfoPointExtraAList = new List<MapInfoPointExtraA>();
                             mapInfoPointExtraAList = mapInfoPointService.GetMapInfoPointExtraAList().ToList();
@@ -632,7 +867,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mapInfoPointDirectQueryList[0].MapInfoPointID, mapInfoPointExtraAList[0].MapInfoPointID);
                             Assert.AreEqual(mapInfoPointDirectQueryList.Count, mapInfoPointExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MapInfoPointExtraB> mapInfoPointExtraBList = new List<MapInfoPointExtraB>();
                             mapInfoPointExtraBList = mapInfoPointService.GetMapInfoPointExtraBList().ToList();
@@ -642,13 +877,13 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetMapInfoPointList() 2Where
+        #endregion Tests Generated for GetMapInfoPointList() 2 Where
 
         #region Functions private
         private void CheckMapInfoPointFields(List<MapInfoPoint> mapInfoPointList)

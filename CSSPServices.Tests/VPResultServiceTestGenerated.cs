@@ -38,9 +38,9 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
+        #region Tests Generated CRUD
         [TestMethod]
-        public void VPResult_CRUD_And_Properties_Test()
+        public void VPResult_CRUD_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -86,6 +86,33 @@ namespace CSSPServices.Tests
                         Assert.AreEqual("", vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
                     Assert.AreEqual(count, vpResultService.GetVPResultList().Count());
+
+                }
+            }
+        }
+        #endregion Tests Generated CRUD
+
+        #region Tests Generated Properties
+        [TestMethod]
+        public void VPResult_Properties_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    VPResultService vpResultService = new VPResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    count = vpResultService.GetVPResultList().Count();
+
+                    VPResult vpResult = GetFilledRandomVPResult("");
 
                     // -------------------------------
                     // -------------------------------
@@ -310,7 +337,7 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Generated CRUD and Properties
+        #endregion Tests Generated Properties
 
         #region Tests Generated for GetVPResultWithVPResultID(vpResult.VPResultID)
         [TestMethod]
@@ -326,7 +353,7 @@ namespace CSSPServices.Tests
                     VPResult vpResult = (from c in dbTestDB.VPResults select c).FirstOrDefault();
                     Assert.IsNotNull(vpResult);
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         vpResultService.Query.Extra = extra;
 
@@ -336,13 +363,13 @@ namespace CSSPServices.Tests
                             CheckVPResultFields(new List<VPResult>() { vpResultRet });
                             Assert.AreEqual(vpResult.VPResultID, vpResultRet.VPResultID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             VPResultExtraA vpResultExtraARet = vpResultService.GetVPResultExtraAWithVPResultID(vpResult.VPResultID);
                             CheckVPResultExtraAFields(new List<VPResultExtraA>() { vpResultExtraARet });
                             Assert.AreEqual(vpResult.VPResultID, vpResultExtraARet.VPResultID);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             VPResultExtraB vpResultExtraBRet = vpResultService.GetVPResultExtraBWithVPResultID(vpResult.VPResultID);
                             CheckVPResultExtraBFields(new List<VPResultExtraB>() { vpResultExtraBRet });
@@ -350,7 +377,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -375,7 +402,7 @@ namespace CSSPServices.Tests
                     List<VPResult> vpResultDirectQueryList = new List<VPResult>();
                     vpResultDirectQueryList = (from c in dbTestDB.VPResults select c).Take(200).ToList();
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         vpResultService.Query.Extra = extra;
 
@@ -385,14 +412,14 @@ namespace CSSPServices.Tests
                             vpResultList = vpResultService.GetVPResultList().ToList();
                             CheckVPResultFields(vpResultList);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<VPResultExtraA> vpResultExtraAList = new List<VPResultExtraA>();
                             vpResultExtraAList = vpResultService.GetVPResultExtraAList().ToList();
                             CheckVPResultExtraAFields(vpResultExtraAList);
                             Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<VPResultExtraB> vpResultExtraBList = new List<VPResultExtraB>();
                             vpResultExtraBList = vpResultService.GetVPResultExtraBList().ToList();
@@ -401,7 +428,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -419,11 +446,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         VPResultService vpResultService = new VPResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        vpResultService.Query = vpResultService.FillQuery(typeof(VPResult), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
+                        vpResultService.Query = vpResultService.FillQuery(typeof(VPResult), culture.TwoLetterISOLanguageName, 1, 1, "", "", "", extra);
 
                         List<VPResult> vpResultDirectQueryList = new List<VPResult>();
                         vpResultDirectQueryList = (from c in dbTestDB.VPResults select c).Skip(1).Take(1).ToList();
@@ -435,7 +462,7 @@ namespace CSSPServices.Tests
                             CheckVPResultFields(vpResultList);
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultList[0].VPResultID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<VPResultExtraA> vpResultExtraAList = new List<VPResultExtraA>();
                             vpResultExtraAList = vpResultService.GetVPResultExtraAList().ToList();
@@ -443,7 +470,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraAList[0].VPResultID);
                             Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<VPResultExtraB> vpResultExtraBList = new List<VPResultExtraB>();
                             vpResultExtraBList = vpResultService.GetVPResultExtraBList().ToList();
@@ -453,7 +480,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -461,9 +488,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated for GetVPResultList() Skip Take
 
-        #region Tests Generated for GetVPResultList() Skip Take Order
+        #region Tests Generated for GetVPResultList() Skip Take Asc
         [TestMethod]
-        public void GetVPResultList_Skip_Take_Order_Test()
+        public void GetVPResultList_Skip_Take_Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -471,14 +498,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         VPResultService vpResultService = new VPResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        vpResultService.Query = vpResultService.FillQuery(typeof(VPResult), culture.TwoLetterISOLanguageName, 1, 1,  "VPResultID", "");
+                        vpResultService.Query = vpResultService.FillQuery(typeof(VPResult), culture.TwoLetterISOLanguageName, 1, 1,  "VPResultID", "", "", extra);
 
                         List<VPResult> vpResultDirectQueryList = new List<VPResult>();
-                        vpResultDirectQueryList = (from c in dbTestDB.VPResults select c).Skip(1).Take(1).OrderBy(c => c.VPResultID).ToList();
+                        vpResultDirectQueryList = (from c in dbTestDB.VPResults select c).OrderBy(c => c.VPResultID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -487,7 +514,7 @@ namespace CSSPServices.Tests
                             CheckVPResultFields(vpResultList);
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultList[0].VPResultID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<VPResultExtraA> vpResultExtraAList = new List<VPResultExtraA>();
                             vpResultExtraAList = vpResultService.GetVPResultExtraAList().ToList();
@@ -495,7 +522,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraAList[0].VPResultID);
                             Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<VPResultExtraB> vpResultExtraBList = new List<VPResultExtraB>();
                             vpResultExtraBList = vpResultService.GetVPResultExtraBList().ToList();
@@ -505,17 +532,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetVPResultList() Skip Take Order
+        #endregion Tests Generated for GetVPResultList() Skip Take Asc
 
-        #region Tests Generated for GetVPResultList() Skip Take 2Order
+        #region Tests Generated for GetVPResultList() Skip Take 2 Asc
         [TestMethod]
-        public void GetVPResultList_Skip_Take_2Order_Test()
+        public void GetVPResultList_Skip_Take_2Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -523,14 +550,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         VPResultService vpResultService = new VPResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        vpResultService.Query = vpResultService.FillQuery(typeof(VPResult), culture.TwoLetterISOLanguageName, 1, 1, "VPResultID,VPScenarioID", "");
+                        vpResultService.Query = vpResultService.FillQuery(typeof(VPResult), culture.TwoLetterISOLanguageName, 1, 1, "VPResultID,VPScenarioID", "", "", extra);
 
                         List<VPResult> vpResultDirectQueryList = new List<VPResult>();
-                        vpResultDirectQueryList = (from c in dbTestDB.VPResults select c).Skip(1).Take(1).OrderBy(c => c.VPResultID).ThenBy(c => c.VPScenarioID).ToList();
+                        vpResultDirectQueryList = (from c in dbTestDB.VPResults select c).OrderBy(c => c.VPResultID).ThenBy(c => c.VPScenarioID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -539,7 +566,7 @@ namespace CSSPServices.Tests
                             CheckVPResultFields(vpResultList);
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultList[0].VPResultID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<VPResultExtraA> vpResultExtraAList = new List<VPResultExtraA>();
                             vpResultExtraAList = vpResultService.GetVPResultExtraAList().ToList();
@@ -547,7 +574,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraAList[0].VPResultID);
                             Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<VPResultExtraB> vpResultExtraBList = new List<VPResultExtraB>();
                             vpResultExtraBList = vpResultService.GetVPResultExtraBList().ToList();
@@ -557,17 +584,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetVPResultList() Skip Take 2Order
+        #endregion Tests Generated for GetVPResultList() Skip Take 2 Asc
 
-        #region Tests Generated for GetVPResultList() Skip Take Order Where
+        #region Tests Generated for GetVPResultList() Skip Take Asc Where
         [TestMethod]
-        public void GetVPResultList_Skip_Take_Order_Where_Test()
+        public void GetVPResultList_Skip_Take_Asc_Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -575,14 +602,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         VPResultService vpResultService = new VPResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        vpResultService.Query = vpResultService.FillQuery(typeof(VPResult), culture.TwoLetterISOLanguageName, 0, 1, "VPResultID", "VPResultID,EQ,4", "");
+                        vpResultService.Query = vpResultService.FillQuery(typeof(VPResult), culture.TwoLetterISOLanguageName, 0, 1, "VPResultID", "", "VPResultID,EQ,4", "");
 
                         List<VPResult> vpResultDirectQueryList = new List<VPResult>();
-                        vpResultDirectQueryList = (from c in dbTestDB.VPResults select c).Where(c => c.VPResultID == 4).Skip(0).Take(1).OrderBy(c => c.VPResultID).ToList();
+                        vpResultDirectQueryList = (from c in dbTestDB.VPResults select c).Where(c => c.VPResultID == 4).OrderBy(c => c.VPResultID).Skip(0).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -591,7 +618,7 @@ namespace CSSPServices.Tests
                             CheckVPResultFields(vpResultList);
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultList[0].VPResultID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<VPResultExtraA> vpResultExtraAList = new List<VPResultExtraA>();
                             vpResultExtraAList = vpResultService.GetVPResultExtraAList().ToList();
@@ -599,7 +626,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraAList[0].VPResultID);
                             Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<VPResultExtraB> vpResultExtraBList = new List<VPResultExtraB>();
                             vpResultExtraBList = vpResultService.GetVPResultExtraBList().ToList();
@@ -609,17 +636,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetVPResultList() Skip Take Order Where
+        #endregion Tests Generated for GetVPResultList() Skip Take Asc Where
 
-        #region Tests Generated for GetVPResultList() Skip Take Order 2Where
+        #region Tests Generated for GetVPResultList() Skip Take Asc 2 Where
         [TestMethod]
-        public void GetVPResultList_Skip_Take_Order_2Where_Test()
+        public void GetVPResultList_Skip_Take_Asc_2Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -627,11 +654,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         VPResultService vpResultService = new VPResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        vpResultService.Query = vpResultService.FillQuery(typeof(VPResult), culture.TwoLetterISOLanguageName, 0, 1, "VPResultID", "VPResultID,GT,2|VPResultID,LT,5", "");
+                        vpResultService.Query = vpResultService.FillQuery(typeof(VPResult), culture.TwoLetterISOLanguageName, 0, 1, "VPResultID", "", "VPResultID,GT,2|VPResultID,LT,5", "");
 
                         List<VPResult> vpResultDirectQueryList = new List<VPResult>();
                         vpResultDirectQueryList = (from c in dbTestDB.VPResults select c).Where(c => c.VPResultID > 2 && c.VPResultID < 5).Skip(0).Take(1).OrderBy(c => c.VPResultID).ToList();
@@ -643,7 +670,7 @@ namespace CSSPServices.Tests
                             CheckVPResultFields(vpResultList);
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultList[0].VPResultID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<VPResultExtraA> vpResultExtraAList = new List<VPResultExtraA>();
                             vpResultExtraAList = vpResultService.GetVPResultExtraAList().ToList();
@@ -651,7 +678,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraAList[0].VPResultID);
                             Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<VPResultExtraB> vpResultExtraBList = new List<VPResultExtraB>();
                             vpResultExtraBList = vpResultService.GetVPResultExtraBList().ToList();
@@ -661,15 +688,223 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetVPResultList() Skip Take Order 2Where
+        #endregion Tests Generated for GetVPResultList() Skip Take Asc 2 Where
 
-        #region Tests Generated for GetVPResultList() 2Where
+        #region Tests Generated for GetVPResultList() Skip Take Desc
+        [TestMethod]
+        public void GetVPResultList_Skip_Take_Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        VPResultService vpResultService = new VPResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        vpResultService.Query = vpResultService.FillQuery(typeof(VPResult), culture.TwoLetterISOLanguageName, 1, 1, "", "VPResultID", "", extra);
+
+                        List<VPResult> vpResultDirectQueryList = new List<VPResult>();
+                        vpResultDirectQueryList = (from c in dbTestDB.VPResults select c).OrderByDescending(c => c.VPResultID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<VPResult> vpResultList = new List<VPResult>();
+                            vpResultList = vpResultService.GetVPResultList().ToList();
+                            CheckVPResultFields(vpResultList);
+                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultList[0].VPResultID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<VPResultExtraA> vpResultExtraAList = new List<VPResultExtraA>();
+                            vpResultExtraAList = vpResultService.GetVPResultExtraAList().ToList();
+                            CheckVPResultExtraAFields(vpResultExtraAList);
+                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraAList[0].VPResultID);
+                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<VPResultExtraB> vpResultExtraBList = new List<VPResultExtraB>();
+                            vpResultExtraBList = vpResultService.GetVPResultExtraBList().ToList();
+                            CheckVPResultExtraBFields(vpResultExtraBList);
+                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraBList[0].VPResultID);
+                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetVPResultList() Skip Take Desc
+
+        #region Tests Generated for GetVPResultList() Skip Take 2 Desc
+        [TestMethod]
+        public void GetVPResultList_Skip_Take_2Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        VPResultService vpResultService = new VPResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        vpResultService.Query = vpResultService.FillQuery(typeof(VPResult), culture.TwoLetterISOLanguageName, 1, 1, "", "VPResultID,VPScenarioID", "", extra);
+
+                        List<VPResult> vpResultDirectQueryList = new List<VPResult>();
+                        vpResultDirectQueryList = (from c in dbTestDB.VPResults select c).OrderByDescending(c => c.VPResultID).ThenByDescending(c => c.VPScenarioID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<VPResult> vpResultList = new List<VPResult>();
+                            vpResultList = vpResultService.GetVPResultList().ToList();
+                            CheckVPResultFields(vpResultList);
+                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultList[0].VPResultID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<VPResultExtraA> vpResultExtraAList = new List<VPResultExtraA>();
+                            vpResultExtraAList = vpResultService.GetVPResultExtraAList().ToList();
+                            CheckVPResultExtraAFields(vpResultExtraAList);
+                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraAList[0].VPResultID);
+                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<VPResultExtraB> vpResultExtraBList = new List<VPResultExtraB>();
+                            vpResultExtraBList = vpResultService.GetVPResultExtraBList().ToList();
+                            CheckVPResultExtraBFields(vpResultExtraBList);
+                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraBList[0].VPResultID);
+                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetVPResultList() Skip Take 2 Desc
+
+        #region Tests Generated for GetVPResultList() Skip Take Desc Where
+        [TestMethod]
+        public void GetVPResultList_Skip_Take_Desc_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        VPResultService vpResultService = new VPResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        vpResultService.Query = vpResultService.FillQuery(typeof(VPResult), culture.TwoLetterISOLanguageName, 0, 1, "VPResultID", "", "VPResultID,EQ,4", "");
+
+                        List<VPResult> vpResultDirectQueryList = new List<VPResult>();
+                        vpResultDirectQueryList = (from c in dbTestDB.VPResults select c).Where(c => c.VPResultID == 4).OrderByDescending(c => c.VPResultID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<VPResult> vpResultList = new List<VPResult>();
+                            vpResultList = vpResultService.GetVPResultList().ToList();
+                            CheckVPResultFields(vpResultList);
+                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultList[0].VPResultID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<VPResultExtraA> vpResultExtraAList = new List<VPResultExtraA>();
+                            vpResultExtraAList = vpResultService.GetVPResultExtraAList().ToList();
+                            CheckVPResultExtraAFields(vpResultExtraAList);
+                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraAList[0].VPResultID);
+                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<VPResultExtraB> vpResultExtraBList = new List<VPResultExtraB>();
+                            vpResultExtraBList = vpResultService.GetVPResultExtraBList().ToList();
+                            CheckVPResultExtraBFields(vpResultExtraBList);
+                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraBList[0].VPResultID);
+                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetVPResultList() Skip Take Desc Where
+
+        #region Tests Generated for GetVPResultList() Skip Take Desc 2 Where
+        [TestMethod]
+        public void GetVPResultList_Skip_Take_Desc_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        VPResultService vpResultService = new VPResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        vpResultService.Query = vpResultService.FillQuery(typeof(VPResult), culture.TwoLetterISOLanguageName, 0, 1, "", "VPResultID", "VPResultID,GT,2|VPResultID,LT,5", "");
+
+                        List<VPResult> vpResultDirectQueryList = new List<VPResult>();
+                        vpResultDirectQueryList = (from c in dbTestDB.VPResults select c).Where(c => c.VPResultID > 2 && c.VPResultID < 5).OrderByDescending(c => c.VPResultID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<VPResult> vpResultList = new List<VPResult>();
+                            vpResultList = vpResultService.GetVPResultList().ToList();
+                            CheckVPResultFields(vpResultList);
+                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultList[0].VPResultID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<VPResultExtraA> vpResultExtraAList = new List<VPResultExtraA>();
+                            vpResultExtraAList = vpResultService.GetVPResultExtraAList().ToList();
+                            CheckVPResultExtraAFields(vpResultExtraAList);
+                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraAList[0].VPResultID);
+                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<VPResultExtraB> vpResultExtraBList = new List<VPResultExtraB>();
+                            vpResultExtraBList = vpResultService.GetVPResultExtraBList().ToList();
+                            CheckVPResultExtraBFields(vpResultExtraBList);
+                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraBList[0].VPResultID);
+                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetVPResultList() Skip Take Desc 2 Where
+
+        #region Tests Generated for GetVPResultList() 2 Where
         [TestMethod]
         public void GetVPResultList_2Where_Test()
         {
@@ -679,11 +914,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         VPResultService vpResultService = new VPResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        vpResultService.Query = vpResultService.FillQuery(typeof(VPResult), culture.TwoLetterISOLanguageName, 0, 10000, "", "VPResultID,GT,2|VPResultID,LT,5", "");
+                        vpResultService.Query = vpResultService.FillQuery(typeof(VPResult), culture.TwoLetterISOLanguageName, 0, 10000, "", "", "VPResultID,GT,2|VPResultID,LT,5", extra);
 
                         List<VPResult> vpResultDirectQueryList = new List<VPResult>();
                         vpResultDirectQueryList = (from c in dbTestDB.VPResults select c).Where(c => c.VPResultID > 2 && c.VPResultID < 5).ToList();
@@ -695,7 +930,7 @@ namespace CSSPServices.Tests
                             CheckVPResultFields(vpResultList);
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultList[0].VPResultID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<VPResultExtraA> vpResultExtraAList = new List<VPResultExtraA>();
                             vpResultExtraAList = vpResultService.GetVPResultExtraAList().ToList();
@@ -703,7 +938,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraAList[0].VPResultID);
                             Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<VPResultExtraB> vpResultExtraBList = new List<VPResultExtraB>();
                             vpResultExtraBList = vpResultService.GetVPResultExtraBList().ToList();
@@ -713,13 +948,13 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetVPResultList() 2Where
+        #endregion Tests Generated for GetVPResultList() 2 Where
 
         #region Functions private
         private void CheckVPResultFields(List<VPResult> vpResultList)

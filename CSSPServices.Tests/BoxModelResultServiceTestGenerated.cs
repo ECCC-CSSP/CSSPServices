@@ -38,9 +38,9 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
+        #region Tests Generated CRUD
         [TestMethod]
-        public void BoxModelResult_CRUD_And_Properties_Test()
+        public void BoxModelResult_CRUD_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -86,6 +86,33 @@ namespace CSSPServices.Tests
                         Assert.AreEqual("", boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
                     Assert.AreEqual(count, boxModelResultService.GetBoxModelResultList().Count());
+
+                }
+            }
+        }
+        #endregion Tests Generated CRUD
+
+        #region Tests Generated Properties
+        [TestMethod]
+        public void BoxModelResult_Properties_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    count = boxModelResultService.GetBoxModelResultList().Count();
+
+                    BoxModelResult boxModelResult = GetFilledRandomBoxModelResult("");
 
                     // -------------------------------
                     // -------------------------------
@@ -446,7 +473,7 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Generated CRUD and Properties
+        #endregion Tests Generated Properties
 
         #region Tests Generated for GetBoxModelResultWithBoxModelResultID(boxModelResult.BoxModelResultID)
         [TestMethod]
@@ -462,7 +489,7 @@ namespace CSSPServices.Tests
                     BoxModelResult boxModelResult = (from c in dbTestDB.BoxModelResults select c).FirstOrDefault();
                     Assert.IsNotNull(boxModelResult);
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         boxModelResultService.Query.Extra = extra;
 
@@ -472,13 +499,13 @@ namespace CSSPServices.Tests
                             CheckBoxModelResultFields(new List<BoxModelResult>() { boxModelResultRet });
                             Assert.AreEqual(boxModelResult.BoxModelResultID, boxModelResultRet.BoxModelResultID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             BoxModelResultExtraA boxModelResultExtraARet = boxModelResultService.GetBoxModelResultExtraAWithBoxModelResultID(boxModelResult.BoxModelResultID);
                             CheckBoxModelResultExtraAFields(new List<BoxModelResultExtraA>() { boxModelResultExtraARet });
                             Assert.AreEqual(boxModelResult.BoxModelResultID, boxModelResultExtraARet.BoxModelResultID);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             BoxModelResultExtraB boxModelResultExtraBRet = boxModelResultService.GetBoxModelResultExtraBWithBoxModelResultID(boxModelResult.BoxModelResultID);
                             CheckBoxModelResultExtraBFields(new List<BoxModelResultExtraB>() { boxModelResultExtraBRet });
@@ -486,7 +513,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -511,7 +538,7 @@ namespace CSSPServices.Tests
                     List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
                     boxModelResultDirectQueryList = (from c in dbTestDB.BoxModelResults select c).Take(200).ToList();
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         boxModelResultService.Query.Extra = extra;
 
@@ -521,14 +548,14 @@ namespace CSSPServices.Tests
                             boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
                             CheckBoxModelResultFields(boxModelResultList);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<BoxModelResultExtraA> boxModelResultExtraAList = new List<BoxModelResultExtraA>();
                             boxModelResultExtraAList = boxModelResultService.GetBoxModelResultExtraAList().ToList();
                             CheckBoxModelResultExtraAFields(boxModelResultExtraAList);
                             Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<BoxModelResultExtraB> boxModelResultExtraBList = new List<BoxModelResultExtraB>();
                             boxModelResultExtraBList = boxModelResultService.GetBoxModelResultExtraBList().ToList();
@@ -537,7 +564,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -555,11 +582,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
+                        boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 1, 1, "", "", "", extra);
 
                         List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
                         boxModelResultDirectQueryList = (from c in dbTestDB.BoxModelResults select c).Skip(1).Take(1).ToList();
@@ -571,7 +598,7 @@ namespace CSSPServices.Tests
                             CheckBoxModelResultFields(boxModelResultList);
                             Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<BoxModelResultExtraA> boxModelResultExtraAList = new List<BoxModelResultExtraA>();
                             boxModelResultExtraAList = boxModelResultService.GetBoxModelResultExtraAList().ToList();
@@ -579,7 +606,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultExtraAList[0].BoxModelResultID);
                             Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<BoxModelResultExtraB> boxModelResultExtraBList = new List<BoxModelResultExtraB>();
                             boxModelResultExtraBList = boxModelResultService.GetBoxModelResultExtraBList().ToList();
@@ -589,7 +616,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -597,9 +624,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated for GetBoxModelResultList() Skip Take
 
-        #region Tests Generated for GetBoxModelResultList() Skip Take Order
+        #region Tests Generated for GetBoxModelResultList() Skip Take Asc
         [TestMethod]
-        public void GetBoxModelResultList_Skip_Take_Order_Test()
+        public void GetBoxModelResultList_Skip_Take_Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -607,14 +634,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 1, 1,  "BoxModelResultID", "");
+                        boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 1, 1,  "BoxModelResultID", "", "", extra);
 
                         List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
-                        boxModelResultDirectQueryList = (from c in dbTestDB.BoxModelResults select c).Skip(1).Take(1).OrderBy(c => c.BoxModelResultID).ToList();
+                        boxModelResultDirectQueryList = (from c in dbTestDB.BoxModelResults select c).OrderBy(c => c.BoxModelResultID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -623,7 +650,7 @@ namespace CSSPServices.Tests
                             CheckBoxModelResultFields(boxModelResultList);
                             Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<BoxModelResultExtraA> boxModelResultExtraAList = new List<BoxModelResultExtraA>();
                             boxModelResultExtraAList = boxModelResultService.GetBoxModelResultExtraAList().ToList();
@@ -631,7 +658,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultExtraAList[0].BoxModelResultID);
                             Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<BoxModelResultExtraB> boxModelResultExtraBList = new List<BoxModelResultExtraB>();
                             boxModelResultExtraBList = boxModelResultService.GetBoxModelResultExtraBList().ToList();
@@ -641,17 +668,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetBoxModelResultList() Skip Take Order
+        #endregion Tests Generated for GetBoxModelResultList() Skip Take Asc
 
-        #region Tests Generated for GetBoxModelResultList() Skip Take 2Order
+        #region Tests Generated for GetBoxModelResultList() Skip Take 2 Asc
         [TestMethod]
-        public void GetBoxModelResultList_Skip_Take_2Order_Test()
+        public void GetBoxModelResultList_Skip_Take_2Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -659,14 +686,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 1, 1, "BoxModelResultID,BoxModelID", "");
+                        boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 1, 1, "BoxModelResultID,BoxModelID", "", "", extra);
 
                         List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
-                        boxModelResultDirectQueryList = (from c in dbTestDB.BoxModelResults select c).Skip(1).Take(1).OrderBy(c => c.BoxModelResultID).ThenBy(c => c.BoxModelID).ToList();
+                        boxModelResultDirectQueryList = (from c in dbTestDB.BoxModelResults select c).OrderBy(c => c.BoxModelResultID).ThenBy(c => c.BoxModelID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -675,7 +702,7 @@ namespace CSSPServices.Tests
                             CheckBoxModelResultFields(boxModelResultList);
                             Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<BoxModelResultExtraA> boxModelResultExtraAList = new List<BoxModelResultExtraA>();
                             boxModelResultExtraAList = boxModelResultService.GetBoxModelResultExtraAList().ToList();
@@ -683,7 +710,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultExtraAList[0].BoxModelResultID);
                             Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<BoxModelResultExtraB> boxModelResultExtraBList = new List<BoxModelResultExtraB>();
                             boxModelResultExtraBList = boxModelResultService.GetBoxModelResultExtraBList().ToList();
@@ -693,17 +720,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetBoxModelResultList() Skip Take 2Order
+        #endregion Tests Generated for GetBoxModelResultList() Skip Take 2 Asc
 
-        #region Tests Generated for GetBoxModelResultList() Skip Take Order Where
+        #region Tests Generated for GetBoxModelResultList() Skip Take Asc Where
         [TestMethod]
-        public void GetBoxModelResultList_Skip_Take_Order_Where_Test()
+        public void GetBoxModelResultList_Skip_Take_Asc_Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -711,14 +738,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 0, 1, "BoxModelResultID", "BoxModelResultID,EQ,4", "");
+                        boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 0, 1, "BoxModelResultID", "", "BoxModelResultID,EQ,4", "");
 
                         List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
-                        boxModelResultDirectQueryList = (from c in dbTestDB.BoxModelResults select c).Where(c => c.BoxModelResultID == 4).Skip(0).Take(1).OrderBy(c => c.BoxModelResultID).ToList();
+                        boxModelResultDirectQueryList = (from c in dbTestDB.BoxModelResults select c).Where(c => c.BoxModelResultID == 4).OrderBy(c => c.BoxModelResultID).Skip(0).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -727,7 +754,7 @@ namespace CSSPServices.Tests
                             CheckBoxModelResultFields(boxModelResultList);
                             Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<BoxModelResultExtraA> boxModelResultExtraAList = new List<BoxModelResultExtraA>();
                             boxModelResultExtraAList = boxModelResultService.GetBoxModelResultExtraAList().ToList();
@@ -735,7 +762,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultExtraAList[0].BoxModelResultID);
                             Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<BoxModelResultExtraB> boxModelResultExtraBList = new List<BoxModelResultExtraB>();
                             boxModelResultExtraBList = boxModelResultService.GetBoxModelResultExtraBList().ToList();
@@ -745,17 +772,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetBoxModelResultList() Skip Take Order Where
+        #endregion Tests Generated for GetBoxModelResultList() Skip Take Asc Where
 
-        #region Tests Generated for GetBoxModelResultList() Skip Take Order 2Where
+        #region Tests Generated for GetBoxModelResultList() Skip Take Asc 2 Where
         [TestMethod]
-        public void GetBoxModelResultList_Skip_Take_Order_2Where_Test()
+        public void GetBoxModelResultList_Skip_Take_Asc_2Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -763,11 +790,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 0, 1, "BoxModelResultID", "BoxModelResultID,GT,2|BoxModelResultID,LT,5", "");
+                        boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 0, 1, "BoxModelResultID", "", "BoxModelResultID,GT,2|BoxModelResultID,LT,5", "");
 
                         List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
                         boxModelResultDirectQueryList = (from c in dbTestDB.BoxModelResults select c).Where(c => c.BoxModelResultID > 2 && c.BoxModelResultID < 5).Skip(0).Take(1).OrderBy(c => c.BoxModelResultID).ToList();
@@ -779,7 +806,7 @@ namespace CSSPServices.Tests
                             CheckBoxModelResultFields(boxModelResultList);
                             Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<BoxModelResultExtraA> boxModelResultExtraAList = new List<BoxModelResultExtraA>();
                             boxModelResultExtraAList = boxModelResultService.GetBoxModelResultExtraAList().ToList();
@@ -787,7 +814,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultExtraAList[0].BoxModelResultID);
                             Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<BoxModelResultExtraB> boxModelResultExtraBList = new List<BoxModelResultExtraB>();
                             boxModelResultExtraBList = boxModelResultService.GetBoxModelResultExtraBList().ToList();
@@ -797,15 +824,223 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetBoxModelResultList() Skip Take Order 2Where
+        #endregion Tests Generated for GetBoxModelResultList() Skip Take Asc 2 Where
 
-        #region Tests Generated for GetBoxModelResultList() 2Where
+        #region Tests Generated for GetBoxModelResultList() Skip Take Desc
+        [TestMethod]
+        public void GetBoxModelResultList_Skip_Take_Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 1, 1, "", "BoxModelResultID", "", extra);
+
+                        List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
+                        boxModelResultDirectQueryList = (from c in dbTestDB.BoxModelResults select c).OrderByDescending(c => c.BoxModelResultID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<BoxModelResult> boxModelResultList = new List<BoxModelResult>();
+                            boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
+                            CheckBoxModelResultFields(boxModelResultList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<BoxModelResultExtraA> boxModelResultExtraAList = new List<BoxModelResultExtraA>();
+                            boxModelResultExtraAList = boxModelResultService.GetBoxModelResultExtraAList().ToList();
+                            CheckBoxModelResultExtraAFields(boxModelResultExtraAList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultExtraAList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<BoxModelResultExtraB> boxModelResultExtraBList = new List<BoxModelResultExtraB>();
+                            boxModelResultExtraBList = boxModelResultService.GetBoxModelResultExtraBList().ToList();
+                            CheckBoxModelResultExtraBFields(boxModelResultExtraBList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultExtraBList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetBoxModelResultList() Skip Take Desc
+
+        #region Tests Generated for GetBoxModelResultList() Skip Take 2 Desc
+        [TestMethod]
+        public void GetBoxModelResultList_Skip_Take_2Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 1, 1, "", "BoxModelResultID,BoxModelID", "", extra);
+
+                        List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
+                        boxModelResultDirectQueryList = (from c in dbTestDB.BoxModelResults select c).OrderByDescending(c => c.BoxModelResultID).ThenByDescending(c => c.BoxModelID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<BoxModelResult> boxModelResultList = new List<BoxModelResult>();
+                            boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
+                            CheckBoxModelResultFields(boxModelResultList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<BoxModelResultExtraA> boxModelResultExtraAList = new List<BoxModelResultExtraA>();
+                            boxModelResultExtraAList = boxModelResultService.GetBoxModelResultExtraAList().ToList();
+                            CheckBoxModelResultExtraAFields(boxModelResultExtraAList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultExtraAList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<BoxModelResultExtraB> boxModelResultExtraBList = new List<BoxModelResultExtraB>();
+                            boxModelResultExtraBList = boxModelResultService.GetBoxModelResultExtraBList().ToList();
+                            CheckBoxModelResultExtraBFields(boxModelResultExtraBList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultExtraBList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetBoxModelResultList() Skip Take 2 Desc
+
+        #region Tests Generated for GetBoxModelResultList() Skip Take Desc Where
+        [TestMethod]
+        public void GetBoxModelResultList_Skip_Take_Desc_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 0, 1, "BoxModelResultID", "", "BoxModelResultID,EQ,4", "");
+
+                        List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
+                        boxModelResultDirectQueryList = (from c in dbTestDB.BoxModelResults select c).Where(c => c.BoxModelResultID == 4).OrderByDescending(c => c.BoxModelResultID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<BoxModelResult> boxModelResultList = new List<BoxModelResult>();
+                            boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
+                            CheckBoxModelResultFields(boxModelResultList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<BoxModelResultExtraA> boxModelResultExtraAList = new List<BoxModelResultExtraA>();
+                            boxModelResultExtraAList = boxModelResultService.GetBoxModelResultExtraAList().ToList();
+                            CheckBoxModelResultExtraAFields(boxModelResultExtraAList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultExtraAList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<BoxModelResultExtraB> boxModelResultExtraBList = new List<BoxModelResultExtraB>();
+                            boxModelResultExtraBList = boxModelResultService.GetBoxModelResultExtraBList().ToList();
+                            CheckBoxModelResultExtraBFields(boxModelResultExtraBList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultExtraBList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetBoxModelResultList() Skip Take Desc Where
+
+        #region Tests Generated for GetBoxModelResultList() Skip Take Desc 2 Where
+        [TestMethod]
+        public void GetBoxModelResultList_Skip_Take_Desc_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 0, 1, "", "BoxModelResultID", "BoxModelResultID,GT,2|BoxModelResultID,LT,5", "");
+
+                        List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
+                        boxModelResultDirectQueryList = (from c in dbTestDB.BoxModelResults select c).Where(c => c.BoxModelResultID > 2 && c.BoxModelResultID < 5).OrderByDescending(c => c.BoxModelResultID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<BoxModelResult> boxModelResultList = new List<BoxModelResult>();
+                            boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
+                            CheckBoxModelResultFields(boxModelResultList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<BoxModelResultExtraA> boxModelResultExtraAList = new List<BoxModelResultExtraA>();
+                            boxModelResultExtraAList = boxModelResultService.GetBoxModelResultExtraAList().ToList();
+                            CheckBoxModelResultExtraAFields(boxModelResultExtraAList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultExtraAList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<BoxModelResultExtraB> boxModelResultExtraBList = new List<BoxModelResultExtraB>();
+                            boxModelResultExtraBList = boxModelResultService.GetBoxModelResultExtraBList().ToList();
+                            CheckBoxModelResultExtraBFields(boxModelResultExtraBList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultExtraBList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetBoxModelResultList() Skip Take Desc 2 Where
+
+        #region Tests Generated for GetBoxModelResultList() 2 Where
         [TestMethod]
         public void GetBoxModelResultList_2Where_Test()
         {
@@ -815,11 +1050,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 0, 10000, "", "BoxModelResultID,GT,2|BoxModelResultID,LT,5", "");
+                        boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 0, 10000, "", "", "BoxModelResultID,GT,2|BoxModelResultID,LT,5", extra);
 
                         List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
                         boxModelResultDirectQueryList = (from c in dbTestDB.BoxModelResults select c).Where(c => c.BoxModelResultID > 2 && c.BoxModelResultID < 5).ToList();
@@ -831,7 +1066,7 @@ namespace CSSPServices.Tests
                             CheckBoxModelResultFields(boxModelResultList);
                             Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<BoxModelResultExtraA> boxModelResultExtraAList = new List<BoxModelResultExtraA>();
                             boxModelResultExtraAList = boxModelResultService.GetBoxModelResultExtraAList().ToList();
@@ -839,7 +1074,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultExtraAList[0].BoxModelResultID);
                             Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<BoxModelResultExtraB> boxModelResultExtraBList = new List<BoxModelResultExtraB>();
                             boxModelResultExtraBList = boxModelResultService.GetBoxModelResultExtraBList().ToList();
@@ -849,13 +1084,13 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetBoxModelResultList() 2Where
+        #endregion Tests Generated for GetBoxModelResultList() 2 Where
 
         #region Functions private
         private void CheckBoxModelResultFields(List<BoxModelResult> boxModelResultList)

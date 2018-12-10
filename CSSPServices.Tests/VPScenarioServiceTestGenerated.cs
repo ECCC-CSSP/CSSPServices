@@ -38,9 +38,9 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
+        #region Tests Generated CRUD
         [TestMethod]
-        public void VPScenario_CRUD_And_Properties_Test()
+        public void VPScenario_CRUD_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -86,6 +86,33 @@ namespace CSSPServices.Tests
                         Assert.AreEqual("", vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
                     Assert.AreEqual(count, vpScenarioService.GetVPScenarioList().Count());
+
+                }
+            }
+        }
+        #endregion Tests Generated CRUD
+
+        #region Tests Generated Properties
+        [TestMethod]
+        public void VPScenario_Properties_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    count = vpScenarioService.GetVPScenarioList().Count();
+
+                    VPScenario vpScenario = GetFilledRandomVPScenario("");
 
                     // -------------------------------
                     // -------------------------------
@@ -548,7 +575,7 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Generated CRUD and Properties
+        #endregion Tests Generated Properties
 
         #region Tests Generated for GetVPScenarioWithVPScenarioID(vpScenario.VPScenarioID)
         [TestMethod]
@@ -564,7 +591,7 @@ namespace CSSPServices.Tests
                     VPScenario vpScenario = (from c in dbTestDB.VPScenarios select c).FirstOrDefault();
                     Assert.IsNotNull(vpScenario);
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         vpScenarioService.Query.Extra = extra;
 
@@ -574,13 +601,13 @@ namespace CSSPServices.Tests
                             CheckVPScenarioFields(new List<VPScenario>() { vpScenarioRet });
                             Assert.AreEqual(vpScenario.VPScenarioID, vpScenarioRet.VPScenarioID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             VPScenarioExtraA vpScenarioExtraARet = vpScenarioService.GetVPScenarioExtraAWithVPScenarioID(vpScenario.VPScenarioID);
                             CheckVPScenarioExtraAFields(new List<VPScenarioExtraA>() { vpScenarioExtraARet });
                             Assert.AreEqual(vpScenario.VPScenarioID, vpScenarioExtraARet.VPScenarioID);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             VPScenarioExtraB vpScenarioExtraBRet = vpScenarioService.GetVPScenarioExtraBWithVPScenarioID(vpScenario.VPScenarioID);
                             CheckVPScenarioExtraBFields(new List<VPScenarioExtraB>() { vpScenarioExtraBRet });
@@ -588,7 +615,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -613,7 +640,7 @@ namespace CSSPServices.Tests
                     List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
                     vpScenarioDirectQueryList = (from c in dbTestDB.VPScenarios select c).Take(200).ToList();
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         vpScenarioService.Query.Extra = extra;
 
@@ -623,14 +650,14 @@ namespace CSSPServices.Tests
                             vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
                             CheckVPScenarioFields(vpScenarioList);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<VPScenarioExtraA> vpScenarioExtraAList = new List<VPScenarioExtraA>();
                             vpScenarioExtraAList = vpScenarioService.GetVPScenarioExtraAList().ToList();
                             CheckVPScenarioExtraAFields(vpScenarioExtraAList);
                             Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<VPScenarioExtraB> vpScenarioExtraBList = new List<VPScenarioExtraB>();
                             vpScenarioExtraBList = vpScenarioService.GetVPScenarioExtraBList().ToList();
@@ -639,7 +666,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -657,11 +684,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
+                        vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 1, 1, "", "", "", extra);
 
                         List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
                         vpScenarioDirectQueryList = (from c in dbTestDB.VPScenarios select c).Skip(1).Take(1).ToList();
@@ -673,7 +700,7 @@ namespace CSSPServices.Tests
                             CheckVPScenarioFields(vpScenarioList);
                             Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<VPScenarioExtraA> vpScenarioExtraAList = new List<VPScenarioExtraA>();
                             vpScenarioExtraAList = vpScenarioService.GetVPScenarioExtraAList().ToList();
@@ -681,7 +708,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioExtraAList[0].VPScenarioID);
                             Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<VPScenarioExtraB> vpScenarioExtraBList = new List<VPScenarioExtraB>();
                             vpScenarioExtraBList = vpScenarioService.GetVPScenarioExtraBList().ToList();
@@ -691,7 +718,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -699,9 +726,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated for GetVPScenarioList() Skip Take
 
-        #region Tests Generated for GetVPScenarioList() Skip Take Order
+        #region Tests Generated for GetVPScenarioList() Skip Take Asc
         [TestMethod]
-        public void GetVPScenarioList_Skip_Take_Order_Test()
+        public void GetVPScenarioList_Skip_Take_Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -709,14 +736,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 1, 1,  "VPScenarioID", "");
+                        vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 1, 1,  "VPScenarioID", "", "", extra);
 
                         List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
-                        vpScenarioDirectQueryList = (from c in dbTestDB.VPScenarios select c).Skip(1).Take(1).OrderBy(c => c.VPScenarioID).ToList();
+                        vpScenarioDirectQueryList = (from c in dbTestDB.VPScenarios select c).OrderBy(c => c.VPScenarioID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -725,7 +752,7 @@ namespace CSSPServices.Tests
                             CheckVPScenarioFields(vpScenarioList);
                             Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<VPScenarioExtraA> vpScenarioExtraAList = new List<VPScenarioExtraA>();
                             vpScenarioExtraAList = vpScenarioService.GetVPScenarioExtraAList().ToList();
@@ -733,7 +760,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioExtraAList[0].VPScenarioID);
                             Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<VPScenarioExtraB> vpScenarioExtraBList = new List<VPScenarioExtraB>();
                             vpScenarioExtraBList = vpScenarioService.GetVPScenarioExtraBList().ToList();
@@ -743,17 +770,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetVPScenarioList() Skip Take Order
+        #endregion Tests Generated for GetVPScenarioList() Skip Take Asc
 
-        #region Tests Generated for GetVPScenarioList() Skip Take 2Order
+        #region Tests Generated for GetVPScenarioList() Skip Take 2 Asc
         [TestMethod]
-        public void GetVPScenarioList_Skip_Take_2Order_Test()
+        public void GetVPScenarioList_Skip_Take_2Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -761,14 +788,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 1, 1, "VPScenarioID,InfrastructureTVItemID", "");
+                        vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 1, 1, "VPScenarioID,InfrastructureTVItemID", "", "", extra);
 
                         List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
-                        vpScenarioDirectQueryList = (from c in dbTestDB.VPScenarios select c).Skip(1).Take(1).OrderBy(c => c.VPScenarioID).ThenBy(c => c.InfrastructureTVItemID).ToList();
+                        vpScenarioDirectQueryList = (from c in dbTestDB.VPScenarios select c).OrderBy(c => c.VPScenarioID).ThenBy(c => c.InfrastructureTVItemID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -777,7 +804,7 @@ namespace CSSPServices.Tests
                             CheckVPScenarioFields(vpScenarioList);
                             Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<VPScenarioExtraA> vpScenarioExtraAList = new List<VPScenarioExtraA>();
                             vpScenarioExtraAList = vpScenarioService.GetVPScenarioExtraAList().ToList();
@@ -785,7 +812,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioExtraAList[0].VPScenarioID);
                             Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<VPScenarioExtraB> vpScenarioExtraBList = new List<VPScenarioExtraB>();
                             vpScenarioExtraBList = vpScenarioService.GetVPScenarioExtraBList().ToList();
@@ -795,17 +822,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetVPScenarioList() Skip Take 2Order
+        #endregion Tests Generated for GetVPScenarioList() Skip Take 2 Asc
 
-        #region Tests Generated for GetVPScenarioList() Skip Take Order Where
+        #region Tests Generated for GetVPScenarioList() Skip Take Asc Where
         [TestMethod]
-        public void GetVPScenarioList_Skip_Take_Order_Where_Test()
+        public void GetVPScenarioList_Skip_Take_Asc_Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -813,14 +840,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 0, 1, "VPScenarioID", "VPScenarioID,EQ,4", "");
+                        vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 0, 1, "VPScenarioID", "", "VPScenarioID,EQ,4", "");
 
                         List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
-                        vpScenarioDirectQueryList = (from c in dbTestDB.VPScenarios select c).Where(c => c.VPScenarioID == 4).Skip(0).Take(1).OrderBy(c => c.VPScenarioID).ToList();
+                        vpScenarioDirectQueryList = (from c in dbTestDB.VPScenarios select c).Where(c => c.VPScenarioID == 4).OrderBy(c => c.VPScenarioID).Skip(0).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -829,7 +856,7 @@ namespace CSSPServices.Tests
                             CheckVPScenarioFields(vpScenarioList);
                             Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<VPScenarioExtraA> vpScenarioExtraAList = new List<VPScenarioExtraA>();
                             vpScenarioExtraAList = vpScenarioService.GetVPScenarioExtraAList().ToList();
@@ -837,7 +864,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioExtraAList[0].VPScenarioID);
                             Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<VPScenarioExtraB> vpScenarioExtraBList = new List<VPScenarioExtraB>();
                             vpScenarioExtraBList = vpScenarioService.GetVPScenarioExtraBList().ToList();
@@ -847,17 +874,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetVPScenarioList() Skip Take Order Where
+        #endregion Tests Generated for GetVPScenarioList() Skip Take Asc Where
 
-        #region Tests Generated for GetVPScenarioList() Skip Take Order 2Where
+        #region Tests Generated for GetVPScenarioList() Skip Take Asc 2 Where
         [TestMethod]
-        public void GetVPScenarioList_Skip_Take_Order_2Where_Test()
+        public void GetVPScenarioList_Skip_Take_Asc_2Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -865,11 +892,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 0, 1, "VPScenarioID", "VPScenarioID,GT,2|VPScenarioID,LT,5", "");
+                        vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 0, 1, "VPScenarioID", "", "VPScenarioID,GT,2|VPScenarioID,LT,5", "");
 
                         List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
                         vpScenarioDirectQueryList = (from c in dbTestDB.VPScenarios select c).Where(c => c.VPScenarioID > 2 && c.VPScenarioID < 5).Skip(0).Take(1).OrderBy(c => c.VPScenarioID).ToList();
@@ -881,7 +908,7 @@ namespace CSSPServices.Tests
                             CheckVPScenarioFields(vpScenarioList);
                             Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<VPScenarioExtraA> vpScenarioExtraAList = new List<VPScenarioExtraA>();
                             vpScenarioExtraAList = vpScenarioService.GetVPScenarioExtraAList().ToList();
@@ -889,7 +916,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioExtraAList[0].VPScenarioID);
                             Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<VPScenarioExtraB> vpScenarioExtraBList = new List<VPScenarioExtraB>();
                             vpScenarioExtraBList = vpScenarioService.GetVPScenarioExtraBList().ToList();
@@ -899,15 +926,223 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetVPScenarioList() Skip Take Order 2Where
+        #endregion Tests Generated for GetVPScenarioList() Skip Take Asc 2 Where
 
-        #region Tests Generated for GetVPScenarioList() 2Where
+        #region Tests Generated for GetVPScenarioList() Skip Take Desc
+        [TestMethod]
+        public void GetVPScenarioList_Skip_Take_Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 1, 1, "", "VPScenarioID", "", extra);
+
+                        List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
+                        vpScenarioDirectQueryList = (from c in dbTestDB.VPScenarios select c).OrderByDescending(c => c.VPScenarioID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<VPScenario> vpScenarioList = new List<VPScenario>();
+                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                            CheckVPScenarioFields(vpScenarioList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<VPScenarioExtraA> vpScenarioExtraAList = new List<VPScenarioExtraA>();
+                            vpScenarioExtraAList = vpScenarioService.GetVPScenarioExtraAList().ToList();
+                            CheckVPScenarioExtraAFields(vpScenarioExtraAList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioExtraAList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<VPScenarioExtraB> vpScenarioExtraBList = new List<VPScenarioExtraB>();
+                            vpScenarioExtraBList = vpScenarioService.GetVPScenarioExtraBList().ToList();
+                            CheckVPScenarioExtraBFields(vpScenarioExtraBList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioExtraBList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetVPScenarioList() Skip Take Desc
+
+        #region Tests Generated for GetVPScenarioList() Skip Take 2 Desc
+        [TestMethod]
+        public void GetVPScenarioList_Skip_Take_2Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 1, 1, "", "VPScenarioID,InfrastructureTVItemID", "", extra);
+
+                        List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
+                        vpScenarioDirectQueryList = (from c in dbTestDB.VPScenarios select c).OrderByDescending(c => c.VPScenarioID).ThenByDescending(c => c.InfrastructureTVItemID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<VPScenario> vpScenarioList = new List<VPScenario>();
+                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                            CheckVPScenarioFields(vpScenarioList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<VPScenarioExtraA> vpScenarioExtraAList = new List<VPScenarioExtraA>();
+                            vpScenarioExtraAList = vpScenarioService.GetVPScenarioExtraAList().ToList();
+                            CheckVPScenarioExtraAFields(vpScenarioExtraAList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioExtraAList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<VPScenarioExtraB> vpScenarioExtraBList = new List<VPScenarioExtraB>();
+                            vpScenarioExtraBList = vpScenarioService.GetVPScenarioExtraBList().ToList();
+                            CheckVPScenarioExtraBFields(vpScenarioExtraBList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioExtraBList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetVPScenarioList() Skip Take 2 Desc
+
+        #region Tests Generated for GetVPScenarioList() Skip Take Desc Where
+        [TestMethod]
+        public void GetVPScenarioList_Skip_Take_Desc_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 0, 1, "VPScenarioID", "", "VPScenarioID,EQ,4", "");
+
+                        List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
+                        vpScenarioDirectQueryList = (from c in dbTestDB.VPScenarios select c).Where(c => c.VPScenarioID == 4).OrderByDescending(c => c.VPScenarioID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<VPScenario> vpScenarioList = new List<VPScenario>();
+                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                            CheckVPScenarioFields(vpScenarioList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<VPScenarioExtraA> vpScenarioExtraAList = new List<VPScenarioExtraA>();
+                            vpScenarioExtraAList = vpScenarioService.GetVPScenarioExtraAList().ToList();
+                            CheckVPScenarioExtraAFields(vpScenarioExtraAList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioExtraAList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<VPScenarioExtraB> vpScenarioExtraBList = new List<VPScenarioExtraB>();
+                            vpScenarioExtraBList = vpScenarioService.GetVPScenarioExtraBList().ToList();
+                            CheckVPScenarioExtraBFields(vpScenarioExtraBList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioExtraBList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetVPScenarioList() Skip Take Desc Where
+
+        #region Tests Generated for GetVPScenarioList() Skip Take Desc 2 Where
+        [TestMethod]
+        public void GetVPScenarioList_Skip_Take_Desc_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 0, 1, "", "VPScenarioID", "VPScenarioID,GT,2|VPScenarioID,LT,5", "");
+
+                        List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
+                        vpScenarioDirectQueryList = (from c in dbTestDB.VPScenarios select c).Where(c => c.VPScenarioID > 2 && c.VPScenarioID < 5).OrderByDescending(c => c.VPScenarioID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<VPScenario> vpScenarioList = new List<VPScenario>();
+                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                            CheckVPScenarioFields(vpScenarioList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<VPScenarioExtraA> vpScenarioExtraAList = new List<VPScenarioExtraA>();
+                            vpScenarioExtraAList = vpScenarioService.GetVPScenarioExtraAList().ToList();
+                            CheckVPScenarioExtraAFields(vpScenarioExtraAList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioExtraAList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<VPScenarioExtraB> vpScenarioExtraBList = new List<VPScenarioExtraB>();
+                            vpScenarioExtraBList = vpScenarioService.GetVPScenarioExtraBList().ToList();
+                            CheckVPScenarioExtraBFields(vpScenarioExtraBList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioExtraBList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetVPScenarioList() Skip Take Desc 2 Where
+
+        #region Tests Generated for GetVPScenarioList() 2 Where
         [TestMethod]
         public void GetVPScenarioList_2Where_Test()
         {
@@ -917,11 +1152,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 0, 10000, "", "VPScenarioID,GT,2|VPScenarioID,LT,5", "");
+                        vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 0, 10000, "", "", "VPScenarioID,GT,2|VPScenarioID,LT,5", extra);
 
                         List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
                         vpScenarioDirectQueryList = (from c in dbTestDB.VPScenarios select c).Where(c => c.VPScenarioID > 2 && c.VPScenarioID < 5).ToList();
@@ -933,7 +1168,7 @@ namespace CSSPServices.Tests
                             CheckVPScenarioFields(vpScenarioList);
                             Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<VPScenarioExtraA> vpScenarioExtraAList = new List<VPScenarioExtraA>();
                             vpScenarioExtraAList = vpScenarioService.GetVPScenarioExtraAList().ToList();
@@ -941,7 +1176,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioExtraAList[0].VPScenarioID);
                             Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<VPScenarioExtraB> vpScenarioExtraBList = new List<VPScenarioExtraB>();
                             vpScenarioExtraBList = vpScenarioService.GetVPScenarioExtraBList().ToList();
@@ -951,13 +1186,13 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetVPScenarioList() 2Where
+        #endregion Tests Generated for GetVPScenarioList() 2 Where
 
         #region Functions private
         private void CheckVPScenarioFields(List<VPScenario> vpScenarioList)

@@ -38,9 +38,9 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
+        #region Tests Generated CRUD
         [TestMethod]
-        public void AppErrLog_CRUD_And_Properties_Test()
+        public void AppErrLog_CRUD_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -86,6 +86,33 @@ namespace CSSPServices.Tests
                         Assert.AreEqual("", appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
                     Assert.AreEqual(count, appErrLogService.GetAppErrLogList().Count());
+
+                }
+            }
+        }
+        #endregion Tests Generated CRUD
+
+        #region Tests Generated Properties
+        [TestMethod]
+        public void AppErrLog_Properties_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    AppErrLogService appErrLogService = new AppErrLogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    count = appErrLogService.GetAppErrLogList().Count();
+
+                    AppErrLog appErrLog = GetFilledRandomAppErrLog("");
 
                     // -------------------------------
                     // -------------------------------
@@ -246,7 +273,7 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Generated CRUD and Properties
+        #endregion Tests Generated Properties
 
         #region Tests Generated for GetAppErrLogWithAppErrLogID(appErrLog.AppErrLogID)
         [TestMethod]
@@ -262,7 +289,7 @@ namespace CSSPServices.Tests
                     AppErrLog appErrLog = (from c in dbTestDB.AppErrLogs select c).FirstOrDefault();
                     Assert.IsNotNull(appErrLog);
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         appErrLogService.Query.Extra = extra;
 
@@ -272,25 +299,25 @@ namespace CSSPServices.Tests
                             CheckAppErrLogFields(new List<AppErrLog>() { appErrLogRet });
                             Assert.AreEqual(appErrLog.AppErrLogID, appErrLogRet.AppErrLogID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             AppErrLogExtraA appErrLogExtraARet = appErrLogService.GetAppErrLogExtraAWithAppErrLogID(appErrLog.AppErrLogID);
                             CheckAppErrLogExtraAFields(new List<AppErrLogExtraA>() { appErrLogExtraARet });
                             Assert.AreEqual(appErrLog.AppErrLogID, appErrLogExtraARet.AppErrLogID);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             AppErrLogExtraB appErrLogExtraBRet = appErrLogService.GetAppErrLogExtraBWithAppErrLogID(appErrLog.AppErrLogID);
                             CheckAppErrLogExtraBFields(new List<AppErrLogExtraB>() { appErrLogExtraBRet });
                             Assert.AreEqual(appErrLog.AppErrLogID, appErrLogExtraBRet.AppErrLogID);
                         }
-                        else if (extra == "ExtraC")
+                        else if (extra == "C")
                         {
                             AppErrLogExtraC appErrLogExtraCRet = appErrLogService.GetAppErrLogExtraCWithAppErrLogID(appErrLog.AppErrLogID);
                             CheckAppErrLogExtraCFields(new List<AppErrLogExtraC>() { appErrLogExtraCRet });
                             Assert.AreEqual(appErrLog.AppErrLogID, appErrLogExtraCRet.AppErrLogID);
                         }
-                        else if (extra == "ExtraD")
+                        else if (extra == "D")
                         {
                             AppErrLogExtraD appErrLogExtraDRet = appErrLogService.GetAppErrLogExtraDWithAppErrLogID(appErrLog.AppErrLogID);
                             CheckAppErrLogExtraDFields(new List<AppErrLogExtraD>() { appErrLogExtraDRet });
@@ -298,7 +325,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -323,7 +350,7 @@ namespace CSSPServices.Tests
                     List<AppErrLog> appErrLogDirectQueryList = new List<AppErrLog>();
                     appErrLogDirectQueryList = (from c in dbTestDB.AppErrLogs select c).Take(200).ToList();
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         appErrLogService.Query.Extra = extra;
 
@@ -333,28 +360,28 @@ namespace CSSPServices.Tests
                             appErrLogList = appErrLogService.GetAppErrLogList().ToList();
                             CheckAppErrLogFields(appErrLogList);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<AppErrLogExtraA> appErrLogExtraAList = new List<AppErrLogExtraA>();
                             appErrLogExtraAList = appErrLogService.GetAppErrLogExtraAList().ToList();
                             CheckAppErrLogExtraAFields(appErrLogExtraAList);
                             Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<AppErrLogExtraB> appErrLogExtraBList = new List<AppErrLogExtraB>();
                             appErrLogExtraBList = appErrLogService.GetAppErrLogExtraBList().ToList();
                             CheckAppErrLogExtraBFields(appErrLogExtraBList);
                             Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraBList.Count);
                         }
-                        else if (extra == "ExtraC")
+                        else if (extra == "C")
                         {
                             List<AppErrLogExtraC> appErrLogExtraCList = new List<AppErrLogExtraC>();
                             appErrLogExtraCList = appErrLogService.GetAppErrLogExtraCList().ToList();
                             CheckAppErrLogExtraCFields(appErrLogExtraCList);
                             Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraCList.Count);
                         }
-                        else if (extra == "ExtraD")
+                        else if (extra == "D")
                         {
                             List<AppErrLogExtraD> appErrLogExtraDList = new List<AppErrLogExtraD>();
                             appErrLogExtraDList = appErrLogService.GetAppErrLogExtraDList().ToList();
@@ -363,7 +390,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -381,11 +408,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         AppErrLogService appErrLogService = new AppErrLogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
+                        appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 1, 1, "", "", "", extra);
 
                         List<AppErrLog> appErrLogDirectQueryList = new List<AppErrLog>();
                         appErrLogDirectQueryList = (from c in dbTestDB.AppErrLogs select c).Skip(1).Take(1).ToList();
@@ -397,7 +424,7 @@ namespace CSSPServices.Tests
                             CheckAppErrLogFields(appErrLogList);
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogList[0].AppErrLogID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<AppErrLogExtraA> appErrLogExtraAList = new List<AppErrLogExtraA>();
                             appErrLogExtraAList = appErrLogService.GetAppErrLogExtraAList().ToList();
@@ -405,7 +432,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraAList[0].AppErrLogID);
                             Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<AppErrLogExtraB> appErrLogExtraBList = new List<AppErrLogExtraB>();
                             appErrLogExtraBList = appErrLogService.GetAppErrLogExtraBList().ToList();
@@ -413,7 +440,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraBList[0].AppErrLogID);
                             Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraBList.Count);
                         }
-                        else if (extra == "ExtraC")
+                        else if (extra == "C")
                         {
                             List<AppErrLogExtraC> appErrLogExtraCList = new List<AppErrLogExtraC>();
                             appErrLogExtraCList = appErrLogService.GetAppErrLogExtraCList().ToList();
@@ -421,7 +448,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraCList[0].AppErrLogID);
                             Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraCList.Count);
                         }
-                        else if (extra == "ExtraD")
+                        else if (extra == "D")
                         {
                             List<AppErrLogExtraD> appErrLogExtraDList = new List<AppErrLogExtraD>();
                             appErrLogExtraDList = appErrLogService.GetAppErrLogExtraDList().ToList();
@@ -431,7 +458,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -439,9 +466,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated for GetAppErrLogList() Skip Take
 
-        #region Tests Generated for GetAppErrLogList() Skip Take Order
+        #region Tests Generated for GetAppErrLogList() Skip Take Asc
         [TestMethod]
-        public void GetAppErrLogList_Skip_Take_Order_Test()
+        public void GetAppErrLogList_Skip_Take_Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -449,14 +476,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         AppErrLogService appErrLogService = new AppErrLogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 1, 1,  "AppErrLogID", "");
+                        appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 1, 1,  "AppErrLogID", "", "", extra);
 
                         List<AppErrLog> appErrLogDirectQueryList = new List<AppErrLog>();
-                        appErrLogDirectQueryList = (from c in dbTestDB.AppErrLogs select c).Skip(1).Take(1).OrderBy(c => c.AppErrLogID).ToList();
+                        appErrLogDirectQueryList = (from c in dbTestDB.AppErrLogs select c).OrderBy(c => c.AppErrLogID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -465,7 +492,7 @@ namespace CSSPServices.Tests
                             CheckAppErrLogFields(appErrLogList);
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogList[0].AppErrLogID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<AppErrLogExtraA> appErrLogExtraAList = new List<AppErrLogExtraA>();
                             appErrLogExtraAList = appErrLogService.GetAppErrLogExtraAList().ToList();
@@ -473,7 +500,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraAList[0].AppErrLogID);
                             Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<AppErrLogExtraB> appErrLogExtraBList = new List<AppErrLogExtraB>();
                             appErrLogExtraBList = appErrLogService.GetAppErrLogExtraBList().ToList();
@@ -481,7 +508,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraBList[0].AppErrLogID);
                             Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraBList.Count);
                         }
-                        else if (extra == "ExtraC")
+                        else if (extra == "C")
                         {
                             List<AppErrLogExtraC> appErrLogExtraCList = new List<AppErrLogExtraC>();
                             appErrLogExtraCList = appErrLogService.GetAppErrLogExtraCList().ToList();
@@ -489,7 +516,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraCList[0].AppErrLogID);
                             Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraCList.Count);
                         }
-                        else if (extra == "ExtraD")
+                        else if (extra == "D")
                         {
                             List<AppErrLogExtraD> appErrLogExtraDList = new List<AppErrLogExtraD>();
                             appErrLogExtraDList = appErrLogService.GetAppErrLogExtraDList().ToList();
@@ -499,17 +526,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetAppErrLogList() Skip Take Order
+        #endregion Tests Generated for GetAppErrLogList() Skip Take Asc
 
-        #region Tests Generated for GetAppErrLogList() Skip Take 2Order
+        #region Tests Generated for GetAppErrLogList() Skip Take 2 Asc
         [TestMethod]
-        public void GetAppErrLogList_Skip_Take_2Order_Test()
+        public void GetAppErrLogList_Skip_Take_2Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -517,14 +544,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         AppErrLogService appErrLogService = new AppErrLogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 1, 1, "AppErrLogID,Tag", "");
+                        appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 1, 1, "AppErrLogID,Tag", "", "", extra);
 
                         List<AppErrLog> appErrLogDirectQueryList = new List<AppErrLog>();
-                        appErrLogDirectQueryList = (from c in dbTestDB.AppErrLogs select c).Skip(1).Take(1).OrderBy(c => c.AppErrLogID).ThenBy(c => c.Tag).ToList();
+                        appErrLogDirectQueryList = (from c in dbTestDB.AppErrLogs select c).OrderBy(c => c.AppErrLogID).ThenBy(c => c.Tag).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -533,7 +560,7 @@ namespace CSSPServices.Tests
                             CheckAppErrLogFields(appErrLogList);
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogList[0].AppErrLogID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<AppErrLogExtraA> appErrLogExtraAList = new List<AppErrLogExtraA>();
                             appErrLogExtraAList = appErrLogService.GetAppErrLogExtraAList().ToList();
@@ -541,7 +568,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraAList[0].AppErrLogID);
                             Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<AppErrLogExtraB> appErrLogExtraBList = new List<AppErrLogExtraB>();
                             appErrLogExtraBList = appErrLogService.GetAppErrLogExtraBList().ToList();
@@ -549,7 +576,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraBList[0].AppErrLogID);
                             Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraBList.Count);
                         }
-                        else if (extra == "ExtraC")
+                        else if (extra == "C")
                         {
                             List<AppErrLogExtraC> appErrLogExtraCList = new List<AppErrLogExtraC>();
                             appErrLogExtraCList = appErrLogService.GetAppErrLogExtraCList().ToList();
@@ -557,7 +584,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraCList[0].AppErrLogID);
                             Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraCList.Count);
                         }
-                        else if (extra == "ExtraD")
+                        else if (extra == "D")
                         {
                             List<AppErrLogExtraD> appErrLogExtraDList = new List<AppErrLogExtraD>();
                             appErrLogExtraDList = appErrLogService.GetAppErrLogExtraDList().ToList();
@@ -567,17 +594,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetAppErrLogList() Skip Take 2Order
+        #endregion Tests Generated for GetAppErrLogList() Skip Take 2 Asc
 
-        #region Tests Generated for GetAppErrLogList() Skip Take Order Where
+        #region Tests Generated for GetAppErrLogList() Skip Take Asc Where
         [TestMethod]
-        public void GetAppErrLogList_Skip_Take_Order_Where_Test()
+        public void GetAppErrLogList_Skip_Take_Asc_Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -585,14 +612,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         AppErrLogService appErrLogService = new AppErrLogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 0, 1, "AppErrLogID", "AppErrLogID,EQ,4", "");
+                        appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 0, 1, "AppErrLogID", "", "AppErrLogID,EQ,4", "");
 
                         List<AppErrLog> appErrLogDirectQueryList = new List<AppErrLog>();
-                        appErrLogDirectQueryList = (from c in dbTestDB.AppErrLogs select c).Where(c => c.AppErrLogID == 4).Skip(0).Take(1).OrderBy(c => c.AppErrLogID).ToList();
+                        appErrLogDirectQueryList = (from c in dbTestDB.AppErrLogs select c).Where(c => c.AppErrLogID == 4).OrderBy(c => c.AppErrLogID).Skip(0).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -601,7 +628,7 @@ namespace CSSPServices.Tests
                             CheckAppErrLogFields(appErrLogList);
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogList[0].AppErrLogID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<AppErrLogExtraA> appErrLogExtraAList = new List<AppErrLogExtraA>();
                             appErrLogExtraAList = appErrLogService.GetAppErrLogExtraAList().ToList();
@@ -609,7 +636,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraAList[0].AppErrLogID);
                             Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<AppErrLogExtraB> appErrLogExtraBList = new List<AppErrLogExtraB>();
                             appErrLogExtraBList = appErrLogService.GetAppErrLogExtraBList().ToList();
@@ -617,7 +644,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraBList[0].AppErrLogID);
                             Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraBList.Count);
                         }
-                        else if (extra == "ExtraC")
+                        else if (extra == "C")
                         {
                             List<AppErrLogExtraC> appErrLogExtraCList = new List<AppErrLogExtraC>();
                             appErrLogExtraCList = appErrLogService.GetAppErrLogExtraCList().ToList();
@@ -625,7 +652,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraCList[0].AppErrLogID);
                             Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraCList.Count);
                         }
-                        else if (extra == "ExtraD")
+                        else if (extra == "D")
                         {
                             List<AppErrLogExtraD> appErrLogExtraDList = new List<AppErrLogExtraD>();
                             appErrLogExtraDList = appErrLogService.GetAppErrLogExtraDList().ToList();
@@ -635,17 +662,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetAppErrLogList() Skip Take Order Where
+        #endregion Tests Generated for GetAppErrLogList() Skip Take Asc Where
 
-        #region Tests Generated for GetAppErrLogList() Skip Take Order 2Where
+        #region Tests Generated for GetAppErrLogList() Skip Take Asc 2 Where
         [TestMethod]
-        public void GetAppErrLogList_Skip_Take_Order_2Where_Test()
+        public void GetAppErrLogList_Skip_Take_Asc_2Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -653,11 +680,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         AppErrLogService appErrLogService = new AppErrLogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 0, 1, "AppErrLogID", "AppErrLogID,GT,2|AppErrLogID,LT,5", "");
+                        appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 0, 1, "AppErrLogID", "", "AppErrLogID,GT,2|AppErrLogID,LT,5", "");
 
                         List<AppErrLog> appErrLogDirectQueryList = new List<AppErrLog>();
                         appErrLogDirectQueryList = (from c in dbTestDB.AppErrLogs select c).Where(c => c.AppErrLogID > 2 && c.AppErrLogID < 5).Skip(0).Take(1).OrderBy(c => c.AppErrLogID).ToList();
@@ -669,7 +696,7 @@ namespace CSSPServices.Tests
                             CheckAppErrLogFields(appErrLogList);
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogList[0].AppErrLogID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<AppErrLogExtraA> appErrLogExtraAList = new List<AppErrLogExtraA>();
                             appErrLogExtraAList = appErrLogService.GetAppErrLogExtraAList().ToList();
@@ -677,7 +704,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraAList[0].AppErrLogID);
                             Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<AppErrLogExtraB> appErrLogExtraBList = new List<AppErrLogExtraB>();
                             appErrLogExtraBList = appErrLogService.GetAppErrLogExtraBList().ToList();
@@ -685,7 +712,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraBList[0].AppErrLogID);
                             Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraBList.Count);
                         }
-                        else if (extra == "ExtraC")
+                        else if (extra == "C")
                         {
                             List<AppErrLogExtraC> appErrLogExtraCList = new List<AppErrLogExtraC>();
                             appErrLogExtraCList = appErrLogService.GetAppErrLogExtraCList().ToList();
@@ -693,7 +720,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraCList[0].AppErrLogID);
                             Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraCList.Count);
                         }
-                        else if (extra == "ExtraD")
+                        else if (extra == "D")
                         {
                             List<AppErrLogExtraD> appErrLogExtraDList = new List<AppErrLogExtraD>();
                             appErrLogExtraDList = appErrLogService.GetAppErrLogExtraDList().ToList();
@@ -703,15 +730,287 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetAppErrLogList() Skip Take Order 2Where
+        #endregion Tests Generated for GetAppErrLogList() Skip Take Asc 2 Where
 
-        #region Tests Generated for GetAppErrLogList() 2Where
+        #region Tests Generated for GetAppErrLogList() Skip Take Desc
+        [TestMethod]
+        public void GetAppErrLogList_Skip_Take_Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        AppErrLogService appErrLogService = new AppErrLogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 1, 1, "", "AppErrLogID", "", extra);
+
+                        List<AppErrLog> appErrLogDirectQueryList = new List<AppErrLog>();
+                        appErrLogDirectQueryList = (from c in dbTestDB.AppErrLogs select c).OrderByDescending(c => c.AppErrLogID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<AppErrLog> appErrLogList = new List<AppErrLog>();
+                            appErrLogList = appErrLogService.GetAppErrLogList().ToList();
+                            CheckAppErrLogFields(appErrLogList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogList[0].AppErrLogID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<AppErrLogExtraA> appErrLogExtraAList = new List<AppErrLogExtraA>();
+                            appErrLogExtraAList = appErrLogService.GetAppErrLogExtraAList().ToList();
+                            CheckAppErrLogExtraAFields(appErrLogExtraAList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraAList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<AppErrLogExtraB> appErrLogExtraBList = new List<AppErrLogExtraB>();
+                            appErrLogExtraBList = appErrLogService.GetAppErrLogExtraBList().ToList();
+                            CheckAppErrLogExtraBFields(appErrLogExtraBList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraBList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraBList.Count);
+                        }
+                        else if (extra == "C")
+                        {
+                            List<AppErrLogExtraC> appErrLogExtraCList = new List<AppErrLogExtraC>();
+                            appErrLogExtraCList = appErrLogService.GetAppErrLogExtraCList().ToList();
+                            CheckAppErrLogExtraCFields(appErrLogExtraCList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraCList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraCList.Count);
+                        }
+                        else if (extra == "D")
+                        {
+                            List<AppErrLogExtraD> appErrLogExtraDList = new List<AppErrLogExtraD>();
+                            appErrLogExtraDList = appErrLogService.GetAppErrLogExtraDList().ToList();
+                            CheckAppErrLogExtraDFields(appErrLogExtraDList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraDList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraDList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetAppErrLogList() Skip Take Desc
+
+        #region Tests Generated for GetAppErrLogList() Skip Take 2 Desc
+        [TestMethod]
+        public void GetAppErrLogList_Skip_Take_2Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        AppErrLogService appErrLogService = new AppErrLogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 1, 1, "", "AppErrLogID,Tag", "", extra);
+
+                        List<AppErrLog> appErrLogDirectQueryList = new List<AppErrLog>();
+                        appErrLogDirectQueryList = (from c in dbTestDB.AppErrLogs select c).OrderByDescending(c => c.AppErrLogID).ThenByDescending(c => c.Tag).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<AppErrLog> appErrLogList = new List<AppErrLog>();
+                            appErrLogList = appErrLogService.GetAppErrLogList().ToList();
+                            CheckAppErrLogFields(appErrLogList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogList[0].AppErrLogID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<AppErrLogExtraA> appErrLogExtraAList = new List<AppErrLogExtraA>();
+                            appErrLogExtraAList = appErrLogService.GetAppErrLogExtraAList().ToList();
+                            CheckAppErrLogExtraAFields(appErrLogExtraAList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraAList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<AppErrLogExtraB> appErrLogExtraBList = new List<AppErrLogExtraB>();
+                            appErrLogExtraBList = appErrLogService.GetAppErrLogExtraBList().ToList();
+                            CheckAppErrLogExtraBFields(appErrLogExtraBList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraBList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraBList.Count);
+                        }
+                        else if (extra == "C")
+                        {
+                            List<AppErrLogExtraC> appErrLogExtraCList = new List<AppErrLogExtraC>();
+                            appErrLogExtraCList = appErrLogService.GetAppErrLogExtraCList().ToList();
+                            CheckAppErrLogExtraCFields(appErrLogExtraCList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraCList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraCList.Count);
+                        }
+                        else if (extra == "D")
+                        {
+                            List<AppErrLogExtraD> appErrLogExtraDList = new List<AppErrLogExtraD>();
+                            appErrLogExtraDList = appErrLogService.GetAppErrLogExtraDList().ToList();
+                            CheckAppErrLogExtraDFields(appErrLogExtraDList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraDList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraDList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetAppErrLogList() Skip Take 2 Desc
+
+        #region Tests Generated for GetAppErrLogList() Skip Take Desc Where
+        [TestMethod]
+        public void GetAppErrLogList_Skip_Take_Desc_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        AppErrLogService appErrLogService = new AppErrLogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 0, 1, "AppErrLogID", "", "AppErrLogID,EQ,4", "");
+
+                        List<AppErrLog> appErrLogDirectQueryList = new List<AppErrLog>();
+                        appErrLogDirectQueryList = (from c in dbTestDB.AppErrLogs select c).Where(c => c.AppErrLogID == 4).OrderByDescending(c => c.AppErrLogID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<AppErrLog> appErrLogList = new List<AppErrLog>();
+                            appErrLogList = appErrLogService.GetAppErrLogList().ToList();
+                            CheckAppErrLogFields(appErrLogList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogList[0].AppErrLogID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<AppErrLogExtraA> appErrLogExtraAList = new List<AppErrLogExtraA>();
+                            appErrLogExtraAList = appErrLogService.GetAppErrLogExtraAList().ToList();
+                            CheckAppErrLogExtraAFields(appErrLogExtraAList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraAList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<AppErrLogExtraB> appErrLogExtraBList = new List<AppErrLogExtraB>();
+                            appErrLogExtraBList = appErrLogService.GetAppErrLogExtraBList().ToList();
+                            CheckAppErrLogExtraBFields(appErrLogExtraBList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraBList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraBList.Count);
+                        }
+                        else if (extra == "C")
+                        {
+                            List<AppErrLogExtraC> appErrLogExtraCList = new List<AppErrLogExtraC>();
+                            appErrLogExtraCList = appErrLogService.GetAppErrLogExtraCList().ToList();
+                            CheckAppErrLogExtraCFields(appErrLogExtraCList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraCList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraCList.Count);
+                        }
+                        else if (extra == "D")
+                        {
+                            List<AppErrLogExtraD> appErrLogExtraDList = new List<AppErrLogExtraD>();
+                            appErrLogExtraDList = appErrLogService.GetAppErrLogExtraDList().ToList();
+                            CheckAppErrLogExtraDFields(appErrLogExtraDList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraDList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraDList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetAppErrLogList() Skip Take Desc Where
+
+        #region Tests Generated for GetAppErrLogList() Skip Take Desc 2 Where
+        [TestMethod]
+        public void GetAppErrLogList_Skip_Take_Desc_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        AppErrLogService appErrLogService = new AppErrLogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 0, 1, "", "AppErrLogID", "AppErrLogID,GT,2|AppErrLogID,LT,5", "");
+
+                        List<AppErrLog> appErrLogDirectQueryList = new List<AppErrLog>();
+                        appErrLogDirectQueryList = (from c in dbTestDB.AppErrLogs select c).Where(c => c.AppErrLogID > 2 && c.AppErrLogID < 5).OrderByDescending(c => c.AppErrLogID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<AppErrLog> appErrLogList = new List<AppErrLog>();
+                            appErrLogList = appErrLogService.GetAppErrLogList().ToList();
+                            CheckAppErrLogFields(appErrLogList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogList[0].AppErrLogID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<AppErrLogExtraA> appErrLogExtraAList = new List<AppErrLogExtraA>();
+                            appErrLogExtraAList = appErrLogService.GetAppErrLogExtraAList().ToList();
+                            CheckAppErrLogExtraAFields(appErrLogExtraAList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraAList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<AppErrLogExtraB> appErrLogExtraBList = new List<AppErrLogExtraB>();
+                            appErrLogExtraBList = appErrLogService.GetAppErrLogExtraBList().ToList();
+                            CheckAppErrLogExtraBFields(appErrLogExtraBList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraBList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraBList.Count);
+                        }
+                        else if (extra == "C")
+                        {
+                            List<AppErrLogExtraC> appErrLogExtraCList = new List<AppErrLogExtraC>();
+                            appErrLogExtraCList = appErrLogService.GetAppErrLogExtraCList().ToList();
+                            CheckAppErrLogExtraCFields(appErrLogExtraCList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraCList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraCList.Count);
+                        }
+                        else if (extra == "D")
+                        {
+                            List<AppErrLogExtraD> appErrLogExtraDList = new List<AppErrLogExtraD>();
+                            appErrLogExtraDList = appErrLogService.GetAppErrLogExtraDList().ToList();
+                            CheckAppErrLogExtraDFields(appErrLogExtraDList);
+                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraDList[0].AppErrLogID);
+                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraDList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetAppErrLogList() Skip Take Desc 2 Where
+
+        #region Tests Generated for GetAppErrLogList() 2 Where
         [TestMethod]
         public void GetAppErrLogList_2Where_Test()
         {
@@ -721,11 +1020,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         AppErrLogService appErrLogService = new AppErrLogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 0, 10000, "", "AppErrLogID,GT,2|AppErrLogID,LT,5", "");
+                        appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 0, 10000, "", "", "AppErrLogID,GT,2|AppErrLogID,LT,5", extra);
 
                         List<AppErrLog> appErrLogDirectQueryList = new List<AppErrLog>();
                         appErrLogDirectQueryList = (from c in dbTestDB.AppErrLogs select c).Where(c => c.AppErrLogID > 2 && c.AppErrLogID < 5).ToList();
@@ -737,7 +1036,7 @@ namespace CSSPServices.Tests
                             CheckAppErrLogFields(appErrLogList);
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogList[0].AppErrLogID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<AppErrLogExtraA> appErrLogExtraAList = new List<AppErrLogExtraA>();
                             appErrLogExtraAList = appErrLogService.GetAppErrLogExtraAList().ToList();
@@ -745,7 +1044,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraAList[0].AppErrLogID);
                             Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<AppErrLogExtraB> appErrLogExtraBList = new List<AppErrLogExtraB>();
                             appErrLogExtraBList = appErrLogService.GetAppErrLogExtraBList().ToList();
@@ -753,7 +1052,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraBList[0].AppErrLogID);
                             Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraBList.Count);
                         }
-                        else if (extra == "ExtraC")
+                        else if (extra == "C")
                         {
                             List<AppErrLogExtraC> appErrLogExtraCList = new List<AppErrLogExtraC>();
                             appErrLogExtraCList = appErrLogService.GetAppErrLogExtraCList().ToList();
@@ -761,7 +1060,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraCList[0].AppErrLogID);
                             Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraCList.Count);
                         }
-                        else if (extra == "ExtraD")
+                        else if (extra == "D")
                         {
                             List<AppErrLogExtraD> appErrLogExtraDList = new List<AppErrLogExtraD>();
                             appErrLogExtraDList = appErrLogService.GetAppErrLogExtraDList().ToList();
@@ -771,13 +1070,13 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetAppErrLogList() 2Where
+        #endregion Tests Generated for GetAppErrLogList() 2 Where
 
         #region Functions private
         private void CheckAppErrLogFields(List<AppErrLog> appErrLogList)

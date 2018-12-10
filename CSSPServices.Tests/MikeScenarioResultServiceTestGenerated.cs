@@ -38,9 +38,9 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
+        #region Tests Generated CRUD
         [TestMethod]
-        public void MikeScenarioResult_CRUD_And_Properties_Test()
+        public void MikeScenarioResult_CRUD_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -86,6 +86,33 @@ namespace CSSPServices.Tests
                         Assert.AreEqual("", mikeScenarioResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
                     Assert.AreEqual(count, mikeScenarioResultService.GetMikeScenarioResultList().Count());
+
+                }
+            }
+        }
+        #endregion Tests Generated CRUD
+
+        #region Tests Generated Properties
+        [TestMethod]
+        public void MikeScenarioResult_Properties_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    MikeScenarioResultService mikeScenarioResultService = new MikeScenarioResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    count = mikeScenarioResultService.GetMikeScenarioResultList().Count();
+
+                    MikeScenarioResult mikeScenarioResult = GetFilledRandomMikeScenarioResult("");
 
                     // -------------------------------
                     // -------------------------------
@@ -192,7 +219,7 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Generated CRUD and Properties
+        #endregion Tests Generated Properties
 
         #region Tests Generated for GetMikeScenarioResultWithMikeScenarioResultID(mikeScenarioResult.MikeScenarioResultID)
         [TestMethod]
@@ -208,7 +235,7 @@ namespace CSSPServices.Tests
                     MikeScenarioResult mikeScenarioResult = (from c in dbTestDB.MikeScenarioResults select c).FirstOrDefault();
                     Assert.IsNotNull(mikeScenarioResult);
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         mikeScenarioResultService.Query.Extra = extra;
 
@@ -218,13 +245,13 @@ namespace CSSPServices.Tests
                             CheckMikeScenarioResultFields(new List<MikeScenarioResult>() { mikeScenarioResultRet });
                             Assert.AreEqual(mikeScenarioResult.MikeScenarioResultID, mikeScenarioResultRet.MikeScenarioResultID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             MikeScenarioResultExtraA mikeScenarioResultExtraARet = mikeScenarioResultService.GetMikeScenarioResultExtraAWithMikeScenarioResultID(mikeScenarioResult.MikeScenarioResultID);
                             CheckMikeScenarioResultExtraAFields(new List<MikeScenarioResultExtraA>() { mikeScenarioResultExtraARet });
                             Assert.AreEqual(mikeScenarioResult.MikeScenarioResultID, mikeScenarioResultExtraARet.MikeScenarioResultID);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             MikeScenarioResultExtraB mikeScenarioResultExtraBRet = mikeScenarioResultService.GetMikeScenarioResultExtraBWithMikeScenarioResultID(mikeScenarioResult.MikeScenarioResultID);
                             CheckMikeScenarioResultExtraBFields(new List<MikeScenarioResultExtraB>() { mikeScenarioResultExtraBRet });
@@ -232,7 +259,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -257,7 +284,7 @@ namespace CSSPServices.Tests
                     List<MikeScenarioResult> mikeScenarioResultDirectQueryList = new List<MikeScenarioResult>();
                     mikeScenarioResultDirectQueryList = (from c in dbTestDB.MikeScenarioResults select c).Take(200).ToList();
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         mikeScenarioResultService.Query.Extra = extra;
 
@@ -267,14 +294,14 @@ namespace CSSPServices.Tests
                             mikeScenarioResultList = mikeScenarioResultService.GetMikeScenarioResultList().ToList();
                             CheckMikeScenarioResultFields(mikeScenarioResultList);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MikeScenarioResultExtraA> mikeScenarioResultExtraAList = new List<MikeScenarioResultExtraA>();
                             mikeScenarioResultExtraAList = mikeScenarioResultService.GetMikeScenarioResultExtraAList().ToList();
                             CheckMikeScenarioResultExtraAFields(mikeScenarioResultExtraAList);
                             Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MikeScenarioResultExtraB> mikeScenarioResultExtraBList = new List<MikeScenarioResultExtraB>();
                             mikeScenarioResultExtraBList = mikeScenarioResultService.GetMikeScenarioResultExtraBList().ToList();
@@ -283,7 +310,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -301,11 +328,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MikeScenarioResultService mikeScenarioResultService = new MikeScenarioResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mikeScenarioResultService.Query = mikeScenarioResultService.FillQuery(typeof(MikeScenarioResult), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
+                        mikeScenarioResultService.Query = mikeScenarioResultService.FillQuery(typeof(MikeScenarioResult), culture.TwoLetterISOLanguageName, 1, 1, "", "", "", extra);
 
                         List<MikeScenarioResult> mikeScenarioResultDirectQueryList = new List<MikeScenarioResult>();
                         mikeScenarioResultDirectQueryList = (from c in dbTestDB.MikeScenarioResults select c).Skip(1).Take(1).ToList();
@@ -317,7 +344,7 @@ namespace CSSPServices.Tests
                             CheckMikeScenarioResultFields(mikeScenarioResultList);
                             Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultList[0].MikeScenarioResultID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MikeScenarioResultExtraA> mikeScenarioResultExtraAList = new List<MikeScenarioResultExtraA>();
                             mikeScenarioResultExtraAList = mikeScenarioResultService.GetMikeScenarioResultExtraAList().ToList();
@@ -325,7 +352,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraAList[0].MikeScenarioResultID);
                             Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MikeScenarioResultExtraB> mikeScenarioResultExtraBList = new List<MikeScenarioResultExtraB>();
                             mikeScenarioResultExtraBList = mikeScenarioResultService.GetMikeScenarioResultExtraBList().ToList();
@@ -335,7 +362,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -343,9 +370,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated for GetMikeScenarioResultList() Skip Take
 
-        #region Tests Generated for GetMikeScenarioResultList() Skip Take Order
+        #region Tests Generated for GetMikeScenarioResultList() Skip Take Asc
         [TestMethod]
-        public void GetMikeScenarioResultList_Skip_Take_Order_Test()
+        public void GetMikeScenarioResultList_Skip_Take_Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -353,14 +380,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MikeScenarioResultService mikeScenarioResultService = new MikeScenarioResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mikeScenarioResultService.Query = mikeScenarioResultService.FillQuery(typeof(MikeScenarioResult), culture.TwoLetterISOLanguageName, 1, 1,  "MikeScenarioResultID", "");
+                        mikeScenarioResultService.Query = mikeScenarioResultService.FillQuery(typeof(MikeScenarioResult), culture.TwoLetterISOLanguageName, 1, 1,  "MikeScenarioResultID", "", "", extra);
 
                         List<MikeScenarioResult> mikeScenarioResultDirectQueryList = new List<MikeScenarioResult>();
-                        mikeScenarioResultDirectQueryList = (from c in dbTestDB.MikeScenarioResults select c).Skip(1).Take(1).OrderBy(c => c.MikeScenarioResultID).ToList();
+                        mikeScenarioResultDirectQueryList = (from c in dbTestDB.MikeScenarioResults select c).OrderBy(c => c.MikeScenarioResultID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -369,7 +396,7 @@ namespace CSSPServices.Tests
                             CheckMikeScenarioResultFields(mikeScenarioResultList);
                             Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultList[0].MikeScenarioResultID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MikeScenarioResultExtraA> mikeScenarioResultExtraAList = new List<MikeScenarioResultExtraA>();
                             mikeScenarioResultExtraAList = mikeScenarioResultService.GetMikeScenarioResultExtraAList().ToList();
@@ -377,7 +404,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraAList[0].MikeScenarioResultID);
                             Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MikeScenarioResultExtraB> mikeScenarioResultExtraBList = new List<MikeScenarioResultExtraB>();
                             mikeScenarioResultExtraBList = mikeScenarioResultService.GetMikeScenarioResultExtraBList().ToList();
@@ -387,17 +414,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetMikeScenarioResultList() Skip Take Order
+        #endregion Tests Generated for GetMikeScenarioResultList() Skip Take Asc
 
-        #region Tests Generated for GetMikeScenarioResultList() Skip Take 2Order
+        #region Tests Generated for GetMikeScenarioResultList() Skip Take 2 Asc
         [TestMethod]
-        public void GetMikeScenarioResultList_Skip_Take_2Order_Test()
+        public void GetMikeScenarioResultList_Skip_Take_2Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -405,14 +432,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MikeScenarioResultService mikeScenarioResultService = new MikeScenarioResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mikeScenarioResultService.Query = mikeScenarioResultService.FillQuery(typeof(MikeScenarioResult), culture.TwoLetterISOLanguageName, 1, 1, "MikeScenarioResultID,MikeScenarioTVItemID", "");
+                        mikeScenarioResultService.Query = mikeScenarioResultService.FillQuery(typeof(MikeScenarioResult), culture.TwoLetterISOLanguageName, 1, 1, "MikeScenarioResultID,MikeScenarioTVItemID", "", "", extra);
 
                         List<MikeScenarioResult> mikeScenarioResultDirectQueryList = new List<MikeScenarioResult>();
-                        mikeScenarioResultDirectQueryList = (from c in dbTestDB.MikeScenarioResults select c).Skip(1).Take(1).OrderBy(c => c.MikeScenarioResultID).ThenBy(c => c.MikeScenarioTVItemID).ToList();
+                        mikeScenarioResultDirectQueryList = (from c in dbTestDB.MikeScenarioResults select c).OrderBy(c => c.MikeScenarioResultID).ThenBy(c => c.MikeScenarioTVItemID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -421,7 +448,7 @@ namespace CSSPServices.Tests
                             CheckMikeScenarioResultFields(mikeScenarioResultList);
                             Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultList[0].MikeScenarioResultID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MikeScenarioResultExtraA> mikeScenarioResultExtraAList = new List<MikeScenarioResultExtraA>();
                             mikeScenarioResultExtraAList = mikeScenarioResultService.GetMikeScenarioResultExtraAList().ToList();
@@ -429,7 +456,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraAList[0].MikeScenarioResultID);
                             Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MikeScenarioResultExtraB> mikeScenarioResultExtraBList = new List<MikeScenarioResultExtraB>();
                             mikeScenarioResultExtraBList = mikeScenarioResultService.GetMikeScenarioResultExtraBList().ToList();
@@ -439,17 +466,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetMikeScenarioResultList() Skip Take 2Order
+        #endregion Tests Generated for GetMikeScenarioResultList() Skip Take 2 Asc
 
-        #region Tests Generated for GetMikeScenarioResultList() Skip Take Order Where
+        #region Tests Generated for GetMikeScenarioResultList() Skip Take Asc Where
         [TestMethod]
-        public void GetMikeScenarioResultList_Skip_Take_Order_Where_Test()
+        public void GetMikeScenarioResultList_Skip_Take_Asc_Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -457,14 +484,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MikeScenarioResultService mikeScenarioResultService = new MikeScenarioResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mikeScenarioResultService.Query = mikeScenarioResultService.FillQuery(typeof(MikeScenarioResult), culture.TwoLetterISOLanguageName, 0, 1, "MikeScenarioResultID", "MikeScenarioResultID,EQ,4", "");
+                        mikeScenarioResultService.Query = mikeScenarioResultService.FillQuery(typeof(MikeScenarioResult), culture.TwoLetterISOLanguageName, 0, 1, "MikeScenarioResultID", "", "MikeScenarioResultID,EQ,4", "");
 
                         List<MikeScenarioResult> mikeScenarioResultDirectQueryList = new List<MikeScenarioResult>();
-                        mikeScenarioResultDirectQueryList = (from c in dbTestDB.MikeScenarioResults select c).Where(c => c.MikeScenarioResultID == 4).Skip(0).Take(1).OrderBy(c => c.MikeScenarioResultID).ToList();
+                        mikeScenarioResultDirectQueryList = (from c in dbTestDB.MikeScenarioResults select c).Where(c => c.MikeScenarioResultID == 4).OrderBy(c => c.MikeScenarioResultID).Skip(0).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -473,7 +500,7 @@ namespace CSSPServices.Tests
                             CheckMikeScenarioResultFields(mikeScenarioResultList);
                             Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultList[0].MikeScenarioResultID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MikeScenarioResultExtraA> mikeScenarioResultExtraAList = new List<MikeScenarioResultExtraA>();
                             mikeScenarioResultExtraAList = mikeScenarioResultService.GetMikeScenarioResultExtraAList().ToList();
@@ -481,7 +508,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraAList[0].MikeScenarioResultID);
                             Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MikeScenarioResultExtraB> mikeScenarioResultExtraBList = new List<MikeScenarioResultExtraB>();
                             mikeScenarioResultExtraBList = mikeScenarioResultService.GetMikeScenarioResultExtraBList().ToList();
@@ -491,17 +518,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetMikeScenarioResultList() Skip Take Order Where
+        #endregion Tests Generated for GetMikeScenarioResultList() Skip Take Asc Where
 
-        #region Tests Generated for GetMikeScenarioResultList() Skip Take Order 2Where
+        #region Tests Generated for GetMikeScenarioResultList() Skip Take Asc 2 Where
         [TestMethod]
-        public void GetMikeScenarioResultList_Skip_Take_Order_2Where_Test()
+        public void GetMikeScenarioResultList_Skip_Take_Asc_2Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -509,11 +536,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MikeScenarioResultService mikeScenarioResultService = new MikeScenarioResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mikeScenarioResultService.Query = mikeScenarioResultService.FillQuery(typeof(MikeScenarioResult), culture.TwoLetterISOLanguageName, 0, 1, "MikeScenarioResultID", "MikeScenarioResultID,GT,2|MikeScenarioResultID,LT,5", "");
+                        mikeScenarioResultService.Query = mikeScenarioResultService.FillQuery(typeof(MikeScenarioResult), culture.TwoLetterISOLanguageName, 0, 1, "MikeScenarioResultID", "", "MikeScenarioResultID,GT,2|MikeScenarioResultID,LT,5", "");
 
                         List<MikeScenarioResult> mikeScenarioResultDirectQueryList = new List<MikeScenarioResult>();
                         mikeScenarioResultDirectQueryList = (from c in dbTestDB.MikeScenarioResults select c).Where(c => c.MikeScenarioResultID > 2 && c.MikeScenarioResultID < 5).Skip(0).Take(1).OrderBy(c => c.MikeScenarioResultID).ToList();
@@ -525,7 +552,7 @@ namespace CSSPServices.Tests
                             CheckMikeScenarioResultFields(mikeScenarioResultList);
                             Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultList[0].MikeScenarioResultID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MikeScenarioResultExtraA> mikeScenarioResultExtraAList = new List<MikeScenarioResultExtraA>();
                             mikeScenarioResultExtraAList = mikeScenarioResultService.GetMikeScenarioResultExtraAList().ToList();
@@ -533,7 +560,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraAList[0].MikeScenarioResultID);
                             Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MikeScenarioResultExtraB> mikeScenarioResultExtraBList = new List<MikeScenarioResultExtraB>();
                             mikeScenarioResultExtraBList = mikeScenarioResultService.GetMikeScenarioResultExtraBList().ToList();
@@ -543,15 +570,223 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetMikeScenarioResultList() Skip Take Order 2Where
+        #endregion Tests Generated for GetMikeScenarioResultList() Skip Take Asc 2 Where
 
-        #region Tests Generated for GetMikeScenarioResultList() 2Where
+        #region Tests Generated for GetMikeScenarioResultList() Skip Take Desc
+        [TestMethod]
+        public void GetMikeScenarioResultList_Skip_Take_Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        MikeScenarioResultService mikeScenarioResultService = new MikeScenarioResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mikeScenarioResultService.Query = mikeScenarioResultService.FillQuery(typeof(MikeScenarioResult), culture.TwoLetterISOLanguageName, 1, 1, "", "MikeScenarioResultID", "", extra);
+
+                        List<MikeScenarioResult> mikeScenarioResultDirectQueryList = new List<MikeScenarioResult>();
+                        mikeScenarioResultDirectQueryList = (from c in dbTestDB.MikeScenarioResults select c).OrderByDescending(c => c.MikeScenarioResultID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<MikeScenarioResult> mikeScenarioResultList = new List<MikeScenarioResult>();
+                            mikeScenarioResultList = mikeScenarioResultService.GetMikeScenarioResultList().ToList();
+                            CheckMikeScenarioResultFields(mikeScenarioResultList);
+                            Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultList[0].MikeScenarioResultID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<MikeScenarioResultExtraA> mikeScenarioResultExtraAList = new List<MikeScenarioResultExtraA>();
+                            mikeScenarioResultExtraAList = mikeScenarioResultService.GetMikeScenarioResultExtraAList().ToList();
+                            CheckMikeScenarioResultExtraAFields(mikeScenarioResultExtraAList);
+                            Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraAList[0].MikeScenarioResultID);
+                            Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<MikeScenarioResultExtraB> mikeScenarioResultExtraBList = new List<MikeScenarioResultExtraB>();
+                            mikeScenarioResultExtraBList = mikeScenarioResultService.GetMikeScenarioResultExtraBList().ToList();
+                            CheckMikeScenarioResultExtraBFields(mikeScenarioResultExtraBList);
+                            Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraBList[0].MikeScenarioResultID);
+                            Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMikeScenarioResultList() Skip Take Desc
+
+        #region Tests Generated for GetMikeScenarioResultList() Skip Take 2 Desc
+        [TestMethod]
+        public void GetMikeScenarioResultList_Skip_Take_2Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        MikeScenarioResultService mikeScenarioResultService = new MikeScenarioResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mikeScenarioResultService.Query = mikeScenarioResultService.FillQuery(typeof(MikeScenarioResult), culture.TwoLetterISOLanguageName, 1, 1, "", "MikeScenarioResultID,MikeScenarioTVItemID", "", extra);
+
+                        List<MikeScenarioResult> mikeScenarioResultDirectQueryList = new List<MikeScenarioResult>();
+                        mikeScenarioResultDirectQueryList = (from c in dbTestDB.MikeScenarioResults select c).OrderByDescending(c => c.MikeScenarioResultID).ThenByDescending(c => c.MikeScenarioTVItemID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<MikeScenarioResult> mikeScenarioResultList = new List<MikeScenarioResult>();
+                            mikeScenarioResultList = mikeScenarioResultService.GetMikeScenarioResultList().ToList();
+                            CheckMikeScenarioResultFields(mikeScenarioResultList);
+                            Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultList[0].MikeScenarioResultID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<MikeScenarioResultExtraA> mikeScenarioResultExtraAList = new List<MikeScenarioResultExtraA>();
+                            mikeScenarioResultExtraAList = mikeScenarioResultService.GetMikeScenarioResultExtraAList().ToList();
+                            CheckMikeScenarioResultExtraAFields(mikeScenarioResultExtraAList);
+                            Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraAList[0].MikeScenarioResultID);
+                            Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<MikeScenarioResultExtraB> mikeScenarioResultExtraBList = new List<MikeScenarioResultExtraB>();
+                            mikeScenarioResultExtraBList = mikeScenarioResultService.GetMikeScenarioResultExtraBList().ToList();
+                            CheckMikeScenarioResultExtraBFields(mikeScenarioResultExtraBList);
+                            Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraBList[0].MikeScenarioResultID);
+                            Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMikeScenarioResultList() Skip Take 2 Desc
+
+        #region Tests Generated for GetMikeScenarioResultList() Skip Take Desc Where
+        [TestMethod]
+        public void GetMikeScenarioResultList_Skip_Take_Desc_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        MikeScenarioResultService mikeScenarioResultService = new MikeScenarioResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mikeScenarioResultService.Query = mikeScenarioResultService.FillQuery(typeof(MikeScenarioResult), culture.TwoLetterISOLanguageName, 0, 1, "MikeScenarioResultID", "", "MikeScenarioResultID,EQ,4", "");
+
+                        List<MikeScenarioResult> mikeScenarioResultDirectQueryList = new List<MikeScenarioResult>();
+                        mikeScenarioResultDirectQueryList = (from c in dbTestDB.MikeScenarioResults select c).Where(c => c.MikeScenarioResultID == 4).OrderByDescending(c => c.MikeScenarioResultID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<MikeScenarioResult> mikeScenarioResultList = new List<MikeScenarioResult>();
+                            mikeScenarioResultList = mikeScenarioResultService.GetMikeScenarioResultList().ToList();
+                            CheckMikeScenarioResultFields(mikeScenarioResultList);
+                            Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultList[0].MikeScenarioResultID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<MikeScenarioResultExtraA> mikeScenarioResultExtraAList = new List<MikeScenarioResultExtraA>();
+                            mikeScenarioResultExtraAList = mikeScenarioResultService.GetMikeScenarioResultExtraAList().ToList();
+                            CheckMikeScenarioResultExtraAFields(mikeScenarioResultExtraAList);
+                            Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraAList[0].MikeScenarioResultID);
+                            Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<MikeScenarioResultExtraB> mikeScenarioResultExtraBList = new List<MikeScenarioResultExtraB>();
+                            mikeScenarioResultExtraBList = mikeScenarioResultService.GetMikeScenarioResultExtraBList().ToList();
+                            CheckMikeScenarioResultExtraBFields(mikeScenarioResultExtraBList);
+                            Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraBList[0].MikeScenarioResultID);
+                            Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMikeScenarioResultList() Skip Take Desc Where
+
+        #region Tests Generated for GetMikeScenarioResultList() Skip Take Desc 2 Where
+        [TestMethod]
+        public void GetMikeScenarioResultList_Skip_Take_Desc_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        MikeScenarioResultService mikeScenarioResultService = new MikeScenarioResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mikeScenarioResultService.Query = mikeScenarioResultService.FillQuery(typeof(MikeScenarioResult), culture.TwoLetterISOLanguageName, 0, 1, "", "MikeScenarioResultID", "MikeScenarioResultID,GT,2|MikeScenarioResultID,LT,5", "");
+
+                        List<MikeScenarioResult> mikeScenarioResultDirectQueryList = new List<MikeScenarioResult>();
+                        mikeScenarioResultDirectQueryList = (from c in dbTestDB.MikeScenarioResults select c).Where(c => c.MikeScenarioResultID > 2 && c.MikeScenarioResultID < 5).OrderByDescending(c => c.MikeScenarioResultID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<MikeScenarioResult> mikeScenarioResultList = new List<MikeScenarioResult>();
+                            mikeScenarioResultList = mikeScenarioResultService.GetMikeScenarioResultList().ToList();
+                            CheckMikeScenarioResultFields(mikeScenarioResultList);
+                            Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultList[0].MikeScenarioResultID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<MikeScenarioResultExtraA> mikeScenarioResultExtraAList = new List<MikeScenarioResultExtraA>();
+                            mikeScenarioResultExtraAList = mikeScenarioResultService.GetMikeScenarioResultExtraAList().ToList();
+                            CheckMikeScenarioResultExtraAFields(mikeScenarioResultExtraAList);
+                            Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraAList[0].MikeScenarioResultID);
+                            Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<MikeScenarioResultExtraB> mikeScenarioResultExtraBList = new List<MikeScenarioResultExtraB>();
+                            mikeScenarioResultExtraBList = mikeScenarioResultService.GetMikeScenarioResultExtraBList().ToList();
+                            CheckMikeScenarioResultExtraBFields(mikeScenarioResultExtraBList);
+                            Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraBList[0].MikeScenarioResultID);
+                            Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMikeScenarioResultList() Skip Take Desc 2 Where
+
+        #region Tests Generated for GetMikeScenarioResultList() 2 Where
         [TestMethod]
         public void GetMikeScenarioResultList_2Where_Test()
         {
@@ -561,11 +796,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MikeScenarioResultService mikeScenarioResultService = new MikeScenarioResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mikeScenarioResultService.Query = mikeScenarioResultService.FillQuery(typeof(MikeScenarioResult), culture.TwoLetterISOLanguageName, 0, 10000, "", "MikeScenarioResultID,GT,2|MikeScenarioResultID,LT,5", "");
+                        mikeScenarioResultService.Query = mikeScenarioResultService.FillQuery(typeof(MikeScenarioResult), culture.TwoLetterISOLanguageName, 0, 10000, "", "", "MikeScenarioResultID,GT,2|MikeScenarioResultID,LT,5", extra);
 
                         List<MikeScenarioResult> mikeScenarioResultDirectQueryList = new List<MikeScenarioResult>();
                         mikeScenarioResultDirectQueryList = (from c in dbTestDB.MikeScenarioResults select c).Where(c => c.MikeScenarioResultID > 2 && c.MikeScenarioResultID < 5).ToList();
@@ -577,7 +812,7 @@ namespace CSSPServices.Tests
                             CheckMikeScenarioResultFields(mikeScenarioResultList);
                             Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultList[0].MikeScenarioResultID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MikeScenarioResultExtraA> mikeScenarioResultExtraAList = new List<MikeScenarioResultExtraA>();
                             mikeScenarioResultExtraAList = mikeScenarioResultService.GetMikeScenarioResultExtraAList().ToList();
@@ -585,7 +820,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraAList[0].MikeScenarioResultID);
                             Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MikeScenarioResultExtraB> mikeScenarioResultExtraBList = new List<MikeScenarioResultExtraB>();
                             mikeScenarioResultExtraBList = mikeScenarioResultService.GetMikeScenarioResultExtraBList().ToList();
@@ -595,13 +830,13 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetMikeScenarioResultList() 2Where
+        #endregion Tests Generated for GetMikeScenarioResultList() 2 Where
 
         #region Functions private
         private void CheckMikeScenarioResultFields(List<MikeScenarioResult> mikeScenarioResultList)

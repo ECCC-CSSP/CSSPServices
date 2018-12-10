@@ -38,9 +38,9 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
+        #region Tests Generated CRUD
         [TestMethod]
-        public void TVItemLink_CRUD_And_Properties_Test()
+        public void TVItemLink_CRUD_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -86,6 +86,33 @@ namespace CSSPServices.Tests
                         Assert.AreEqual("", tvItemLink.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
                     Assert.AreEqual(count, tvItemLinkService.GetTVItemLinkList().Count());
+
+                }
+            }
+        }
+        #endregion Tests Generated CRUD
+
+        #region Tests Generated Properties
+        [TestMethod]
+        public void TVItemLink_Properties_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    TVItemLinkService tvItemLinkService = new TVItemLinkService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    count = tvItemLinkService.GetTVItemLinkList().Count();
+
+                    TVItemLink tvItemLink = GetFilledRandomTVItemLink("");
 
                     // -------------------------------
                     // -------------------------------
@@ -328,7 +355,7 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Generated CRUD and Properties
+        #endregion Tests Generated Properties
 
         #region Tests Generated for GetTVItemLinkWithTVItemLinkID(tvItemLink.TVItemLinkID)
         [TestMethod]
@@ -344,7 +371,7 @@ namespace CSSPServices.Tests
                     TVItemLink tvItemLink = (from c in dbTestDB.TVItemLinks select c).FirstOrDefault();
                     Assert.IsNotNull(tvItemLink);
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         tvItemLinkService.Query.Extra = extra;
 
@@ -354,13 +381,13 @@ namespace CSSPServices.Tests
                             CheckTVItemLinkFields(new List<TVItemLink>() { tvItemLinkRet });
                             Assert.AreEqual(tvItemLink.TVItemLinkID, tvItemLinkRet.TVItemLinkID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             TVItemLinkExtraA tvItemLinkExtraARet = tvItemLinkService.GetTVItemLinkExtraAWithTVItemLinkID(tvItemLink.TVItemLinkID);
                             CheckTVItemLinkExtraAFields(new List<TVItemLinkExtraA>() { tvItemLinkExtraARet });
                             Assert.AreEqual(tvItemLink.TVItemLinkID, tvItemLinkExtraARet.TVItemLinkID);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             TVItemLinkExtraB tvItemLinkExtraBRet = tvItemLinkService.GetTVItemLinkExtraBWithTVItemLinkID(tvItemLink.TVItemLinkID);
                             CheckTVItemLinkExtraBFields(new List<TVItemLinkExtraB>() { tvItemLinkExtraBRet });
@@ -368,7 +395,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -393,7 +420,7 @@ namespace CSSPServices.Tests
                     List<TVItemLink> tvItemLinkDirectQueryList = new List<TVItemLink>();
                     tvItemLinkDirectQueryList = (from c in dbTestDB.TVItemLinks select c).Take(200).ToList();
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         tvItemLinkService.Query.Extra = extra;
 
@@ -403,14 +430,14 @@ namespace CSSPServices.Tests
                             tvItemLinkList = tvItemLinkService.GetTVItemLinkList().ToList();
                             CheckTVItemLinkFields(tvItemLinkList);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TVItemLinkExtraA> tvItemLinkExtraAList = new List<TVItemLinkExtraA>();
                             tvItemLinkExtraAList = tvItemLinkService.GetTVItemLinkExtraAList().ToList();
                             CheckTVItemLinkExtraAFields(tvItemLinkExtraAList);
                             Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TVItemLinkExtraB> tvItemLinkExtraBList = new List<TVItemLinkExtraB>();
                             tvItemLinkExtraBList = tvItemLinkService.GetTVItemLinkExtraBList().ToList();
@@ -419,7 +446,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -437,11 +464,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         TVItemLinkService tvItemLinkService = new TVItemLinkService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tvItemLinkService.Query = tvItemLinkService.FillQuery(typeof(TVItemLink), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
+                        tvItemLinkService.Query = tvItemLinkService.FillQuery(typeof(TVItemLink), culture.TwoLetterISOLanguageName, 1, 1, "", "", "", extra);
 
                         List<TVItemLink> tvItemLinkDirectQueryList = new List<TVItemLink>();
                         tvItemLinkDirectQueryList = (from c in dbTestDB.TVItemLinks select c).Skip(1).Take(1).ToList();
@@ -453,7 +480,7 @@ namespace CSSPServices.Tests
                             CheckTVItemLinkFields(tvItemLinkList);
                             Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkList[0].TVItemLinkID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TVItemLinkExtraA> tvItemLinkExtraAList = new List<TVItemLinkExtraA>();
                             tvItemLinkExtraAList = tvItemLinkService.GetTVItemLinkExtraAList().ToList();
@@ -461,7 +488,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkExtraAList[0].TVItemLinkID);
                             Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TVItemLinkExtraB> tvItemLinkExtraBList = new List<TVItemLinkExtraB>();
                             tvItemLinkExtraBList = tvItemLinkService.GetTVItemLinkExtraBList().ToList();
@@ -471,7 +498,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -479,9 +506,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated for GetTVItemLinkList() Skip Take
 
-        #region Tests Generated for GetTVItemLinkList() Skip Take Order
+        #region Tests Generated for GetTVItemLinkList() Skip Take Asc
         [TestMethod]
-        public void GetTVItemLinkList_Skip_Take_Order_Test()
+        public void GetTVItemLinkList_Skip_Take_Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -489,14 +516,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         TVItemLinkService tvItemLinkService = new TVItemLinkService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tvItemLinkService.Query = tvItemLinkService.FillQuery(typeof(TVItemLink), culture.TwoLetterISOLanguageName, 1, 1,  "TVItemLinkID", "");
+                        tvItemLinkService.Query = tvItemLinkService.FillQuery(typeof(TVItemLink), culture.TwoLetterISOLanguageName, 1, 1,  "TVItemLinkID", "", "", extra);
 
                         List<TVItemLink> tvItemLinkDirectQueryList = new List<TVItemLink>();
-                        tvItemLinkDirectQueryList = (from c in dbTestDB.TVItemLinks select c).Skip(1).Take(1).OrderBy(c => c.TVItemLinkID).ToList();
+                        tvItemLinkDirectQueryList = (from c in dbTestDB.TVItemLinks select c).OrderBy(c => c.TVItemLinkID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -505,7 +532,7 @@ namespace CSSPServices.Tests
                             CheckTVItemLinkFields(tvItemLinkList);
                             Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkList[0].TVItemLinkID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TVItemLinkExtraA> tvItemLinkExtraAList = new List<TVItemLinkExtraA>();
                             tvItemLinkExtraAList = tvItemLinkService.GetTVItemLinkExtraAList().ToList();
@@ -513,7 +540,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkExtraAList[0].TVItemLinkID);
                             Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TVItemLinkExtraB> tvItemLinkExtraBList = new List<TVItemLinkExtraB>();
                             tvItemLinkExtraBList = tvItemLinkService.GetTVItemLinkExtraBList().ToList();
@@ -523,17 +550,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetTVItemLinkList() Skip Take Order
+        #endregion Tests Generated for GetTVItemLinkList() Skip Take Asc
 
-        #region Tests Generated for GetTVItemLinkList() Skip Take 2Order
+        #region Tests Generated for GetTVItemLinkList() Skip Take 2 Asc
         [TestMethod]
-        public void GetTVItemLinkList_Skip_Take_2Order_Test()
+        public void GetTVItemLinkList_Skip_Take_2Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -541,14 +568,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         TVItemLinkService tvItemLinkService = new TVItemLinkService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tvItemLinkService.Query = tvItemLinkService.FillQuery(typeof(TVItemLink), culture.TwoLetterISOLanguageName, 1, 1, "TVItemLinkID,FromTVItemID", "");
+                        tvItemLinkService.Query = tvItemLinkService.FillQuery(typeof(TVItemLink), culture.TwoLetterISOLanguageName, 1, 1, "TVItemLinkID,FromTVItemID", "", "", extra);
 
                         List<TVItemLink> tvItemLinkDirectQueryList = new List<TVItemLink>();
-                        tvItemLinkDirectQueryList = (from c in dbTestDB.TVItemLinks select c).Skip(1).Take(1).OrderBy(c => c.TVItemLinkID).ThenBy(c => c.FromTVItemID).ToList();
+                        tvItemLinkDirectQueryList = (from c in dbTestDB.TVItemLinks select c).OrderBy(c => c.TVItemLinkID).ThenBy(c => c.FromTVItemID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -557,7 +584,7 @@ namespace CSSPServices.Tests
                             CheckTVItemLinkFields(tvItemLinkList);
                             Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkList[0].TVItemLinkID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TVItemLinkExtraA> tvItemLinkExtraAList = new List<TVItemLinkExtraA>();
                             tvItemLinkExtraAList = tvItemLinkService.GetTVItemLinkExtraAList().ToList();
@@ -565,7 +592,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkExtraAList[0].TVItemLinkID);
                             Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TVItemLinkExtraB> tvItemLinkExtraBList = new List<TVItemLinkExtraB>();
                             tvItemLinkExtraBList = tvItemLinkService.GetTVItemLinkExtraBList().ToList();
@@ -575,17 +602,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetTVItemLinkList() Skip Take 2Order
+        #endregion Tests Generated for GetTVItemLinkList() Skip Take 2 Asc
 
-        #region Tests Generated for GetTVItemLinkList() Skip Take Order Where
+        #region Tests Generated for GetTVItemLinkList() Skip Take Asc Where
         [TestMethod]
-        public void GetTVItemLinkList_Skip_Take_Order_Where_Test()
+        public void GetTVItemLinkList_Skip_Take_Asc_Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -593,14 +620,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         TVItemLinkService tvItemLinkService = new TVItemLinkService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tvItemLinkService.Query = tvItemLinkService.FillQuery(typeof(TVItemLink), culture.TwoLetterISOLanguageName, 0, 1, "TVItemLinkID", "TVItemLinkID,EQ,4", "");
+                        tvItemLinkService.Query = tvItemLinkService.FillQuery(typeof(TVItemLink), culture.TwoLetterISOLanguageName, 0, 1, "TVItemLinkID", "", "TVItemLinkID,EQ,4", "");
 
                         List<TVItemLink> tvItemLinkDirectQueryList = new List<TVItemLink>();
-                        tvItemLinkDirectQueryList = (from c in dbTestDB.TVItemLinks select c).Where(c => c.TVItemLinkID == 4).Skip(0).Take(1).OrderBy(c => c.TVItemLinkID).ToList();
+                        tvItemLinkDirectQueryList = (from c in dbTestDB.TVItemLinks select c).Where(c => c.TVItemLinkID == 4).OrderBy(c => c.TVItemLinkID).Skip(0).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -609,7 +636,7 @@ namespace CSSPServices.Tests
                             CheckTVItemLinkFields(tvItemLinkList);
                             Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkList[0].TVItemLinkID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TVItemLinkExtraA> tvItemLinkExtraAList = new List<TVItemLinkExtraA>();
                             tvItemLinkExtraAList = tvItemLinkService.GetTVItemLinkExtraAList().ToList();
@@ -617,7 +644,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkExtraAList[0].TVItemLinkID);
                             Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TVItemLinkExtraB> tvItemLinkExtraBList = new List<TVItemLinkExtraB>();
                             tvItemLinkExtraBList = tvItemLinkService.GetTVItemLinkExtraBList().ToList();
@@ -627,17 +654,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetTVItemLinkList() Skip Take Order Where
+        #endregion Tests Generated for GetTVItemLinkList() Skip Take Asc Where
 
-        #region Tests Generated for GetTVItemLinkList() Skip Take Order 2Where
+        #region Tests Generated for GetTVItemLinkList() Skip Take Asc 2 Where
         [TestMethod]
-        public void GetTVItemLinkList_Skip_Take_Order_2Where_Test()
+        public void GetTVItemLinkList_Skip_Take_Asc_2Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -645,11 +672,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         TVItemLinkService tvItemLinkService = new TVItemLinkService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tvItemLinkService.Query = tvItemLinkService.FillQuery(typeof(TVItemLink), culture.TwoLetterISOLanguageName, 0, 1, "TVItemLinkID", "TVItemLinkID,GT,2|TVItemLinkID,LT,5", "");
+                        tvItemLinkService.Query = tvItemLinkService.FillQuery(typeof(TVItemLink), culture.TwoLetterISOLanguageName, 0, 1, "TVItemLinkID", "", "TVItemLinkID,GT,2|TVItemLinkID,LT,5", "");
 
                         List<TVItemLink> tvItemLinkDirectQueryList = new List<TVItemLink>();
                         tvItemLinkDirectQueryList = (from c in dbTestDB.TVItemLinks select c).Where(c => c.TVItemLinkID > 2 && c.TVItemLinkID < 5).Skip(0).Take(1).OrderBy(c => c.TVItemLinkID).ToList();
@@ -661,7 +688,7 @@ namespace CSSPServices.Tests
                             CheckTVItemLinkFields(tvItemLinkList);
                             Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkList[0].TVItemLinkID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TVItemLinkExtraA> tvItemLinkExtraAList = new List<TVItemLinkExtraA>();
                             tvItemLinkExtraAList = tvItemLinkService.GetTVItemLinkExtraAList().ToList();
@@ -669,7 +696,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkExtraAList[0].TVItemLinkID);
                             Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TVItemLinkExtraB> tvItemLinkExtraBList = new List<TVItemLinkExtraB>();
                             tvItemLinkExtraBList = tvItemLinkService.GetTVItemLinkExtraBList().ToList();
@@ -679,15 +706,223 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetTVItemLinkList() Skip Take Order 2Where
+        #endregion Tests Generated for GetTVItemLinkList() Skip Take Asc 2 Where
 
-        #region Tests Generated for GetTVItemLinkList() 2Where
+        #region Tests Generated for GetTVItemLinkList() Skip Take Desc
+        [TestMethod]
+        public void GetTVItemLinkList_Skip_Take_Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        TVItemLinkService tvItemLinkService = new TVItemLinkService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tvItemLinkService.Query = tvItemLinkService.FillQuery(typeof(TVItemLink), culture.TwoLetterISOLanguageName, 1, 1, "", "TVItemLinkID", "", extra);
+
+                        List<TVItemLink> tvItemLinkDirectQueryList = new List<TVItemLink>();
+                        tvItemLinkDirectQueryList = (from c in dbTestDB.TVItemLinks select c).OrderByDescending(c => c.TVItemLinkID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<TVItemLink> tvItemLinkList = new List<TVItemLink>();
+                            tvItemLinkList = tvItemLinkService.GetTVItemLinkList().ToList();
+                            CheckTVItemLinkFields(tvItemLinkList);
+                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkList[0].TVItemLinkID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<TVItemLinkExtraA> tvItemLinkExtraAList = new List<TVItemLinkExtraA>();
+                            tvItemLinkExtraAList = tvItemLinkService.GetTVItemLinkExtraAList().ToList();
+                            CheckTVItemLinkExtraAFields(tvItemLinkExtraAList);
+                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkExtraAList[0].TVItemLinkID);
+                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<TVItemLinkExtraB> tvItemLinkExtraBList = new List<TVItemLinkExtraB>();
+                            tvItemLinkExtraBList = tvItemLinkService.GetTVItemLinkExtraBList().ToList();
+                            CheckTVItemLinkExtraBFields(tvItemLinkExtraBList);
+                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkExtraBList[0].TVItemLinkID);
+                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTVItemLinkList() Skip Take Desc
+
+        #region Tests Generated for GetTVItemLinkList() Skip Take 2 Desc
+        [TestMethod]
+        public void GetTVItemLinkList_Skip_Take_2Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        TVItemLinkService tvItemLinkService = new TVItemLinkService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tvItemLinkService.Query = tvItemLinkService.FillQuery(typeof(TVItemLink), culture.TwoLetterISOLanguageName, 1, 1, "", "TVItemLinkID,FromTVItemID", "", extra);
+
+                        List<TVItemLink> tvItemLinkDirectQueryList = new List<TVItemLink>();
+                        tvItemLinkDirectQueryList = (from c in dbTestDB.TVItemLinks select c).OrderByDescending(c => c.TVItemLinkID).ThenByDescending(c => c.FromTVItemID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<TVItemLink> tvItemLinkList = new List<TVItemLink>();
+                            tvItemLinkList = tvItemLinkService.GetTVItemLinkList().ToList();
+                            CheckTVItemLinkFields(tvItemLinkList);
+                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkList[0].TVItemLinkID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<TVItemLinkExtraA> tvItemLinkExtraAList = new List<TVItemLinkExtraA>();
+                            tvItemLinkExtraAList = tvItemLinkService.GetTVItemLinkExtraAList().ToList();
+                            CheckTVItemLinkExtraAFields(tvItemLinkExtraAList);
+                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkExtraAList[0].TVItemLinkID);
+                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<TVItemLinkExtraB> tvItemLinkExtraBList = new List<TVItemLinkExtraB>();
+                            tvItemLinkExtraBList = tvItemLinkService.GetTVItemLinkExtraBList().ToList();
+                            CheckTVItemLinkExtraBFields(tvItemLinkExtraBList);
+                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkExtraBList[0].TVItemLinkID);
+                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTVItemLinkList() Skip Take 2 Desc
+
+        #region Tests Generated for GetTVItemLinkList() Skip Take Desc Where
+        [TestMethod]
+        public void GetTVItemLinkList_Skip_Take_Desc_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        TVItemLinkService tvItemLinkService = new TVItemLinkService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tvItemLinkService.Query = tvItemLinkService.FillQuery(typeof(TVItemLink), culture.TwoLetterISOLanguageName, 0, 1, "TVItemLinkID", "", "TVItemLinkID,EQ,4", "");
+
+                        List<TVItemLink> tvItemLinkDirectQueryList = new List<TVItemLink>();
+                        tvItemLinkDirectQueryList = (from c in dbTestDB.TVItemLinks select c).Where(c => c.TVItemLinkID == 4).OrderByDescending(c => c.TVItemLinkID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<TVItemLink> tvItemLinkList = new List<TVItemLink>();
+                            tvItemLinkList = tvItemLinkService.GetTVItemLinkList().ToList();
+                            CheckTVItemLinkFields(tvItemLinkList);
+                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkList[0].TVItemLinkID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<TVItemLinkExtraA> tvItemLinkExtraAList = new List<TVItemLinkExtraA>();
+                            tvItemLinkExtraAList = tvItemLinkService.GetTVItemLinkExtraAList().ToList();
+                            CheckTVItemLinkExtraAFields(tvItemLinkExtraAList);
+                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkExtraAList[0].TVItemLinkID);
+                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<TVItemLinkExtraB> tvItemLinkExtraBList = new List<TVItemLinkExtraB>();
+                            tvItemLinkExtraBList = tvItemLinkService.GetTVItemLinkExtraBList().ToList();
+                            CheckTVItemLinkExtraBFields(tvItemLinkExtraBList);
+                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkExtraBList[0].TVItemLinkID);
+                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTVItemLinkList() Skip Take Desc Where
+
+        #region Tests Generated for GetTVItemLinkList() Skip Take Desc 2 Where
+        [TestMethod]
+        public void GetTVItemLinkList_Skip_Take_Desc_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        TVItemLinkService tvItemLinkService = new TVItemLinkService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tvItemLinkService.Query = tvItemLinkService.FillQuery(typeof(TVItemLink), culture.TwoLetterISOLanguageName, 0, 1, "", "TVItemLinkID", "TVItemLinkID,GT,2|TVItemLinkID,LT,5", "");
+
+                        List<TVItemLink> tvItemLinkDirectQueryList = new List<TVItemLink>();
+                        tvItemLinkDirectQueryList = (from c in dbTestDB.TVItemLinks select c).Where(c => c.TVItemLinkID > 2 && c.TVItemLinkID < 5).OrderByDescending(c => c.TVItemLinkID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<TVItemLink> tvItemLinkList = new List<TVItemLink>();
+                            tvItemLinkList = tvItemLinkService.GetTVItemLinkList().ToList();
+                            CheckTVItemLinkFields(tvItemLinkList);
+                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkList[0].TVItemLinkID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<TVItemLinkExtraA> tvItemLinkExtraAList = new List<TVItemLinkExtraA>();
+                            tvItemLinkExtraAList = tvItemLinkService.GetTVItemLinkExtraAList().ToList();
+                            CheckTVItemLinkExtraAFields(tvItemLinkExtraAList);
+                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkExtraAList[0].TVItemLinkID);
+                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<TVItemLinkExtraB> tvItemLinkExtraBList = new List<TVItemLinkExtraB>();
+                            tvItemLinkExtraBList = tvItemLinkService.GetTVItemLinkExtraBList().ToList();
+                            CheckTVItemLinkExtraBFields(tvItemLinkExtraBList);
+                            Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkExtraBList[0].TVItemLinkID);
+                            Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTVItemLinkList() Skip Take Desc 2 Where
+
+        #region Tests Generated for GetTVItemLinkList() 2 Where
         [TestMethod]
         public void GetTVItemLinkList_2Where_Test()
         {
@@ -697,11 +932,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         TVItemLinkService tvItemLinkService = new TVItemLinkService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tvItemLinkService.Query = tvItemLinkService.FillQuery(typeof(TVItemLink), culture.TwoLetterISOLanguageName, 0, 10000, "", "TVItemLinkID,GT,2|TVItemLinkID,LT,5", "");
+                        tvItemLinkService.Query = tvItemLinkService.FillQuery(typeof(TVItemLink), culture.TwoLetterISOLanguageName, 0, 10000, "", "", "TVItemLinkID,GT,2|TVItemLinkID,LT,5", extra);
 
                         List<TVItemLink> tvItemLinkDirectQueryList = new List<TVItemLink>();
                         tvItemLinkDirectQueryList = (from c in dbTestDB.TVItemLinks select c).Where(c => c.TVItemLinkID > 2 && c.TVItemLinkID < 5).ToList();
@@ -713,7 +948,7 @@ namespace CSSPServices.Tests
                             CheckTVItemLinkFields(tvItemLinkList);
                             Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkList[0].TVItemLinkID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TVItemLinkExtraA> tvItemLinkExtraAList = new List<TVItemLinkExtraA>();
                             tvItemLinkExtraAList = tvItemLinkService.GetTVItemLinkExtraAList().ToList();
@@ -721,7 +956,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvItemLinkDirectQueryList[0].TVItemLinkID, tvItemLinkExtraAList[0].TVItemLinkID);
                             Assert.AreEqual(tvItemLinkDirectQueryList.Count, tvItemLinkExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TVItemLinkExtraB> tvItemLinkExtraBList = new List<TVItemLinkExtraB>();
                             tvItemLinkExtraBList = tvItemLinkService.GetTVItemLinkExtraBList().ToList();
@@ -731,13 +966,13 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetTVItemLinkList() 2Where
+        #endregion Tests Generated for GetTVItemLinkList() 2 Where
 
         #region Functions private
         private void CheckTVItemLinkFields(List<TVItemLink> tvItemLinkList)

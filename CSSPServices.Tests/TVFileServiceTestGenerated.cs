@@ -38,9 +38,9 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
+        #region Tests Generated CRUD
         [TestMethod]
-        public void TVFile_CRUD_And_Properties_Test()
+        public void TVFile_CRUD_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -86,6 +86,33 @@ namespace CSSPServices.Tests
                         Assert.AreEqual("", tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
                     Assert.AreEqual(count, tvFileService.GetTVFileList().Count());
+
+                }
+            }
+        }
+        #endregion Tests Generated CRUD
+
+        #region Tests Generated Properties
+        [TestMethod]
+        public void TVFile_Properties_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    TVFileService tvFileService = new TVFileService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    count = tvFileService.GetTVFileList().Count();
+
+                    TVFile tvFile = GetFilledRandomTVFile("");
 
                     // -------------------------------
                     // -------------------------------
@@ -379,7 +406,7 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Generated CRUD and Properties
+        #endregion Tests Generated Properties
 
         #region Tests Generated for GetTVFileWithTVFileID(tvFile.TVFileID)
         [TestMethod]
@@ -395,7 +422,7 @@ namespace CSSPServices.Tests
                     TVFile tvFile = (from c in dbTestDB.TVFiles select c).FirstOrDefault();
                     Assert.IsNotNull(tvFile);
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         tvFileService.Query.Extra = extra;
 
@@ -405,13 +432,13 @@ namespace CSSPServices.Tests
                             CheckTVFileFields(new List<TVFile>() { tvFileRet });
                             Assert.AreEqual(tvFile.TVFileID, tvFileRet.TVFileID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             TVFileExtraA tvFileExtraARet = tvFileService.GetTVFileExtraAWithTVFileID(tvFile.TVFileID);
                             CheckTVFileExtraAFields(new List<TVFileExtraA>() { tvFileExtraARet });
                             Assert.AreEqual(tvFile.TVFileID, tvFileExtraARet.TVFileID);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             TVFileExtraB tvFileExtraBRet = tvFileService.GetTVFileExtraBWithTVFileID(tvFile.TVFileID);
                             CheckTVFileExtraBFields(new List<TVFileExtraB>() { tvFileExtraBRet });
@@ -419,7 +446,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -444,7 +471,7 @@ namespace CSSPServices.Tests
                     List<TVFile> tvFileDirectQueryList = new List<TVFile>();
                     tvFileDirectQueryList = (from c in dbTestDB.TVFiles select c).Take(200).ToList();
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         tvFileService.Query.Extra = extra;
 
@@ -454,14 +481,14 @@ namespace CSSPServices.Tests
                             tvFileList = tvFileService.GetTVFileList().ToList();
                             CheckTVFileFields(tvFileList);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TVFileExtraA> tvFileExtraAList = new List<TVFileExtraA>();
                             tvFileExtraAList = tvFileService.GetTVFileExtraAList().ToList();
                             CheckTVFileExtraAFields(tvFileExtraAList);
                             Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TVFileExtraB> tvFileExtraBList = new List<TVFileExtraB>();
                             tvFileExtraBList = tvFileService.GetTVFileExtraBList().ToList();
@@ -470,7 +497,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -488,11 +515,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         TVFileService tvFileService = new TVFileService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tvFileService.Query = tvFileService.FillQuery(typeof(TVFile), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
+                        tvFileService.Query = tvFileService.FillQuery(typeof(TVFile), culture.TwoLetterISOLanguageName, 1, 1, "", "", "", extra);
 
                         List<TVFile> tvFileDirectQueryList = new List<TVFile>();
                         tvFileDirectQueryList = (from c in dbTestDB.TVFiles select c).Skip(1).Take(1).ToList();
@@ -504,7 +531,7 @@ namespace CSSPServices.Tests
                             CheckTVFileFields(tvFileList);
                             Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileList[0].TVFileID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TVFileExtraA> tvFileExtraAList = new List<TVFileExtraA>();
                             tvFileExtraAList = tvFileService.GetTVFileExtraAList().ToList();
@@ -512,7 +539,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraAList[0].TVFileID);
                             Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TVFileExtraB> tvFileExtraBList = new List<TVFileExtraB>();
                             tvFileExtraBList = tvFileService.GetTVFileExtraBList().ToList();
@@ -522,7 +549,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -530,9 +557,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated for GetTVFileList() Skip Take
 
-        #region Tests Generated for GetTVFileList() Skip Take Order
+        #region Tests Generated for GetTVFileList() Skip Take Asc
         [TestMethod]
-        public void GetTVFileList_Skip_Take_Order_Test()
+        public void GetTVFileList_Skip_Take_Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -540,14 +567,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         TVFileService tvFileService = new TVFileService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tvFileService.Query = tvFileService.FillQuery(typeof(TVFile), culture.TwoLetterISOLanguageName, 1, 1,  "TVFileID", "");
+                        tvFileService.Query = tvFileService.FillQuery(typeof(TVFile), culture.TwoLetterISOLanguageName, 1, 1,  "TVFileID", "", "", extra);
 
                         List<TVFile> tvFileDirectQueryList = new List<TVFile>();
-                        tvFileDirectQueryList = (from c in dbTestDB.TVFiles select c).Skip(1).Take(1).OrderBy(c => c.TVFileID).ToList();
+                        tvFileDirectQueryList = (from c in dbTestDB.TVFiles select c).OrderBy(c => c.TVFileID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -556,7 +583,7 @@ namespace CSSPServices.Tests
                             CheckTVFileFields(tvFileList);
                             Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileList[0].TVFileID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TVFileExtraA> tvFileExtraAList = new List<TVFileExtraA>();
                             tvFileExtraAList = tvFileService.GetTVFileExtraAList().ToList();
@@ -564,7 +591,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraAList[0].TVFileID);
                             Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TVFileExtraB> tvFileExtraBList = new List<TVFileExtraB>();
                             tvFileExtraBList = tvFileService.GetTVFileExtraBList().ToList();
@@ -574,17 +601,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetTVFileList() Skip Take Order
+        #endregion Tests Generated for GetTVFileList() Skip Take Asc
 
-        #region Tests Generated for GetTVFileList() Skip Take 2Order
+        #region Tests Generated for GetTVFileList() Skip Take 2 Asc
         [TestMethod]
-        public void GetTVFileList_Skip_Take_2Order_Test()
+        public void GetTVFileList_Skip_Take_2Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -592,14 +619,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         TVFileService tvFileService = new TVFileService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tvFileService.Query = tvFileService.FillQuery(typeof(TVFile), culture.TwoLetterISOLanguageName, 1, 1, "TVFileID,TVFileTVItemID", "");
+                        tvFileService.Query = tvFileService.FillQuery(typeof(TVFile), culture.TwoLetterISOLanguageName, 1, 1, "TVFileID,TVFileTVItemID", "", "", extra);
 
                         List<TVFile> tvFileDirectQueryList = new List<TVFile>();
-                        tvFileDirectQueryList = (from c in dbTestDB.TVFiles select c).Skip(1).Take(1).OrderBy(c => c.TVFileID).ThenBy(c => c.TVFileTVItemID).ToList();
+                        tvFileDirectQueryList = (from c in dbTestDB.TVFiles select c).OrderBy(c => c.TVFileID).ThenBy(c => c.TVFileTVItemID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -608,7 +635,7 @@ namespace CSSPServices.Tests
                             CheckTVFileFields(tvFileList);
                             Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileList[0].TVFileID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TVFileExtraA> tvFileExtraAList = new List<TVFileExtraA>();
                             tvFileExtraAList = tvFileService.GetTVFileExtraAList().ToList();
@@ -616,7 +643,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraAList[0].TVFileID);
                             Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TVFileExtraB> tvFileExtraBList = new List<TVFileExtraB>();
                             tvFileExtraBList = tvFileService.GetTVFileExtraBList().ToList();
@@ -626,17 +653,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetTVFileList() Skip Take 2Order
+        #endregion Tests Generated for GetTVFileList() Skip Take 2 Asc
 
-        #region Tests Generated for GetTVFileList() Skip Take Order Where
+        #region Tests Generated for GetTVFileList() Skip Take Asc Where
         [TestMethod]
-        public void GetTVFileList_Skip_Take_Order_Where_Test()
+        public void GetTVFileList_Skip_Take_Asc_Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -644,14 +671,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         TVFileService tvFileService = new TVFileService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tvFileService.Query = tvFileService.FillQuery(typeof(TVFile), culture.TwoLetterISOLanguageName, 0, 1, "TVFileID", "TVFileID,EQ,4", "");
+                        tvFileService.Query = tvFileService.FillQuery(typeof(TVFile), culture.TwoLetterISOLanguageName, 0, 1, "TVFileID", "", "TVFileID,EQ,4", "");
 
                         List<TVFile> tvFileDirectQueryList = new List<TVFile>();
-                        tvFileDirectQueryList = (from c in dbTestDB.TVFiles select c).Where(c => c.TVFileID == 4).Skip(0).Take(1).OrderBy(c => c.TVFileID).ToList();
+                        tvFileDirectQueryList = (from c in dbTestDB.TVFiles select c).Where(c => c.TVFileID == 4).OrderBy(c => c.TVFileID).Skip(0).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -660,7 +687,7 @@ namespace CSSPServices.Tests
                             CheckTVFileFields(tvFileList);
                             Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileList[0].TVFileID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TVFileExtraA> tvFileExtraAList = new List<TVFileExtraA>();
                             tvFileExtraAList = tvFileService.GetTVFileExtraAList().ToList();
@@ -668,7 +695,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraAList[0].TVFileID);
                             Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TVFileExtraB> tvFileExtraBList = new List<TVFileExtraB>();
                             tvFileExtraBList = tvFileService.GetTVFileExtraBList().ToList();
@@ -678,17 +705,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetTVFileList() Skip Take Order Where
+        #endregion Tests Generated for GetTVFileList() Skip Take Asc Where
 
-        #region Tests Generated for GetTVFileList() Skip Take Order 2Where
+        #region Tests Generated for GetTVFileList() Skip Take Asc 2 Where
         [TestMethod]
-        public void GetTVFileList_Skip_Take_Order_2Where_Test()
+        public void GetTVFileList_Skip_Take_Asc_2Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -696,11 +723,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         TVFileService tvFileService = new TVFileService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tvFileService.Query = tvFileService.FillQuery(typeof(TVFile), culture.TwoLetterISOLanguageName, 0, 1, "TVFileID", "TVFileID,GT,2|TVFileID,LT,5", "");
+                        tvFileService.Query = tvFileService.FillQuery(typeof(TVFile), culture.TwoLetterISOLanguageName, 0, 1, "TVFileID", "", "TVFileID,GT,2|TVFileID,LT,5", "");
 
                         List<TVFile> tvFileDirectQueryList = new List<TVFile>();
                         tvFileDirectQueryList = (from c in dbTestDB.TVFiles select c).Where(c => c.TVFileID > 2 && c.TVFileID < 5).Skip(0).Take(1).OrderBy(c => c.TVFileID).ToList();
@@ -712,7 +739,7 @@ namespace CSSPServices.Tests
                             CheckTVFileFields(tvFileList);
                             Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileList[0].TVFileID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TVFileExtraA> tvFileExtraAList = new List<TVFileExtraA>();
                             tvFileExtraAList = tvFileService.GetTVFileExtraAList().ToList();
@@ -720,7 +747,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraAList[0].TVFileID);
                             Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TVFileExtraB> tvFileExtraBList = new List<TVFileExtraB>();
                             tvFileExtraBList = tvFileService.GetTVFileExtraBList().ToList();
@@ -730,15 +757,223 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetTVFileList() Skip Take Order 2Where
+        #endregion Tests Generated for GetTVFileList() Skip Take Asc 2 Where
 
-        #region Tests Generated for GetTVFileList() 2Where
+        #region Tests Generated for GetTVFileList() Skip Take Desc
+        [TestMethod]
+        public void GetTVFileList_Skip_Take_Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        TVFileService tvFileService = new TVFileService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tvFileService.Query = tvFileService.FillQuery(typeof(TVFile), culture.TwoLetterISOLanguageName, 1, 1, "", "TVFileID", "", extra);
+
+                        List<TVFile> tvFileDirectQueryList = new List<TVFile>();
+                        tvFileDirectQueryList = (from c in dbTestDB.TVFiles select c).OrderByDescending(c => c.TVFileID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<TVFile> tvFileList = new List<TVFile>();
+                            tvFileList = tvFileService.GetTVFileList().ToList();
+                            CheckTVFileFields(tvFileList);
+                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileList[0].TVFileID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<TVFileExtraA> tvFileExtraAList = new List<TVFileExtraA>();
+                            tvFileExtraAList = tvFileService.GetTVFileExtraAList().ToList();
+                            CheckTVFileExtraAFields(tvFileExtraAList);
+                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraAList[0].TVFileID);
+                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<TVFileExtraB> tvFileExtraBList = new List<TVFileExtraB>();
+                            tvFileExtraBList = tvFileService.GetTVFileExtraBList().ToList();
+                            CheckTVFileExtraBFields(tvFileExtraBList);
+                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraBList[0].TVFileID);
+                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTVFileList() Skip Take Desc
+
+        #region Tests Generated for GetTVFileList() Skip Take 2 Desc
+        [TestMethod]
+        public void GetTVFileList_Skip_Take_2Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        TVFileService tvFileService = new TVFileService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tvFileService.Query = tvFileService.FillQuery(typeof(TVFile), culture.TwoLetterISOLanguageName, 1, 1, "", "TVFileID,TVFileTVItemID", "", extra);
+
+                        List<TVFile> tvFileDirectQueryList = new List<TVFile>();
+                        tvFileDirectQueryList = (from c in dbTestDB.TVFiles select c).OrderByDescending(c => c.TVFileID).ThenByDescending(c => c.TVFileTVItemID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<TVFile> tvFileList = new List<TVFile>();
+                            tvFileList = tvFileService.GetTVFileList().ToList();
+                            CheckTVFileFields(tvFileList);
+                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileList[0].TVFileID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<TVFileExtraA> tvFileExtraAList = new List<TVFileExtraA>();
+                            tvFileExtraAList = tvFileService.GetTVFileExtraAList().ToList();
+                            CheckTVFileExtraAFields(tvFileExtraAList);
+                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraAList[0].TVFileID);
+                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<TVFileExtraB> tvFileExtraBList = new List<TVFileExtraB>();
+                            tvFileExtraBList = tvFileService.GetTVFileExtraBList().ToList();
+                            CheckTVFileExtraBFields(tvFileExtraBList);
+                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraBList[0].TVFileID);
+                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTVFileList() Skip Take 2 Desc
+
+        #region Tests Generated for GetTVFileList() Skip Take Desc Where
+        [TestMethod]
+        public void GetTVFileList_Skip_Take_Desc_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        TVFileService tvFileService = new TVFileService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tvFileService.Query = tvFileService.FillQuery(typeof(TVFile), culture.TwoLetterISOLanguageName, 0, 1, "TVFileID", "", "TVFileID,EQ,4", "");
+
+                        List<TVFile> tvFileDirectQueryList = new List<TVFile>();
+                        tvFileDirectQueryList = (from c in dbTestDB.TVFiles select c).Where(c => c.TVFileID == 4).OrderByDescending(c => c.TVFileID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<TVFile> tvFileList = new List<TVFile>();
+                            tvFileList = tvFileService.GetTVFileList().ToList();
+                            CheckTVFileFields(tvFileList);
+                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileList[0].TVFileID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<TVFileExtraA> tvFileExtraAList = new List<TVFileExtraA>();
+                            tvFileExtraAList = tvFileService.GetTVFileExtraAList().ToList();
+                            CheckTVFileExtraAFields(tvFileExtraAList);
+                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraAList[0].TVFileID);
+                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<TVFileExtraB> tvFileExtraBList = new List<TVFileExtraB>();
+                            tvFileExtraBList = tvFileService.GetTVFileExtraBList().ToList();
+                            CheckTVFileExtraBFields(tvFileExtraBList);
+                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraBList[0].TVFileID);
+                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTVFileList() Skip Take Desc Where
+
+        #region Tests Generated for GetTVFileList() Skip Take Desc 2 Where
+        [TestMethod]
+        public void GetTVFileList_Skip_Take_Desc_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        TVFileService tvFileService = new TVFileService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tvFileService.Query = tvFileService.FillQuery(typeof(TVFile), culture.TwoLetterISOLanguageName, 0, 1, "", "TVFileID", "TVFileID,GT,2|TVFileID,LT,5", "");
+
+                        List<TVFile> tvFileDirectQueryList = new List<TVFile>();
+                        tvFileDirectQueryList = (from c in dbTestDB.TVFiles select c).Where(c => c.TVFileID > 2 && c.TVFileID < 5).OrderByDescending(c => c.TVFileID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<TVFile> tvFileList = new List<TVFile>();
+                            tvFileList = tvFileService.GetTVFileList().ToList();
+                            CheckTVFileFields(tvFileList);
+                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileList[0].TVFileID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<TVFileExtraA> tvFileExtraAList = new List<TVFileExtraA>();
+                            tvFileExtraAList = tvFileService.GetTVFileExtraAList().ToList();
+                            CheckTVFileExtraAFields(tvFileExtraAList);
+                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraAList[0].TVFileID);
+                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<TVFileExtraB> tvFileExtraBList = new List<TVFileExtraB>();
+                            tvFileExtraBList = tvFileService.GetTVFileExtraBList().ToList();
+                            CheckTVFileExtraBFields(tvFileExtraBList);
+                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraBList[0].TVFileID);
+                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTVFileList() Skip Take Desc 2 Where
+
+        #region Tests Generated for GetTVFileList() 2 Where
         [TestMethod]
         public void GetTVFileList_2Where_Test()
         {
@@ -748,11 +983,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         TVFileService tvFileService = new TVFileService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tvFileService.Query = tvFileService.FillQuery(typeof(TVFile), culture.TwoLetterISOLanguageName, 0, 10000, "", "TVFileID,GT,2|TVFileID,LT,5", "");
+                        tvFileService.Query = tvFileService.FillQuery(typeof(TVFile), culture.TwoLetterISOLanguageName, 0, 10000, "", "", "TVFileID,GT,2|TVFileID,LT,5", extra);
 
                         List<TVFile> tvFileDirectQueryList = new List<TVFile>();
                         tvFileDirectQueryList = (from c in dbTestDB.TVFiles select c).Where(c => c.TVFileID > 2 && c.TVFileID < 5).ToList();
@@ -764,7 +999,7 @@ namespace CSSPServices.Tests
                             CheckTVFileFields(tvFileList);
                             Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileList[0].TVFileID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TVFileExtraA> tvFileExtraAList = new List<TVFileExtraA>();
                             tvFileExtraAList = tvFileService.GetTVFileExtraAList().ToList();
@@ -772,7 +1007,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraAList[0].TVFileID);
                             Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TVFileExtraB> tvFileExtraBList = new List<TVFileExtraB>();
                             tvFileExtraBList = tvFileService.GetTVFileExtraBList().ToList();
@@ -782,13 +1017,13 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetTVFileList() 2Where
+        #endregion Tests Generated for GetTVFileList() 2 Where
 
         #region Functions private
         private void CheckTVFileFields(List<TVFile> tvFileList)

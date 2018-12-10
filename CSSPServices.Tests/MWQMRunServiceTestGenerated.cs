@@ -38,9 +38,9 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
+        #region Tests Generated CRUD
         [TestMethod]
-        public void MWQMRun_CRUD_And_Properties_Test()
+        public void MWQMRun_CRUD_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -86,6 +86,33 @@ namespace CSSPServices.Tests
                         Assert.AreEqual("", mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
                     Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
+
+                }
+            }
+        }
+        #endregion Tests Generated CRUD
+
+        #region Tests Generated Properties
+        [TestMethod]
+        public void MWQMRun_Properties_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    MWQMRunService mwqmRunService = new MWQMRunService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    count = mwqmRunService.GetMWQMRunList().Count();
+
+                    MWQMRun mwqmRun = GetFilledRandomMWQMRun("");
 
                     // -------------------------------
                     // -------------------------------
@@ -849,7 +876,7 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Generated CRUD and Properties
+        #endregion Tests Generated Properties
 
         #region Tests Generated for GetMWQMRunWithMWQMRunID(mwqmRun.MWQMRunID)
         [TestMethod]
@@ -865,7 +892,7 @@ namespace CSSPServices.Tests
                     MWQMRun mwqmRun = (from c in dbTestDB.MWQMRuns select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmRun);
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         mwqmRunService.Query.Extra = extra;
 
@@ -875,13 +902,13 @@ namespace CSSPServices.Tests
                             CheckMWQMRunFields(new List<MWQMRun>() { mwqmRunRet });
                             Assert.AreEqual(mwqmRun.MWQMRunID, mwqmRunRet.MWQMRunID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             MWQMRunExtraA mwqmRunExtraARet = mwqmRunService.GetMWQMRunExtraAWithMWQMRunID(mwqmRun.MWQMRunID);
                             CheckMWQMRunExtraAFields(new List<MWQMRunExtraA>() { mwqmRunExtraARet });
                             Assert.AreEqual(mwqmRun.MWQMRunID, mwqmRunExtraARet.MWQMRunID);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             MWQMRunExtraB mwqmRunExtraBRet = mwqmRunService.GetMWQMRunExtraBWithMWQMRunID(mwqmRun.MWQMRunID);
                             CheckMWQMRunExtraBFields(new List<MWQMRunExtraB>() { mwqmRunExtraBRet });
@@ -889,7 +916,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -914,7 +941,7 @@ namespace CSSPServices.Tests
                     List<MWQMRun> mwqmRunDirectQueryList = new List<MWQMRun>();
                     mwqmRunDirectQueryList = (from c in dbTestDB.MWQMRuns select c).Take(200).ToList();
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         mwqmRunService.Query.Extra = extra;
 
@@ -924,14 +951,14 @@ namespace CSSPServices.Tests
                             mwqmRunList = mwqmRunService.GetMWQMRunList().ToList();
                             CheckMWQMRunFields(mwqmRunList);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MWQMRunExtraA> mwqmRunExtraAList = new List<MWQMRunExtraA>();
                             mwqmRunExtraAList = mwqmRunService.GetMWQMRunExtraAList().ToList();
                             CheckMWQMRunExtraAFields(mwqmRunExtraAList);
                             Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MWQMRunExtraB> mwqmRunExtraBList = new List<MWQMRunExtraB>();
                             mwqmRunExtraBList = mwqmRunService.GetMWQMRunExtraBList().ToList();
@@ -940,7 +967,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -958,11 +985,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MWQMRunService mwqmRunService = new MWQMRunService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmRunService.Query = mwqmRunService.FillQuery(typeof(MWQMRun), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
+                        mwqmRunService.Query = mwqmRunService.FillQuery(typeof(MWQMRun), culture.TwoLetterISOLanguageName, 1, 1, "", "", "", extra);
 
                         List<MWQMRun> mwqmRunDirectQueryList = new List<MWQMRun>();
                         mwqmRunDirectQueryList = (from c in dbTestDB.MWQMRuns select c).Skip(1).Take(1).ToList();
@@ -974,7 +1001,7 @@ namespace CSSPServices.Tests
                             CheckMWQMRunFields(mwqmRunList);
                             Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunList[0].MWQMRunID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MWQMRunExtraA> mwqmRunExtraAList = new List<MWQMRunExtraA>();
                             mwqmRunExtraAList = mwqmRunService.GetMWQMRunExtraAList().ToList();
@@ -982,7 +1009,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunExtraAList[0].MWQMRunID);
                             Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MWQMRunExtraB> mwqmRunExtraBList = new List<MWQMRunExtraB>();
                             mwqmRunExtraBList = mwqmRunService.GetMWQMRunExtraBList().ToList();
@@ -992,7 +1019,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -1000,9 +1027,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated for GetMWQMRunList() Skip Take
 
-        #region Tests Generated for GetMWQMRunList() Skip Take Order
+        #region Tests Generated for GetMWQMRunList() Skip Take Asc
         [TestMethod]
-        public void GetMWQMRunList_Skip_Take_Order_Test()
+        public void GetMWQMRunList_Skip_Take_Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -1010,14 +1037,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MWQMRunService mwqmRunService = new MWQMRunService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmRunService.Query = mwqmRunService.FillQuery(typeof(MWQMRun), culture.TwoLetterISOLanguageName, 1, 1,  "MWQMRunID", "");
+                        mwqmRunService.Query = mwqmRunService.FillQuery(typeof(MWQMRun), culture.TwoLetterISOLanguageName, 1, 1,  "MWQMRunID", "", "", extra);
 
                         List<MWQMRun> mwqmRunDirectQueryList = new List<MWQMRun>();
-                        mwqmRunDirectQueryList = (from c in dbTestDB.MWQMRuns select c).Skip(1).Take(1).OrderBy(c => c.MWQMRunID).ToList();
+                        mwqmRunDirectQueryList = (from c in dbTestDB.MWQMRuns select c).OrderBy(c => c.MWQMRunID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -1026,7 +1053,7 @@ namespace CSSPServices.Tests
                             CheckMWQMRunFields(mwqmRunList);
                             Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunList[0].MWQMRunID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MWQMRunExtraA> mwqmRunExtraAList = new List<MWQMRunExtraA>();
                             mwqmRunExtraAList = mwqmRunService.GetMWQMRunExtraAList().ToList();
@@ -1034,7 +1061,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunExtraAList[0].MWQMRunID);
                             Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MWQMRunExtraB> mwqmRunExtraBList = new List<MWQMRunExtraB>();
                             mwqmRunExtraBList = mwqmRunService.GetMWQMRunExtraBList().ToList();
@@ -1044,17 +1071,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetMWQMRunList() Skip Take Order
+        #endregion Tests Generated for GetMWQMRunList() Skip Take Asc
 
-        #region Tests Generated for GetMWQMRunList() Skip Take 2Order
+        #region Tests Generated for GetMWQMRunList() Skip Take 2 Asc
         [TestMethod]
-        public void GetMWQMRunList_Skip_Take_2Order_Test()
+        public void GetMWQMRunList_Skip_Take_2Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -1062,14 +1089,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MWQMRunService mwqmRunService = new MWQMRunService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmRunService.Query = mwqmRunService.FillQuery(typeof(MWQMRun), culture.TwoLetterISOLanguageName, 1, 1, "MWQMRunID,SubsectorTVItemID", "");
+                        mwqmRunService.Query = mwqmRunService.FillQuery(typeof(MWQMRun), culture.TwoLetterISOLanguageName, 1, 1, "MWQMRunID,SubsectorTVItemID", "", "", extra);
 
                         List<MWQMRun> mwqmRunDirectQueryList = new List<MWQMRun>();
-                        mwqmRunDirectQueryList = (from c in dbTestDB.MWQMRuns select c).Skip(1).Take(1).OrderBy(c => c.MWQMRunID).ThenBy(c => c.SubsectorTVItemID).ToList();
+                        mwqmRunDirectQueryList = (from c in dbTestDB.MWQMRuns select c).OrderBy(c => c.MWQMRunID).ThenBy(c => c.SubsectorTVItemID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -1078,7 +1105,7 @@ namespace CSSPServices.Tests
                             CheckMWQMRunFields(mwqmRunList);
                             Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunList[0].MWQMRunID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MWQMRunExtraA> mwqmRunExtraAList = new List<MWQMRunExtraA>();
                             mwqmRunExtraAList = mwqmRunService.GetMWQMRunExtraAList().ToList();
@@ -1086,7 +1113,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunExtraAList[0].MWQMRunID);
                             Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MWQMRunExtraB> mwqmRunExtraBList = new List<MWQMRunExtraB>();
                             mwqmRunExtraBList = mwqmRunService.GetMWQMRunExtraBList().ToList();
@@ -1096,17 +1123,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetMWQMRunList() Skip Take 2Order
+        #endregion Tests Generated for GetMWQMRunList() Skip Take 2 Asc
 
-        #region Tests Generated for GetMWQMRunList() Skip Take Order Where
+        #region Tests Generated for GetMWQMRunList() Skip Take Asc Where
         [TestMethod]
-        public void GetMWQMRunList_Skip_Take_Order_Where_Test()
+        public void GetMWQMRunList_Skip_Take_Asc_Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -1114,14 +1141,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MWQMRunService mwqmRunService = new MWQMRunService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmRunService.Query = mwqmRunService.FillQuery(typeof(MWQMRun), culture.TwoLetterISOLanguageName, 0, 1, "MWQMRunID", "MWQMRunID,EQ,4", "");
+                        mwqmRunService.Query = mwqmRunService.FillQuery(typeof(MWQMRun), culture.TwoLetterISOLanguageName, 0, 1, "MWQMRunID", "", "MWQMRunID,EQ,4", "");
 
                         List<MWQMRun> mwqmRunDirectQueryList = new List<MWQMRun>();
-                        mwqmRunDirectQueryList = (from c in dbTestDB.MWQMRuns select c).Where(c => c.MWQMRunID == 4).Skip(0).Take(1).OrderBy(c => c.MWQMRunID).ToList();
+                        mwqmRunDirectQueryList = (from c in dbTestDB.MWQMRuns select c).Where(c => c.MWQMRunID == 4).OrderBy(c => c.MWQMRunID).Skip(0).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -1130,7 +1157,7 @@ namespace CSSPServices.Tests
                             CheckMWQMRunFields(mwqmRunList);
                             Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunList[0].MWQMRunID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MWQMRunExtraA> mwqmRunExtraAList = new List<MWQMRunExtraA>();
                             mwqmRunExtraAList = mwqmRunService.GetMWQMRunExtraAList().ToList();
@@ -1138,7 +1165,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunExtraAList[0].MWQMRunID);
                             Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MWQMRunExtraB> mwqmRunExtraBList = new List<MWQMRunExtraB>();
                             mwqmRunExtraBList = mwqmRunService.GetMWQMRunExtraBList().ToList();
@@ -1148,17 +1175,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetMWQMRunList() Skip Take Order Where
+        #endregion Tests Generated for GetMWQMRunList() Skip Take Asc Where
 
-        #region Tests Generated for GetMWQMRunList() Skip Take Order 2Where
+        #region Tests Generated for GetMWQMRunList() Skip Take Asc 2 Where
         [TestMethod]
-        public void GetMWQMRunList_Skip_Take_Order_2Where_Test()
+        public void GetMWQMRunList_Skip_Take_Asc_2Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -1166,11 +1193,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MWQMRunService mwqmRunService = new MWQMRunService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmRunService.Query = mwqmRunService.FillQuery(typeof(MWQMRun), culture.TwoLetterISOLanguageName, 0, 1, "MWQMRunID", "MWQMRunID,GT,2|MWQMRunID,LT,5", "");
+                        mwqmRunService.Query = mwqmRunService.FillQuery(typeof(MWQMRun), culture.TwoLetterISOLanguageName, 0, 1, "MWQMRunID", "", "MWQMRunID,GT,2|MWQMRunID,LT,5", "");
 
                         List<MWQMRun> mwqmRunDirectQueryList = new List<MWQMRun>();
                         mwqmRunDirectQueryList = (from c in dbTestDB.MWQMRuns select c).Where(c => c.MWQMRunID > 2 && c.MWQMRunID < 5).Skip(0).Take(1).OrderBy(c => c.MWQMRunID).ToList();
@@ -1182,7 +1209,7 @@ namespace CSSPServices.Tests
                             CheckMWQMRunFields(mwqmRunList);
                             Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunList[0].MWQMRunID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MWQMRunExtraA> mwqmRunExtraAList = new List<MWQMRunExtraA>();
                             mwqmRunExtraAList = mwqmRunService.GetMWQMRunExtraAList().ToList();
@@ -1190,7 +1217,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunExtraAList[0].MWQMRunID);
                             Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MWQMRunExtraB> mwqmRunExtraBList = new List<MWQMRunExtraB>();
                             mwqmRunExtraBList = mwqmRunService.GetMWQMRunExtraBList().ToList();
@@ -1200,15 +1227,223 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetMWQMRunList() Skip Take Order 2Where
+        #endregion Tests Generated for GetMWQMRunList() Skip Take Asc 2 Where
 
-        #region Tests Generated for GetMWQMRunList() 2Where
+        #region Tests Generated for GetMWQMRunList() Skip Take Desc
+        [TestMethod]
+        public void GetMWQMRunList_Skip_Take_Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        MWQMRunService mwqmRunService = new MWQMRunService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mwqmRunService.Query = mwqmRunService.FillQuery(typeof(MWQMRun), culture.TwoLetterISOLanguageName, 1, 1, "", "MWQMRunID", "", extra);
+
+                        List<MWQMRun> mwqmRunDirectQueryList = new List<MWQMRun>();
+                        mwqmRunDirectQueryList = (from c in dbTestDB.MWQMRuns select c).OrderByDescending(c => c.MWQMRunID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<MWQMRun> mwqmRunList = new List<MWQMRun>();
+                            mwqmRunList = mwqmRunService.GetMWQMRunList().ToList();
+                            CheckMWQMRunFields(mwqmRunList);
+                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunList[0].MWQMRunID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<MWQMRunExtraA> mwqmRunExtraAList = new List<MWQMRunExtraA>();
+                            mwqmRunExtraAList = mwqmRunService.GetMWQMRunExtraAList().ToList();
+                            CheckMWQMRunExtraAFields(mwqmRunExtraAList);
+                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunExtraAList[0].MWQMRunID);
+                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<MWQMRunExtraB> mwqmRunExtraBList = new List<MWQMRunExtraB>();
+                            mwqmRunExtraBList = mwqmRunService.GetMWQMRunExtraBList().ToList();
+                            CheckMWQMRunExtraBFields(mwqmRunExtraBList);
+                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunExtraBList[0].MWQMRunID);
+                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMRunList() Skip Take Desc
+
+        #region Tests Generated for GetMWQMRunList() Skip Take 2 Desc
+        [TestMethod]
+        public void GetMWQMRunList_Skip_Take_2Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        MWQMRunService mwqmRunService = new MWQMRunService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mwqmRunService.Query = mwqmRunService.FillQuery(typeof(MWQMRun), culture.TwoLetterISOLanguageName, 1, 1, "", "MWQMRunID,SubsectorTVItemID", "", extra);
+
+                        List<MWQMRun> mwqmRunDirectQueryList = new List<MWQMRun>();
+                        mwqmRunDirectQueryList = (from c in dbTestDB.MWQMRuns select c).OrderByDescending(c => c.MWQMRunID).ThenByDescending(c => c.SubsectorTVItemID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<MWQMRun> mwqmRunList = new List<MWQMRun>();
+                            mwqmRunList = mwqmRunService.GetMWQMRunList().ToList();
+                            CheckMWQMRunFields(mwqmRunList);
+                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunList[0].MWQMRunID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<MWQMRunExtraA> mwqmRunExtraAList = new List<MWQMRunExtraA>();
+                            mwqmRunExtraAList = mwqmRunService.GetMWQMRunExtraAList().ToList();
+                            CheckMWQMRunExtraAFields(mwqmRunExtraAList);
+                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunExtraAList[0].MWQMRunID);
+                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<MWQMRunExtraB> mwqmRunExtraBList = new List<MWQMRunExtraB>();
+                            mwqmRunExtraBList = mwqmRunService.GetMWQMRunExtraBList().ToList();
+                            CheckMWQMRunExtraBFields(mwqmRunExtraBList);
+                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunExtraBList[0].MWQMRunID);
+                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMRunList() Skip Take 2 Desc
+
+        #region Tests Generated for GetMWQMRunList() Skip Take Desc Where
+        [TestMethod]
+        public void GetMWQMRunList_Skip_Take_Desc_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        MWQMRunService mwqmRunService = new MWQMRunService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mwqmRunService.Query = mwqmRunService.FillQuery(typeof(MWQMRun), culture.TwoLetterISOLanguageName, 0, 1, "MWQMRunID", "", "MWQMRunID,EQ,4", "");
+
+                        List<MWQMRun> mwqmRunDirectQueryList = new List<MWQMRun>();
+                        mwqmRunDirectQueryList = (from c in dbTestDB.MWQMRuns select c).Where(c => c.MWQMRunID == 4).OrderByDescending(c => c.MWQMRunID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<MWQMRun> mwqmRunList = new List<MWQMRun>();
+                            mwqmRunList = mwqmRunService.GetMWQMRunList().ToList();
+                            CheckMWQMRunFields(mwqmRunList);
+                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunList[0].MWQMRunID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<MWQMRunExtraA> mwqmRunExtraAList = new List<MWQMRunExtraA>();
+                            mwqmRunExtraAList = mwqmRunService.GetMWQMRunExtraAList().ToList();
+                            CheckMWQMRunExtraAFields(mwqmRunExtraAList);
+                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunExtraAList[0].MWQMRunID);
+                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<MWQMRunExtraB> mwqmRunExtraBList = new List<MWQMRunExtraB>();
+                            mwqmRunExtraBList = mwqmRunService.GetMWQMRunExtraBList().ToList();
+                            CheckMWQMRunExtraBFields(mwqmRunExtraBList);
+                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunExtraBList[0].MWQMRunID);
+                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMRunList() Skip Take Desc Where
+
+        #region Tests Generated for GetMWQMRunList() Skip Take Desc 2 Where
+        [TestMethod]
+        public void GetMWQMRunList_Skip_Take_Desc_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        MWQMRunService mwqmRunService = new MWQMRunService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mwqmRunService.Query = mwqmRunService.FillQuery(typeof(MWQMRun), culture.TwoLetterISOLanguageName, 0, 1, "", "MWQMRunID", "MWQMRunID,GT,2|MWQMRunID,LT,5", "");
+
+                        List<MWQMRun> mwqmRunDirectQueryList = new List<MWQMRun>();
+                        mwqmRunDirectQueryList = (from c in dbTestDB.MWQMRuns select c).Where(c => c.MWQMRunID > 2 && c.MWQMRunID < 5).OrderByDescending(c => c.MWQMRunID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<MWQMRun> mwqmRunList = new List<MWQMRun>();
+                            mwqmRunList = mwqmRunService.GetMWQMRunList().ToList();
+                            CheckMWQMRunFields(mwqmRunList);
+                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunList[0].MWQMRunID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<MWQMRunExtraA> mwqmRunExtraAList = new List<MWQMRunExtraA>();
+                            mwqmRunExtraAList = mwqmRunService.GetMWQMRunExtraAList().ToList();
+                            CheckMWQMRunExtraAFields(mwqmRunExtraAList);
+                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunExtraAList[0].MWQMRunID);
+                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<MWQMRunExtraB> mwqmRunExtraBList = new List<MWQMRunExtraB>();
+                            mwqmRunExtraBList = mwqmRunService.GetMWQMRunExtraBList().ToList();
+                            CheckMWQMRunExtraBFields(mwqmRunExtraBList);
+                            Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunExtraBList[0].MWQMRunID);
+                            Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMRunList() Skip Take Desc 2 Where
+
+        #region Tests Generated for GetMWQMRunList() 2 Where
         [TestMethod]
         public void GetMWQMRunList_2Where_Test()
         {
@@ -1218,11 +1453,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MWQMRunService mwqmRunService = new MWQMRunService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmRunService.Query = mwqmRunService.FillQuery(typeof(MWQMRun), culture.TwoLetterISOLanguageName, 0, 10000, "", "MWQMRunID,GT,2|MWQMRunID,LT,5", "");
+                        mwqmRunService.Query = mwqmRunService.FillQuery(typeof(MWQMRun), culture.TwoLetterISOLanguageName, 0, 10000, "", "", "MWQMRunID,GT,2|MWQMRunID,LT,5", extra);
 
                         List<MWQMRun> mwqmRunDirectQueryList = new List<MWQMRun>();
                         mwqmRunDirectQueryList = (from c in dbTestDB.MWQMRuns select c).Where(c => c.MWQMRunID > 2 && c.MWQMRunID < 5).ToList();
@@ -1234,7 +1469,7 @@ namespace CSSPServices.Tests
                             CheckMWQMRunFields(mwqmRunList);
                             Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunList[0].MWQMRunID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MWQMRunExtraA> mwqmRunExtraAList = new List<MWQMRunExtraA>();
                             mwqmRunExtraAList = mwqmRunService.GetMWQMRunExtraAList().ToList();
@@ -1242,7 +1477,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmRunDirectQueryList[0].MWQMRunID, mwqmRunExtraAList[0].MWQMRunID);
                             Assert.AreEqual(mwqmRunDirectQueryList.Count, mwqmRunExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MWQMRunExtraB> mwqmRunExtraBList = new List<MWQMRunExtraB>();
                             mwqmRunExtraBList = mwqmRunService.GetMWQMRunExtraBList().ToList();
@@ -1252,13 +1487,13 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetMWQMRunList() 2Where
+        #endregion Tests Generated for GetMWQMRunList() 2 Where
 
         #region Functions private
         private void CheckMWQMRunFields(List<MWQMRun> mwqmRunList)

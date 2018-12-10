@@ -38,9 +38,9 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
+        #region Tests Generated CRUD
         [TestMethod]
-        public void HydrometricSite_CRUD_And_Properties_Test()
+        public void HydrometricSite_CRUD_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -86,6 +86,33 @@ namespace CSSPServices.Tests
                         Assert.AreEqual("", hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
                     Assert.AreEqual(count, hydrometricSiteService.GetHydrometricSiteList().Count());
+
+                }
+            }
+        }
+        #endregion Tests Generated CRUD
+
+        #region Tests Generated Properties
+        [TestMethod]
+        public void HydrometricSite_Properties_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    HydrometricSiteService hydrometricSiteService = new HydrometricSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    count = hydrometricSiteService.GetHydrometricSiteList().Count();
+
+                    HydrometricSite hydrometricSite = GetFilledRandomHydrometricSite("");
 
                     // -------------------------------
                     // -------------------------------
@@ -409,7 +436,7 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Generated CRUD and Properties
+        #endregion Tests Generated Properties
 
         #region Tests Generated for GetHydrometricSiteWithHydrometricSiteID(hydrometricSite.HydrometricSiteID)
         [TestMethod]
@@ -425,7 +452,7 @@ namespace CSSPServices.Tests
                     HydrometricSite hydrometricSite = (from c in dbTestDB.HydrometricSites select c).FirstOrDefault();
                     Assert.IsNotNull(hydrometricSite);
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         hydrometricSiteService.Query.Extra = extra;
 
@@ -435,13 +462,13 @@ namespace CSSPServices.Tests
                             CheckHydrometricSiteFields(new List<HydrometricSite>() { hydrometricSiteRet });
                             Assert.AreEqual(hydrometricSite.HydrometricSiteID, hydrometricSiteRet.HydrometricSiteID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             HydrometricSiteExtraA hydrometricSiteExtraARet = hydrometricSiteService.GetHydrometricSiteExtraAWithHydrometricSiteID(hydrometricSite.HydrometricSiteID);
                             CheckHydrometricSiteExtraAFields(new List<HydrometricSiteExtraA>() { hydrometricSiteExtraARet });
                             Assert.AreEqual(hydrometricSite.HydrometricSiteID, hydrometricSiteExtraARet.HydrometricSiteID);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             HydrometricSiteExtraB hydrometricSiteExtraBRet = hydrometricSiteService.GetHydrometricSiteExtraBWithHydrometricSiteID(hydrometricSite.HydrometricSiteID);
                             CheckHydrometricSiteExtraBFields(new List<HydrometricSiteExtraB>() { hydrometricSiteExtraBRet });
@@ -449,7 +476,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -474,7 +501,7 @@ namespace CSSPServices.Tests
                     List<HydrometricSite> hydrometricSiteDirectQueryList = new List<HydrometricSite>();
                     hydrometricSiteDirectQueryList = (from c in dbTestDB.HydrometricSites select c).Take(200).ToList();
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         hydrometricSiteService.Query.Extra = extra;
 
@@ -484,14 +511,14 @@ namespace CSSPServices.Tests
                             hydrometricSiteList = hydrometricSiteService.GetHydrometricSiteList().ToList();
                             CheckHydrometricSiteFields(hydrometricSiteList);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<HydrometricSiteExtraA> hydrometricSiteExtraAList = new List<HydrometricSiteExtraA>();
                             hydrometricSiteExtraAList = hydrometricSiteService.GetHydrometricSiteExtraAList().ToList();
                             CheckHydrometricSiteExtraAFields(hydrometricSiteExtraAList);
                             Assert.AreEqual(hydrometricSiteDirectQueryList.Count, hydrometricSiteExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<HydrometricSiteExtraB> hydrometricSiteExtraBList = new List<HydrometricSiteExtraB>();
                             hydrometricSiteExtraBList = hydrometricSiteService.GetHydrometricSiteExtraBList().ToList();
@@ -500,7 +527,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -518,11 +545,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         HydrometricSiteService hydrometricSiteService = new HydrometricSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        hydrometricSiteService.Query = hydrometricSiteService.FillQuery(typeof(HydrometricSite), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
+                        hydrometricSiteService.Query = hydrometricSiteService.FillQuery(typeof(HydrometricSite), culture.TwoLetterISOLanguageName, 1, 1, "", "", "", extra);
 
                         List<HydrometricSite> hydrometricSiteDirectQueryList = new List<HydrometricSite>();
                         hydrometricSiteDirectQueryList = (from c in dbTestDB.HydrometricSites select c).Skip(1).Take(1).ToList();
@@ -534,7 +561,7 @@ namespace CSSPServices.Tests
                             CheckHydrometricSiteFields(hydrometricSiteList);
                             Assert.AreEqual(hydrometricSiteDirectQueryList[0].HydrometricSiteID, hydrometricSiteList[0].HydrometricSiteID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<HydrometricSiteExtraA> hydrometricSiteExtraAList = new List<HydrometricSiteExtraA>();
                             hydrometricSiteExtraAList = hydrometricSiteService.GetHydrometricSiteExtraAList().ToList();
@@ -542,7 +569,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(hydrometricSiteDirectQueryList[0].HydrometricSiteID, hydrometricSiteExtraAList[0].HydrometricSiteID);
                             Assert.AreEqual(hydrometricSiteDirectQueryList.Count, hydrometricSiteExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<HydrometricSiteExtraB> hydrometricSiteExtraBList = new List<HydrometricSiteExtraB>();
                             hydrometricSiteExtraBList = hydrometricSiteService.GetHydrometricSiteExtraBList().ToList();
@@ -552,7 +579,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -560,9 +587,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated for GetHydrometricSiteList() Skip Take
 
-        #region Tests Generated for GetHydrometricSiteList() Skip Take Order
+        #region Tests Generated for GetHydrometricSiteList() Skip Take Asc
         [TestMethod]
-        public void GetHydrometricSiteList_Skip_Take_Order_Test()
+        public void GetHydrometricSiteList_Skip_Take_Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -570,14 +597,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         HydrometricSiteService hydrometricSiteService = new HydrometricSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        hydrometricSiteService.Query = hydrometricSiteService.FillQuery(typeof(HydrometricSite), culture.TwoLetterISOLanguageName, 1, 1,  "HydrometricSiteID", "");
+                        hydrometricSiteService.Query = hydrometricSiteService.FillQuery(typeof(HydrometricSite), culture.TwoLetterISOLanguageName, 1, 1,  "HydrometricSiteID", "", "", extra);
 
                         List<HydrometricSite> hydrometricSiteDirectQueryList = new List<HydrometricSite>();
-                        hydrometricSiteDirectQueryList = (from c in dbTestDB.HydrometricSites select c).Skip(1).Take(1).OrderBy(c => c.HydrometricSiteID).ToList();
+                        hydrometricSiteDirectQueryList = (from c in dbTestDB.HydrometricSites select c).OrderBy(c => c.HydrometricSiteID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -586,7 +613,7 @@ namespace CSSPServices.Tests
                             CheckHydrometricSiteFields(hydrometricSiteList);
                             Assert.AreEqual(hydrometricSiteDirectQueryList[0].HydrometricSiteID, hydrometricSiteList[0].HydrometricSiteID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<HydrometricSiteExtraA> hydrometricSiteExtraAList = new List<HydrometricSiteExtraA>();
                             hydrometricSiteExtraAList = hydrometricSiteService.GetHydrometricSiteExtraAList().ToList();
@@ -594,7 +621,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(hydrometricSiteDirectQueryList[0].HydrometricSiteID, hydrometricSiteExtraAList[0].HydrometricSiteID);
                             Assert.AreEqual(hydrometricSiteDirectQueryList.Count, hydrometricSiteExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<HydrometricSiteExtraB> hydrometricSiteExtraBList = new List<HydrometricSiteExtraB>();
                             hydrometricSiteExtraBList = hydrometricSiteService.GetHydrometricSiteExtraBList().ToList();
@@ -604,17 +631,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetHydrometricSiteList() Skip Take Order
+        #endregion Tests Generated for GetHydrometricSiteList() Skip Take Asc
 
-        #region Tests Generated for GetHydrometricSiteList() Skip Take 2Order
+        #region Tests Generated for GetHydrometricSiteList() Skip Take 2 Asc
         [TestMethod]
-        public void GetHydrometricSiteList_Skip_Take_2Order_Test()
+        public void GetHydrometricSiteList_Skip_Take_2Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -622,14 +649,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         HydrometricSiteService hydrometricSiteService = new HydrometricSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        hydrometricSiteService.Query = hydrometricSiteService.FillQuery(typeof(HydrometricSite), culture.TwoLetterISOLanguageName, 1, 1, "HydrometricSiteID,HydrometricSiteTVItemID", "");
+                        hydrometricSiteService.Query = hydrometricSiteService.FillQuery(typeof(HydrometricSite), culture.TwoLetterISOLanguageName, 1, 1, "HydrometricSiteID,HydrometricSiteTVItemID", "", "", extra);
 
                         List<HydrometricSite> hydrometricSiteDirectQueryList = new List<HydrometricSite>();
-                        hydrometricSiteDirectQueryList = (from c in dbTestDB.HydrometricSites select c).Skip(1).Take(1).OrderBy(c => c.HydrometricSiteID).ThenBy(c => c.HydrometricSiteTVItemID).ToList();
+                        hydrometricSiteDirectQueryList = (from c in dbTestDB.HydrometricSites select c).OrderBy(c => c.HydrometricSiteID).ThenBy(c => c.HydrometricSiteTVItemID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -638,7 +665,7 @@ namespace CSSPServices.Tests
                             CheckHydrometricSiteFields(hydrometricSiteList);
                             Assert.AreEqual(hydrometricSiteDirectQueryList[0].HydrometricSiteID, hydrometricSiteList[0].HydrometricSiteID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<HydrometricSiteExtraA> hydrometricSiteExtraAList = new List<HydrometricSiteExtraA>();
                             hydrometricSiteExtraAList = hydrometricSiteService.GetHydrometricSiteExtraAList().ToList();
@@ -646,7 +673,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(hydrometricSiteDirectQueryList[0].HydrometricSiteID, hydrometricSiteExtraAList[0].HydrometricSiteID);
                             Assert.AreEqual(hydrometricSiteDirectQueryList.Count, hydrometricSiteExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<HydrometricSiteExtraB> hydrometricSiteExtraBList = new List<HydrometricSiteExtraB>();
                             hydrometricSiteExtraBList = hydrometricSiteService.GetHydrometricSiteExtraBList().ToList();
@@ -656,17 +683,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetHydrometricSiteList() Skip Take 2Order
+        #endregion Tests Generated for GetHydrometricSiteList() Skip Take 2 Asc
 
-        #region Tests Generated for GetHydrometricSiteList() Skip Take Order Where
+        #region Tests Generated for GetHydrometricSiteList() Skip Take Asc Where
         [TestMethod]
-        public void GetHydrometricSiteList_Skip_Take_Order_Where_Test()
+        public void GetHydrometricSiteList_Skip_Take_Asc_Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -674,14 +701,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         HydrometricSiteService hydrometricSiteService = new HydrometricSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        hydrometricSiteService.Query = hydrometricSiteService.FillQuery(typeof(HydrometricSite), culture.TwoLetterISOLanguageName, 0, 1, "HydrometricSiteID", "HydrometricSiteID,EQ,4", "");
+                        hydrometricSiteService.Query = hydrometricSiteService.FillQuery(typeof(HydrometricSite), culture.TwoLetterISOLanguageName, 0, 1, "HydrometricSiteID", "", "HydrometricSiteID,EQ,4", "");
 
                         List<HydrometricSite> hydrometricSiteDirectQueryList = new List<HydrometricSite>();
-                        hydrometricSiteDirectQueryList = (from c in dbTestDB.HydrometricSites select c).Where(c => c.HydrometricSiteID == 4).Skip(0).Take(1).OrderBy(c => c.HydrometricSiteID).ToList();
+                        hydrometricSiteDirectQueryList = (from c in dbTestDB.HydrometricSites select c).Where(c => c.HydrometricSiteID == 4).OrderBy(c => c.HydrometricSiteID).Skip(0).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -690,7 +717,7 @@ namespace CSSPServices.Tests
                             CheckHydrometricSiteFields(hydrometricSiteList);
                             Assert.AreEqual(hydrometricSiteDirectQueryList[0].HydrometricSiteID, hydrometricSiteList[0].HydrometricSiteID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<HydrometricSiteExtraA> hydrometricSiteExtraAList = new List<HydrometricSiteExtraA>();
                             hydrometricSiteExtraAList = hydrometricSiteService.GetHydrometricSiteExtraAList().ToList();
@@ -698,7 +725,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(hydrometricSiteDirectQueryList[0].HydrometricSiteID, hydrometricSiteExtraAList[0].HydrometricSiteID);
                             Assert.AreEqual(hydrometricSiteDirectQueryList.Count, hydrometricSiteExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<HydrometricSiteExtraB> hydrometricSiteExtraBList = new List<HydrometricSiteExtraB>();
                             hydrometricSiteExtraBList = hydrometricSiteService.GetHydrometricSiteExtraBList().ToList();
@@ -708,17 +735,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetHydrometricSiteList() Skip Take Order Where
+        #endregion Tests Generated for GetHydrometricSiteList() Skip Take Asc Where
 
-        #region Tests Generated for GetHydrometricSiteList() Skip Take Order 2Where
+        #region Tests Generated for GetHydrometricSiteList() Skip Take Asc 2 Where
         [TestMethod]
-        public void GetHydrometricSiteList_Skip_Take_Order_2Where_Test()
+        public void GetHydrometricSiteList_Skip_Take_Asc_2Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -726,11 +753,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         HydrometricSiteService hydrometricSiteService = new HydrometricSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        hydrometricSiteService.Query = hydrometricSiteService.FillQuery(typeof(HydrometricSite), culture.TwoLetterISOLanguageName, 0, 1, "HydrometricSiteID", "HydrometricSiteID,GT,2|HydrometricSiteID,LT,5", "");
+                        hydrometricSiteService.Query = hydrometricSiteService.FillQuery(typeof(HydrometricSite), culture.TwoLetterISOLanguageName, 0, 1, "HydrometricSiteID", "", "HydrometricSiteID,GT,2|HydrometricSiteID,LT,5", "");
 
                         List<HydrometricSite> hydrometricSiteDirectQueryList = new List<HydrometricSite>();
                         hydrometricSiteDirectQueryList = (from c in dbTestDB.HydrometricSites select c).Where(c => c.HydrometricSiteID > 2 && c.HydrometricSiteID < 5).Skip(0).Take(1).OrderBy(c => c.HydrometricSiteID).ToList();
@@ -742,7 +769,7 @@ namespace CSSPServices.Tests
                             CheckHydrometricSiteFields(hydrometricSiteList);
                             Assert.AreEqual(hydrometricSiteDirectQueryList[0].HydrometricSiteID, hydrometricSiteList[0].HydrometricSiteID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<HydrometricSiteExtraA> hydrometricSiteExtraAList = new List<HydrometricSiteExtraA>();
                             hydrometricSiteExtraAList = hydrometricSiteService.GetHydrometricSiteExtraAList().ToList();
@@ -750,7 +777,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(hydrometricSiteDirectQueryList[0].HydrometricSiteID, hydrometricSiteExtraAList[0].HydrometricSiteID);
                             Assert.AreEqual(hydrometricSiteDirectQueryList.Count, hydrometricSiteExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<HydrometricSiteExtraB> hydrometricSiteExtraBList = new List<HydrometricSiteExtraB>();
                             hydrometricSiteExtraBList = hydrometricSiteService.GetHydrometricSiteExtraBList().ToList();
@@ -760,15 +787,223 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetHydrometricSiteList() Skip Take Order 2Where
+        #endregion Tests Generated for GetHydrometricSiteList() Skip Take Asc 2 Where
 
-        #region Tests Generated for GetHydrometricSiteList() 2Where
+        #region Tests Generated for GetHydrometricSiteList() Skip Take Desc
+        [TestMethod]
+        public void GetHydrometricSiteList_Skip_Take_Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        HydrometricSiteService hydrometricSiteService = new HydrometricSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        hydrometricSiteService.Query = hydrometricSiteService.FillQuery(typeof(HydrometricSite), culture.TwoLetterISOLanguageName, 1, 1, "", "HydrometricSiteID", "", extra);
+
+                        List<HydrometricSite> hydrometricSiteDirectQueryList = new List<HydrometricSite>();
+                        hydrometricSiteDirectQueryList = (from c in dbTestDB.HydrometricSites select c).OrderByDescending(c => c.HydrometricSiteID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<HydrometricSite> hydrometricSiteList = new List<HydrometricSite>();
+                            hydrometricSiteList = hydrometricSiteService.GetHydrometricSiteList().ToList();
+                            CheckHydrometricSiteFields(hydrometricSiteList);
+                            Assert.AreEqual(hydrometricSiteDirectQueryList[0].HydrometricSiteID, hydrometricSiteList[0].HydrometricSiteID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<HydrometricSiteExtraA> hydrometricSiteExtraAList = new List<HydrometricSiteExtraA>();
+                            hydrometricSiteExtraAList = hydrometricSiteService.GetHydrometricSiteExtraAList().ToList();
+                            CheckHydrometricSiteExtraAFields(hydrometricSiteExtraAList);
+                            Assert.AreEqual(hydrometricSiteDirectQueryList[0].HydrometricSiteID, hydrometricSiteExtraAList[0].HydrometricSiteID);
+                            Assert.AreEqual(hydrometricSiteDirectQueryList.Count, hydrometricSiteExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<HydrometricSiteExtraB> hydrometricSiteExtraBList = new List<HydrometricSiteExtraB>();
+                            hydrometricSiteExtraBList = hydrometricSiteService.GetHydrometricSiteExtraBList().ToList();
+                            CheckHydrometricSiteExtraBFields(hydrometricSiteExtraBList);
+                            Assert.AreEqual(hydrometricSiteDirectQueryList[0].HydrometricSiteID, hydrometricSiteExtraBList[0].HydrometricSiteID);
+                            Assert.AreEqual(hydrometricSiteDirectQueryList.Count, hydrometricSiteExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetHydrometricSiteList() Skip Take Desc
+
+        #region Tests Generated for GetHydrometricSiteList() Skip Take 2 Desc
+        [TestMethod]
+        public void GetHydrometricSiteList_Skip_Take_2Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        HydrometricSiteService hydrometricSiteService = new HydrometricSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        hydrometricSiteService.Query = hydrometricSiteService.FillQuery(typeof(HydrometricSite), culture.TwoLetterISOLanguageName, 1, 1, "", "HydrometricSiteID,HydrometricSiteTVItemID", "", extra);
+
+                        List<HydrometricSite> hydrometricSiteDirectQueryList = new List<HydrometricSite>();
+                        hydrometricSiteDirectQueryList = (from c in dbTestDB.HydrometricSites select c).OrderByDescending(c => c.HydrometricSiteID).ThenByDescending(c => c.HydrometricSiteTVItemID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<HydrometricSite> hydrometricSiteList = new List<HydrometricSite>();
+                            hydrometricSiteList = hydrometricSiteService.GetHydrometricSiteList().ToList();
+                            CheckHydrometricSiteFields(hydrometricSiteList);
+                            Assert.AreEqual(hydrometricSiteDirectQueryList[0].HydrometricSiteID, hydrometricSiteList[0].HydrometricSiteID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<HydrometricSiteExtraA> hydrometricSiteExtraAList = new List<HydrometricSiteExtraA>();
+                            hydrometricSiteExtraAList = hydrometricSiteService.GetHydrometricSiteExtraAList().ToList();
+                            CheckHydrometricSiteExtraAFields(hydrometricSiteExtraAList);
+                            Assert.AreEqual(hydrometricSiteDirectQueryList[0].HydrometricSiteID, hydrometricSiteExtraAList[0].HydrometricSiteID);
+                            Assert.AreEqual(hydrometricSiteDirectQueryList.Count, hydrometricSiteExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<HydrometricSiteExtraB> hydrometricSiteExtraBList = new List<HydrometricSiteExtraB>();
+                            hydrometricSiteExtraBList = hydrometricSiteService.GetHydrometricSiteExtraBList().ToList();
+                            CheckHydrometricSiteExtraBFields(hydrometricSiteExtraBList);
+                            Assert.AreEqual(hydrometricSiteDirectQueryList[0].HydrometricSiteID, hydrometricSiteExtraBList[0].HydrometricSiteID);
+                            Assert.AreEqual(hydrometricSiteDirectQueryList.Count, hydrometricSiteExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetHydrometricSiteList() Skip Take 2 Desc
+
+        #region Tests Generated for GetHydrometricSiteList() Skip Take Desc Where
+        [TestMethod]
+        public void GetHydrometricSiteList_Skip_Take_Desc_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        HydrometricSiteService hydrometricSiteService = new HydrometricSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        hydrometricSiteService.Query = hydrometricSiteService.FillQuery(typeof(HydrometricSite), culture.TwoLetterISOLanguageName, 0, 1, "HydrometricSiteID", "", "HydrometricSiteID,EQ,4", "");
+
+                        List<HydrometricSite> hydrometricSiteDirectQueryList = new List<HydrometricSite>();
+                        hydrometricSiteDirectQueryList = (from c in dbTestDB.HydrometricSites select c).Where(c => c.HydrometricSiteID == 4).OrderByDescending(c => c.HydrometricSiteID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<HydrometricSite> hydrometricSiteList = new List<HydrometricSite>();
+                            hydrometricSiteList = hydrometricSiteService.GetHydrometricSiteList().ToList();
+                            CheckHydrometricSiteFields(hydrometricSiteList);
+                            Assert.AreEqual(hydrometricSiteDirectQueryList[0].HydrometricSiteID, hydrometricSiteList[0].HydrometricSiteID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<HydrometricSiteExtraA> hydrometricSiteExtraAList = new List<HydrometricSiteExtraA>();
+                            hydrometricSiteExtraAList = hydrometricSiteService.GetHydrometricSiteExtraAList().ToList();
+                            CheckHydrometricSiteExtraAFields(hydrometricSiteExtraAList);
+                            Assert.AreEqual(hydrometricSiteDirectQueryList[0].HydrometricSiteID, hydrometricSiteExtraAList[0].HydrometricSiteID);
+                            Assert.AreEqual(hydrometricSiteDirectQueryList.Count, hydrometricSiteExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<HydrometricSiteExtraB> hydrometricSiteExtraBList = new List<HydrometricSiteExtraB>();
+                            hydrometricSiteExtraBList = hydrometricSiteService.GetHydrometricSiteExtraBList().ToList();
+                            CheckHydrometricSiteExtraBFields(hydrometricSiteExtraBList);
+                            Assert.AreEqual(hydrometricSiteDirectQueryList[0].HydrometricSiteID, hydrometricSiteExtraBList[0].HydrometricSiteID);
+                            Assert.AreEqual(hydrometricSiteDirectQueryList.Count, hydrometricSiteExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetHydrometricSiteList() Skip Take Desc Where
+
+        #region Tests Generated for GetHydrometricSiteList() Skip Take Desc 2 Where
+        [TestMethod]
+        public void GetHydrometricSiteList_Skip_Take_Desc_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        HydrometricSiteService hydrometricSiteService = new HydrometricSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        hydrometricSiteService.Query = hydrometricSiteService.FillQuery(typeof(HydrometricSite), culture.TwoLetterISOLanguageName, 0, 1, "", "HydrometricSiteID", "HydrometricSiteID,GT,2|HydrometricSiteID,LT,5", "");
+
+                        List<HydrometricSite> hydrometricSiteDirectQueryList = new List<HydrometricSite>();
+                        hydrometricSiteDirectQueryList = (from c in dbTestDB.HydrometricSites select c).Where(c => c.HydrometricSiteID > 2 && c.HydrometricSiteID < 5).OrderByDescending(c => c.HydrometricSiteID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<HydrometricSite> hydrometricSiteList = new List<HydrometricSite>();
+                            hydrometricSiteList = hydrometricSiteService.GetHydrometricSiteList().ToList();
+                            CheckHydrometricSiteFields(hydrometricSiteList);
+                            Assert.AreEqual(hydrometricSiteDirectQueryList[0].HydrometricSiteID, hydrometricSiteList[0].HydrometricSiteID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<HydrometricSiteExtraA> hydrometricSiteExtraAList = new List<HydrometricSiteExtraA>();
+                            hydrometricSiteExtraAList = hydrometricSiteService.GetHydrometricSiteExtraAList().ToList();
+                            CheckHydrometricSiteExtraAFields(hydrometricSiteExtraAList);
+                            Assert.AreEqual(hydrometricSiteDirectQueryList[0].HydrometricSiteID, hydrometricSiteExtraAList[0].HydrometricSiteID);
+                            Assert.AreEqual(hydrometricSiteDirectQueryList.Count, hydrometricSiteExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<HydrometricSiteExtraB> hydrometricSiteExtraBList = new List<HydrometricSiteExtraB>();
+                            hydrometricSiteExtraBList = hydrometricSiteService.GetHydrometricSiteExtraBList().ToList();
+                            CheckHydrometricSiteExtraBFields(hydrometricSiteExtraBList);
+                            Assert.AreEqual(hydrometricSiteDirectQueryList[0].HydrometricSiteID, hydrometricSiteExtraBList[0].HydrometricSiteID);
+                            Assert.AreEqual(hydrometricSiteDirectQueryList.Count, hydrometricSiteExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetHydrometricSiteList() Skip Take Desc 2 Where
+
+        #region Tests Generated for GetHydrometricSiteList() 2 Where
         [TestMethod]
         public void GetHydrometricSiteList_2Where_Test()
         {
@@ -778,11 +1013,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         HydrometricSiteService hydrometricSiteService = new HydrometricSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        hydrometricSiteService.Query = hydrometricSiteService.FillQuery(typeof(HydrometricSite), culture.TwoLetterISOLanguageName, 0, 10000, "", "HydrometricSiteID,GT,2|HydrometricSiteID,LT,5", "");
+                        hydrometricSiteService.Query = hydrometricSiteService.FillQuery(typeof(HydrometricSite), culture.TwoLetterISOLanguageName, 0, 10000, "", "", "HydrometricSiteID,GT,2|HydrometricSiteID,LT,5", extra);
 
                         List<HydrometricSite> hydrometricSiteDirectQueryList = new List<HydrometricSite>();
                         hydrometricSiteDirectQueryList = (from c in dbTestDB.HydrometricSites select c).Where(c => c.HydrometricSiteID > 2 && c.HydrometricSiteID < 5).ToList();
@@ -794,7 +1029,7 @@ namespace CSSPServices.Tests
                             CheckHydrometricSiteFields(hydrometricSiteList);
                             Assert.AreEqual(hydrometricSiteDirectQueryList[0].HydrometricSiteID, hydrometricSiteList[0].HydrometricSiteID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<HydrometricSiteExtraA> hydrometricSiteExtraAList = new List<HydrometricSiteExtraA>();
                             hydrometricSiteExtraAList = hydrometricSiteService.GetHydrometricSiteExtraAList().ToList();
@@ -802,7 +1037,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(hydrometricSiteDirectQueryList[0].HydrometricSiteID, hydrometricSiteExtraAList[0].HydrometricSiteID);
                             Assert.AreEqual(hydrometricSiteDirectQueryList.Count, hydrometricSiteExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<HydrometricSiteExtraB> hydrometricSiteExtraBList = new List<HydrometricSiteExtraB>();
                             hydrometricSiteExtraBList = hydrometricSiteService.GetHydrometricSiteExtraBList().ToList();
@@ -812,13 +1047,13 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetHydrometricSiteList() 2Where
+        #endregion Tests Generated for GetHydrometricSiteList() 2 Where
 
         #region Functions private
         private void CheckHydrometricSiteFields(List<HydrometricSite> hydrometricSiteList)

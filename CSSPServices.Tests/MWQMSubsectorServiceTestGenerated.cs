@@ -38,9 +38,9 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
+        #region Tests Generated CRUD
         [TestMethod]
-        public void MWQMSubsector_CRUD_And_Properties_Test()
+        public void MWQMSubsector_CRUD_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -86,6 +86,33 @@ namespace CSSPServices.Tests
                         Assert.AreEqual("", mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
                     Assert.AreEqual(count, mwqmSubsectorService.GetMWQMSubsectorList().Count());
+
+                }
+            }
+        }
+        #endregion Tests Generated CRUD
+
+        #region Tests Generated Properties
+        [TestMethod]
+        public void MWQMSubsector_Properties_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    count = mwqmSubsectorService.GetMWQMSubsectorList().Count();
+
+                    MWQMSubsector mwqmSubsector = GetFilledRandomMWQMSubsector("");
 
                     // -------------------------------
                     // -------------------------------
@@ -220,7 +247,7 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Generated CRUD and Properties
+        #endregion Tests Generated Properties
 
         #region Tests Generated for GetMWQMSubsectorWithMWQMSubsectorID(mwqmSubsector.MWQMSubsectorID)
         [TestMethod]
@@ -236,7 +263,7 @@ namespace CSSPServices.Tests
                     MWQMSubsector mwqmSubsector = (from c in dbTestDB.MWQMSubsectors select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmSubsector);
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         mwqmSubsectorService.Query.Extra = extra;
 
@@ -246,13 +273,13 @@ namespace CSSPServices.Tests
                             CheckMWQMSubsectorFields(new List<MWQMSubsector>() { mwqmSubsectorRet });
                             Assert.AreEqual(mwqmSubsector.MWQMSubsectorID, mwqmSubsectorRet.MWQMSubsectorID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             MWQMSubsectorExtraA mwqmSubsectorExtraARet = mwqmSubsectorService.GetMWQMSubsectorExtraAWithMWQMSubsectorID(mwqmSubsector.MWQMSubsectorID);
                             CheckMWQMSubsectorExtraAFields(new List<MWQMSubsectorExtraA>() { mwqmSubsectorExtraARet });
                             Assert.AreEqual(mwqmSubsector.MWQMSubsectorID, mwqmSubsectorExtraARet.MWQMSubsectorID);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             MWQMSubsectorExtraB mwqmSubsectorExtraBRet = mwqmSubsectorService.GetMWQMSubsectorExtraBWithMWQMSubsectorID(mwqmSubsector.MWQMSubsectorID);
                             CheckMWQMSubsectorExtraBFields(new List<MWQMSubsectorExtraB>() { mwqmSubsectorExtraBRet });
@@ -260,7 +287,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -285,7 +312,7 @@ namespace CSSPServices.Tests
                     List<MWQMSubsector> mwqmSubsectorDirectQueryList = new List<MWQMSubsector>();
                     mwqmSubsectorDirectQueryList = (from c in dbTestDB.MWQMSubsectors select c).Take(200).ToList();
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         mwqmSubsectorService.Query.Extra = extra;
 
@@ -295,14 +322,14 @@ namespace CSSPServices.Tests
                             mwqmSubsectorList = mwqmSubsectorService.GetMWQMSubsectorList().ToList();
                             CheckMWQMSubsectorFields(mwqmSubsectorList);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MWQMSubsectorExtraA> mwqmSubsectorExtraAList = new List<MWQMSubsectorExtraA>();
                             mwqmSubsectorExtraAList = mwqmSubsectorService.GetMWQMSubsectorExtraAList().ToList();
                             CheckMWQMSubsectorExtraAFields(mwqmSubsectorExtraAList);
                             Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MWQMSubsectorExtraB> mwqmSubsectorExtraBList = new List<MWQMSubsectorExtraB>();
                             mwqmSubsectorExtraBList = mwqmSubsectorService.GetMWQMSubsectorExtraBList().ToList();
@@ -311,7 +338,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -329,11 +356,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmSubsectorService.Query = mwqmSubsectorService.FillQuery(typeof(MWQMSubsector), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
+                        mwqmSubsectorService.Query = mwqmSubsectorService.FillQuery(typeof(MWQMSubsector), culture.TwoLetterISOLanguageName, 1, 1, "", "", "", extra);
 
                         List<MWQMSubsector> mwqmSubsectorDirectQueryList = new List<MWQMSubsector>();
                         mwqmSubsectorDirectQueryList = (from c in dbTestDB.MWQMSubsectors select c).Skip(1).Take(1).ToList();
@@ -345,7 +372,7 @@ namespace CSSPServices.Tests
                             CheckMWQMSubsectorFields(mwqmSubsectorList);
                             Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorList[0].MWQMSubsectorID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MWQMSubsectorExtraA> mwqmSubsectorExtraAList = new List<MWQMSubsectorExtraA>();
                             mwqmSubsectorExtraAList = mwqmSubsectorService.GetMWQMSubsectorExtraAList().ToList();
@@ -353,7 +380,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorExtraAList[0].MWQMSubsectorID);
                             Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MWQMSubsectorExtraB> mwqmSubsectorExtraBList = new List<MWQMSubsectorExtraB>();
                             mwqmSubsectorExtraBList = mwqmSubsectorService.GetMWQMSubsectorExtraBList().ToList();
@@ -363,7 +390,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -371,9 +398,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated for GetMWQMSubsectorList() Skip Take
 
-        #region Tests Generated for GetMWQMSubsectorList() Skip Take Order
+        #region Tests Generated for GetMWQMSubsectorList() Skip Take Asc
         [TestMethod]
-        public void GetMWQMSubsectorList_Skip_Take_Order_Test()
+        public void GetMWQMSubsectorList_Skip_Take_Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -381,14 +408,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmSubsectorService.Query = mwqmSubsectorService.FillQuery(typeof(MWQMSubsector), culture.TwoLetterISOLanguageName, 1, 1,  "MWQMSubsectorID", "");
+                        mwqmSubsectorService.Query = mwqmSubsectorService.FillQuery(typeof(MWQMSubsector), culture.TwoLetterISOLanguageName, 1, 1,  "MWQMSubsectorID", "", "", extra);
 
                         List<MWQMSubsector> mwqmSubsectorDirectQueryList = new List<MWQMSubsector>();
-                        mwqmSubsectorDirectQueryList = (from c in dbTestDB.MWQMSubsectors select c).Skip(1).Take(1).OrderBy(c => c.MWQMSubsectorID).ToList();
+                        mwqmSubsectorDirectQueryList = (from c in dbTestDB.MWQMSubsectors select c).OrderBy(c => c.MWQMSubsectorID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -397,7 +424,7 @@ namespace CSSPServices.Tests
                             CheckMWQMSubsectorFields(mwqmSubsectorList);
                             Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorList[0].MWQMSubsectorID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MWQMSubsectorExtraA> mwqmSubsectorExtraAList = new List<MWQMSubsectorExtraA>();
                             mwqmSubsectorExtraAList = mwqmSubsectorService.GetMWQMSubsectorExtraAList().ToList();
@@ -405,7 +432,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorExtraAList[0].MWQMSubsectorID);
                             Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MWQMSubsectorExtraB> mwqmSubsectorExtraBList = new List<MWQMSubsectorExtraB>();
                             mwqmSubsectorExtraBList = mwqmSubsectorService.GetMWQMSubsectorExtraBList().ToList();
@@ -415,17 +442,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetMWQMSubsectorList() Skip Take Order
+        #endregion Tests Generated for GetMWQMSubsectorList() Skip Take Asc
 
-        #region Tests Generated for GetMWQMSubsectorList() Skip Take 2Order
+        #region Tests Generated for GetMWQMSubsectorList() Skip Take 2 Asc
         [TestMethod]
-        public void GetMWQMSubsectorList_Skip_Take_2Order_Test()
+        public void GetMWQMSubsectorList_Skip_Take_2Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -433,14 +460,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmSubsectorService.Query = mwqmSubsectorService.FillQuery(typeof(MWQMSubsector), culture.TwoLetterISOLanguageName, 1, 1, "MWQMSubsectorID,MWQMSubsectorTVItemID", "");
+                        mwqmSubsectorService.Query = mwqmSubsectorService.FillQuery(typeof(MWQMSubsector), culture.TwoLetterISOLanguageName, 1, 1, "MWQMSubsectorID,MWQMSubsectorTVItemID", "", "", extra);
 
                         List<MWQMSubsector> mwqmSubsectorDirectQueryList = new List<MWQMSubsector>();
-                        mwqmSubsectorDirectQueryList = (from c in dbTestDB.MWQMSubsectors select c).Skip(1).Take(1).OrderBy(c => c.MWQMSubsectorID).ThenBy(c => c.MWQMSubsectorTVItemID).ToList();
+                        mwqmSubsectorDirectQueryList = (from c in dbTestDB.MWQMSubsectors select c).OrderBy(c => c.MWQMSubsectorID).ThenBy(c => c.MWQMSubsectorTVItemID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -449,7 +476,7 @@ namespace CSSPServices.Tests
                             CheckMWQMSubsectorFields(mwqmSubsectorList);
                             Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorList[0].MWQMSubsectorID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MWQMSubsectorExtraA> mwqmSubsectorExtraAList = new List<MWQMSubsectorExtraA>();
                             mwqmSubsectorExtraAList = mwqmSubsectorService.GetMWQMSubsectorExtraAList().ToList();
@@ -457,7 +484,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorExtraAList[0].MWQMSubsectorID);
                             Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MWQMSubsectorExtraB> mwqmSubsectorExtraBList = new List<MWQMSubsectorExtraB>();
                             mwqmSubsectorExtraBList = mwqmSubsectorService.GetMWQMSubsectorExtraBList().ToList();
@@ -467,17 +494,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetMWQMSubsectorList() Skip Take 2Order
+        #endregion Tests Generated for GetMWQMSubsectorList() Skip Take 2 Asc
 
-        #region Tests Generated for GetMWQMSubsectorList() Skip Take Order Where
+        #region Tests Generated for GetMWQMSubsectorList() Skip Take Asc Where
         [TestMethod]
-        public void GetMWQMSubsectorList_Skip_Take_Order_Where_Test()
+        public void GetMWQMSubsectorList_Skip_Take_Asc_Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -485,14 +512,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmSubsectorService.Query = mwqmSubsectorService.FillQuery(typeof(MWQMSubsector), culture.TwoLetterISOLanguageName, 0, 1, "MWQMSubsectorID", "MWQMSubsectorID,EQ,4", "");
+                        mwqmSubsectorService.Query = mwqmSubsectorService.FillQuery(typeof(MWQMSubsector), culture.TwoLetterISOLanguageName, 0, 1, "MWQMSubsectorID", "", "MWQMSubsectorID,EQ,4", "");
 
                         List<MWQMSubsector> mwqmSubsectorDirectQueryList = new List<MWQMSubsector>();
-                        mwqmSubsectorDirectQueryList = (from c in dbTestDB.MWQMSubsectors select c).Where(c => c.MWQMSubsectorID == 4).Skip(0).Take(1).OrderBy(c => c.MWQMSubsectorID).ToList();
+                        mwqmSubsectorDirectQueryList = (from c in dbTestDB.MWQMSubsectors select c).Where(c => c.MWQMSubsectorID == 4).OrderBy(c => c.MWQMSubsectorID).Skip(0).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -501,7 +528,7 @@ namespace CSSPServices.Tests
                             CheckMWQMSubsectorFields(mwqmSubsectorList);
                             Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorList[0].MWQMSubsectorID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MWQMSubsectorExtraA> mwqmSubsectorExtraAList = new List<MWQMSubsectorExtraA>();
                             mwqmSubsectorExtraAList = mwqmSubsectorService.GetMWQMSubsectorExtraAList().ToList();
@@ -509,7 +536,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorExtraAList[0].MWQMSubsectorID);
                             Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MWQMSubsectorExtraB> mwqmSubsectorExtraBList = new List<MWQMSubsectorExtraB>();
                             mwqmSubsectorExtraBList = mwqmSubsectorService.GetMWQMSubsectorExtraBList().ToList();
@@ -519,17 +546,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetMWQMSubsectorList() Skip Take Order Where
+        #endregion Tests Generated for GetMWQMSubsectorList() Skip Take Asc Where
 
-        #region Tests Generated for GetMWQMSubsectorList() Skip Take Order 2Where
+        #region Tests Generated for GetMWQMSubsectorList() Skip Take Asc 2 Where
         [TestMethod]
-        public void GetMWQMSubsectorList_Skip_Take_Order_2Where_Test()
+        public void GetMWQMSubsectorList_Skip_Take_Asc_2Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -537,11 +564,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmSubsectorService.Query = mwqmSubsectorService.FillQuery(typeof(MWQMSubsector), culture.TwoLetterISOLanguageName, 0, 1, "MWQMSubsectorID", "MWQMSubsectorID,GT,2|MWQMSubsectorID,LT,5", "");
+                        mwqmSubsectorService.Query = mwqmSubsectorService.FillQuery(typeof(MWQMSubsector), culture.TwoLetterISOLanguageName, 0, 1, "MWQMSubsectorID", "", "MWQMSubsectorID,GT,2|MWQMSubsectorID,LT,5", "");
 
                         List<MWQMSubsector> mwqmSubsectorDirectQueryList = new List<MWQMSubsector>();
                         mwqmSubsectorDirectQueryList = (from c in dbTestDB.MWQMSubsectors select c).Where(c => c.MWQMSubsectorID > 2 && c.MWQMSubsectorID < 5).Skip(0).Take(1).OrderBy(c => c.MWQMSubsectorID).ToList();
@@ -553,7 +580,7 @@ namespace CSSPServices.Tests
                             CheckMWQMSubsectorFields(mwqmSubsectorList);
                             Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorList[0].MWQMSubsectorID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MWQMSubsectorExtraA> mwqmSubsectorExtraAList = new List<MWQMSubsectorExtraA>();
                             mwqmSubsectorExtraAList = mwqmSubsectorService.GetMWQMSubsectorExtraAList().ToList();
@@ -561,7 +588,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorExtraAList[0].MWQMSubsectorID);
                             Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MWQMSubsectorExtraB> mwqmSubsectorExtraBList = new List<MWQMSubsectorExtraB>();
                             mwqmSubsectorExtraBList = mwqmSubsectorService.GetMWQMSubsectorExtraBList().ToList();
@@ -571,15 +598,223 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetMWQMSubsectorList() Skip Take Order 2Where
+        #endregion Tests Generated for GetMWQMSubsectorList() Skip Take Asc 2 Where
 
-        #region Tests Generated for GetMWQMSubsectorList() 2Where
+        #region Tests Generated for GetMWQMSubsectorList() Skip Take Desc
+        [TestMethod]
+        public void GetMWQMSubsectorList_Skip_Take_Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mwqmSubsectorService.Query = mwqmSubsectorService.FillQuery(typeof(MWQMSubsector), culture.TwoLetterISOLanguageName, 1, 1, "", "MWQMSubsectorID", "", extra);
+
+                        List<MWQMSubsector> mwqmSubsectorDirectQueryList = new List<MWQMSubsector>();
+                        mwqmSubsectorDirectQueryList = (from c in dbTestDB.MWQMSubsectors select c).OrderByDescending(c => c.MWQMSubsectorID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<MWQMSubsector> mwqmSubsectorList = new List<MWQMSubsector>();
+                            mwqmSubsectorList = mwqmSubsectorService.GetMWQMSubsectorList().ToList();
+                            CheckMWQMSubsectorFields(mwqmSubsectorList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorList[0].MWQMSubsectorID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<MWQMSubsectorExtraA> mwqmSubsectorExtraAList = new List<MWQMSubsectorExtraA>();
+                            mwqmSubsectorExtraAList = mwqmSubsectorService.GetMWQMSubsectorExtraAList().ToList();
+                            CheckMWQMSubsectorExtraAFields(mwqmSubsectorExtraAList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorExtraAList[0].MWQMSubsectorID);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<MWQMSubsectorExtraB> mwqmSubsectorExtraBList = new List<MWQMSubsectorExtraB>();
+                            mwqmSubsectorExtraBList = mwqmSubsectorService.GetMWQMSubsectorExtraBList().ToList();
+                            CheckMWQMSubsectorExtraBFields(mwqmSubsectorExtraBList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorExtraBList[0].MWQMSubsectorID);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMSubsectorList() Skip Take Desc
+
+        #region Tests Generated for GetMWQMSubsectorList() Skip Take 2 Desc
+        [TestMethod]
+        public void GetMWQMSubsectorList_Skip_Take_2Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mwqmSubsectorService.Query = mwqmSubsectorService.FillQuery(typeof(MWQMSubsector), culture.TwoLetterISOLanguageName, 1, 1, "", "MWQMSubsectorID,MWQMSubsectorTVItemID", "", extra);
+
+                        List<MWQMSubsector> mwqmSubsectorDirectQueryList = new List<MWQMSubsector>();
+                        mwqmSubsectorDirectQueryList = (from c in dbTestDB.MWQMSubsectors select c).OrderByDescending(c => c.MWQMSubsectorID).ThenByDescending(c => c.MWQMSubsectorTVItemID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<MWQMSubsector> mwqmSubsectorList = new List<MWQMSubsector>();
+                            mwqmSubsectorList = mwqmSubsectorService.GetMWQMSubsectorList().ToList();
+                            CheckMWQMSubsectorFields(mwqmSubsectorList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorList[0].MWQMSubsectorID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<MWQMSubsectorExtraA> mwqmSubsectorExtraAList = new List<MWQMSubsectorExtraA>();
+                            mwqmSubsectorExtraAList = mwqmSubsectorService.GetMWQMSubsectorExtraAList().ToList();
+                            CheckMWQMSubsectorExtraAFields(mwqmSubsectorExtraAList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorExtraAList[0].MWQMSubsectorID);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<MWQMSubsectorExtraB> mwqmSubsectorExtraBList = new List<MWQMSubsectorExtraB>();
+                            mwqmSubsectorExtraBList = mwqmSubsectorService.GetMWQMSubsectorExtraBList().ToList();
+                            CheckMWQMSubsectorExtraBFields(mwqmSubsectorExtraBList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorExtraBList[0].MWQMSubsectorID);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMSubsectorList() Skip Take 2 Desc
+
+        #region Tests Generated for GetMWQMSubsectorList() Skip Take Desc Where
+        [TestMethod]
+        public void GetMWQMSubsectorList_Skip_Take_Desc_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mwqmSubsectorService.Query = mwqmSubsectorService.FillQuery(typeof(MWQMSubsector), culture.TwoLetterISOLanguageName, 0, 1, "MWQMSubsectorID", "", "MWQMSubsectorID,EQ,4", "");
+
+                        List<MWQMSubsector> mwqmSubsectorDirectQueryList = new List<MWQMSubsector>();
+                        mwqmSubsectorDirectQueryList = (from c in dbTestDB.MWQMSubsectors select c).Where(c => c.MWQMSubsectorID == 4).OrderByDescending(c => c.MWQMSubsectorID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<MWQMSubsector> mwqmSubsectorList = new List<MWQMSubsector>();
+                            mwqmSubsectorList = mwqmSubsectorService.GetMWQMSubsectorList().ToList();
+                            CheckMWQMSubsectorFields(mwqmSubsectorList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorList[0].MWQMSubsectorID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<MWQMSubsectorExtraA> mwqmSubsectorExtraAList = new List<MWQMSubsectorExtraA>();
+                            mwqmSubsectorExtraAList = mwqmSubsectorService.GetMWQMSubsectorExtraAList().ToList();
+                            CheckMWQMSubsectorExtraAFields(mwqmSubsectorExtraAList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorExtraAList[0].MWQMSubsectorID);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<MWQMSubsectorExtraB> mwqmSubsectorExtraBList = new List<MWQMSubsectorExtraB>();
+                            mwqmSubsectorExtraBList = mwqmSubsectorService.GetMWQMSubsectorExtraBList().ToList();
+                            CheckMWQMSubsectorExtraBFields(mwqmSubsectorExtraBList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorExtraBList[0].MWQMSubsectorID);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMSubsectorList() Skip Take Desc Where
+
+        #region Tests Generated for GetMWQMSubsectorList() Skip Take Desc 2 Where
+        [TestMethod]
+        public void GetMWQMSubsectorList_Skip_Take_Desc_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mwqmSubsectorService.Query = mwqmSubsectorService.FillQuery(typeof(MWQMSubsector), culture.TwoLetterISOLanguageName, 0, 1, "", "MWQMSubsectorID", "MWQMSubsectorID,GT,2|MWQMSubsectorID,LT,5", "");
+
+                        List<MWQMSubsector> mwqmSubsectorDirectQueryList = new List<MWQMSubsector>();
+                        mwqmSubsectorDirectQueryList = (from c in dbTestDB.MWQMSubsectors select c).Where(c => c.MWQMSubsectorID > 2 && c.MWQMSubsectorID < 5).OrderByDescending(c => c.MWQMSubsectorID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<MWQMSubsector> mwqmSubsectorList = new List<MWQMSubsector>();
+                            mwqmSubsectorList = mwqmSubsectorService.GetMWQMSubsectorList().ToList();
+                            CheckMWQMSubsectorFields(mwqmSubsectorList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorList[0].MWQMSubsectorID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<MWQMSubsectorExtraA> mwqmSubsectorExtraAList = new List<MWQMSubsectorExtraA>();
+                            mwqmSubsectorExtraAList = mwqmSubsectorService.GetMWQMSubsectorExtraAList().ToList();
+                            CheckMWQMSubsectorExtraAFields(mwqmSubsectorExtraAList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorExtraAList[0].MWQMSubsectorID);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<MWQMSubsectorExtraB> mwqmSubsectorExtraBList = new List<MWQMSubsectorExtraB>();
+                            mwqmSubsectorExtraBList = mwqmSubsectorService.GetMWQMSubsectorExtraBList().ToList();
+                            CheckMWQMSubsectorExtraBFields(mwqmSubsectorExtraBList);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorExtraBList[0].MWQMSubsectorID);
+                            Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMSubsectorList() Skip Take Desc 2 Where
+
+        #region Tests Generated for GetMWQMSubsectorList() 2 Where
         [TestMethod]
         public void GetMWQMSubsectorList_2Where_Test()
         {
@@ -589,11 +824,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmSubsectorService.Query = mwqmSubsectorService.FillQuery(typeof(MWQMSubsector), culture.TwoLetterISOLanguageName, 0, 10000, "", "MWQMSubsectorID,GT,2|MWQMSubsectorID,LT,5", "");
+                        mwqmSubsectorService.Query = mwqmSubsectorService.FillQuery(typeof(MWQMSubsector), culture.TwoLetterISOLanguageName, 0, 10000, "", "", "MWQMSubsectorID,GT,2|MWQMSubsectorID,LT,5", extra);
 
                         List<MWQMSubsector> mwqmSubsectorDirectQueryList = new List<MWQMSubsector>();
                         mwqmSubsectorDirectQueryList = (from c in dbTestDB.MWQMSubsectors select c).Where(c => c.MWQMSubsectorID > 2 && c.MWQMSubsectorID < 5).ToList();
@@ -605,7 +840,7 @@ namespace CSSPServices.Tests
                             CheckMWQMSubsectorFields(mwqmSubsectorList);
                             Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorList[0].MWQMSubsectorID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MWQMSubsectorExtraA> mwqmSubsectorExtraAList = new List<MWQMSubsectorExtraA>();
                             mwqmSubsectorExtraAList = mwqmSubsectorService.GetMWQMSubsectorExtraAList().ToList();
@@ -613,7 +848,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmSubsectorDirectQueryList[0].MWQMSubsectorID, mwqmSubsectorExtraAList[0].MWQMSubsectorID);
                             Assert.AreEqual(mwqmSubsectorDirectQueryList.Count, mwqmSubsectorExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MWQMSubsectorExtraB> mwqmSubsectorExtraBList = new List<MWQMSubsectorExtraB>();
                             mwqmSubsectorExtraBList = mwqmSubsectorService.GetMWQMSubsectorExtraBList().ToList();
@@ -623,13 +858,13 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetMWQMSubsectorList() 2Where
+        #endregion Tests Generated for GetMWQMSubsectorList() 2 Where
 
         #region Functions private
         private void CheckMWQMSubsectorFields(List<MWQMSubsector> mwqmSubsectorList)

@@ -38,9 +38,9 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
+        #region Tests Generated CRUD
         [TestMethod]
-        public void ContactPreference_CRUD_And_Properties_Test()
+        public void ContactPreference_CRUD_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -86,6 +86,33 @@ namespace CSSPServices.Tests
                         Assert.AreEqual("", contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
                     Assert.AreEqual(count, contactPreferenceService.GetContactPreferenceList().Count());
+
+                }
+            }
+        }
+        #endregion Tests Generated CRUD
+
+        #region Tests Generated Properties
+        [TestMethod]
+        public void ContactPreference_Properties_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    ContactPreferenceService contactPreferenceService = new ContactPreferenceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    count = contactPreferenceService.GetContactPreferenceList().Count();
+
+                    ContactPreference contactPreference = GetFilledRandomContactPreference("");
 
                     // -------------------------------
                     // -------------------------------
@@ -212,7 +239,7 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Generated CRUD and Properties
+        #endregion Tests Generated Properties
 
         #region Tests Generated for GetContactPreferenceWithContactPreferenceID(contactPreference.ContactPreferenceID)
         [TestMethod]
@@ -228,7 +255,7 @@ namespace CSSPServices.Tests
                     ContactPreference contactPreference = (from c in dbTestDB.ContactPreferences select c).FirstOrDefault();
                     Assert.IsNotNull(contactPreference);
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         contactPreferenceService.Query.Extra = extra;
 
@@ -238,13 +265,13 @@ namespace CSSPServices.Tests
                             CheckContactPreferenceFields(new List<ContactPreference>() { contactPreferenceRet });
                             Assert.AreEqual(contactPreference.ContactPreferenceID, contactPreferenceRet.ContactPreferenceID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             ContactPreferenceExtraA contactPreferenceExtraARet = contactPreferenceService.GetContactPreferenceExtraAWithContactPreferenceID(contactPreference.ContactPreferenceID);
                             CheckContactPreferenceExtraAFields(new List<ContactPreferenceExtraA>() { contactPreferenceExtraARet });
                             Assert.AreEqual(contactPreference.ContactPreferenceID, contactPreferenceExtraARet.ContactPreferenceID);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             ContactPreferenceExtraB contactPreferenceExtraBRet = contactPreferenceService.GetContactPreferenceExtraBWithContactPreferenceID(contactPreference.ContactPreferenceID);
                             CheckContactPreferenceExtraBFields(new List<ContactPreferenceExtraB>() { contactPreferenceExtraBRet });
@@ -252,7 +279,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -277,7 +304,7 @@ namespace CSSPServices.Tests
                     List<ContactPreference> contactPreferenceDirectQueryList = new List<ContactPreference>();
                     contactPreferenceDirectQueryList = (from c in dbTestDB.ContactPreferences select c).Take(200).ToList();
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         contactPreferenceService.Query.Extra = extra;
 
@@ -287,14 +314,14 @@ namespace CSSPServices.Tests
                             contactPreferenceList = contactPreferenceService.GetContactPreferenceList().ToList();
                             CheckContactPreferenceFields(contactPreferenceList);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<ContactPreferenceExtraA> contactPreferenceExtraAList = new List<ContactPreferenceExtraA>();
                             contactPreferenceExtraAList = contactPreferenceService.GetContactPreferenceExtraAList().ToList();
                             CheckContactPreferenceExtraAFields(contactPreferenceExtraAList);
                             Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<ContactPreferenceExtraB> contactPreferenceExtraBList = new List<ContactPreferenceExtraB>();
                             contactPreferenceExtraBList = contactPreferenceService.GetContactPreferenceExtraBList().ToList();
@@ -303,7 +330,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -321,11 +348,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         ContactPreferenceService contactPreferenceService = new ContactPreferenceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
+                        contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 1, 1, "", "", "", extra);
 
                         List<ContactPreference> contactPreferenceDirectQueryList = new List<ContactPreference>();
                         contactPreferenceDirectQueryList = (from c in dbTestDB.ContactPreferences select c).Skip(1).Take(1).ToList();
@@ -337,7 +364,7 @@ namespace CSSPServices.Tests
                             CheckContactPreferenceFields(contactPreferenceList);
                             Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceList[0].ContactPreferenceID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<ContactPreferenceExtraA> contactPreferenceExtraAList = new List<ContactPreferenceExtraA>();
                             contactPreferenceExtraAList = contactPreferenceService.GetContactPreferenceExtraAList().ToList();
@@ -345,7 +372,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceExtraAList[0].ContactPreferenceID);
                             Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<ContactPreferenceExtraB> contactPreferenceExtraBList = new List<ContactPreferenceExtraB>();
                             contactPreferenceExtraBList = contactPreferenceService.GetContactPreferenceExtraBList().ToList();
@@ -355,7 +382,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -363,9 +390,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated for GetContactPreferenceList() Skip Take
 
-        #region Tests Generated for GetContactPreferenceList() Skip Take Order
+        #region Tests Generated for GetContactPreferenceList() Skip Take Asc
         [TestMethod]
-        public void GetContactPreferenceList_Skip_Take_Order_Test()
+        public void GetContactPreferenceList_Skip_Take_Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -373,14 +400,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         ContactPreferenceService contactPreferenceService = new ContactPreferenceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 1, 1,  "ContactPreferenceID", "");
+                        contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 1, 1,  "ContactPreferenceID", "", "", extra);
 
                         List<ContactPreference> contactPreferenceDirectQueryList = new List<ContactPreference>();
-                        contactPreferenceDirectQueryList = (from c in dbTestDB.ContactPreferences select c).Skip(1).Take(1).OrderBy(c => c.ContactPreferenceID).ToList();
+                        contactPreferenceDirectQueryList = (from c in dbTestDB.ContactPreferences select c).OrderBy(c => c.ContactPreferenceID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -389,7 +416,7 @@ namespace CSSPServices.Tests
                             CheckContactPreferenceFields(contactPreferenceList);
                             Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceList[0].ContactPreferenceID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<ContactPreferenceExtraA> contactPreferenceExtraAList = new List<ContactPreferenceExtraA>();
                             contactPreferenceExtraAList = contactPreferenceService.GetContactPreferenceExtraAList().ToList();
@@ -397,7 +424,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceExtraAList[0].ContactPreferenceID);
                             Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<ContactPreferenceExtraB> contactPreferenceExtraBList = new List<ContactPreferenceExtraB>();
                             contactPreferenceExtraBList = contactPreferenceService.GetContactPreferenceExtraBList().ToList();
@@ -407,17 +434,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetContactPreferenceList() Skip Take Order
+        #endregion Tests Generated for GetContactPreferenceList() Skip Take Asc
 
-        #region Tests Generated for GetContactPreferenceList() Skip Take 2Order
+        #region Tests Generated for GetContactPreferenceList() Skip Take 2 Asc
         [TestMethod]
-        public void GetContactPreferenceList_Skip_Take_2Order_Test()
+        public void GetContactPreferenceList_Skip_Take_2Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -425,14 +452,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         ContactPreferenceService contactPreferenceService = new ContactPreferenceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 1, 1, "ContactPreferenceID,ContactID", "");
+                        contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 1, 1, "ContactPreferenceID,ContactID", "", "", extra);
 
                         List<ContactPreference> contactPreferenceDirectQueryList = new List<ContactPreference>();
-                        contactPreferenceDirectQueryList = (from c in dbTestDB.ContactPreferences select c).Skip(1).Take(1).OrderBy(c => c.ContactPreferenceID).ThenBy(c => c.ContactID).ToList();
+                        contactPreferenceDirectQueryList = (from c in dbTestDB.ContactPreferences select c).OrderBy(c => c.ContactPreferenceID).ThenBy(c => c.ContactID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -441,7 +468,7 @@ namespace CSSPServices.Tests
                             CheckContactPreferenceFields(contactPreferenceList);
                             Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceList[0].ContactPreferenceID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<ContactPreferenceExtraA> contactPreferenceExtraAList = new List<ContactPreferenceExtraA>();
                             contactPreferenceExtraAList = contactPreferenceService.GetContactPreferenceExtraAList().ToList();
@@ -449,7 +476,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceExtraAList[0].ContactPreferenceID);
                             Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<ContactPreferenceExtraB> contactPreferenceExtraBList = new List<ContactPreferenceExtraB>();
                             contactPreferenceExtraBList = contactPreferenceService.GetContactPreferenceExtraBList().ToList();
@@ -459,17 +486,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetContactPreferenceList() Skip Take 2Order
+        #endregion Tests Generated for GetContactPreferenceList() Skip Take 2 Asc
 
-        #region Tests Generated for GetContactPreferenceList() Skip Take Order Where
+        #region Tests Generated for GetContactPreferenceList() Skip Take Asc Where
         [TestMethod]
-        public void GetContactPreferenceList_Skip_Take_Order_Where_Test()
+        public void GetContactPreferenceList_Skip_Take_Asc_Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -477,14 +504,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         ContactPreferenceService contactPreferenceService = new ContactPreferenceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 0, 1, "ContactPreferenceID", "ContactPreferenceID,EQ,4", "");
+                        contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 0, 1, "ContactPreferenceID", "", "ContactPreferenceID,EQ,4", "");
 
                         List<ContactPreference> contactPreferenceDirectQueryList = new List<ContactPreference>();
-                        contactPreferenceDirectQueryList = (from c in dbTestDB.ContactPreferences select c).Where(c => c.ContactPreferenceID == 4).Skip(0).Take(1).OrderBy(c => c.ContactPreferenceID).ToList();
+                        contactPreferenceDirectQueryList = (from c in dbTestDB.ContactPreferences select c).Where(c => c.ContactPreferenceID == 4).OrderBy(c => c.ContactPreferenceID).Skip(0).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -493,7 +520,7 @@ namespace CSSPServices.Tests
                             CheckContactPreferenceFields(contactPreferenceList);
                             Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceList[0].ContactPreferenceID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<ContactPreferenceExtraA> contactPreferenceExtraAList = new List<ContactPreferenceExtraA>();
                             contactPreferenceExtraAList = contactPreferenceService.GetContactPreferenceExtraAList().ToList();
@@ -501,7 +528,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceExtraAList[0].ContactPreferenceID);
                             Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<ContactPreferenceExtraB> contactPreferenceExtraBList = new List<ContactPreferenceExtraB>();
                             contactPreferenceExtraBList = contactPreferenceService.GetContactPreferenceExtraBList().ToList();
@@ -511,17 +538,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetContactPreferenceList() Skip Take Order Where
+        #endregion Tests Generated for GetContactPreferenceList() Skip Take Asc Where
 
-        #region Tests Generated for GetContactPreferenceList() Skip Take Order 2Where
+        #region Tests Generated for GetContactPreferenceList() Skip Take Asc 2 Where
         [TestMethod]
-        public void GetContactPreferenceList_Skip_Take_Order_2Where_Test()
+        public void GetContactPreferenceList_Skip_Take_Asc_2Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -529,11 +556,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         ContactPreferenceService contactPreferenceService = new ContactPreferenceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 0, 1, "ContactPreferenceID", "ContactPreferenceID,GT,2|ContactPreferenceID,LT,5", "");
+                        contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 0, 1, "ContactPreferenceID", "", "ContactPreferenceID,GT,2|ContactPreferenceID,LT,5", "");
 
                         List<ContactPreference> contactPreferenceDirectQueryList = new List<ContactPreference>();
                         contactPreferenceDirectQueryList = (from c in dbTestDB.ContactPreferences select c).Where(c => c.ContactPreferenceID > 2 && c.ContactPreferenceID < 5).Skip(0).Take(1).OrderBy(c => c.ContactPreferenceID).ToList();
@@ -545,7 +572,7 @@ namespace CSSPServices.Tests
                             CheckContactPreferenceFields(contactPreferenceList);
                             Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceList[0].ContactPreferenceID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<ContactPreferenceExtraA> contactPreferenceExtraAList = new List<ContactPreferenceExtraA>();
                             contactPreferenceExtraAList = contactPreferenceService.GetContactPreferenceExtraAList().ToList();
@@ -553,7 +580,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceExtraAList[0].ContactPreferenceID);
                             Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<ContactPreferenceExtraB> contactPreferenceExtraBList = new List<ContactPreferenceExtraB>();
                             contactPreferenceExtraBList = contactPreferenceService.GetContactPreferenceExtraBList().ToList();
@@ -563,15 +590,223 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetContactPreferenceList() Skip Take Order 2Where
+        #endregion Tests Generated for GetContactPreferenceList() Skip Take Asc 2 Where
 
-        #region Tests Generated for GetContactPreferenceList() 2Where
+        #region Tests Generated for GetContactPreferenceList() Skip Take Desc
+        [TestMethod]
+        public void GetContactPreferenceList_Skip_Take_Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        ContactPreferenceService contactPreferenceService = new ContactPreferenceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 1, 1, "", "ContactPreferenceID", "", extra);
+
+                        List<ContactPreference> contactPreferenceDirectQueryList = new List<ContactPreference>();
+                        contactPreferenceDirectQueryList = (from c in dbTestDB.ContactPreferences select c).OrderByDescending(c => c.ContactPreferenceID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<ContactPreference> contactPreferenceList = new List<ContactPreference>();
+                            contactPreferenceList = contactPreferenceService.GetContactPreferenceList().ToList();
+                            CheckContactPreferenceFields(contactPreferenceList);
+                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceList[0].ContactPreferenceID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<ContactPreferenceExtraA> contactPreferenceExtraAList = new List<ContactPreferenceExtraA>();
+                            contactPreferenceExtraAList = contactPreferenceService.GetContactPreferenceExtraAList().ToList();
+                            CheckContactPreferenceExtraAFields(contactPreferenceExtraAList);
+                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceExtraAList[0].ContactPreferenceID);
+                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<ContactPreferenceExtraB> contactPreferenceExtraBList = new List<ContactPreferenceExtraB>();
+                            contactPreferenceExtraBList = contactPreferenceService.GetContactPreferenceExtraBList().ToList();
+                            CheckContactPreferenceExtraBFields(contactPreferenceExtraBList);
+                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceExtraBList[0].ContactPreferenceID);
+                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetContactPreferenceList() Skip Take Desc
+
+        #region Tests Generated for GetContactPreferenceList() Skip Take 2 Desc
+        [TestMethod]
+        public void GetContactPreferenceList_Skip_Take_2Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        ContactPreferenceService contactPreferenceService = new ContactPreferenceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 1, 1, "", "ContactPreferenceID,ContactID", "", extra);
+
+                        List<ContactPreference> contactPreferenceDirectQueryList = new List<ContactPreference>();
+                        contactPreferenceDirectQueryList = (from c in dbTestDB.ContactPreferences select c).OrderByDescending(c => c.ContactPreferenceID).ThenByDescending(c => c.ContactID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<ContactPreference> contactPreferenceList = new List<ContactPreference>();
+                            contactPreferenceList = contactPreferenceService.GetContactPreferenceList().ToList();
+                            CheckContactPreferenceFields(contactPreferenceList);
+                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceList[0].ContactPreferenceID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<ContactPreferenceExtraA> contactPreferenceExtraAList = new List<ContactPreferenceExtraA>();
+                            contactPreferenceExtraAList = contactPreferenceService.GetContactPreferenceExtraAList().ToList();
+                            CheckContactPreferenceExtraAFields(contactPreferenceExtraAList);
+                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceExtraAList[0].ContactPreferenceID);
+                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<ContactPreferenceExtraB> contactPreferenceExtraBList = new List<ContactPreferenceExtraB>();
+                            contactPreferenceExtraBList = contactPreferenceService.GetContactPreferenceExtraBList().ToList();
+                            CheckContactPreferenceExtraBFields(contactPreferenceExtraBList);
+                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceExtraBList[0].ContactPreferenceID);
+                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetContactPreferenceList() Skip Take 2 Desc
+
+        #region Tests Generated for GetContactPreferenceList() Skip Take Desc Where
+        [TestMethod]
+        public void GetContactPreferenceList_Skip_Take_Desc_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        ContactPreferenceService contactPreferenceService = new ContactPreferenceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 0, 1, "ContactPreferenceID", "", "ContactPreferenceID,EQ,4", "");
+
+                        List<ContactPreference> contactPreferenceDirectQueryList = new List<ContactPreference>();
+                        contactPreferenceDirectQueryList = (from c in dbTestDB.ContactPreferences select c).Where(c => c.ContactPreferenceID == 4).OrderByDescending(c => c.ContactPreferenceID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<ContactPreference> contactPreferenceList = new List<ContactPreference>();
+                            contactPreferenceList = contactPreferenceService.GetContactPreferenceList().ToList();
+                            CheckContactPreferenceFields(contactPreferenceList);
+                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceList[0].ContactPreferenceID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<ContactPreferenceExtraA> contactPreferenceExtraAList = new List<ContactPreferenceExtraA>();
+                            contactPreferenceExtraAList = contactPreferenceService.GetContactPreferenceExtraAList().ToList();
+                            CheckContactPreferenceExtraAFields(contactPreferenceExtraAList);
+                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceExtraAList[0].ContactPreferenceID);
+                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<ContactPreferenceExtraB> contactPreferenceExtraBList = new List<ContactPreferenceExtraB>();
+                            contactPreferenceExtraBList = contactPreferenceService.GetContactPreferenceExtraBList().ToList();
+                            CheckContactPreferenceExtraBFields(contactPreferenceExtraBList);
+                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceExtraBList[0].ContactPreferenceID);
+                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetContactPreferenceList() Skip Take Desc Where
+
+        #region Tests Generated for GetContactPreferenceList() Skip Take Desc 2 Where
+        [TestMethod]
+        public void GetContactPreferenceList_Skip_Take_Desc_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        ContactPreferenceService contactPreferenceService = new ContactPreferenceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 0, 1, "", "ContactPreferenceID", "ContactPreferenceID,GT,2|ContactPreferenceID,LT,5", "");
+
+                        List<ContactPreference> contactPreferenceDirectQueryList = new List<ContactPreference>();
+                        contactPreferenceDirectQueryList = (from c in dbTestDB.ContactPreferences select c).Where(c => c.ContactPreferenceID > 2 && c.ContactPreferenceID < 5).OrderByDescending(c => c.ContactPreferenceID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<ContactPreference> contactPreferenceList = new List<ContactPreference>();
+                            contactPreferenceList = contactPreferenceService.GetContactPreferenceList().ToList();
+                            CheckContactPreferenceFields(contactPreferenceList);
+                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceList[0].ContactPreferenceID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<ContactPreferenceExtraA> contactPreferenceExtraAList = new List<ContactPreferenceExtraA>();
+                            contactPreferenceExtraAList = contactPreferenceService.GetContactPreferenceExtraAList().ToList();
+                            CheckContactPreferenceExtraAFields(contactPreferenceExtraAList);
+                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceExtraAList[0].ContactPreferenceID);
+                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<ContactPreferenceExtraB> contactPreferenceExtraBList = new List<ContactPreferenceExtraB>();
+                            contactPreferenceExtraBList = contactPreferenceService.GetContactPreferenceExtraBList().ToList();
+                            CheckContactPreferenceExtraBFields(contactPreferenceExtraBList);
+                            Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceExtraBList[0].ContactPreferenceID);
+                            Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetContactPreferenceList() Skip Take Desc 2 Where
+
+        #region Tests Generated for GetContactPreferenceList() 2 Where
         [TestMethod]
         public void GetContactPreferenceList_2Where_Test()
         {
@@ -581,11 +816,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         ContactPreferenceService contactPreferenceService = new ContactPreferenceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 0, 10000, "", "ContactPreferenceID,GT,2|ContactPreferenceID,LT,5", "");
+                        contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 0, 10000, "", "", "ContactPreferenceID,GT,2|ContactPreferenceID,LT,5", extra);
 
                         List<ContactPreference> contactPreferenceDirectQueryList = new List<ContactPreference>();
                         contactPreferenceDirectQueryList = (from c in dbTestDB.ContactPreferences select c).Where(c => c.ContactPreferenceID > 2 && c.ContactPreferenceID < 5).ToList();
@@ -597,7 +832,7 @@ namespace CSSPServices.Tests
                             CheckContactPreferenceFields(contactPreferenceList);
                             Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceList[0].ContactPreferenceID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<ContactPreferenceExtraA> contactPreferenceExtraAList = new List<ContactPreferenceExtraA>();
                             contactPreferenceExtraAList = contactPreferenceService.GetContactPreferenceExtraAList().ToList();
@@ -605,7 +840,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(contactPreferenceDirectQueryList[0].ContactPreferenceID, contactPreferenceExtraAList[0].ContactPreferenceID);
                             Assert.AreEqual(contactPreferenceDirectQueryList.Count, contactPreferenceExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<ContactPreferenceExtraB> contactPreferenceExtraBList = new List<ContactPreferenceExtraB>();
                             contactPreferenceExtraBList = contactPreferenceService.GetContactPreferenceExtraBList().ToList();
@@ -615,13 +850,13 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetContactPreferenceList() 2Where
+        #endregion Tests Generated for GetContactPreferenceList() 2 Where
 
         #region Functions private
         private void CheckContactPreferenceFields(List<ContactPreference> contactPreferenceList)

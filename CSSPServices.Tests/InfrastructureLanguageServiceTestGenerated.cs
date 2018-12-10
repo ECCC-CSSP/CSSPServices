@@ -38,9 +38,9 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
+        #region Tests Generated CRUD
         [TestMethod]
-        public void InfrastructureLanguage_CRUD_And_Properties_Test()
+        public void InfrastructureLanguage_CRUD_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -86,6 +86,33 @@ namespace CSSPServices.Tests
                         Assert.AreEqual("", infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
                     Assert.AreEqual(count, infrastructureLanguageService.GetInfrastructureLanguageList().Count());
+
+                }
+            }
+        }
+        #endregion Tests Generated CRUD
+
+        #region Tests Generated Properties
+        [TestMethod]
+        public void InfrastructureLanguage_Properties_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    InfrastructureLanguageService infrastructureLanguageService = new InfrastructureLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    count = infrastructureLanguageService.GetInfrastructureLanguageList().Count();
+
+                    InfrastructureLanguage infrastructureLanguage = GetFilledRandomInfrastructureLanguage("");
 
                     // -------------------------------
                     // -------------------------------
@@ -220,7 +247,7 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Generated CRUD and Properties
+        #endregion Tests Generated Properties
 
         #region Tests Generated for GetInfrastructureLanguageWithInfrastructureLanguageID(infrastructureLanguage.InfrastructureLanguageID)
         [TestMethod]
@@ -236,7 +263,7 @@ namespace CSSPServices.Tests
                     InfrastructureLanguage infrastructureLanguage = (from c in dbTestDB.InfrastructureLanguages select c).FirstOrDefault();
                     Assert.IsNotNull(infrastructureLanguage);
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         infrastructureLanguageService.Query.Extra = extra;
 
@@ -246,13 +273,13 @@ namespace CSSPServices.Tests
                             CheckInfrastructureLanguageFields(new List<InfrastructureLanguage>() { infrastructureLanguageRet });
                             Assert.AreEqual(infrastructureLanguage.InfrastructureLanguageID, infrastructureLanguageRet.InfrastructureLanguageID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             InfrastructureLanguageExtraA infrastructureLanguageExtraARet = infrastructureLanguageService.GetInfrastructureLanguageExtraAWithInfrastructureLanguageID(infrastructureLanguage.InfrastructureLanguageID);
                             CheckInfrastructureLanguageExtraAFields(new List<InfrastructureLanguageExtraA>() { infrastructureLanguageExtraARet });
                             Assert.AreEqual(infrastructureLanguage.InfrastructureLanguageID, infrastructureLanguageExtraARet.InfrastructureLanguageID);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             InfrastructureLanguageExtraB infrastructureLanguageExtraBRet = infrastructureLanguageService.GetInfrastructureLanguageExtraBWithInfrastructureLanguageID(infrastructureLanguage.InfrastructureLanguageID);
                             CheckInfrastructureLanguageExtraBFields(new List<InfrastructureLanguageExtraB>() { infrastructureLanguageExtraBRet });
@@ -260,7 +287,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -285,7 +312,7 @@ namespace CSSPServices.Tests
                     List<InfrastructureLanguage> infrastructureLanguageDirectQueryList = new List<InfrastructureLanguage>();
                     infrastructureLanguageDirectQueryList = (from c in dbTestDB.InfrastructureLanguages select c).Take(200).ToList();
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         infrastructureLanguageService.Query.Extra = extra;
 
@@ -295,14 +322,14 @@ namespace CSSPServices.Tests
                             infrastructureLanguageList = infrastructureLanguageService.GetInfrastructureLanguageList().ToList();
                             CheckInfrastructureLanguageFields(infrastructureLanguageList);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<InfrastructureLanguageExtraA> infrastructureLanguageExtraAList = new List<InfrastructureLanguageExtraA>();
                             infrastructureLanguageExtraAList = infrastructureLanguageService.GetInfrastructureLanguageExtraAList().ToList();
                             CheckInfrastructureLanguageExtraAFields(infrastructureLanguageExtraAList);
                             Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<InfrastructureLanguageExtraB> infrastructureLanguageExtraBList = new List<InfrastructureLanguageExtraB>();
                             infrastructureLanguageExtraBList = infrastructureLanguageService.GetInfrastructureLanguageExtraBList().ToList();
@@ -311,7 +338,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -329,11 +356,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         InfrastructureLanguageService infrastructureLanguageService = new InfrastructureLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        infrastructureLanguageService.Query = infrastructureLanguageService.FillQuery(typeof(InfrastructureLanguage), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
+                        infrastructureLanguageService.Query = infrastructureLanguageService.FillQuery(typeof(InfrastructureLanguage), culture.TwoLetterISOLanguageName, 1, 1, "", "", "", extra);
 
                         List<InfrastructureLanguage> infrastructureLanguageDirectQueryList = new List<InfrastructureLanguage>();
                         infrastructureLanguageDirectQueryList = (from c in dbTestDB.InfrastructureLanguages select c).Skip(1).Take(1).ToList();
@@ -345,7 +372,7 @@ namespace CSSPServices.Tests
                             CheckInfrastructureLanguageFields(infrastructureLanguageList);
                             Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageList[0].InfrastructureLanguageID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<InfrastructureLanguageExtraA> infrastructureLanguageExtraAList = new List<InfrastructureLanguageExtraA>();
                             infrastructureLanguageExtraAList = infrastructureLanguageService.GetInfrastructureLanguageExtraAList().ToList();
@@ -353,7 +380,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraAList[0].InfrastructureLanguageID);
                             Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<InfrastructureLanguageExtraB> infrastructureLanguageExtraBList = new List<InfrastructureLanguageExtraB>();
                             infrastructureLanguageExtraBList = infrastructureLanguageService.GetInfrastructureLanguageExtraBList().ToList();
@@ -363,7 +390,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -371,9 +398,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated for GetInfrastructureLanguageList() Skip Take
 
-        #region Tests Generated for GetInfrastructureLanguageList() Skip Take Order
+        #region Tests Generated for GetInfrastructureLanguageList() Skip Take Asc
         [TestMethod]
-        public void GetInfrastructureLanguageList_Skip_Take_Order_Test()
+        public void GetInfrastructureLanguageList_Skip_Take_Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -381,14 +408,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         InfrastructureLanguageService infrastructureLanguageService = new InfrastructureLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        infrastructureLanguageService.Query = infrastructureLanguageService.FillQuery(typeof(InfrastructureLanguage), culture.TwoLetterISOLanguageName, 1, 1,  "InfrastructureLanguageID", "");
+                        infrastructureLanguageService.Query = infrastructureLanguageService.FillQuery(typeof(InfrastructureLanguage), culture.TwoLetterISOLanguageName, 1, 1,  "InfrastructureLanguageID", "", "", extra);
 
                         List<InfrastructureLanguage> infrastructureLanguageDirectQueryList = new List<InfrastructureLanguage>();
-                        infrastructureLanguageDirectQueryList = (from c in dbTestDB.InfrastructureLanguages select c).Skip(1).Take(1).OrderBy(c => c.InfrastructureLanguageID).ToList();
+                        infrastructureLanguageDirectQueryList = (from c in dbTestDB.InfrastructureLanguages select c).OrderBy(c => c.InfrastructureLanguageID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -397,7 +424,7 @@ namespace CSSPServices.Tests
                             CheckInfrastructureLanguageFields(infrastructureLanguageList);
                             Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageList[0].InfrastructureLanguageID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<InfrastructureLanguageExtraA> infrastructureLanguageExtraAList = new List<InfrastructureLanguageExtraA>();
                             infrastructureLanguageExtraAList = infrastructureLanguageService.GetInfrastructureLanguageExtraAList().ToList();
@@ -405,7 +432,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraAList[0].InfrastructureLanguageID);
                             Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<InfrastructureLanguageExtraB> infrastructureLanguageExtraBList = new List<InfrastructureLanguageExtraB>();
                             infrastructureLanguageExtraBList = infrastructureLanguageService.GetInfrastructureLanguageExtraBList().ToList();
@@ -415,17 +442,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetInfrastructureLanguageList() Skip Take Order
+        #endregion Tests Generated for GetInfrastructureLanguageList() Skip Take Asc
 
-        #region Tests Generated for GetInfrastructureLanguageList() Skip Take 2Order
+        #region Tests Generated for GetInfrastructureLanguageList() Skip Take 2 Asc
         [TestMethod]
-        public void GetInfrastructureLanguageList_Skip_Take_2Order_Test()
+        public void GetInfrastructureLanguageList_Skip_Take_2Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -433,14 +460,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         InfrastructureLanguageService infrastructureLanguageService = new InfrastructureLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        infrastructureLanguageService.Query = infrastructureLanguageService.FillQuery(typeof(InfrastructureLanguage), culture.TwoLetterISOLanguageName, 1, 1, "InfrastructureLanguageID,InfrastructureID", "");
+                        infrastructureLanguageService.Query = infrastructureLanguageService.FillQuery(typeof(InfrastructureLanguage), culture.TwoLetterISOLanguageName, 1, 1, "InfrastructureLanguageID,InfrastructureID", "", "", extra);
 
                         List<InfrastructureLanguage> infrastructureLanguageDirectQueryList = new List<InfrastructureLanguage>();
-                        infrastructureLanguageDirectQueryList = (from c in dbTestDB.InfrastructureLanguages select c).Skip(1).Take(1).OrderBy(c => c.InfrastructureLanguageID).ThenBy(c => c.InfrastructureID).ToList();
+                        infrastructureLanguageDirectQueryList = (from c in dbTestDB.InfrastructureLanguages select c).OrderBy(c => c.InfrastructureLanguageID).ThenBy(c => c.InfrastructureID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -449,7 +476,7 @@ namespace CSSPServices.Tests
                             CheckInfrastructureLanguageFields(infrastructureLanguageList);
                             Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageList[0].InfrastructureLanguageID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<InfrastructureLanguageExtraA> infrastructureLanguageExtraAList = new List<InfrastructureLanguageExtraA>();
                             infrastructureLanguageExtraAList = infrastructureLanguageService.GetInfrastructureLanguageExtraAList().ToList();
@@ -457,7 +484,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraAList[0].InfrastructureLanguageID);
                             Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<InfrastructureLanguageExtraB> infrastructureLanguageExtraBList = new List<InfrastructureLanguageExtraB>();
                             infrastructureLanguageExtraBList = infrastructureLanguageService.GetInfrastructureLanguageExtraBList().ToList();
@@ -467,17 +494,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetInfrastructureLanguageList() Skip Take 2Order
+        #endregion Tests Generated for GetInfrastructureLanguageList() Skip Take 2 Asc
 
-        #region Tests Generated for GetInfrastructureLanguageList() Skip Take Order Where
+        #region Tests Generated for GetInfrastructureLanguageList() Skip Take Asc Where
         [TestMethod]
-        public void GetInfrastructureLanguageList_Skip_Take_Order_Where_Test()
+        public void GetInfrastructureLanguageList_Skip_Take_Asc_Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -485,14 +512,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         InfrastructureLanguageService infrastructureLanguageService = new InfrastructureLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        infrastructureLanguageService.Query = infrastructureLanguageService.FillQuery(typeof(InfrastructureLanguage), culture.TwoLetterISOLanguageName, 0, 1, "InfrastructureLanguageID", "InfrastructureLanguageID,EQ,4", "");
+                        infrastructureLanguageService.Query = infrastructureLanguageService.FillQuery(typeof(InfrastructureLanguage), culture.TwoLetterISOLanguageName, 0, 1, "InfrastructureLanguageID", "", "InfrastructureLanguageID,EQ,4", "");
 
                         List<InfrastructureLanguage> infrastructureLanguageDirectQueryList = new List<InfrastructureLanguage>();
-                        infrastructureLanguageDirectQueryList = (from c in dbTestDB.InfrastructureLanguages select c).Where(c => c.InfrastructureLanguageID == 4).Skip(0).Take(1).OrderBy(c => c.InfrastructureLanguageID).ToList();
+                        infrastructureLanguageDirectQueryList = (from c in dbTestDB.InfrastructureLanguages select c).Where(c => c.InfrastructureLanguageID == 4).OrderBy(c => c.InfrastructureLanguageID).Skip(0).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -501,7 +528,7 @@ namespace CSSPServices.Tests
                             CheckInfrastructureLanguageFields(infrastructureLanguageList);
                             Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageList[0].InfrastructureLanguageID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<InfrastructureLanguageExtraA> infrastructureLanguageExtraAList = new List<InfrastructureLanguageExtraA>();
                             infrastructureLanguageExtraAList = infrastructureLanguageService.GetInfrastructureLanguageExtraAList().ToList();
@@ -509,7 +536,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraAList[0].InfrastructureLanguageID);
                             Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<InfrastructureLanguageExtraB> infrastructureLanguageExtraBList = new List<InfrastructureLanguageExtraB>();
                             infrastructureLanguageExtraBList = infrastructureLanguageService.GetInfrastructureLanguageExtraBList().ToList();
@@ -519,17 +546,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetInfrastructureLanguageList() Skip Take Order Where
+        #endregion Tests Generated for GetInfrastructureLanguageList() Skip Take Asc Where
 
-        #region Tests Generated for GetInfrastructureLanguageList() Skip Take Order 2Where
+        #region Tests Generated for GetInfrastructureLanguageList() Skip Take Asc 2 Where
         [TestMethod]
-        public void GetInfrastructureLanguageList_Skip_Take_Order_2Where_Test()
+        public void GetInfrastructureLanguageList_Skip_Take_Asc_2Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -537,11 +564,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         InfrastructureLanguageService infrastructureLanguageService = new InfrastructureLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        infrastructureLanguageService.Query = infrastructureLanguageService.FillQuery(typeof(InfrastructureLanguage), culture.TwoLetterISOLanguageName, 0, 1, "InfrastructureLanguageID", "InfrastructureLanguageID,GT,2|InfrastructureLanguageID,LT,5", "");
+                        infrastructureLanguageService.Query = infrastructureLanguageService.FillQuery(typeof(InfrastructureLanguage), culture.TwoLetterISOLanguageName, 0, 1, "InfrastructureLanguageID", "", "InfrastructureLanguageID,GT,2|InfrastructureLanguageID,LT,5", "");
 
                         List<InfrastructureLanguage> infrastructureLanguageDirectQueryList = new List<InfrastructureLanguage>();
                         infrastructureLanguageDirectQueryList = (from c in dbTestDB.InfrastructureLanguages select c).Where(c => c.InfrastructureLanguageID > 2 && c.InfrastructureLanguageID < 5).Skip(0).Take(1).OrderBy(c => c.InfrastructureLanguageID).ToList();
@@ -553,7 +580,7 @@ namespace CSSPServices.Tests
                             CheckInfrastructureLanguageFields(infrastructureLanguageList);
                             Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageList[0].InfrastructureLanguageID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<InfrastructureLanguageExtraA> infrastructureLanguageExtraAList = new List<InfrastructureLanguageExtraA>();
                             infrastructureLanguageExtraAList = infrastructureLanguageService.GetInfrastructureLanguageExtraAList().ToList();
@@ -561,7 +588,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraAList[0].InfrastructureLanguageID);
                             Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<InfrastructureLanguageExtraB> infrastructureLanguageExtraBList = new List<InfrastructureLanguageExtraB>();
                             infrastructureLanguageExtraBList = infrastructureLanguageService.GetInfrastructureLanguageExtraBList().ToList();
@@ -571,15 +598,223 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetInfrastructureLanguageList() Skip Take Order 2Where
+        #endregion Tests Generated for GetInfrastructureLanguageList() Skip Take Asc 2 Where
 
-        #region Tests Generated for GetInfrastructureLanguageList() 2Where
+        #region Tests Generated for GetInfrastructureLanguageList() Skip Take Desc
+        [TestMethod]
+        public void GetInfrastructureLanguageList_Skip_Take_Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        InfrastructureLanguageService infrastructureLanguageService = new InfrastructureLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        infrastructureLanguageService.Query = infrastructureLanguageService.FillQuery(typeof(InfrastructureLanguage), culture.TwoLetterISOLanguageName, 1, 1, "", "InfrastructureLanguageID", "", extra);
+
+                        List<InfrastructureLanguage> infrastructureLanguageDirectQueryList = new List<InfrastructureLanguage>();
+                        infrastructureLanguageDirectQueryList = (from c in dbTestDB.InfrastructureLanguages select c).OrderByDescending(c => c.InfrastructureLanguageID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<InfrastructureLanguage> infrastructureLanguageList = new List<InfrastructureLanguage>();
+                            infrastructureLanguageList = infrastructureLanguageService.GetInfrastructureLanguageList().ToList();
+                            CheckInfrastructureLanguageFields(infrastructureLanguageList);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageList[0].InfrastructureLanguageID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<InfrastructureLanguageExtraA> infrastructureLanguageExtraAList = new List<InfrastructureLanguageExtraA>();
+                            infrastructureLanguageExtraAList = infrastructureLanguageService.GetInfrastructureLanguageExtraAList().ToList();
+                            CheckInfrastructureLanguageExtraAFields(infrastructureLanguageExtraAList);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraAList[0].InfrastructureLanguageID);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<InfrastructureLanguageExtraB> infrastructureLanguageExtraBList = new List<InfrastructureLanguageExtraB>();
+                            infrastructureLanguageExtraBList = infrastructureLanguageService.GetInfrastructureLanguageExtraBList().ToList();
+                            CheckInfrastructureLanguageExtraBFields(infrastructureLanguageExtraBList);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraBList[0].InfrastructureLanguageID);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetInfrastructureLanguageList() Skip Take Desc
+
+        #region Tests Generated for GetInfrastructureLanguageList() Skip Take 2 Desc
+        [TestMethod]
+        public void GetInfrastructureLanguageList_Skip_Take_2Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        InfrastructureLanguageService infrastructureLanguageService = new InfrastructureLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        infrastructureLanguageService.Query = infrastructureLanguageService.FillQuery(typeof(InfrastructureLanguage), culture.TwoLetterISOLanguageName, 1, 1, "", "InfrastructureLanguageID,InfrastructureID", "", extra);
+
+                        List<InfrastructureLanguage> infrastructureLanguageDirectQueryList = new List<InfrastructureLanguage>();
+                        infrastructureLanguageDirectQueryList = (from c in dbTestDB.InfrastructureLanguages select c).OrderByDescending(c => c.InfrastructureLanguageID).ThenByDescending(c => c.InfrastructureID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<InfrastructureLanguage> infrastructureLanguageList = new List<InfrastructureLanguage>();
+                            infrastructureLanguageList = infrastructureLanguageService.GetInfrastructureLanguageList().ToList();
+                            CheckInfrastructureLanguageFields(infrastructureLanguageList);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageList[0].InfrastructureLanguageID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<InfrastructureLanguageExtraA> infrastructureLanguageExtraAList = new List<InfrastructureLanguageExtraA>();
+                            infrastructureLanguageExtraAList = infrastructureLanguageService.GetInfrastructureLanguageExtraAList().ToList();
+                            CheckInfrastructureLanguageExtraAFields(infrastructureLanguageExtraAList);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraAList[0].InfrastructureLanguageID);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<InfrastructureLanguageExtraB> infrastructureLanguageExtraBList = new List<InfrastructureLanguageExtraB>();
+                            infrastructureLanguageExtraBList = infrastructureLanguageService.GetInfrastructureLanguageExtraBList().ToList();
+                            CheckInfrastructureLanguageExtraBFields(infrastructureLanguageExtraBList);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraBList[0].InfrastructureLanguageID);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetInfrastructureLanguageList() Skip Take 2 Desc
+
+        #region Tests Generated for GetInfrastructureLanguageList() Skip Take Desc Where
+        [TestMethod]
+        public void GetInfrastructureLanguageList_Skip_Take_Desc_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        InfrastructureLanguageService infrastructureLanguageService = new InfrastructureLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        infrastructureLanguageService.Query = infrastructureLanguageService.FillQuery(typeof(InfrastructureLanguage), culture.TwoLetterISOLanguageName, 0, 1, "InfrastructureLanguageID", "", "InfrastructureLanguageID,EQ,4", "");
+
+                        List<InfrastructureLanguage> infrastructureLanguageDirectQueryList = new List<InfrastructureLanguage>();
+                        infrastructureLanguageDirectQueryList = (from c in dbTestDB.InfrastructureLanguages select c).Where(c => c.InfrastructureLanguageID == 4).OrderByDescending(c => c.InfrastructureLanguageID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<InfrastructureLanguage> infrastructureLanguageList = new List<InfrastructureLanguage>();
+                            infrastructureLanguageList = infrastructureLanguageService.GetInfrastructureLanguageList().ToList();
+                            CheckInfrastructureLanguageFields(infrastructureLanguageList);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageList[0].InfrastructureLanguageID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<InfrastructureLanguageExtraA> infrastructureLanguageExtraAList = new List<InfrastructureLanguageExtraA>();
+                            infrastructureLanguageExtraAList = infrastructureLanguageService.GetInfrastructureLanguageExtraAList().ToList();
+                            CheckInfrastructureLanguageExtraAFields(infrastructureLanguageExtraAList);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraAList[0].InfrastructureLanguageID);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<InfrastructureLanguageExtraB> infrastructureLanguageExtraBList = new List<InfrastructureLanguageExtraB>();
+                            infrastructureLanguageExtraBList = infrastructureLanguageService.GetInfrastructureLanguageExtraBList().ToList();
+                            CheckInfrastructureLanguageExtraBFields(infrastructureLanguageExtraBList);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraBList[0].InfrastructureLanguageID);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetInfrastructureLanguageList() Skip Take Desc Where
+
+        #region Tests Generated for GetInfrastructureLanguageList() Skip Take Desc 2 Where
+        [TestMethod]
+        public void GetInfrastructureLanguageList_Skip_Take_Desc_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        InfrastructureLanguageService infrastructureLanguageService = new InfrastructureLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        infrastructureLanguageService.Query = infrastructureLanguageService.FillQuery(typeof(InfrastructureLanguage), culture.TwoLetterISOLanguageName, 0, 1, "", "InfrastructureLanguageID", "InfrastructureLanguageID,GT,2|InfrastructureLanguageID,LT,5", "");
+
+                        List<InfrastructureLanguage> infrastructureLanguageDirectQueryList = new List<InfrastructureLanguage>();
+                        infrastructureLanguageDirectQueryList = (from c in dbTestDB.InfrastructureLanguages select c).Where(c => c.InfrastructureLanguageID > 2 && c.InfrastructureLanguageID < 5).OrderByDescending(c => c.InfrastructureLanguageID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<InfrastructureLanguage> infrastructureLanguageList = new List<InfrastructureLanguage>();
+                            infrastructureLanguageList = infrastructureLanguageService.GetInfrastructureLanguageList().ToList();
+                            CheckInfrastructureLanguageFields(infrastructureLanguageList);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageList[0].InfrastructureLanguageID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<InfrastructureLanguageExtraA> infrastructureLanguageExtraAList = new List<InfrastructureLanguageExtraA>();
+                            infrastructureLanguageExtraAList = infrastructureLanguageService.GetInfrastructureLanguageExtraAList().ToList();
+                            CheckInfrastructureLanguageExtraAFields(infrastructureLanguageExtraAList);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraAList[0].InfrastructureLanguageID);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<InfrastructureLanguageExtraB> infrastructureLanguageExtraBList = new List<InfrastructureLanguageExtraB>();
+                            infrastructureLanguageExtraBList = infrastructureLanguageService.GetInfrastructureLanguageExtraBList().ToList();
+                            CheckInfrastructureLanguageExtraBFields(infrastructureLanguageExtraBList);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraBList[0].InfrastructureLanguageID);
+                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetInfrastructureLanguageList() Skip Take Desc 2 Where
+
+        #region Tests Generated for GetInfrastructureLanguageList() 2 Where
         [TestMethod]
         public void GetInfrastructureLanguageList_2Where_Test()
         {
@@ -589,11 +824,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         InfrastructureLanguageService infrastructureLanguageService = new InfrastructureLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        infrastructureLanguageService.Query = infrastructureLanguageService.FillQuery(typeof(InfrastructureLanguage), culture.TwoLetterISOLanguageName, 0, 10000, "", "InfrastructureLanguageID,GT,2|InfrastructureLanguageID,LT,5", "");
+                        infrastructureLanguageService.Query = infrastructureLanguageService.FillQuery(typeof(InfrastructureLanguage), culture.TwoLetterISOLanguageName, 0, 10000, "", "", "InfrastructureLanguageID,GT,2|InfrastructureLanguageID,LT,5", extra);
 
                         List<InfrastructureLanguage> infrastructureLanguageDirectQueryList = new List<InfrastructureLanguage>();
                         infrastructureLanguageDirectQueryList = (from c in dbTestDB.InfrastructureLanguages select c).Where(c => c.InfrastructureLanguageID > 2 && c.InfrastructureLanguageID < 5).ToList();
@@ -605,7 +840,7 @@ namespace CSSPServices.Tests
                             CheckInfrastructureLanguageFields(infrastructureLanguageList);
                             Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageList[0].InfrastructureLanguageID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<InfrastructureLanguageExtraA> infrastructureLanguageExtraAList = new List<InfrastructureLanguageExtraA>();
                             infrastructureLanguageExtraAList = infrastructureLanguageService.GetInfrastructureLanguageExtraAList().ToList();
@@ -613,7 +848,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraAList[0].InfrastructureLanguageID);
                             Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<InfrastructureLanguageExtraB> infrastructureLanguageExtraBList = new List<InfrastructureLanguageExtraB>();
                             infrastructureLanguageExtraBList = infrastructureLanguageService.GetInfrastructureLanguageExtraBList().ToList();
@@ -623,13 +858,13 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetInfrastructureLanguageList() 2Where
+        #endregion Tests Generated for GetInfrastructureLanguageList() 2 Where
 
         #region Functions private
         private void CheckInfrastructureLanguageFields(List<InfrastructureLanguage> infrastructureLanguageList)

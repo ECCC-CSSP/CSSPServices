@@ -38,9 +38,9 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
+        #region Tests Generated CRUD
         [TestMethod]
-        public void RainExceedance_CRUD_And_Properties_Test()
+        public void RainExceedance_CRUD_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -86,6 +86,33 @@ namespace CSSPServices.Tests
                         Assert.AreEqual("", rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
                     Assert.AreEqual(count, rainExceedanceService.GetRainExceedanceList().Count());
+
+                }
+            }
+        }
+        #endregion Tests Generated CRUD
+
+        #region Tests Generated Properties
+        [TestMethod]
+        public void RainExceedance_Properties_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    RainExceedanceService rainExceedanceService = new RainExceedanceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    count = rainExceedanceService.GetRainExceedanceList().Count();
+
+                    RainExceedance rainExceedance = GetFilledRandomRainExceedance("");
 
                     // -------------------------------
                     // -------------------------------
@@ -353,7 +380,7 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Generated CRUD and Properties
+        #endregion Tests Generated Properties
 
         #region Tests Generated for GetRainExceedanceWithRainExceedanceID(rainExceedance.RainExceedanceID)
         [TestMethod]
@@ -369,7 +396,7 @@ namespace CSSPServices.Tests
                     RainExceedance rainExceedance = (from c in dbTestDB.RainExceedances select c).FirstOrDefault();
                     Assert.IsNotNull(rainExceedance);
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         rainExceedanceService.Query.Extra = extra;
 
@@ -379,13 +406,13 @@ namespace CSSPServices.Tests
                             CheckRainExceedanceFields(new List<RainExceedance>() { rainExceedanceRet });
                             Assert.AreEqual(rainExceedance.RainExceedanceID, rainExceedanceRet.RainExceedanceID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             RainExceedanceExtraA rainExceedanceExtraARet = rainExceedanceService.GetRainExceedanceExtraAWithRainExceedanceID(rainExceedance.RainExceedanceID);
                             CheckRainExceedanceExtraAFields(new List<RainExceedanceExtraA>() { rainExceedanceExtraARet });
                             Assert.AreEqual(rainExceedance.RainExceedanceID, rainExceedanceExtraARet.RainExceedanceID);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             RainExceedanceExtraB rainExceedanceExtraBRet = rainExceedanceService.GetRainExceedanceExtraBWithRainExceedanceID(rainExceedance.RainExceedanceID);
                             CheckRainExceedanceExtraBFields(new List<RainExceedanceExtraB>() { rainExceedanceExtraBRet });
@@ -393,7 +420,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -418,7 +445,7 @@ namespace CSSPServices.Tests
                     List<RainExceedance> rainExceedanceDirectQueryList = new List<RainExceedance>();
                     rainExceedanceDirectQueryList = (from c in dbTestDB.RainExceedances select c).Take(200).ToList();
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         rainExceedanceService.Query.Extra = extra;
 
@@ -428,14 +455,14 @@ namespace CSSPServices.Tests
                             rainExceedanceList = rainExceedanceService.GetRainExceedanceList().ToList();
                             CheckRainExceedanceFields(rainExceedanceList);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<RainExceedanceExtraA> rainExceedanceExtraAList = new List<RainExceedanceExtraA>();
                             rainExceedanceExtraAList = rainExceedanceService.GetRainExceedanceExtraAList().ToList();
                             CheckRainExceedanceExtraAFields(rainExceedanceExtraAList);
                             Assert.AreEqual(rainExceedanceDirectQueryList.Count, rainExceedanceExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<RainExceedanceExtraB> rainExceedanceExtraBList = new List<RainExceedanceExtraB>();
                             rainExceedanceExtraBList = rainExceedanceService.GetRainExceedanceExtraBList().ToList();
@@ -444,7 +471,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -462,11 +489,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         RainExceedanceService rainExceedanceService = new RainExceedanceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        rainExceedanceService.Query = rainExceedanceService.FillQuery(typeof(RainExceedance), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
+                        rainExceedanceService.Query = rainExceedanceService.FillQuery(typeof(RainExceedance), culture.TwoLetterISOLanguageName, 1, 1, "", "", "", extra);
 
                         List<RainExceedance> rainExceedanceDirectQueryList = new List<RainExceedance>();
                         rainExceedanceDirectQueryList = (from c in dbTestDB.RainExceedances select c).Skip(1).Take(1).ToList();
@@ -478,7 +505,7 @@ namespace CSSPServices.Tests
                             CheckRainExceedanceFields(rainExceedanceList);
                             Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceList[0].RainExceedanceID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<RainExceedanceExtraA> rainExceedanceExtraAList = new List<RainExceedanceExtraA>();
                             rainExceedanceExtraAList = rainExceedanceService.GetRainExceedanceExtraAList().ToList();
@@ -486,7 +513,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceExtraAList[0].RainExceedanceID);
                             Assert.AreEqual(rainExceedanceDirectQueryList.Count, rainExceedanceExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<RainExceedanceExtraB> rainExceedanceExtraBList = new List<RainExceedanceExtraB>();
                             rainExceedanceExtraBList = rainExceedanceService.GetRainExceedanceExtraBList().ToList();
@@ -496,7 +523,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -504,9 +531,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated for GetRainExceedanceList() Skip Take
 
-        #region Tests Generated for GetRainExceedanceList() Skip Take Order
+        #region Tests Generated for GetRainExceedanceList() Skip Take Asc
         [TestMethod]
-        public void GetRainExceedanceList_Skip_Take_Order_Test()
+        public void GetRainExceedanceList_Skip_Take_Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -514,14 +541,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         RainExceedanceService rainExceedanceService = new RainExceedanceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        rainExceedanceService.Query = rainExceedanceService.FillQuery(typeof(RainExceedance), culture.TwoLetterISOLanguageName, 1, 1,  "RainExceedanceID", "");
+                        rainExceedanceService.Query = rainExceedanceService.FillQuery(typeof(RainExceedance), culture.TwoLetterISOLanguageName, 1, 1,  "RainExceedanceID", "", "", extra);
 
                         List<RainExceedance> rainExceedanceDirectQueryList = new List<RainExceedance>();
-                        rainExceedanceDirectQueryList = (from c in dbTestDB.RainExceedances select c).Skip(1).Take(1).OrderBy(c => c.RainExceedanceID).ToList();
+                        rainExceedanceDirectQueryList = (from c in dbTestDB.RainExceedances select c).OrderBy(c => c.RainExceedanceID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -530,7 +557,7 @@ namespace CSSPServices.Tests
                             CheckRainExceedanceFields(rainExceedanceList);
                             Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceList[0].RainExceedanceID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<RainExceedanceExtraA> rainExceedanceExtraAList = new List<RainExceedanceExtraA>();
                             rainExceedanceExtraAList = rainExceedanceService.GetRainExceedanceExtraAList().ToList();
@@ -538,7 +565,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceExtraAList[0].RainExceedanceID);
                             Assert.AreEqual(rainExceedanceDirectQueryList.Count, rainExceedanceExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<RainExceedanceExtraB> rainExceedanceExtraBList = new List<RainExceedanceExtraB>();
                             rainExceedanceExtraBList = rainExceedanceService.GetRainExceedanceExtraBList().ToList();
@@ -548,17 +575,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetRainExceedanceList() Skip Take Order
+        #endregion Tests Generated for GetRainExceedanceList() Skip Take Asc
 
-        #region Tests Generated for GetRainExceedanceList() Skip Take 2Order
+        #region Tests Generated for GetRainExceedanceList() Skip Take 2 Asc
         [TestMethod]
-        public void GetRainExceedanceList_Skip_Take_2Order_Test()
+        public void GetRainExceedanceList_Skip_Take_2Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -566,14 +593,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         RainExceedanceService rainExceedanceService = new RainExceedanceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        rainExceedanceService.Query = rainExceedanceService.FillQuery(typeof(RainExceedance), culture.TwoLetterISOLanguageName, 1, 1, "RainExceedanceID,YearRound", "");
+                        rainExceedanceService.Query = rainExceedanceService.FillQuery(typeof(RainExceedance), culture.TwoLetterISOLanguageName, 1, 1, "RainExceedanceID,YearRound", "", "", extra);
 
                         List<RainExceedance> rainExceedanceDirectQueryList = new List<RainExceedance>();
-                        rainExceedanceDirectQueryList = (from c in dbTestDB.RainExceedances select c).Skip(1).Take(1).OrderBy(c => c.RainExceedanceID).ThenBy(c => c.YearRound).ToList();
+                        rainExceedanceDirectQueryList = (from c in dbTestDB.RainExceedances select c).OrderBy(c => c.RainExceedanceID).ThenBy(c => c.YearRound).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -582,7 +609,7 @@ namespace CSSPServices.Tests
                             CheckRainExceedanceFields(rainExceedanceList);
                             Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceList[0].RainExceedanceID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<RainExceedanceExtraA> rainExceedanceExtraAList = new List<RainExceedanceExtraA>();
                             rainExceedanceExtraAList = rainExceedanceService.GetRainExceedanceExtraAList().ToList();
@@ -590,7 +617,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceExtraAList[0].RainExceedanceID);
                             Assert.AreEqual(rainExceedanceDirectQueryList.Count, rainExceedanceExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<RainExceedanceExtraB> rainExceedanceExtraBList = new List<RainExceedanceExtraB>();
                             rainExceedanceExtraBList = rainExceedanceService.GetRainExceedanceExtraBList().ToList();
@@ -600,17 +627,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetRainExceedanceList() Skip Take 2Order
+        #endregion Tests Generated for GetRainExceedanceList() Skip Take 2 Asc
 
-        #region Tests Generated for GetRainExceedanceList() Skip Take Order Where
+        #region Tests Generated for GetRainExceedanceList() Skip Take Asc Where
         [TestMethod]
-        public void GetRainExceedanceList_Skip_Take_Order_Where_Test()
+        public void GetRainExceedanceList_Skip_Take_Asc_Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -618,14 +645,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         RainExceedanceService rainExceedanceService = new RainExceedanceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        rainExceedanceService.Query = rainExceedanceService.FillQuery(typeof(RainExceedance), culture.TwoLetterISOLanguageName, 0, 1, "RainExceedanceID", "RainExceedanceID,EQ,4", "");
+                        rainExceedanceService.Query = rainExceedanceService.FillQuery(typeof(RainExceedance), culture.TwoLetterISOLanguageName, 0, 1, "RainExceedanceID", "", "RainExceedanceID,EQ,4", "");
 
                         List<RainExceedance> rainExceedanceDirectQueryList = new List<RainExceedance>();
-                        rainExceedanceDirectQueryList = (from c in dbTestDB.RainExceedances select c).Where(c => c.RainExceedanceID == 4).Skip(0).Take(1).OrderBy(c => c.RainExceedanceID).ToList();
+                        rainExceedanceDirectQueryList = (from c in dbTestDB.RainExceedances select c).Where(c => c.RainExceedanceID == 4).OrderBy(c => c.RainExceedanceID).Skip(0).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -634,7 +661,7 @@ namespace CSSPServices.Tests
                             CheckRainExceedanceFields(rainExceedanceList);
                             Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceList[0].RainExceedanceID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<RainExceedanceExtraA> rainExceedanceExtraAList = new List<RainExceedanceExtraA>();
                             rainExceedanceExtraAList = rainExceedanceService.GetRainExceedanceExtraAList().ToList();
@@ -642,7 +669,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceExtraAList[0].RainExceedanceID);
                             Assert.AreEqual(rainExceedanceDirectQueryList.Count, rainExceedanceExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<RainExceedanceExtraB> rainExceedanceExtraBList = new List<RainExceedanceExtraB>();
                             rainExceedanceExtraBList = rainExceedanceService.GetRainExceedanceExtraBList().ToList();
@@ -652,17 +679,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetRainExceedanceList() Skip Take Order Where
+        #endregion Tests Generated for GetRainExceedanceList() Skip Take Asc Where
 
-        #region Tests Generated for GetRainExceedanceList() Skip Take Order 2Where
+        #region Tests Generated for GetRainExceedanceList() Skip Take Asc 2 Where
         [TestMethod]
-        public void GetRainExceedanceList_Skip_Take_Order_2Where_Test()
+        public void GetRainExceedanceList_Skip_Take_Asc_2Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -670,11 +697,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         RainExceedanceService rainExceedanceService = new RainExceedanceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        rainExceedanceService.Query = rainExceedanceService.FillQuery(typeof(RainExceedance), culture.TwoLetterISOLanguageName, 0, 1, "RainExceedanceID", "RainExceedanceID,GT,2|RainExceedanceID,LT,5", "");
+                        rainExceedanceService.Query = rainExceedanceService.FillQuery(typeof(RainExceedance), culture.TwoLetterISOLanguageName, 0, 1, "RainExceedanceID", "", "RainExceedanceID,GT,2|RainExceedanceID,LT,5", "");
 
                         List<RainExceedance> rainExceedanceDirectQueryList = new List<RainExceedance>();
                         rainExceedanceDirectQueryList = (from c in dbTestDB.RainExceedances select c).Where(c => c.RainExceedanceID > 2 && c.RainExceedanceID < 5).Skip(0).Take(1).OrderBy(c => c.RainExceedanceID).ToList();
@@ -686,7 +713,7 @@ namespace CSSPServices.Tests
                             CheckRainExceedanceFields(rainExceedanceList);
                             Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceList[0].RainExceedanceID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<RainExceedanceExtraA> rainExceedanceExtraAList = new List<RainExceedanceExtraA>();
                             rainExceedanceExtraAList = rainExceedanceService.GetRainExceedanceExtraAList().ToList();
@@ -694,7 +721,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceExtraAList[0].RainExceedanceID);
                             Assert.AreEqual(rainExceedanceDirectQueryList.Count, rainExceedanceExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<RainExceedanceExtraB> rainExceedanceExtraBList = new List<RainExceedanceExtraB>();
                             rainExceedanceExtraBList = rainExceedanceService.GetRainExceedanceExtraBList().ToList();
@@ -704,15 +731,223 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetRainExceedanceList() Skip Take Order 2Where
+        #endregion Tests Generated for GetRainExceedanceList() Skip Take Asc 2 Where
 
-        #region Tests Generated for GetRainExceedanceList() 2Where
+        #region Tests Generated for GetRainExceedanceList() Skip Take Desc
+        [TestMethod]
+        public void GetRainExceedanceList_Skip_Take_Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        RainExceedanceService rainExceedanceService = new RainExceedanceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        rainExceedanceService.Query = rainExceedanceService.FillQuery(typeof(RainExceedance), culture.TwoLetterISOLanguageName, 1, 1, "", "RainExceedanceID", "", extra);
+
+                        List<RainExceedance> rainExceedanceDirectQueryList = new List<RainExceedance>();
+                        rainExceedanceDirectQueryList = (from c in dbTestDB.RainExceedances select c).OrderByDescending(c => c.RainExceedanceID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<RainExceedance> rainExceedanceList = new List<RainExceedance>();
+                            rainExceedanceList = rainExceedanceService.GetRainExceedanceList().ToList();
+                            CheckRainExceedanceFields(rainExceedanceList);
+                            Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceList[0].RainExceedanceID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<RainExceedanceExtraA> rainExceedanceExtraAList = new List<RainExceedanceExtraA>();
+                            rainExceedanceExtraAList = rainExceedanceService.GetRainExceedanceExtraAList().ToList();
+                            CheckRainExceedanceExtraAFields(rainExceedanceExtraAList);
+                            Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceExtraAList[0].RainExceedanceID);
+                            Assert.AreEqual(rainExceedanceDirectQueryList.Count, rainExceedanceExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<RainExceedanceExtraB> rainExceedanceExtraBList = new List<RainExceedanceExtraB>();
+                            rainExceedanceExtraBList = rainExceedanceService.GetRainExceedanceExtraBList().ToList();
+                            CheckRainExceedanceExtraBFields(rainExceedanceExtraBList);
+                            Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceExtraBList[0].RainExceedanceID);
+                            Assert.AreEqual(rainExceedanceDirectQueryList.Count, rainExceedanceExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetRainExceedanceList() Skip Take Desc
+
+        #region Tests Generated for GetRainExceedanceList() Skip Take 2 Desc
+        [TestMethod]
+        public void GetRainExceedanceList_Skip_Take_2Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        RainExceedanceService rainExceedanceService = new RainExceedanceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        rainExceedanceService.Query = rainExceedanceService.FillQuery(typeof(RainExceedance), culture.TwoLetterISOLanguageName, 1, 1, "", "RainExceedanceID,YearRound", "", extra);
+
+                        List<RainExceedance> rainExceedanceDirectQueryList = new List<RainExceedance>();
+                        rainExceedanceDirectQueryList = (from c in dbTestDB.RainExceedances select c).OrderByDescending(c => c.RainExceedanceID).ThenByDescending(c => c.YearRound).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<RainExceedance> rainExceedanceList = new List<RainExceedance>();
+                            rainExceedanceList = rainExceedanceService.GetRainExceedanceList().ToList();
+                            CheckRainExceedanceFields(rainExceedanceList);
+                            Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceList[0].RainExceedanceID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<RainExceedanceExtraA> rainExceedanceExtraAList = new List<RainExceedanceExtraA>();
+                            rainExceedanceExtraAList = rainExceedanceService.GetRainExceedanceExtraAList().ToList();
+                            CheckRainExceedanceExtraAFields(rainExceedanceExtraAList);
+                            Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceExtraAList[0].RainExceedanceID);
+                            Assert.AreEqual(rainExceedanceDirectQueryList.Count, rainExceedanceExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<RainExceedanceExtraB> rainExceedanceExtraBList = new List<RainExceedanceExtraB>();
+                            rainExceedanceExtraBList = rainExceedanceService.GetRainExceedanceExtraBList().ToList();
+                            CheckRainExceedanceExtraBFields(rainExceedanceExtraBList);
+                            Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceExtraBList[0].RainExceedanceID);
+                            Assert.AreEqual(rainExceedanceDirectQueryList.Count, rainExceedanceExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetRainExceedanceList() Skip Take 2 Desc
+
+        #region Tests Generated for GetRainExceedanceList() Skip Take Desc Where
+        [TestMethod]
+        public void GetRainExceedanceList_Skip_Take_Desc_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        RainExceedanceService rainExceedanceService = new RainExceedanceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        rainExceedanceService.Query = rainExceedanceService.FillQuery(typeof(RainExceedance), culture.TwoLetterISOLanguageName, 0, 1, "RainExceedanceID", "", "RainExceedanceID,EQ,4", "");
+
+                        List<RainExceedance> rainExceedanceDirectQueryList = new List<RainExceedance>();
+                        rainExceedanceDirectQueryList = (from c in dbTestDB.RainExceedances select c).Where(c => c.RainExceedanceID == 4).OrderByDescending(c => c.RainExceedanceID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<RainExceedance> rainExceedanceList = new List<RainExceedance>();
+                            rainExceedanceList = rainExceedanceService.GetRainExceedanceList().ToList();
+                            CheckRainExceedanceFields(rainExceedanceList);
+                            Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceList[0].RainExceedanceID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<RainExceedanceExtraA> rainExceedanceExtraAList = new List<RainExceedanceExtraA>();
+                            rainExceedanceExtraAList = rainExceedanceService.GetRainExceedanceExtraAList().ToList();
+                            CheckRainExceedanceExtraAFields(rainExceedanceExtraAList);
+                            Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceExtraAList[0].RainExceedanceID);
+                            Assert.AreEqual(rainExceedanceDirectQueryList.Count, rainExceedanceExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<RainExceedanceExtraB> rainExceedanceExtraBList = new List<RainExceedanceExtraB>();
+                            rainExceedanceExtraBList = rainExceedanceService.GetRainExceedanceExtraBList().ToList();
+                            CheckRainExceedanceExtraBFields(rainExceedanceExtraBList);
+                            Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceExtraBList[0].RainExceedanceID);
+                            Assert.AreEqual(rainExceedanceDirectQueryList.Count, rainExceedanceExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetRainExceedanceList() Skip Take Desc Where
+
+        #region Tests Generated for GetRainExceedanceList() Skip Take Desc 2 Where
+        [TestMethod]
+        public void GetRainExceedanceList_Skip_Take_Desc_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        RainExceedanceService rainExceedanceService = new RainExceedanceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        rainExceedanceService.Query = rainExceedanceService.FillQuery(typeof(RainExceedance), culture.TwoLetterISOLanguageName, 0, 1, "", "RainExceedanceID", "RainExceedanceID,GT,2|RainExceedanceID,LT,5", "");
+
+                        List<RainExceedance> rainExceedanceDirectQueryList = new List<RainExceedance>();
+                        rainExceedanceDirectQueryList = (from c in dbTestDB.RainExceedances select c).Where(c => c.RainExceedanceID > 2 && c.RainExceedanceID < 5).OrderByDescending(c => c.RainExceedanceID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<RainExceedance> rainExceedanceList = new List<RainExceedance>();
+                            rainExceedanceList = rainExceedanceService.GetRainExceedanceList().ToList();
+                            CheckRainExceedanceFields(rainExceedanceList);
+                            Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceList[0].RainExceedanceID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<RainExceedanceExtraA> rainExceedanceExtraAList = new List<RainExceedanceExtraA>();
+                            rainExceedanceExtraAList = rainExceedanceService.GetRainExceedanceExtraAList().ToList();
+                            CheckRainExceedanceExtraAFields(rainExceedanceExtraAList);
+                            Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceExtraAList[0].RainExceedanceID);
+                            Assert.AreEqual(rainExceedanceDirectQueryList.Count, rainExceedanceExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<RainExceedanceExtraB> rainExceedanceExtraBList = new List<RainExceedanceExtraB>();
+                            rainExceedanceExtraBList = rainExceedanceService.GetRainExceedanceExtraBList().ToList();
+                            CheckRainExceedanceExtraBFields(rainExceedanceExtraBList);
+                            Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceExtraBList[0].RainExceedanceID);
+                            Assert.AreEqual(rainExceedanceDirectQueryList.Count, rainExceedanceExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetRainExceedanceList() Skip Take Desc 2 Where
+
+        #region Tests Generated for GetRainExceedanceList() 2 Where
         [TestMethod]
         public void GetRainExceedanceList_2Where_Test()
         {
@@ -722,11 +957,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         RainExceedanceService rainExceedanceService = new RainExceedanceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        rainExceedanceService.Query = rainExceedanceService.FillQuery(typeof(RainExceedance), culture.TwoLetterISOLanguageName, 0, 10000, "", "RainExceedanceID,GT,2|RainExceedanceID,LT,5", "");
+                        rainExceedanceService.Query = rainExceedanceService.FillQuery(typeof(RainExceedance), culture.TwoLetterISOLanguageName, 0, 10000, "", "", "RainExceedanceID,GT,2|RainExceedanceID,LT,5", extra);
 
                         List<RainExceedance> rainExceedanceDirectQueryList = new List<RainExceedance>();
                         rainExceedanceDirectQueryList = (from c in dbTestDB.RainExceedances select c).Where(c => c.RainExceedanceID > 2 && c.RainExceedanceID < 5).ToList();
@@ -738,7 +973,7 @@ namespace CSSPServices.Tests
                             CheckRainExceedanceFields(rainExceedanceList);
                             Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceList[0].RainExceedanceID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<RainExceedanceExtraA> rainExceedanceExtraAList = new List<RainExceedanceExtraA>();
                             rainExceedanceExtraAList = rainExceedanceService.GetRainExceedanceExtraAList().ToList();
@@ -746,7 +981,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(rainExceedanceDirectQueryList[0].RainExceedanceID, rainExceedanceExtraAList[0].RainExceedanceID);
                             Assert.AreEqual(rainExceedanceDirectQueryList.Count, rainExceedanceExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<RainExceedanceExtraB> rainExceedanceExtraBList = new List<RainExceedanceExtraB>();
                             rainExceedanceExtraBList = rainExceedanceService.GetRainExceedanceExtraBList().ToList();
@@ -756,13 +991,13 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetRainExceedanceList() 2Where
+        #endregion Tests Generated for GetRainExceedanceList() 2 Where
 
         #region Functions private
         private void CheckRainExceedanceFields(List<RainExceedance> rainExceedanceList)

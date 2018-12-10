@@ -38,9 +38,9 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
+        #region Tests Generated CRUD
         [TestMethod]
-        public void MWQMSite_CRUD_And_Properties_Test()
+        public void MWQMSite_CRUD_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -86,6 +86,33 @@ namespace CSSPServices.Tests
                         Assert.AreEqual("", mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
                     Assert.AreEqual(count, mwqmSiteService.GetMWQMSiteList().Count());
+
+                }
+            }
+        }
+        #endregion Tests Generated CRUD
+
+        #region Tests Generated Properties
+        [TestMethod]
+        public void MWQMSite_Properties_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    MWQMSiteService mwqmSiteService = new MWQMSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    count = mwqmSiteService.GetMWQMSiteList().Count();
+
+                    MWQMSite mwqmSite = GetFilledRandomMWQMSite("");
 
                     // -------------------------------
                     // -------------------------------
@@ -260,7 +287,7 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Generated CRUD and Properties
+        #endregion Tests Generated Properties
 
         #region Tests Generated for GetMWQMSiteWithMWQMSiteID(mwqmSite.MWQMSiteID)
         [TestMethod]
@@ -276,7 +303,7 @@ namespace CSSPServices.Tests
                     MWQMSite mwqmSite = (from c in dbTestDB.MWQMSites select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmSite);
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         mwqmSiteService.Query.Extra = extra;
 
@@ -286,13 +313,13 @@ namespace CSSPServices.Tests
                             CheckMWQMSiteFields(new List<MWQMSite>() { mwqmSiteRet });
                             Assert.AreEqual(mwqmSite.MWQMSiteID, mwqmSiteRet.MWQMSiteID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             MWQMSiteExtraA mwqmSiteExtraARet = mwqmSiteService.GetMWQMSiteExtraAWithMWQMSiteID(mwqmSite.MWQMSiteID);
                             CheckMWQMSiteExtraAFields(new List<MWQMSiteExtraA>() { mwqmSiteExtraARet });
                             Assert.AreEqual(mwqmSite.MWQMSiteID, mwqmSiteExtraARet.MWQMSiteID);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             MWQMSiteExtraB mwqmSiteExtraBRet = mwqmSiteService.GetMWQMSiteExtraBWithMWQMSiteID(mwqmSite.MWQMSiteID);
                             CheckMWQMSiteExtraBFields(new List<MWQMSiteExtraB>() { mwqmSiteExtraBRet });
@@ -300,7 +327,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -325,7 +352,7 @@ namespace CSSPServices.Tests
                     List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
                     mwqmSiteDirectQueryList = (from c in dbTestDB.MWQMSites select c).Take(200).ToList();
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         mwqmSiteService.Query.Extra = extra;
 
@@ -335,14 +362,14 @@ namespace CSSPServices.Tests
                             mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
                             CheckMWQMSiteFields(mwqmSiteList);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MWQMSiteExtraA> mwqmSiteExtraAList = new List<MWQMSiteExtraA>();
                             mwqmSiteExtraAList = mwqmSiteService.GetMWQMSiteExtraAList().ToList();
                             CheckMWQMSiteExtraAFields(mwqmSiteExtraAList);
                             Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MWQMSiteExtraB> mwqmSiteExtraBList = new List<MWQMSiteExtraB>();
                             mwqmSiteExtraBList = mwqmSiteService.GetMWQMSiteExtraBList().ToList();
@@ -351,7 +378,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -369,11 +396,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MWQMSiteService mwqmSiteService = new MWQMSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmSiteService.Query = mwqmSiteService.FillQuery(typeof(MWQMSite), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
+                        mwqmSiteService.Query = mwqmSiteService.FillQuery(typeof(MWQMSite), culture.TwoLetterISOLanguageName, 1, 1, "", "", "", extra);
 
                         List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
                         mwqmSiteDirectQueryList = (from c in dbTestDB.MWQMSites select c).Skip(1).Take(1).ToList();
@@ -385,7 +412,7 @@ namespace CSSPServices.Tests
                             CheckMWQMSiteFields(mwqmSiteList);
                             Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteList[0].MWQMSiteID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MWQMSiteExtraA> mwqmSiteExtraAList = new List<MWQMSiteExtraA>();
                             mwqmSiteExtraAList = mwqmSiteService.GetMWQMSiteExtraAList().ToList();
@@ -393,7 +420,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteExtraAList[0].MWQMSiteID);
                             Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MWQMSiteExtraB> mwqmSiteExtraBList = new List<MWQMSiteExtraB>();
                             mwqmSiteExtraBList = mwqmSiteService.GetMWQMSiteExtraBList().ToList();
@@ -403,7 +430,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -411,9 +438,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated for GetMWQMSiteList() Skip Take
 
-        #region Tests Generated for GetMWQMSiteList() Skip Take Order
+        #region Tests Generated for GetMWQMSiteList() Skip Take Asc
         [TestMethod]
-        public void GetMWQMSiteList_Skip_Take_Order_Test()
+        public void GetMWQMSiteList_Skip_Take_Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -421,14 +448,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MWQMSiteService mwqmSiteService = new MWQMSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmSiteService.Query = mwqmSiteService.FillQuery(typeof(MWQMSite), culture.TwoLetterISOLanguageName, 1, 1,  "MWQMSiteID", "");
+                        mwqmSiteService.Query = mwqmSiteService.FillQuery(typeof(MWQMSite), culture.TwoLetterISOLanguageName, 1, 1,  "MWQMSiteID", "", "", extra);
 
                         List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
-                        mwqmSiteDirectQueryList = (from c in dbTestDB.MWQMSites select c).Skip(1).Take(1).OrderBy(c => c.MWQMSiteID).ToList();
+                        mwqmSiteDirectQueryList = (from c in dbTestDB.MWQMSites select c).OrderBy(c => c.MWQMSiteID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -437,7 +464,7 @@ namespace CSSPServices.Tests
                             CheckMWQMSiteFields(mwqmSiteList);
                             Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteList[0].MWQMSiteID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MWQMSiteExtraA> mwqmSiteExtraAList = new List<MWQMSiteExtraA>();
                             mwqmSiteExtraAList = mwqmSiteService.GetMWQMSiteExtraAList().ToList();
@@ -445,7 +472,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteExtraAList[0].MWQMSiteID);
                             Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MWQMSiteExtraB> mwqmSiteExtraBList = new List<MWQMSiteExtraB>();
                             mwqmSiteExtraBList = mwqmSiteService.GetMWQMSiteExtraBList().ToList();
@@ -455,17 +482,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetMWQMSiteList() Skip Take Order
+        #endregion Tests Generated for GetMWQMSiteList() Skip Take Asc
 
-        #region Tests Generated for GetMWQMSiteList() Skip Take 2Order
+        #region Tests Generated for GetMWQMSiteList() Skip Take 2 Asc
         [TestMethod]
-        public void GetMWQMSiteList_Skip_Take_2Order_Test()
+        public void GetMWQMSiteList_Skip_Take_2Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -473,14 +500,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MWQMSiteService mwqmSiteService = new MWQMSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmSiteService.Query = mwqmSiteService.FillQuery(typeof(MWQMSite), culture.TwoLetterISOLanguageName, 1, 1, "MWQMSiteID,MWQMSiteTVItemID", "");
+                        mwqmSiteService.Query = mwqmSiteService.FillQuery(typeof(MWQMSite), culture.TwoLetterISOLanguageName, 1, 1, "MWQMSiteID,MWQMSiteTVItemID", "", "", extra);
 
                         List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
-                        mwqmSiteDirectQueryList = (from c in dbTestDB.MWQMSites select c).Skip(1).Take(1).OrderBy(c => c.MWQMSiteID).ThenBy(c => c.MWQMSiteTVItemID).ToList();
+                        mwqmSiteDirectQueryList = (from c in dbTestDB.MWQMSites select c).OrderBy(c => c.MWQMSiteID).ThenBy(c => c.MWQMSiteTVItemID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -489,7 +516,7 @@ namespace CSSPServices.Tests
                             CheckMWQMSiteFields(mwqmSiteList);
                             Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteList[0].MWQMSiteID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MWQMSiteExtraA> mwqmSiteExtraAList = new List<MWQMSiteExtraA>();
                             mwqmSiteExtraAList = mwqmSiteService.GetMWQMSiteExtraAList().ToList();
@@ -497,7 +524,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteExtraAList[0].MWQMSiteID);
                             Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MWQMSiteExtraB> mwqmSiteExtraBList = new List<MWQMSiteExtraB>();
                             mwqmSiteExtraBList = mwqmSiteService.GetMWQMSiteExtraBList().ToList();
@@ -507,17 +534,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetMWQMSiteList() Skip Take 2Order
+        #endregion Tests Generated for GetMWQMSiteList() Skip Take 2 Asc
 
-        #region Tests Generated for GetMWQMSiteList() Skip Take Order Where
+        #region Tests Generated for GetMWQMSiteList() Skip Take Asc Where
         [TestMethod]
-        public void GetMWQMSiteList_Skip_Take_Order_Where_Test()
+        public void GetMWQMSiteList_Skip_Take_Asc_Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -525,14 +552,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MWQMSiteService mwqmSiteService = new MWQMSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmSiteService.Query = mwqmSiteService.FillQuery(typeof(MWQMSite), culture.TwoLetterISOLanguageName, 0, 1, "MWQMSiteID", "MWQMSiteID,EQ,4", "");
+                        mwqmSiteService.Query = mwqmSiteService.FillQuery(typeof(MWQMSite), culture.TwoLetterISOLanguageName, 0, 1, "MWQMSiteID", "", "MWQMSiteID,EQ,4", "");
 
                         List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
-                        mwqmSiteDirectQueryList = (from c in dbTestDB.MWQMSites select c).Where(c => c.MWQMSiteID == 4).Skip(0).Take(1).OrderBy(c => c.MWQMSiteID).ToList();
+                        mwqmSiteDirectQueryList = (from c in dbTestDB.MWQMSites select c).Where(c => c.MWQMSiteID == 4).OrderBy(c => c.MWQMSiteID).Skip(0).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -541,7 +568,7 @@ namespace CSSPServices.Tests
                             CheckMWQMSiteFields(mwqmSiteList);
                             Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteList[0].MWQMSiteID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MWQMSiteExtraA> mwqmSiteExtraAList = new List<MWQMSiteExtraA>();
                             mwqmSiteExtraAList = mwqmSiteService.GetMWQMSiteExtraAList().ToList();
@@ -549,7 +576,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteExtraAList[0].MWQMSiteID);
                             Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MWQMSiteExtraB> mwqmSiteExtraBList = new List<MWQMSiteExtraB>();
                             mwqmSiteExtraBList = mwqmSiteService.GetMWQMSiteExtraBList().ToList();
@@ -559,17 +586,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetMWQMSiteList() Skip Take Order Where
+        #endregion Tests Generated for GetMWQMSiteList() Skip Take Asc Where
 
-        #region Tests Generated for GetMWQMSiteList() Skip Take Order 2Where
+        #region Tests Generated for GetMWQMSiteList() Skip Take Asc 2 Where
         [TestMethod]
-        public void GetMWQMSiteList_Skip_Take_Order_2Where_Test()
+        public void GetMWQMSiteList_Skip_Take_Asc_2Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -577,11 +604,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MWQMSiteService mwqmSiteService = new MWQMSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmSiteService.Query = mwqmSiteService.FillQuery(typeof(MWQMSite), culture.TwoLetterISOLanguageName, 0, 1, "MWQMSiteID", "MWQMSiteID,GT,2|MWQMSiteID,LT,5", "");
+                        mwqmSiteService.Query = mwqmSiteService.FillQuery(typeof(MWQMSite), culture.TwoLetterISOLanguageName, 0, 1, "MWQMSiteID", "", "MWQMSiteID,GT,2|MWQMSiteID,LT,5", "");
 
                         List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
                         mwqmSiteDirectQueryList = (from c in dbTestDB.MWQMSites select c).Where(c => c.MWQMSiteID > 2 && c.MWQMSiteID < 5).Skip(0).Take(1).OrderBy(c => c.MWQMSiteID).ToList();
@@ -593,7 +620,7 @@ namespace CSSPServices.Tests
                             CheckMWQMSiteFields(mwqmSiteList);
                             Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteList[0].MWQMSiteID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MWQMSiteExtraA> mwqmSiteExtraAList = new List<MWQMSiteExtraA>();
                             mwqmSiteExtraAList = mwqmSiteService.GetMWQMSiteExtraAList().ToList();
@@ -601,7 +628,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteExtraAList[0].MWQMSiteID);
                             Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MWQMSiteExtraB> mwqmSiteExtraBList = new List<MWQMSiteExtraB>();
                             mwqmSiteExtraBList = mwqmSiteService.GetMWQMSiteExtraBList().ToList();
@@ -611,15 +638,223 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetMWQMSiteList() Skip Take Order 2Where
+        #endregion Tests Generated for GetMWQMSiteList() Skip Take Asc 2 Where
 
-        #region Tests Generated for GetMWQMSiteList() 2Where
+        #region Tests Generated for GetMWQMSiteList() Skip Take Desc
+        [TestMethod]
+        public void GetMWQMSiteList_Skip_Take_Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        MWQMSiteService mwqmSiteService = new MWQMSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mwqmSiteService.Query = mwqmSiteService.FillQuery(typeof(MWQMSite), culture.TwoLetterISOLanguageName, 1, 1, "", "MWQMSiteID", "", extra);
+
+                        List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
+                        mwqmSiteDirectQueryList = (from c in dbTestDB.MWQMSites select c).OrderByDescending(c => c.MWQMSiteID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<MWQMSite> mwqmSiteList = new List<MWQMSite>();
+                            mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
+                            CheckMWQMSiteFields(mwqmSiteList);
+                            Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteList[0].MWQMSiteID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<MWQMSiteExtraA> mwqmSiteExtraAList = new List<MWQMSiteExtraA>();
+                            mwqmSiteExtraAList = mwqmSiteService.GetMWQMSiteExtraAList().ToList();
+                            CheckMWQMSiteExtraAFields(mwqmSiteExtraAList);
+                            Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteExtraAList[0].MWQMSiteID);
+                            Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<MWQMSiteExtraB> mwqmSiteExtraBList = new List<MWQMSiteExtraB>();
+                            mwqmSiteExtraBList = mwqmSiteService.GetMWQMSiteExtraBList().ToList();
+                            CheckMWQMSiteExtraBFields(mwqmSiteExtraBList);
+                            Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteExtraBList[0].MWQMSiteID);
+                            Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMSiteList() Skip Take Desc
+
+        #region Tests Generated for GetMWQMSiteList() Skip Take 2 Desc
+        [TestMethod]
+        public void GetMWQMSiteList_Skip_Take_2Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        MWQMSiteService mwqmSiteService = new MWQMSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mwqmSiteService.Query = mwqmSiteService.FillQuery(typeof(MWQMSite), culture.TwoLetterISOLanguageName, 1, 1, "", "MWQMSiteID,MWQMSiteTVItemID", "", extra);
+
+                        List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
+                        mwqmSiteDirectQueryList = (from c in dbTestDB.MWQMSites select c).OrderByDescending(c => c.MWQMSiteID).ThenByDescending(c => c.MWQMSiteTVItemID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<MWQMSite> mwqmSiteList = new List<MWQMSite>();
+                            mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
+                            CheckMWQMSiteFields(mwqmSiteList);
+                            Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteList[0].MWQMSiteID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<MWQMSiteExtraA> mwqmSiteExtraAList = new List<MWQMSiteExtraA>();
+                            mwqmSiteExtraAList = mwqmSiteService.GetMWQMSiteExtraAList().ToList();
+                            CheckMWQMSiteExtraAFields(mwqmSiteExtraAList);
+                            Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteExtraAList[0].MWQMSiteID);
+                            Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<MWQMSiteExtraB> mwqmSiteExtraBList = new List<MWQMSiteExtraB>();
+                            mwqmSiteExtraBList = mwqmSiteService.GetMWQMSiteExtraBList().ToList();
+                            CheckMWQMSiteExtraBFields(mwqmSiteExtraBList);
+                            Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteExtraBList[0].MWQMSiteID);
+                            Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMSiteList() Skip Take 2 Desc
+
+        #region Tests Generated for GetMWQMSiteList() Skip Take Desc Where
+        [TestMethod]
+        public void GetMWQMSiteList_Skip_Take_Desc_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        MWQMSiteService mwqmSiteService = new MWQMSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mwqmSiteService.Query = mwqmSiteService.FillQuery(typeof(MWQMSite), culture.TwoLetterISOLanguageName, 0, 1, "MWQMSiteID", "", "MWQMSiteID,EQ,4", "");
+
+                        List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
+                        mwqmSiteDirectQueryList = (from c in dbTestDB.MWQMSites select c).Where(c => c.MWQMSiteID == 4).OrderByDescending(c => c.MWQMSiteID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<MWQMSite> mwqmSiteList = new List<MWQMSite>();
+                            mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
+                            CheckMWQMSiteFields(mwqmSiteList);
+                            Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteList[0].MWQMSiteID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<MWQMSiteExtraA> mwqmSiteExtraAList = new List<MWQMSiteExtraA>();
+                            mwqmSiteExtraAList = mwqmSiteService.GetMWQMSiteExtraAList().ToList();
+                            CheckMWQMSiteExtraAFields(mwqmSiteExtraAList);
+                            Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteExtraAList[0].MWQMSiteID);
+                            Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<MWQMSiteExtraB> mwqmSiteExtraBList = new List<MWQMSiteExtraB>();
+                            mwqmSiteExtraBList = mwqmSiteService.GetMWQMSiteExtraBList().ToList();
+                            CheckMWQMSiteExtraBFields(mwqmSiteExtraBList);
+                            Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteExtraBList[0].MWQMSiteID);
+                            Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMSiteList() Skip Take Desc Where
+
+        #region Tests Generated for GetMWQMSiteList() Skip Take Desc 2 Where
+        [TestMethod]
+        public void GetMWQMSiteList_Skip_Take_Desc_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        MWQMSiteService mwqmSiteService = new MWQMSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mwqmSiteService.Query = mwqmSiteService.FillQuery(typeof(MWQMSite), culture.TwoLetterISOLanguageName, 0, 1, "", "MWQMSiteID", "MWQMSiteID,GT,2|MWQMSiteID,LT,5", "");
+
+                        List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
+                        mwqmSiteDirectQueryList = (from c in dbTestDB.MWQMSites select c).Where(c => c.MWQMSiteID > 2 && c.MWQMSiteID < 5).OrderByDescending(c => c.MWQMSiteID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<MWQMSite> mwqmSiteList = new List<MWQMSite>();
+                            mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
+                            CheckMWQMSiteFields(mwqmSiteList);
+                            Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteList[0].MWQMSiteID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<MWQMSiteExtraA> mwqmSiteExtraAList = new List<MWQMSiteExtraA>();
+                            mwqmSiteExtraAList = mwqmSiteService.GetMWQMSiteExtraAList().ToList();
+                            CheckMWQMSiteExtraAFields(mwqmSiteExtraAList);
+                            Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteExtraAList[0].MWQMSiteID);
+                            Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<MWQMSiteExtraB> mwqmSiteExtraBList = new List<MWQMSiteExtraB>();
+                            mwqmSiteExtraBList = mwqmSiteService.GetMWQMSiteExtraBList().ToList();
+                            CheckMWQMSiteExtraBFields(mwqmSiteExtraBList);
+                            Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteExtraBList[0].MWQMSiteID);
+                            Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMSiteList() Skip Take Desc 2 Where
+
+        #region Tests Generated for GetMWQMSiteList() 2 Where
         [TestMethod]
         public void GetMWQMSiteList_2Where_Test()
         {
@@ -629,11 +864,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         MWQMSiteService mwqmSiteService = new MWQMSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        mwqmSiteService.Query = mwqmSiteService.FillQuery(typeof(MWQMSite), culture.TwoLetterISOLanguageName, 0, 10000, "", "MWQMSiteID,GT,2|MWQMSiteID,LT,5", "");
+                        mwqmSiteService.Query = mwqmSiteService.FillQuery(typeof(MWQMSite), culture.TwoLetterISOLanguageName, 0, 10000, "", "", "MWQMSiteID,GT,2|MWQMSiteID,LT,5", extra);
 
                         List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
                         mwqmSiteDirectQueryList = (from c in dbTestDB.MWQMSites select c).Where(c => c.MWQMSiteID > 2 && c.MWQMSiteID < 5).ToList();
@@ -645,7 +880,7 @@ namespace CSSPServices.Tests
                             CheckMWQMSiteFields(mwqmSiteList);
                             Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteList[0].MWQMSiteID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<MWQMSiteExtraA> mwqmSiteExtraAList = new List<MWQMSiteExtraA>();
                             mwqmSiteExtraAList = mwqmSiteService.GetMWQMSiteExtraAList().ToList();
@@ -653,7 +888,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteExtraAList[0].MWQMSiteID);
                             Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<MWQMSiteExtraB> mwqmSiteExtraBList = new List<MWQMSiteExtraB>();
                             mwqmSiteExtraBList = mwqmSiteService.GetMWQMSiteExtraBList().ToList();
@@ -663,13 +898,13 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetMWQMSiteList() 2Where
+        #endregion Tests Generated for GetMWQMSiteList() 2 Where
 
         #region Functions private
         private void CheckMWQMSiteFields(List<MWQMSite> mwqmSiteList)

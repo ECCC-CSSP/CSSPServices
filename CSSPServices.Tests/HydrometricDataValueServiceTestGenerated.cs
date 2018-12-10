@@ -38,9 +38,9 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
+        #region Tests Generated CRUD
         [TestMethod]
-        public void HydrometricDataValue_CRUD_And_Properties_Test()
+        public void HydrometricDataValue_CRUD_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -86,6 +86,33 @@ namespace CSSPServices.Tests
                         Assert.AreEqual("", hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
                     Assert.AreEqual(count, hydrometricDataValueService.GetHydrometricDataValueList().Count());
+
+                }
+            }
+        }
+        #endregion Tests Generated CRUD
+
+        #region Tests Generated Properties
+        [TestMethod]
+        public void HydrometricDataValue_Properties_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    HydrometricDataValueService hydrometricDataValueService = new HydrometricDataValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    count = hydrometricDataValueService.GetHydrometricDataValueList().Count();
+
+                    HydrometricDataValue hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
 
                     // -------------------------------
                     // -------------------------------
@@ -297,7 +324,7 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Generated CRUD and Properties
+        #endregion Tests Generated Properties
 
         #region Tests Generated for GetHydrometricDataValueWithHydrometricDataValueID(hydrometricDataValue.HydrometricDataValueID)
         [TestMethod]
@@ -313,7 +340,7 @@ namespace CSSPServices.Tests
                     HydrometricDataValue hydrometricDataValue = (from c in dbTestDB.HydrometricDataValues select c).FirstOrDefault();
                     Assert.IsNotNull(hydrometricDataValue);
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         hydrometricDataValueService.Query.Extra = extra;
 
@@ -323,13 +350,13 @@ namespace CSSPServices.Tests
                             CheckHydrometricDataValueFields(new List<HydrometricDataValue>() { hydrometricDataValueRet });
                             Assert.AreEqual(hydrometricDataValue.HydrometricDataValueID, hydrometricDataValueRet.HydrometricDataValueID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             HydrometricDataValueExtraA hydrometricDataValueExtraARet = hydrometricDataValueService.GetHydrometricDataValueExtraAWithHydrometricDataValueID(hydrometricDataValue.HydrometricDataValueID);
                             CheckHydrometricDataValueExtraAFields(new List<HydrometricDataValueExtraA>() { hydrometricDataValueExtraARet });
                             Assert.AreEqual(hydrometricDataValue.HydrometricDataValueID, hydrometricDataValueExtraARet.HydrometricDataValueID);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             HydrometricDataValueExtraB hydrometricDataValueExtraBRet = hydrometricDataValueService.GetHydrometricDataValueExtraBWithHydrometricDataValueID(hydrometricDataValue.HydrometricDataValueID);
                             CheckHydrometricDataValueExtraBFields(new List<HydrometricDataValueExtraB>() { hydrometricDataValueExtraBRet });
@@ -337,7 +364,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -362,7 +389,7 @@ namespace CSSPServices.Tests
                     List<HydrometricDataValue> hydrometricDataValueDirectQueryList = new List<HydrometricDataValue>();
                     hydrometricDataValueDirectQueryList = (from c in dbTestDB.HydrometricDataValues select c).Take(200).ToList();
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         hydrometricDataValueService.Query.Extra = extra;
 
@@ -372,14 +399,14 @@ namespace CSSPServices.Tests
                             hydrometricDataValueList = hydrometricDataValueService.GetHydrometricDataValueList().ToList();
                             CheckHydrometricDataValueFields(hydrometricDataValueList);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<HydrometricDataValueExtraA> hydrometricDataValueExtraAList = new List<HydrometricDataValueExtraA>();
                             hydrometricDataValueExtraAList = hydrometricDataValueService.GetHydrometricDataValueExtraAList().ToList();
                             CheckHydrometricDataValueExtraAFields(hydrometricDataValueExtraAList);
                             Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<HydrometricDataValueExtraB> hydrometricDataValueExtraBList = new List<HydrometricDataValueExtraB>();
                             hydrometricDataValueExtraBList = hydrometricDataValueService.GetHydrometricDataValueExtraBList().ToList();
@@ -388,7 +415,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -406,11 +433,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         HydrometricDataValueService hydrometricDataValueService = new HydrometricDataValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        hydrometricDataValueService.Query = hydrometricDataValueService.FillQuery(typeof(HydrometricDataValue), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
+                        hydrometricDataValueService.Query = hydrometricDataValueService.FillQuery(typeof(HydrometricDataValue), culture.TwoLetterISOLanguageName, 1, 1, "", "", "", extra);
 
                         List<HydrometricDataValue> hydrometricDataValueDirectQueryList = new List<HydrometricDataValue>();
                         hydrometricDataValueDirectQueryList = (from c in dbTestDB.HydrometricDataValues select c).Skip(1).Take(1).ToList();
@@ -422,7 +449,7 @@ namespace CSSPServices.Tests
                             CheckHydrometricDataValueFields(hydrometricDataValueList);
                             Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueList[0].HydrometricDataValueID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<HydrometricDataValueExtraA> hydrometricDataValueExtraAList = new List<HydrometricDataValueExtraA>();
                             hydrometricDataValueExtraAList = hydrometricDataValueService.GetHydrometricDataValueExtraAList().ToList();
@@ -430,7 +457,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraAList[0].HydrometricDataValueID);
                             Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<HydrometricDataValueExtraB> hydrometricDataValueExtraBList = new List<HydrometricDataValueExtraB>();
                             hydrometricDataValueExtraBList = hydrometricDataValueService.GetHydrometricDataValueExtraBList().ToList();
@@ -440,7 +467,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -448,9 +475,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated for GetHydrometricDataValueList() Skip Take
 
-        #region Tests Generated for GetHydrometricDataValueList() Skip Take Order
+        #region Tests Generated for GetHydrometricDataValueList() Skip Take Asc
         [TestMethod]
-        public void GetHydrometricDataValueList_Skip_Take_Order_Test()
+        public void GetHydrometricDataValueList_Skip_Take_Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -458,14 +485,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         HydrometricDataValueService hydrometricDataValueService = new HydrometricDataValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        hydrometricDataValueService.Query = hydrometricDataValueService.FillQuery(typeof(HydrometricDataValue), culture.TwoLetterISOLanguageName, 1, 1,  "HydrometricDataValueID", "");
+                        hydrometricDataValueService.Query = hydrometricDataValueService.FillQuery(typeof(HydrometricDataValue), culture.TwoLetterISOLanguageName, 1, 1,  "HydrometricDataValueID", "", "", extra);
 
                         List<HydrometricDataValue> hydrometricDataValueDirectQueryList = new List<HydrometricDataValue>();
-                        hydrometricDataValueDirectQueryList = (from c in dbTestDB.HydrometricDataValues select c).Skip(1).Take(1).OrderBy(c => c.HydrometricDataValueID).ToList();
+                        hydrometricDataValueDirectQueryList = (from c in dbTestDB.HydrometricDataValues select c).OrderBy(c => c.HydrometricDataValueID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -474,7 +501,7 @@ namespace CSSPServices.Tests
                             CheckHydrometricDataValueFields(hydrometricDataValueList);
                             Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueList[0].HydrometricDataValueID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<HydrometricDataValueExtraA> hydrometricDataValueExtraAList = new List<HydrometricDataValueExtraA>();
                             hydrometricDataValueExtraAList = hydrometricDataValueService.GetHydrometricDataValueExtraAList().ToList();
@@ -482,7 +509,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraAList[0].HydrometricDataValueID);
                             Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<HydrometricDataValueExtraB> hydrometricDataValueExtraBList = new List<HydrometricDataValueExtraB>();
                             hydrometricDataValueExtraBList = hydrometricDataValueService.GetHydrometricDataValueExtraBList().ToList();
@@ -492,17 +519,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetHydrometricDataValueList() Skip Take Order
+        #endregion Tests Generated for GetHydrometricDataValueList() Skip Take Asc
 
-        #region Tests Generated for GetHydrometricDataValueList() Skip Take 2Order
+        #region Tests Generated for GetHydrometricDataValueList() Skip Take 2 Asc
         [TestMethod]
-        public void GetHydrometricDataValueList_Skip_Take_2Order_Test()
+        public void GetHydrometricDataValueList_Skip_Take_2Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -510,14 +537,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         HydrometricDataValueService hydrometricDataValueService = new HydrometricDataValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        hydrometricDataValueService.Query = hydrometricDataValueService.FillQuery(typeof(HydrometricDataValue), culture.TwoLetterISOLanguageName, 1, 1, "HydrometricDataValueID,HydrometricSiteID", "");
+                        hydrometricDataValueService.Query = hydrometricDataValueService.FillQuery(typeof(HydrometricDataValue), culture.TwoLetterISOLanguageName, 1, 1, "HydrometricDataValueID,HydrometricSiteID", "", "", extra);
 
                         List<HydrometricDataValue> hydrometricDataValueDirectQueryList = new List<HydrometricDataValue>();
-                        hydrometricDataValueDirectQueryList = (from c in dbTestDB.HydrometricDataValues select c).Skip(1).Take(1).OrderBy(c => c.HydrometricDataValueID).ThenBy(c => c.HydrometricSiteID).ToList();
+                        hydrometricDataValueDirectQueryList = (from c in dbTestDB.HydrometricDataValues select c).OrderBy(c => c.HydrometricDataValueID).ThenBy(c => c.HydrometricSiteID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -526,7 +553,7 @@ namespace CSSPServices.Tests
                             CheckHydrometricDataValueFields(hydrometricDataValueList);
                             Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueList[0].HydrometricDataValueID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<HydrometricDataValueExtraA> hydrometricDataValueExtraAList = new List<HydrometricDataValueExtraA>();
                             hydrometricDataValueExtraAList = hydrometricDataValueService.GetHydrometricDataValueExtraAList().ToList();
@@ -534,7 +561,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraAList[0].HydrometricDataValueID);
                             Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<HydrometricDataValueExtraB> hydrometricDataValueExtraBList = new List<HydrometricDataValueExtraB>();
                             hydrometricDataValueExtraBList = hydrometricDataValueService.GetHydrometricDataValueExtraBList().ToList();
@@ -544,17 +571,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetHydrometricDataValueList() Skip Take 2Order
+        #endregion Tests Generated for GetHydrometricDataValueList() Skip Take 2 Asc
 
-        #region Tests Generated for GetHydrometricDataValueList() Skip Take Order Where
+        #region Tests Generated for GetHydrometricDataValueList() Skip Take Asc Where
         [TestMethod]
-        public void GetHydrometricDataValueList_Skip_Take_Order_Where_Test()
+        public void GetHydrometricDataValueList_Skip_Take_Asc_Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -562,14 +589,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         HydrometricDataValueService hydrometricDataValueService = new HydrometricDataValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        hydrometricDataValueService.Query = hydrometricDataValueService.FillQuery(typeof(HydrometricDataValue), culture.TwoLetterISOLanguageName, 0, 1, "HydrometricDataValueID", "HydrometricDataValueID,EQ,4", "");
+                        hydrometricDataValueService.Query = hydrometricDataValueService.FillQuery(typeof(HydrometricDataValue), culture.TwoLetterISOLanguageName, 0, 1, "HydrometricDataValueID", "", "HydrometricDataValueID,EQ,4", "");
 
                         List<HydrometricDataValue> hydrometricDataValueDirectQueryList = new List<HydrometricDataValue>();
-                        hydrometricDataValueDirectQueryList = (from c in dbTestDB.HydrometricDataValues select c).Where(c => c.HydrometricDataValueID == 4).Skip(0).Take(1).OrderBy(c => c.HydrometricDataValueID).ToList();
+                        hydrometricDataValueDirectQueryList = (from c in dbTestDB.HydrometricDataValues select c).Where(c => c.HydrometricDataValueID == 4).OrderBy(c => c.HydrometricDataValueID).Skip(0).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -578,7 +605,7 @@ namespace CSSPServices.Tests
                             CheckHydrometricDataValueFields(hydrometricDataValueList);
                             Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueList[0].HydrometricDataValueID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<HydrometricDataValueExtraA> hydrometricDataValueExtraAList = new List<HydrometricDataValueExtraA>();
                             hydrometricDataValueExtraAList = hydrometricDataValueService.GetHydrometricDataValueExtraAList().ToList();
@@ -586,7 +613,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraAList[0].HydrometricDataValueID);
                             Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<HydrometricDataValueExtraB> hydrometricDataValueExtraBList = new List<HydrometricDataValueExtraB>();
                             hydrometricDataValueExtraBList = hydrometricDataValueService.GetHydrometricDataValueExtraBList().ToList();
@@ -596,17 +623,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetHydrometricDataValueList() Skip Take Order Where
+        #endregion Tests Generated for GetHydrometricDataValueList() Skip Take Asc Where
 
-        #region Tests Generated for GetHydrometricDataValueList() Skip Take Order 2Where
+        #region Tests Generated for GetHydrometricDataValueList() Skip Take Asc 2 Where
         [TestMethod]
-        public void GetHydrometricDataValueList_Skip_Take_Order_2Where_Test()
+        public void GetHydrometricDataValueList_Skip_Take_Asc_2Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -614,11 +641,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         HydrometricDataValueService hydrometricDataValueService = new HydrometricDataValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        hydrometricDataValueService.Query = hydrometricDataValueService.FillQuery(typeof(HydrometricDataValue), culture.TwoLetterISOLanguageName, 0, 1, "HydrometricDataValueID", "HydrometricDataValueID,GT,2|HydrometricDataValueID,LT,5", "");
+                        hydrometricDataValueService.Query = hydrometricDataValueService.FillQuery(typeof(HydrometricDataValue), culture.TwoLetterISOLanguageName, 0, 1, "HydrometricDataValueID", "", "HydrometricDataValueID,GT,2|HydrometricDataValueID,LT,5", "");
 
                         List<HydrometricDataValue> hydrometricDataValueDirectQueryList = new List<HydrometricDataValue>();
                         hydrometricDataValueDirectQueryList = (from c in dbTestDB.HydrometricDataValues select c).Where(c => c.HydrometricDataValueID > 2 && c.HydrometricDataValueID < 5).Skip(0).Take(1).OrderBy(c => c.HydrometricDataValueID).ToList();
@@ -630,7 +657,7 @@ namespace CSSPServices.Tests
                             CheckHydrometricDataValueFields(hydrometricDataValueList);
                             Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueList[0].HydrometricDataValueID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<HydrometricDataValueExtraA> hydrometricDataValueExtraAList = new List<HydrometricDataValueExtraA>();
                             hydrometricDataValueExtraAList = hydrometricDataValueService.GetHydrometricDataValueExtraAList().ToList();
@@ -638,7 +665,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraAList[0].HydrometricDataValueID);
                             Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<HydrometricDataValueExtraB> hydrometricDataValueExtraBList = new List<HydrometricDataValueExtraB>();
                             hydrometricDataValueExtraBList = hydrometricDataValueService.GetHydrometricDataValueExtraBList().ToList();
@@ -648,15 +675,223 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetHydrometricDataValueList() Skip Take Order 2Where
+        #endregion Tests Generated for GetHydrometricDataValueList() Skip Take Asc 2 Where
 
-        #region Tests Generated for GetHydrometricDataValueList() 2Where
+        #region Tests Generated for GetHydrometricDataValueList() Skip Take Desc
+        [TestMethod]
+        public void GetHydrometricDataValueList_Skip_Take_Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        HydrometricDataValueService hydrometricDataValueService = new HydrometricDataValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        hydrometricDataValueService.Query = hydrometricDataValueService.FillQuery(typeof(HydrometricDataValue), culture.TwoLetterISOLanguageName, 1, 1, "", "HydrometricDataValueID", "", extra);
+
+                        List<HydrometricDataValue> hydrometricDataValueDirectQueryList = new List<HydrometricDataValue>();
+                        hydrometricDataValueDirectQueryList = (from c in dbTestDB.HydrometricDataValues select c).OrderByDescending(c => c.HydrometricDataValueID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<HydrometricDataValue> hydrometricDataValueList = new List<HydrometricDataValue>();
+                            hydrometricDataValueList = hydrometricDataValueService.GetHydrometricDataValueList().ToList();
+                            CheckHydrometricDataValueFields(hydrometricDataValueList);
+                            Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueList[0].HydrometricDataValueID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<HydrometricDataValueExtraA> hydrometricDataValueExtraAList = new List<HydrometricDataValueExtraA>();
+                            hydrometricDataValueExtraAList = hydrometricDataValueService.GetHydrometricDataValueExtraAList().ToList();
+                            CheckHydrometricDataValueExtraAFields(hydrometricDataValueExtraAList);
+                            Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraAList[0].HydrometricDataValueID);
+                            Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<HydrometricDataValueExtraB> hydrometricDataValueExtraBList = new List<HydrometricDataValueExtraB>();
+                            hydrometricDataValueExtraBList = hydrometricDataValueService.GetHydrometricDataValueExtraBList().ToList();
+                            CheckHydrometricDataValueExtraBFields(hydrometricDataValueExtraBList);
+                            Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraBList[0].HydrometricDataValueID);
+                            Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetHydrometricDataValueList() Skip Take Desc
+
+        #region Tests Generated for GetHydrometricDataValueList() Skip Take 2 Desc
+        [TestMethod]
+        public void GetHydrometricDataValueList_Skip_Take_2Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        HydrometricDataValueService hydrometricDataValueService = new HydrometricDataValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        hydrometricDataValueService.Query = hydrometricDataValueService.FillQuery(typeof(HydrometricDataValue), culture.TwoLetterISOLanguageName, 1, 1, "", "HydrometricDataValueID,HydrometricSiteID", "", extra);
+
+                        List<HydrometricDataValue> hydrometricDataValueDirectQueryList = new List<HydrometricDataValue>();
+                        hydrometricDataValueDirectQueryList = (from c in dbTestDB.HydrometricDataValues select c).OrderByDescending(c => c.HydrometricDataValueID).ThenByDescending(c => c.HydrometricSiteID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<HydrometricDataValue> hydrometricDataValueList = new List<HydrometricDataValue>();
+                            hydrometricDataValueList = hydrometricDataValueService.GetHydrometricDataValueList().ToList();
+                            CheckHydrometricDataValueFields(hydrometricDataValueList);
+                            Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueList[0].HydrometricDataValueID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<HydrometricDataValueExtraA> hydrometricDataValueExtraAList = new List<HydrometricDataValueExtraA>();
+                            hydrometricDataValueExtraAList = hydrometricDataValueService.GetHydrometricDataValueExtraAList().ToList();
+                            CheckHydrometricDataValueExtraAFields(hydrometricDataValueExtraAList);
+                            Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraAList[0].HydrometricDataValueID);
+                            Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<HydrometricDataValueExtraB> hydrometricDataValueExtraBList = new List<HydrometricDataValueExtraB>();
+                            hydrometricDataValueExtraBList = hydrometricDataValueService.GetHydrometricDataValueExtraBList().ToList();
+                            CheckHydrometricDataValueExtraBFields(hydrometricDataValueExtraBList);
+                            Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraBList[0].HydrometricDataValueID);
+                            Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetHydrometricDataValueList() Skip Take 2 Desc
+
+        #region Tests Generated for GetHydrometricDataValueList() Skip Take Desc Where
+        [TestMethod]
+        public void GetHydrometricDataValueList_Skip_Take_Desc_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        HydrometricDataValueService hydrometricDataValueService = new HydrometricDataValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        hydrometricDataValueService.Query = hydrometricDataValueService.FillQuery(typeof(HydrometricDataValue), culture.TwoLetterISOLanguageName, 0, 1, "HydrometricDataValueID", "", "HydrometricDataValueID,EQ,4", "");
+
+                        List<HydrometricDataValue> hydrometricDataValueDirectQueryList = new List<HydrometricDataValue>();
+                        hydrometricDataValueDirectQueryList = (from c in dbTestDB.HydrometricDataValues select c).Where(c => c.HydrometricDataValueID == 4).OrderByDescending(c => c.HydrometricDataValueID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<HydrometricDataValue> hydrometricDataValueList = new List<HydrometricDataValue>();
+                            hydrometricDataValueList = hydrometricDataValueService.GetHydrometricDataValueList().ToList();
+                            CheckHydrometricDataValueFields(hydrometricDataValueList);
+                            Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueList[0].HydrometricDataValueID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<HydrometricDataValueExtraA> hydrometricDataValueExtraAList = new List<HydrometricDataValueExtraA>();
+                            hydrometricDataValueExtraAList = hydrometricDataValueService.GetHydrometricDataValueExtraAList().ToList();
+                            CheckHydrometricDataValueExtraAFields(hydrometricDataValueExtraAList);
+                            Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraAList[0].HydrometricDataValueID);
+                            Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<HydrometricDataValueExtraB> hydrometricDataValueExtraBList = new List<HydrometricDataValueExtraB>();
+                            hydrometricDataValueExtraBList = hydrometricDataValueService.GetHydrometricDataValueExtraBList().ToList();
+                            CheckHydrometricDataValueExtraBFields(hydrometricDataValueExtraBList);
+                            Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraBList[0].HydrometricDataValueID);
+                            Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetHydrometricDataValueList() Skip Take Desc Where
+
+        #region Tests Generated for GetHydrometricDataValueList() Skip Take Desc 2 Where
+        [TestMethod]
+        public void GetHydrometricDataValueList_Skip_Take_Desc_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        HydrometricDataValueService hydrometricDataValueService = new HydrometricDataValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        hydrometricDataValueService.Query = hydrometricDataValueService.FillQuery(typeof(HydrometricDataValue), culture.TwoLetterISOLanguageName, 0, 1, "", "HydrometricDataValueID", "HydrometricDataValueID,GT,2|HydrometricDataValueID,LT,5", "");
+
+                        List<HydrometricDataValue> hydrometricDataValueDirectQueryList = new List<HydrometricDataValue>();
+                        hydrometricDataValueDirectQueryList = (from c in dbTestDB.HydrometricDataValues select c).Where(c => c.HydrometricDataValueID > 2 && c.HydrometricDataValueID < 5).OrderByDescending(c => c.HydrometricDataValueID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<HydrometricDataValue> hydrometricDataValueList = new List<HydrometricDataValue>();
+                            hydrometricDataValueList = hydrometricDataValueService.GetHydrometricDataValueList().ToList();
+                            CheckHydrometricDataValueFields(hydrometricDataValueList);
+                            Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueList[0].HydrometricDataValueID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<HydrometricDataValueExtraA> hydrometricDataValueExtraAList = new List<HydrometricDataValueExtraA>();
+                            hydrometricDataValueExtraAList = hydrometricDataValueService.GetHydrometricDataValueExtraAList().ToList();
+                            CheckHydrometricDataValueExtraAFields(hydrometricDataValueExtraAList);
+                            Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraAList[0].HydrometricDataValueID);
+                            Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<HydrometricDataValueExtraB> hydrometricDataValueExtraBList = new List<HydrometricDataValueExtraB>();
+                            hydrometricDataValueExtraBList = hydrometricDataValueService.GetHydrometricDataValueExtraBList().ToList();
+                            CheckHydrometricDataValueExtraBFields(hydrometricDataValueExtraBList);
+                            Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraBList[0].HydrometricDataValueID);
+                            Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetHydrometricDataValueList() Skip Take Desc 2 Where
+
+        #region Tests Generated for GetHydrometricDataValueList() 2 Where
         [TestMethod]
         public void GetHydrometricDataValueList_2Where_Test()
         {
@@ -666,11 +901,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         HydrometricDataValueService hydrometricDataValueService = new HydrometricDataValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        hydrometricDataValueService.Query = hydrometricDataValueService.FillQuery(typeof(HydrometricDataValue), culture.TwoLetterISOLanguageName, 0, 10000, "", "HydrometricDataValueID,GT,2|HydrometricDataValueID,LT,5", "");
+                        hydrometricDataValueService.Query = hydrometricDataValueService.FillQuery(typeof(HydrometricDataValue), culture.TwoLetterISOLanguageName, 0, 10000, "", "", "HydrometricDataValueID,GT,2|HydrometricDataValueID,LT,5", extra);
 
                         List<HydrometricDataValue> hydrometricDataValueDirectQueryList = new List<HydrometricDataValue>();
                         hydrometricDataValueDirectQueryList = (from c in dbTestDB.HydrometricDataValues select c).Where(c => c.HydrometricDataValueID > 2 && c.HydrometricDataValueID < 5).ToList();
@@ -682,7 +917,7 @@ namespace CSSPServices.Tests
                             CheckHydrometricDataValueFields(hydrometricDataValueList);
                             Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueList[0].HydrometricDataValueID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<HydrometricDataValueExtraA> hydrometricDataValueExtraAList = new List<HydrometricDataValueExtraA>();
                             hydrometricDataValueExtraAList = hydrometricDataValueService.GetHydrometricDataValueExtraAList().ToList();
@@ -690,7 +925,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraAList[0].HydrometricDataValueID);
                             Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<HydrometricDataValueExtraB> hydrometricDataValueExtraBList = new List<HydrometricDataValueExtraB>();
                             hydrometricDataValueExtraBList = hydrometricDataValueService.GetHydrometricDataValueExtraBList().ToList();
@@ -700,13 +935,13 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetHydrometricDataValueList() 2Where
+        #endregion Tests Generated for GetHydrometricDataValueList() 2 Where
 
         #region Functions private
         private void CheckHydrometricDataValueFields(List<HydrometricDataValue> hydrometricDataValueList)

@@ -38,9 +38,9 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
+        #region Tests Generated CRUD
         [TestMethod]
-        public void EmailDistributionListContact_CRUD_And_Properties_Test()
+        public void EmailDistributionListContact_CRUD_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -86,6 +86,33 @@ namespace CSSPServices.Tests
                         Assert.AreEqual("", emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
                     Assert.AreEqual(count, emailDistributionListContactService.GetEmailDistributionListContactList().Count());
+
+                }
+            }
+        }
+        #endregion Tests Generated CRUD
+
+        #region Tests Generated Properties
+        [TestMethod]
+        public void EmailDistributionListContact_Properties_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    EmailDistributionListContactService emailDistributionListContactService = new EmailDistributionListContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    count = emailDistributionListContactService.GetEmailDistributionListContactList().Count();
+
+                    EmailDistributionListContact emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
 
                     // -------------------------------
                     // -------------------------------
@@ -259,7 +286,7 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Generated CRUD and Properties
+        #endregion Tests Generated Properties
 
         #region Tests Generated for GetEmailDistributionListContactWithEmailDistributionListContactID(emailDistributionListContact.EmailDistributionListContactID)
         [TestMethod]
@@ -275,7 +302,7 @@ namespace CSSPServices.Tests
                     EmailDistributionListContact emailDistributionListContact = (from c in dbTestDB.EmailDistributionListContacts select c).FirstOrDefault();
                     Assert.IsNotNull(emailDistributionListContact);
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         emailDistributionListContactService.Query.Extra = extra;
 
@@ -285,13 +312,13 @@ namespace CSSPServices.Tests
                             CheckEmailDistributionListContactFields(new List<EmailDistributionListContact>() { emailDistributionListContactRet });
                             Assert.AreEqual(emailDistributionListContact.EmailDistributionListContactID, emailDistributionListContactRet.EmailDistributionListContactID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             EmailDistributionListContactExtraA emailDistributionListContactExtraARet = emailDistributionListContactService.GetEmailDistributionListContactExtraAWithEmailDistributionListContactID(emailDistributionListContact.EmailDistributionListContactID);
                             CheckEmailDistributionListContactExtraAFields(new List<EmailDistributionListContactExtraA>() { emailDistributionListContactExtraARet });
                             Assert.AreEqual(emailDistributionListContact.EmailDistributionListContactID, emailDistributionListContactExtraARet.EmailDistributionListContactID);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             EmailDistributionListContactExtraB emailDistributionListContactExtraBRet = emailDistributionListContactService.GetEmailDistributionListContactExtraBWithEmailDistributionListContactID(emailDistributionListContact.EmailDistributionListContactID);
                             CheckEmailDistributionListContactExtraBFields(new List<EmailDistributionListContactExtraB>() { emailDistributionListContactExtraBRet });
@@ -299,7 +326,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -324,7 +351,7 @@ namespace CSSPServices.Tests
                     List<EmailDistributionListContact> emailDistributionListContactDirectQueryList = new List<EmailDistributionListContact>();
                     emailDistributionListContactDirectQueryList = (from c in dbTestDB.EmailDistributionListContacts select c).Take(200).ToList();
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         emailDistributionListContactService.Query.Extra = extra;
 
@@ -334,14 +361,14 @@ namespace CSSPServices.Tests
                             emailDistributionListContactList = emailDistributionListContactService.GetEmailDistributionListContactList().ToList();
                             CheckEmailDistributionListContactFields(emailDistributionListContactList);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<EmailDistributionListContactExtraA> emailDistributionListContactExtraAList = new List<EmailDistributionListContactExtraA>();
                             emailDistributionListContactExtraAList = emailDistributionListContactService.GetEmailDistributionListContactExtraAList().ToList();
                             CheckEmailDistributionListContactExtraAFields(emailDistributionListContactExtraAList);
                             Assert.AreEqual(emailDistributionListContactDirectQueryList.Count, emailDistributionListContactExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<EmailDistributionListContactExtraB> emailDistributionListContactExtraBList = new List<EmailDistributionListContactExtraB>();
                             emailDistributionListContactExtraBList = emailDistributionListContactService.GetEmailDistributionListContactExtraBList().ToList();
@@ -350,7 +377,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -368,11 +395,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         EmailDistributionListContactService emailDistributionListContactService = new EmailDistributionListContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        emailDistributionListContactService.Query = emailDistributionListContactService.FillQuery(typeof(EmailDistributionListContact), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
+                        emailDistributionListContactService.Query = emailDistributionListContactService.FillQuery(typeof(EmailDistributionListContact), culture.TwoLetterISOLanguageName, 1, 1, "", "", "", extra);
 
                         List<EmailDistributionListContact> emailDistributionListContactDirectQueryList = new List<EmailDistributionListContact>();
                         emailDistributionListContactDirectQueryList = (from c in dbTestDB.EmailDistributionListContacts select c).Skip(1).Take(1).ToList();
@@ -384,7 +411,7 @@ namespace CSSPServices.Tests
                             CheckEmailDistributionListContactFields(emailDistributionListContactList);
                             Assert.AreEqual(emailDistributionListContactDirectQueryList[0].EmailDistributionListContactID, emailDistributionListContactList[0].EmailDistributionListContactID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<EmailDistributionListContactExtraA> emailDistributionListContactExtraAList = new List<EmailDistributionListContactExtraA>();
                             emailDistributionListContactExtraAList = emailDistributionListContactService.GetEmailDistributionListContactExtraAList().ToList();
@@ -392,7 +419,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(emailDistributionListContactDirectQueryList[0].EmailDistributionListContactID, emailDistributionListContactExtraAList[0].EmailDistributionListContactID);
                             Assert.AreEqual(emailDistributionListContactDirectQueryList.Count, emailDistributionListContactExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<EmailDistributionListContactExtraB> emailDistributionListContactExtraBList = new List<EmailDistributionListContactExtraB>();
                             emailDistributionListContactExtraBList = emailDistributionListContactService.GetEmailDistributionListContactExtraBList().ToList();
@@ -402,7 +429,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -410,9 +437,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated for GetEmailDistributionListContactList() Skip Take
 
-        #region Tests Generated for GetEmailDistributionListContactList() Skip Take Order
+        #region Tests Generated for GetEmailDistributionListContactList() Skip Take Asc
         [TestMethod]
-        public void GetEmailDistributionListContactList_Skip_Take_Order_Test()
+        public void GetEmailDistributionListContactList_Skip_Take_Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -420,14 +447,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         EmailDistributionListContactService emailDistributionListContactService = new EmailDistributionListContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        emailDistributionListContactService.Query = emailDistributionListContactService.FillQuery(typeof(EmailDistributionListContact), culture.TwoLetterISOLanguageName, 1, 1,  "EmailDistributionListContactID", "");
+                        emailDistributionListContactService.Query = emailDistributionListContactService.FillQuery(typeof(EmailDistributionListContact), culture.TwoLetterISOLanguageName, 1, 1,  "EmailDistributionListContactID", "", "", extra);
 
                         List<EmailDistributionListContact> emailDistributionListContactDirectQueryList = new List<EmailDistributionListContact>();
-                        emailDistributionListContactDirectQueryList = (from c in dbTestDB.EmailDistributionListContacts select c).Skip(1).Take(1).OrderBy(c => c.EmailDistributionListContactID).ToList();
+                        emailDistributionListContactDirectQueryList = (from c in dbTestDB.EmailDistributionListContacts select c).OrderBy(c => c.EmailDistributionListContactID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -436,7 +463,7 @@ namespace CSSPServices.Tests
                             CheckEmailDistributionListContactFields(emailDistributionListContactList);
                             Assert.AreEqual(emailDistributionListContactDirectQueryList[0].EmailDistributionListContactID, emailDistributionListContactList[0].EmailDistributionListContactID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<EmailDistributionListContactExtraA> emailDistributionListContactExtraAList = new List<EmailDistributionListContactExtraA>();
                             emailDistributionListContactExtraAList = emailDistributionListContactService.GetEmailDistributionListContactExtraAList().ToList();
@@ -444,7 +471,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(emailDistributionListContactDirectQueryList[0].EmailDistributionListContactID, emailDistributionListContactExtraAList[0].EmailDistributionListContactID);
                             Assert.AreEqual(emailDistributionListContactDirectQueryList.Count, emailDistributionListContactExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<EmailDistributionListContactExtraB> emailDistributionListContactExtraBList = new List<EmailDistributionListContactExtraB>();
                             emailDistributionListContactExtraBList = emailDistributionListContactService.GetEmailDistributionListContactExtraBList().ToList();
@@ -454,17 +481,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetEmailDistributionListContactList() Skip Take Order
+        #endregion Tests Generated for GetEmailDistributionListContactList() Skip Take Asc
 
-        #region Tests Generated for GetEmailDistributionListContactList() Skip Take 2Order
+        #region Tests Generated for GetEmailDistributionListContactList() Skip Take 2 Asc
         [TestMethod]
-        public void GetEmailDistributionListContactList_Skip_Take_2Order_Test()
+        public void GetEmailDistributionListContactList_Skip_Take_2Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -472,14 +499,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         EmailDistributionListContactService emailDistributionListContactService = new EmailDistributionListContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        emailDistributionListContactService.Query = emailDistributionListContactService.FillQuery(typeof(EmailDistributionListContact), culture.TwoLetterISOLanguageName, 1, 1, "EmailDistributionListContactID,EmailDistributionListID", "");
+                        emailDistributionListContactService.Query = emailDistributionListContactService.FillQuery(typeof(EmailDistributionListContact), culture.TwoLetterISOLanguageName, 1, 1, "EmailDistributionListContactID,EmailDistributionListID", "", "", extra);
 
                         List<EmailDistributionListContact> emailDistributionListContactDirectQueryList = new List<EmailDistributionListContact>();
-                        emailDistributionListContactDirectQueryList = (from c in dbTestDB.EmailDistributionListContacts select c).Skip(1).Take(1).OrderBy(c => c.EmailDistributionListContactID).ThenBy(c => c.EmailDistributionListID).ToList();
+                        emailDistributionListContactDirectQueryList = (from c in dbTestDB.EmailDistributionListContacts select c).OrderBy(c => c.EmailDistributionListContactID).ThenBy(c => c.EmailDistributionListID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -488,7 +515,7 @@ namespace CSSPServices.Tests
                             CheckEmailDistributionListContactFields(emailDistributionListContactList);
                             Assert.AreEqual(emailDistributionListContactDirectQueryList[0].EmailDistributionListContactID, emailDistributionListContactList[0].EmailDistributionListContactID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<EmailDistributionListContactExtraA> emailDistributionListContactExtraAList = new List<EmailDistributionListContactExtraA>();
                             emailDistributionListContactExtraAList = emailDistributionListContactService.GetEmailDistributionListContactExtraAList().ToList();
@@ -496,7 +523,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(emailDistributionListContactDirectQueryList[0].EmailDistributionListContactID, emailDistributionListContactExtraAList[0].EmailDistributionListContactID);
                             Assert.AreEqual(emailDistributionListContactDirectQueryList.Count, emailDistributionListContactExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<EmailDistributionListContactExtraB> emailDistributionListContactExtraBList = new List<EmailDistributionListContactExtraB>();
                             emailDistributionListContactExtraBList = emailDistributionListContactService.GetEmailDistributionListContactExtraBList().ToList();
@@ -506,17 +533,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetEmailDistributionListContactList() Skip Take 2Order
+        #endregion Tests Generated for GetEmailDistributionListContactList() Skip Take 2 Asc
 
-        #region Tests Generated for GetEmailDistributionListContactList() Skip Take Order Where
+        #region Tests Generated for GetEmailDistributionListContactList() Skip Take Asc Where
         [TestMethod]
-        public void GetEmailDistributionListContactList_Skip_Take_Order_Where_Test()
+        public void GetEmailDistributionListContactList_Skip_Take_Asc_Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -524,14 +551,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         EmailDistributionListContactService emailDistributionListContactService = new EmailDistributionListContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        emailDistributionListContactService.Query = emailDistributionListContactService.FillQuery(typeof(EmailDistributionListContact), culture.TwoLetterISOLanguageName, 0, 1, "EmailDistributionListContactID", "EmailDistributionListContactID,EQ,4", "");
+                        emailDistributionListContactService.Query = emailDistributionListContactService.FillQuery(typeof(EmailDistributionListContact), culture.TwoLetterISOLanguageName, 0, 1, "EmailDistributionListContactID", "", "EmailDistributionListContactID,EQ,4", "");
 
                         List<EmailDistributionListContact> emailDistributionListContactDirectQueryList = new List<EmailDistributionListContact>();
-                        emailDistributionListContactDirectQueryList = (from c in dbTestDB.EmailDistributionListContacts select c).Where(c => c.EmailDistributionListContactID == 4).Skip(0).Take(1).OrderBy(c => c.EmailDistributionListContactID).ToList();
+                        emailDistributionListContactDirectQueryList = (from c in dbTestDB.EmailDistributionListContacts select c).Where(c => c.EmailDistributionListContactID == 4).OrderBy(c => c.EmailDistributionListContactID).Skip(0).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -540,7 +567,7 @@ namespace CSSPServices.Tests
                             CheckEmailDistributionListContactFields(emailDistributionListContactList);
                             Assert.AreEqual(emailDistributionListContactDirectQueryList[0].EmailDistributionListContactID, emailDistributionListContactList[0].EmailDistributionListContactID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<EmailDistributionListContactExtraA> emailDistributionListContactExtraAList = new List<EmailDistributionListContactExtraA>();
                             emailDistributionListContactExtraAList = emailDistributionListContactService.GetEmailDistributionListContactExtraAList().ToList();
@@ -548,7 +575,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(emailDistributionListContactDirectQueryList[0].EmailDistributionListContactID, emailDistributionListContactExtraAList[0].EmailDistributionListContactID);
                             Assert.AreEqual(emailDistributionListContactDirectQueryList.Count, emailDistributionListContactExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<EmailDistributionListContactExtraB> emailDistributionListContactExtraBList = new List<EmailDistributionListContactExtraB>();
                             emailDistributionListContactExtraBList = emailDistributionListContactService.GetEmailDistributionListContactExtraBList().ToList();
@@ -558,17 +585,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetEmailDistributionListContactList() Skip Take Order Where
+        #endregion Tests Generated for GetEmailDistributionListContactList() Skip Take Asc Where
 
-        #region Tests Generated for GetEmailDistributionListContactList() Skip Take Order 2Where
+        #region Tests Generated for GetEmailDistributionListContactList() Skip Take Asc 2 Where
         [TestMethod]
-        public void GetEmailDistributionListContactList_Skip_Take_Order_2Where_Test()
+        public void GetEmailDistributionListContactList_Skip_Take_Asc_2Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -576,11 +603,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         EmailDistributionListContactService emailDistributionListContactService = new EmailDistributionListContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        emailDistributionListContactService.Query = emailDistributionListContactService.FillQuery(typeof(EmailDistributionListContact), culture.TwoLetterISOLanguageName, 0, 1, "EmailDistributionListContactID", "EmailDistributionListContactID,GT,2|EmailDistributionListContactID,LT,5", "");
+                        emailDistributionListContactService.Query = emailDistributionListContactService.FillQuery(typeof(EmailDistributionListContact), culture.TwoLetterISOLanguageName, 0, 1, "EmailDistributionListContactID", "", "EmailDistributionListContactID,GT,2|EmailDistributionListContactID,LT,5", "");
 
                         List<EmailDistributionListContact> emailDistributionListContactDirectQueryList = new List<EmailDistributionListContact>();
                         emailDistributionListContactDirectQueryList = (from c in dbTestDB.EmailDistributionListContacts select c).Where(c => c.EmailDistributionListContactID > 2 && c.EmailDistributionListContactID < 5).Skip(0).Take(1).OrderBy(c => c.EmailDistributionListContactID).ToList();
@@ -592,7 +619,7 @@ namespace CSSPServices.Tests
                             CheckEmailDistributionListContactFields(emailDistributionListContactList);
                             Assert.AreEqual(emailDistributionListContactDirectQueryList[0].EmailDistributionListContactID, emailDistributionListContactList[0].EmailDistributionListContactID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<EmailDistributionListContactExtraA> emailDistributionListContactExtraAList = new List<EmailDistributionListContactExtraA>();
                             emailDistributionListContactExtraAList = emailDistributionListContactService.GetEmailDistributionListContactExtraAList().ToList();
@@ -600,7 +627,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(emailDistributionListContactDirectQueryList[0].EmailDistributionListContactID, emailDistributionListContactExtraAList[0].EmailDistributionListContactID);
                             Assert.AreEqual(emailDistributionListContactDirectQueryList.Count, emailDistributionListContactExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<EmailDistributionListContactExtraB> emailDistributionListContactExtraBList = new List<EmailDistributionListContactExtraB>();
                             emailDistributionListContactExtraBList = emailDistributionListContactService.GetEmailDistributionListContactExtraBList().ToList();
@@ -610,15 +637,223 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetEmailDistributionListContactList() Skip Take Order 2Where
+        #endregion Tests Generated for GetEmailDistributionListContactList() Skip Take Asc 2 Where
 
-        #region Tests Generated for GetEmailDistributionListContactList() 2Where
+        #region Tests Generated for GetEmailDistributionListContactList() Skip Take Desc
+        [TestMethod]
+        public void GetEmailDistributionListContactList_Skip_Take_Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        EmailDistributionListContactService emailDistributionListContactService = new EmailDistributionListContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        emailDistributionListContactService.Query = emailDistributionListContactService.FillQuery(typeof(EmailDistributionListContact), culture.TwoLetterISOLanguageName, 1, 1, "", "EmailDistributionListContactID", "", extra);
+
+                        List<EmailDistributionListContact> emailDistributionListContactDirectQueryList = new List<EmailDistributionListContact>();
+                        emailDistributionListContactDirectQueryList = (from c in dbTestDB.EmailDistributionListContacts select c).OrderByDescending(c => c.EmailDistributionListContactID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<EmailDistributionListContact> emailDistributionListContactList = new List<EmailDistributionListContact>();
+                            emailDistributionListContactList = emailDistributionListContactService.GetEmailDistributionListContactList().ToList();
+                            CheckEmailDistributionListContactFields(emailDistributionListContactList);
+                            Assert.AreEqual(emailDistributionListContactDirectQueryList[0].EmailDistributionListContactID, emailDistributionListContactList[0].EmailDistributionListContactID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<EmailDistributionListContactExtraA> emailDistributionListContactExtraAList = new List<EmailDistributionListContactExtraA>();
+                            emailDistributionListContactExtraAList = emailDistributionListContactService.GetEmailDistributionListContactExtraAList().ToList();
+                            CheckEmailDistributionListContactExtraAFields(emailDistributionListContactExtraAList);
+                            Assert.AreEqual(emailDistributionListContactDirectQueryList[0].EmailDistributionListContactID, emailDistributionListContactExtraAList[0].EmailDistributionListContactID);
+                            Assert.AreEqual(emailDistributionListContactDirectQueryList.Count, emailDistributionListContactExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<EmailDistributionListContactExtraB> emailDistributionListContactExtraBList = new List<EmailDistributionListContactExtraB>();
+                            emailDistributionListContactExtraBList = emailDistributionListContactService.GetEmailDistributionListContactExtraBList().ToList();
+                            CheckEmailDistributionListContactExtraBFields(emailDistributionListContactExtraBList);
+                            Assert.AreEqual(emailDistributionListContactDirectQueryList[0].EmailDistributionListContactID, emailDistributionListContactExtraBList[0].EmailDistributionListContactID);
+                            Assert.AreEqual(emailDistributionListContactDirectQueryList.Count, emailDistributionListContactExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetEmailDistributionListContactList() Skip Take Desc
+
+        #region Tests Generated for GetEmailDistributionListContactList() Skip Take 2 Desc
+        [TestMethod]
+        public void GetEmailDistributionListContactList_Skip_Take_2Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        EmailDistributionListContactService emailDistributionListContactService = new EmailDistributionListContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        emailDistributionListContactService.Query = emailDistributionListContactService.FillQuery(typeof(EmailDistributionListContact), culture.TwoLetterISOLanguageName, 1, 1, "", "EmailDistributionListContactID,EmailDistributionListID", "", extra);
+
+                        List<EmailDistributionListContact> emailDistributionListContactDirectQueryList = new List<EmailDistributionListContact>();
+                        emailDistributionListContactDirectQueryList = (from c in dbTestDB.EmailDistributionListContacts select c).OrderByDescending(c => c.EmailDistributionListContactID).ThenByDescending(c => c.EmailDistributionListID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<EmailDistributionListContact> emailDistributionListContactList = new List<EmailDistributionListContact>();
+                            emailDistributionListContactList = emailDistributionListContactService.GetEmailDistributionListContactList().ToList();
+                            CheckEmailDistributionListContactFields(emailDistributionListContactList);
+                            Assert.AreEqual(emailDistributionListContactDirectQueryList[0].EmailDistributionListContactID, emailDistributionListContactList[0].EmailDistributionListContactID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<EmailDistributionListContactExtraA> emailDistributionListContactExtraAList = new List<EmailDistributionListContactExtraA>();
+                            emailDistributionListContactExtraAList = emailDistributionListContactService.GetEmailDistributionListContactExtraAList().ToList();
+                            CheckEmailDistributionListContactExtraAFields(emailDistributionListContactExtraAList);
+                            Assert.AreEqual(emailDistributionListContactDirectQueryList[0].EmailDistributionListContactID, emailDistributionListContactExtraAList[0].EmailDistributionListContactID);
+                            Assert.AreEqual(emailDistributionListContactDirectQueryList.Count, emailDistributionListContactExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<EmailDistributionListContactExtraB> emailDistributionListContactExtraBList = new List<EmailDistributionListContactExtraB>();
+                            emailDistributionListContactExtraBList = emailDistributionListContactService.GetEmailDistributionListContactExtraBList().ToList();
+                            CheckEmailDistributionListContactExtraBFields(emailDistributionListContactExtraBList);
+                            Assert.AreEqual(emailDistributionListContactDirectQueryList[0].EmailDistributionListContactID, emailDistributionListContactExtraBList[0].EmailDistributionListContactID);
+                            Assert.AreEqual(emailDistributionListContactDirectQueryList.Count, emailDistributionListContactExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetEmailDistributionListContactList() Skip Take 2 Desc
+
+        #region Tests Generated for GetEmailDistributionListContactList() Skip Take Desc Where
+        [TestMethod]
+        public void GetEmailDistributionListContactList_Skip_Take_Desc_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        EmailDistributionListContactService emailDistributionListContactService = new EmailDistributionListContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        emailDistributionListContactService.Query = emailDistributionListContactService.FillQuery(typeof(EmailDistributionListContact), culture.TwoLetterISOLanguageName, 0, 1, "EmailDistributionListContactID", "", "EmailDistributionListContactID,EQ,4", "");
+
+                        List<EmailDistributionListContact> emailDistributionListContactDirectQueryList = new List<EmailDistributionListContact>();
+                        emailDistributionListContactDirectQueryList = (from c in dbTestDB.EmailDistributionListContacts select c).Where(c => c.EmailDistributionListContactID == 4).OrderByDescending(c => c.EmailDistributionListContactID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<EmailDistributionListContact> emailDistributionListContactList = new List<EmailDistributionListContact>();
+                            emailDistributionListContactList = emailDistributionListContactService.GetEmailDistributionListContactList().ToList();
+                            CheckEmailDistributionListContactFields(emailDistributionListContactList);
+                            Assert.AreEqual(emailDistributionListContactDirectQueryList[0].EmailDistributionListContactID, emailDistributionListContactList[0].EmailDistributionListContactID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<EmailDistributionListContactExtraA> emailDistributionListContactExtraAList = new List<EmailDistributionListContactExtraA>();
+                            emailDistributionListContactExtraAList = emailDistributionListContactService.GetEmailDistributionListContactExtraAList().ToList();
+                            CheckEmailDistributionListContactExtraAFields(emailDistributionListContactExtraAList);
+                            Assert.AreEqual(emailDistributionListContactDirectQueryList[0].EmailDistributionListContactID, emailDistributionListContactExtraAList[0].EmailDistributionListContactID);
+                            Assert.AreEqual(emailDistributionListContactDirectQueryList.Count, emailDistributionListContactExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<EmailDistributionListContactExtraB> emailDistributionListContactExtraBList = new List<EmailDistributionListContactExtraB>();
+                            emailDistributionListContactExtraBList = emailDistributionListContactService.GetEmailDistributionListContactExtraBList().ToList();
+                            CheckEmailDistributionListContactExtraBFields(emailDistributionListContactExtraBList);
+                            Assert.AreEqual(emailDistributionListContactDirectQueryList[0].EmailDistributionListContactID, emailDistributionListContactExtraBList[0].EmailDistributionListContactID);
+                            Assert.AreEqual(emailDistributionListContactDirectQueryList.Count, emailDistributionListContactExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetEmailDistributionListContactList() Skip Take Desc Where
+
+        #region Tests Generated for GetEmailDistributionListContactList() Skip Take Desc 2 Where
+        [TestMethod]
+        public void GetEmailDistributionListContactList_Skip_Take_Desc_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        EmailDistributionListContactService emailDistributionListContactService = new EmailDistributionListContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        emailDistributionListContactService.Query = emailDistributionListContactService.FillQuery(typeof(EmailDistributionListContact), culture.TwoLetterISOLanguageName, 0, 1, "", "EmailDistributionListContactID", "EmailDistributionListContactID,GT,2|EmailDistributionListContactID,LT,5", "");
+
+                        List<EmailDistributionListContact> emailDistributionListContactDirectQueryList = new List<EmailDistributionListContact>();
+                        emailDistributionListContactDirectQueryList = (from c in dbTestDB.EmailDistributionListContacts select c).Where(c => c.EmailDistributionListContactID > 2 && c.EmailDistributionListContactID < 5).OrderByDescending(c => c.EmailDistributionListContactID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<EmailDistributionListContact> emailDistributionListContactList = new List<EmailDistributionListContact>();
+                            emailDistributionListContactList = emailDistributionListContactService.GetEmailDistributionListContactList().ToList();
+                            CheckEmailDistributionListContactFields(emailDistributionListContactList);
+                            Assert.AreEqual(emailDistributionListContactDirectQueryList[0].EmailDistributionListContactID, emailDistributionListContactList[0].EmailDistributionListContactID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<EmailDistributionListContactExtraA> emailDistributionListContactExtraAList = new List<EmailDistributionListContactExtraA>();
+                            emailDistributionListContactExtraAList = emailDistributionListContactService.GetEmailDistributionListContactExtraAList().ToList();
+                            CheckEmailDistributionListContactExtraAFields(emailDistributionListContactExtraAList);
+                            Assert.AreEqual(emailDistributionListContactDirectQueryList[0].EmailDistributionListContactID, emailDistributionListContactExtraAList[0].EmailDistributionListContactID);
+                            Assert.AreEqual(emailDistributionListContactDirectQueryList.Count, emailDistributionListContactExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<EmailDistributionListContactExtraB> emailDistributionListContactExtraBList = new List<EmailDistributionListContactExtraB>();
+                            emailDistributionListContactExtraBList = emailDistributionListContactService.GetEmailDistributionListContactExtraBList().ToList();
+                            CheckEmailDistributionListContactExtraBFields(emailDistributionListContactExtraBList);
+                            Assert.AreEqual(emailDistributionListContactDirectQueryList[0].EmailDistributionListContactID, emailDistributionListContactExtraBList[0].EmailDistributionListContactID);
+                            Assert.AreEqual(emailDistributionListContactDirectQueryList.Count, emailDistributionListContactExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetEmailDistributionListContactList() Skip Take Desc 2 Where
+
+        #region Tests Generated for GetEmailDistributionListContactList() 2 Where
         [TestMethod]
         public void GetEmailDistributionListContactList_2Where_Test()
         {
@@ -628,11 +863,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         EmailDistributionListContactService emailDistributionListContactService = new EmailDistributionListContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        emailDistributionListContactService.Query = emailDistributionListContactService.FillQuery(typeof(EmailDistributionListContact), culture.TwoLetterISOLanguageName, 0, 10000, "", "EmailDistributionListContactID,GT,2|EmailDistributionListContactID,LT,5", "");
+                        emailDistributionListContactService.Query = emailDistributionListContactService.FillQuery(typeof(EmailDistributionListContact), culture.TwoLetterISOLanguageName, 0, 10000, "", "", "EmailDistributionListContactID,GT,2|EmailDistributionListContactID,LT,5", extra);
 
                         List<EmailDistributionListContact> emailDistributionListContactDirectQueryList = new List<EmailDistributionListContact>();
                         emailDistributionListContactDirectQueryList = (from c in dbTestDB.EmailDistributionListContacts select c).Where(c => c.EmailDistributionListContactID > 2 && c.EmailDistributionListContactID < 5).ToList();
@@ -644,7 +879,7 @@ namespace CSSPServices.Tests
                             CheckEmailDistributionListContactFields(emailDistributionListContactList);
                             Assert.AreEqual(emailDistributionListContactDirectQueryList[0].EmailDistributionListContactID, emailDistributionListContactList[0].EmailDistributionListContactID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<EmailDistributionListContactExtraA> emailDistributionListContactExtraAList = new List<EmailDistributionListContactExtraA>();
                             emailDistributionListContactExtraAList = emailDistributionListContactService.GetEmailDistributionListContactExtraAList().ToList();
@@ -652,7 +887,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(emailDistributionListContactDirectQueryList[0].EmailDistributionListContactID, emailDistributionListContactExtraAList[0].EmailDistributionListContactID);
                             Assert.AreEqual(emailDistributionListContactDirectQueryList.Count, emailDistributionListContactExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<EmailDistributionListContactExtraB> emailDistributionListContactExtraBList = new List<EmailDistributionListContactExtraB>();
                             emailDistributionListContactExtraBList = emailDistributionListContactService.GetEmailDistributionListContactExtraBList().ToList();
@@ -662,13 +897,13 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetEmailDistributionListContactList() 2Where
+        #endregion Tests Generated for GetEmailDistributionListContactList() 2 Where
 
         #region Functions private
         private void CheckEmailDistributionListContactFields(List<EmailDistributionListContact> emailDistributionListContactList)

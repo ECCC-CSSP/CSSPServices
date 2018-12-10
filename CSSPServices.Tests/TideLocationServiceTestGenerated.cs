@@ -38,9 +38,9 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
+        #region Tests Generated CRUD
         [TestMethod]
-        public void TideLocation_CRUD_And_Properties_Test()
+        public void TideLocation_CRUD_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -86,6 +86,33 @@ namespace CSSPServices.Tests
                         Assert.AreEqual("", tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
                     Assert.AreEqual(count, tideLocationService.GetTideLocationList().Count());
+
+                }
+            }
+        }
+        #endregion Tests Generated CRUD
+
+        #region Tests Generated Properties
+        [TestMethod]
+        public void TideLocation_Properties_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    TideLocationService tideLocationService = new TideLocationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    count = tideLocationService.GetTideLocationList().Count();
+
+                    TideLocation tideLocation = GetFilledRandomTideLocation("");
 
                     // -------------------------------
                     // -------------------------------
@@ -293,7 +320,7 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Generated CRUD and Properties
+        #endregion Tests Generated Properties
 
         #region Tests Generated for GetTideLocationWithTideLocationID(tideLocation.TideLocationID)
         [TestMethod]
@@ -309,7 +336,7 @@ namespace CSSPServices.Tests
                     TideLocation tideLocation = (from c in dbTestDB.TideLocations select c).FirstOrDefault();
                     Assert.IsNotNull(tideLocation);
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         tideLocationService.Query.Extra = extra;
 
@@ -319,13 +346,13 @@ namespace CSSPServices.Tests
                             CheckTideLocationFields(new List<TideLocation>() { tideLocationRet });
                             Assert.AreEqual(tideLocation.TideLocationID, tideLocationRet.TideLocationID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             TideLocationExtraA tideLocationExtraARet = tideLocationService.GetTideLocationExtraAWithTideLocationID(tideLocation.TideLocationID);
                             CheckTideLocationExtraAFields(new List<TideLocationExtraA>() { tideLocationExtraARet });
                             Assert.AreEqual(tideLocation.TideLocationID, tideLocationExtraARet.TideLocationID);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             TideLocationExtraB tideLocationExtraBRet = tideLocationService.GetTideLocationExtraBWithTideLocationID(tideLocation.TideLocationID);
                             CheckTideLocationExtraBFields(new List<TideLocationExtraB>() { tideLocationExtraBRet });
@@ -333,7 +360,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -358,7 +385,7 @@ namespace CSSPServices.Tests
                     List<TideLocation> tideLocationDirectQueryList = new List<TideLocation>();
                     tideLocationDirectQueryList = (from c in dbTestDB.TideLocations select c).Take(200).ToList();
 
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         tideLocationService.Query.Extra = extra;
 
@@ -368,14 +395,14 @@ namespace CSSPServices.Tests
                             tideLocationList = tideLocationService.GetTideLocationList().ToList();
                             CheckTideLocationFields(tideLocationList);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TideLocationExtraA> tideLocationExtraAList = new List<TideLocationExtraA>();
                             tideLocationExtraAList = tideLocationService.GetTideLocationExtraAList().ToList();
                             CheckTideLocationExtraAFields(tideLocationExtraAList);
                             Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TideLocationExtraB> tideLocationExtraBList = new List<TideLocationExtraB>();
                             tideLocationExtraBList = tideLocationService.GetTideLocationExtraBList().ToList();
@@ -384,7 +411,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -402,11 +429,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         TideLocationService tideLocationService = new TideLocationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tideLocationService.Query = tideLocationService.FillQuery(typeof(TideLocation), culture.TwoLetterISOLanguageName, 1, 1, "", "", "");
+                        tideLocationService.Query = tideLocationService.FillQuery(typeof(TideLocation), culture.TwoLetterISOLanguageName, 1, 1, "", "", "", extra);
 
                         List<TideLocation> tideLocationDirectQueryList = new List<TideLocation>();
                         tideLocationDirectQueryList = (from c in dbTestDB.TideLocations select c).Skip(1).Take(1).ToList();
@@ -418,7 +445,7 @@ namespace CSSPServices.Tests
                             CheckTideLocationFields(tideLocationList);
                             Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationList[0].TideLocationID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TideLocationExtraA> tideLocationExtraAList = new List<TideLocationExtraA>();
                             tideLocationExtraAList = tideLocationService.GetTideLocationExtraAList().ToList();
@@ -426,7 +453,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationExtraAList[0].TideLocationID);
                             Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TideLocationExtraB> tideLocationExtraBList = new List<TideLocationExtraB>();
                             tideLocationExtraBList = tideLocationService.GetTideLocationExtraBList().ToList();
@@ -436,7 +463,7 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
@@ -444,9 +471,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated for GetTideLocationList() Skip Take
 
-        #region Tests Generated for GetTideLocationList() Skip Take Order
+        #region Tests Generated for GetTideLocationList() Skip Take Asc
         [TestMethod]
-        public void GetTideLocationList_Skip_Take_Order_Test()
+        public void GetTideLocationList_Skip_Take_Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -454,14 +481,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         TideLocationService tideLocationService = new TideLocationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tideLocationService.Query = tideLocationService.FillQuery(typeof(TideLocation), culture.TwoLetterISOLanguageName, 1, 1,  "TideLocationID", "");
+                        tideLocationService.Query = tideLocationService.FillQuery(typeof(TideLocation), culture.TwoLetterISOLanguageName, 1, 1,  "TideLocationID", "", "", extra);
 
                         List<TideLocation> tideLocationDirectQueryList = new List<TideLocation>();
-                        tideLocationDirectQueryList = (from c in dbTestDB.TideLocations select c).Skip(1).Take(1).OrderBy(c => c.TideLocationID).ToList();
+                        tideLocationDirectQueryList = (from c in dbTestDB.TideLocations select c).OrderBy(c => c.TideLocationID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -470,7 +497,7 @@ namespace CSSPServices.Tests
                             CheckTideLocationFields(tideLocationList);
                             Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationList[0].TideLocationID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TideLocationExtraA> tideLocationExtraAList = new List<TideLocationExtraA>();
                             tideLocationExtraAList = tideLocationService.GetTideLocationExtraAList().ToList();
@@ -478,7 +505,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationExtraAList[0].TideLocationID);
                             Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TideLocationExtraB> tideLocationExtraBList = new List<TideLocationExtraB>();
                             tideLocationExtraBList = tideLocationService.GetTideLocationExtraBList().ToList();
@@ -488,17 +515,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetTideLocationList() Skip Take Order
+        #endregion Tests Generated for GetTideLocationList() Skip Take Asc
 
-        #region Tests Generated for GetTideLocationList() Skip Take 2Order
+        #region Tests Generated for GetTideLocationList() Skip Take 2 Asc
         [TestMethod]
-        public void GetTideLocationList_Skip_Take_2Order_Test()
+        public void GetTideLocationList_Skip_Take_2Asc_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -506,14 +533,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         TideLocationService tideLocationService = new TideLocationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tideLocationService.Query = tideLocationService.FillQuery(typeof(TideLocation), culture.TwoLetterISOLanguageName, 1, 1, "TideLocationID,Zone", "");
+                        tideLocationService.Query = tideLocationService.FillQuery(typeof(TideLocation), culture.TwoLetterISOLanguageName, 1, 1, "TideLocationID,Zone", "", "", extra);
 
                         List<TideLocation> tideLocationDirectQueryList = new List<TideLocation>();
-                        tideLocationDirectQueryList = (from c in dbTestDB.TideLocations select c).Skip(1).Take(1).OrderBy(c => c.TideLocationID).ThenBy(c => c.Zone).ToList();
+                        tideLocationDirectQueryList = (from c in dbTestDB.TideLocations select c).OrderBy(c => c.TideLocationID).ThenBy(c => c.Zone).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -522,7 +549,7 @@ namespace CSSPServices.Tests
                             CheckTideLocationFields(tideLocationList);
                             Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationList[0].TideLocationID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TideLocationExtraA> tideLocationExtraAList = new List<TideLocationExtraA>();
                             tideLocationExtraAList = tideLocationService.GetTideLocationExtraAList().ToList();
@@ -530,7 +557,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationExtraAList[0].TideLocationID);
                             Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TideLocationExtraB> tideLocationExtraBList = new List<TideLocationExtraB>();
                             tideLocationExtraBList = tideLocationService.GetTideLocationExtraBList().ToList();
@@ -540,17 +567,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetTideLocationList() Skip Take 2Order
+        #endregion Tests Generated for GetTideLocationList() Skip Take 2 Asc
 
-        #region Tests Generated for GetTideLocationList() Skip Take Order Where
+        #region Tests Generated for GetTideLocationList() Skip Take Asc Where
         [TestMethod]
-        public void GetTideLocationList_Skip_Take_Order_Where_Test()
+        public void GetTideLocationList_Skip_Take_Asc_Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -558,14 +585,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         TideLocationService tideLocationService = new TideLocationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tideLocationService.Query = tideLocationService.FillQuery(typeof(TideLocation), culture.TwoLetterISOLanguageName, 0, 1, "TideLocationID", "TideLocationID,EQ,4", "");
+                        tideLocationService.Query = tideLocationService.FillQuery(typeof(TideLocation), culture.TwoLetterISOLanguageName, 0, 1, "TideLocationID", "", "TideLocationID,EQ,4", "");
 
                         List<TideLocation> tideLocationDirectQueryList = new List<TideLocation>();
-                        tideLocationDirectQueryList = (from c in dbTestDB.TideLocations select c).Where(c => c.TideLocationID == 4).Skip(0).Take(1).OrderBy(c => c.TideLocationID).ToList();
+                        tideLocationDirectQueryList = (from c in dbTestDB.TideLocations select c).Where(c => c.TideLocationID == 4).OrderBy(c => c.TideLocationID).Skip(0).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -574,7 +601,7 @@ namespace CSSPServices.Tests
                             CheckTideLocationFields(tideLocationList);
                             Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationList[0].TideLocationID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TideLocationExtraA> tideLocationExtraAList = new List<TideLocationExtraA>();
                             tideLocationExtraAList = tideLocationService.GetTideLocationExtraAList().ToList();
@@ -582,7 +609,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationExtraAList[0].TideLocationID);
                             Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TideLocationExtraB> tideLocationExtraBList = new List<TideLocationExtraB>();
                             tideLocationExtraBList = tideLocationService.GetTideLocationExtraBList().ToList();
@@ -592,17 +619,17 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetTideLocationList() Skip Take Order Where
+        #endregion Tests Generated for GetTideLocationList() Skip Take Asc Where
 
-        #region Tests Generated for GetTideLocationList() Skip Take Order 2Where
+        #region Tests Generated for GetTideLocationList() Skip Take Asc 2 Where
         [TestMethod]
-        public void GetTideLocationList_Skip_Take_Order_2Where_Test()
+        public void GetTideLocationList_Skip_Take_Asc_2Where_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -610,11 +637,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         TideLocationService tideLocationService = new TideLocationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tideLocationService.Query = tideLocationService.FillQuery(typeof(TideLocation), culture.TwoLetterISOLanguageName, 0, 1, "TideLocationID", "TideLocationID,GT,2|TideLocationID,LT,5", "");
+                        tideLocationService.Query = tideLocationService.FillQuery(typeof(TideLocation), culture.TwoLetterISOLanguageName, 0, 1, "TideLocationID", "", "TideLocationID,GT,2|TideLocationID,LT,5", "");
 
                         List<TideLocation> tideLocationDirectQueryList = new List<TideLocation>();
                         tideLocationDirectQueryList = (from c in dbTestDB.TideLocations select c).Where(c => c.TideLocationID > 2 && c.TideLocationID < 5).Skip(0).Take(1).OrderBy(c => c.TideLocationID).ToList();
@@ -626,7 +653,7 @@ namespace CSSPServices.Tests
                             CheckTideLocationFields(tideLocationList);
                             Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationList[0].TideLocationID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TideLocationExtraA> tideLocationExtraAList = new List<TideLocationExtraA>();
                             tideLocationExtraAList = tideLocationService.GetTideLocationExtraAList().ToList();
@@ -634,7 +661,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationExtraAList[0].TideLocationID);
                             Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TideLocationExtraB> tideLocationExtraBList = new List<TideLocationExtraB>();
                             tideLocationExtraBList = tideLocationService.GetTideLocationExtraBList().ToList();
@@ -644,15 +671,223 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetTideLocationList() Skip Take Order 2Where
+        #endregion Tests Generated for GetTideLocationList() Skip Take Asc 2 Where
 
-        #region Tests Generated for GetTideLocationList() 2Where
+        #region Tests Generated for GetTideLocationList() Skip Take Desc
+        [TestMethod]
+        public void GetTideLocationList_Skip_Take_Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        TideLocationService tideLocationService = new TideLocationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tideLocationService.Query = tideLocationService.FillQuery(typeof(TideLocation), culture.TwoLetterISOLanguageName, 1, 1, "", "TideLocationID", "", extra);
+
+                        List<TideLocation> tideLocationDirectQueryList = new List<TideLocation>();
+                        tideLocationDirectQueryList = (from c in dbTestDB.TideLocations select c).OrderByDescending(c => c.TideLocationID).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<TideLocation> tideLocationList = new List<TideLocation>();
+                            tideLocationList = tideLocationService.GetTideLocationList().ToList();
+                            CheckTideLocationFields(tideLocationList);
+                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationList[0].TideLocationID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<TideLocationExtraA> tideLocationExtraAList = new List<TideLocationExtraA>();
+                            tideLocationExtraAList = tideLocationService.GetTideLocationExtraAList().ToList();
+                            CheckTideLocationExtraAFields(tideLocationExtraAList);
+                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationExtraAList[0].TideLocationID);
+                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<TideLocationExtraB> tideLocationExtraBList = new List<TideLocationExtraB>();
+                            tideLocationExtraBList = tideLocationService.GetTideLocationExtraBList().ToList();
+                            CheckTideLocationExtraBFields(tideLocationExtraBList);
+                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationExtraBList[0].TideLocationID);
+                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTideLocationList() Skip Take Desc
+
+        #region Tests Generated for GetTideLocationList() Skip Take 2 Desc
+        [TestMethod]
+        public void GetTideLocationList_Skip_Take_2Desc_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        TideLocationService tideLocationService = new TideLocationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tideLocationService.Query = tideLocationService.FillQuery(typeof(TideLocation), culture.TwoLetterISOLanguageName, 1, 1, "", "TideLocationID,Zone", "", extra);
+
+                        List<TideLocation> tideLocationDirectQueryList = new List<TideLocation>();
+                        tideLocationDirectQueryList = (from c in dbTestDB.TideLocations select c).OrderByDescending(c => c.TideLocationID).ThenByDescending(c => c.Zone).Skip(1).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<TideLocation> tideLocationList = new List<TideLocation>();
+                            tideLocationList = tideLocationService.GetTideLocationList().ToList();
+                            CheckTideLocationFields(tideLocationList);
+                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationList[0].TideLocationID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<TideLocationExtraA> tideLocationExtraAList = new List<TideLocationExtraA>();
+                            tideLocationExtraAList = tideLocationService.GetTideLocationExtraAList().ToList();
+                            CheckTideLocationExtraAFields(tideLocationExtraAList);
+                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationExtraAList[0].TideLocationID);
+                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<TideLocationExtraB> tideLocationExtraBList = new List<TideLocationExtraB>();
+                            tideLocationExtraBList = tideLocationService.GetTideLocationExtraBList().ToList();
+                            CheckTideLocationExtraBFields(tideLocationExtraBList);
+                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationExtraBList[0].TideLocationID);
+                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTideLocationList() Skip Take 2 Desc
+
+        #region Tests Generated for GetTideLocationList() Skip Take Desc Where
+        [TestMethod]
+        public void GetTideLocationList_Skip_Take_Desc_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        TideLocationService tideLocationService = new TideLocationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tideLocationService.Query = tideLocationService.FillQuery(typeof(TideLocation), culture.TwoLetterISOLanguageName, 0, 1, "TideLocationID", "", "TideLocationID,EQ,4", "");
+
+                        List<TideLocation> tideLocationDirectQueryList = new List<TideLocation>();
+                        tideLocationDirectQueryList = (from c in dbTestDB.TideLocations select c).Where(c => c.TideLocationID == 4).OrderByDescending(c => c.TideLocationID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<TideLocation> tideLocationList = new List<TideLocation>();
+                            tideLocationList = tideLocationService.GetTideLocationList().ToList();
+                            CheckTideLocationFields(tideLocationList);
+                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationList[0].TideLocationID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<TideLocationExtraA> tideLocationExtraAList = new List<TideLocationExtraA>();
+                            tideLocationExtraAList = tideLocationService.GetTideLocationExtraAList().ToList();
+                            CheckTideLocationExtraAFields(tideLocationExtraAList);
+                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationExtraAList[0].TideLocationID);
+                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<TideLocationExtraB> tideLocationExtraBList = new List<TideLocationExtraB>();
+                            tideLocationExtraBList = tideLocationService.GetTideLocationExtraBList().ToList();
+                            CheckTideLocationExtraBFields(tideLocationExtraBList);
+                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationExtraBList[0].TideLocationID);
+                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTideLocationList() Skip Take Desc Where
+
+        #region Tests Generated for GetTideLocationList() Skip Take Desc 2 Where
+        [TestMethod]
+        public void GetTideLocationList_Skip_Take_Desc_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
+                    {
+                        TideLocationService tideLocationService = new TideLocationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tideLocationService.Query = tideLocationService.FillQuery(typeof(TideLocation), culture.TwoLetterISOLanguageName, 0, 1, "", "TideLocationID", "TideLocationID,GT,2|TideLocationID,LT,5", "");
+
+                        List<TideLocation> tideLocationDirectQueryList = new List<TideLocation>();
+                        tideLocationDirectQueryList = (from c in dbTestDB.TideLocations select c).Where(c => c.TideLocationID > 2 && c.TideLocationID < 5).OrderByDescending(c => c.TideLocationID).Skip(0).Take(1).ToList();
+
+                        if (string.IsNullOrWhiteSpace(extra))
+                        {
+                            List<TideLocation> tideLocationList = new List<TideLocation>();
+                            tideLocationList = tideLocationService.GetTideLocationList().ToList();
+                            CheckTideLocationFields(tideLocationList);
+                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationList[0].TideLocationID);
+                        }
+                        else if (extra == "A")
+                        {
+                            List<TideLocationExtraA> tideLocationExtraAList = new List<TideLocationExtraA>();
+                            tideLocationExtraAList = tideLocationService.GetTideLocationExtraAList().ToList();
+                            CheckTideLocationExtraAFields(tideLocationExtraAList);
+                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationExtraAList[0].TideLocationID);
+                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationExtraAList.Count);
+                        }
+                        else if (extra == "B")
+                        {
+                            List<TideLocationExtraB> tideLocationExtraBList = new List<TideLocationExtraB>();
+                            tideLocationExtraBList = tideLocationService.GetTideLocationExtraBList().ToList();
+                            CheckTideLocationExtraBFields(tideLocationExtraBList);
+                            Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationExtraBList[0].TideLocationID);
+                            Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationExtraBList.Count);
+                        }
+                        else
+                        {
+                            //Assert.AreEqual(true, false);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTideLocationList() Skip Take Desc 2 Where
+
+        #region Tests Generated for GetTideLocationList() 2 Where
         [TestMethod]
         public void GetTideLocationList_2Where_Test()
         {
@@ -662,11 +897,11 @@ namespace CSSPServices.Tests
 
                 using (CSSPDBContext dbTestDB = new CSSPDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    foreach (string extra in new List<string>() { null, "ExtraA", "ExtraB", "ExtraC", "ExtraD", "ExtraE" })
+                    foreach (string extra in new List<string>() { null, "A", "B", "C", "D", "E" })
                     {
                         TideLocationService tideLocationService = new TideLocationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        tideLocationService.Query = tideLocationService.FillQuery(typeof(TideLocation), culture.TwoLetterISOLanguageName, 0, 10000, "", "TideLocationID,GT,2|TideLocationID,LT,5", "");
+                        tideLocationService.Query = tideLocationService.FillQuery(typeof(TideLocation), culture.TwoLetterISOLanguageName, 0, 10000, "", "", "TideLocationID,GT,2|TideLocationID,LT,5", extra);
 
                         List<TideLocation> tideLocationDirectQueryList = new List<TideLocation>();
                         tideLocationDirectQueryList = (from c in dbTestDB.TideLocations select c).Where(c => c.TideLocationID > 2 && c.TideLocationID < 5).ToList();
@@ -678,7 +913,7 @@ namespace CSSPServices.Tests
                             CheckTideLocationFields(tideLocationList);
                             Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationList[0].TideLocationID);
                         }
-                        else if (extra == "ExtraA")
+                        else if (extra == "A")
                         {
                             List<TideLocationExtraA> tideLocationExtraAList = new List<TideLocationExtraA>();
                             tideLocationExtraAList = tideLocationService.GetTideLocationExtraAList().ToList();
@@ -686,7 +921,7 @@ namespace CSSPServices.Tests
                             Assert.AreEqual(tideLocationDirectQueryList[0].TideLocationID, tideLocationExtraAList[0].TideLocationID);
                             Assert.AreEqual(tideLocationDirectQueryList.Count, tideLocationExtraAList.Count);
                         }
-                        else if (extra == "ExtraB")
+                        else if (extra == "B")
                         {
                             List<TideLocationExtraB> tideLocationExtraBList = new List<TideLocationExtraB>();
                             tideLocationExtraBList = tideLocationService.GetTideLocationExtraBList().ToList();
@@ -696,13 +931,13 @@ namespace CSSPServices.Tests
                         }
                         else
                         {
-                            // nothing for now
+                            //Assert.AreEqual(true, false);
                         }
                     }
                 }
             }
         }
-        #endregion Tests Generated for GetTideLocationList() 2Where
+        #endregion Tests Generated for GetTideLocationList() 2 Where
 
         #region Functions private
         private void CheckTideLocationFields(List<TideLocation> tideLocationList)
