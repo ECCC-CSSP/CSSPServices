@@ -117,8 +117,8 @@ namespace CSSPServices
                             bool exist = false;
                             foreach (Type type in TypeList)
                             {
-                                string ExtraName = $"{ query.ModelType.Name }Extra{ s }";
-                                if (ExtraName == type.Name)
+                                //string ExtraName = $"{ query.ModelType.Name }Extra{ s }";
+                                if (query.ModelType.Name == type.Name)
                                 {
                                     exist = true;
                                     break;
