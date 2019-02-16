@@ -23,44 +23,46 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
-    public partial class TideSiteService
+    public partial class DrogueRunService
     {
-        #region Functions private Generated FillTideSiteExtraB
-        private IQueryable<TideSiteExtraB> FillTideSiteExtraB()
+        #region Functions private Generated FillDrogueRunExtraB
+        private IQueryable<DrogueRunExtraB> FillDrogueRunExtraB()
         {
-             IQueryable<TideSiteExtraB> TideSiteExtraBQuery = (from c in db.TideSites
-                let TideSiteReportTest = (from cl in db.TVItemLanguages
+            Enums enums = new Enums(LanguageRequest);
+
+            List<EnumIDAndText> DrogueTypeEnumList = enums.GetEnumTextOrderedList(typeof(DrogueTypeEnum));
+
+             IQueryable<DrogueRunExtraB> DrogueRunExtraBQuery = (from c in db.DrogueRuns
+                let DrogueRunReportTest = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
-                let TideSiteText = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.TideSiteTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
                 let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
-                    select new TideSiteExtraB
+                let DrogueTypeText = (from e in DrogueTypeEnumList
+                    where e.EnumID == (int?)c.DrogueType
+                    select e.EnumText).FirstOrDefault()
+                    select new DrogueRunExtraB
                     {
-                        TideSiteReportTest = TideSiteReportTest,
-                        TideSiteText = TideSiteText,
+                        DrogueRunReportTest = DrogueRunReportTest,
                         LastUpdateContactText = LastUpdateContactText,
-                        TideSiteID = c.TideSiteID,
-                        TideSiteTVItemID = c.TideSiteTVItemID,
-                        TideSiteName = c.TideSiteName,
-                        Province = c.Province,
-                        sid = c.sid,
-                        Zone = c.Zone,
+                        DrogueTypeText = DrogueTypeText,
+                        DrogueRunID = c.DrogueRunID,
+                        SubsectorTVItemID = c.SubsectorTVItemID,
+                        DrogueNumber = c.DrogueNumber,
+                        DrogueType = c.DrogueType,
+                        RunStartDateTime = c.RunStartDateTime,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
                     }).AsNoTracking();
 
-            return TideSiteExtraBQuery;
+            return DrogueRunExtraBQuery;
         }
-        #endregion Functions private Generated FillTideSiteExtraB
+        #endregion Functions private Generated FillDrogueRunExtraB
 
     }
 }

@@ -53,7 +53,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "InfrastructureType"), new[] { "InfrastructureType" });
             }
 
-            //SeeOtherTVItemID has no Range Attribute
+            //SeeOtherMunicipalityTVItemID has no Range Attribute
 
             if (!string.IsNullOrWhiteSpace(tvItemInfrastructureTypeTVItemLink.InfrastructureTypeText) && tvItemInfrastructureTypeTVItemLink.InfrastructureTypeText.Length > 100)
             {

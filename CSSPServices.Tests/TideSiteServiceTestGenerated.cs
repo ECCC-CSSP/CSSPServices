@@ -162,45 +162,87 @@ namespace CSSPServices.Tests
                     // -----------------------------------
                     // Is NOT Nullable
                     // [StringLength(100))]
-                    // tideSite.WebTideModel   (String)
+                    // tideSite.TideSiteName   (String)
                     // -----------------------------------
 
                     tideSite = null;
-                    tideSite = GetFilledRandomTideSite("WebTideModel");
+                    tideSite = GetFilledRandomTideSite("TideSiteName");
                     Assert.AreEqual(false, tideSiteService.Add(tideSite));
                     Assert.AreEqual(1, tideSite.ValidationResults.Count());
-                    Assert.IsTrue(tideSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "WebTideModel")).Any());
-                    Assert.AreEqual(null, tideSite.WebTideModel);
+                    Assert.IsTrue(tideSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "TideSiteName")).Any());
+                    Assert.AreEqual(null, tideSite.TideSiteName);
                     Assert.AreEqual(count, tideSiteService.GetTideSiteList().Count());
 
                     tideSite = null;
                     tideSite = GetFilledRandomTideSite("");
-                    tideSite.WebTideModel = GetRandomString("", 101);
+                    tideSite.TideSiteName = GetRandomString("", 101);
                     Assert.AreEqual(false, tideSiteService.Add(tideSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "WebTideModel", "100"), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "TideSiteName", "100"), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tideSiteService.GetTideSiteList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
-                    // [Range(-100, 100)]
-                    // tideSite.WebTideDatum_m   (Double)
+                    // [StringLength(2, MinimumLength = 2)]
+                    // tideSite.Province   (String)
                     // -----------------------------------
 
-                    //CSSPError: Type not implemented [WebTideDatum_m]
-
-                    //CSSPError: Type not implemented [WebTideDatum_m]
+                    tideSite = null;
+                    tideSite = GetFilledRandomTideSite("Province");
+                    Assert.AreEqual(false, tideSiteService.Add(tideSite));
+                    Assert.AreEqual(1, tideSite.ValidationResults.Count());
+                    Assert.IsTrue(tideSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "Province")).Any());
+                    Assert.AreEqual(null, tideSite.Province);
+                    Assert.AreEqual(count, tideSiteService.GetTideSiteList().Count());
 
                     tideSite = null;
                     tideSite = GetFilledRandomTideSite("");
-                    tideSite.WebTideDatum_m = -101.0D;
+                    tideSite.Province = GetRandomString("", 1);
                     Assert.AreEqual(false, tideSiteService.Add(tideSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "WebTideDatum_m", "-100", "100"), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "Province", "2", "2"), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tideSiteService.GetTideSiteList().Count());
                     tideSite = null;
                     tideSite = GetFilledRandomTideSite("");
-                    tideSite.WebTideDatum_m = 101.0D;
+                    tideSite.Province = GetRandomString("", 3);
                     Assert.AreEqual(false, tideSiteService.Add(tideSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "WebTideDatum_m", "-100", "100"), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "Province", "2", "2"), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, tideSiteService.GetTideSiteList().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(0, 10000)]
+                    // tideSite.sid   (Int32)
+                    // -----------------------------------
+
+                    tideSite = null;
+                    tideSite = GetFilledRandomTideSite("");
+                    tideSite.sid = -1;
+                    Assert.AreEqual(false, tideSiteService.Add(tideSite));
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "sid", "0", "10000"), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, tideSiteService.GetTideSiteList().Count());
+                    tideSite = null;
+                    tideSite = GetFilledRandomTideSite("");
+                    tideSite.sid = 10001;
+                    Assert.AreEqual(false, tideSiteService.Add(tideSite));
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "sid", "0", "10000"), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, tideSiteService.GetTideSiteList().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(0, 10000)]
+                    // tideSite.Zone   (Int32)
+                    // -----------------------------------
+
+                    tideSite = null;
+                    tideSite = GetFilledRandomTideSite("");
+                    tideSite.Zone = -1;
+                    Assert.AreEqual(false, tideSiteService.Add(tideSite));
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "Zone", "0", "10000"), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, tideSiteService.GetTideSiteList().Count());
+                    tideSite = null;
+                    tideSite = GetFilledRandomTideSite("");
+                    tideSite.Zone = 10001;
+                    Assert.AreEqual(false, tideSiteService.Add(tideSite));
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "Zone", "0", "10000"), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tideSiteService.GetTideSiteList().Count());
 
                     // -----------------------------------
@@ -881,8 +923,10 @@ namespace CSSPServices.Tests
         {
             Assert.IsNotNull(tideSiteList[0].TideSiteID);
             Assert.IsNotNull(tideSiteList[0].TideSiteTVItemID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteList[0].WebTideModel));
-            Assert.IsNotNull(tideSiteList[0].WebTideDatum_m);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteList[0].TideSiteName));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteList[0].Province));
+            Assert.IsNotNull(tideSiteList[0].sid);
+            Assert.IsNotNull(tideSiteList[0].Zone);
             Assert.IsNotNull(tideSiteList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(tideSiteList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(tideSiteList[0].HasErrors);
@@ -893,8 +937,10 @@ namespace CSSPServices.Tests
             Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteExtraAList[0].LastUpdateContactText));
             Assert.IsNotNull(tideSiteExtraAList[0].TideSiteID);
             Assert.IsNotNull(tideSiteExtraAList[0].TideSiteTVItemID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteExtraAList[0].WebTideModel));
-            Assert.IsNotNull(tideSiteExtraAList[0].WebTideDatum_m);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteExtraAList[0].TideSiteName));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteExtraAList[0].Province));
+            Assert.IsNotNull(tideSiteExtraAList[0].sid);
+            Assert.IsNotNull(tideSiteExtraAList[0].Zone);
             Assert.IsNotNull(tideSiteExtraAList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(tideSiteExtraAList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(tideSiteExtraAList[0].HasErrors);
@@ -909,8 +955,10 @@ namespace CSSPServices.Tests
             Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteExtraBList[0].LastUpdateContactText));
             Assert.IsNotNull(tideSiteExtraBList[0].TideSiteID);
             Assert.IsNotNull(tideSiteExtraBList[0].TideSiteTVItemID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteExtraBList[0].WebTideModel));
-            Assert.IsNotNull(tideSiteExtraBList[0].WebTideDatum_m);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteExtraBList[0].TideSiteName));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteExtraBList[0].Province));
+            Assert.IsNotNull(tideSiteExtraBList[0].sid);
+            Assert.IsNotNull(tideSiteExtraBList[0].Zone);
             Assert.IsNotNull(tideSiteExtraBList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(tideSiteExtraBList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(tideSiteExtraBList[0].HasErrors);
@@ -920,8 +968,10 @@ namespace CSSPServices.Tests
             TideSite tideSite = new TideSite();
 
             if (OmitPropName != "TideSiteTVItemID") tideSite.TideSiteTVItemID = 37;
-            if (OmitPropName != "WebTideModel") tideSite.WebTideModel = GetRandomString("", 5);
-            if (OmitPropName != "WebTideDatum_m") tideSite.WebTideDatum_m = GetRandomDouble(-100.0D, 100.0D);
+            if (OmitPropName != "TideSiteName") tideSite.TideSiteName = GetRandomString("", 5);
+            if (OmitPropName != "Province") tideSite.Province = GetRandomString("", 2);
+            if (OmitPropName != "sid") tideSite.sid = GetRandomInt(0, 10000);
+            if (OmitPropName != "Zone") tideSite.Zone = GetRandomInt(0, 10000);
             if (OmitPropName != "LastUpdateDate_UTC") tideSite.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") tideSite.LastUpdateContactTVItemID = 2;
 

@@ -181,14 +181,14 @@ namespace CSSPServices.Tests
                     // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPEnumType]
-                    // useOfSite.SiteType   (SiteTypeEnum)
+                    // useOfSite.TVType   (TVTypeEnum)
                     // -----------------------------------
 
                     useOfSite = null;
                     useOfSite = GetFilledRandomUseOfSite("");
-                    useOfSite.SiteType = (SiteTypeEnum)1000000;
+                    useOfSite.TVType = (TVTypeEnum)1000000;
                     useOfSiteService.Add(useOfSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "SiteType"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "TVType"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -1054,7 +1054,7 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(useOfSiteList[0].UseOfSiteID);
             Assert.IsNotNull(useOfSiteList[0].SiteTVItemID);
             Assert.IsNotNull(useOfSiteList[0].SubsectorTVItemID);
-            Assert.IsNotNull(useOfSiteList[0].SiteType);
+            Assert.IsNotNull(useOfSiteList[0].TVType);
             Assert.IsNotNull(useOfSiteList[0].Ordinal);
             Assert.IsNotNull(useOfSiteList[0].StartYear);
             if (useOfSiteList[0].EndYear != null)
@@ -1098,14 +1098,14 @@ namespace CSSPServices.Tests
             Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteExtraAList[0].SiteText));
             Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteExtraAList[0].SubsectorText));
             Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteExtraAList[0].LastUpdateContactText));
-            if (!string.IsNullOrWhiteSpace(useOfSiteExtraAList[0].SiteTypeText))
+            if (!string.IsNullOrWhiteSpace(useOfSiteExtraAList[0].TVTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteExtraAList[0].SiteTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteExtraAList[0].TVTypeText));
             }
             Assert.IsNotNull(useOfSiteExtraAList[0].UseOfSiteID);
             Assert.IsNotNull(useOfSiteExtraAList[0].SiteTVItemID);
             Assert.IsNotNull(useOfSiteExtraAList[0].SubsectorTVItemID);
-            Assert.IsNotNull(useOfSiteExtraAList[0].SiteType);
+            Assert.IsNotNull(useOfSiteExtraAList[0].TVType);
             Assert.IsNotNull(useOfSiteExtraAList[0].Ordinal);
             Assert.IsNotNull(useOfSiteExtraAList[0].StartYear);
             if (useOfSiteExtraAList[0].EndYear != null)
@@ -1153,14 +1153,14 @@ namespace CSSPServices.Tests
             Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteExtraBList[0].SiteText));
             Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteExtraBList[0].SubsectorText));
             Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteExtraBList[0].LastUpdateContactText));
-            if (!string.IsNullOrWhiteSpace(useOfSiteExtraBList[0].SiteTypeText))
+            if (!string.IsNullOrWhiteSpace(useOfSiteExtraBList[0].TVTypeText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteExtraBList[0].SiteTypeText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteExtraBList[0].TVTypeText));
             }
             Assert.IsNotNull(useOfSiteExtraBList[0].UseOfSiteID);
             Assert.IsNotNull(useOfSiteExtraBList[0].SiteTVItemID);
             Assert.IsNotNull(useOfSiteExtraBList[0].SubsectorTVItemID);
-            Assert.IsNotNull(useOfSiteExtraBList[0].SiteType);
+            Assert.IsNotNull(useOfSiteExtraBList[0].TVType);
             Assert.IsNotNull(useOfSiteExtraBList[0].Ordinal);
             Assert.IsNotNull(useOfSiteExtraBList[0].StartYear);
             if (useOfSiteExtraBList[0].EndYear != null)
@@ -1205,7 +1205,7 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "SiteTVItemID") useOfSite.SiteTVItemID = 7;
             if (OmitPropName != "SubsectorTVItemID") useOfSite.SubsectorTVItemID = 11;
-            if (OmitPropName != "SiteType") useOfSite.SiteType = (SiteTypeEnum)GetRandomEnumType(typeof(SiteTypeEnum));
+            if (OmitPropName != "TVType") useOfSite.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
             if (OmitPropName != "Ordinal") useOfSite.Ordinal = GetRandomInt(0, 1000);
             if (OmitPropName != "StartYear") useOfSite.StartYear = GetRandomInt(1980, 2050);
             if (OmitPropName != "EndYear") useOfSite.EndYear = GetRandomInt(1980, 2050);

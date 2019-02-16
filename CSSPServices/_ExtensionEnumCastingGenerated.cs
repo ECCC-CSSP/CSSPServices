@@ -59,6 +59,8 @@ namespace CSSPServices
                    return (DailyOrHourlyDataEnum)whereInfo.ValueInt;
                case "DisinfectionTypeEnum":
                    return (DisinfectionTypeEnum)whereInfo.ValueInt;
+               case "DrogueTypeEnum":
+                   return (DrogueTypeEnum)whereInfo.ValueInt;
                case "EmailTypeEnum":
                    return (EmailTypeEnum)whereInfo.ValueInt;
                case "ExcelExportShowDataTypeEnum":

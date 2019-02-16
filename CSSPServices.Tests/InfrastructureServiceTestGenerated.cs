@@ -919,20 +919,20 @@ namespace CSSPServices.Tests
                     // -----------------------------------
                     // Is Nullable
                     // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Infrastructure)]
-                    // infrastructure.SeeOtherTVItemID   (Int32)
+                    // infrastructure.SeeOtherMunicipalityTVItemID   (Int32)
                     // -----------------------------------
 
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
-                    infrastructure.SeeOtherTVItemID = 0;
+                    infrastructure.SeeOtherMunicipalityTVItemID = 0;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "SeeOtherTVItemID", infrastructure.SeeOtherTVItemID.ToString()), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "SeeOtherMunicipalityTVItemID", infrastructure.SeeOtherMunicipalityTVItemID.ToString()), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
-                    infrastructure.SeeOtherTVItemID = 1;
+                    infrastructure.SeeOtherMunicipalityTVItemID = 1;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, "SeeOtherTVItemID", "Infrastructure"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, "SeeOtherMunicipalityTVItemID", "Infrastructure"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -1800,9 +1800,9 @@ namespace CSSPServices.Tests
             {
                 Assert.IsNotNull(infrastructureList[0].DistanceFromShore_m);
             }
-            if (infrastructureList[0].SeeOtherTVItemID != null)
+            if (infrastructureList[0].SeeOtherMunicipalityTVItemID != null)
             {
-                Assert.IsNotNull(infrastructureList[0].SeeOtherTVItemID);
+                Assert.IsNotNull(infrastructureList[0].SeeOtherMunicipalityTVItemID);
             }
             if (infrastructureList[0].CivicAddressTVItemID != null)
             {
@@ -1815,9 +1815,9 @@ namespace CSSPServices.Tests
         private void CheckInfrastructureExtraAFields(List<InfrastructureExtraA> infrastructureExtraAList)
         {
             Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].InfrastructureText));
-            if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].SeeOtherText))
+            if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].SeeOtherMunicipalityText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].SeeOtherText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].SeeOtherMunicipalityText));
             }
             if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].CivicAddressText))
             {
@@ -2038,9 +2038,9 @@ namespace CSSPServices.Tests
             {
                 Assert.IsNotNull(infrastructureExtraAList[0].DistanceFromShore_m);
             }
-            if (infrastructureExtraAList[0].SeeOtherTVItemID != null)
+            if (infrastructureExtraAList[0].SeeOtherMunicipalityTVItemID != null)
             {
-                Assert.IsNotNull(infrastructureExtraAList[0].SeeOtherTVItemID);
+                Assert.IsNotNull(infrastructureExtraAList[0].SeeOtherMunicipalityTVItemID);
             }
             if (infrastructureExtraAList[0].CivicAddressTVItemID != null)
             {
@@ -2057,9 +2057,9 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].InfrastructureReportTest));
             }
             Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].InfrastructureText));
-            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].SeeOtherText))
+            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].SeeOtherMunicipalityText))
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].SeeOtherText));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].SeeOtherMunicipalityText));
             }
             if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].CivicAddressText))
             {
@@ -2280,9 +2280,9 @@ namespace CSSPServices.Tests
             {
                 Assert.IsNotNull(infrastructureExtraBList[0].DistanceFromShore_m);
             }
-            if (infrastructureExtraBList[0].SeeOtherTVItemID != null)
+            if (infrastructureExtraBList[0].SeeOtherMunicipalityTVItemID != null)
             {
-                Assert.IsNotNull(infrastructureExtraBList[0].SeeOtherTVItemID);
+                Assert.IsNotNull(infrastructureExtraBList[0].SeeOtherMunicipalityTVItemID);
             }
             if (infrastructureExtraBList[0].CivicAddressTVItemID != null)
             {
@@ -2339,7 +2339,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "ReceivingWaterTemperature_C") infrastructure.ReceivingWaterTemperature_C = GetRandomDouble(-10.0D, 40.0D);
             if (OmitPropName != "ReceivingWater_MPN_per_100ml") infrastructure.ReceivingWater_MPN_per_100ml = GetRandomInt(0, 10000000);
             if (OmitPropName != "DistanceFromShore_m") infrastructure.DistanceFromShore_m = GetRandomDouble(0.0D, 1000.0D);
-            if (OmitPropName != "SeeOtherTVItemID") infrastructure.SeeOtherTVItemID = 40;
+            if (OmitPropName != "SeeOtherMunicipalityTVItemID") infrastructure.SeeOtherMunicipalityTVItemID = 40;
             if (OmitPropName != "CivicAddressTVItemID") infrastructure.CivicAddressTVItemID = 45;
             if (OmitPropName != "LastUpdateDate_UTC") infrastructure.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") infrastructure.LastUpdateContactTVItemID = 2;

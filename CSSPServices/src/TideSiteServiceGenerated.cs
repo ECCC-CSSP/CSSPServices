@@ -81,22 +81,40 @@ namespace CSSPServices
                 }
             }
 
-            if (string.IsNullOrWhiteSpace(tideSite.WebTideModel))
+            if (string.IsNullOrWhiteSpace(tideSite.TideSiteName))
             {
                 tideSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "WebTideModel"), new[] { "WebTideModel" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TideSiteName"), new[] { "TideSiteName" });
             }
 
-            if (!string.IsNullOrWhiteSpace(tideSite.WebTideModel) && tideSite.WebTideModel.Length > 100)
+            if (!string.IsNullOrWhiteSpace(tideSite.TideSiteName) && tideSite.TideSiteName.Length > 100)
             {
                 tideSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "WebTideModel", "100"), new[] { "WebTideModel" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "TideSiteName", "100"), new[] { "TideSiteName" });
             }
 
-            if (tideSite.WebTideDatum_m < -100 || tideSite.WebTideDatum_m > 100)
+            if (string.IsNullOrWhiteSpace(tideSite.Province))
             {
                 tideSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "WebTideDatum_m", "-100", "100"), new[] { "WebTideDatum_m" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "Province"), new[] { "Province" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(tideSite.Province) && (tideSite.Province.Length < 2 || tideSite.Province.Length > 2))
+            {
+                tideSite.HasErrors = true;
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "Province", "2", "2"), new[] { "Province" });
+            }
+
+            if (tideSite.sid < 0 || tideSite.sid > 10000)
+            {
+                tideSite.HasErrors = true;
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "sid", "0", "10000"), new[] { "sid" });
+            }
+
+            if (tideSite.Zone < 0 || tideSite.Zone > 10000)
+            {
+                tideSite.HasErrors = true;
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "Zone", "0", "10000"), new[] { "Zone" });
             }
 
             if (tideSite.LastUpdateDate_UTC.Year == 1)

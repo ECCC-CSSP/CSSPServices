@@ -122,7 +122,7 @@ namespace CSSPServices
                     TVTypeEnum.MeshNode,
                     TVTypeEnum.WebTideNode,
                     TVTypeEnum.SamplingPlan,
-                    TVTypeEnum.SeeOther,
+                    TVTypeEnum.SeeOtherMunicipality,
                     TVTypeEnum.LineOverflow,
                     TVTypeEnum.MapInfo,
                     TVTypeEnum.MapInfoPoint,
@@ -130,7 +130,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemTVItemID1.TVType))
                 {
                     tvItemUserAuthorization.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "TVItemID1", "Root,Address,Area,ClimateSite,Contact,Country,Email,File,HydrometricSite,Infrastructure,MikeScenario,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,Tel,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,BoxModel,VisualPlumesScenario,OtherInfrastructure,MWQMRun,MeshNode,WebTideNode,SamplingPlan,SeeOther,LineOverflow,MapInfo,MapInfoPoint"), new[] { "TVItemID1" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "TVItemID1", "Root,Address,Area,ClimateSite,Contact,Country,Email,File,HydrometricSite,Infrastructure,MikeScenario,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,Tel,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,BoxModel,VisualPlumesScenario,OtherInfrastructure,MWQMRun,MeshNode,WebTideNode,SamplingPlan,SeeOtherMunicipality,LineOverflow,MapInfo,MapInfoPoint"), new[] { "TVItemID1" });
                 }
             }
 
@@ -177,7 +177,7 @@ namespace CSSPServices
                         TVTypeEnum.MeshNode,
                         TVTypeEnum.WebTideNode,
                         TVTypeEnum.SamplingPlan,
-                        TVTypeEnum.SeeOther,
+                        TVTypeEnum.SeeOtherMunicipality,
                         TVTypeEnum.LineOverflow,
                         TVTypeEnum.MapInfo,
                         TVTypeEnum.MapInfoPoint,
@@ -185,7 +185,7 @@ namespace CSSPServices
                     if (!AllowableTVTypes.Contains(TVItemTVItemID2.TVType))
                     {
                         tvItemUserAuthorization.HasErrors = true;
-                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "TVItemID2", "Root,Address,Area,ClimateSite,Contact,Country,Email,File,HydrometricSite,Infrastructure,MikeScenario,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,Tel,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,BoxModel,VisualPlumesScenario,OtherInfrastructure,MWQMRun,MeshNode,WebTideNode,SamplingPlan,SeeOther,LineOverflow,MapInfo,MapInfoPoint"), new[] { "TVItemID2" });
+                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "TVItemID2", "Root,Address,Area,ClimateSite,Contact,Country,Email,File,HydrometricSite,Infrastructure,MikeScenario,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,Tel,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,BoxModel,VisualPlumesScenario,OtherInfrastructure,MWQMRun,MeshNode,WebTideNode,SamplingPlan,SeeOtherMunicipality,LineOverflow,MapInfo,MapInfoPoint"), new[] { "TVItemID2" });
                     }
                 }
             }
@@ -233,7 +233,7 @@ namespace CSSPServices
                         TVTypeEnum.MeshNode,
                         TVTypeEnum.WebTideNode,
                         TVTypeEnum.SamplingPlan,
-                        TVTypeEnum.SeeOther,
+                        TVTypeEnum.SeeOtherMunicipality,
                         TVTypeEnum.LineOverflow,
                         TVTypeEnum.MapInfo,
                         TVTypeEnum.MapInfoPoint,
@@ -241,7 +241,7 @@ namespace CSSPServices
                     if (!AllowableTVTypes.Contains(TVItemTVItemID3.TVType))
                     {
                         tvItemUserAuthorization.HasErrors = true;
-                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "TVItemID3", "Root,Address,Area,ClimateSite,Contact,Country,Email,File,HydrometricSite,Infrastructure,MikeScenario,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,Tel,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,BoxModel,VisualPlumesScenario,OtherInfrastructure,MWQMRun,MeshNode,WebTideNode,SamplingPlan,SeeOther,LineOverflow,MapInfo,MapInfoPoint"), new[] { "TVItemID3" });
+                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "TVItemID3", "Root,Address,Area,ClimateSite,Contact,Country,Email,File,HydrometricSite,Infrastructure,MikeScenario,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,Tel,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,BoxModel,VisualPlumesScenario,OtherInfrastructure,MWQMRun,MeshNode,WebTideNode,SamplingPlan,SeeOtherMunicipality,LineOverflow,MapInfo,MapInfoPoint"), new[] { "TVItemID3" });
                     }
                 }
             }
@@ -289,7 +289,7 @@ namespace CSSPServices
                         TVTypeEnum.MeshNode,
                         TVTypeEnum.WebTideNode,
                         TVTypeEnum.SamplingPlan,
-                        TVTypeEnum.SeeOther,
+                        TVTypeEnum.SeeOtherMunicipality,
                         TVTypeEnum.LineOverflow,
                         TVTypeEnum.MapInfo,
                         TVTypeEnum.MapInfoPoint,
@@ -297,7 +297,7 @@ namespace CSSPServices
                     if (!AllowableTVTypes.Contains(TVItemTVItemID4.TVType))
                     {
                         tvItemUserAuthorization.HasErrors = true;
-                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "TVItemID4", "Root,Address,Area,ClimateSite,Contact,Country,Email,File,HydrometricSite,Infrastructure,MikeScenario,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,Tel,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,BoxModel,VisualPlumesScenario,OtherInfrastructure,MWQMRun,MeshNode,WebTideNode,SamplingPlan,SeeOther,LineOverflow,MapInfo,MapInfoPoint"), new[] { "TVItemID4" });
+                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "TVItemID4", "Root,Address,Area,ClimateSite,Contact,Country,Email,File,HydrometricSite,Infrastructure,MikeScenario,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,Tel,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,BoxModel,VisualPlumesScenario,OtherInfrastructure,MWQMRun,MeshNode,WebTideNode,SamplingPlan,SeeOtherMunicipality,LineOverflow,MapInfo,MapInfoPoint"), new[] { "TVItemID4" });
                     }
                 }
             }
