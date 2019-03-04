@@ -23,43 +23,40 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
-    public partial class TideSiteService
+    public partial class DrogueRunPositionService
     {
-        #region Functions private Generated FillTideSiteExtraA
+        #region Functions private Generated FillDrogueRunPositionExtraA
         /// <summary>
-        /// Fills items [TideSiteExtraA](CSSPModels.TideSiteExtraA.html) from CSSPDB
+        /// Fills items [DrogueRunPositionExtraA](CSSPModels.DrogueRunPositionExtraA.html) from CSSPDB
         /// </summary>
-        /// <returns>IQueryable of TideSiteExtraA</returns>
-        private IQueryable<TideSiteExtraA> FillTideSiteExtraA()
+        /// <returns>IQueryable of DrogueRunPositionExtraA</returns>
+        private IQueryable<DrogueRunPositionExtraA> FillDrogueRunPositionExtraA()
         {
-             IQueryable<TideSiteExtraA> TideSiteExtraAQuery = (from c in db.TideSites
-                let TideSiteText = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.TideSiteTVItemID
-                    && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
+             IQueryable<DrogueRunPositionExtraA> DrogueRunPositionExtraAQuery = (from c in db.DrogueRunPositions
                 let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
-                    select new TideSiteExtraA
+                    select new DrogueRunPositionExtraA
                     {
-                        TideSiteText = TideSiteText,
                         LastUpdateContactText = LastUpdateContactText,
-                        TideSiteID = c.TideSiteID,
-                        TideSiteTVItemID = c.TideSiteTVItemID,
-                        TideSiteName = c.TideSiteName,
-                        Province = c.Province,
-                        sid = c.sid,
-                        Zone = c.Zone,
+                        DrogueRunPositionID = c.DrogueRunPositionID,
+                        DrogueRunID = c.DrogueRunID,
+                        Ordinal = c.Ordinal,
+                        StepLat = c.StepLat,
+                        StepLng = c.StepLng,
+                        StepDateTime_Local = c.StepDateTime_Local,
+                        CalculatedSpeed_m_s = c.CalculatedSpeed_m_s,
+                        CalculatedDirection_deg = c.CalculatedDirection_deg,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
                     }).AsNoTracking();
 
-            return TideSiteExtraAQuery;
+            return DrogueRunPositionExtraAQuery;
         }
-        #endregion Functions private Generated FillTideSiteExtraA
+        #endregion Functions private Generated FillDrogueRunPositionExtraA
 
     }
 }

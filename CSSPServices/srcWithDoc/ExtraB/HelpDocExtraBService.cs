@@ -23,43 +23,44 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
-    public partial class TideSiteService
+    public partial class HelpDocService
     {
-        #region Functions private Generated FillTideSiteExtraA
+        #region Functions private Generated FillHelpDocExtraB
         /// <summary>
-        /// Fills items [TideSiteExtraA](CSSPModels.TideSiteExtraA.html) from CSSPDB
+        /// Fills items [HelpDocExtraB](CSSPModels.HelpDocExtraB.html) from CSSPDB
         /// </summary>
-        /// <returns>IQueryable of TideSiteExtraA</returns>
-        private IQueryable<TideSiteExtraA> FillTideSiteExtraA()
+        /// <returns>IQueryable of HelpDocExtraB</returns>
+        private IQueryable<HelpDocExtraB> FillHelpDocExtraB()
         {
-             IQueryable<TideSiteExtraA> TideSiteExtraAQuery = (from c in db.TideSites
-                let TideSiteText = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.TideSiteTVItemID
+            Enums enums = new Enums(LanguageRequest);
+
+
+             IQueryable<HelpDocExtraB> HelpDocExtraBQuery = (from c in db.HelpDocs
+                let EmailReportTest = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
                 let LastUpdateContactText = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
-                    select new TideSiteExtraA
+                    select new HelpDocExtraB
                     {
-                        TideSiteText = TideSiteText,
+                        EmailReportTest = EmailReportTest,
                         LastUpdateContactText = LastUpdateContactText,
-                        TideSiteID = c.TideSiteID,
-                        TideSiteTVItemID = c.TideSiteTVItemID,
-                        TideSiteName = c.TideSiteName,
-                        Province = c.Province,
-                        sid = c.sid,
-                        Zone = c.Zone,
+                        HelpDocID = c.HelpDocID,
+                        DocKey = c.DocKey,
+                        Language = c.Language,
+                        DocHTMLText = c.DocHTMLText,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
                     }).AsNoTracking();
 
-            return TideSiteExtraAQuery;
+            return HelpDocExtraBQuery;
         }
-        #endregion Functions private Generated FillTideSiteExtraA
+        #endregion Functions private Generated FillHelpDocExtraB
 
     }
 }

@@ -51,8 +51,8 @@ namespace CSSPServices
                     where cl.TVItemID == c.InfrastructureTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
-                let SeeOtherText = (from cl in db.TVItemLanguages
-                    where cl.TVItemID == c.SeeOtherTVItemID
+                let SeeOtherMunicipalityText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.SeeOtherMunicipalityTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
                 let CivicAddressText = (from cl in db.TVItemLanguages
@@ -99,7 +99,7 @@ namespace CSSPServices
                     select new InfrastructureExtraA
                     {
                         InfrastructureText = InfrastructureText,
-                        SeeOtherText = SeeOtherText,
+                        SeeOtherMunicipalityText = SeeOtherMunicipalityText,
                         CivicAddressText = CivicAddressText,
                         LastUpdateContactText = LastUpdateContactText,
                         InfrastructureTypeText = InfrastructureTypeText,
@@ -157,7 +157,7 @@ namespace CSSPServices
                         ReceivingWaterTemperature_C = c.ReceivingWaterTemperature_C,
                         ReceivingWater_MPN_per_100ml = c.ReceivingWater_MPN_per_100ml,
                         DistanceFromShore_m = c.DistanceFromShore_m,
-                        SeeOtherTVItemID = c.SeeOtherTVItemID,
+                        SeeOtherMunicipalityTVItemID = c.SeeOtherMunicipalityTVItemID,
                         CivicAddressTVItemID = c.CivicAddressTVItemID,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,

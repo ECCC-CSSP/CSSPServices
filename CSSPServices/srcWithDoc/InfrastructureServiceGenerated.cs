@@ -462,14 +462,14 @@ namespace CSSPServices
                 }
             }
 
-            if (infrastructure.SeeOtherTVItemID != null)
+            if (infrastructure.SeeOtherMunicipalityTVItemID != null)
             {
-                TVItem TVItemSeeOtherTVItemID = (from c in db.TVItems where c.TVItemID == infrastructure.SeeOtherTVItemID select c).FirstOrDefault();
+                TVItem TVItemSeeOtherMunicipalityTVItemID = (from c in db.TVItems where c.TVItemID == infrastructure.SeeOtherMunicipalityTVItemID select c).FirstOrDefault();
 
-                if (TVItemSeeOtherTVItemID == null)
+                if (TVItemSeeOtherMunicipalityTVItemID == null)
                 {
                     infrastructure.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "SeeOtherTVItemID", (infrastructure.SeeOtherTVItemID == null ? "" : infrastructure.SeeOtherTVItemID.ToString())), new[] { "SeeOtherTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "SeeOtherMunicipalityTVItemID", (infrastructure.SeeOtherMunicipalityTVItemID == null ? "" : infrastructure.SeeOtherMunicipalityTVItemID.ToString())), new[] { "SeeOtherMunicipalityTVItemID" });
                 }
                 else
                 {
@@ -477,10 +477,10 @@ namespace CSSPServices
                     {
                         TVTypeEnum.Infrastructure,
                     };
-                    if (!AllowableTVTypes.Contains(TVItemSeeOtherTVItemID.TVType))
+                    if (!AllowableTVTypes.Contains(TVItemSeeOtherMunicipalityTVItemID.TVType))
                     {
                         infrastructure.HasErrors = true;
-                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "SeeOtherTVItemID", "Infrastructure"), new[] { "SeeOtherTVItemID" });
+                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "SeeOtherMunicipalityTVItemID", "Infrastructure"), new[] { "SeeOtherMunicipalityTVItemID" });
                     }
                 }
             }

@@ -49,6 +49,7 @@ namespace CSSPServices
                         DrogueNumber = c.DrogueNumber,
                         DrogueType = c.DrogueType,
                         RunStartDateTime = c.RunStartDateTime,
+                        IsRisingTide = c.IsRisingTide,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,

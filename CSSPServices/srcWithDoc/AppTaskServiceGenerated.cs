@@ -114,13 +114,13 @@ namespace CSSPServices
                     TVTypeEnum.Spill,
                     TVTypeEnum.Outfall,
                     TVTypeEnum.OtherInfrastructure,
-                    TVTypeEnum.SeeOther,
+                    TVTypeEnum.SeeOtherMunicipality,
                     TVTypeEnum.LineOverflow,
                 };
                 if (!AllowableTVTypes.Contains(TVItemTVItemID.TVType))
                 {
                     appTask.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "TVItemID", "Root,Address,Area,ClimateSite,Country,File,HydrometricSite,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,Outfall,OtherInfrastructure,SeeOther,LineOverflow"), new[] { "TVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "TVItemID", "Root,Address,Area,ClimateSite,Country,File,HydrometricSite,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,Outfall,OtherInfrastructure,SeeOtherMunicipality,LineOverflow"), new[] { "TVItemID" });
                 }
             }
 
@@ -157,13 +157,13 @@ namespace CSSPServices
                     TVTypeEnum.Spill,
                     TVTypeEnum.Outfall,
                     TVTypeEnum.OtherInfrastructure,
-                    TVTypeEnum.SeeOther,
+                    TVTypeEnum.SeeOtherMunicipality,
                     TVTypeEnum.LineOverflow,
                 };
                 if (!AllowableTVTypes.Contains(TVItemTVItemID2.TVType))
                 {
                     appTask.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "TVItemID2", "Root,Address,Area,ClimateSite,Country,File,HydrometricSite,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,Outfall,OtherInfrastructure,SeeOther,LineOverflow"), new[] { "TVItemID2" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "TVItemID2", "Root,Address,Area,ClimateSite,Country,File,HydrometricSite,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,Outfall,OtherInfrastructure,SeeOtherMunicipality,LineOverflow"), new[] { "TVItemID2" });
                 }
             }
 

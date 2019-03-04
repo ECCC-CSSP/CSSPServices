@@ -28,7 +28,7 @@ namespace CSSPServices
     /// > 
     /// > <para>**Used by [CSSPWebAPI.Controllers](CSSPWebAPI.Controllers.html)** : [UseOfSiteController](CSSPWebAPI.Controllers.UseOfSiteController.html)</para>
     /// > <para>**Requires [CSSPModels](CSSPModels.html)** : [CSSPModels.UseOfSite](CSSPModels.UseOfSite.html)</para>
-    /// > <para>**Requires [CSSPEnums](CSSPEnums.html)** : [SiteTypeEnum](CSSPEnums.SiteTypeEnum.html)</para>
+    /// > <para>**Requires [CSSPEnums](CSSPEnums.html)** : [TVTypeEnum](CSSPEnums.TVTypeEnum.html)</para>
     /// > <para>**Return to [CSSPServices](CSSPServices.html)**</para>
     /// </summary>
     public partial class UseOfSiteService : BaseService
@@ -123,11 +123,11 @@ namespace CSSPServices
                 }
             }
 
-            retStr = enums.EnumTypeOK(typeof(SiteTypeEnum), (int?)useOfSite.SiteType);
+            retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)useOfSite.TVType);
             if (!string.IsNullOrWhiteSpace(retStr))
             {
                 useOfSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "SiteType"), new[] { "SiteType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVType"), new[] { "TVType" });
             }
 
             if (useOfSite.Ordinal < 0 || useOfSite.Ordinal > 1000)

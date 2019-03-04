@@ -438,6 +438,8 @@
     <Compile Include="src\DataPathOfTideServiceGenerated.cs" />
     <Compile Include="src\DBTableServiceGenerated.cs" />
     <Compile Include="src\DocTemplateServiceGenerated.cs" />
+    <Compile Include="src\DrogueRunPositionServiceGenerated.cs" />
+    <Compile Include="src\DrogueRunServiceGenerated.cs" />
     <Compile Include="src\ElementLayerServiceGenerated.cs" />
     <Compile Include="src\ElementServiceGenerated.cs" />
     <Compile Include="src\EmailDistributionListContactLanguageServiceGenerated.cs" />
@@ -608,6 +610,7 @@
     <Compile Include="src\FileItemListServiceGenerated.cs" />
     <Compile Include="src\FileItemServiceGenerated.cs" />
     <Compile Include="src\FilePurposeAndTextServiceGenerated.cs" />
+    <Compile Include="src\HelpDocServiceGenerated.cs" />
     <Compile Include="src\HydrometricDataValueServiceGenerated.cs" />
     <Compile Include="src\HydrometricSiteServiceGenerated.cs" />
     <Compile Include="src\InfrastructureLanguageServiceGenerated.cs" />

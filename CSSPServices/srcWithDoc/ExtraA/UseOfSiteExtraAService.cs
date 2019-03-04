@@ -34,7 +34,7 @@ namespace CSSPServices
         {
             Enums enums = new Enums(LanguageRequest);
 
-            List<EnumIDAndText> SiteTypeEnumList = enums.GetEnumTextOrderedList(typeof(SiteTypeEnum));
+            List<EnumIDAndText> TVTypeEnumList = enums.GetEnumTextOrderedList(typeof(TVTypeEnum));
 
              IQueryable<UseOfSiteExtraA> UseOfSiteExtraAQuery = (from c in db.UseOfSites
                 let SiteText = (from cl in db.TVItemLanguages
@@ -49,19 +49,19 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
-                let SiteTypeText = (from e in SiteTypeEnumList
-                    where e.EnumID == (int?)c.SiteType
+                let TVTypeText = (from e in TVTypeEnumList
+                    where e.EnumID == (int?)c.TVType
                     select e.EnumText).FirstOrDefault()
                     select new UseOfSiteExtraA
                     {
                         SiteText = SiteText,
                         SubsectorText = SubsectorText,
                         LastUpdateContactText = LastUpdateContactText,
-                        SiteTypeText = SiteTypeText,
+                        TVTypeText = TVTypeText,
                         UseOfSiteID = c.UseOfSiteID,
                         SiteTVItemID = c.SiteTVItemID,
                         SubsectorTVItemID = c.SubsectorTVItemID,
-                        SiteType = c.SiteType,
+                        TVType = c.TVType,
                         Ordinal = c.Ordinal,
                         StartYear = c.StartYear,
                         EndYear = c.EndYear,

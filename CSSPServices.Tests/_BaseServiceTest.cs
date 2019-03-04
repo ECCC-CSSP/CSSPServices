@@ -738,7 +738,7 @@ namespace CSSPServices.Tests
                     baseService.Query = baseService.FillQuery(typeof(TVItem), extra: extra);
 
                     Assert.IsTrue(baseService.Query.HasErrors);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.Extra_OfModel_IsInvalidAllowableValuesAre_, "b", "TVItem", "[A, B]"), baseService.Query.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.Extra_OfModel_IsInvalidAllowableValuesAre_, "b", "TVItem", "[A, B, C, D, E]"), baseService.Query.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
             }
         }

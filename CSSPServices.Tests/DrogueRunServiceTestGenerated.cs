@@ -210,6 +210,12 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is NOT Nullable
+                    // drogueRun.IsRisingTide   (Boolean)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // drogueRun.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
@@ -889,6 +895,7 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(drogueRunList[0].DrogueNumber);
             Assert.IsNotNull(drogueRunList[0].DrogueType);
             Assert.IsNotNull(drogueRunList[0].RunStartDateTime);
+            Assert.IsNotNull(drogueRunList[0].IsRisingTide);
             Assert.IsNotNull(drogueRunList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(drogueRunList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(drogueRunList[0].HasErrors);
@@ -905,6 +912,7 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(drogueRunExtraAList[0].DrogueNumber);
             Assert.IsNotNull(drogueRunExtraAList[0].DrogueType);
             Assert.IsNotNull(drogueRunExtraAList[0].RunStartDateTime);
+            Assert.IsNotNull(drogueRunExtraAList[0].IsRisingTide);
             Assert.IsNotNull(drogueRunExtraAList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(drogueRunExtraAList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(drogueRunExtraAList[0].HasErrors);
@@ -925,6 +933,7 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(drogueRunExtraBList[0].DrogueNumber);
             Assert.IsNotNull(drogueRunExtraBList[0].DrogueType);
             Assert.IsNotNull(drogueRunExtraBList[0].RunStartDateTime);
+            Assert.IsNotNull(drogueRunExtraBList[0].IsRisingTide);
             Assert.IsNotNull(drogueRunExtraBList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(drogueRunExtraBList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(drogueRunExtraBList[0].HasErrors);
@@ -937,6 +946,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "DrogueNumber") drogueRun.DrogueNumber = GetRandomInt(0, 100);
             if (OmitPropName != "DrogueType") drogueRun.DrogueType = (DrogueTypeEnum)GetRandomEnumType(typeof(DrogueTypeEnum));
             if (OmitPropName != "RunStartDateTime") drogueRun.RunStartDateTime = new DateTime(2005, 3, 6);
+            if (OmitPropName != "IsRisingTide") drogueRun.IsRisingTide = true;
             if (OmitPropName != "LastUpdateDate_UTC") drogueRun.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") drogueRun.LastUpdateContactTVItemID = 2;
 
