@@ -50,6 +50,7 @@ namespace CSSPServices
                         PolSourceSiteID = c.PolSourceSiteID,
                         ObservationDate_Local = c.ObservationDate_Local,
                         ContactTVItemID = c.ContactTVItemID,
+                        DesktopReviewed = c.DesktopReviewed,
                         Observation_ToBeDeleted = c.Observation_ToBeDeleted,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,

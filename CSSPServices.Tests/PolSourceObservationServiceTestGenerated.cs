@@ -191,6 +191,12 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is NOT Nullable
+                    // polSourceObservation.DesktopReviewed   (Boolean)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
                     // polSourceObservation.Observation_ToBeDeleted   (String)
                     // -----------------------------------
 
@@ -883,6 +889,7 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(polSourceObservationList[0].PolSourceSiteID);
             Assert.IsNotNull(polSourceObservationList[0].ObservationDate_Local);
             Assert.IsNotNull(polSourceObservationList[0].ContactTVItemID);
+            Assert.IsNotNull(polSourceObservationList[0].DesktopReviewed);
             Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationList[0].Observation_ToBeDeleted));
             Assert.IsNotNull(polSourceObservationList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(polSourceObservationList[0].LastUpdateContactTVItemID);
@@ -897,6 +904,7 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(polSourceObservationExtraAList[0].PolSourceSiteID);
             Assert.IsNotNull(polSourceObservationExtraAList[0].ObservationDate_Local);
             Assert.IsNotNull(polSourceObservationExtraAList[0].ContactTVItemID);
+            Assert.IsNotNull(polSourceObservationExtraAList[0].DesktopReviewed);
             Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationExtraAList[0].Observation_ToBeDeleted));
             Assert.IsNotNull(polSourceObservationExtraAList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(polSourceObservationExtraAList[0].LastUpdateContactTVItemID);
@@ -915,6 +923,7 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(polSourceObservationExtraBList[0].PolSourceSiteID);
             Assert.IsNotNull(polSourceObservationExtraBList[0].ObservationDate_Local);
             Assert.IsNotNull(polSourceObservationExtraBList[0].ContactTVItemID);
+            Assert.IsNotNull(polSourceObservationExtraBList[0].DesktopReviewed);
             Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationExtraBList[0].Observation_ToBeDeleted));
             Assert.IsNotNull(polSourceObservationExtraBList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(polSourceObservationExtraBList[0].LastUpdateContactTVItemID);
@@ -927,6 +936,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "PolSourceSiteID") polSourceObservation.PolSourceSiteID = 1;
             if (OmitPropName != "ObservationDate_Local") polSourceObservation.ObservationDate_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "ContactTVItemID") polSourceObservation.ContactTVItemID = 2;
+            if (OmitPropName != "DesktopReviewed") polSourceObservation.DesktopReviewed = true;
             if (OmitPropName != "Observation_ToBeDeleted") polSourceObservation.Observation_ToBeDeleted = GetRandomString("", 20);
             if (OmitPropName != "LastUpdateDate_UTC") polSourceObservation.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") polSourceObservation.LastUpdateContactTVItemID = 2;
