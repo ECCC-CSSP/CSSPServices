@@ -168,32 +168,6 @@ namespace CSSPServices
 
             return DrogueRunQuery;
         }
-        public DrogueRunExtraA GetDrogueRunExtraAWithDrogueRunID(int DrogueRunID)
-        {
-            return FillDrogueRunExtraA().Where(c => c.DrogueRunID == DrogueRunID).FirstOrDefault();
-
-        }
-        public IQueryable<DrogueRunExtraA> GetDrogueRunExtraAList()
-        {
-            IQueryable<DrogueRunExtraA> DrogueRunExtraAQuery = FillDrogueRunExtraA();
-
-            DrogueRunExtraAQuery = EnhanceQueryStatements<DrogueRunExtraA>(DrogueRunExtraAQuery) as IQueryable<DrogueRunExtraA>;
-
-            return DrogueRunExtraAQuery;
-        }
-        public DrogueRunExtraB GetDrogueRunExtraBWithDrogueRunID(int DrogueRunID)
-        {
-            return FillDrogueRunExtraB().Where(c => c.DrogueRunID == DrogueRunID).FirstOrDefault();
-
-        }
-        public IQueryable<DrogueRunExtraB> GetDrogueRunExtraBList()
-        {
-            IQueryable<DrogueRunExtraB> DrogueRunExtraBQuery = FillDrogueRunExtraB();
-
-            DrogueRunExtraBQuery = EnhanceQueryStatements<DrogueRunExtraB>(DrogueRunExtraBQuery) as IQueryable<DrogueRunExtraB>;
-
-            return DrogueRunExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

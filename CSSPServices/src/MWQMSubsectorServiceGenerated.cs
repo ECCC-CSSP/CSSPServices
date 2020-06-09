@@ -159,32 +159,6 @@ namespace CSSPServices
 
             return MWQMSubsectorQuery;
         }
-        public MWQMSubsectorExtraA GetMWQMSubsectorExtraAWithMWQMSubsectorID(int MWQMSubsectorID)
-        {
-            return FillMWQMSubsectorExtraA().Where(c => c.MWQMSubsectorID == MWQMSubsectorID).FirstOrDefault();
-
-        }
-        public IQueryable<MWQMSubsectorExtraA> GetMWQMSubsectorExtraAList()
-        {
-            IQueryable<MWQMSubsectorExtraA> MWQMSubsectorExtraAQuery = FillMWQMSubsectorExtraA();
-
-            MWQMSubsectorExtraAQuery = EnhanceQueryStatements<MWQMSubsectorExtraA>(MWQMSubsectorExtraAQuery) as IQueryable<MWQMSubsectorExtraA>;
-
-            return MWQMSubsectorExtraAQuery;
-        }
-        public MWQMSubsectorExtraB GetMWQMSubsectorExtraBWithMWQMSubsectorID(int MWQMSubsectorID)
-        {
-            return FillMWQMSubsectorExtraB().Where(c => c.MWQMSubsectorID == MWQMSubsectorID).FirstOrDefault();
-
-        }
-        public IQueryable<MWQMSubsectorExtraB> GetMWQMSubsectorExtraBList()
-        {
-            IQueryable<MWQMSubsectorExtraB> MWQMSubsectorExtraBQuery = FillMWQMSubsectorExtraB();
-
-            MWQMSubsectorExtraBQuery = EnhanceQueryStatements<MWQMSubsectorExtraB>(MWQMSubsectorExtraBQuery) as IQueryable<MWQMSubsectorExtraB>;
-
-            return MWQMSubsectorExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

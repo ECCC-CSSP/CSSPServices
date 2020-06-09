@@ -196,32 +196,6 @@ namespace CSSPServices
 
             return SpillQuery;
         }
-        public SpillExtraA GetSpillExtraAWithSpillID(int SpillID)
-        {
-            return FillSpillExtraA().Where(c => c.SpillID == SpillID).FirstOrDefault();
-
-        }
-        public IQueryable<SpillExtraA> GetSpillExtraAList()
-        {
-            IQueryable<SpillExtraA> SpillExtraAQuery = FillSpillExtraA();
-
-            SpillExtraAQuery = EnhanceQueryStatements<SpillExtraA>(SpillExtraAQuery) as IQueryable<SpillExtraA>;
-
-            return SpillExtraAQuery;
-        }
-        public SpillExtraB GetSpillExtraBWithSpillID(int SpillID)
-        {
-            return FillSpillExtraB().Where(c => c.SpillID == SpillID).FirstOrDefault();
-
-        }
-        public IQueryable<SpillExtraB> GetSpillExtraBList()
-        {
-            IQueryable<SpillExtraB> SpillExtraBQuery = FillSpillExtraB();
-
-            SpillExtraBQuery = EnhanceQueryStatements<SpillExtraB>(SpillExtraBQuery) as IQueryable<SpillExtraB>;
-
-            return SpillExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

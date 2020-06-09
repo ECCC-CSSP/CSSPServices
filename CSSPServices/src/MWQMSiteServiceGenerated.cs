@@ -178,32 +178,6 @@ namespace CSSPServices
 
             return MWQMSiteQuery;
         }
-        public MWQMSiteExtraA GetMWQMSiteExtraAWithMWQMSiteID(int MWQMSiteID)
-        {
-            return FillMWQMSiteExtraA().Where(c => c.MWQMSiteID == MWQMSiteID).FirstOrDefault();
-
-        }
-        public IQueryable<MWQMSiteExtraA> GetMWQMSiteExtraAList()
-        {
-            IQueryable<MWQMSiteExtraA> MWQMSiteExtraAQuery = FillMWQMSiteExtraA();
-
-            MWQMSiteExtraAQuery = EnhanceQueryStatements<MWQMSiteExtraA>(MWQMSiteExtraAQuery) as IQueryable<MWQMSiteExtraA>;
-
-            return MWQMSiteExtraAQuery;
-        }
-        public MWQMSiteExtraB GetMWQMSiteExtraBWithMWQMSiteID(int MWQMSiteID)
-        {
-            return FillMWQMSiteExtraB().Where(c => c.MWQMSiteID == MWQMSiteID).FirstOrDefault();
-
-        }
-        public IQueryable<MWQMSiteExtraB> GetMWQMSiteExtraBList()
-        {
-            IQueryable<MWQMSiteExtraB> MWQMSiteExtraBQuery = FillMWQMSiteExtraB();
-
-            MWQMSiteExtraBQuery = EnhanceQueryStatements<MWQMSiteExtraB>(MWQMSiteExtraBQuery) as IQueryable<MWQMSiteExtraB>;
-
-            return MWQMSiteExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

@@ -188,6 +188,58 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, reportTypeService.GetReportTypeList().Count());
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [CSSPEnumType]
+                    // reportType.Language   (LanguageEnum)
+                    // -----------------------------------
+
+                    reportType = null;
+                    reportType = GetFilledRandomReportType("");
+                    reportType.Language = (LanguageEnum)1000000;
+                    reportTypeService.Add(reportType);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "Language"), reportType.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [StringLength(100))]
+                    // reportType.Name   (String)
+                    // -----------------------------------
+
+                    reportType = null;
+                    reportType = GetFilledRandomReportType("");
+                    reportType.Name = GetRandomString("", 101);
+                    Assert.AreEqual(false, reportTypeService.Add(reportType));
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "Name", "100"), reportType.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, reportTypeService.GetReportTypeList().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [StringLength(1000))]
+                    // reportType.Description   (String)
+                    // -----------------------------------
+
+                    reportType = null;
+                    reportType = GetFilledRandomReportType("");
+                    reportType.Description = GetRandomString("", 1001);
+                    Assert.AreEqual(false, reportTypeService.Add(reportType));
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "Description", "1000"), reportType.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, reportTypeService.GetReportTypeList().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [StringLength(100))]
+                    // reportType.StartOfFileName   (String)
+                    // -----------------------------------
+
+                    reportType = null;
+                    reportType = GetFilledRandomReportType("");
+                    reportType.StartOfFileName = GetRandomString("", 101);
+                    Assert.AreEqual(false, reportTypeService.Add(reportType));
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "StartOfFileName", "100"), reportType.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, reportTypeService.GetReportTypeList().Count());
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // reportType.LastUpdateDate_UTC   (DateTime)
@@ -267,18 +319,6 @@ namespace CSSPServices.Tests
                             CheckReportTypeFields(new List<ReportType>() { reportTypeRet });
                             Assert.AreEqual(reportType.ReportTypeID, reportTypeRet.ReportTypeID);
                         }
-                        else if (extra == "A")
-                        {
-                            ReportTypeExtraA reportTypeExtraARet = reportTypeService.GetReportTypeExtraAWithReportTypeID(reportType.ReportTypeID);
-                            CheckReportTypeExtraAFields(new List<ReportTypeExtraA>() { reportTypeExtraARet });
-                            Assert.AreEqual(reportType.ReportTypeID, reportTypeExtraARet.ReportTypeID);
-                        }
-                        else if (extra == "B")
-                        {
-                            ReportTypeExtraB reportTypeExtraBRet = reportTypeService.GetReportTypeExtraBWithReportTypeID(reportType.ReportTypeID);
-                            CheckReportTypeExtraBFields(new List<ReportTypeExtraB>() { reportTypeExtraBRet });
-                            Assert.AreEqual(reportType.ReportTypeID, reportTypeExtraBRet.ReportTypeID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -316,20 +356,6 @@ namespace CSSPServices.Tests
                             reportTypeList = reportTypeService.GetReportTypeList().ToList();
                             CheckReportTypeFields(reportTypeList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ReportTypeExtraA> reportTypeExtraAList = new List<ReportTypeExtraA>();
-                            reportTypeExtraAList = reportTypeService.GetReportTypeExtraAList().ToList();
-                            CheckReportTypeExtraAFields(reportTypeExtraAList);
-                            Assert.AreEqual(reportTypeDirectQueryList.Count, reportTypeExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ReportTypeExtraB> reportTypeExtraBList = new List<ReportTypeExtraB>();
-                            reportTypeExtraBList = reportTypeService.GetReportTypeExtraBList().ToList();
-                            CheckReportTypeExtraBFields(reportTypeExtraBList);
-                            Assert.AreEqual(reportTypeDirectQueryList.Count, reportTypeExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -365,22 +391,6 @@ namespace CSSPServices.Tests
                             reportTypeList = reportTypeService.GetReportTypeList().ToList();
                             CheckReportTypeFields(reportTypeList);
                             Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeList[0].ReportTypeID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<ReportTypeExtraA> reportTypeExtraAList = new List<ReportTypeExtraA>();
-                            reportTypeExtraAList = reportTypeService.GetReportTypeExtraAList().ToList();
-                            CheckReportTypeExtraAFields(reportTypeExtraAList);
-                            Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeExtraAList[0].ReportTypeID);
-                            Assert.AreEqual(reportTypeDirectQueryList.Count, reportTypeExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ReportTypeExtraB> reportTypeExtraBList = new List<ReportTypeExtraB>();
-                            reportTypeExtraBList = reportTypeService.GetReportTypeExtraBList().ToList();
-                            CheckReportTypeExtraBFields(reportTypeExtraBList);
-                            Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeExtraBList[0].ReportTypeID);
-                            Assert.AreEqual(reportTypeDirectQueryList.Count, reportTypeExtraBList.Count);
                         }
                         else
                         {
@@ -418,22 +428,6 @@ namespace CSSPServices.Tests
                             CheckReportTypeFields(reportTypeList);
                             Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeList[0].ReportTypeID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ReportTypeExtraA> reportTypeExtraAList = new List<ReportTypeExtraA>();
-                            reportTypeExtraAList = reportTypeService.GetReportTypeExtraAList().ToList();
-                            CheckReportTypeExtraAFields(reportTypeExtraAList);
-                            Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeExtraAList[0].ReportTypeID);
-                            Assert.AreEqual(reportTypeDirectQueryList.Count, reportTypeExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ReportTypeExtraB> reportTypeExtraBList = new List<ReportTypeExtraB>();
-                            reportTypeExtraBList = reportTypeService.GetReportTypeExtraBList().ToList();
-                            CheckReportTypeExtraBFields(reportTypeExtraBList);
-                            Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeExtraBList[0].ReportTypeID);
-                            Assert.AreEqual(reportTypeDirectQueryList.Count, reportTypeExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -469,22 +463,6 @@ namespace CSSPServices.Tests
                             reportTypeList = reportTypeService.GetReportTypeList().ToList();
                             CheckReportTypeFields(reportTypeList);
                             Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeList[0].ReportTypeID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<ReportTypeExtraA> reportTypeExtraAList = new List<ReportTypeExtraA>();
-                            reportTypeExtraAList = reportTypeService.GetReportTypeExtraAList().ToList();
-                            CheckReportTypeExtraAFields(reportTypeExtraAList);
-                            Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeExtraAList[0].ReportTypeID);
-                            Assert.AreEqual(reportTypeDirectQueryList.Count, reportTypeExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ReportTypeExtraB> reportTypeExtraBList = new List<ReportTypeExtraB>();
-                            reportTypeExtraBList = reportTypeService.GetReportTypeExtraBList().ToList();
-                            CheckReportTypeExtraBFields(reportTypeExtraBList);
-                            Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeExtraBList[0].ReportTypeID);
-                            Assert.AreEqual(reportTypeDirectQueryList.Count, reportTypeExtraBList.Count);
                         }
                         else
                         {
@@ -522,22 +500,6 @@ namespace CSSPServices.Tests
                             CheckReportTypeFields(reportTypeList);
                             Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeList[0].ReportTypeID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ReportTypeExtraA> reportTypeExtraAList = new List<ReportTypeExtraA>();
-                            reportTypeExtraAList = reportTypeService.GetReportTypeExtraAList().ToList();
-                            CheckReportTypeExtraAFields(reportTypeExtraAList);
-                            Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeExtraAList[0].ReportTypeID);
-                            Assert.AreEqual(reportTypeDirectQueryList.Count, reportTypeExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ReportTypeExtraB> reportTypeExtraBList = new List<ReportTypeExtraB>();
-                            reportTypeExtraBList = reportTypeService.GetReportTypeExtraBList().ToList();
-                            CheckReportTypeExtraBFields(reportTypeExtraBList);
-                            Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeExtraBList[0].ReportTypeID);
-                            Assert.AreEqual(reportTypeDirectQueryList.Count, reportTypeExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -573,22 +535,6 @@ namespace CSSPServices.Tests
                             reportTypeList = reportTypeService.GetReportTypeList().ToList();
                             CheckReportTypeFields(reportTypeList);
                             Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeList[0].ReportTypeID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<ReportTypeExtraA> reportTypeExtraAList = new List<ReportTypeExtraA>();
-                            reportTypeExtraAList = reportTypeService.GetReportTypeExtraAList().ToList();
-                            CheckReportTypeExtraAFields(reportTypeExtraAList);
-                            Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeExtraAList[0].ReportTypeID);
-                            Assert.AreEqual(reportTypeDirectQueryList.Count, reportTypeExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ReportTypeExtraB> reportTypeExtraBList = new List<ReportTypeExtraB>();
-                            reportTypeExtraBList = reportTypeService.GetReportTypeExtraBList().ToList();
-                            CheckReportTypeExtraBFields(reportTypeExtraBList);
-                            Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeExtraBList[0].ReportTypeID);
-                            Assert.AreEqual(reportTypeDirectQueryList.Count, reportTypeExtraBList.Count);
                         }
                         else
                         {
@@ -626,22 +572,6 @@ namespace CSSPServices.Tests
                             CheckReportTypeFields(reportTypeList);
                             Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeList[0].ReportTypeID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ReportTypeExtraA> reportTypeExtraAList = new List<ReportTypeExtraA>();
-                            reportTypeExtraAList = reportTypeService.GetReportTypeExtraAList().ToList();
-                            CheckReportTypeExtraAFields(reportTypeExtraAList);
-                            Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeExtraAList[0].ReportTypeID);
-                            Assert.AreEqual(reportTypeDirectQueryList.Count, reportTypeExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ReportTypeExtraB> reportTypeExtraBList = new List<ReportTypeExtraB>();
-                            reportTypeExtraBList = reportTypeService.GetReportTypeExtraBList().ToList();
-                            CheckReportTypeExtraBFields(reportTypeExtraBList);
-                            Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeExtraBList[0].ReportTypeID);
-                            Assert.AreEqual(reportTypeDirectQueryList.Count, reportTypeExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -677,22 +607,6 @@ namespace CSSPServices.Tests
                             reportTypeList = reportTypeService.GetReportTypeList().ToList();
                             CheckReportTypeFields(reportTypeList);
                             Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeList[0].ReportTypeID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<ReportTypeExtraA> reportTypeExtraAList = new List<ReportTypeExtraA>();
-                            reportTypeExtraAList = reportTypeService.GetReportTypeExtraAList().ToList();
-                            CheckReportTypeExtraAFields(reportTypeExtraAList);
-                            Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeExtraAList[0].ReportTypeID);
-                            Assert.AreEqual(reportTypeDirectQueryList.Count, reportTypeExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ReportTypeExtraB> reportTypeExtraBList = new List<ReportTypeExtraB>();
-                            reportTypeExtraBList = reportTypeService.GetReportTypeExtraBList().ToList();
-                            CheckReportTypeExtraBFields(reportTypeExtraBList);
-                            Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeExtraBList[0].ReportTypeID);
-                            Assert.AreEqual(reportTypeDirectQueryList.Count, reportTypeExtraBList.Count);
                         }
                         else
                         {
@@ -730,22 +644,6 @@ namespace CSSPServices.Tests
                             CheckReportTypeFields(reportTypeList);
                             Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeList[0].ReportTypeID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ReportTypeExtraA> reportTypeExtraAList = new List<ReportTypeExtraA>();
-                            reportTypeExtraAList = reportTypeService.GetReportTypeExtraAList().ToList();
-                            CheckReportTypeExtraAFields(reportTypeExtraAList);
-                            Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeExtraAList[0].ReportTypeID);
-                            Assert.AreEqual(reportTypeDirectQueryList.Count, reportTypeExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ReportTypeExtraB> reportTypeExtraBList = new List<ReportTypeExtraB>();
-                            reportTypeExtraBList = reportTypeService.GetReportTypeExtraBList().ToList();
-                            CheckReportTypeExtraBFields(reportTypeExtraBList);
-                            Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeExtraBList[0].ReportTypeID);
-                            Assert.AreEqual(reportTypeDirectQueryList.Count, reportTypeExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -781,22 +679,6 @@ namespace CSSPServices.Tests
                             reportTypeList = reportTypeService.GetReportTypeList().ToList();
                             CheckReportTypeFields(reportTypeList);
                             Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeList[0].ReportTypeID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<ReportTypeExtraA> reportTypeExtraAList = new List<ReportTypeExtraA>();
-                            reportTypeExtraAList = reportTypeService.GetReportTypeExtraAList().ToList();
-                            CheckReportTypeExtraAFields(reportTypeExtraAList);
-                            Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeExtraAList[0].ReportTypeID);
-                            Assert.AreEqual(reportTypeDirectQueryList.Count, reportTypeExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ReportTypeExtraB> reportTypeExtraBList = new List<ReportTypeExtraB>();
-                            reportTypeExtraBList = reportTypeService.GetReportTypeExtraBList().ToList();
-                            CheckReportTypeExtraBFields(reportTypeExtraBList);
-                            Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeExtraBList[0].ReportTypeID);
-                            Assert.AreEqual(reportTypeDirectQueryList.Count, reportTypeExtraBList.Count);
                         }
                         else
                         {
@@ -834,22 +716,6 @@ namespace CSSPServices.Tests
                             CheckReportTypeFields(reportTypeList);
                             Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeList[0].ReportTypeID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ReportTypeExtraA> reportTypeExtraAList = new List<ReportTypeExtraA>();
-                            reportTypeExtraAList = reportTypeService.GetReportTypeExtraAList().ToList();
-                            CheckReportTypeExtraAFields(reportTypeExtraAList);
-                            Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeExtraAList[0].ReportTypeID);
-                            Assert.AreEqual(reportTypeDirectQueryList.Count, reportTypeExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ReportTypeExtraB> reportTypeExtraBList = new List<ReportTypeExtraB>();
-                            reportTypeExtraBList = reportTypeService.GetReportTypeExtraBList().ToList();
-                            CheckReportTypeExtraBFields(reportTypeExtraBList);
-                            Assert.AreEqual(reportTypeDirectQueryList[0].ReportTypeID, reportTypeExtraBList[0].ReportTypeID);
-                            Assert.AreEqual(reportTypeDirectQueryList.Count, reportTypeExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -867,35 +733,25 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(reportTypeList[0].TVType);
             Assert.IsNotNull(reportTypeList[0].FileType);
             Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeList[0].UniqueCode));
+            if (reportTypeList[0].Language != null)
+            {
+                Assert.IsNotNull(reportTypeList[0].Language);
+            }
+            if (!string.IsNullOrWhiteSpace(reportTypeList[0].Name))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeList[0].Name));
+            }
+            if (!string.IsNullOrWhiteSpace(reportTypeList[0].Description))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeList[0].Description));
+            }
+            if (!string.IsNullOrWhiteSpace(reportTypeList[0].StartOfFileName))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeList[0].StartOfFileName));
+            }
             Assert.IsNotNull(reportTypeList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(reportTypeList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(reportTypeList[0].HasErrors);
-        }
-        private void CheckReportTypeExtraAFields(List<ReportTypeExtraA> reportTypeExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeExtraAList[0].LastUpdateContactText));
-            Assert.IsNotNull(reportTypeExtraAList[0].ReportTypeID);
-            Assert.IsNotNull(reportTypeExtraAList[0].TVType);
-            Assert.IsNotNull(reportTypeExtraAList[0].FileType);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeExtraAList[0].UniqueCode));
-            Assert.IsNotNull(reportTypeExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(reportTypeExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(reportTypeExtraAList[0].HasErrors);
-        }
-        private void CheckReportTypeExtraBFields(List<ReportTypeExtraB> reportTypeExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(reportTypeExtraBList[0].ReportTypeReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeExtraBList[0].ReportTypeReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeExtraBList[0].LastUpdateContactText));
-            Assert.IsNotNull(reportTypeExtraBList[0].ReportTypeID);
-            Assert.IsNotNull(reportTypeExtraBList[0].TVType);
-            Assert.IsNotNull(reportTypeExtraBList[0].FileType);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeExtraBList[0].UniqueCode));
-            Assert.IsNotNull(reportTypeExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(reportTypeExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(reportTypeExtraBList[0].HasErrors);
         }
         private ReportType GetFilledRandomReportType(string OmitPropName)
         {
@@ -904,6 +760,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "TVType") reportType.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
             if (OmitPropName != "FileType") reportType.FileType = (FileTypeEnum)GetRandomEnumType(typeof(FileTypeEnum));
             if (OmitPropName != "UniqueCode") reportType.UniqueCode = GetRandomString("", 5);
+            if (OmitPropName != "Language") reportType.Language = LanguageRequest;
+            if (OmitPropName != "Name") reportType.Name = GetRandomString("", 5);
+            if (OmitPropName != "Description") reportType.Description = GetRandomString("", 5);
+            if (OmitPropName != "StartOfFileName") reportType.StartOfFileName = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") reportType.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") reportType.LastUpdateContactTVItemID = 2;
 

@@ -151,32 +151,6 @@ namespace CSSPServices
 
             return MWQMSampleLanguageQuery;
         }
-        public MWQMSampleLanguageExtraA GetMWQMSampleLanguageExtraAWithMWQMSampleLanguageID(int MWQMSampleLanguageID)
-        {
-            return FillMWQMSampleLanguageExtraA().Where(c => c.MWQMSampleLanguageID == MWQMSampleLanguageID).FirstOrDefault();
-
-        }
-        public IQueryable<MWQMSampleLanguageExtraA> GetMWQMSampleLanguageExtraAList()
-        {
-            IQueryable<MWQMSampleLanguageExtraA> MWQMSampleLanguageExtraAQuery = FillMWQMSampleLanguageExtraA();
-
-            MWQMSampleLanguageExtraAQuery = EnhanceQueryStatements<MWQMSampleLanguageExtraA>(MWQMSampleLanguageExtraAQuery) as IQueryable<MWQMSampleLanguageExtraA>;
-
-            return MWQMSampleLanguageExtraAQuery;
-        }
-        public MWQMSampleLanguageExtraB GetMWQMSampleLanguageExtraBWithMWQMSampleLanguageID(int MWQMSampleLanguageID)
-        {
-            return FillMWQMSampleLanguageExtraB().Where(c => c.MWQMSampleLanguageID == MWQMSampleLanguageID).FirstOrDefault();
-
-        }
-        public IQueryable<MWQMSampleLanguageExtraB> GetMWQMSampleLanguageExtraBList()
-        {
-            IQueryable<MWQMSampleLanguageExtraB> MWQMSampleLanguageExtraBQuery = FillMWQMSampleLanguageExtraB();
-
-            MWQMSampleLanguageExtraBQuery = EnhanceQueryStatements<MWQMSampleLanguageExtraB>(MWQMSampleLanguageExtraBQuery) as IQueryable<MWQMSampleLanguageExtraB>;
-
-            return MWQMSampleLanguageExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

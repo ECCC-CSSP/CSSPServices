@@ -154,32 +154,6 @@ namespace CSSPServices
 
             return LogQuery;
         }
-        public LogExtraA GetLogExtraAWithLogID(int LogID)
-        {
-            return FillLogExtraA().Where(c => c.LogID == LogID).FirstOrDefault();
-
-        }
-        public IQueryable<LogExtraA> GetLogExtraAList()
-        {
-            IQueryable<LogExtraA> LogExtraAQuery = FillLogExtraA();
-
-            LogExtraAQuery = EnhanceQueryStatements<LogExtraA>(LogExtraAQuery) as IQueryable<LogExtraA>;
-
-            return LogExtraAQuery;
-        }
-        public LogExtraB GetLogExtraBWithLogID(int LogID)
-        {
-            return FillLogExtraB().Where(c => c.LogID == LogID).FirstOrDefault();
-
-        }
-        public IQueryable<LogExtraB> GetLogExtraBList()
-        {
-            IQueryable<LogExtraB> LogExtraBQuery = FillLogExtraB();
-
-            LogExtraBQuery = EnhanceQueryStatements<LogExtraB>(LogExtraBQuery) as IQueryable<LogExtraB>;
-
-            return LogExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

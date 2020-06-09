@@ -143,20 +143,20 @@ namespace CSSPServices.Tests
                     // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Country)]
-                    // emailDistributionList.CountryTVItemID   (Int32)
+                    // emailDistributionList.ParentTVItemID   (Int32)
                     // -----------------------------------
 
                     emailDistributionList = null;
                     emailDistributionList = GetFilledRandomEmailDistributionList("");
-                    emailDistributionList.CountryTVItemID = 0;
+                    emailDistributionList.ParentTVItemID = 0;
                     emailDistributionListService.Add(emailDistributionList);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "CountryTVItemID", emailDistributionList.CountryTVItemID.ToString()), emailDistributionList.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "ParentTVItemID", emailDistributionList.ParentTVItemID.ToString()), emailDistributionList.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     emailDistributionList = null;
                     emailDistributionList = GetFilledRandomEmailDistributionList("");
-                    emailDistributionList.CountryTVItemID = 1;
+                    emailDistributionList.ParentTVItemID = 1;
                     emailDistributionListService.Add(emailDistributionList);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, "CountryTVItemID", "Country"), emailDistributionList.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, "ParentTVItemID", "Country"), emailDistributionList.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -258,18 +258,6 @@ namespace CSSPServices.Tests
                             CheckEmailDistributionListFields(new List<EmailDistributionList>() { emailDistributionListRet });
                             Assert.AreEqual(emailDistributionList.EmailDistributionListID, emailDistributionListRet.EmailDistributionListID);
                         }
-                        else if (extra == "A")
-                        {
-                            EmailDistributionListExtraA emailDistributionListExtraARet = emailDistributionListService.GetEmailDistributionListExtraAWithEmailDistributionListID(emailDistributionList.EmailDistributionListID);
-                            CheckEmailDistributionListExtraAFields(new List<EmailDistributionListExtraA>() { emailDistributionListExtraARet });
-                            Assert.AreEqual(emailDistributionList.EmailDistributionListID, emailDistributionListExtraARet.EmailDistributionListID);
-                        }
-                        else if (extra == "B")
-                        {
-                            EmailDistributionListExtraB emailDistributionListExtraBRet = emailDistributionListService.GetEmailDistributionListExtraBWithEmailDistributionListID(emailDistributionList.EmailDistributionListID);
-                            CheckEmailDistributionListExtraBFields(new List<EmailDistributionListExtraB>() { emailDistributionListExtraBRet });
-                            Assert.AreEqual(emailDistributionList.EmailDistributionListID, emailDistributionListExtraBRet.EmailDistributionListID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -307,20 +295,6 @@ namespace CSSPServices.Tests
                             emailDistributionListList = emailDistributionListService.GetEmailDistributionListList().ToList();
                             CheckEmailDistributionListFields(emailDistributionListList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<EmailDistributionListExtraA> emailDistributionListExtraAList = new List<EmailDistributionListExtraA>();
-                            emailDistributionListExtraAList = emailDistributionListService.GetEmailDistributionListExtraAList().ToList();
-                            CheckEmailDistributionListExtraAFields(emailDistributionListExtraAList);
-                            Assert.AreEqual(emailDistributionListDirectQueryList.Count, emailDistributionListExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<EmailDistributionListExtraB> emailDistributionListExtraBList = new List<EmailDistributionListExtraB>();
-                            emailDistributionListExtraBList = emailDistributionListService.GetEmailDistributionListExtraBList().ToList();
-                            CheckEmailDistributionListExtraBFields(emailDistributionListExtraBList);
-                            Assert.AreEqual(emailDistributionListDirectQueryList.Count, emailDistributionListExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -356,22 +330,6 @@ namespace CSSPServices.Tests
                             emailDistributionListList = emailDistributionListService.GetEmailDistributionListList().ToList();
                             CheckEmailDistributionListFields(emailDistributionListList);
                             Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListList[0].EmailDistributionListID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<EmailDistributionListExtraA> emailDistributionListExtraAList = new List<EmailDistributionListExtraA>();
-                            emailDistributionListExtraAList = emailDistributionListService.GetEmailDistributionListExtraAList().ToList();
-                            CheckEmailDistributionListExtraAFields(emailDistributionListExtraAList);
-                            Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListExtraAList[0].EmailDistributionListID);
-                            Assert.AreEqual(emailDistributionListDirectQueryList.Count, emailDistributionListExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<EmailDistributionListExtraB> emailDistributionListExtraBList = new List<EmailDistributionListExtraB>();
-                            emailDistributionListExtraBList = emailDistributionListService.GetEmailDistributionListExtraBList().ToList();
-                            CheckEmailDistributionListExtraBFields(emailDistributionListExtraBList);
-                            Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListExtraBList[0].EmailDistributionListID);
-                            Assert.AreEqual(emailDistributionListDirectQueryList.Count, emailDistributionListExtraBList.Count);
                         }
                         else
                         {
@@ -409,22 +367,6 @@ namespace CSSPServices.Tests
                             CheckEmailDistributionListFields(emailDistributionListList);
                             Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListList[0].EmailDistributionListID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<EmailDistributionListExtraA> emailDistributionListExtraAList = new List<EmailDistributionListExtraA>();
-                            emailDistributionListExtraAList = emailDistributionListService.GetEmailDistributionListExtraAList().ToList();
-                            CheckEmailDistributionListExtraAFields(emailDistributionListExtraAList);
-                            Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListExtraAList[0].EmailDistributionListID);
-                            Assert.AreEqual(emailDistributionListDirectQueryList.Count, emailDistributionListExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<EmailDistributionListExtraB> emailDistributionListExtraBList = new List<EmailDistributionListExtraB>();
-                            emailDistributionListExtraBList = emailDistributionListService.GetEmailDistributionListExtraBList().ToList();
-                            CheckEmailDistributionListExtraBFields(emailDistributionListExtraBList);
-                            Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListExtraBList[0].EmailDistributionListID);
-                            Assert.AreEqual(emailDistributionListDirectQueryList.Count, emailDistributionListExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -449,10 +391,10 @@ namespace CSSPServices.Tests
                     {
                         EmailDistributionListService emailDistributionListService = new EmailDistributionListService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        emailDistributionListService.Query = emailDistributionListService.FillQuery(typeof(EmailDistributionList), culture.TwoLetterISOLanguageName, 1, 1, "EmailDistributionListID,CountryTVItemID", "", "", extra);
+                        emailDistributionListService.Query = emailDistributionListService.FillQuery(typeof(EmailDistributionList), culture.TwoLetterISOLanguageName, 1, 1, "EmailDistributionListID,ParentTVItemID", "", "", extra);
 
                         List<EmailDistributionList> emailDistributionListDirectQueryList = new List<EmailDistributionList>();
-                        emailDistributionListDirectQueryList = (from c in dbTestDB.EmailDistributionLists select c).OrderBy(c => c.EmailDistributionListID).ThenBy(c => c.CountryTVItemID).Skip(1).Take(1).ToList();
+                        emailDistributionListDirectQueryList = (from c in dbTestDB.EmailDistributionLists select c).OrderBy(c => c.EmailDistributionListID).ThenBy(c => c.ParentTVItemID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -460,22 +402,6 @@ namespace CSSPServices.Tests
                             emailDistributionListList = emailDistributionListService.GetEmailDistributionListList().ToList();
                             CheckEmailDistributionListFields(emailDistributionListList);
                             Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListList[0].EmailDistributionListID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<EmailDistributionListExtraA> emailDistributionListExtraAList = new List<EmailDistributionListExtraA>();
-                            emailDistributionListExtraAList = emailDistributionListService.GetEmailDistributionListExtraAList().ToList();
-                            CheckEmailDistributionListExtraAFields(emailDistributionListExtraAList);
-                            Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListExtraAList[0].EmailDistributionListID);
-                            Assert.AreEqual(emailDistributionListDirectQueryList.Count, emailDistributionListExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<EmailDistributionListExtraB> emailDistributionListExtraBList = new List<EmailDistributionListExtraB>();
-                            emailDistributionListExtraBList = emailDistributionListService.GetEmailDistributionListExtraBList().ToList();
-                            CheckEmailDistributionListExtraBFields(emailDistributionListExtraBList);
-                            Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListExtraBList[0].EmailDistributionListID);
-                            Assert.AreEqual(emailDistributionListDirectQueryList.Count, emailDistributionListExtraBList.Count);
                         }
                         else
                         {
@@ -513,22 +439,6 @@ namespace CSSPServices.Tests
                             CheckEmailDistributionListFields(emailDistributionListList);
                             Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListList[0].EmailDistributionListID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<EmailDistributionListExtraA> emailDistributionListExtraAList = new List<EmailDistributionListExtraA>();
-                            emailDistributionListExtraAList = emailDistributionListService.GetEmailDistributionListExtraAList().ToList();
-                            CheckEmailDistributionListExtraAFields(emailDistributionListExtraAList);
-                            Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListExtraAList[0].EmailDistributionListID);
-                            Assert.AreEqual(emailDistributionListDirectQueryList.Count, emailDistributionListExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<EmailDistributionListExtraB> emailDistributionListExtraBList = new List<EmailDistributionListExtraB>();
-                            emailDistributionListExtraBList = emailDistributionListService.GetEmailDistributionListExtraBList().ToList();
-                            CheckEmailDistributionListExtraBFields(emailDistributionListExtraBList);
-                            Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListExtraBList[0].EmailDistributionListID);
-                            Assert.AreEqual(emailDistributionListDirectQueryList.Count, emailDistributionListExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -564,22 +474,6 @@ namespace CSSPServices.Tests
                             emailDistributionListList = emailDistributionListService.GetEmailDistributionListList().ToList();
                             CheckEmailDistributionListFields(emailDistributionListList);
                             Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListList[0].EmailDistributionListID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<EmailDistributionListExtraA> emailDistributionListExtraAList = new List<EmailDistributionListExtraA>();
-                            emailDistributionListExtraAList = emailDistributionListService.GetEmailDistributionListExtraAList().ToList();
-                            CheckEmailDistributionListExtraAFields(emailDistributionListExtraAList);
-                            Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListExtraAList[0].EmailDistributionListID);
-                            Assert.AreEqual(emailDistributionListDirectQueryList.Count, emailDistributionListExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<EmailDistributionListExtraB> emailDistributionListExtraBList = new List<EmailDistributionListExtraB>();
-                            emailDistributionListExtraBList = emailDistributionListService.GetEmailDistributionListExtraBList().ToList();
-                            CheckEmailDistributionListExtraBFields(emailDistributionListExtraBList);
-                            Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListExtraBList[0].EmailDistributionListID);
-                            Assert.AreEqual(emailDistributionListDirectQueryList.Count, emailDistributionListExtraBList.Count);
                         }
                         else
                         {
@@ -617,22 +511,6 @@ namespace CSSPServices.Tests
                             CheckEmailDistributionListFields(emailDistributionListList);
                             Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListList[0].EmailDistributionListID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<EmailDistributionListExtraA> emailDistributionListExtraAList = new List<EmailDistributionListExtraA>();
-                            emailDistributionListExtraAList = emailDistributionListService.GetEmailDistributionListExtraAList().ToList();
-                            CheckEmailDistributionListExtraAFields(emailDistributionListExtraAList);
-                            Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListExtraAList[0].EmailDistributionListID);
-                            Assert.AreEqual(emailDistributionListDirectQueryList.Count, emailDistributionListExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<EmailDistributionListExtraB> emailDistributionListExtraBList = new List<EmailDistributionListExtraB>();
-                            emailDistributionListExtraBList = emailDistributionListService.GetEmailDistributionListExtraBList().ToList();
-                            CheckEmailDistributionListExtraBFields(emailDistributionListExtraBList);
-                            Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListExtraBList[0].EmailDistributionListID);
-                            Assert.AreEqual(emailDistributionListDirectQueryList.Count, emailDistributionListExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -657,10 +535,10 @@ namespace CSSPServices.Tests
                     {
                         EmailDistributionListService emailDistributionListService = new EmailDistributionListService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        emailDistributionListService.Query = emailDistributionListService.FillQuery(typeof(EmailDistributionList), culture.TwoLetterISOLanguageName, 1, 1, "", "EmailDistributionListID,CountryTVItemID", "", extra);
+                        emailDistributionListService.Query = emailDistributionListService.FillQuery(typeof(EmailDistributionList), culture.TwoLetterISOLanguageName, 1, 1, "", "EmailDistributionListID,ParentTVItemID", "", extra);
 
                         List<EmailDistributionList> emailDistributionListDirectQueryList = new List<EmailDistributionList>();
-                        emailDistributionListDirectQueryList = (from c in dbTestDB.EmailDistributionLists select c).OrderByDescending(c => c.EmailDistributionListID).ThenByDescending(c => c.CountryTVItemID).Skip(1).Take(1).ToList();
+                        emailDistributionListDirectQueryList = (from c in dbTestDB.EmailDistributionLists select c).OrderByDescending(c => c.EmailDistributionListID).ThenByDescending(c => c.ParentTVItemID).Skip(1).Take(1).ToList();
 
                         if (string.IsNullOrWhiteSpace(extra))
                         {
@@ -668,22 +546,6 @@ namespace CSSPServices.Tests
                             emailDistributionListList = emailDistributionListService.GetEmailDistributionListList().ToList();
                             CheckEmailDistributionListFields(emailDistributionListList);
                             Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListList[0].EmailDistributionListID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<EmailDistributionListExtraA> emailDistributionListExtraAList = new List<EmailDistributionListExtraA>();
-                            emailDistributionListExtraAList = emailDistributionListService.GetEmailDistributionListExtraAList().ToList();
-                            CheckEmailDistributionListExtraAFields(emailDistributionListExtraAList);
-                            Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListExtraAList[0].EmailDistributionListID);
-                            Assert.AreEqual(emailDistributionListDirectQueryList.Count, emailDistributionListExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<EmailDistributionListExtraB> emailDistributionListExtraBList = new List<EmailDistributionListExtraB>();
-                            emailDistributionListExtraBList = emailDistributionListService.GetEmailDistributionListExtraBList().ToList();
-                            CheckEmailDistributionListExtraBFields(emailDistributionListExtraBList);
-                            Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListExtraBList[0].EmailDistributionListID);
-                            Assert.AreEqual(emailDistributionListDirectQueryList.Count, emailDistributionListExtraBList.Count);
                         }
                         else
                         {
@@ -721,22 +583,6 @@ namespace CSSPServices.Tests
                             CheckEmailDistributionListFields(emailDistributionListList);
                             Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListList[0].EmailDistributionListID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<EmailDistributionListExtraA> emailDistributionListExtraAList = new List<EmailDistributionListExtraA>();
-                            emailDistributionListExtraAList = emailDistributionListService.GetEmailDistributionListExtraAList().ToList();
-                            CheckEmailDistributionListExtraAFields(emailDistributionListExtraAList);
-                            Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListExtraAList[0].EmailDistributionListID);
-                            Assert.AreEqual(emailDistributionListDirectQueryList.Count, emailDistributionListExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<EmailDistributionListExtraB> emailDistributionListExtraBList = new List<EmailDistributionListExtraB>();
-                            emailDistributionListExtraBList = emailDistributionListService.GetEmailDistributionListExtraBList().ToList();
-                            CheckEmailDistributionListExtraBFields(emailDistributionListExtraBList);
-                            Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListExtraBList[0].EmailDistributionListID);
-                            Assert.AreEqual(emailDistributionListDirectQueryList.Count, emailDistributionListExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -772,22 +618,6 @@ namespace CSSPServices.Tests
                             emailDistributionListList = emailDistributionListService.GetEmailDistributionListList().ToList();
                             CheckEmailDistributionListFields(emailDistributionListList);
                             Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListList[0].EmailDistributionListID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<EmailDistributionListExtraA> emailDistributionListExtraAList = new List<EmailDistributionListExtraA>();
-                            emailDistributionListExtraAList = emailDistributionListService.GetEmailDistributionListExtraAList().ToList();
-                            CheckEmailDistributionListExtraAFields(emailDistributionListExtraAList);
-                            Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListExtraAList[0].EmailDistributionListID);
-                            Assert.AreEqual(emailDistributionListDirectQueryList.Count, emailDistributionListExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<EmailDistributionListExtraB> emailDistributionListExtraBList = new List<EmailDistributionListExtraB>();
-                            emailDistributionListExtraBList = emailDistributionListService.GetEmailDistributionListExtraBList().ToList();
-                            CheckEmailDistributionListExtraBFields(emailDistributionListExtraBList);
-                            Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListExtraBList[0].EmailDistributionListID);
-                            Assert.AreEqual(emailDistributionListDirectQueryList.Count, emailDistributionListExtraBList.Count);
                         }
                         else
                         {
@@ -825,22 +655,6 @@ namespace CSSPServices.Tests
                             CheckEmailDistributionListFields(emailDistributionListList);
                             Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListList[0].EmailDistributionListID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<EmailDistributionListExtraA> emailDistributionListExtraAList = new List<EmailDistributionListExtraA>();
-                            emailDistributionListExtraAList = emailDistributionListService.GetEmailDistributionListExtraAList().ToList();
-                            CheckEmailDistributionListExtraAFields(emailDistributionListExtraAList);
-                            Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListExtraAList[0].EmailDistributionListID);
-                            Assert.AreEqual(emailDistributionListDirectQueryList.Count, emailDistributionListExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<EmailDistributionListExtraB> emailDistributionListExtraBList = new List<EmailDistributionListExtraB>();
-                            emailDistributionListExtraBList = emailDistributionListService.GetEmailDistributionListExtraBList().ToList();
-                            CheckEmailDistributionListExtraBFields(emailDistributionListExtraBList);
-                            Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListExtraBList[0].EmailDistributionListID);
-                            Assert.AreEqual(emailDistributionListDirectQueryList.Count, emailDistributionListExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -855,43 +669,17 @@ namespace CSSPServices.Tests
         private void CheckEmailDistributionListFields(List<EmailDistributionList> emailDistributionListList)
         {
             Assert.IsNotNull(emailDistributionListList[0].EmailDistributionListID);
-            Assert.IsNotNull(emailDistributionListList[0].CountryTVItemID);
+            Assert.IsNotNull(emailDistributionListList[0].ParentTVItemID);
             Assert.IsNotNull(emailDistributionListList[0].Ordinal);
             Assert.IsNotNull(emailDistributionListList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(emailDistributionListList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(emailDistributionListList[0].HasErrors);
         }
-        private void CheckEmailDistributionListExtraAFields(List<EmailDistributionListExtraA> emailDistributionListExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListExtraAList[0].CountryText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListExtraAList[0].LastUpdateContactText));
-            Assert.IsNotNull(emailDistributionListExtraAList[0].EmailDistributionListID);
-            Assert.IsNotNull(emailDistributionListExtraAList[0].CountryTVItemID);
-            Assert.IsNotNull(emailDistributionListExtraAList[0].Ordinal);
-            Assert.IsNotNull(emailDistributionListExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(emailDistributionListExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(emailDistributionListExtraAList[0].HasErrors);
-        }
-        private void CheckEmailDistributionListExtraBFields(List<EmailDistributionListExtraB> emailDistributionListExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(emailDistributionListExtraBList[0].EmailDistributionListReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListExtraBList[0].EmailDistributionListReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListExtraBList[0].CountryText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListExtraBList[0].LastUpdateContactText));
-            Assert.IsNotNull(emailDistributionListExtraBList[0].EmailDistributionListID);
-            Assert.IsNotNull(emailDistributionListExtraBList[0].CountryTVItemID);
-            Assert.IsNotNull(emailDistributionListExtraBList[0].Ordinal);
-            Assert.IsNotNull(emailDistributionListExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(emailDistributionListExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(emailDistributionListExtraBList[0].HasErrors);
-        }
         private EmailDistributionList GetFilledRandomEmailDistributionList(string OmitPropName)
         {
             EmailDistributionList emailDistributionList = new EmailDistributionList();
 
-            if (OmitPropName != "CountryTVItemID") emailDistributionList.CountryTVItemID = 5;
+            if (OmitPropName != "ParentTVItemID") emailDistributionList.ParentTVItemID = 5;
             if (OmitPropName != "Ordinal") emailDistributionList.Ordinal = GetRandomInt(0, 1000);
             if (OmitPropName != "LastUpdateDate_UTC") emailDistributionList.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") emailDistributionList.LastUpdateContactTVItemID = 2;

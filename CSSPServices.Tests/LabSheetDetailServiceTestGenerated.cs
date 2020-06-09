@@ -1178,18 +1178,6 @@ namespace CSSPServices.Tests
                             CheckLabSheetDetailFields(new List<LabSheetDetail>() { labSheetDetailRet });
                             Assert.AreEqual(labSheetDetail.LabSheetDetailID, labSheetDetailRet.LabSheetDetailID);
                         }
-                        else if (extra == "A")
-                        {
-                            LabSheetDetailExtraA labSheetDetailExtraARet = labSheetDetailService.GetLabSheetDetailExtraAWithLabSheetDetailID(labSheetDetail.LabSheetDetailID);
-                            CheckLabSheetDetailExtraAFields(new List<LabSheetDetailExtraA>() { labSheetDetailExtraARet });
-                            Assert.AreEqual(labSheetDetail.LabSheetDetailID, labSheetDetailExtraARet.LabSheetDetailID);
-                        }
-                        else if (extra == "B")
-                        {
-                            LabSheetDetailExtraB labSheetDetailExtraBRet = labSheetDetailService.GetLabSheetDetailExtraBWithLabSheetDetailID(labSheetDetail.LabSheetDetailID);
-                            CheckLabSheetDetailExtraBFields(new List<LabSheetDetailExtraB>() { labSheetDetailExtraBRet });
-                            Assert.AreEqual(labSheetDetail.LabSheetDetailID, labSheetDetailExtraBRet.LabSheetDetailID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -1227,20 +1215,6 @@ namespace CSSPServices.Tests
                             labSheetDetailList = labSheetDetailService.GetLabSheetDetailList().ToList();
                             CheckLabSheetDetailFields(labSheetDetailList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<LabSheetDetailExtraA> labSheetDetailExtraAList = new List<LabSheetDetailExtraA>();
-                            labSheetDetailExtraAList = labSheetDetailService.GetLabSheetDetailExtraAList().ToList();
-                            CheckLabSheetDetailExtraAFields(labSheetDetailExtraAList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<LabSheetDetailExtraB> labSheetDetailExtraBList = new List<LabSheetDetailExtraB>();
-                            labSheetDetailExtraBList = labSheetDetailService.GetLabSheetDetailExtraBList().ToList();
-                            CheckLabSheetDetailExtraBFields(labSheetDetailExtraBList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -1276,22 +1250,6 @@ namespace CSSPServices.Tests
                             labSheetDetailList = labSheetDetailService.GetLabSheetDetailList().ToList();
                             CheckLabSheetDetailFields(labSheetDetailList);
                             Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailList[0].LabSheetDetailID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<LabSheetDetailExtraA> labSheetDetailExtraAList = new List<LabSheetDetailExtraA>();
-                            labSheetDetailExtraAList = labSheetDetailService.GetLabSheetDetailExtraAList().ToList();
-                            CheckLabSheetDetailExtraAFields(labSheetDetailExtraAList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailExtraAList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<LabSheetDetailExtraB> labSheetDetailExtraBList = new List<LabSheetDetailExtraB>();
-                            labSheetDetailExtraBList = labSheetDetailService.GetLabSheetDetailExtraBList().ToList();
-                            CheckLabSheetDetailExtraBFields(labSheetDetailExtraBList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailExtraBList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailExtraBList.Count);
                         }
                         else
                         {
@@ -1329,22 +1287,6 @@ namespace CSSPServices.Tests
                             CheckLabSheetDetailFields(labSheetDetailList);
                             Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailList[0].LabSheetDetailID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<LabSheetDetailExtraA> labSheetDetailExtraAList = new List<LabSheetDetailExtraA>();
-                            labSheetDetailExtraAList = labSheetDetailService.GetLabSheetDetailExtraAList().ToList();
-                            CheckLabSheetDetailExtraAFields(labSheetDetailExtraAList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailExtraAList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<LabSheetDetailExtraB> labSheetDetailExtraBList = new List<LabSheetDetailExtraB>();
-                            labSheetDetailExtraBList = labSheetDetailService.GetLabSheetDetailExtraBList().ToList();
-                            CheckLabSheetDetailExtraBFields(labSheetDetailExtraBList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailExtraBList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -1380,22 +1322,6 @@ namespace CSSPServices.Tests
                             labSheetDetailList = labSheetDetailService.GetLabSheetDetailList().ToList();
                             CheckLabSheetDetailFields(labSheetDetailList);
                             Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailList[0].LabSheetDetailID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<LabSheetDetailExtraA> labSheetDetailExtraAList = new List<LabSheetDetailExtraA>();
-                            labSheetDetailExtraAList = labSheetDetailService.GetLabSheetDetailExtraAList().ToList();
-                            CheckLabSheetDetailExtraAFields(labSheetDetailExtraAList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailExtraAList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<LabSheetDetailExtraB> labSheetDetailExtraBList = new List<LabSheetDetailExtraB>();
-                            labSheetDetailExtraBList = labSheetDetailService.GetLabSheetDetailExtraBList().ToList();
-                            CheckLabSheetDetailExtraBFields(labSheetDetailExtraBList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailExtraBList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailExtraBList.Count);
                         }
                         else
                         {
@@ -1433,22 +1359,6 @@ namespace CSSPServices.Tests
                             CheckLabSheetDetailFields(labSheetDetailList);
                             Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailList[0].LabSheetDetailID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<LabSheetDetailExtraA> labSheetDetailExtraAList = new List<LabSheetDetailExtraA>();
-                            labSheetDetailExtraAList = labSheetDetailService.GetLabSheetDetailExtraAList().ToList();
-                            CheckLabSheetDetailExtraAFields(labSheetDetailExtraAList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailExtraAList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<LabSheetDetailExtraB> labSheetDetailExtraBList = new List<LabSheetDetailExtraB>();
-                            labSheetDetailExtraBList = labSheetDetailService.GetLabSheetDetailExtraBList().ToList();
-                            CheckLabSheetDetailExtraBFields(labSheetDetailExtraBList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailExtraBList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -1484,22 +1394,6 @@ namespace CSSPServices.Tests
                             labSheetDetailList = labSheetDetailService.GetLabSheetDetailList().ToList();
                             CheckLabSheetDetailFields(labSheetDetailList);
                             Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailList[0].LabSheetDetailID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<LabSheetDetailExtraA> labSheetDetailExtraAList = new List<LabSheetDetailExtraA>();
-                            labSheetDetailExtraAList = labSheetDetailService.GetLabSheetDetailExtraAList().ToList();
-                            CheckLabSheetDetailExtraAFields(labSheetDetailExtraAList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailExtraAList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<LabSheetDetailExtraB> labSheetDetailExtraBList = new List<LabSheetDetailExtraB>();
-                            labSheetDetailExtraBList = labSheetDetailService.GetLabSheetDetailExtraBList().ToList();
-                            CheckLabSheetDetailExtraBFields(labSheetDetailExtraBList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailExtraBList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailExtraBList.Count);
                         }
                         else
                         {
@@ -1537,22 +1431,6 @@ namespace CSSPServices.Tests
                             CheckLabSheetDetailFields(labSheetDetailList);
                             Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailList[0].LabSheetDetailID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<LabSheetDetailExtraA> labSheetDetailExtraAList = new List<LabSheetDetailExtraA>();
-                            labSheetDetailExtraAList = labSheetDetailService.GetLabSheetDetailExtraAList().ToList();
-                            CheckLabSheetDetailExtraAFields(labSheetDetailExtraAList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailExtraAList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<LabSheetDetailExtraB> labSheetDetailExtraBList = new List<LabSheetDetailExtraB>();
-                            labSheetDetailExtraBList = labSheetDetailService.GetLabSheetDetailExtraBList().ToList();
-                            CheckLabSheetDetailExtraBFields(labSheetDetailExtraBList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailExtraBList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -1588,22 +1466,6 @@ namespace CSSPServices.Tests
                             labSheetDetailList = labSheetDetailService.GetLabSheetDetailList().ToList();
                             CheckLabSheetDetailFields(labSheetDetailList);
                             Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailList[0].LabSheetDetailID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<LabSheetDetailExtraA> labSheetDetailExtraAList = new List<LabSheetDetailExtraA>();
-                            labSheetDetailExtraAList = labSheetDetailService.GetLabSheetDetailExtraAList().ToList();
-                            CheckLabSheetDetailExtraAFields(labSheetDetailExtraAList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailExtraAList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<LabSheetDetailExtraB> labSheetDetailExtraBList = new List<LabSheetDetailExtraB>();
-                            labSheetDetailExtraBList = labSheetDetailService.GetLabSheetDetailExtraBList().ToList();
-                            CheckLabSheetDetailExtraBFields(labSheetDetailExtraBList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailExtraBList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailExtraBList.Count);
                         }
                         else
                         {
@@ -1641,22 +1503,6 @@ namespace CSSPServices.Tests
                             CheckLabSheetDetailFields(labSheetDetailList);
                             Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailList[0].LabSheetDetailID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<LabSheetDetailExtraA> labSheetDetailExtraAList = new List<LabSheetDetailExtraA>();
-                            labSheetDetailExtraAList = labSheetDetailService.GetLabSheetDetailExtraAList().ToList();
-                            CheckLabSheetDetailExtraAFields(labSheetDetailExtraAList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailExtraAList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<LabSheetDetailExtraB> labSheetDetailExtraBList = new List<LabSheetDetailExtraB>();
-                            labSheetDetailExtraBList = labSheetDetailService.GetLabSheetDetailExtraBList().ToList();
-                            CheckLabSheetDetailExtraBFields(labSheetDetailExtraBList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailExtraBList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -1693,22 +1539,6 @@ namespace CSSPServices.Tests
                             CheckLabSheetDetailFields(labSheetDetailList);
                             Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailList[0].LabSheetDetailID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<LabSheetDetailExtraA> labSheetDetailExtraAList = new List<LabSheetDetailExtraA>();
-                            labSheetDetailExtraAList = labSheetDetailService.GetLabSheetDetailExtraAList().ToList();
-                            CheckLabSheetDetailExtraAFields(labSheetDetailExtraAList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailExtraAList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<LabSheetDetailExtraB> labSheetDetailExtraBList = new List<LabSheetDetailExtraB>();
-                            labSheetDetailExtraBList = labSheetDetailService.GetLabSheetDetailExtraBList().ToList();
-                            CheckLabSheetDetailExtraBFields(labSheetDetailExtraBList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailExtraBList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -1744,22 +1574,6 @@ namespace CSSPServices.Tests
                             labSheetDetailList = labSheetDetailService.GetLabSheetDetailList().ToList();
                             CheckLabSheetDetailFields(labSheetDetailList);
                             Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailList[0].LabSheetDetailID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<LabSheetDetailExtraA> labSheetDetailExtraAList = new List<LabSheetDetailExtraA>();
-                            labSheetDetailExtraAList = labSheetDetailService.GetLabSheetDetailExtraAList().ToList();
-                            CheckLabSheetDetailExtraAFields(labSheetDetailExtraAList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailExtraAList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<LabSheetDetailExtraB> labSheetDetailExtraBList = new List<LabSheetDetailExtraB>();
-                            labSheetDetailExtraBList = labSheetDetailService.GetLabSheetDetailExtraBList().ToList();
-                            CheckLabSheetDetailExtraBFields(labSheetDetailExtraBList);
-                            Assert.AreEqual(labSheetDetailDirectQueryList[0].LabSheetDetailID, labSheetDetailExtraBList[0].LabSheetDetailID);
-                            Assert.AreEqual(labSheetDetailDirectQueryList.Count, labSheetDetailExtraBList.Count);
                         }
                         else
                         {
@@ -2008,488 +1822,6 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(labSheetDetailList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(labSheetDetailList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(labSheetDetailList[0].HasErrors);
-        }
-        private void CheckLabSheetDetailExtraAFields(List<LabSheetDetailExtraA> labSheetDetailExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].SubsectorText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].LastUpdateContactText));
-            Assert.IsNotNull(labSheetDetailExtraAList[0].LabSheetDetailID);
-            Assert.IsNotNull(labSheetDetailExtraAList[0].LabSheetID);
-            Assert.IsNotNull(labSheetDetailExtraAList[0].SamplingPlanID);
-            Assert.IsNotNull(labSheetDetailExtraAList[0].SubsectorTVItemID);
-            Assert.IsNotNull(labSheetDetailExtraAList[0].Version);
-            Assert.IsNotNull(labSheetDetailExtraAList[0].RunDate);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Tides));
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].SampleCrewInitials))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].SampleCrewInitials));
-            }
-            if (labSheetDetailExtraAList[0].WaterBathCount != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraAList[0].WaterBathCount);
-            }
-            if (labSheetDetailExtraAList[0].IncubationBath1StartTime != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraAList[0].IncubationBath1StartTime);
-            }
-            if (labSheetDetailExtraAList[0].IncubationBath2StartTime != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraAList[0].IncubationBath2StartTime);
-            }
-            if (labSheetDetailExtraAList[0].IncubationBath3StartTime != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraAList[0].IncubationBath3StartTime);
-            }
-            if (labSheetDetailExtraAList[0].IncubationBath1EndTime != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraAList[0].IncubationBath1EndTime);
-            }
-            if (labSheetDetailExtraAList[0].IncubationBath2EndTime != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraAList[0].IncubationBath2EndTime);
-            }
-            if (labSheetDetailExtraAList[0].IncubationBath3EndTime != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraAList[0].IncubationBath3EndTime);
-            }
-            if (labSheetDetailExtraAList[0].IncubationBath1TimeCalculated_minutes != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraAList[0].IncubationBath1TimeCalculated_minutes);
-            }
-            if (labSheetDetailExtraAList[0].IncubationBath2TimeCalculated_minutes != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraAList[0].IncubationBath2TimeCalculated_minutes);
-            }
-            if (labSheetDetailExtraAList[0].IncubationBath3TimeCalculated_minutes != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraAList[0].IncubationBath3TimeCalculated_minutes);
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].WaterBath1))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].WaterBath1));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].WaterBath2))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].WaterBath2));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].WaterBath3))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].WaterBath3));
-            }
-            if (labSheetDetailExtraAList[0].TCField1 != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraAList[0].TCField1);
-            }
-            if (labSheetDetailExtraAList[0].TCLab1 != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraAList[0].TCLab1);
-            }
-            if (labSheetDetailExtraAList[0].TCField2 != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraAList[0].TCField2);
-            }
-            if (labSheetDetailExtraAList[0].TCLab2 != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraAList[0].TCLab2);
-            }
-            if (labSheetDetailExtraAList[0].TCFirst != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraAList[0].TCFirst);
-            }
-            if (labSheetDetailExtraAList[0].TCAverage != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraAList[0].TCAverage);
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].ControlLot))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].ControlLot));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Positive35))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Positive35));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].NonTarget35))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].NonTarget35));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Negative35))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Negative35));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Bath1Positive44_5))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Bath1Positive44_5));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Bath2Positive44_5))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Bath2Positive44_5));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Bath3Positive44_5))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Bath3Positive44_5));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Bath1NonTarget44_5))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Bath1NonTarget44_5));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Bath2NonTarget44_5))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Bath2NonTarget44_5));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Bath3NonTarget44_5))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Bath3NonTarget44_5));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Bath1Negative44_5))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Bath1Negative44_5));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Bath2Negative44_5))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Bath2Negative44_5));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Bath3Negative44_5))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Bath3Negative44_5));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Blank35))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Blank35));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Bath1Blank44_5))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Bath1Blank44_5));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Bath2Blank44_5))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Bath2Blank44_5));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Bath3Blank44_5))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Bath3Blank44_5));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Lot35))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Lot35));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Lot44_5))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Lot44_5));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Weather))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].Weather));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].RunComment))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].RunComment));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].RunWeatherComment))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].RunWeatherComment));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].SampleBottleLotNumber))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].SampleBottleLotNumber));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].SalinitiesReadBy))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].SalinitiesReadBy));
-            }
-            if (labSheetDetailExtraAList[0].SalinitiesReadDate != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraAList[0].SalinitiesReadDate);
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].ResultsReadBy))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].ResultsReadBy));
-            }
-            if (labSheetDetailExtraAList[0].ResultsReadDate != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraAList[0].ResultsReadDate);
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].ResultsRecordedBy))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraAList[0].ResultsRecordedBy));
-            }
-            if (labSheetDetailExtraAList[0].ResultsRecordedDate != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraAList[0].ResultsRecordedDate);
-            }
-            if (labSheetDetailExtraAList[0].DailyDuplicateRLog != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraAList[0].DailyDuplicateRLog);
-            }
-            if (labSheetDetailExtraAList[0].DailyDuplicatePrecisionCriteria != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraAList[0].DailyDuplicatePrecisionCriteria);
-            }
-            if (labSheetDetailExtraAList[0].DailyDuplicateAcceptable != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraAList[0].DailyDuplicateAcceptable);
-            }
-            if (labSheetDetailExtraAList[0].IntertechDuplicateRLog != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraAList[0].IntertechDuplicateRLog);
-            }
-            if (labSheetDetailExtraAList[0].IntertechDuplicatePrecisionCriteria != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraAList[0].IntertechDuplicatePrecisionCriteria);
-            }
-            if (labSheetDetailExtraAList[0].IntertechDuplicateAcceptable != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraAList[0].IntertechDuplicateAcceptable);
-            }
-            if (labSheetDetailExtraAList[0].IntertechReadAcceptable != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraAList[0].IntertechReadAcceptable);
-            }
-            Assert.IsNotNull(labSheetDetailExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(labSheetDetailExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(labSheetDetailExtraAList[0].HasErrors);
-        }
-        private void CheckLabSheetDetailExtraBFields(List<LabSheetDetailExtraB> labSheetDetailExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].LabSheetDetailReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].LabSheetDetailReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].SubsectorText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].LastUpdateContactText));
-            Assert.IsNotNull(labSheetDetailExtraBList[0].LabSheetDetailID);
-            Assert.IsNotNull(labSheetDetailExtraBList[0].LabSheetID);
-            Assert.IsNotNull(labSheetDetailExtraBList[0].SamplingPlanID);
-            Assert.IsNotNull(labSheetDetailExtraBList[0].SubsectorTVItemID);
-            Assert.IsNotNull(labSheetDetailExtraBList[0].Version);
-            Assert.IsNotNull(labSheetDetailExtraBList[0].RunDate);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Tides));
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].SampleCrewInitials))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].SampleCrewInitials));
-            }
-            if (labSheetDetailExtraBList[0].WaterBathCount != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraBList[0].WaterBathCount);
-            }
-            if (labSheetDetailExtraBList[0].IncubationBath1StartTime != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraBList[0].IncubationBath1StartTime);
-            }
-            if (labSheetDetailExtraBList[0].IncubationBath2StartTime != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraBList[0].IncubationBath2StartTime);
-            }
-            if (labSheetDetailExtraBList[0].IncubationBath3StartTime != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraBList[0].IncubationBath3StartTime);
-            }
-            if (labSheetDetailExtraBList[0].IncubationBath1EndTime != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraBList[0].IncubationBath1EndTime);
-            }
-            if (labSheetDetailExtraBList[0].IncubationBath2EndTime != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraBList[0].IncubationBath2EndTime);
-            }
-            if (labSheetDetailExtraBList[0].IncubationBath3EndTime != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraBList[0].IncubationBath3EndTime);
-            }
-            if (labSheetDetailExtraBList[0].IncubationBath1TimeCalculated_minutes != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraBList[0].IncubationBath1TimeCalculated_minutes);
-            }
-            if (labSheetDetailExtraBList[0].IncubationBath2TimeCalculated_minutes != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraBList[0].IncubationBath2TimeCalculated_minutes);
-            }
-            if (labSheetDetailExtraBList[0].IncubationBath3TimeCalculated_minutes != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraBList[0].IncubationBath3TimeCalculated_minutes);
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].WaterBath1))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].WaterBath1));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].WaterBath2))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].WaterBath2));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].WaterBath3))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].WaterBath3));
-            }
-            if (labSheetDetailExtraBList[0].TCField1 != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraBList[0].TCField1);
-            }
-            if (labSheetDetailExtraBList[0].TCLab1 != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraBList[0].TCLab1);
-            }
-            if (labSheetDetailExtraBList[0].TCField2 != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraBList[0].TCField2);
-            }
-            if (labSheetDetailExtraBList[0].TCLab2 != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraBList[0].TCLab2);
-            }
-            if (labSheetDetailExtraBList[0].TCFirst != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraBList[0].TCFirst);
-            }
-            if (labSheetDetailExtraBList[0].TCAverage != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraBList[0].TCAverage);
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].ControlLot))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].ControlLot));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Positive35))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Positive35));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].NonTarget35))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].NonTarget35));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Negative35))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Negative35));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Bath1Positive44_5))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Bath1Positive44_5));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Bath2Positive44_5))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Bath2Positive44_5));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Bath3Positive44_5))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Bath3Positive44_5));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Bath1NonTarget44_5))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Bath1NonTarget44_5));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Bath2NonTarget44_5))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Bath2NonTarget44_5));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Bath3NonTarget44_5))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Bath3NonTarget44_5));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Bath1Negative44_5))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Bath1Negative44_5));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Bath2Negative44_5))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Bath2Negative44_5));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Bath3Negative44_5))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Bath3Negative44_5));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Blank35))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Blank35));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Bath1Blank44_5))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Bath1Blank44_5));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Bath2Blank44_5))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Bath2Blank44_5));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Bath3Blank44_5))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Bath3Blank44_5));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Lot35))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Lot35));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Lot44_5))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Lot44_5));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Weather))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].Weather));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].RunComment))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].RunComment));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].RunWeatherComment))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].RunWeatherComment));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].SampleBottleLotNumber))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].SampleBottleLotNumber));
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].SalinitiesReadBy))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].SalinitiesReadBy));
-            }
-            if (labSheetDetailExtraBList[0].SalinitiesReadDate != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraBList[0].SalinitiesReadDate);
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].ResultsReadBy))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].ResultsReadBy));
-            }
-            if (labSheetDetailExtraBList[0].ResultsReadDate != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraBList[0].ResultsReadDate);
-            }
-            if (!string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].ResultsRecordedBy))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailExtraBList[0].ResultsRecordedBy));
-            }
-            if (labSheetDetailExtraBList[0].ResultsRecordedDate != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraBList[0].ResultsRecordedDate);
-            }
-            if (labSheetDetailExtraBList[0].DailyDuplicateRLog != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraBList[0].DailyDuplicateRLog);
-            }
-            if (labSheetDetailExtraBList[0].DailyDuplicatePrecisionCriteria != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraBList[0].DailyDuplicatePrecisionCriteria);
-            }
-            if (labSheetDetailExtraBList[0].DailyDuplicateAcceptable != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraBList[0].DailyDuplicateAcceptable);
-            }
-            if (labSheetDetailExtraBList[0].IntertechDuplicateRLog != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraBList[0].IntertechDuplicateRLog);
-            }
-            if (labSheetDetailExtraBList[0].IntertechDuplicatePrecisionCriteria != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraBList[0].IntertechDuplicatePrecisionCriteria);
-            }
-            if (labSheetDetailExtraBList[0].IntertechDuplicateAcceptable != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraBList[0].IntertechDuplicateAcceptable);
-            }
-            if (labSheetDetailExtraBList[0].IntertechReadAcceptable != null)
-            {
-                Assert.IsNotNull(labSheetDetailExtraBList[0].IntertechReadAcceptable);
-            }
-            Assert.IsNotNull(labSheetDetailExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(labSheetDetailExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(labSheetDetailExtraBList[0].HasErrors);
         }
         private LabSheetDetail GetFilledRandomLabSheetDetail(string OmitPropName)
         {

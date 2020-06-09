@@ -285,32 +285,6 @@ namespace CSSPServices
 
             return VPScenarioQuery;
         }
-        public VPScenarioExtraA GetVPScenarioExtraAWithVPScenarioID(int VPScenarioID)
-        {
-            return FillVPScenarioExtraA().Where(c => c.VPScenarioID == VPScenarioID).FirstOrDefault();
-
-        }
-        public IQueryable<VPScenarioExtraA> GetVPScenarioExtraAList()
-        {
-            IQueryable<VPScenarioExtraA> VPScenarioExtraAQuery = FillVPScenarioExtraA();
-
-            VPScenarioExtraAQuery = EnhanceQueryStatements<VPScenarioExtraA>(VPScenarioExtraAQuery) as IQueryable<VPScenarioExtraA>;
-
-            return VPScenarioExtraAQuery;
-        }
-        public VPScenarioExtraB GetVPScenarioExtraBWithVPScenarioID(int VPScenarioID)
-        {
-            return FillVPScenarioExtraB().Where(c => c.VPScenarioID == VPScenarioID).FirstOrDefault();
-
-        }
-        public IQueryable<VPScenarioExtraB> GetVPScenarioExtraBList()
-        {
-            IQueryable<VPScenarioExtraB> VPScenarioExtraBQuery = FillVPScenarioExtraB();
-
-            VPScenarioExtraBQuery = EnhanceQueryStatements<VPScenarioExtraB>(VPScenarioExtraBQuery) as IQueryable<VPScenarioExtraB>;
-
-            return VPScenarioExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

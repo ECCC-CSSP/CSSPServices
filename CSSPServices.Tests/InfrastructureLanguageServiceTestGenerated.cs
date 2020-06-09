@@ -273,18 +273,6 @@ namespace CSSPServices.Tests
                             CheckInfrastructureLanguageFields(new List<InfrastructureLanguage>() { infrastructureLanguageRet });
                             Assert.AreEqual(infrastructureLanguage.InfrastructureLanguageID, infrastructureLanguageRet.InfrastructureLanguageID);
                         }
-                        else if (extra == "A")
-                        {
-                            InfrastructureLanguageExtraA infrastructureLanguageExtraARet = infrastructureLanguageService.GetInfrastructureLanguageExtraAWithInfrastructureLanguageID(infrastructureLanguage.InfrastructureLanguageID);
-                            CheckInfrastructureLanguageExtraAFields(new List<InfrastructureLanguageExtraA>() { infrastructureLanguageExtraARet });
-                            Assert.AreEqual(infrastructureLanguage.InfrastructureLanguageID, infrastructureLanguageExtraARet.InfrastructureLanguageID);
-                        }
-                        else if (extra == "B")
-                        {
-                            InfrastructureLanguageExtraB infrastructureLanguageExtraBRet = infrastructureLanguageService.GetInfrastructureLanguageExtraBWithInfrastructureLanguageID(infrastructureLanguage.InfrastructureLanguageID);
-                            CheckInfrastructureLanguageExtraBFields(new List<InfrastructureLanguageExtraB>() { infrastructureLanguageExtraBRet });
-                            Assert.AreEqual(infrastructureLanguage.InfrastructureLanguageID, infrastructureLanguageExtraBRet.InfrastructureLanguageID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -322,20 +310,6 @@ namespace CSSPServices.Tests
                             infrastructureLanguageList = infrastructureLanguageService.GetInfrastructureLanguageList().ToList();
                             CheckInfrastructureLanguageFields(infrastructureLanguageList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<InfrastructureLanguageExtraA> infrastructureLanguageExtraAList = new List<InfrastructureLanguageExtraA>();
-                            infrastructureLanguageExtraAList = infrastructureLanguageService.GetInfrastructureLanguageExtraAList().ToList();
-                            CheckInfrastructureLanguageExtraAFields(infrastructureLanguageExtraAList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<InfrastructureLanguageExtraB> infrastructureLanguageExtraBList = new List<InfrastructureLanguageExtraB>();
-                            infrastructureLanguageExtraBList = infrastructureLanguageService.GetInfrastructureLanguageExtraBList().ToList();
-                            CheckInfrastructureLanguageExtraBFields(infrastructureLanguageExtraBList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -371,22 +345,6 @@ namespace CSSPServices.Tests
                             infrastructureLanguageList = infrastructureLanguageService.GetInfrastructureLanguageList().ToList();
                             CheckInfrastructureLanguageFields(infrastructureLanguageList);
                             Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageList[0].InfrastructureLanguageID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<InfrastructureLanguageExtraA> infrastructureLanguageExtraAList = new List<InfrastructureLanguageExtraA>();
-                            infrastructureLanguageExtraAList = infrastructureLanguageService.GetInfrastructureLanguageExtraAList().ToList();
-                            CheckInfrastructureLanguageExtraAFields(infrastructureLanguageExtraAList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraAList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<InfrastructureLanguageExtraB> infrastructureLanguageExtraBList = new List<InfrastructureLanguageExtraB>();
-                            infrastructureLanguageExtraBList = infrastructureLanguageService.GetInfrastructureLanguageExtraBList().ToList();
-                            CheckInfrastructureLanguageExtraBFields(infrastructureLanguageExtraBList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraBList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -424,22 +382,6 @@ namespace CSSPServices.Tests
                             CheckInfrastructureLanguageFields(infrastructureLanguageList);
                             Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageList[0].InfrastructureLanguageID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<InfrastructureLanguageExtraA> infrastructureLanguageExtraAList = new List<InfrastructureLanguageExtraA>();
-                            infrastructureLanguageExtraAList = infrastructureLanguageService.GetInfrastructureLanguageExtraAList().ToList();
-                            CheckInfrastructureLanguageExtraAFields(infrastructureLanguageExtraAList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraAList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<InfrastructureLanguageExtraB> infrastructureLanguageExtraBList = new List<InfrastructureLanguageExtraB>();
-                            infrastructureLanguageExtraBList = infrastructureLanguageService.GetInfrastructureLanguageExtraBList().ToList();
-                            CheckInfrastructureLanguageExtraBFields(infrastructureLanguageExtraBList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraBList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -475,22 +417,6 @@ namespace CSSPServices.Tests
                             infrastructureLanguageList = infrastructureLanguageService.GetInfrastructureLanguageList().ToList();
                             CheckInfrastructureLanguageFields(infrastructureLanguageList);
                             Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageList[0].InfrastructureLanguageID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<InfrastructureLanguageExtraA> infrastructureLanguageExtraAList = new List<InfrastructureLanguageExtraA>();
-                            infrastructureLanguageExtraAList = infrastructureLanguageService.GetInfrastructureLanguageExtraAList().ToList();
-                            CheckInfrastructureLanguageExtraAFields(infrastructureLanguageExtraAList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraAList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<InfrastructureLanguageExtraB> infrastructureLanguageExtraBList = new List<InfrastructureLanguageExtraB>();
-                            infrastructureLanguageExtraBList = infrastructureLanguageService.GetInfrastructureLanguageExtraBList().ToList();
-                            CheckInfrastructureLanguageExtraBFields(infrastructureLanguageExtraBList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraBList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -528,22 +454,6 @@ namespace CSSPServices.Tests
                             CheckInfrastructureLanguageFields(infrastructureLanguageList);
                             Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageList[0].InfrastructureLanguageID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<InfrastructureLanguageExtraA> infrastructureLanguageExtraAList = new List<InfrastructureLanguageExtraA>();
-                            infrastructureLanguageExtraAList = infrastructureLanguageService.GetInfrastructureLanguageExtraAList().ToList();
-                            CheckInfrastructureLanguageExtraAFields(infrastructureLanguageExtraAList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraAList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<InfrastructureLanguageExtraB> infrastructureLanguageExtraBList = new List<InfrastructureLanguageExtraB>();
-                            infrastructureLanguageExtraBList = infrastructureLanguageService.GetInfrastructureLanguageExtraBList().ToList();
-                            CheckInfrastructureLanguageExtraBFields(infrastructureLanguageExtraBList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraBList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -579,22 +489,6 @@ namespace CSSPServices.Tests
                             infrastructureLanguageList = infrastructureLanguageService.GetInfrastructureLanguageList().ToList();
                             CheckInfrastructureLanguageFields(infrastructureLanguageList);
                             Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageList[0].InfrastructureLanguageID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<InfrastructureLanguageExtraA> infrastructureLanguageExtraAList = new List<InfrastructureLanguageExtraA>();
-                            infrastructureLanguageExtraAList = infrastructureLanguageService.GetInfrastructureLanguageExtraAList().ToList();
-                            CheckInfrastructureLanguageExtraAFields(infrastructureLanguageExtraAList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraAList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<InfrastructureLanguageExtraB> infrastructureLanguageExtraBList = new List<InfrastructureLanguageExtraB>();
-                            infrastructureLanguageExtraBList = infrastructureLanguageService.GetInfrastructureLanguageExtraBList().ToList();
-                            CheckInfrastructureLanguageExtraBFields(infrastructureLanguageExtraBList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraBList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -632,22 +526,6 @@ namespace CSSPServices.Tests
                             CheckInfrastructureLanguageFields(infrastructureLanguageList);
                             Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageList[0].InfrastructureLanguageID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<InfrastructureLanguageExtraA> infrastructureLanguageExtraAList = new List<InfrastructureLanguageExtraA>();
-                            infrastructureLanguageExtraAList = infrastructureLanguageService.GetInfrastructureLanguageExtraAList().ToList();
-                            CheckInfrastructureLanguageExtraAFields(infrastructureLanguageExtraAList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraAList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<InfrastructureLanguageExtraB> infrastructureLanguageExtraBList = new List<InfrastructureLanguageExtraB>();
-                            infrastructureLanguageExtraBList = infrastructureLanguageService.GetInfrastructureLanguageExtraBList().ToList();
-                            CheckInfrastructureLanguageExtraBFields(infrastructureLanguageExtraBList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraBList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -683,22 +561,6 @@ namespace CSSPServices.Tests
                             infrastructureLanguageList = infrastructureLanguageService.GetInfrastructureLanguageList().ToList();
                             CheckInfrastructureLanguageFields(infrastructureLanguageList);
                             Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageList[0].InfrastructureLanguageID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<InfrastructureLanguageExtraA> infrastructureLanguageExtraAList = new List<InfrastructureLanguageExtraA>();
-                            infrastructureLanguageExtraAList = infrastructureLanguageService.GetInfrastructureLanguageExtraAList().ToList();
-                            CheckInfrastructureLanguageExtraAFields(infrastructureLanguageExtraAList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraAList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<InfrastructureLanguageExtraB> infrastructureLanguageExtraBList = new List<InfrastructureLanguageExtraB>();
-                            infrastructureLanguageExtraBList = infrastructureLanguageService.GetInfrastructureLanguageExtraBList().ToList();
-                            CheckInfrastructureLanguageExtraBFields(infrastructureLanguageExtraBList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraBList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -736,22 +598,6 @@ namespace CSSPServices.Tests
                             CheckInfrastructureLanguageFields(infrastructureLanguageList);
                             Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageList[0].InfrastructureLanguageID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<InfrastructureLanguageExtraA> infrastructureLanguageExtraAList = new List<InfrastructureLanguageExtraA>();
-                            infrastructureLanguageExtraAList = infrastructureLanguageService.GetInfrastructureLanguageExtraAList().ToList();
-                            CheckInfrastructureLanguageExtraAFields(infrastructureLanguageExtraAList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraAList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<InfrastructureLanguageExtraB> infrastructureLanguageExtraBList = new List<InfrastructureLanguageExtraB>();
-                            infrastructureLanguageExtraBList = infrastructureLanguageService.GetInfrastructureLanguageExtraBList().ToList();
-                            CheckInfrastructureLanguageExtraBFields(infrastructureLanguageExtraBList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraBList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -787,22 +633,6 @@ namespace CSSPServices.Tests
                             infrastructureLanguageList = infrastructureLanguageService.GetInfrastructureLanguageList().ToList();
                             CheckInfrastructureLanguageFields(infrastructureLanguageList);
                             Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageList[0].InfrastructureLanguageID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<InfrastructureLanguageExtraA> infrastructureLanguageExtraAList = new List<InfrastructureLanguageExtraA>();
-                            infrastructureLanguageExtraAList = infrastructureLanguageService.GetInfrastructureLanguageExtraAList().ToList();
-                            CheckInfrastructureLanguageExtraAFields(infrastructureLanguageExtraAList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraAList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<InfrastructureLanguageExtraB> infrastructureLanguageExtraBList = new List<InfrastructureLanguageExtraB>();
-                            infrastructureLanguageExtraBList = infrastructureLanguageService.GetInfrastructureLanguageExtraBList().ToList();
-                            CheckInfrastructureLanguageExtraBFields(infrastructureLanguageExtraBList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraBList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -840,22 +670,6 @@ namespace CSSPServices.Tests
                             CheckInfrastructureLanguageFields(infrastructureLanguageList);
                             Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageList[0].InfrastructureLanguageID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<InfrastructureLanguageExtraA> infrastructureLanguageExtraAList = new List<InfrastructureLanguageExtraA>();
-                            infrastructureLanguageExtraAList = infrastructureLanguageService.GetInfrastructureLanguageExtraAList().ToList();
-                            CheckInfrastructureLanguageExtraAFields(infrastructureLanguageExtraAList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraAList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<InfrastructureLanguageExtraB> infrastructureLanguageExtraBList = new List<InfrastructureLanguageExtraB>();
-                            infrastructureLanguageExtraBList = infrastructureLanguageService.GetInfrastructureLanguageExtraBList().ToList();
-                            CheckInfrastructureLanguageExtraBFields(infrastructureLanguageExtraBList);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList[0].InfrastructureLanguageID, infrastructureLanguageExtraBList[0].InfrastructureLanguageID);
-                            Assert.AreEqual(infrastructureLanguageDirectQueryList.Count, infrastructureLanguageExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -877,50 +691,6 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(infrastructureLanguageList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(infrastructureLanguageList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(infrastructureLanguageList[0].HasErrors);
-        }
-        private void CheckInfrastructureLanguageExtraAFields(List<InfrastructureLanguageExtraA> infrastructureLanguageExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageExtraAList[0].LastUpdateContactText));
-            if (!string.IsNullOrWhiteSpace(infrastructureLanguageExtraAList[0].LanguageText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageExtraAList[0].LanguageText));
-            }
-            if (!string.IsNullOrWhiteSpace(infrastructureLanguageExtraAList[0].TranslationStatusText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageExtraAList[0].TranslationStatusText));
-            }
-            Assert.IsNotNull(infrastructureLanguageExtraAList[0].InfrastructureLanguageID);
-            Assert.IsNotNull(infrastructureLanguageExtraAList[0].InfrastructureID);
-            Assert.IsNotNull(infrastructureLanguageExtraAList[0].Language);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageExtraAList[0].Comment));
-            Assert.IsNotNull(infrastructureLanguageExtraAList[0].TranslationStatus);
-            Assert.IsNotNull(infrastructureLanguageExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(infrastructureLanguageExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(infrastructureLanguageExtraAList[0].HasErrors);
-        }
-        private void CheckInfrastructureLanguageExtraBFields(List<InfrastructureLanguageExtraB> infrastructureLanguageExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(infrastructureLanguageExtraBList[0].InfrastructureLanguageReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageExtraBList[0].InfrastructureLanguageReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageExtraBList[0].LastUpdateContactText));
-            if (!string.IsNullOrWhiteSpace(infrastructureLanguageExtraBList[0].LanguageText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageExtraBList[0].LanguageText));
-            }
-            if (!string.IsNullOrWhiteSpace(infrastructureLanguageExtraBList[0].TranslationStatusText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageExtraBList[0].TranslationStatusText));
-            }
-            Assert.IsNotNull(infrastructureLanguageExtraBList[0].InfrastructureLanguageID);
-            Assert.IsNotNull(infrastructureLanguageExtraBList[0].InfrastructureID);
-            Assert.IsNotNull(infrastructureLanguageExtraBList[0].Language);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageExtraBList[0].Comment));
-            Assert.IsNotNull(infrastructureLanguageExtraBList[0].TranslationStatus);
-            Assert.IsNotNull(infrastructureLanguageExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(infrastructureLanguageExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(infrastructureLanguageExtraBList[0].HasErrors);
         }
         private InfrastructureLanguage GetFilledRandomInfrastructureLanguage(string OmitPropName)
         {

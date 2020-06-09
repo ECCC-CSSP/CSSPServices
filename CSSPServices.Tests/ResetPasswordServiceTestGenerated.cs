@@ -280,18 +280,6 @@ namespace CSSPServices.Tests
                             CheckResetPasswordFields(new List<ResetPassword>() { resetPasswordRet });
                             Assert.AreEqual(resetPassword.ResetPasswordID, resetPasswordRet.ResetPasswordID);
                         }
-                        else if (extra == "A")
-                        {
-                            ResetPasswordExtraA resetPasswordExtraARet = resetPasswordService.GetResetPasswordExtraAWithResetPasswordID(resetPassword.ResetPasswordID);
-                            CheckResetPasswordExtraAFields(new List<ResetPasswordExtraA>() { resetPasswordExtraARet });
-                            Assert.AreEqual(resetPassword.ResetPasswordID, resetPasswordExtraARet.ResetPasswordID);
-                        }
-                        else if (extra == "B")
-                        {
-                            ResetPasswordExtraB resetPasswordExtraBRet = resetPasswordService.GetResetPasswordExtraBWithResetPasswordID(resetPassword.ResetPasswordID);
-                            CheckResetPasswordExtraBFields(new List<ResetPasswordExtraB>() { resetPasswordExtraBRet });
-                            Assert.AreEqual(resetPassword.ResetPasswordID, resetPasswordExtraBRet.ResetPasswordID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -329,20 +317,6 @@ namespace CSSPServices.Tests
                             resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
                             CheckResetPasswordFields(resetPasswordList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ResetPasswordExtraA> resetPasswordExtraAList = new List<ResetPasswordExtraA>();
-                            resetPasswordExtraAList = resetPasswordService.GetResetPasswordExtraAList().ToList();
-                            CheckResetPasswordExtraAFields(resetPasswordExtraAList);
-                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ResetPasswordExtraB> resetPasswordExtraBList = new List<ResetPasswordExtraB>();
-                            resetPasswordExtraBList = resetPasswordService.GetResetPasswordExtraBList().ToList();
-                            CheckResetPasswordExtraBFields(resetPasswordExtraBList);
-                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -378,22 +352,6 @@ namespace CSSPServices.Tests
                             resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
                             CheckResetPasswordFields(resetPasswordList);
                             Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordList[0].ResetPasswordID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<ResetPasswordExtraA> resetPasswordExtraAList = new List<ResetPasswordExtraA>();
-                            resetPasswordExtraAList = resetPasswordService.GetResetPasswordExtraAList().ToList();
-                            CheckResetPasswordExtraAFields(resetPasswordExtraAList);
-                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraAList[0].ResetPasswordID);
-                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ResetPasswordExtraB> resetPasswordExtraBList = new List<ResetPasswordExtraB>();
-                            resetPasswordExtraBList = resetPasswordService.GetResetPasswordExtraBList().ToList();
-                            CheckResetPasswordExtraBFields(resetPasswordExtraBList);
-                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraBList[0].ResetPasswordID);
-                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraBList.Count);
                         }
                         else
                         {
@@ -431,22 +389,6 @@ namespace CSSPServices.Tests
                             CheckResetPasswordFields(resetPasswordList);
                             Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordList[0].ResetPasswordID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ResetPasswordExtraA> resetPasswordExtraAList = new List<ResetPasswordExtraA>();
-                            resetPasswordExtraAList = resetPasswordService.GetResetPasswordExtraAList().ToList();
-                            CheckResetPasswordExtraAFields(resetPasswordExtraAList);
-                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraAList[0].ResetPasswordID);
-                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ResetPasswordExtraB> resetPasswordExtraBList = new List<ResetPasswordExtraB>();
-                            resetPasswordExtraBList = resetPasswordService.GetResetPasswordExtraBList().ToList();
-                            CheckResetPasswordExtraBFields(resetPasswordExtraBList);
-                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraBList[0].ResetPasswordID);
-                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -482,22 +424,6 @@ namespace CSSPServices.Tests
                             resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
                             CheckResetPasswordFields(resetPasswordList);
                             Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordList[0].ResetPasswordID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<ResetPasswordExtraA> resetPasswordExtraAList = new List<ResetPasswordExtraA>();
-                            resetPasswordExtraAList = resetPasswordService.GetResetPasswordExtraAList().ToList();
-                            CheckResetPasswordExtraAFields(resetPasswordExtraAList);
-                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraAList[0].ResetPasswordID);
-                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ResetPasswordExtraB> resetPasswordExtraBList = new List<ResetPasswordExtraB>();
-                            resetPasswordExtraBList = resetPasswordService.GetResetPasswordExtraBList().ToList();
-                            CheckResetPasswordExtraBFields(resetPasswordExtraBList);
-                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraBList[0].ResetPasswordID);
-                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraBList.Count);
                         }
                         else
                         {
@@ -535,22 +461,6 @@ namespace CSSPServices.Tests
                             CheckResetPasswordFields(resetPasswordList);
                             Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordList[0].ResetPasswordID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ResetPasswordExtraA> resetPasswordExtraAList = new List<ResetPasswordExtraA>();
-                            resetPasswordExtraAList = resetPasswordService.GetResetPasswordExtraAList().ToList();
-                            CheckResetPasswordExtraAFields(resetPasswordExtraAList);
-                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraAList[0].ResetPasswordID);
-                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ResetPasswordExtraB> resetPasswordExtraBList = new List<ResetPasswordExtraB>();
-                            resetPasswordExtraBList = resetPasswordService.GetResetPasswordExtraBList().ToList();
-                            CheckResetPasswordExtraBFields(resetPasswordExtraBList);
-                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraBList[0].ResetPasswordID);
-                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -586,22 +496,6 @@ namespace CSSPServices.Tests
                             resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
                             CheckResetPasswordFields(resetPasswordList);
                             Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordList[0].ResetPasswordID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<ResetPasswordExtraA> resetPasswordExtraAList = new List<ResetPasswordExtraA>();
-                            resetPasswordExtraAList = resetPasswordService.GetResetPasswordExtraAList().ToList();
-                            CheckResetPasswordExtraAFields(resetPasswordExtraAList);
-                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraAList[0].ResetPasswordID);
-                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ResetPasswordExtraB> resetPasswordExtraBList = new List<ResetPasswordExtraB>();
-                            resetPasswordExtraBList = resetPasswordService.GetResetPasswordExtraBList().ToList();
-                            CheckResetPasswordExtraBFields(resetPasswordExtraBList);
-                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraBList[0].ResetPasswordID);
-                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraBList.Count);
                         }
                         else
                         {
@@ -639,22 +533,6 @@ namespace CSSPServices.Tests
                             CheckResetPasswordFields(resetPasswordList);
                             Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordList[0].ResetPasswordID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ResetPasswordExtraA> resetPasswordExtraAList = new List<ResetPasswordExtraA>();
-                            resetPasswordExtraAList = resetPasswordService.GetResetPasswordExtraAList().ToList();
-                            CheckResetPasswordExtraAFields(resetPasswordExtraAList);
-                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraAList[0].ResetPasswordID);
-                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ResetPasswordExtraB> resetPasswordExtraBList = new List<ResetPasswordExtraB>();
-                            resetPasswordExtraBList = resetPasswordService.GetResetPasswordExtraBList().ToList();
-                            CheckResetPasswordExtraBFields(resetPasswordExtraBList);
-                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraBList[0].ResetPasswordID);
-                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -690,22 +568,6 @@ namespace CSSPServices.Tests
                             resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
                             CheckResetPasswordFields(resetPasswordList);
                             Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordList[0].ResetPasswordID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<ResetPasswordExtraA> resetPasswordExtraAList = new List<ResetPasswordExtraA>();
-                            resetPasswordExtraAList = resetPasswordService.GetResetPasswordExtraAList().ToList();
-                            CheckResetPasswordExtraAFields(resetPasswordExtraAList);
-                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraAList[0].ResetPasswordID);
-                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ResetPasswordExtraB> resetPasswordExtraBList = new List<ResetPasswordExtraB>();
-                            resetPasswordExtraBList = resetPasswordService.GetResetPasswordExtraBList().ToList();
-                            CheckResetPasswordExtraBFields(resetPasswordExtraBList);
-                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraBList[0].ResetPasswordID);
-                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraBList.Count);
                         }
                         else
                         {
@@ -743,22 +605,6 @@ namespace CSSPServices.Tests
                             CheckResetPasswordFields(resetPasswordList);
                             Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordList[0].ResetPasswordID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ResetPasswordExtraA> resetPasswordExtraAList = new List<ResetPasswordExtraA>();
-                            resetPasswordExtraAList = resetPasswordService.GetResetPasswordExtraAList().ToList();
-                            CheckResetPasswordExtraAFields(resetPasswordExtraAList);
-                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraAList[0].ResetPasswordID);
-                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ResetPasswordExtraB> resetPasswordExtraBList = new List<ResetPasswordExtraB>();
-                            resetPasswordExtraBList = resetPasswordService.GetResetPasswordExtraBList().ToList();
-                            CheckResetPasswordExtraBFields(resetPasswordExtraBList);
-                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraBList[0].ResetPasswordID);
-                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -794,22 +640,6 @@ namespace CSSPServices.Tests
                             resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
                             CheckResetPasswordFields(resetPasswordList);
                             Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordList[0].ResetPasswordID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<ResetPasswordExtraA> resetPasswordExtraAList = new List<ResetPasswordExtraA>();
-                            resetPasswordExtraAList = resetPasswordService.GetResetPasswordExtraAList().ToList();
-                            CheckResetPasswordExtraAFields(resetPasswordExtraAList);
-                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraAList[0].ResetPasswordID);
-                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ResetPasswordExtraB> resetPasswordExtraBList = new List<ResetPasswordExtraB>();
-                            resetPasswordExtraBList = resetPasswordService.GetResetPasswordExtraBList().ToList();
-                            CheckResetPasswordExtraBFields(resetPasswordExtraBList);
-                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraBList[0].ResetPasswordID);
-                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraBList.Count);
                         }
                         else
                         {
@@ -847,22 +677,6 @@ namespace CSSPServices.Tests
                             CheckResetPasswordFields(resetPasswordList);
                             Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordList[0].ResetPasswordID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ResetPasswordExtraA> resetPasswordExtraAList = new List<ResetPasswordExtraA>();
-                            resetPasswordExtraAList = resetPasswordService.GetResetPasswordExtraAList().ToList();
-                            CheckResetPasswordExtraAFields(resetPasswordExtraAList);
-                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraAList[0].ResetPasswordID);
-                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ResetPasswordExtraB> resetPasswordExtraBList = new List<ResetPasswordExtraB>();
-                            resetPasswordExtraBList = resetPasswordService.GetResetPasswordExtraBList().ToList();
-                            CheckResetPasswordExtraBFields(resetPasswordExtraBList);
-                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordExtraBList[0].ResetPasswordID);
-                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -883,32 +697,6 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(resetPasswordList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(resetPasswordList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(resetPasswordList[0].HasErrors);
-        }
-        private void CheckResetPasswordExtraAFields(List<ResetPasswordExtraA> resetPasswordExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordExtraAList[0].LastUpdateContactText));
-            Assert.IsNotNull(resetPasswordExtraAList[0].ResetPasswordID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordExtraAList[0].Email));
-            Assert.IsNotNull(resetPasswordExtraAList[0].ExpireDate_Local);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordExtraAList[0].Code));
-            Assert.IsNotNull(resetPasswordExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(resetPasswordExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(resetPasswordExtraAList[0].HasErrors);
-        }
-        private void CheckResetPasswordExtraBFields(List<ResetPasswordExtraB> resetPasswordExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(resetPasswordExtraBList[0].ResetPasswordReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordExtraBList[0].ResetPasswordReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordExtraBList[0].LastUpdateContactText));
-            Assert.IsNotNull(resetPasswordExtraBList[0].ResetPasswordID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordExtraBList[0].Email));
-            Assert.IsNotNull(resetPasswordExtraBList[0].ExpireDate_Local);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordExtraBList[0].Code));
-            Assert.IsNotNull(resetPasswordExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(resetPasswordExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(resetPasswordExtraBList[0].HasErrors);
         }
         private ResetPassword GetFilledRandomResetPassword(string OmitPropName)
         {

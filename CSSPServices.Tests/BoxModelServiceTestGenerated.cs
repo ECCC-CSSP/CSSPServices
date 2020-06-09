@@ -447,18 +447,6 @@ namespace CSSPServices.Tests
                             CheckBoxModelFields(new List<BoxModel>() { boxModelRet });
                             Assert.AreEqual(boxModel.BoxModelID, boxModelRet.BoxModelID);
                         }
-                        else if (extra == "A")
-                        {
-                            BoxModelExtraA boxModelExtraARet = boxModelService.GetBoxModelExtraAWithBoxModelID(boxModel.BoxModelID);
-                            CheckBoxModelExtraAFields(new List<BoxModelExtraA>() { boxModelExtraARet });
-                            Assert.AreEqual(boxModel.BoxModelID, boxModelExtraARet.BoxModelID);
-                        }
-                        else if (extra == "B")
-                        {
-                            BoxModelExtraB boxModelExtraBRet = boxModelService.GetBoxModelExtraBWithBoxModelID(boxModel.BoxModelID);
-                            CheckBoxModelExtraBFields(new List<BoxModelExtraB>() { boxModelExtraBRet });
-                            Assert.AreEqual(boxModel.BoxModelID, boxModelExtraBRet.BoxModelID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -496,20 +484,6 @@ namespace CSSPServices.Tests
                             boxModelList = boxModelService.GetBoxModelList().ToList();
                             CheckBoxModelFields(boxModelList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<BoxModelExtraA> boxModelExtraAList = new List<BoxModelExtraA>();
-                            boxModelExtraAList = boxModelService.GetBoxModelExtraAList().ToList();
-                            CheckBoxModelExtraAFields(boxModelExtraAList);
-                            Assert.AreEqual(boxModelDirectQueryList.Count, boxModelExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<BoxModelExtraB> boxModelExtraBList = new List<BoxModelExtraB>();
-                            boxModelExtraBList = boxModelService.GetBoxModelExtraBList().ToList();
-                            CheckBoxModelExtraBFields(boxModelExtraBList);
-                            Assert.AreEqual(boxModelDirectQueryList.Count, boxModelExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -545,22 +519,6 @@ namespace CSSPServices.Tests
                             boxModelList = boxModelService.GetBoxModelList().ToList();
                             CheckBoxModelFields(boxModelList);
                             Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelList[0].BoxModelID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<BoxModelExtraA> boxModelExtraAList = new List<BoxModelExtraA>();
-                            boxModelExtraAList = boxModelService.GetBoxModelExtraAList().ToList();
-                            CheckBoxModelExtraAFields(boxModelExtraAList);
-                            Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelExtraAList[0].BoxModelID);
-                            Assert.AreEqual(boxModelDirectQueryList.Count, boxModelExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<BoxModelExtraB> boxModelExtraBList = new List<BoxModelExtraB>();
-                            boxModelExtraBList = boxModelService.GetBoxModelExtraBList().ToList();
-                            CheckBoxModelExtraBFields(boxModelExtraBList);
-                            Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelExtraBList[0].BoxModelID);
-                            Assert.AreEqual(boxModelDirectQueryList.Count, boxModelExtraBList.Count);
                         }
                         else
                         {
@@ -598,22 +556,6 @@ namespace CSSPServices.Tests
                             CheckBoxModelFields(boxModelList);
                             Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelList[0].BoxModelID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<BoxModelExtraA> boxModelExtraAList = new List<BoxModelExtraA>();
-                            boxModelExtraAList = boxModelService.GetBoxModelExtraAList().ToList();
-                            CheckBoxModelExtraAFields(boxModelExtraAList);
-                            Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelExtraAList[0].BoxModelID);
-                            Assert.AreEqual(boxModelDirectQueryList.Count, boxModelExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<BoxModelExtraB> boxModelExtraBList = new List<BoxModelExtraB>();
-                            boxModelExtraBList = boxModelService.GetBoxModelExtraBList().ToList();
-                            CheckBoxModelExtraBFields(boxModelExtraBList);
-                            Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelExtraBList[0].BoxModelID);
-                            Assert.AreEqual(boxModelDirectQueryList.Count, boxModelExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -649,22 +591,6 @@ namespace CSSPServices.Tests
                             boxModelList = boxModelService.GetBoxModelList().ToList();
                             CheckBoxModelFields(boxModelList);
                             Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelList[0].BoxModelID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<BoxModelExtraA> boxModelExtraAList = new List<BoxModelExtraA>();
-                            boxModelExtraAList = boxModelService.GetBoxModelExtraAList().ToList();
-                            CheckBoxModelExtraAFields(boxModelExtraAList);
-                            Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelExtraAList[0].BoxModelID);
-                            Assert.AreEqual(boxModelDirectQueryList.Count, boxModelExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<BoxModelExtraB> boxModelExtraBList = new List<BoxModelExtraB>();
-                            boxModelExtraBList = boxModelService.GetBoxModelExtraBList().ToList();
-                            CheckBoxModelExtraBFields(boxModelExtraBList);
-                            Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelExtraBList[0].BoxModelID);
-                            Assert.AreEqual(boxModelDirectQueryList.Count, boxModelExtraBList.Count);
                         }
                         else
                         {
@@ -702,22 +628,6 @@ namespace CSSPServices.Tests
                             CheckBoxModelFields(boxModelList);
                             Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelList[0].BoxModelID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<BoxModelExtraA> boxModelExtraAList = new List<BoxModelExtraA>();
-                            boxModelExtraAList = boxModelService.GetBoxModelExtraAList().ToList();
-                            CheckBoxModelExtraAFields(boxModelExtraAList);
-                            Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelExtraAList[0].BoxModelID);
-                            Assert.AreEqual(boxModelDirectQueryList.Count, boxModelExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<BoxModelExtraB> boxModelExtraBList = new List<BoxModelExtraB>();
-                            boxModelExtraBList = boxModelService.GetBoxModelExtraBList().ToList();
-                            CheckBoxModelExtraBFields(boxModelExtraBList);
-                            Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelExtraBList[0].BoxModelID);
-                            Assert.AreEqual(boxModelDirectQueryList.Count, boxModelExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -753,22 +663,6 @@ namespace CSSPServices.Tests
                             boxModelList = boxModelService.GetBoxModelList().ToList();
                             CheckBoxModelFields(boxModelList);
                             Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelList[0].BoxModelID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<BoxModelExtraA> boxModelExtraAList = new List<BoxModelExtraA>();
-                            boxModelExtraAList = boxModelService.GetBoxModelExtraAList().ToList();
-                            CheckBoxModelExtraAFields(boxModelExtraAList);
-                            Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelExtraAList[0].BoxModelID);
-                            Assert.AreEqual(boxModelDirectQueryList.Count, boxModelExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<BoxModelExtraB> boxModelExtraBList = new List<BoxModelExtraB>();
-                            boxModelExtraBList = boxModelService.GetBoxModelExtraBList().ToList();
-                            CheckBoxModelExtraBFields(boxModelExtraBList);
-                            Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelExtraBList[0].BoxModelID);
-                            Assert.AreEqual(boxModelDirectQueryList.Count, boxModelExtraBList.Count);
                         }
                         else
                         {
@@ -806,22 +700,6 @@ namespace CSSPServices.Tests
                             CheckBoxModelFields(boxModelList);
                             Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelList[0].BoxModelID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<BoxModelExtraA> boxModelExtraAList = new List<BoxModelExtraA>();
-                            boxModelExtraAList = boxModelService.GetBoxModelExtraAList().ToList();
-                            CheckBoxModelExtraAFields(boxModelExtraAList);
-                            Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelExtraAList[0].BoxModelID);
-                            Assert.AreEqual(boxModelDirectQueryList.Count, boxModelExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<BoxModelExtraB> boxModelExtraBList = new List<BoxModelExtraB>();
-                            boxModelExtraBList = boxModelService.GetBoxModelExtraBList().ToList();
-                            CheckBoxModelExtraBFields(boxModelExtraBList);
-                            Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelExtraBList[0].BoxModelID);
-                            Assert.AreEqual(boxModelDirectQueryList.Count, boxModelExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -857,22 +735,6 @@ namespace CSSPServices.Tests
                             boxModelList = boxModelService.GetBoxModelList().ToList();
                             CheckBoxModelFields(boxModelList);
                             Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelList[0].BoxModelID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<BoxModelExtraA> boxModelExtraAList = new List<BoxModelExtraA>();
-                            boxModelExtraAList = boxModelService.GetBoxModelExtraAList().ToList();
-                            CheckBoxModelExtraAFields(boxModelExtraAList);
-                            Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelExtraAList[0].BoxModelID);
-                            Assert.AreEqual(boxModelDirectQueryList.Count, boxModelExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<BoxModelExtraB> boxModelExtraBList = new List<BoxModelExtraB>();
-                            boxModelExtraBList = boxModelService.GetBoxModelExtraBList().ToList();
-                            CheckBoxModelExtraBFields(boxModelExtraBList);
-                            Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelExtraBList[0].BoxModelID);
-                            Assert.AreEqual(boxModelDirectQueryList.Count, boxModelExtraBList.Count);
                         }
                         else
                         {
@@ -910,22 +772,6 @@ namespace CSSPServices.Tests
                             CheckBoxModelFields(boxModelList);
                             Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelList[0].BoxModelID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<BoxModelExtraA> boxModelExtraAList = new List<BoxModelExtraA>();
-                            boxModelExtraAList = boxModelService.GetBoxModelExtraAList().ToList();
-                            CheckBoxModelExtraAFields(boxModelExtraAList);
-                            Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelExtraAList[0].BoxModelID);
-                            Assert.AreEqual(boxModelDirectQueryList.Count, boxModelExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<BoxModelExtraB> boxModelExtraBList = new List<BoxModelExtraB>();
-                            boxModelExtraBList = boxModelService.GetBoxModelExtraBList().ToList();
-                            CheckBoxModelExtraBFields(boxModelExtraBList);
-                            Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelExtraBList[0].BoxModelID);
-                            Assert.AreEqual(boxModelDirectQueryList.Count, boxModelExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -961,22 +807,6 @@ namespace CSSPServices.Tests
                             boxModelList = boxModelService.GetBoxModelList().ToList();
                             CheckBoxModelFields(boxModelList);
                             Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelList[0].BoxModelID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<BoxModelExtraA> boxModelExtraAList = new List<BoxModelExtraA>();
-                            boxModelExtraAList = boxModelService.GetBoxModelExtraAList().ToList();
-                            CheckBoxModelExtraAFields(boxModelExtraAList);
-                            Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelExtraAList[0].BoxModelID);
-                            Assert.AreEqual(boxModelDirectQueryList.Count, boxModelExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<BoxModelExtraB> boxModelExtraBList = new List<BoxModelExtraB>();
-                            boxModelExtraBList = boxModelService.GetBoxModelExtraBList().ToList();
-                            CheckBoxModelExtraBFields(boxModelExtraBList);
-                            Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelExtraBList[0].BoxModelID);
-                            Assert.AreEqual(boxModelDirectQueryList.Count, boxModelExtraBList.Count);
                         }
                         else
                         {
@@ -1014,22 +844,6 @@ namespace CSSPServices.Tests
                             CheckBoxModelFields(boxModelList);
                             Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelList[0].BoxModelID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<BoxModelExtraA> boxModelExtraAList = new List<BoxModelExtraA>();
-                            boxModelExtraAList = boxModelService.GetBoxModelExtraAList().ToList();
-                            CheckBoxModelExtraAFields(boxModelExtraAList);
-                            Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelExtraAList[0].BoxModelID);
-                            Assert.AreEqual(boxModelDirectQueryList.Count, boxModelExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<BoxModelExtraB> boxModelExtraBList = new List<BoxModelExtraB>();
-                            boxModelExtraBList = boxModelService.GetBoxModelExtraBList().ToList();
-                            CheckBoxModelExtraBFields(boxModelExtraBList);
-                            Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelExtraBList[0].BoxModelID);
-                            Assert.AreEqual(boxModelDirectQueryList.Count, boxModelExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -1059,55 +873,11 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(boxModelList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(boxModelList[0].HasErrors);
         }
-        private void CheckBoxModelExtraAFields(List<BoxModelExtraA> boxModelExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelExtraAList[0].InfrastructureText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelExtraAList[0].LastUpdateContactText));
-            Assert.IsNotNull(boxModelExtraAList[0].BoxModelID);
-            Assert.IsNotNull(boxModelExtraAList[0].InfrastructureTVItemID);
-            Assert.IsNotNull(boxModelExtraAList[0].Discharge_m3_day);
-            Assert.IsNotNull(boxModelExtraAList[0].Depth_m);
-            Assert.IsNotNull(boxModelExtraAList[0].Temperature_C);
-            Assert.IsNotNull(boxModelExtraAList[0].Dilution);
-            Assert.IsNotNull(boxModelExtraAList[0].DecayRate_per_day);
-            Assert.IsNotNull(boxModelExtraAList[0].FCUntreated_MPN_100ml);
-            Assert.IsNotNull(boxModelExtraAList[0].FCPreDisinfection_MPN_100ml);
-            Assert.IsNotNull(boxModelExtraAList[0].Concentration_MPN_100ml);
-            Assert.IsNotNull(boxModelExtraAList[0].T90_hour);
-            Assert.IsNotNull(boxModelExtraAList[0].DischargeDuration_hour);
-            Assert.IsNotNull(boxModelExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(boxModelExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(boxModelExtraAList[0].HasErrors);
-        }
-        private void CheckBoxModelExtraBFields(List<BoxModelExtraB> boxModelExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(boxModelExtraBList[0].BoxModelReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelExtraBList[0].BoxModelReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelExtraBList[0].InfrastructureText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelExtraBList[0].LastUpdateContactText));
-            Assert.IsNotNull(boxModelExtraBList[0].BoxModelID);
-            Assert.IsNotNull(boxModelExtraBList[0].InfrastructureTVItemID);
-            Assert.IsNotNull(boxModelExtraBList[0].Discharge_m3_day);
-            Assert.IsNotNull(boxModelExtraBList[0].Depth_m);
-            Assert.IsNotNull(boxModelExtraBList[0].Temperature_C);
-            Assert.IsNotNull(boxModelExtraBList[0].Dilution);
-            Assert.IsNotNull(boxModelExtraBList[0].DecayRate_per_day);
-            Assert.IsNotNull(boxModelExtraBList[0].FCUntreated_MPN_100ml);
-            Assert.IsNotNull(boxModelExtraBList[0].FCPreDisinfection_MPN_100ml);
-            Assert.IsNotNull(boxModelExtraBList[0].Concentration_MPN_100ml);
-            Assert.IsNotNull(boxModelExtraBList[0].T90_hour);
-            Assert.IsNotNull(boxModelExtraBList[0].DischargeDuration_hour);
-            Assert.IsNotNull(boxModelExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(boxModelExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(boxModelExtraBList[0].HasErrors);
-        }
         private BoxModel GetFilledRandomBoxModel(string OmitPropName)
         {
             BoxModel boxModel = new BoxModel();
 
-            if (OmitPropName != "InfrastructureTVItemID") boxModel.InfrastructureTVItemID = 40;
+            if (OmitPropName != "InfrastructureTVItemID") boxModel.InfrastructureTVItemID = 41;
             if (OmitPropName != "Discharge_m3_day") boxModel.Discharge_m3_day = GetRandomDouble(0.0D, 10000.0D);
             if (OmitPropName != "Depth_m") boxModel.Depth_m = GetRandomDouble(0.0D, 1000.0D);
             if (OmitPropName != "Temperature_C") boxModel.Temperature_C = GetRandomDouble(-15.0D, 40.0D);

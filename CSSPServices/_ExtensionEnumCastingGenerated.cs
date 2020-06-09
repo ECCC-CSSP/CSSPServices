@@ -15,12 +15,12 @@ namespace CSSPServices
         {
             switch (whereInfo.EnumType.Name)
             {
+               case "IEnums":
+                   return (IEnums)whereInfo.ValueInt;
                case "ActionDBTypeEnum":
                    return (ActionDBTypeEnum)whereInfo.ValueInt;
                case "AddContactTypeEnum":
                    return (AddContactTypeEnum)whereInfo.ValueInt;
-               case "DatabaseTypeEnum":
-                   return (DatabaseTypeEnum)whereInfo.ValueInt;
                case "EntityQueryTypeEnum":
                    return (EntityQueryTypeEnum)whereInfo.ValueInt;
                case "PolSourceObsInfoTypeEnum":
@@ -45,6 +45,8 @@ namespace CSSPServices
                    return (BeaufortScaleEnum)whereInfo.ValueInt;
                case "BoxModelResultTypeEnum":
                    return (BoxModelResultTypeEnum)whereInfo.ValueInt;
+               case "CanOverflowTypeEnum":
+                   return (CanOverflowTypeEnum)whereInfo.ValueInt;
                case "ClassificationTypeEnum":
                    return (ClassificationTypeEnum)whereInfo.ValueInt;
                case "CollectionSystemTypeEnum":
@@ -165,10 +167,10 @@ namespace CSSPServices
                    return (TVAuthEnum)whereInfo.ValueInt;
                case "TVTypeEnum":
                    return (TVTypeEnum)whereInfo.ValueInt;
+               case "ValveTypeEnum":
+                   return (ValveTypeEnum)whereInfo.ValueInt;
                case "WebTideDataSetEnum":
                    return (WebTideDataSetEnum)whereInfo.ValueInt;
-               case "WhereOperatorEnum":
-                   return (WhereOperatorEnum)whereInfo.ValueInt;
                case "PolSourceObsInfoEnum":
                    return (PolSourceObsInfoEnum)whereInfo.ValueInt;
                default:

@@ -280,18 +280,6 @@ namespace CSSPServices.Tests
                             CheckVPScenarioLanguageFields(new List<VPScenarioLanguage>() { vpScenarioLanguageRet });
                             Assert.AreEqual(vpScenarioLanguage.VPScenarioLanguageID, vpScenarioLanguageRet.VPScenarioLanguageID);
                         }
-                        else if (extra == "A")
-                        {
-                            VPScenarioLanguageExtraA vpScenarioLanguageExtraARet = vpScenarioLanguageService.GetVPScenarioLanguageExtraAWithVPScenarioLanguageID(vpScenarioLanguage.VPScenarioLanguageID);
-                            CheckVPScenarioLanguageExtraAFields(new List<VPScenarioLanguageExtraA>() { vpScenarioLanguageExtraARet });
-                            Assert.AreEqual(vpScenarioLanguage.VPScenarioLanguageID, vpScenarioLanguageExtraARet.VPScenarioLanguageID);
-                        }
-                        else if (extra == "B")
-                        {
-                            VPScenarioLanguageExtraB vpScenarioLanguageExtraBRet = vpScenarioLanguageService.GetVPScenarioLanguageExtraBWithVPScenarioLanguageID(vpScenarioLanguage.VPScenarioLanguageID);
-                            CheckVPScenarioLanguageExtraBFields(new List<VPScenarioLanguageExtraB>() { vpScenarioLanguageExtraBRet });
-                            Assert.AreEqual(vpScenarioLanguage.VPScenarioLanguageID, vpScenarioLanguageExtraBRet.VPScenarioLanguageID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -329,20 +317,6 @@ namespace CSSPServices.Tests
                             vpScenarioLanguageList = vpScenarioLanguageService.GetVPScenarioLanguageList().ToList();
                             CheckVPScenarioLanguageFields(vpScenarioLanguageList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<VPScenarioLanguageExtraA> vpScenarioLanguageExtraAList = new List<VPScenarioLanguageExtraA>();
-                            vpScenarioLanguageExtraAList = vpScenarioLanguageService.GetVPScenarioLanguageExtraAList().ToList();
-                            CheckVPScenarioLanguageExtraAFields(vpScenarioLanguageExtraAList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<VPScenarioLanguageExtraB> vpScenarioLanguageExtraBList = new List<VPScenarioLanguageExtraB>();
-                            vpScenarioLanguageExtraBList = vpScenarioLanguageService.GetVPScenarioLanguageExtraBList().ToList();
-                            CheckVPScenarioLanguageExtraBFields(vpScenarioLanguageExtraBList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -378,22 +352,6 @@ namespace CSSPServices.Tests
                             vpScenarioLanguageList = vpScenarioLanguageService.GetVPScenarioLanguageList().ToList();
                             CheckVPScenarioLanguageFields(vpScenarioLanguageList);
                             Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageList[0].VPScenarioLanguageID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<VPScenarioLanguageExtraA> vpScenarioLanguageExtraAList = new List<VPScenarioLanguageExtraA>();
-                            vpScenarioLanguageExtraAList = vpScenarioLanguageService.GetVPScenarioLanguageExtraAList().ToList();
-                            CheckVPScenarioLanguageExtraAFields(vpScenarioLanguageExtraAList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageExtraAList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<VPScenarioLanguageExtraB> vpScenarioLanguageExtraBList = new List<VPScenarioLanguageExtraB>();
-                            vpScenarioLanguageExtraBList = vpScenarioLanguageService.GetVPScenarioLanguageExtraBList().ToList();
-                            CheckVPScenarioLanguageExtraBFields(vpScenarioLanguageExtraBList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageExtraBList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -431,22 +389,6 @@ namespace CSSPServices.Tests
                             CheckVPScenarioLanguageFields(vpScenarioLanguageList);
                             Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageList[0].VPScenarioLanguageID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<VPScenarioLanguageExtraA> vpScenarioLanguageExtraAList = new List<VPScenarioLanguageExtraA>();
-                            vpScenarioLanguageExtraAList = vpScenarioLanguageService.GetVPScenarioLanguageExtraAList().ToList();
-                            CheckVPScenarioLanguageExtraAFields(vpScenarioLanguageExtraAList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageExtraAList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<VPScenarioLanguageExtraB> vpScenarioLanguageExtraBList = new List<VPScenarioLanguageExtraB>();
-                            vpScenarioLanguageExtraBList = vpScenarioLanguageService.GetVPScenarioLanguageExtraBList().ToList();
-                            CheckVPScenarioLanguageExtraBFields(vpScenarioLanguageExtraBList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageExtraBList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -482,22 +424,6 @@ namespace CSSPServices.Tests
                             vpScenarioLanguageList = vpScenarioLanguageService.GetVPScenarioLanguageList().ToList();
                             CheckVPScenarioLanguageFields(vpScenarioLanguageList);
                             Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageList[0].VPScenarioLanguageID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<VPScenarioLanguageExtraA> vpScenarioLanguageExtraAList = new List<VPScenarioLanguageExtraA>();
-                            vpScenarioLanguageExtraAList = vpScenarioLanguageService.GetVPScenarioLanguageExtraAList().ToList();
-                            CheckVPScenarioLanguageExtraAFields(vpScenarioLanguageExtraAList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageExtraAList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<VPScenarioLanguageExtraB> vpScenarioLanguageExtraBList = new List<VPScenarioLanguageExtraB>();
-                            vpScenarioLanguageExtraBList = vpScenarioLanguageService.GetVPScenarioLanguageExtraBList().ToList();
-                            CheckVPScenarioLanguageExtraBFields(vpScenarioLanguageExtraBList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageExtraBList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -535,22 +461,6 @@ namespace CSSPServices.Tests
                             CheckVPScenarioLanguageFields(vpScenarioLanguageList);
                             Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageList[0].VPScenarioLanguageID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<VPScenarioLanguageExtraA> vpScenarioLanguageExtraAList = new List<VPScenarioLanguageExtraA>();
-                            vpScenarioLanguageExtraAList = vpScenarioLanguageService.GetVPScenarioLanguageExtraAList().ToList();
-                            CheckVPScenarioLanguageExtraAFields(vpScenarioLanguageExtraAList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageExtraAList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<VPScenarioLanguageExtraB> vpScenarioLanguageExtraBList = new List<VPScenarioLanguageExtraB>();
-                            vpScenarioLanguageExtraBList = vpScenarioLanguageService.GetVPScenarioLanguageExtraBList().ToList();
-                            CheckVPScenarioLanguageExtraBFields(vpScenarioLanguageExtraBList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageExtraBList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -586,22 +496,6 @@ namespace CSSPServices.Tests
                             vpScenarioLanguageList = vpScenarioLanguageService.GetVPScenarioLanguageList().ToList();
                             CheckVPScenarioLanguageFields(vpScenarioLanguageList);
                             Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageList[0].VPScenarioLanguageID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<VPScenarioLanguageExtraA> vpScenarioLanguageExtraAList = new List<VPScenarioLanguageExtraA>();
-                            vpScenarioLanguageExtraAList = vpScenarioLanguageService.GetVPScenarioLanguageExtraAList().ToList();
-                            CheckVPScenarioLanguageExtraAFields(vpScenarioLanguageExtraAList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageExtraAList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<VPScenarioLanguageExtraB> vpScenarioLanguageExtraBList = new List<VPScenarioLanguageExtraB>();
-                            vpScenarioLanguageExtraBList = vpScenarioLanguageService.GetVPScenarioLanguageExtraBList().ToList();
-                            CheckVPScenarioLanguageExtraBFields(vpScenarioLanguageExtraBList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageExtraBList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -639,22 +533,6 @@ namespace CSSPServices.Tests
                             CheckVPScenarioLanguageFields(vpScenarioLanguageList);
                             Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageList[0].VPScenarioLanguageID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<VPScenarioLanguageExtraA> vpScenarioLanguageExtraAList = new List<VPScenarioLanguageExtraA>();
-                            vpScenarioLanguageExtraAList = vpScenarioLanguageService.GetVPScenarioLanguageExtraAList().ToList();
-                            CheckVPScenarioLanguageExtraAFields(vpScenarioLanguageExtraAList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageExtraAList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<VPScenarioLanguageExtraB> vpScenarioLanguageExtraBList = new List<VPScenarioLanguageExtraB>();
-                            vpScenarioLanguageExtraBList = vpScenarioLanguageService.GetVPScenarioLanguageExtraBList().ToList();
-                            CheckVPScenarioLanguageExtraBFields(vpScenarioLanguageExtraBList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageExtraBList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -690,22 +568,6 @@ namespace CSSPServices.Tests
                             vpScenarioLanguageList = vpScenarioLanguageService.GetVPScenarioLanguageList().ToList();
                             CheckVPScenarioLanguageFields(vpScenarioLanguageList);
                             Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageList[0].VPScenarioLanguageID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<VPScenarioLanguageExtraA> vpScenarioLanguageExtraAList = new List<VPScenarioLanguageExtraA>();
-                            vpScenarioLanguageExtraAList = vpScenarioLanguageService.GetVPScenarioLanguageExtraAList().ToList();
-                            CheckVPScenarioLanguageExtraAFields(vpScenarioLanguageExtraAList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageExtraAList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<VPScenarioLanguageExtraB> vpScenarioLanguageExtraBList = new List<VPScenarioLanguageExtraB>();
-                            vpScenarioLanguageExtraBList = vpScenarioLanguageService.GetVPScenarioLanguageExtraBList().ToList();
-                            CheckVPScenarioLanguageExtraBFields(vpScenarioLanguageExtraBList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageExtraBList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -743,22 +605,6 @@ namespace CSSPServices.Tests
                             CheckVPScenarioLanguageFields(vpScenarioLanguageList);
                             Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageList[0].VPScenarioLanguageID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<VPScenarioLanguageExtraA> vpScenarioLanguageExtraAList = new List<VPScenarioLanguageExtraA>();
-                            vpScenarioLanguageExtraAList = vpScenarioLanguageService.GetVPScenarioLanguageExtraAList().ToList();
-                            CheckVPScenarioLanguageExtraAFields(vpScenarioLanguageExtraAList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageExtraAList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<VPScenarioLanguageExtraB> vpScenarioLanguageExtraBList = new List<VPScenarioLanguageExtraB>();
-                            vpScenarioLanguageExtraBList = vpScenarioLanguageService.GetVPScenarioLanguageExtraBList().ToList();
-                            CheckVPScenarioLanguageExtraBFields(vpScenarioLanguageExtraBList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageExtraBList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -794,22 +640,6 @@ namespace CSSPServices.Tests
                             vpScenarioLanguageList = vpScenarioLanguageService.GetVPScenarioLanguageList().ToList();
                             CheckVPScenarioLanguageFields(vpScenarioLanguageList);
                             Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageList[0].VPScenarioLanguageID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<VPScenarioLanguageExtraA> vpScenarioLanguageExtraAList = new List<VPScenarioLanguageExtraA>();
-                            vpScenarioLanguageExtraAList = vpScenarioLanguageService.GetVPScenarioLanguageExtraAList().ToList();
-                            CheckVPScenarioLanguageExtraAFields(vpScenarioLanguageExtraAList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageExtraAList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<VPScenarioLanguageExtraB> vpScenarioLanguageExtraBList = new List<VPScenarioLanguageExtraB>();
-                            vpScenarioLanguageExtraBList = vpScenarioLanguageService.GetVPScenarioLanguageExtraBList().ToList();
-                            CheckVPScenarioLanguageExtraBFields(vpScenarioLanguageExtraBList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageExtraBList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -847,22 +677,6 @@ namespace CSSPServices.Tests
                             CheckVPScenarioLanguageFields(vpScenarioLanguageList);
                             Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageList[0].VPScenarioLanguageID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<VPScenarioLanguageExtraA> vpScenarioLanguageExtraAList = new List<VPScenarioLanguageExtraA>();
-                            vpScenarioLanguageExtraAList = vpScenarioLanguageService.GetVPScenarioLanguageExtraAList().ToList();
-                            CheckVPScenarioLanguageExtraAFields(vpScenarioLanguageExtraAList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageExtraAList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<VPScenarioLanguageExtraB> vpScenarioLanguageExtraBList = new List<VPScenarioLanguageExtraB>();
-                            vpScenarioLanguageExtraBList = vpScenarioLanguageService.GetVPScenarioLanguageExtraBList().ToList();
-                            CheckVPScenarioLanguageExtraBFields(vpScenarioLanguageExtraBList);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList[0].VPScenarioLanguageID, vpScenarioLanguageExtraBList[0].VPScenarioLanguageID);
-                            Assert.AreEqual(vpScenarioLanguageDirectQueryList.Count, vpScenarioLanguageExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -884,50 +698,6 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(vpScenarioLanguageList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(vpScenarioLanguageList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(vpScenarioLanguageList[0].HasErrors);
-        }
-        private void CheckVPScenarioLanguageExtraAFields(List<VPScenarioLanguageExtraA> vpScenarioLanguageExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageExtraAList[0].LastUpdateContactText));
-            if (!string.IsNullOrWhiteSpace(vpScenarioLanguageExtraAList[0].LanguageText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageExtraAList[0].LanguageText));
-            }
-            if (!string.IsNullOrWhiteSpace(vpScenarioLanguageExtraAList[0].TranslationStatusText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageExtraAList[0].TranslationStatusText));
-            }
-            Assert.IsNotNull(vpScenarioLanguageExtraAList[0].VPScenarioLanguageID);
-            Assert.IsNotNull(vpScenarioLanguageExtraAList[0].VPScenarioID);
-            Assert.IsNotNull(vpScenarioLanguageExtraAList[0].Language);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageExtraAList[0].VPScenarioName));
-            Assert.IsNotNull(vpScenarioLanguageExtraAList[0].TranslationStatus);
-            Assert.IsNotNull(vpScenarioLanguageExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(vpScenarioLanguageExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(vpScenarioLanguageExtraAList[0].HasErrors);
-        }
-        private void CheckVPScenarioLanguageExtraBFields(List<VPScenarioLanguageExtraB> vpScenarioLanguageExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(vpScenarioLanguageExtraBList[0].VPScenarioLanguageReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageExtraBList[0].VPScenarioLanguageReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageExtraBList[0].LastUpdateContactText));
-            if (!string.IsNullOrWhiteSpace(vpScenarioLanguageExtraBList[0].LanguageText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageExtraBList[0].LanguageText));
-            }
-            if (!string.IsNullOrWhiteSpace(vpScenarioLanguageExtraBList[0].TranslationStatusText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageExtraBList[0].TranslationStatusText));
-            }
-            Assert.IsNotNull(vpScenarioLanguageExtraBList[0].VPScenarioLanguageID);
-            Assert.IsNotNull(vpScenarioLanguageExtraBList[0].VPScenarioID);
-            Assert.IsNotNull(vpScenarioLanguageExtraBList[0].Language);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageExtraBList[0].VPScenarioName));
-            Assert.IsNotNull(vpScenarioLanguageExtraBList[0].TranslationStatus);
-            Assert.IsNotNull(vpScenarioLanguageExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(vpScenarioLanguageExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(vpScenarioLanguageExtraBList[0].HasErrors);
         }
         private VPScenarioLanguage GetFilledRandomVPScenarioLanguage(string OmitPropName)
         {

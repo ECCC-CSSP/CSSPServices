@@ -245,18 +245,6 @@ namespace CSSPServices.Tests
                             CheckMikeScenarioResultFields(new List<MikeScenarioResult>() { mikeScenarioResultRet });
                             Assert.AreEqual(mikeScenarioResult.MikeScenarioResultID, mikeScenarioResultRet.MikeScenarioResultID);
                         }
-                        else if (extra == "A")
-                        {
-                            MikeScenarioResultExtraA mikeScenarioResultExtraARet = mikeScenarioResultService.GetMikeScenarioResultExtraAWithMikeScenarioResultID(mikeScenarioResult.MikeScenarioResultID);
-                            CheckMikeScenarioResultExtraAFields(new List<MikeScenarioResultExtraA>() { mikeScenarioResultExtraARet });
-                            Assert.AreEqual(mikeScenarioResult.MikeScenarioResultID, mikeScenarioResultExtraARet.MikeScenarioResultID);
-                        }
-                        else if (extra == "B")
-                        {
-                            MikeScenarioResultExtraB mikeScenarioResultExtraBRet = mikeScenarioResultService.GetMikeScenarioResultExtraBWithMikeScenarioResultID(mikeScenarioResult.MikeScenarioResultID);
-                            CheckMikeScenarioResultExtraBFields(new List<MikeScenarioResultExtraB>() { mikeScenarioResultExtraBRet });
-                            Assert.AreEqual(mikeScenarioResult.MikeScenarioResultID, mikeScenarioResultExtraBRet.MikeScenarioResultID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -294,20 +282,6 @@ namespace CSSPServices.Tests
                             mikeScenarioResultList = mikeScenarioResultService.GetMikeScenarioResultList().ToList();
                             CheckMikeScenarioResultFields(mikeScenarioResultList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<MikeScenarioResultExtraA> mikeScenarioResultExtraAList = new List<MikeScenarioResultExtraA>();
-                            mikeScenarioResultExtraAList = mikeScenarioResultService.GetMikeScenarioResultExtraAList().ToList();
-                            CheckMikeScenarioResultExtraAFields(mikeScenarioResultExtraAList);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MikeScenarioResultExtraB> mikeScenarioResultExtraBList = new List<MikeScenarioResultExtraB>();
-                            mikeScenarioResultExtraBList = mikeScenarioResultService.GetMikeScenarioResultExtraBList().ToList();
-                            CheckMikeScenarioResultExtraBFields(mikeScenarioResultExtraBList);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -343,22 +317,6 @@ namespace CSSPServices.Tests
                             mikeScenarioResultList = mikeScenarioResultService.GetMikeScenarioResultList().ToList();
                             CheckMikeScenarioResultFields(mikeScenarioResultList);
                             Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultList[0].MikeScenarioResultID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<MikeScenarioResultExtraA> mikeScenarioResultExtraAList = new List<MikeScenarioResultExtraA>();
-                            mikeScenarioResultExtraAList = mikeScenarioResultService.GetMikeScenarioResultExtraAList().ToList();
-                            CheckMikeScenarioResultExtraAFields(mikeScenarioResultExtraAList);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraAList[0].MikeScenarioResultID);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MikeScenarioResultExtraB> mikeScenarioResultExtraBList = new List<MikeScenarioResultExtraB>();
-                            mikeScenarioResultExtraBList = mikeScenarioResultService.GetMikeScenarioResultExtraBList().ToList();
-                            CheckMikeScenarioResultExtraBFields(mikeScenarioResultExtraBList);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraBList[0].MikeScenarioResultID);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraBList.Count);
                         }
                         else
                         {
@@ -396,22 +354,6 @@ namespace CSSPServices.Tests
                             CheckMikeScenarioResultFields(mikeScenarioResultList);
                             Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultList[0].MikeScenarioResultID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<MikeScenarioResultExtraA> mikeScenarioResultExtraAList = new List<MikeScenarioResultExtraA>();
-                            mikeScenarioResultExtraAList = mikeScenarioResultService.GetMikeScenarioResultExtraAList().ToList();
-                            CheckMikeScenarioResultExtraAFields(mikeScenarioResultExtraAList);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraAList[0].MikeScenarioResultID);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MikeScenarioResultExtraB> mikeScenarioResultExtraBList = new List<MikeScenarioResultExtraB>();
-                            mikeScenarioResultExtraBList = mikeScenarioResultService.GetMikeScenarioResultExtraBList().ToList();
-                            CheckMikeScenarioResultExtraBFields(mikeScenarioResultExtraBList);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraBList[0].MikeScenarioResultID);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -447,22 +389,6 @@ namespace CSSPServices.Tests
                             mikeScenarioResultList = mikeScenarioResultService.GetMikeScenarioResultList().ToList();
                             CheckMikeScenarioResultFields(mikeScenarioResultList);
                             Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultList[0].MikeScenarioResultID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<MikeScenarioResultExtraA> mikeScenarioResultExtraAList = new List<MikeScenarioResultExtraA>();
-                            mikeScenarioResultExtraAList = mikeScenarioResultService.GetMikeScenarioResultExtraAList().ToList();
-                            CheckMikeScenarioResultExtraAFields(mikeScenarioResultExtraAList);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraAList[0].MikeScenarioResultID);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MikeScenarioResultExtraB> mikeScenarioResultExtraBList = new List<MikeScenarioResultExtraB>();
-                            mikeScenarioResultExtraBList = mikeScenarioResultService.GetMikeScenarioResultExtraBList().ToList();
-                            CheckMikeScenarioResultExtraBFields(mikeScenarioResultExtraBList);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraBList[0].MikeScenarioResultID);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraBList.Count);
                         }
                         else
                         {
@@ -500,22 +426,6 @@ namespace CSSPServices.Tests
                             CheckMikeScenarioResultFields(mikeScenarioResultList);
                             Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultList[0].MikeScenarioResultID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<MikeScenarioResultExtraA> mikeScenarioResultExtraAList = new List<MikeScenarioResultExtraA>();
-                            mikeScenarioResultExtraAList = mikeScenarioResultService.GetMikeScenarioResultExtraAList().ToList();
-                            CheckMikeScenarioResultExtraAFields(mikeScenarioResultExtraAList);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraAList[0].MikeScenarioResultID);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MikeScenarioResultExtraB> mikeScenarioResultExtraBList = new List<MikeScenarioResultExtraB>();
-                            mikeScenarioResultExtraBList = mikeScenarioResultService.GetMikeScenarioResultExtraBList().ToList();
-                            CheckMikeScenarioResultExtraBFields(mikeScenarioResultExtraBList);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraBList[0].MikeScenarioResultID);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -551,22 +461,6 @@ namespace CSSPServices.Tests
                             mikeScenarioResultList = mikeScenarioResultService.GetMikeScenarioResultList().ToList();
                             CheckMikeScenarioResultFields(mikeScenarioResultList);
                             Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultList[0].MikeScenarioResultID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<MikeScenarioResultExtraA> mikeScenarioResultExtraAList = new List<MikeScenarioResultExtraA>();
-                            mikeScenarioResultExtraAList = mikeScenarioResultService.GetMikeScenarioResultExtraAList().ToList();
-                            CheckMikeScenarioResultExtraAFields(mikeScenarioResultExtraAList);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraAList[0].MikeScenarioResultID);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MikeScenarioResultExtraB> mikeScenarioResultExtraBList = new List<MikeScenarioResultExtraB>();
-                            mikeScenarioResultExtraBList = mikeScenarioResultService.GetMikeScenarioResultExtraBList().ToList();
-                            CheckMikeScenarioResultExtraBFields(mikeScenarioResultExtraBList);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraBList[0].MikeScenarioResultID);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraBList.Count);
                         }
                         else
                         {
@@ -604,22 +498,6 @@ namespace CSSPServices.Tests
                             CheckMikeScenarioResultFields(mikeScenarioResultList);
                             Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultList[0].MikeScenarioResultID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<MikeScenarioResultExtraA> mikeScenarioResultExtraAList = new List<MikeScenarioResultExtraA>();
-                            mikeScenarioResultExtraAList = mikeScenarioResultService.GetMikeScenarioResultExtraAList().ToList();
-                            CheckMikeScenarioResultExtraAFields(mikeScenarioResultExtraAList);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraAList[0].MikeScenarioResultID);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MikeScenarioResultExtraB> mikeScenarioResultExtraBList = new List<MikeScenarioResultExtraB>();
-                            mikeScenarioResultExtraBList = mikeScenarioResultService.GetMikeScenarioResultExtraBList().ToList();
-                            CheckMikeScenarioResultExtraBFields(mikeScenarioResultExtraBList);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraBList[0].MikeScenarioResultID);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -655,22 +533,6 @@ namespace CSSPServices.Tests
                             mikeScenarioResultList = mikeScenarioResultService.GetMikeScenarioResultList().ToList();
                             CheckMikeScenarioResultFields(mikeScenarioResultList);
                             Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultList[0].MikeScenarioResultID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<MikeScenarioResultExtraA> mikeScenarioResultExtraAList = new List<MikeScenarioResultExtraA>();
-                            mikeScenarioResultExtraAList = mikeScenarioResultService.GetMikeScenarioResultExtraAList().ToList();
-                            CheckMikeScenarioResultExtraAFields(mikeScenarioResultExtraAList);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraAList[0].MikeScenarioResultID);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MikeScenarioResultExtraB> mikeScenarioResultExtraBList = new List<MikeScenarioResultExtraB>();
-                            mikeScenarioResultExtraBList = mikeScenarioResultService.GetMikeScenarioResultExtraBList().ToList();
-                            CheckMikeScenarioResultExtraBFields(mikeScenarioResultExtraBList);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraBList[0].MikeScenarioResultID);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraBList.Count);
                         }
                         else
                         {
@@ -708,22 +570,6 @@ namespace CSSPServices.Tests
                             CheckMikeScenarioResultFields(mikeScenarioResultList);
                             Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultList[0].MikeScenarioResultID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<MikeScenarioResultExtraA> mikeScenarioResultExtraAList = new List<MikeScenarioResultExtraA>();
-                            mikeScenarioResultExtraAList = mikeScenarioResultService.GetMikeScenarioResultExtraAList().ToList();
-                            CheckMikeScenarioResultExtraAFields(mikeScenarioResultExtraAList);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraAList[0].MikeScenarioResultID);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MikeScenarioResultExtraB> mikeScenarioResultExtraBList = new List<MikeScenarioResultExtraB>();
-                            mikeScenarioResultExtraBList = mikeScenarioResultService.GetMikeScenarioResultExtraBList().ToList();
-                            CheckMikeScenarioResultExtraBFields(mikeScenarioResultExtraBList);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraBList[0].MikeScenarioResultID);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -759,22 +605,6 @@ namespace CSSPServices.Tests
                             mikeScenarioResultList = mikeScenarioResultService.GetMikeScenarioResultList().ToList();
                             CheckMikeScenarioResultFields(mikeScenarioResultList);
                             Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultList[0].MikeScenarioResultID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<MikeScenarioResultExtraA> mikeScenarioResultExtraAList = new List<MikeScenarioResultExtraA>();
-                            mikeScenarioResultExtraAList = mikeScenarioResultService.GetMikeScenarioResultExtraAList().ToList();
-                            CheckMikeScenarioResultExtraAFields(mikeScenarioResultExtraAList);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraAList[0].MikeScenarioResultID);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MikeScenarioResultExtraB> mikeScenarioResultExtraBList = new List<MikeScenarioResultExtraB>();
-                            mikeScenarioResultExtraBList = mikeScenarioResultService.GetMikeScenarioResultExtraBList().ToList();
-                            CheckMikeScenarioResultExtraBFields(mikeScenarioResultExtraBList);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraBList[0].MikeScenarioResultID);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraBList.Count);
                         }
                         else
                         {
@@ -812,22 +642,6 @@ namespace CSSPServices.Tests
                             CheckMikeScenarioResultFields(mikeScenarioResultList);
                             Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultList[0].MikeScenarioResultID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<MikeScenarioResultExtraA> mikeScenarioResultExtraAList = new List<MikeScenarioResultExtraA>();
-                            mikeScenarioResultExtraAList = mikeScenarioResultService.GetMikeScenarioResultExtraAList().ToList();
-                            CheckMikeScenarioResultExtraAFields(mikeScenarioResultExtraAList);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraAList[0].MikeScenarioResultID);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MikeScenarioResultExtraB> mikeScenarioResultExtraBList = new List<MikeScenarioResultExtraB>();
-                            mikeScenarioResultExtraBList = mikeScenarioResultService.GetMikeScenarioResultExtraBList().ToList();
-                            CheckMikeScenarioResultExtraBFields(mikeScenarioResultExtraBList);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList[0].MikeScenarioResultID, mikeScenarioResultExtraBList[0].MikeScenarioResultID);
-                            Assert.AreEqual(mikeScenarioResultDirectQueryList.Count, mikeScenarioResultExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -851,41 +665,11 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(mikeScenarioResultList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(mikeScenarioResultList[0].HasErrors);
         }
-        private void CheckMikeScenarioResultExtraAFields(List<MikeScenarioResultExtraA> mikeScenarioResultExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioResultExtraAList[0].LastUpdateContactText));
-            Assert.IsNotNull(mikeScenarioResultExtraAList[0].MikeScenarioResultID);
-            Assert.IsNotNull(mikeScenarioResultExtraAList[0].MikeScenarioTVItemID);
-            if (!string.IsNullOrWhiteSpace(mikeScenarioResultExtraAList[0].MikeResultsJSON))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioResultExtraAList[0].MikeResultsJSON));
-            }
-            Assert.IsNotNull(mikeScenarioResultExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(mikeScenarioResultExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(mikeScenarioResultExtraAList[0].HasErrors);
-        }
-        private void CheckMikeScenarioResultExtraBFields(List<MikeScenarioResultExtraB> mikeScenarioResultExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(mikeScenarioResultExtraBList[0].MikeScenarioReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioResultExtraBList[0].MikeScenarioReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioResultExtraBList[0].LastUpdateContactText));
-            Assert.IsNotNull(mikeScenarioResultExtraBList[0].MikeScenarioResultID);
-            Assert.IsNotNull(mikeScenarioResultExtraBList[0].MikeScenarioTVItemID);
-            if (!string.IsNullOrWhiteSpace(mikeScenarioResultExtraBList[0].MikeResultsJSON))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioResultExtraBList[0].MikeResultsJSON));
-            }
-            Assert.IsNotNull(mikeScenarioResultExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(mikeScenarioResultExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(mikeScenarioResultExtraBList[0].HasErrors);
-        }
         private MikeScenarioResult GetFilledRandomMikeScenarioResult(string OmitPropName)
         {
             MikeScenarioResult mikeScenarioResult = new MikeScenarioResult();
 
-            if (OmitPropName != "MikeScenarioTVItemID") mikeScenarioResult.MikeScenarioTVItemID = 50;
+            if (OmitPropName != "MikeScenarioTVItemID") mikeScenarioResult.MikeScenarioTVItemID = 51;
             if (OmitPropName != "MikeResultsJSON") mikeScenarioResult.MikeResultsJSON = GetRandomString("", 20);
             if (OmitPropName != "LastUpdateDate_UTC") mikeScenarioResult.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mikeScenarioResult.LastUpdateContactTVItemID = 2;

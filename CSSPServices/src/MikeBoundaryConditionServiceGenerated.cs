@@ -219,32 +219,6 @@ namespace CSSPServices
 
             return MikeBoundaryConditionQuery;
         }
-        public MikeBoundaryConditionExtraA GetMikeBoundaryConditionExtraAWithMikeBoundaryConditionID(int MikeBoundaryConditionID)
-        {
-            return FillMikeBoundaryConditionExtraA().Where(c => c.MikeBoundaryConditionID == MikeBoundaryConditionID).FirstOrDefault();
-
-        }
-        public IQueryable<MikeBoundaryConditionExtraA> GetMikeBoundaryConditionExtraAList()
-        {
-            IQueryable<MikeBoundaryConditionExtraA> MikeBoundaryConditionExtraAQuery = FillMikeBoundaryConditionExtraA();
-
-            MikeBoundaryConditionExtraAQuery = EnhanceQueryStatements<MikeBoundaryConditionExtraA>(MikeBoundaryConditionExtraAQuery) as IQueryable<MikeBoundaryConditionExtraA>;
-
-            return MikeBoundaryConditionExtraAQuery;
-        }
-        public MikeBoundaryConditionExtraB GetMikeBoundaryConditionExtraBWithMikeBoundaryConditionID(int MikeBoundaryConditionID)
-        {
-            return FillMikeBoundaryConditionExtraB().Where(c => c.MikeBoundaryConditionID == MikeBoundaryConditionID).FirstOrDefault();
-
-        }
-        public IQueryable<MikeBoundaryConditionExtraB> GetMikeBoundaryConditionExtraBList()
-        {
-            IQueryable<MikeBoundaryConditionExtraB> MikeBoundaryConditionExtraBQuery = FillMikeBoundaryConditionExtraB();
-
-            MikeBoundaryConditionExtraBQuery = EnhanceQueryStatements<MikeBoundaryConditionExtraB>(MikeBoundaryConditionExtraBQuery) as IQueryable<MikeBoundaryConditionExtraB>;
-
-            return MikeBoundaryConditionExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

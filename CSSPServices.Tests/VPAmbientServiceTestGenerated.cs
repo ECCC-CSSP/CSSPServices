@@ -478,18 +478,6 @@ namespace CSSPServices.Tests
                             CheckVPAmbientFields(new List<VPAmbient>() { vpAmbientRet });
                             Assert.AreEqual(vpAmbient.VPAmbientID, vpAmbientRet.VPAmbientID);
                         }
-                        else if (extra == "A")
-                        {
-                            VPAmbientExtraA vpAmbientExtraARet = vpAmbientService.GetVPAmbientExtraAWithVPAmbientID(vpAmbient.VPAmbientID);
-                            CheckVPAmbientExtraAFields(new List<VPAmbientExtraA>() { vpAmbientExtraARet });
-                            Assert.AreEqual(vpAmbient.VPAmbientID, vpAmbientExtraARet.VPAmbientID);
-                        }
-                        else if (extra == "B")
-                        {
-                            VPAmbientExtraB vpAmbientExtraBRet = vpAmbientService.GetVPAmbientExtraBWithVPAmbientID(vpAmbient.VPAmbientID);
-                            CheckVPAmbientExtraBFields(new List<VPAmbientExtraB>() { vpAmbientExtraBRet });
-                            Assert.AreEqual(vpAmbient.VPAmbientID, vpAmbientExtraBRet.VPAmbientID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -527,20 +515,6 @@ namespace CSSPServices.Tests
                             vpAmbientList = vpAmbientService.GetVPAmbientList().ToList();
                             CheckVPAmbientFields(vpAmbientList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<VPAmbientExtraA> vpAmbientExtraAList = new List<VPAmbientExtraA>();
-                            vpAmbientExtraAList = vpAmbientService.GetVPAmbientExtraAList().ToList();
-                            CheckVPAmbientExtraAFields(vpAmbientExtraAList);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<VPAmbientExtraB> vpAmbientExtraBList = new List<VPAmbientExtraB>();
-                            vpAmbientExtraBList = vpAmbientService.GetVPAmbientExtraBList().ToList();
-                            CheckVPAmbientExtraBFields(vpAmbientExtraBList);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -576,22 +550,6 @@ namespace CSSPServices.Tests
                             vpAmbientList = vpAmbientService.GetVPAmbientList().ToList();
                             CheckVPAmbientFields(vpAmbientList);
                             Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientList[0].VPAmbientID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<VPAmbientExtraA> vpAmbientExtraAList = new List<VPAmbientExtraA>();
-                            vpAmbientExtraAList = vpAmbientService.GetVPAmbientExtraAList().ToList();
-                            CheckVPAmbientExtraAFields(vpAmbientExtraAList);
-                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientExtraAList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<VPAmbientExtraB> vpAmbientExtraBList = new List<VPAmbientExtraB>();
-                            vpAmbientExtraBList = vpAmbientService.GetVPAmbientExtraBList().ToList();
-                            CheckVPAmbientExtraBFields(vpAmbientExtraBList);
-                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientExtraBList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientExtraBList.Count);
                         }
                         else
                         {
@@ -629,22 +587,6 @@ namespace CSSPServices.Tests
                             CheckVPAmbientFields(vpAmbientList);
                             Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientList[0].VPAmbientID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<VPAmbientExtraA> vpAmbientExtraAList = new List<VPAmbientExtraA>();
-                            vpAmbientExtraAList = vpAmbientService.GetVPAmbientExtraAList().ToList();
-                            CheckVPAmbientExtraAFields(vpAmbientExtraAList);
-                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientExtraAList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<VPAmbientExtraB> vpAmbientExtraBList = new List<VPAmbientExtraB>();
-                            vpAmbientExtraBList = vpAmbientService.GetVPAmbientExtraBList().ToList();
-                            CheckVPAmbientExtraBFields(vpAmbientExtraBList);
-                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientExtraBList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -680,22 +622,6 @@ namespace CSSPServices.Tests
                             vpAmbientList = vpAmbientService.GetVPAmbientList().ToList();
                             CheckVPAmbientFields(vpAmbientList);
                             Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientList[0].VPAmbientID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<VPAmbientExtraA> vpAmbientExtraAList = new List<VPAmbientExtraA>();
-                            vpAmbientExtraAList = vpAmbientService.GetVPAmbientExtraAList().ToList();
-                            CheckVPAmbientExtraAFields(vpAmbientExtraAList);
-                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientExtraAList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<VPAmbientExtraB> vpAmbientExtraBList = new List<VPAmbientExtraB>();
-                            vpAmbientExtraBList = vpAmbientService.GetVPAmbientExtraBList().ToList();
-                            CheckVPAmbientExtraBFields(vpAmbientExtraBList);
-                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientExtraBList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientExtraBList.Count);
                         }
                         else
                         {
@@ -733,22 +659,6 @@ namespace CSSPServices.Tests
                             CheckVPAmbientFields(vpAmbientList);
                             Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientList[0].VPAmbientID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<VPAmbientExtraA> vpAmbientExtraAList = new List<VPAmbientExtraA>();
-                            vpAmbientExtraAList = vpAmbientService.GetVPAmbientExtraAList().ToList();
-                            CheckVPAmbientExtraAFields(vpAmbientExtraAList);
-                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientExtraAList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<VPAmbientExtraB> vpAmbientExtraBList = new List<VPAmbientExtraB>();
-                            vpAmbientExtraBList = vpAmbientService.GetVPAmbientExtraBList().ToList();
-                            CheckVPAmbientExtraBFields(vpAmbientExtraBList);
-                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientExtraBList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -784,22 +694,6 @@ namespace CSSPServices.Tests
                             vpAmbientList = vpAmbientService.GetVPAmbientList().ToList();
                             CheckVPAmbientFields(vpAmbientList);
                             Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientList[0].VPAmbientID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<VPAmbientExtraA> vpAmbientExtraAList = new List<VPAmbientExtraA>();
-                            vpAmbientExtraAList = vpAmbientService.GetVPAmbientExtraAList().ToList();
-                            CheckVPAmbientExtraAFields(vpAmbientExtraAList);
-                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientExtraAList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<VPAmbientExtraB> vpAmbientExtraBList = new List<VPAmbientExtraB>();
-                            vpAmbientExtraBList = vpAmbientService.GetVPAmbientExtraBList().ToList();
-                            CheckVPAmbientExtraBFields(vpAmbientExtraBList);
-                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientExtraBList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientExtraBList.Count);
                         }
                         else
                         {
@@ -837,22 +731,6 @@ namespace CSSPServices.Tests
                             CheckVPAmbientFields(vpAmbientList);
                             Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientList[0].VPAmbientID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<VPAmbientExtraA> vpAmbientExtraAList = new List<VPAmbientExtraA>();
-                            vpAmbientExtraAList = vpAmbientService.GetVPAmbientExtraAList().ToList();
-                            CheckVPAmbientExtraAFields(vpAmbientExtraAList);
-                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientExtraAList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<VPAmbientExtraB> vpAmbientExtraBList = new List<VPAmbientExtraB>();
-                            vpAmbientExtraBList = vpAmbientService.GetVPAmbientExtraBList().ToList();
-                            CheckVPAmbientExtraBFields(vpAmbientExtraBList);
-                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientExtraBList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -888,22 +766,6 @@ namespace CSSPServices.Tests
                             vpAmbientList = vpAmbientService.GetVPAmbientList().ToList();
                             CheckVPAmbientFields(vpAmbientList);
                             Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientList[0].VPAmbientID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<VPAmbientExtraA> vpAmbientExtraAList = new List<VPAmbientExtraA>();
-                            vpAmbientExtraAList = vpAmbientService.GetVPAmbientExtraAList().ToList();
-                            CheckVPAmbientExtraAFields(vpAmbientExtraAList);
-                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientExtraAList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<VPAmbientExtraB> vpAmbientExtraBList = new List<VPAmbientExtraB>();
-                            vpAmbientExtraBList = vpAmbientService.GetVPAmbientExtraBList().ToList();
-                            CheckVPAmbientExtraBFields(vpAmbientExtraBList);
-                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientExtraBList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientExtraBList.Count);
                         }
                         else
                         {
@@ -941,22 +803,6 @@ namespace CSSPServices.Tests
                             CheckVPAmbientFields(vpAmbientList);
                             Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientList[0].VPAmbientID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<VPAmbientExtraA> vpAmbientExtraAList = new List<VPAmbientExtraA>();
-                            vpAmbientExtraAList = vpAmbientService.GetVPAmbientExtraAList().ToList();
-                            CheckVPAmbientExtraAFields(vpAmbientExtraAList);
-                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientExtraAList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<VPAmbientExtraB> vpAmbientExtraBList = new List<VPAmbientExtraB>();
-                            vpAmbientExtraBList = vpAmbientService.GetVPAmbientExtraBList().ToList();
-                            CheckVPAmbientExtraBFields(vpAmbientExtraBList);
-                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientExtraBList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -993,22 +839,6 @@ namespace CSSPServices.Tests
                             CheckVPAmbientFields(vpAmbientList);
                             Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientList[0].VPAmbientID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<VPAmbientExtraA> vpAmbientExtraAList = new List<VPAmbientExtraA>();
-                            vpAmbientExtraAList = vpAmbientService.GetVPAmbientExtraAList().ToList();
-                            CheckVPAmbientExtraAFields(vpAmbientExtraAList);
-                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientExtraAList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<VPAmbientExtraB> vpAmbientExtraBList = new List<VPAmbientExtraB>();
-                            vpAmbientExtraBList = vpAmbientService.GetVPAmbientExtraBList().ToList();
-                            CheckVPAmbientExtraBFields(vpAmbientExtraBList);
-                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientExtraBList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -1044,22 +874,6 @@ namespace CSSPServices.Tests
                             vpAmbientList = vpAmbientService.GetVPAmbientList().ToList();
                             CheckVPAmbientFields(vpAmbientList);
                             Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientList[0].VPAmbientID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<VPAmbientExtraA> vpAmbientExtraAList = new List<VPAmbientExtraA>();
-                            vpAmbientExtraAList = vpAmbientService.GetVPAmbientExtraAList().ToList();
-                            CheckVPAmbientExtraAFields(vpAmbientExtraAList);
-                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientExtraAList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<VPAmbientExtraB> vpAmbientExtraBList = new List<VPAmbientExtraB>();
-                            vpAmbientExtraBList = vpAmbientService.GetVPAmbientExtraBList().ToList();
-                            CheckVPAmbientExtraBFields(vpAmbientExtraBList);
-                            Assert.AreEqual(vpAmbientDirectQueryList[0].VPAmbientID, vpAmbientExtraBList[0].VPAmbientID);
-                            Assert.AreEqual(vpAmbientDirectQueryList.Count, vpAmbientExtraBList.Count);
                         }
                         else
                         {
@@ -1120,110 +934,6 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(vpAmbientList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(vpAmbientList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(vpAmbientList[0].HasErrors);
-        }
-        private void CheckVPAmbientExtraAFields(List<VPAmbientExtraA> vpAmbientExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(vpAmbientExtraAList[0].LastUpdateContactText));
-            Assert.IsNotNull(vpAmbientExtraAList[0].VPAmbientID);
-            Assert.IsNotNull(vpAmbientExtraAList[0].VPScenarioID);
-            Assert.IsNotNull(vpAmbientExtraAList[0].Row);
-            if (vpAmbientExtraAList[0].MeasurementDepth_m != null)
-            {
-                Assert.IsNotNull(vpAmbientExtraAList[0].MeasurementDepth_m);
-            }
-            if (vpAmbientExtraAList[0].CurrentSpeed_m_s != null)
-            {
-                Assert.IsNotNull(vpAmbientExtraAList[0].CurrentSpeed_m_s);
-            }
-            if (vpAmbientExtraAList[0].CurrentDirection_deg != null)
-            {
-                Assert.IsNotNull(vpAmbientExtraAList[0].CurrentDirection_deg);
-            }
-            if (vpAmbientExtraAList[0].AmbientSalinity_PSU != null)
-            {
-                Assert.IsNotNull(vpAmbientExtraAList[0].AmbientSalinity_PSU);
-            }
-            if (vpAmbientExtraAList[0].AmbientTemperature_C != null)
-            {
-                Assert.IsNotNull(vpAmbientExtraAList[0].AmbientTemperature_C);
-            }
-            if (vpAmbientExtraAList[0].BackgroundConcentration_MPN_100ml != null)
-            {
-                Assert.IsNotNull(vpAmbientExtraAList[0].BackgroundConcentration_MPN_100ml);
-            }
-            if (vpAmbientExtraAList[0].PollutantDecayRate_per_day != null)
-            {
-                Assert.IsNotNull(vpAmbientExtraAList[0].PollutantDecayRate_per_day);
-            }
-            if (vpAmbientExtraAList[0].FarFieldCurrentSpeed_m_s != null)
-            {
-                Assert.IsNotNull(vpAmbientExtraAList[0].FarFieldCurrentSpeed_m_s);
-            }
-            if (vpAmbientExtraAList[0].FarFieldCurrentDirection_deg != null)
-            {
-                Assert.IsNotNull(vpAmbientExtraAList[0].FarFieldCurrentDirection_deg);
-            }
-            if (vpAmbientExtraAList[0].FarFieldDiffusionCoefficient != null)
-            {
-                Assert.IsNotNull(vpAmbientExtraAList[0].FarFieldDiffusionCoefficient);
-            }
-            Assert.IsNotNull(vpAmbientExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(vpAmbientExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(vpAmbientExtraAList[0].HasErrors);
-        }
-        private void CheckVPAmbientExtraBFields(List<VPAmbientExtraB> vpAmbientExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(vpAmbientExtraBList[0].VPAmbientReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(vpAmbientExtraBList[0].VPAmbientReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(vpAmbientExtraBList[0].LastUpdateContactText));
-            Assert.IsNotNull(vpAmbientExtraBList[0].VPAmbientID);
-            Assert.IsNotNull(vpAmbientExtraBList[0].VPScenarioID);
-            Assert.IsNotNull(vpAmbientExtraBList[0].Row);
-            if (vpAmbientExtraBList[0].MeasurementDepth_m != null)
-            {
-                Assert.IsNotNull(vpAmbientExtraBList[0].MeasurementDepth_m);
-            }
-            if (vpAmbientExtraBList[0].CurrentSpeed_m_s != null)
-            {
-                Assert.IsNotNull(vpAmbientExtraBList[0].CurrentSpeed_m_s);
-            }
-            if (vpAmbientExtraBList[0].CurrentDirection_deg != null)
-            {
-                Assert.IsNotNull(vpAmbientExtraBList[0].CurrentDirection_deg);
-            }
-            if (vpAmbientExtraBList[0].AmbientSalinity_PSU != null)
-            {
-                Assert.IsNotNull(vpAmbientExtraBList[0].AmbientSalinity_PSU);
-            }
-            if (vpAmbientExtraBList[0].AmbientTemperature_C != null)
-            {
-                Assert.IsNotNull(vpAmbientExtraBList[0].AmbientTemperature_C);
-            }
-            if (vpAmbientExtraBList[0].BackgroundConcentration_MPN_100ml != null)
-            {
-                Assert.IsNotNull(vpAmbientExtraBList[0].BackgroundConcentration_MPN_100ml);
-            }
-            if (vpAmbientExtraBList[0].PollutantDecayRate_per_day != null)
-            {
-                Assert.IsNotNull(vpAmbientExtraBList[0].PollutantDecayRate_per_day);
-            }
-            if (vpAmbientExtraBList[0].FarFieldCurrentSpeed_m_s != null)
-            {
-                Assert.IsNotNull(vpAmbientExtraBList[0].FarFieldCurrentSpeed_m_s);
-            }
-            if (vpAmbientExtraBList[0].FarFieldCurrentDirection_deg != null)
-            {
-                Assert.IsNotNull(vpAmbientExtraBList[0].FarFieldCurrentDirection_deg);
-            }
-            if (vpAmbientExtraBList[0].FarFieldDiffusionCoefficient != null)
-            {
-                Assert.IsNotNull(vpAmbientExtraBList[0].FarFieldDiffusionCoefficient);
-            }
-            Assert.IsNotNull(vpAmbientExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(vpAmbientExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(vpAmbientExtraBList[0].HasErrors);
         }
         private VPAmbient GetFilledRandomVPAmbient(string OmitPropName)
         {

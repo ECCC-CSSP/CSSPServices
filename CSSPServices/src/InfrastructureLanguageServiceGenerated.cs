@@ -151,32 +151,6 @@ namespace CSSPServices
 
             return InfrastructureLanguageQuery;
         }
-        public InfrastructureLanguageExtraA GetInfrastructureLanguageExtraAWithInfrastructureLanguageID(int InfrastructureLanguageID)
-        {
-            return FillInfrastructureLanguageExtraA().Where(c => c.InfrastructureLanguageID == InfrastructureLanguageID).FirstOrDefault();
-
-        }
-        public IQueryable<InfrastructureLanguageExtraA> GetInfrastructureLanguageExtraAList()
-        {
-            IQueryable<InfrastructureLanguageExtraA> InfrastructureLanguageExtraAQuery = FillInfrastructureLanguageExtraA();
-
-            InfrastructureLanguageExtraAQuery = EnhanceQueryStatements<InfrastructureLanguageExtraA>(InfrastructureLanguageExtraAQuery) as IQueryable<InfrastructureLanguageExtraA>;
-
-            return InfrastructureLanguageExtraAQuery;
-        }
-        public InfrastructureLanguageExtraB GetInfrastructureLanguageExtraBWithInfrastructureLanguageID(int InfrastructureLanguageID)
-        {
-            return FillInfrastructureLanguageExtraB().Where(c => c.InfrastructureLanguageID == InfrastructureLanguageID).FirstOrDefault();
-
-        }
-        public IQueryable<InfrastructureLanguageExtraB> GetInfrastructureLanguageExtraBList()
-        {
-            IQueryable<InfrastructureLanguageExtraB> InfrastructureLanguageExtraBQuery = FillInfrastructureLanguageExtraB();
-
-            InfrastructureLanguageExtraBQuery = EnhanceQueryStatements<InfrastructureLanguageExtraB>(InfrastructureLanguageExtraBQuery) as IQueryable<InfrastructureLanguageExtraB>;
-
-            return InfrastructureLanguageExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

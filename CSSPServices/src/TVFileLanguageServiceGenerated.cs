@@ -145,32 +145,6 @@ namespace CSSPServices
 
             return TVFileLanguageQuery;
         }
-        public TVFileLanguageExtraA GetTVFileLanguageExtraAWithTVFileLanguageID(int TVFileLanguageID)
-        {
-            return FillTVFileLanguageExtraA().Where(c => c.TVFileLanguageID == TVFileLanguageID).FirstOrDefault();
-
-        }
-        public IQueryable<TVFileLanguageExtraA> GetTVFileLanguageExtraAList()
-        {
-            IQueryable<TVFileLanguageExtraA> TVFileLanguageExtraAQuery = FillTVFileLanguageExtraA();
-
-            TVFileLanguageExtraAQuery = EnhanceQueryStatements<TVFileLanguageExtraA>(TVFileLanguageExtraAQuery) as IQueryable<TVFileLanguageExtraA>;
-
-            return TVFileLanguageExtraAQuery;
-        }
-        public TVFileLanguageExtraB GetTVFileLanguageExtraBWithTVFileLanguageID(int TVFileLanguageID)
-        {
-            return FillTVFileLanguageExtraB().Where(c => c.TVFileLanguageID == TVFileLanguageID).FirstOrDefault();
-
-        }
-        public IQueryable<TVFileLanguageExtraB> GetTVFileLanguageExtraBList()
-        {
-            IQueryable<TVFileLanguageExtraB> TVFileLanguageExtraBQuery = FillTVFileLanguageExtraB();
-
-            TVFileLanguageExtraBQuery = EnhanceQueryStatements<TVFileLanguageExtraB>(TVFileLanguageExtraBQuery) as IQueryable<TVFileLanguageExtraB>;
-
-            return TVFileLanguageExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

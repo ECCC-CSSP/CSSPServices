@@ -155,32 +155,6 @@ namespace CSSPServices
 
             return EmailDistributionListContactLanguageQuery;
         }
-        public EmailDistributionListContactLanguageExtraA GetEmailDistributionListContactLanguageExtraAWithEmailDistributionListContactLanguageID(int EmailDistributionListContactLanguageID)
-        {
-            return FillEmailDistributionListContactLanguageExtraA().Where(c => c.EmailDistributionListContactLanguageID == EmailDistributionListContactLanguageID).FirstOrDefault();
-
-        }
-        public IQueryable<EmailDistributionListContactLanguageExtraA> GetEmailDistributionListContactLanguageExtraAList()
-        {
-            IQueryable<EmailDistributionListContactLanguageExtraA> EmailDistributionListContactLanguageExtraAQuery = FillEmailDistributionListContactLanguageExtraA();
-
-            EmailDistributionListContactLanguageExtraAQuery = EnhanceQueryStatements<EmailDistributionListContactLanguageExtraA>(EmailDistributionListContactLanguageExtraAQuery) as IQueryable<EmailDistributionListContactLanguageExtraA>;
-
-            return EmailDistributionListContactLanguageExtraAQuery;
-        }
-        public EmailDistributionListContactLanguageExtraB GetEmailDistributionListContactLanguageExtraBWithEmailDistributionListContactLanguageID(int EmailDistributionListContactLanguageID)
-        {
-            return FillEmailDistributionListContactLanguageExtraB().Where(c => c.EmailDistributionListContactLanguageID == EmailDistributionListContactLanguageID).FirstOrDefault();
-
-        }
-        public IQueryable<EmailDistributionListContactLanguageExtraB> GetEmailDistributionListContactLanguageExtraBList()
-        {
-            IQueryable<EmailDistributionListContactLanguageExtraB> EmailDistributionListContactLanguageExtraBQuery = FillEmailDistributionListContactLanguageExtraB();
-
-            EmailDistributionListContactLanguageExtraBQuery = EnhanceQueryStatements<EmailDistributionListContactLanguageExtraB>(EmailDistributionListContactLanguageExtraBQuery) as IQueryable<EmailDistributionListContactLanguageExtraB>;
-
-            return EmailDistributionListContactLanguageExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

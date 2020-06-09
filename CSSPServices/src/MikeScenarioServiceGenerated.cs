@@ -382,32 +382,6 @@ namespace CSSPServices
 
             return MikeScenarioQuery;
         }
-        public MikeScenarioExtraA GetMikeScenarioExtraAWithMikeScenarioID(int MikeScenarioID)
-        {
-            return FillMikeScenarioExtraA().Where(c => c.MikeScenarioID == MikeScenarioID).FirstOrDefault();
-
-        }
-        public IQueryable<MikeScenarioExtraA> GetMikeScenarioExtraAList()
-        {
-            IQueryable<MikeScenarioExtraA> MikeScenarioExtraAQuery = FillMikeScenarioExtraA();
-
-            MikeScenarioExtraAQuery = EnhanceQueryStatements<MikeScenarioExtraA>(MikeScenarioExtraAQuery) as IQueryable<MikeScenarioExtraA>;
-
-            return MikeScenarioExtraAQuery;
-        }
-        public MikeScenarioExtraB GetMikeScenarioExtraBWithMikeScenarioID(int MikeScenarioID)
-        {
-            return FillMikeScenarioExtraB().Where(c => c.MikeScenarioID == MikeScenarioID).FirstOrDefault();
-
-        }
-        public IQueryable<MikeScenarioExtraB> GetMikeScenarioExtraBList()
-        {
-            IQueryable<MikeScenarioExtraB> MikeScenarioExtraBQuery = FillMikeScenarioExtraB();
-
-            MikeScenarioExtraBQuery = EnhanceQueryStatements<MikeScenarioExtraB>(MikeScenarioExtraBQuery) as IQueryable<MikeScenarioExtraB>;
-
-            return MikeScenarioExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

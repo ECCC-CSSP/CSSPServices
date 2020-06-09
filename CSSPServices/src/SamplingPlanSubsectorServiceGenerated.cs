@@ -149,32 +149,6 @@ namespace CSSPServices
 
             return SamplingPlanSubsectorQuery;
         }
-        public SamplingPlanSubsectorExtraA GetSamplingPlanSubsectorExtraAWithSamplingPlanSubsectorID(int SamplingPlanSubsectorID)
-        {
-            return FillSamplingPlanSubsectorExtraA().Where(c => c.SamplingPlanSubsectorID == SamplingPlanSubsectorID).FirstOrDefault();
-
-        }
-        public IQueryable<SamplingPlanSubsectorExtraA> GetSamplingPlanSubsectorExtraAList()
-        {
-            IQueryable<SamplingPlanSubsectorExtraA> SamplingPlanSubsectorExtraAQuery = FillSamplingPlanSubsectorExtraA();
-
-            SamplingPlanSubsectorExtraAQuery = EnhanceQueryStatements<SamplingPlanSubsectorExtraA>(SamplingPlanSubsectorExtraAQuery) as IQueryable<SamplingPlanSubsectorExtraA>;
-
-            return SamplingPlanSubsectorExtraAQuery;
-        }
-        public SamplingPlanSubsectorExtraB GetSamplingPlanSubsectorExtraBWithSamplingPlanSubsectorID(int SamplingPlanSubsectorID)
-        {
-            return FillSamplingPlanSubsectorExtraB().Where(c => c.SamplingPlanSubsectorID == SamplingPlanSubsectorID).FirstOrDefault();
-
-        }
-        public IQueryable<SamplingPlanSubsectorExtraB> GetSamplingPlanSubsectorExtraBList()
-        {
-            IQueryable<SamplingPlanSubsectorExtraB> SamplingPlanSubsectorExtraBQuery = FillSamplingPlanSubsectorExtraB();
-
-            SamplingPlanSubsectorExtraBQuery = EnhanceQueryStatements<SamplingPlanSubsectorExtraB>(SamplingPlanSubsectorExtraBQuery) as IQueryable<SamplingPlanSubsectorExtraB>;
-
-            return SamplingPlanSubsectorExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

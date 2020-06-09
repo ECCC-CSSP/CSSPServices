@@ -350,18 +350,6 @@ namespace CSSPServices.Tests
                             CheckHydrometricDataValueFields(new List<HydrometricDataValue>() { hydrometricDataValueRet });
                             Assert.AreEqual(hydrometricDataValue.HydrometricDataValueID, hydrometricDataValueRet.HydrometricDataValueID);
                         }
-                        else if (extra == "A")
-                        {
-                            HydrometricDataValueExtraA hydrometricDataValueExtraARet = hydrometricDataValueService.GetHydrometricDataValueExtraAWithHydrometricDataValueID(hydrometricDataValue.HydrometricDataValueID);
-                            CheckHydrometricDataValueExtraAFields(new List<HydrometricDataValueExtraA>() { hydrometricDataValueExtraARet });
-                            Assert.AreEqual(hydrometricDataValue.HydrometricDataValueID, hydrometricDataValueExtraARet.HydrometricDataValueID);
-                        }
-                        else if (extra == "B")
-                        {
-                            HydrometricDataValueExtraB hydrometricDataValueExtraBRet = hydrometricDataValueService.GetHydrometricDataValueExtraBWithHydrometricDataValueID(hydrometricDataValue.HydrometricDataValueID);
-                            CheckHydrometricDataValueExtraBFields(new List<HydrometricDataValueExtraB>() { hydrometricDataValueExtraBRet });
-                            Assert.AreEqual(hydrometricDataValue.HydrometricDataValueID, hydrometricDataValueExtraBRet.HydrometricDataValueID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -399,20 +387,6 @@ namespace CSSPServices.Tests
                             hydrometricDataValueList = hydrometricDataValueService.GetHydrometricDataValueList().ToList();
                             CheckHydrometricDataValueFields(hydrometricDataValueList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<HydrometricDataValueExtraA> hydrometricDataValueExtraAList = new List<HydrometricDataValueExtraA>();
-                            hydrometricDataValueExtraAList = hydrometricDataValueService.GetHydrometricDataValueExtraAList().ToList();
-                            CheckHydrometricDataValueExtraAFields(hydrometricDataValueExtraAList);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<HydrometricDataValueExtraB> hydrometricDataValueExtraBList = new List<HydrometricDataValueExtraB>();
-                            hydrometricDataValueExtraBList = hydrometricDataValueService.GetHydrometricDataValueExtraBList().ToList();
-                            CheckHydrometricDataValueExtraBFields(hydrometricDataValueExtraBList);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -448,22 +422,6 @@ namespace CSSPServices.Tests
                             hydrometricDataValueList = hydrometricDataValueService.GetHydrometricDataValueList().ToList();
                             CheckHydrometricDataValueFields(hydrometricDataValueList);
                             Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueList[0].HydrometricDataValueID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<HydrometricDataValueExtraA> hydrometricDataValueExtraAList = new List<HydrometricDataValueExtraA>();
-                            hydrometricDataValueExtraAList = hydrometricDataValueService.GetHydrometricDataValueExtraAList().ToList();
-                            CheckHydrometricDataValueExtraAFields(hydrometricDataValueExtraAList);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraAList[0].HydrometricDataValueID);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<HydrometricDataValueExtraB> hydrometricDataValueExtraBList = new List<HydrometricDataValueExtraB>();
-                            hydrometricDataValueExtraBList = hydrometricDataValueService.GetHydrometricDataValueExtraBList().ToList();
-                            CheckHydrometricDataValueExtraBFields(hydrometricDataValueExtraBList);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraBList[0].HydrometricDataValueID);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraBList.Count);
                         }
                         else
                         {
@@ -501,22 +459,6 @@ namespace CSSPServices.Tests
                             CheckHydrometricDataValueFields(hydrometricDataValueList);
                             Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueList[0].HydrometricDataValueID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<HydrometricDataValueExtraA> hydrometricDataValueExtraAList = new List<HydrometricDataValueExtraA>();
-                            hydrometricDataValueExtraAList = hydrometricDataValueService.GetHydrometricDataValueExtraAList().ToList();
-                            CheckHydrometricDataValueExtraAFields(hydrometricDataValueExtraAList);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraAList[0].HydrometricDataValueID);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<HydrometricDataValueExtraB> hydrometricDataValueExtraBList = new List<HydrometricDataValueExtraB>();
-                            hydrometricDataValueExtraBList = hydrometricDataValueService.GetHydrometricDataValueExtraBList().ToList();
-                            CheckHydrometricDataValueExtraBFields(hydrometricDataValueExtraBList);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraBList[0].HydrometricDataValueID);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -552,22 +494,6 @@ namespace CSSPServices.Tests
                             hydrometricDataValueList = hydrometricDataValueService.GetHydrometricDataValueList().ToList();
                             CheckHydrometricDataValueFields(hydrometricDataValueList);
                             Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueList[0].HydrometricDataValueID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<HydrometricDataValueExtraA> hydrometricDataValueExtraAList = new List<HydrometricDataValueExtraA>();
-                            hydrometricDataValueExtraAList = hydrometricDataValueService.GetHydrometricDataValueExtraAList().ToList();
-                            CheckHydrometricDataValueExtraAFields(hydrometricDataValueExtraAList);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraAList[0].HydrometricDataValueID);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<HydrometricDataValueExtraB> hydrometricDataValueExtraBList = new List<HydrometricDataValueExtraB>();
-                            hydrometricDataValueExtraBList = hydrometricDataValueService.GetHydrometricDataValueExtraBList().ToList();
-                            CheckHydrometricDataValueExtraBFields(hydrometricDataValueExtraBList);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraBList[0].HydrometricDataValueID);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraBList.Count);
                         }
                         else
                         {
@@ -605,22 +531,6 @@ namespace CSSPServices.Tests
                             CheckHydrometricDataValueFields(hydrometricDataValueList);
                             Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueList[0].HydrometricDataValueID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<HydrometricDataValueExtraA> hydrometricDataValueExtraAList = new List<HydrometricDataValueExtraA>();
-                            hydrometricDataValueExtraAList = hydrometricDataValueService.GetHydrometricDataValueExtraAList().ToList();
-                            CheckHydrometricDataValueExtraAFields(hydrometricDataValueExtraAList);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraAList[0].HydrometricDataValueID);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<HydrometricDataValueExtraB> hydrometricDataValueExtraBList = new List<HydrometricDataValueExtraB>();
-                            hydrometricDataValueExtraBList = hydrometricDataValueService.GetHydrometricDataValueExtraBList().ToList();
-                            CheckHydrometricDataValueExtraBFields(hydrometricDataValueExtraBList);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraBList[0].HydrometricDataValueID);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -656,22 +566,6 @@ namespace CSSPServices.Tests
                             hydrometricDataValueList = hydrometricDataValueService.GetHydrometricDataValueList().ToList();
                             CheckHydrometricDataValueFields(hydrometricDataValueList);
                             Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueList[0].HydrometricDataValueID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<HydrometricDataValueExtraA> hydrometricDataValueExtraAList = new List<HydrometricDataValueExtraA>();
-                            hydrometricDataValueExtraAList = hydrometricDataValueService.GetHydrometricDataValueExtraAList().ToList();
-                            CheckHydrometricDataValueExtraAFields(hydrometricDataValueExtraAList);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraAList[0].HydrometricDataValueID);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<HydrometricDataValueExtraB> hydrometricDataValueExtraBList = new List<HydrometricDataValueExtraB>();
-                            hydrometricDataValueExtraBList = hydrometricDataValueService.GetHydrometricDataValueExtraBList().ToList();
-                            CheckHydrometricDataValueExtraBFields(hydrometricDataValueExtraBList);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraBList[0].HydrometricDataValueID);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraBList.Count);
                         }
                         else
                         {
@@ -709,22 +603,6 @@ namespace CSSPServices.Tests
                             CheckHydrometricDataValueFields(hydrometricDataValueList);
                             Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueList[0].HydrometricDataValueID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<HydrometricDataValueExtraA> hydrometricDataValueExtraAList = new List<HydrometricDataValueExtraA>();
-                            hydrometricDataValueExtraAList = hydrometricDataValueService.GetHydrometricDataValueExtraAList().ToList();
-                            CheckHydrometricDataValueExtraAFields(hydrometricDataValueExtraAList);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraAList[0].HydrometricDataValueID);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<HydrometricDataValueExtraB> hydrometricDataValueExtraBList = new List<HydrometricDataValueExtraB>();
-                            hydrometricDataValueExtraBList = hydrometricDataValueService.GetHydrometricDataValueExtraBList().ToList();
-                            CheckHydrometricDataValueExtraBFields(hydrometricDataValueExtraBList);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraBList[0].HydrometricDataValueID);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -760,22 +638,6 @@ namespace CSSPServices.Tests
                             hydrometricDataValueList = hydrometricDataValueService.GetHydrometricDataValueList().ToList();
                             CheckHydrometricDataValueFields(hydrometricDataValueList);
                             Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueList[0].HydrometricDataValueID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<HydrometricDataValueExtraA> hydrometricDataValueExtraAList = new List<HydrometricDataValueExtraA>();
-                            hydrometricDataValueExtraAList = hydrometricDataValueService.GetHydrometricDataValueExtraAList().ToList();
-                            CheckHydrometricDataValueExtraAFields(hydrometricDataValueExtraAList);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraAList[0].HydrometricDataValueID);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<HydrometricDataValueExtraB> hydrometricDataValueExtraBList = new List<HydrometricDataValueExtraB>();
-                            hydrometricDataValueExtraBList = hydrometricDataValueService.GetHydrometricDataValueExtraBList().ToList();
-                            CheckHydrometricDataValueExtraBFields(hydrometricDataValueExtraBList);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraBList[0].HydrometricDataValueID);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraBList.Count);
                         }
                         else
                         {
@@ -813,22 +675,6 @@ namespace CSSPServices.Tests
                             CheckHydrometricDataValueFields(hydrometricDataValueList);
                             Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueList[0].HydrometricDataValueID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<HydrometricDataValueExtraA> hydrometricDataValueExtraAList = new List<HydrometricDataValueExtraA>();
-                            hydrometricDataValueExtraAList = hydrometricDataValueService.GetHydrometricDataValueExtraAList().ToList();
-                            CheckHydrometricDataValueExtraAFields(hydrometricDataValueExtraAList);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraAList[0].HydrometricDataValueID);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<HydrometricDataValueExtraB> hydrometricDataValueExtraBList = new List<HydrometricDataValueExtraB>();
-                            hydrometricDataValueExtraBList = hydrometricDataValueService.GetHydrometricDataValueExtraBList().ToList();
-                            CheckHydrometricDataValueExtraBFields(hydrometricDataValueExtraBList);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraBList[0].HydrometricDataValueID);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -865,22 +711,6 @@ namespace CSSPServices.Tests
                             CheckHydrometricDataValueFields(hydrometricDataValueList);
                             Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueList[0].HydrometricDataValueID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<HydrometricDataValueExtraA> hydrometricDataValueExtraAList = new List<HydrometricDataValueExtraA>();
-                            hydrometricDataValueExtraAList = hydrometricDataValueService.GetHydrometricDataValueExtraAList().ToList();
-                            CheckHydrometricDataValueExtraAFields(hydrometricDataValueExtraAList);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraAList[0].HydrometricDataValueID);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<HydrometricDataValueExtraB> hydrometricDataValueExtraBList = new List<HydrometricDataValueExtraB>();
-                            hydrometricDataValueExtraBList = hydrometricDataValueService.GetHydrometricDataValueExtraBList().ToList();
-                            CheckHydrometricDataValueExtraBFields(hydrometricDataValueExtraBList);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraBList[0].HydrometricDataValueID);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -916,22 +746,6 @@ namespace CSSPServices.Tests
                             hydrometricDataValueList = hydrometricDataValueService.GetHydrometricDataValueList().ToList();
                             CheckHydrometricDataValueFields(hydrometricDataValueList);
                             Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueList[0].HydrometricDataValueID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<HydrometricDataValueExtraA> hydrometricDataValueExtraAList = new List<HydrometricDataValueExtraA>();
-                            hydrometricDataValueExtraAList = hydrometricDataValueService.GetHydrometricDataValueExtraAList().ToList();
-                            CheckHydrometricDataValueExtraAFields(hydrometricDataValueExtraAList);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraAList[0].HydrometricDataValueID);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<HydrometricDataValueExtraB> hydrometricDataValueExtraBList = new List<HydrometricDataValueExtraB>();
-                            hydrometricDataValueExtraBList = hydrometricDataValueService.GetHydrometricDataValueExtraBList().ToList();
-                            CheckHydrometricDataValueExtraBFields(hydrometricDataValueExtraBList);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList[0].HydrometricDataValueID, hydrometricDataValueExtraBList[0].HydrometricDataValueID);
-                            Assert.AreEqual(hydrometricDataValueDirectQueryList.Count, hydrometricDataValueExtraBList.Count);
                         }
                         else
                         {
@@ -971,76 +785,6 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(hydrometricDataValueList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(hydrometricDataValueList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(hydrometricDataValueList[0].HasErrors);
-        }
-        private void CheckHydrometricDataValueExtraAFields(List<HydrometricDataValueExtraA> hydrometricDataValueExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueExtraAList[0].LastUpdateContactText));
-            if (!string.IsNullOrWhiteSpace(hydrometricDataValueExtraAList[0].StorageDataTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueExtraAList[0].StorageDataTypeText));
-            }
-            Assert.IsNotNull(hydrometricDataValueExtraAList[0].HydrometricDataValueID);
-            Assert.IsNotNull(hydrometricDataValueExtraAList[0].HydrometricSiteID);
-            Assert.IsNotNull(hydrometricDataValueExtraAList[0].DateTime_Local);
-            Assert.IsNotNull(hydrometricDataValueExtraAList[0].Keep);
-            Assert.IsNotNull(hydrometricDataValueExtraAList[0].StorageDataType);
-            Assert.IsNotNull(hydrometricDataValueExtraAList[0].HasBeenRead);
-            if (hydrometricDataValueExtraAList[0].Discharge_m3_s != null)
-            {
-                Assert.IsNotNull(hydrometricDataValueExtraAList[0].Discharge_m3_s);
-            }
-            if (hydrometricDataValueExtraAList[0].DischargeEntered_m3_s != null)
-            {
-                Assert.IsNotNull(hydrometricDataValueExtraAList[0].DischargeEntered_m3_s);
-            }
-            if (hydrometricDataValueExtraAList[0].Level_m != null)
-            {
-                Assert.IsNotNull(hydrometricDataValueExtraAList[0].Level_m);
-            }
-            if (!string.IsNullOrWhiteSpace(hydrometricDataValueExtraAList[0].HourlyValues))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueExtraAList[0].HourlyValues));
-            }
-            Assert.IsNotNull(hydrometricDataValueExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(hydrometricDataValueExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(hydrometricDataValueExtraAList[0].HasErrors);
-        }
-        private void CheckHydrometricDataValueExtraBFields(List<HydrometricDataValueExtraB> hydrometricDataValueExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(hydrometricDataValueExtraBList[0].HydrometricDataValueReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueExtraBList[0].HydrometricDataValueReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueExtraBList[0].LastUpdateContactText));
-            if (!string.IsNullOrWhiteSpace(hydrometricDataValueExtraBList[0].StorageDataTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueExtraBList[0].StorageDataTypeText));
-            }
-            Assert.IsNotNull(hydrometricDataValueExtraBList[0].HydrometricDataValueID);
-            Assert.IsNotNull(hydrometricDataValueExtraBList[0].HydrometricSiteID);
-            Assert.IsNotNull(hydrometricDataValueExtraBList[0].DateTime_Local);
-            Assert.IsNotNull(hydrometricDataValueExtraBList[0].Keep);
-            Assert.IsNotNull(hydrometricDataValueExtraBList[0].StorageDataType);
-            Assert.IsNotNull(hydrometricDataValueExtraBList[0].HasBeenRead);
-            if (hydrometricDataValueExtraBList[0].Discharge_m3_s != null)
-            {
-                Assert.IsNotNull(hydrometricDataValueExtraBList[0].Discharge_m3_s);
-            }
-            if (hydrometricDataValueExtraBList[0].DischargeEntered_m3_s != null)
-            {
-                Assert.IsNotNull(hydrometricDataValueExtraBList[0].DischargeEntered_m3_s);
-            }
-            if (hydrometricDataValueExtraBList[0].Level_m != null)
-            {
-                Assert.IsNotNull(hydrometricDataValueExtraBList[0].Level_m);
-            }
-            if (!string.IsNullOrWhiteSpace(hydrometricDataValueExtraBList[0].HourlyValues))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueExtraBList[0].HourlyValues));
-            }
-            Assert.IsNotNull(hydrometricDataValueExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(hydrometricDataValueExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(hydrometricDataValueExtraBList[0].HasErrors);
         }
         private HydrometricDataValue GetFilledRandomHydrometricDataValue(string OmitPropName)
         {

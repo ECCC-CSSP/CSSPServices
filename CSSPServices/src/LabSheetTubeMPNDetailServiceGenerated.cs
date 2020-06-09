@@ -234,32 +234,6 @@ namespace CSSPServices
 
             return LabSheetTubeMPNDetailQuery;
         }
-        public LabSheetTubeMPNDetailExtraA GetLabSheetTubeMPNDetailExtraAWithLabSheetTubeMPNDetailID(int LabSheetTubeMPNDetailID)
-        {
-            return FillLabSheetTubeMPNDetailExtraA().Where(c => c.LabSheetTubeMPNDetailID == LabSheetTubeMPNDetailID).FirstOrDefault();
-
-        }
-        public IQueryable<LabSheetTubeMPNDetailExtraA> GetLabSheetTubeMPNDetailExtraAList()
-        {
-            IQueryable<LabSheetTubeMPNDetailExtraA> LabSheetTubeMPNDetailExtraAQuery = FillLabSheetTubeMPNDetailExtraA();
-
-            LabSheetTubeMPNDetailExtraAQuery = EnhanceQueryStatements<LabSheetTubeMPNDetailExtraA>(LabSheetTubeMPNDetailExtraAQuery) as IQueryable<LabSheetTubeMPNDetailExtraA>;
-
-            return LabSheetTubeMPNDetailExtraAQuery;
-        }
-        public LabSheetTubeMPNDetailExtraB GetLabSheetTubeMPNDetailExtraBWithLabSheetTubeMPNDetailID(int LabSheetTubeMPNDetailID)
-        {
-            return FillLabSheetTubeMPNDetailExtraB().Where(c => c.LabSheetTubeMPNDetailID == LabSheetTubeMPNDetailID).FirstOrDefault();
-
-        }
-        public IQueryable<LabSheetTubeMPNDetailExtraB> GetLabSheetTubeMPNDetailExtraBList()
-        {
-            IQueryable<LabSheetTubeMPNDetailExtraB> LabSheetTubeMPNDetailExtraBQuery = FillLabSheetTubeMPNDetailExtraB();
-
-            LabSheetTubeMPNDetailExtraBQuery = EnhanceQueryStatements<LabSheetTubeMPNDetailExtraB>(LabSheetTubeMPNDetailExtraBQuery) as IQueryable<LabSheetTubeMPNDetailExtraB>;
-
-            return LabSheetTubeMPNDetailExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

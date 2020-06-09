@@ -181,6 +181,12 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "SamplingPlanner_ProvincesTVItemID", "200"), new[] { "SamplingPlanner_ProvincesTVItemID" });
             }
 
+            if (!string.IsNullOrWhiteSpace(contact.Token) && contact.Token.Length > 255)
+            {
+                contact.HasErrors = true;
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "Token", "255"), new[] { "Token" });
+            }
+
             if (contact.LastUpdateDate_UTC.Year == 1)
             {
                 contact.HasErrors = true;
@@ -240,32 +246,6 @@ namespace CSSPServices
             ContactQuery = EnhanceQueryStatements<Contact>(ContactQuery) as IQueryable<Contact>;
 
             return ContactQuery;
-        }
-        public ContactExtraA GetContactExtraAWithContactID(int ContactID)
-        {
-            return FillContactExtraA().Where(c => c.ContactID == ContactID).FirstOrDefault();
-
-        }
-        public IQueryable<ContactExtraA> GetContactExtraAList()
-        {
-            IQueryable<ContactExtraA> ContactExtraAQuery = FillContactExtraA();
-
-            ContactExtraAQuery = EnhanceQueryStatements<ContactExtraA>(ContactExtraAQuery) as IQueryable<ContactExtraA>;
-
-            return ContactExtraAQuery;
-        }
-        public ContactExtraB GetContactExtraBWithContactID(int ContactID)
-        {
-            return FillContactExtraB().Where(c => c.ContactID == ContactID).FirstOrDefault();
-
-        }
-        public IQueryable<ContactExtraB> GetContactExtraBList()
-        {
-            IQueryable<ContactExtraB> ContactExtraBQuery = FillContactExtraB();
-
-            ContactExtraBQuery = EnhanceQueryStatements<ContactExtraB>(ContactExtraBQuery) as IQueryable<ContactExtraB>;
-
-            return ContactExtraBQuery;
         }
         #endregion Functions public Generated Get
 

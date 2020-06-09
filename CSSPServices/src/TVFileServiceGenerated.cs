@@ -246,32 +246,6 @@ namespace CSSPServices
 
             return TVFileQuery;
         }
-        public TVFileExtraA GetTVFileExtraAWithTVFileID(int TVFileID)
-        {
-            return FillTVFileExtraA().Where(c => c.TVFileID == TVFileID).FirstOrDefault();
-
-        }
-        public IQueryable<TVFileExtraA> GetTVFileExtraAList()
-        {
-            IQueryable<TVFileExtraA> TVFileExtraAQuery = FillTVFileExtraA();
-
-            TVFileExtraAQuery = EnhanceQueryStatements<TVFileExtraA>(TVFileExtraAQuery) as IQueryable<TVFileExtraA>;
-
-            return TVFileExtraAQuery;
-        }
-        public TVFileExtraB GetTVFileExtraBWithTVFileID(int TVFileID)
-        {
-            return FillTVFileExtraB().Where(c => c.TVFileID == TVFileID).FirstOrDefault();
-
-        }
-        public IQueryable<TVFileExtraB> GetTVFileExtraBList()
-        {
-            IQueryable<TVFileExtraB> TVFileExtraBQuery = FillTVFileExtraB();
-
-            TVFileExtraBQuery = EnhanceQueryStatements<TVFileExtraB>(TVFileExtraBQuery) as IQueryable<TVFileExtraB>;
-
-            return TVFileExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

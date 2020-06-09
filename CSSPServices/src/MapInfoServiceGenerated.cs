@@ -96,6 +96,7 @@ namespace CSSPServices
                     TVTypeEnum.OtherInfrastructure,
                     TVTypeEnum.SeeOtherMunicipality,
                     TVTypeEnum.LineOverflow,
+                    TVTypeEnum.RainExceedance,
                     TVTypeEnum.Classification,
                     TVTypeEnum.Approved,
                     TVTypeEnum.Restricted,
@@ -106,7 +107,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemTVItemID.TVType))
                 {
                     mapInfo.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "TVItemID", "Root,Address,Area,ClimateSite,Country,File,HydrometricSite,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,Outfall,OtherInfrastructure,SeeOtherMunicipality,LineOverflow,Classification,Approved,Restricted,Prohibited,ConditionallyApproved,ConditionallyRestricted"), new[] { "TVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "TVItemID", "Root,Address,Area,ClimateSite,Country,File,HydrometricSite,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,Outfall,OtherInfrastructure,SeeOtherMunicipality,LineOverflow,RainExceedance,Classification,Approved,Restricted,Prohibited,ConditionallyApproved,ConditionallyRestricted"), new[] { "TVItemID" });
                 }
             }
 
@@ -207,32 +208,6 @@ namespace CSSPServices
             MapInfoQuery = EnhanceQueryStatements<MapInfo>(MapInfoQuery) as IQueryable<MapInfo>;
 
             return MapInfoQuery;
-        }
-        public MapInfoExtraA GetMapInfoExtraAWithMapInfoID(int MapInfoID)
-        {
-            return FillMapInfoExtraA().Where(c => c.MapInfoID == MapInfoID).FirstOrDefault();
-
-        }
-        public IQueryable<MapInfoExtraA> GetMapInfoExtraAList()
-        {
-            IQueryable<MapInfoExtraA> MapInfoExtraAQuery = FillMapInfoExtraA();
-
-            MapInfoExtraAQuery = EnhanceQueryStatements<MapInfoExtraA>(MapInfoExtraAQuery) as IQueryable<MapInfoExtraA>;
-
-            return MapInfoExtraAQuery;
-        }
-        public MapInfoExtraB GetMapInfoExtraBWithMapInfoID(int MapInfoID)
-        {
-            return FillMapInfoExtraB().Where(c => c.MapInfoID == MapInfoID).FirstOrDefault();
-
-        }
-        public IQueryable<MapInfoExtraB> GetMapInfoExtraBList()
-        {
-            IQueryable<MapInfoExtraB> MapInfoExtraBQuery = FillMapInfoExtraB();
-
-            MapInfoExtraBQuery = EnhanceQueryStatements<MapInfoExtraB>(MapInfoExtraBQuery) as IQueryable<MapInfoExtraB>;
-
-            return MapInfoExtraBQuery;
         }
         #endregion Functions public Generated Get
 

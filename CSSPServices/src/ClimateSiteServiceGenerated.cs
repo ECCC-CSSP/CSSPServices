@@ -81,10 +81,13 @@ namespace CSSPServices
                 }
             }
 
-            if (climateSite.ECDBID < 1 || climateSite.ECDBID > 100000)
+            if (climateSite.ECDBID != null)
             {
-                climateSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ECDBID", "1", "100000"), new[] { "ECDBID" });
+                if (climateSite.ECDBID < 1 || climateSite.ECDBID > 100000)
+                {
+                    climateSite.HasErrors = true;
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ECDBID", "1", "100000"), new[] { "ECDBID" });
+                }
             }
 
             if (string.IsNullOrWhiteSpace(climateSite.ClimateSiteName))
@@ -139,12 +142,6 @@ namespace CSSPServices
             {
                 climateSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "TCID", "3"), new[] { "TCID" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(climateSite.ProvSiteID) && climateSite.ProvSiteID.Length > 50)
-            {
-                climateSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ProvSiteID", "50"), new[] { "ProvSiteID" });
             }
 
             if (climateSite.TimeOffset_hour != null)
@@ -257,32 +254,6 @@ namespace CSSPServices
             ClimateSiteQuery = EnhanceQueryStatements<ClimateSite>(ClimateSiteQuery) as IQueryable<ClimateSite>;
 
             return ClimateSiteQuery;
-        }
-        public ClimateSiteExtraA GetClimateSiteExtraAWithClimateSiteID(int ClimateSiteID)
-        {
-            return FillClimateSiteExtraA().Where(c => c.ClimateSiteID == ClimateSiteID).FirstOrDefault();
-
-        }
-        public IQueryable<ClimateSiteExtraA> GetClimateSiteExtraAList()
-        {
-            IQueryable<ClimateSiteExtraA> ClimateSiteExtraAQuery = FillClimateSiteExtraA();
-
-            ClimateSiteExtraAQuery = EnhanceQueryStatements<ClimateSiteExtraA>(ClimateSiteExtraAQuery) as IQueryable<ClimateSiteExtraA>;
-
-            return ClimateSiteExtraAQuery;
-        }
-        public ClimateSiteExtraB GetClimateSiteExtraBWithClimateSiteID(int ClimateSiteID)
-        {
-            return FillClimateSiteExtraB().Where(c => c.ClimateSiteID == ClimateSiteID).FirstOrDefault();
-
-        }
-        public IQueryable<ClimateSiteExtraB> GetClimateSiteExtraBList()
-        {
-            IQueryable<ClimateSiteExtraB> ClimateSiteExtraBQuery = FillClimateSiteExtraB();
-
-            ClimateSiteExtraBQuery = EnhanceQueryStatements<ClimateSiteExtraB>(ClimateSiteExtraBQuery) as IQueryable<ClimateSiteExtraB>;
-
-            return ClimateSiteExtraBQuery;
         }
         #endregion Functions public Generated Get
 

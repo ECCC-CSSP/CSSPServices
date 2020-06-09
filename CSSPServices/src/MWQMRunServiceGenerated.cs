@@ -489,32 +489,6 @@ namespace CSSPServices
 
             return MWQMRunQuery;
         }
-        public MWQMRunExtraA GetMWQMRunExtraAWithMWQMRunID(int MWQMRunID)
-        {
-            return FillMWQMRunExtraA().Where(c => c.MWQMRunID == MWQMRunID).FirstOrDefault();
-
-        }
-        public IQueryable<MWQMRunExtraA> GetMWQMRunExtraAList()
-        {
-            IQueryable<MWQMRunExtraA> MWQMRunExtraAQuery = FillMWQMRunExtraA();
-
-            MWQMRunExtraAQuery = EnhanceQueryStatements<MWQMRunExtraA>(MWQMRunExtraAQuery) as IQueryable<MWQMRunExtraA>;
-
-            return MWQMRunExtraAQuery;
-        }
-        public MWQMRunExtraB GetMWQMRunExtraBWithMWQMRunID(int MWQMRunID)
-        {
-            return FillMWQMRunExtraB().Where(c => c.MWQMRunID == MWQMRunID).FirstOrDefault();
-
-        }
-        public IQueryable<MWQMRunExtraB> GetMWQMRunExtraBList()
-        {
-            IQueryable<MWQMRunExtraB> MWQMRunExtraBQuery = FillMWQMRunExtraB();
-
-            MWQMRunExtraBQuery = EnhanceQueryStatements<MWQMRunExtraB>(MWQMRunExtraBQuery) as IQueryable<MWQMRunExtraB>;
-
-            return MWQMRunExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

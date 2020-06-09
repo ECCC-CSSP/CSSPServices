@@ -294,32 +294,6 @@ namespace CSSPServices
 
             return TVItemLinkQuery;
         }
-        public TVItemLinkExtraA GetTVItemLinkExtraAWithTVItemLinkID(int TVItemLinkID)
-        {
-            return FillTVItemLinkExtraA().Where(c => c.TVItemLinkID == TVItemLinkID).FirstOrDefault();
-
-        }
-        public IQueryable<TVItemLinkExtraA> GetTVItemLinkExtraAList()
-        {
-            IQueryable<TVItemLinkExtraA> TVItemLinkExtraAQuery = FillTVItemLinkExtraA();
-
-            TVItemLinkExtraAQuery = EnhanceQueryStatements<TVItemLinkExtraA>(TVItemLinkExtraAQuery) as IQueryable<TVItemLinkExtraA>;
-
-            return TVItemLinkExtraAQuery;
-        }
-        public TVItemLinkExtraB GetTVItemLinkExtraBWithTVItemLinkID(int TVItemLinkID)
-        {
-            return FillTVItemLinkExtraB().Where(c => c.TVItemLinkID == TVItemLinkID).FirstOrDefault();
-
-        }
-        public IQueryable<TVItemLinkExtraB> GetTVItemLinkExtraBList()
-        {
-            IQueryable<TVItemLinkExtraB> TVItemLinkExtraBQuery = FillTVItemLinkExtraB();
-
-            TVItemLinkExtraBQuery = EnhanceQueryStatements<TVItemLinkExtraB>(TVItemLinkExtraBQuery) as IQueryable<TVItemLinkExtraB>;
-
-            return TVItemLinkExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

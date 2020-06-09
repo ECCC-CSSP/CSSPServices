@@ -167,32 +167,6 @@ namespace CSSPServices
 
             return MWQMSubsectorLanguageQuery;
         }
-        public MWQMSubsectorLanguageExtraA GetMWQMSubsectorLanguageExtraAWithMWQMSubsectorLanguageID(int MWQMSubsectorLanguageID)
-        {
-            return FillMWQMSubsectorLanguageExtraA().Where(c => c.MWQMSubsectorLanguageID == MWQMSubsectorLanguageID).FirstOrDefault();
-
-        }
-        public IQueryable<MWQMSubsectorLanguageExtraA> GetMWQMSubsectorLanguageExtraAList()
-        {
-            IQueryable<MWQMSubsectorLanguageExtraA> MWQMSubsectorLanguageExtraAQuery = FillMWQMSubsectorLanguageExtraA();
-
-            MWQMSubsectorLanguageExtraAQuery = EnhanceQueryStatements<MWQMSubsectorLanguageExtraA>(MWQMSubsectorLanguageExtraAQuery) as IQueryable<MWQMSubsectorLanguageExtraA>;
-
-            return MWQMSubsectorLanguageExtraAQuery;
-        }
-        public MWQMSubsectorLanguageExtraB GetMWQMSubsectorLanguageExtraBWithMWQMSubsectorLanguageID(int MWQMSubsectorLanguageID)
-        {
-            return FillMWQMSubsectorLanguageExtraB().Where(c => c.MWQMSubsectorLanguageID == MWQMSubsectorLanguageID).FirstOrDefault();
-
-        }
-        public IQueryable<MWQMSubsectorLanguageExtraB> GetMWQMSubsectorLanguageExtraBList()
-        {
-            IQueryable<MWQMSubsectorLanguageExtraB> MWQMSubsectorLanguageExtraBQuery = FillMWQMSubsectorLanguageExtraB();
-
-            MWQMSubsectorLanguageExtraBQuery = EnhanceQueryStatements<MWQMSubsectorLanguageExtraB>(MWQMSubsectorLanguageExtraBQuery) as IQueryable<MWQMSubsectorLanguageExtraB>;
-
-            return MWQMSubsectorLanguageExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

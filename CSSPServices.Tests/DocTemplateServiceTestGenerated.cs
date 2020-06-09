@@ -286,18 +286,6 @@ namespace CSSPServices.Tests
                             CheckDocTemplateFields(new List<DocTemplate>() { docTemplateRet });
                             Assert.AreEqual(docTemplate.DocTemplateID, docTemplateRet.DocTemplateID);
                         }
-                        else if (extra == "A")
-                        {
-                            DocTemplateExtraA docTemplateExtraARet = docTemplateService.GetDocTemplateExtraAWithDocTemplateID(docTemplate.DocTemplateID);
-                            CheckDocTemplateExtraAFields(new List<DocTemplateExtraA>() { docTemplateExtraARet });
-                            Assert.AreEqual(docTemplate.DocTemplateID, docTemplateExtraARet.DocTemplateID);
-                        }
-                        else if (extra == "B")
-                        {
-                            DocTemplateExtraB docTemplateExtraBRet = docTemplateService.GetDocTemplateExtraBWithDocTemplateID(docTemplate.DocTemplateID);
-                            CheckDocTemplateExtraBFields(new List<DocTemplateExtraB>() { docTemplateExtraBRet });
-                            Assert.AreEqual(docTemplate.DocTemplateID, docTemplateExtraBRet.DocTemplateID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -335,20 +323,6 @@ namespace CSSPServices.Tests
                             docTemplateList = docTemplateService.GetDocTemplateList().ToList();
                             CheckDocTemplateFields(docTemplateList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<DocTemplateExtraA> docTemplateExtraAList = new List<DocTemplateExtraA>();
-                            docTemplateExtraAList = docTemplateService.GetDocTemplateExtraAList().ToList();
-                            CheckDocTemplateExtraAFields(docTemplateExtraAList);
-                            Assert.AreEqual(docTemplateDirectQueryList.Count, docTemplateExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<DocTemplateExtraB> docTemplateExtraBList = new List<DocTemplateExtraB>();
-                            docTemplateExtraBList = docTemplateService.GetDocTemplateExtraBList().ToList();
-                            CheckDocTemplateExtraBFields(docTemplateExtraBList);
-                            Assert.AreEqual(docTemplateDirectQueryList.Count, docTemplateExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -384,22 +358,6 @@ namespace CSSPServices.Tests
                             docTemplateList = docTemplateService.GetDocTemplateList().ToList();
                             CheckDocTemplateFields(docTemplateList);
                             Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateList[0].DocTemplateID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<DocTemplateExtraA> docTemplateExtraAList = new List<DocTemplateExtraA>();
-                            docTemplateExtraAList = docTemplateService.GetDocTemplateExtraAList().ToList();
-                            CheckDocTemplateExtraAFields(docTemplateExtraAList);
-                            Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateExtraAList[0].DocTemplateID);
-                            Assert.AreEqual(docTemplateDirectQueryList.Count, docTemplateExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<DocTemplateExtraB> docTemplateExtraBList = new List<DocTemplateExtraB>();
-                            docTemplateExtraBList = docTemplateService.GetDocTemplateExtraBList().ToList();
-                            CheckDocTemplateExtraBFields(docTemplateExtraBList);
-                            Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateExtraBList[0].DocTemplateID);
-                            Assert.AreEqual(docTemplateDirectQueryList.Count, docTemplateExtraBList.Count);
                         }
                         else
                         {
@@ -437,22 +395,6 @@ namespace CSSPServices.Tests
                             CheckDocTemplateFields(docTemplateList);
                             Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateList[0].DocTemplateID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<DocTemplateExtraA> docTemplateExtraAList = new List<DocTemplateExtraA>();
-                            docTemplateExtraAList = docTemplateService.GetDocTemplateExtraAList().ToList();
-                            CheckDocTemplateExtraAFields(docTemplateExtraAList);
-                            Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateExtraAList[0].DocTemplateID);
-                            Assert.AreEqual(docTemplateDirectQueryList.Count, docTemplateExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<DocTemplateExtraB> docTemplateExtraBList = new List<DocTemplateExtraB>();
-                            docTemplateExtraBList = docTemplateService.GetDocTemplateExtraBList().ToList();
-                            CheckDocTemplateExtraBFields(docTemplateExtraBList);
-                            Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateExtraBList[0].DocTemplateID);
-                            Assert.AreEqual(docTemplateDirectQueryList.Count, docTemplateExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -488,22 +430,6 @@ namespace CSSPServices.Tests
                             docTemplateList = docTemplateService.GetDocTemplateList().ToList();
                             CheckDocTemplateFields(docTemplateList);
                             Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateList[0].DocTemplateID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<DocTemplateExtraA> docTemplateExtraAList = new List<DocTemplateExtraA>();
-                            docTemplateExtraAList = docTemplateService.GetDocTemplateExtraAList().ToList();
-                            CheckDocTemplateExtraAFields(docTemplateExtraAList);
-                            Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateExtraAList[0].DocTemplateID);
-                            Assert.AreEqual(docTemplateDirectQueryList.Count, docTemplateExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<DocTemplateExtraB> docTemplateExtraBList = new List<DocTemplateExtraB>();
-                            docTemplateExtraBList = docTemplateService.GetDocTemplateExtraBList().ToList();
-                            CheckDocTemplateExtraBFields(docTemplateExtraBList);
-                            Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateExtraBList[0].DocTemplateID);
-                            Assert.AreEqual(docTemplateDirectQueryList.Count, docTemplateExtraBList.Count);
                         }
                         else
                         {
@@ -541,22 +467,6 @@ namespace CSSPServices.Tests
                             CheckDocTemplateFields(docTemplateList);
                             Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateList[0].DocTemplateID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<DocTemplateExtraA> docTemplateExtraAList = new List<DocTemplateExtraA>();
-                            docTemplateExtraAList = docTemplateService.GetDocTemplateExtraAList().ToList();
-                            CheckDocTemplateExtraAFields(docTemplateExtraAList);
-                            Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateExtraAList[0].DocTemplateID);
-                            Assert.AreEqual(docTemplateDirectQueryList.Count, docTemplateExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<DocTemplateExtraB> docTemplateExtraBList = new List<DocTemplateExtraB>();
-                            docTemplateExtraBList = docTemplateService.GetDocTemplateExtraBList().ToList();
-                            CheckDocTemplateExtraBFields(docTemplateExtraBList);
-                            Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateExtraBList[0].DocTemplateID);
-                            Assert.AreEqual(docTemplateDirectQueryList.Count, docTemplateExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -592,22 +502,6 @@ namespace CSSPServices.Tests
                             docTemplateList = docTemplateService.GetDocTemplateList().ToList();
                             CheckDocTemplateFields(docTemplateList);
                             Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateList[0].DocTemplateID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<DocTemplateExtraA> docTemplateExtraAList = new List<DocTemplateExtraA>();
-                            docTemplateExtraAList = docTemplateService.GetDocTemplateExtraAList().ToList();
-                            CheckDocTemplateExtraAFields(docTemplateExtraAList);
-                            Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateExtraAList[0].DocTemplateID);
-                            Assert.AreEqual(docTemplateDirectQueryList.Count, docTemplateExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<DocTemplateExtraB> docTemplateExtraBList = new List<DocTemplateExtraB>();
-                            docTemplateExtraBList = docTemplateService.GetDocTemplateExtraBList().ToList();
-                            CheckDocTemplateExtraBFields(docTemplateExtraBList);
-                            Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateExtraBList[0].DocTemplateID);
-                            Assert.AreEqual(docTemplateDirectQueryList.Count, docTemplateExtraBList.Count);
                         }
                         else
                         {
@@ -645,22 +539,6 @@ namespace CSSPServices.Tests
                             CheckDocTemplateFields(docTemplateList);
                             Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateList[0].DocTemplateID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<DocTemplateExtraA> docTemplateExtraAList = new List<DocTemplateExtraA>();
-                            docTemplateExtraAList = docTemplateService.GetDocTemplateExtraAList().ToList();
-                            CheckDocTemplateExtraAFields(docTemplateExtraAList);
-                            Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateExtraAList[0].DocTemplateID);
-                            Assert.AreEqual(docTemplateDirectQueryList.Count, docTemplateExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<DocTemplateExtraB> docTemplateExtraBList = new List<DocTemplateExtraB>();
-                            docTemplateExtraBList = docTemplateService.GetDocTemplateExtraBList().ToList();
-                            CheckDocTemplateExtraBFields(docTemplateExtraBList);
-                            Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateExtraBList[0].DocTemplateID);
-                            Assert.AreEqual(docTemplateDirectQueryList.Count, docTemplateExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -696,22 +574,6 @@ namespace CSSPServices.Tests
                             docTemplateList = docTemplateService.GetDocTemplateList().ToList();
                             CheckDocTemplateFields(docTemplateList);
                             Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateList[0].DocTemplateID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<DocTemplateExtraA> docTemplateExtraAList = new List<DocTemplateExtraA>();
-                            docTemplateExtraAList = docTemplateService.GetDocTemplateExtraAList().ToList();
-                            CheckDocTemplateExtraAFields(docTemplateExtraAList);
-                            Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateExtraAList[0].DocTemplateID);
-                            Assert.AreEqual(docTemplateDirectQueryList.Count, docTemplateExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<DocTemplateExtraB> docTemplateExtraBList = new List<DocTemplateExtraB>();
-                            docTemplateExtraBList = docTemplateService.GetDocTemplateExtraBList().ToList();
-                            CheckDocTemplateExtraBFields(docTemplateExtraBList);
-                            Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateExtraBList[0].DocTemplateID);
-                            Assert.AreEqual(docTemplateDirectQueryList.Count, docTemplateExtraBList.Count);
                         }
                         else
                         {
@@ -749,22 +611,6 @@ namespace CSSPServices.Tests
                             CheckDocTemplateFields(docTemplateList);
                             Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateList[0].DocTemplateID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<DocTemplateExtraA> docTemplateExtraAList = new List<DocTemplateExtraA>();
-                            docTemplateExtraAList = docTemplateService.GetDocTemplateExtraAList().ToList();
-                            CheckDocTemplateExtraAFields(docTemplateExtraAList);
-                            Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateExtraAList[0].DocTemplateID);
-                            Assert.AreEqual(docTemplateDirectQueryList.Count, docTemplateExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<DocTemplateExtraB> docTemplateExtraBList = new List<DocTemplateExtraB>();
-                            docTemplateExtraBList = docTemplateService.GetDocTemplateExtraBList().ToList();
-                            CheckDocTemplateExtraBFields(docTemplateExtraBList);
-                            Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateExtraBList[0].DocTemplateID);
-                            Assert.AreEqual(docTemplateDirectQueryList.Count, docTemplateExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -800,22 +646,6 @@ namespace CSSPServices.Tests
                             docTemplateList = docTemplateService.GetDocTemplateList().ToList();
                             CheckDocTemplateFields(docTemplateList);
                             Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateList[0].DocTemplateID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<DocTemplateExtraA> docTemplateExtraAList = new List<DocTemplateExtraA>();
-                            docTemplateExtraAList = docTemplateService.GetDocTemplateExtraAList().ToList();
-                            CheckDocTemplateExtraAFields(docTemplateExtraAList);
-                            Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateExtraAList[0].DocTemplateID);
-                            Assert.AreEqual(docTemplateDirectQueryList.Count, docTemplateExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<DocTemplateExtraB> docTemplateExtraBList = new List<DocTemplateExtraB>();
-                            docTemplateExtraBList = docTemplateService.GetDocTemplateExtraBList().ToList();
-                            CheckDocTemplateExtraBFields(docTemplateExtraBList);
-                            Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateExtraBList[0].DocTemplateID);
-                            Assert.AreEqual(docTemplateDirectQueryList.Count, docTemplateExtraBList.Count);
                         }
                         else
                         {
@@ -853,22 +683,6 @@ namespace CSSPServices.Tests
                             CheckDocTemplateFields(docTemplateList);
                             Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateList[0].DocTemplateID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<DocTemplateExtraA> docTemplateExtraAList = new List<DocTemplateExtraA>();
-                            docTemplateExtraAList = docTemplateService.GetDocTemplateExtraAList().ToList();
-                            CheckDocTemplateExtraAFields(docTemplateExtraAList);
-                            Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateExtraAList[0].DocTemplateID);
-                            Assert.AreEqual(docTemplateDirectQueryList.Count, docTemplateExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<DocTemplateExtraB> docTemplateExtraBList = new List<DocTemplateExtraB>();
-                            docTemplateExtraBList = docTemplateService.GetDocTemplateExtraBList().ToList();
-                            CheckDocTemplateExtraBFields(docTemplateExtraBList);
-                            Assert.AreEqual(docTemplateDirectQueryList[0].DocTemplateID, docTemplateExtraBList[0].DocTemplateID);
-                            Assert.AreEqual(docTemplateDirectQueryList.Count, docTemplateExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -891,57 +705,13 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(docTemplateList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(docTemplateList[0].HasErrors);
         }
-        private void CheckDocTemplateExtraAFields(List<DocTemplateExtraA> docTemplateExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateExtraAList[0].LastUpdateContactText));
-            if (!string.IsNullOrWhiteSpace(docTemplateExtraAList[0].LanguageText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateExtraAList[0].LanguageText));
-            }
-            if (!string.IsNullOrWhiteSpace(docTemplateExtraAList[0].TVTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateExtraAList[0].TVTypeText));
-            }
-            Assert.IsNotNull(docTemplateExtraAList[0].DocTemplateID);
-            Assert.IsNotNull(docTemplateExtraAList[0].Language);
-            Assert.IsNotNull(docTemplateExtraAList[0].TVType);
-            Assert.IsNotNull(docTemplateExtraAList[0].TVFileTVItemID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateExtraAList[0].FileName));
-            Assert.IsNotNull(docTemplateExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(docTemplateExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(docTemplateExtraAList[0].HasErrors);
-        }
-        private void CheckDocTemplateExtraBFields(List<DocTemplateExtraB> docTemplateExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(docTemplateExtraBList[0].DocTemplateReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateExtraBList[0].DocTemplateReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateExtraBList[0].LastUpdateContactText));
-            if (!string.IsNullOrWhiteSpace(docTemplateExtraBList[0].LanguageText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateExtraBList[0].LanguageText));
-            }
-            if (!string.IsNullOrWhiteSpace(docTemplateExtraBList[0].TVTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateExtraBList[0].TVTypeText));
-            }
-            Assert.IsNotNull(docTemplateExtraBList[0].DocTemplateID);
-            Assert.IsNotNull(docTemplateExtraBList[0].Language);
-            Assert.IsNotNull(docTemplateExtraBList[0].TVType);
-            Assert.IsNotNull(docTemplateExtraBList[0].TVFileTVItemID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateExtraBList[0].FileName));
-            Assert.IsNotNull(docTemplateExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(docTemplateExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(docTemplateExtraBList[0].HasErrors);
-        }
         private DocTemplate GetFilledRandomDocTemplate(string OmitPropName)
         {
             DocTemplate docTemplate = new DocTemplate();
 
             if (OmitPropName != "Language") docTemplate.Language = LanguageRequest;
             if (OmitPropName != "TVType") docTemplate.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
-            if (OmitPropName != "TVFileTVItemID") docTemplate.TVFileTVItemID = 41;
+            if (OmitPropName != "TVFileTVItemID") docTemplate.TVFileTVItemID = 42;
             if (OmitPropName != "FileName") docTemplate.FileName = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") docTemplate.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") docTemplate.LastUpdateContactTVItemID = 2;

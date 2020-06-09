@@ -169,32 +169,6 @@ namespace CSSPServices
 
             return ResetPasswordQuery;
         }
-        public ResetPasswordExtraA GetResetPasswordExtraAWithResetPasswordID(int ResetPasswordID)
-        {
-            return FillResetPasswordExtraA().Where(c => c.ResetPasswordID == ResetPasswordID).FirstOrDefault();
-
-        }
-        public IQueryable<ResetPasswordExtraA> GetResetPasswordExtraAList()
-        {
-            IQueryable<ResetPasswordExtraA> ResetPasswordExtraAQuery = FillResetPasswordExtraA();
-
-            ResetPasswordExtraAQuery = EnhanceQueryStatements<ResetPasswordExtraA>(ResetPasswordExtraAQuery) as IQueryable<ResetPasswordExtraA>;
-
-            return ResetPasswordExtraAQuery;
-        }
-        public ResetPasswordExtraB GetResetPasswordExtraBWithResetPasswordID(int ResetPasswordID)
-        {
-            return FillResetPasswordExtraB().Where(c => c.ResetPasswordID == ResetPasswordID).FirstOrDefault();
-
-        }
-        public IQueryable<ResetPasswordExtraB> GetResetPasswordExtraBList()
-        {
-            IQueryable<ResetPasswordExtraB> ResetPasswordExtraBQuery = FillResetPasswordExtraB();
-
-            ResetPasswordExtraBQuery = EnhanceQueryStatements<ResetPasswordExtraB>(ResetPasswordExtraBQuery) as IQueryable<ResetPasswordExtraB>;
-
-            return ResetPasswordExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

@@ -145,32 +145,6 @@ namespace CSSPServices
 
             return MWQMLookupMPNQuery;
         }
-        public MWQMLookupMPNExtraA GetMWQMLookupMPNExtraAWithMWQMLookupMPNID(int MWQMLookupMPNID)
-        {
-            return FillMWQMLookupMPNExtraA().Where(c => c.MWQMLookupMPNID == MWQMLookupMPNID).FirstOrDefault();
-
-        }
-        public IQueryable<MWQMLookupMPNExtraA> GetMWQMLookupMPNExtraAList()
-        {
-            IQueryable<MWQMLookupMPNExtraA> MWQMLookupMPNExtraAQuery = FillMWQMLookupMPNExtraA();
-
-            MWQMLookupMPNExtraAQuery = EnhanceQueryStatements<MWQMLookupMPNExtraA>(MWQMLookupMPNExtraAQuery) as IQueryable<MWQMLookupMPNExtraA>;
-
-            return MWQMLookupMPNExtraAQuery;
-        }
-        public MWQMLookupMPNExtraB GetMWQMLookupMPNExtraBWithMWQMLookupMPNID(int MWQMLookupMPNID)
-        {
-            return FillMWQMLookupMPNExtraB().Where(c => c.MWQMLookupMPNID == MWQMLookupMPNID).FirstOrDefault();
-
-        }
-        public IQueryable<MWQMLookupMPNExtraB> GetMWQMLookupMPNExtraBList()
-        {
-            IQueryable<MWQMLookupMPNExtraB> MWQMLookupMPNExtraBQuery = FillMWQMLookupMPNExtraB();
-
-            MWQMLookupMPNExtraBQuery = EnhanceQueryStatements<MWQMLookupMPNExtraB>(MWQMLookupMPNExtraBQuery) as IQueryable<MWQMLookupMPNExtraB>;
-
-            return MWQMLookupMPNExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

@@ -286,32 +286,6 @@ namespace CSSPServices
 
             return AppTaskQuery;
         }
-        public AppTaskExtraA GetAppTaskExtraAWithAppTaskID(int AppTaskID)
-        {
-            return FillAppTaskExtraA().Where(c => c.AppTaskID == AppTaskID).FirstOrDefault();
-
-        }
-        public IQueryable<AppTaskExtraA> GetAppTaskExtraAList()
-        {
-            IQueryable<AppTaskExtraA> AppTaskExtraAQuery = FillAppTaskExtraA();
-
-            AppTaskExtraAQuery = EnhanceQueryStatements<AppTaskExtraA>(AppTaskExtraAQuery) as IQueryable<AppTaskExtraA>;
-
-            return AppTaskExtraAQuery;
-        }
-        public AppTaskExtraB GetAppTaskExtraBWithAppTaskID(int AppTaskID)
-        {
-            return FillAppTaskExtraB().Where(c => c.AppTaskID == AppTaskID).FirstOrDefault();
-
-        }
-        public IQueryable<AppTaskExtraB> GetAppTaskExtraBList()
-        {
-            IQueryable<AppTaskExtraB> AppTaskExtraBQuery = FillAppTaskExtraB();
-
-            AppTaskExtraBQuery = EnhanceQueryStatements<AppTaskExtraB>(AppTaskExtraBQuery) as IQueryable<AppTaskExtraB>;
-
-            return AppTaskExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

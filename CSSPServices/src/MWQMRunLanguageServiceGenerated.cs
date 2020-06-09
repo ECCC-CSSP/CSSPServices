@@ -166,32 +166,6 @@ namespace CSSPServices
 
             return MWQMRunLanguageQuery;
         }
-        public MWQMRunLanguageExtraA GetMWQMRunLanguageExtraAWithMWQMRunLanguageID(int MWQMRunLanguageID)
-        {
-            return FillMWQMRunLanguageExtraA().Where(c => c.MWQMRunLanguageID == MWQMRunLanguageID).FirstOrDefault();
-
-        }
-        public IQueryable<MWQMRunLanguageExtraA> GetMWQMRunLanguageExtraAList()
-        {
-            IQueryable<MWQMRunLanguageExtraA> MWQMRunLanguageExtraAQuery = FillMWQMRunLanguageExtraA();
-
-            MWQMRunLanguageExtraAQuery = EnhanceQueryStatements<MWQMRunLanguageExtraA>(MWQMRunLanguageExtraAQuery) as IQueryable<MWQMRunLanguageExtraA>;
-
-            return MWQMRunLanguageExtraAQuery;
-        }
-        public MWQMRunLanguageExtraB GetMWQMRunLanguageExtraBWithMWQMRunLanguageID(int MWQMRunLanguageID)
-        {
-            return FillMWQMRunLanguageExtraB().Where(c => c.MWQMRunLanguageID == MWQMRunLanguageID).FirstOrDefault();
-
-        }
-        public IQueryable<MWQMRunLanguageExtraB> GetMWQMRunLanguageExtraBList()
-        {
-            IQueryable<MWQMRunLanguageExtraB> MWQMRunLanguageExtraBQuery = FillMWQMRunLanguageExtraB();
-
-            MWQMRunLanguageExtraBQuery = EnhanceQueryStatements<MWQMRunLanguageExtraB>(MWQMRunLanguageExtraBQuery) as IQueryable<MWQMRunLanguageExtraB>;
-
-            return MWQMRunLanguageExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

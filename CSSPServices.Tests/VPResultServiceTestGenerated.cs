@@ -363,18 +363,6 @@ namespace CSSPServices.Tests
                             CheckVPResultFields(new List<VPResult>() { vpResultRet });
                             Assert.AreEqual(vpResult.VPResultID, vpResultRet.VPResultID);
                         }
-                        else if (extra == "A")
-                        {
-                            VPResultExtraA vpResultExtraARet = vpResultService.GetVPResultExtraAWithVPResultID(vpResult.VPResultID);
-                            CheckVPResultExtraAFields(new List<VPResultExtraA>() { vpResultExtraARet });
-                            Assert.AreEqual(vpResult.VPResultID, vpResultExtraARet.VPResultID);
-                        }
-                        else if (extra == "B")
-                        {
-                            VPResultExtraB vpResultExtraBRet = vpResultService.GetVPResultExtraBWithVPResultID(vpResult.VPResultID);
-                            CheckVPResultExtraBFields(new List<VPResultExtraB>() { vpResultExtraBRet });
-                            Assert.AreEqual(vpResult.VPResultID, vpResultExtraBRet.VPResultID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -412,20 +400,6 @@ namespace CSSPServices.Tests
                             vpResultList = vpResultService.GetVPResultList().ToList();
                             CheckVPResultFields(vpResultList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<VPResultExtraA> vpResultExtraAList = new List<VPResultExtraA>();
-                            vpResultExtraAList = vpResultService.GetVPResultExtraAList().ToList();
-                            CheckVPResultExtraAFields(vpResultExtraAList);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<VPResultExtraB> vpResultExtraBList = new List<VPResultExtraB>();
-                            vpResultExtraBList = vpResultService.GetVPResultExtraBList().ToList();
-                            CheckVPResultExtraBFields(vpResultExtraBList);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -461,22 +435,6 @@ namespace CSSPServices.Tests
                             vpResultList = vpResultService.GetVPResultList().ToList();
                             CheckVPResultFields(vpResultList);
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultList[0].VPResultID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<VPResultExtraA> vpResultExtraAList = new List<VPResultExtraA>();
-                            vpResultExtraAList = vpResultService.GetVPResultExtraAList().ToList();
-                            CheckVPResultExtraAFields(vpResultExtraAList);
-                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraAList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<VPResultExtraB> vpResultExtraBList = new List<VPResultExtraB>();
-                            vpResultExtraBList = vpResultService.GetVPResultExtraBList().ToList();
-                            CheckVPResultExtraBFields(vpResultExtraBList);
-                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraBList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraBList.Count);
                         }
                         else
                         {
@@ -514,22 +472,6 @@ namespace CSSPServices.Tests
                             CheckVPResultFields(vpResultList);
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultList[0].VPResultID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<VPResultExtraA> vpResultExtraAList = new List<VPResultExtraA>();
-                            vpResultExtraAList = vpResultService.GetVPResultExtraAList().ToList();
-                            CheckVPResultExtraAFields(vpResultExtraAList);
-                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraAList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<VPResultExtraB> vpResultExtraBList = new List<VPResultExtraB>();
-                            vpResultExtraBList = vpResultService.GetVPResultExtraBList().ToList();
-                            CheckVPResultExtraBFields(vpResultExtraBList);
-                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraBList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -565,22 +507,6 @@ namespace CSSPServices.Tests
                             vpResultList = vpResultService.GetVPResultList().ToList();
                             CheckVPResultFields(vpResultList);
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultList[0].VPResultID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<VPResultExtraA> vpResultExtraAList = new List<VPResultExtraA>();
-                            vpResultExtraAList = vpResultService.GetVPResultExtraAList().ToList();
-                            CheckVPResultExtraAFields(vpResultExtraAList);
-                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraAList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<VPResultExtraB> vpResultExtraBList = new List<VPResultExtraB>();
-                            vpResultExtraBList = vpResultService.GetVPResultExtraBList().ToList();
-                            CheckVPResultExtraBFields(vpResultExtraBList);
-                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraBList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraBList.Count);
                         }
                         else
                         {
@@ -618,22 +544,6 @@ namespace CSSPServices.Tests
                             CheckVPResultFields(vpResultList);
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultList[0].VPResultID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<VPResultExtraA> vpResultExtraAList = new List<VPResultExtraA>();
-                            vpResultExtraAList = vpResultService.GetVPResultExtraAList().ToList();
-                            CheckVPResultExtraAFields(vpResultExtraAList);
-                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraAList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<VPResultExtraB> vpResultExtraBList = new List<VPResultExtraB>();
-                            vpResultExtraBList = vpResultService.GetVPResultExtraBList().ToList();
-                            CheckVPResultExtraBFields(vpResultExtraBList);
-                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraBList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -669,22 +579,6 @@ namespace CSSPServices.Tests
                             vpResultList = vpResultService.GetVPResultList().ToList();
                             CheckVPResultFields(vpResultList);
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultList[0].VPResultID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<VPResultExtraA> vpResultExtraAList = new List<VPResultExtraA>();
-                            vpResultExtraAList = vpResultService.GetVPResultExtraAList().ToList();
-                            CheckVPResultExtraAFields(vpResultExtraAList);
-                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraAList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<VPResultExtraB> vpResultExtraBList = new List<VPResultExtraB>();
-                            vpResultExtraBList = vpResultService.GetVPResultExtraBList().ToList();
-                            CheckVPResultExtraBFields(vpResultExtraBList);
-                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraBList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraBList.Count);
                         }
                         else
                         {
@@ -722,22 +616,6 @@ namespace CSSPServices.Tests
                             CheckVPResultFields(vpResultList);
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultList[0].VPResultID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<VPResultExtraA> vpResultExtraAList = new List<VPResultExtraA>();
-                            vpResultExtraAList = vpResultService.GetVPResultExtraAList().ToList();
-                            CheckVPResultExtraAFields(vpResultExtraAList);
-                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraAList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<VPResultExtraB> vpResultExtraBList = new List<VPResultExtraB>();
-                            vpResultExtraBList = vpResultService.GetVPResultExtraBList().ToList();
-                            CheckVPResultExtraBFields(vpResultExtraBList);
-                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraBList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -773,22 +651,6 @@ namespace CSSPServices.Tests
                             vpResultList = vpResultService.GetVPResultList().ToList();
                             CheckVPResultFields(vpResultList);
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultList[0].VPResultID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<VPResultExtraA> vpResultExtraAList = new List<VPResultExtraA>();
-                            vpResultExtraAList = vpResultService.GetVPResultExtraAList().ToList();
-                            CheckVPResultExtraAFields(vpResultExtraAList);
-                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraAList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<VPResultExtraB> vpResultExtraBList = new List<VPResultExtraB>();
-                            vpResultExtraBList = vpResultService.GetVPResultExtraBList().ToList();
-                            CheckVPResultExtraBFields(vpResultExtraBList);
-                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraBList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraBList.Count);
                         }
                         else
                         {
@@ -826,22 +688,6 @@ namespace CSSPServices.Tests
                             CheckVPResultFields(vpResultList);
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultList[0].VPResultID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<VPResultExtraA> vpResultExtraAList = new List<VPResultExtraA>();
-                            vpResultExtraAList = vpResultService.GetVPResultExtraAList().ToList();
-                            CheckVPResultExtraAFields(vpResultExtraAList);
-                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraAList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<VPResultExtraB> vpResultExtraBList = new List<VPResultExtraB>();
-                            vpResultExtraBList = vpResultService.GetVPResultExtraBList().ToList();
-                            CheckVPResultExtraBFields(vpResultExtraBList);
-                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraBList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -877,22 +723,6 @@ namespace CSSPServices.Tests
                             vpResultList = vpResultService.GetVPResultList().ToList();
                             CheckVPResultFields(vpResultList);
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultList[0].VPResultID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<VPResultExtraA> vpResultExtraAList = new List<VPResultExtraA>();
-                            vpResultExtraAList = vpResultService.GetVPResultExtraAList().ToList();
-                            CheckVPResultExtraAFields(vpResultExtraAList);
-                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraAList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<VPResultExtraB> vpResultExtraBList = new List<VPResultExtraB>();
-                            vpResultExtraBList = vpResultService.GetVPResultExtraBList().ToList();
-                            CheckVPResultExtraBFields(vpResultExtraBList);
-                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraBList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraBList.Count);
                         }
                         else
                         {
@@ -930,22 +760,6 @@ namespace CSSPServices.Tests
                             CheckVPResultFields(vpResultList);
                             Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultList[0].VPResultID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<VPResultExtraA> vpResultExtraAList = new List<VPResultExtraA>();
-                            vpResultExtraAList = vpResultService.GetVPResultExtraAList().ToList();
-                            CheckVPResultExtraAFields(vpResultExtraAList);
-                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraAList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<VPResultExtraB> vpResultExtraBList = new List<VPResultExtraB>();
-                            vpResultExtraBList = vpResultService.GetVPResultExtraBList().ToList();
-                            CheckVPResultExtraBFields(vpResultExtraBList);
-                            Assert.AreEqual(vpResultDirectQueryList[0].VPResultID, vpResultExtraBList[0].VPResultID);
-                            Assert.AreEqual(vpResultDirectQueryList.Count, vpResultExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -970,40 +784,6 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(vpResultList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(vpResultList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(vpResultList[0].HasErrors);
-        }
-        private void CheckVPResultExtraAFields(List<VPResultExtraA> vpResultExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(vpResultExtraAList[0].LastUpdateContactText));
-            Assert.IsNotNull(vpResultExtraAList[0].VPResultID);
-            Assert.IsNotNull(vpResultExtraAList[0].VPScenarioID);
-            Assert.IsNotNull(vpResultExtraAList[0].Ordinal);
-            Assert.IsNotNull(vpResultExtraAList[0].Concentration_MPN_100ml);
-            Assert.IsNotNull(vpResultExtraAList[0].Dilution);
-            Assert.IsNotNull(vpResultExtraAList[0].FarFieldWidth_m);
-            Assert.IsNotNull(vpResultExtraAList[0].DispersionDistance_m);
-            Assert.IsNotNull(vpResultExtraAList[0].TravelTime_hour);
-            Assert.IsNotNull(vpResultExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(vpResultExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(vpResultExtraAList[0].HasErrors);
-        }
-        private void CheckVPResultExtraBFields(List<VPResultExtraB> vpResultExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(vpResultExtraBList[0].VPResultReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(vpResultExtraBList[0].VPResultReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(vpResultExtraBList[0].LastUpdateContactText));
-            Assert.IsNotNull(vpResultExtraBList[0].VPResultID);
-            Assert.IsNotNull(vpResultExtraBList[0].VPScenarioID);
-            Assert.IsNotNull(vpResultExtraBList[0].Ordinal);
-            Assert.IsNotNull(vpResultExtraBList[0].Concentration_MPN_100ml);
-            Assert.IsNotNull(vpResultExtraBList[0].Dilution);
-            Assert.IsNotNull(vpResultExtraBList[0].FarFieldWidth_m);
-            Assert.IsNotNull(vpResultExtraBList[0].DispersionDistance_m);
-            Assert.IsNotNull(vpResultExtraBList[0].TravelTime_hour);
-            Assert.IsNotNull(vpResultExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(vpResultExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(vpResultExtraBList[0].HasErrors);
         }
         private VPResult GetFilledRandomVPResult(string OmitPropName)
         {

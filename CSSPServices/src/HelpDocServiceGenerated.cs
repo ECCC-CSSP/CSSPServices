@@ -152,32 +152,6 @@ namespace CSSPServices
 
             return HelpDocQuery;
         }
-        public HelpDocExtraA GetHelpDocExtraAWithHelpDocID(int HelpDocID)
-        {
-            return FillHelpDocExtraA().Where(c => c.HelpDocID == HelpDocID).FirstOrDefault();
-
-        }
-        public IQueryable<HelpDocExtraA> GetHelpDocExtraAList()
-        {
-            IQueryable<HelpDocExtraA> HelpDocExtraAQuery = FillHelpDocExtraA();
-
-            HelpDocExtraAQuery = EnhanceQueryStatements<HelpDocExtraA>(HelpDocExtraAQuery) as IQueryable<HelpDocExtraA>;
-
-            return HelpDocExtraAQuery;
-        }
-        public HelpDocExtraB GetHelpDocExtraBWithHelpDocID(int HelpDocID)
-        {
-            return FillHelpDocExtraB().Where(c => c.HelpDocID == HelpDocID).FirstOrDefault();
-
-        }
-        public IQueryable<HelpDocExtraB> GetHelpDocExtraBList()
-        {
-            IQueryable<HelpDocExtraB> HelpDocExtraBQuery = FillHelpDocExtraB();
-
-            HelpDocExtraBQuery = EnhanceQueryStatements<HelpDocExtraB>(HelpDocExtraBQuery) as IQueryable<HelpDocExtraB>;
-
-            return HelpDocExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

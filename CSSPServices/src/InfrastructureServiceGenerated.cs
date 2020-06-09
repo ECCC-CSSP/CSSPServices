@@ -296,6 +296,16 @@ namespace CSSPServices
                 }
             }
 
+            if (infrastructure.ValveType != null)
+            {
+                retStr = enums.EnumTypeOK(typeof(ValveTypeEnum), (int?)infrastructure.ValveType);
+                if (infrastructure.ValveType == null || !string.IsNullOrWhiteSpace(retStr))
+                {
+                    infrastructure.HasErrors = true;
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ValveType"), new[] { "ValveType" });
+                }
+            }
+
             if (infrastructure.PercFlowOfTotal != null)
             {
                 if (infrastructure.PercFlowOfTotal < 0 || infrastructure.PercFlowOfTotal > 100)
@@ -547,32 +557,6 @@ namespace CSSPServices
             InfrastructureQuery = EnhanceQueryStatements<Infrastructure>(InfrastructureQuery) as IQueryable<Infrastructure>;
 
             return InfrastructureQuery;
-        }
-        public InfrastructureExtraA GetInfrastructureExtraAWithInfrastructureID(int InfrastructureID)
-        {
-            return FillInfrastructureExtraA().Where(c => c.InfrastructureID == InfrastructureID).FirstOrDefault();
-
-        }
-        public IQueryable<InfrastructureExtraA> GetInfrastructureExtraAList()
-        {
-            IQueryable<InfrastructureExtraA> InfrastructureExtraAQuery = FillInfrastructureExtraA();
-
-            InfrastructureExtraAQuery = EnhanceQueryStatements<InfrastructureExtraA>(InfrastructureExtraAQuery) as IQueryable<InfrastructureExtraA>;
-
-            return InfrastructureExtraAQuery;
-        }
-        public InfrastructureExtraB GetInfrastructureExtraBWithInfrastructureID(int InfrastructureID)
-        {
-            return FillInfrastructureExtraB().Where(c => c.InfrastructureID == InfrastructureID).FirstOrDefault();
-
-        }
-        public IQueryable<InfrastructureExtraB> GetInfrastructureExtraBList()
-        {
-            IQueryable<InfrastructureExtraB> InfrastructureExtraBQuery = FillInfrastructureExtraB();
-
-            InfrastructureExtraBQuery = EnhanceQueryStatements<InfrastructureExtraB>(InfrastructureExtraBQuery) as IQueryable<InfrastructureExtraB>;
-
-            return InfrastructureExtraBQuery;
         }
         #endregion Functions public Generated Get
 

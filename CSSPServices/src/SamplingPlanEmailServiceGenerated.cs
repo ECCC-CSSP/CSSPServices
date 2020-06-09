@@ -151,32 +151,6 @@ namespace CSSPServices
 
             return SamplingPlanEmailQuery;
         }
-        public SamplingPlanEmailExtraA GetSamplingPlanEmailExtraAWithSamplingPlanEmailID(int SamplingPlanEmailID)
-        {
-            return FillSamplingPlanEmailExtraA().Where(c => c.SamplingPlanEmailID == SamplingPlanEmailID).FirstOrDefault();
-
-        }
-        public IQueryable<SamplingPlanEmailExtraA> GetSamplingPlanEmailExtraAList()
-        {
-            IQueryable<SamplingPlanEmailExtraA> SamplingPlanEmailExtraAQuery = FillSamplingPlanEmailExtraA();
-
-            SamplingPlanEmailExtraAQuery = EnhanceQueryStatements<SamplingPlanEmailExtraA>(SamplingPlanEmailExtraAQuery) as IQueryable<SamplingPlanEmailExtraA>;
-
-            return SamplingPlanEmailExtraAQuery;
-        }
-        public SamplingPlanEmailExtraB GetSamplingPlanEmailExtraBWithSamplingPlanEmailID(int SamplingPlanEmailID)
-        {
-            return FillSamplingPlanEmailExtraB().Where(c => c.SamplingPlanEmailID == SamplingPlanEmailID).FirstOrDefault();
-
-        }
-        public IQueryable<SamplingPlanEmailExtraB> GetSamplingPlanEmailExtraBList()
-        {
-            IQueryable<SamplingPlanEmailExtraB> SamplingPlanEmailExtraBQuery = FillSamplingPlanEmailExtraB();
-
-            SamplingPlanEmailExtraBQuery = EnhanceQueryStatements<SamplingPlanEmailExtraB>(SamplingPlanEmailExtraBQuery) as IQueryable<SamplingPlanEmailExtraB>;
-
-            return SamplingPlanEmailExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

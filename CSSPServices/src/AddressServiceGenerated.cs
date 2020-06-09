@@ -242,32 +242,6 @@ namespace CSSPServices
 
             return AddressQuery;
         }
-        public AddressExtraA GetAddressExtraAWithAddressID(int AddressID)
-        {
-            return FillAddressExtraA().Where(c => c.AddressID == AddressID).FirstOrDefault();
-
-        }
-        public IQueryable<AddressExtraA> GetAddressExtraAList()
-        {
-            IQueryable<AddressExtraA> AddressExtraAQuery = FillAddressExtraA();
-
-            AddressExtraAQuery = EnhanceQueryStatements<AddressExtraA>(AddressExtraAQuery) as IQueryable<AddressExtraA>;
-
-            return AddressExtraAQuery;
-        }
-        public AddressExtraB GetAddressExtraBWithAddressID(int AddressID)
-        {
-            return FillAddressExtraB().Where(c => c.AddressID == AddressID).FirstOrDefault();
-
-        }
-        public IQueryable<AddressExtraB> GetAddressExtraBList()
-        {
-            IQueryable<AddressExtraB> AddressExtraBQuery = FillAddressExtraB();
-
-            AddressExtraBQuery = EnhanceQueryStatements<AddressExtraB>(AddressExtraBQuery) as IQueryable<AddressExtraB>;
-
-            return AddressExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

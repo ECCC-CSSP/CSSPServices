@@ -155,32 +155,6 @@ namespace CSSPServices
 
             return AppTaskLanguageQuery;
         }
-        public AppTaskLanguageExtraA GetAppTaskLanguageExtraAWithAppTaskLanguageID(int AppTaskLanguageID)
-        {
-            return FillAppTaskLanguageExtraA().Where(c => c.AppTaskLanguageID == AppTaskLanguageID).FirstOrDefault();
-
-        }
-        public IQueryable<AppTaskLanguageExtraA> GetAppTaskLanguageExtraAList()
-        {
-            IQueryable<AppTaskLanguageExtraA> AppTaskLanguageExtraAQuery = FillAppTaskLanguageExtraA();
-
-            AppTaskLanguageExtraAQuery = EnhanceQueryStatements<AppTaskLanguageExtraA>(AppTaskLanguageExtraAQuery) as IQueryable<AppTaskLanguageExtraA>;
-
-            return AppTaskLanguageExtraAQuery;
-        }
-        public AppTaskLanguageExtraB GetAppTaskLanguageExtraBWithAppTaskLanguageID(int AppTaskLanguageID)
-        {
-            return FillAppTaskLanguageExtraB().Where(c => c.AppTaskLanguageID == AppTaskLanguageID).FirstOrDefault();
-
-        }
-        public IQueryable<AppTaskLanguageExtraB> GetAppTaskLanguageExtraBList()
-        {
-            IQueryable<AppTaskLanguageExtraB> AppTaskLanguageExtraBQuery = FillAppTaskLanguageExtraB();
-
-            AppTaskLanguageExtraBQuery = EnhanceQueryStatements<AppTaskLanguageExtraB>(AppTaskLanguageExtraBQuery) as IQueryable<AppTaskLanguageExtraB>;
-
-            return AppTaskLanguageExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

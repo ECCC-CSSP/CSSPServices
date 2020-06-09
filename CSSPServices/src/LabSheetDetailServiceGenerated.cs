@@ -549,32 +549,6 @@ namespace CSSPServices
 
             return LabSheetDetailQuery;
         }
-        public LabSheetDetailExtraA GetLabSheetDetailExtraAWithLabSheetDetailID(int LabSheetDetailID)
-        {
-            return FillLabSheetDetailExtraA().Where(c => c.LabSheetDetailID == LabSheetDetailID).FirstOrDefault();
-
-        }
-        public IQueryable<LabSheetDetailExtraA> GetLabSheetDetailExtraAList()
-        {
-            IQueryable<LabSheetDetailExtraA> LabSheetDetailExtraAQuery = FillLabSheetDetailExtraA();
-
-            LabSheetDetailExtraAQuery = EnhanceQueryStatements<LabSheetDetailExtraA>(LabSheetDetailExtraAQuery) as IQueryable<LabSheetDetailExtraA>;
-
-            return LabSheetDetailExtraAQuery;
-        }
-        public LabSheetDetailExtraB GetLabSheetDetailExtraBWithLabSheetDetailID(int LabSheetDetailID)
-        {
-            return FillLabSheetDetailExtraB().Where(c => c.LabSheetDetailID == LabSheetDetailID).FirstOrDefault();
-
-        }
-        public IQueryable<LabSheetDetailExtraB> GetLabSheetDetailExtraBList()
-        {
-            IQueryable<LabSheetDetailExtraB> LabSheetDetailExtraBQuery = FillLabSheetDetailExtraB();
-
-            LabSheetDetailExtraBQuery = EnhanceQueryStatements<LabSheetDetailExtraB>(LabSheetDetailExtraBQuery) as IQueryable<LabSheetDetailExtraB>;
-
-            return LabSheetDetailExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

@@ -269,18 +269,6 @@ namespace CSSPServices.Tests
                             CheckMWQMSiteStartEndDateFields(new List<MWQMSiteStartEndDate>() { mwqmSiteStartEndDateRet });
                             Assert.AreEqual(mwqmSiteStartEndDate.MWQMSiteStartEndDateID, mwqmSiteStartEndDateRet.MWQMSiteStartEndDateID);
                         }
-                        else if (extra == "A")
-                        {
-                            MWQMSiteStartEndDateExtraA mwqmSiteStartEndDateExtraARet = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateExtraAWithMWQMSiteStartEndDateID(mwqmSiteStartEndDate.MWQMSiteStartEndDateID);
-                            CheckMWQMSiteStartEndDateExtraAFields(new List<MWQMSiteStartEndDateExtraA>() { mwqmSiteStartEndDateExtraARet });
-                            Assert.AreEqual(mwqmSiteStartEndDate.MWQMSiteStartEndDateID, mwqmSiteStartEndDateExtraARet.MWQMSiteStartEndDateID);
-                        }
-                        else if (extra == "B")
-                        {
-                            MWQMSiteStartEndDateExtraB mwqmSiteStartEndDateExtraBRet = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateExtraBWithMWQMSiteStartEndDateID(mwqmSiteStartEndDate.MWQMSiteStartEndDateID);
-                            CheckMWQMSiteStartEndDateExtraBFields(new List<MWQMSiteStartEndDateExtraB>() { mwqmSiteStartEndDateExtraBRet });
-                            Assert.AreEqual(mwqmSiteStartEndDate.MWQMSiteStartEndDateID, mwqmSiteStartEndDateExtraBRet.MWQMSiteStartEndDateID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -318,20 +306,6 @@ namespace CSSPServices.Tests
                             mwqmSiteStartEndDateList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateList().ToList();
                             CheckMWQMSiteStartEndDateFields(mwqmSiteStartEndDateList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<MWQMSiteStartEndDateExtraA> mwqmSiteStartEndDateExtraAList = new List<MWQMSiteStartEndDateExtraA>();
-                            mwqmSiteStartEndDateExtraAList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateExtraAList().ToList();
-                            CheckMWQMSiteStartEndDateExtraAFields(mwqmSiteStartEndDateExtraAList);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList.Count, mwqmSiteStartEndDateExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MWQMSiteStartEndDateExtraB> mwqmSiteStartEndDateExtraBList = new List<MWQMSiteStartEndDateExtraB>();
-                            mwqmSiteStartEndDateExtraBList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateExtraBList().ToList();
-                            CheckMWQMSiteStartEndDateExtraBFields(mwqmSiteStartEndDateExtraBList);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList.Count, mwqmSiteStartEndDateExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -367,22 +341,6 @@ namespace CSSPServices.Tests
                             mwqmSiteStartEndDateList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateList().ToList();
                             CheckMWQMSiteStartEndDateFields(mwqmSiteStartEndDateList);
                             Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList[0].MWQMSiteStartEndDateID, mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<MWQMSiteStartEndDateExtraA> mwqmSiteStartEndDateExtraAList = new List<MWQMSiteStartEndDateExtraA>();
-                            mwqmSiteStartEndDateExtraAList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateExtraAList().ToList();
-                            CheckMWQMSiteStartEndDateExtraAFields(mwqmSiteStartEndDateExtraAList);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList[0].MWQMSiteStartEndDateID, mwqmSiteStartEndDateExtraAList[0].MWQMSiteStartEndDateID);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList.Count, mwqmSiteStartEndDateExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MWQMSiteStartEndDateExtraB> mwqmSiteStartEndDateExtraBList = new List<MWQMSiteStartEndDateExtraB>();
-                            mwqmSiteStartEndDateExtraBList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateExtraBList().ToList();
-                            CheckMWQMSiteStartEndDateExtraBFields(mwqmSiteStartEndDateExtraBList);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList[0].MWQMSiteStartEndDateID, mwqmSiteStartEndDateExtraBList[0].MWQMSiteStartEndDateID);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList.Count, mwqmSiteStartEndDateExtraBList.Count);
                         }
                         else
                         {
@@ -420,22 +378,6 @@ namespace CSSPServices.Tests
                             CheckMWQMSiteStartEndDateFields(mwqmSiteStartEndDateList);
                             Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList[0].MWQMSiteStartEndDateID, mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<MWQMSiteStartEndDateExtraA> mwqmSiteStartEndDateExtraAList = new List<MWQMSiteStartEndDateExtraA>();
-                            mwqmSiteStartEndDateExtraAList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateExtraAList().ToList();
-                            CheckMWQMSiteStartEndDateExtraAFields(mwqmSiteStartEndDateExtraAList);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList[0].MWQMSiteStartEndDateID, mwqmSiteStartEndDateExtraAList[0].MWQMSiteStartEndDateID);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList.Count, mwqmSiteStartEndDateExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MWQMSiteStartEndDateExtraB> mwqmSiteStartEndDateExtraBList = new List<MWQMSiteStartEndDateExtraB>();
-                            mwqmSiteStartEndDateExtraBList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateExtraBList().ToList();
-                            CheckMWQMSiteStartEndDateExtraBFields(mwqmSiteStartEndDateExtraBList);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList[0].MWQMSiteStartEndDateID, mwqmSiteStartEndDateExtraBList[0].MWQMSiteStartEndDateID);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList.Count, mwqmSiteStartEndDateExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -471,22 +413,6 @@ namespace CSSPServices.Tests
                             mwqmSiteStartEndDateList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateList().ToList();
                             CheckMWQMSiteStartEndDateFields(mwqmSiteStartEndDateList);
                             Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList[0].MWQMSiteStartEndDateID, mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<MWQMSiteStartEndDateExtraA> mwqmSiteStartEndDateExtraAList = new List<MWQMSiteStartEndDateExtraA>();
-                            mwqmSiteStartEndDateExtraAList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateExtraAList().ToList();
-                            CheckMWQMSiteStartEndDateExtraAFields(mwqmSiteStartEndDateExtraAList);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList[0].MWQMSiteStartEndDateID, mwqmSiteStartEndDateExtraAList[0].MWQMSiteStartEndDateID);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList.Count, mwqmSiteStartEndDateExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MWQMSiteStartEndDateExtraB> mwqmSiteStartEndDateExtraBList = new List<MWQMSiteStartEndDateExtraB>();
-                            mwqmSiteStartEndDateExtraBList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateExtraBList().ToList();
-                            CheckMWQMSiteStartEndDateExtraBFields(mwqmSiteStartEndDateExtraBList);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList[0].MWQMSiteStartEndDateID, mwqmSiteStartEndDateExtraBList[0].MWQMSiteStartEndDateID);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList.Count, mwqmSiteStartEndDateExtraBList.Count);
                         }
                         else
                         {
@@ -524,22 +450,6 @@ namespace CSSPServices.Tests
                             CheckMWQMSiteStartEndDateFields(mwqmSiteStartEndDateList);
                             Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList[0].MWQMSiteStartEndDateID, mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<MWQMSiteStartEndDateExtraA> mwqmSiteStartEndDateExtraAList = new List<MWQMSiteStartEndDateExtraA>();
-                            mwqmSiteStartEndDateExtraAList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateExtraAList().ToList();
-                            CheckMWQMSiteStartEndDateExtraAFields(mwqmSiteStartEndDateExtraAList);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList[0].MWQMSiteStartEndDateID, mwqmSiteStartEndDateExtraAList[0].MWQMSiteStartEndDateID);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList.Count, mwqmSiteStartEndDateExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MWQMSiteStartEndDateExtraB> mwqmSiteStartEndDateExtraBList = new List<MWQMSiteStartEndDateExtraB>();
-                            mwqmSiteStartEndDateExtraBList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateExtraBList().ToList();
-                            CheckMWQMSiteStartEndDateExtraBFields(mwqmSiteStartEndDateExtraBList);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList[0].MWQMSiteStartEndDateID, mwqmSiteStartEndDateExtraBList[0].MWQMSiteStartEndDateID);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList.Count, mwqmSiteStartEndDateExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -575,22 +485,6 @@ namespace CSSPServices.Tests
                             mwqmSiteStartEndDateList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateList().ToList();
                             CheckMWQMSiteStartEndDateFields(mwqmSiteStartEndDateList);
                             Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList[0].MWQMSiteStartEndDateID, mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<MWQMSiteStartEndDateExtraA> mwqmSiteStartEndDateExtraAList = new List<MWQMSiteStartEndDateExtraA>();
-                            mwqmSiteStartEndDateExtraAList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateExtraAList().ToList();
-                            CheckMWQMSiteStartEndDateExtraAFields(mwqmSiteStartEndDateExtraAList);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList[0].MWQMSiteStartEndDateID, mwqmSiteStartEndDateExtraAList[0].MWQMSiteStartEndDateID);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList.Count, mwqmSiteStartEndDateExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MWQMSiteStartEndDateExtraB> mwqmSiteStartEndDateExtraBList = new List<MWQMSiteStartEndDateExtraB>();
-                            mwqmSiteStartEndDateExtraBList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateExtraBList().ToList();
-                            CheckMWQMSiteStartEndDateExtraBFields(mwqmSiteStartEndDateExtraBList);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList[0].MWQMSiteStartEndDateID, mwqmSiteStartEndDateExtraBList[0].MWQMSiteStartEndDateID);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList.Count, mwqmSiteStartEndDateExtraBList.Count);
                         }
                         else
                         {
@@ -628,22 +522,6 @@ namespace CSSPServices.Tests
                             CheckMWQMSiteStartEndDateFields(mwqmSiteStartEndDateList);
                             Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList[0].MWQMSiteStartEndDateID, mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<MWQMSiteStartEndDateExtraA> mwqmSiteStartEndDateExtraAList = new List<MWQMSiteStartEndDateExtraA>();
-                            mwqmSiteStartEndDateExtraAList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateExtraAList().ToList();
-                            CheckMWQMSiteStartEndDateExtraAFields(mwqmSiteStartEndDateExtraAList);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList[0].MWQMSiteStartEndDateID, mwqmSiteStartEndDateExtraAList[0].MWQMSiteStartEndDateID);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList.Count, mwqmSiteStartEndDateExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MWQMSiteStartEndDateExtraB> mwqmSiteStartEndDateExtraBList = new List<MWQMSiteStartEndDateExtraB>();
-                            mwqmSiteStartEndDateExtraBList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateExtraBList().ToList();
-                            CheckMWQMSiteStartEndDateExtraBFields(mwqmSiteStartEndDateExtraBList);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList[0].MWQMSiteStartEndDateID, mwqmSiteStartEndDateExtraBList[0].MWQMSiteStartEndDateID);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList.Count, mwqmSiteStartEndDateExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -679,22 +557,6 @@ namespace CSSPServices.Tests
                             mwqmSiteStartEndDateList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateList().ToList();
                             CheckMWQMSiteStartEndDateFields(mwqmSiteStartEndDateList);
                             Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList[0].MWQMSiteStartEndDateID, mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<MWQMSiteStartEndDateExtraA> mwqmSiteStartEndDateExtraAList = new List<MWQMSiteStartEndDateExtraA>();
-                            mwqmSiteStartEndDateExtraAList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateExtraAList().ToList();
-                            CheckMWQMSiteStartEndDateExtraAFields(mwqmSiteStartEndDateExtraAList);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList[0].MWQMSiteStartEndDateID, mwqmSiteStartEndDateExtraAList[0].MWQMSiteStartEndDateID);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList.Count, mwqmSiteStartEndDateExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MWQMSiteStartEndDateExtraB> mwqmSiteStartEndDateExtraBList = new List<MWQMSiteStartEndDateExtraB>();
-                            mwqmSiteStartEndDateExtraBList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateExtraBList().ToList();
-                            CheckMWQMSiteStartEndDateExtraBFields(mwqmSiteStartEndDateExtraBList);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList[0].MWQMSiteStartEndDateID, mwqmSiteStartEndDateExtraBList[0].MWQMSiteStartEndDateID);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList.Count, mwqmSiteStartEndDateExtraBList.Count);
                         }
                         else
                         {
@@ -732,22 +594,6 @@ namespace CSSPServices.Tests
                             CheckMWQMSiteStartEndDateFields(mwqmSiteStartEndDateList);
                             Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList[0].MWQMSiteStartEndDateID, mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<MWQMSiteStartEndDateExtraA> mwqmSiteStartEndDateExtraAList = new List<MWQMSiteStartEndDateExtraA>();
-                            mwqmSiteStartEndDateExtraAList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateExtraAList().ToList();
-                            CheckMWQMSiteStartEndDateExtraAFields(mwqmSiteStartEndDateExtraAList);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList[0].MWQMSiteStartEndDateID, mwqmSiteStartEndDateExtraAList[0].MWQMSiteStartEndDateID);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList.Count, mwqmSiteStartEndDateExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MWQMSiteStartEndDateExtraB> mwqmSiteStartEndDateExtraBList = new List<MWQMSiteStartEndDateExtraB>();
-                            mwqmSiteStartEndDateExtraBList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateExtraBList().ToList();
-                            CheckMWQMSiteStartEndDateExtraBFields(mwqmSiteStartEndDateExtraBList);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList[0].MWQMSiteStartEndDateID, mwqmSiteStartEndDateExtraBList[0].MWQMSiteStartEndDateID);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList.Count, mwqmSiteStartEndDateExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -783,22 +629,6 @@ namespace CSSPServices.Tests
                             mwqmSiteStartEndDateList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateList().ToList();
                             CheckMWQMSiteStartEndDateFields(mwqmSiteStartEndDateList);
                             Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList[0].MWQMSiteStartEndDateID, mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<MWQMSiteStartEndDateExtraA> mwqmSiteStartEndDateExtraAList = new List<MWQMSiteStartEndDateExtraA>();
-                            mwqmSiteStartEndDateExtraAList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateExtraAList().ToList();
-                            CheckMWQMSiteStartEndDateExtraAFields(mwqmSiteStartEndDateExtraAList);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList[0].MWQMSiteStartEndDateID, mwqmSiteStartEndDateExtraAList[0].MWQMSiteStartEndDateID);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList.Count, mwqmSiteStartEndDateExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MWQMSiteStartEndDateExtraB> mwqmSiteStartEndDateExtraBList = new List<MWQMSiteStartEndDateExtraB>();
-                            mwqmSiteStartEndDateExtraBList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateExtraBList().ToList();
-                            CheckMWQMSiteStartEndDateExtraBFields(mwqmSiteStartEndDateExtraBList);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList[0].MWQMSiteStartEndDateID, mwqmSiteStartEndDateExtraBList[0].MWQMSiteStartEndDateID);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList.Count, mwqmSiteStartEndDateExtraBList.Count);
                         }
                         else
                         {
@@ -836,22 +666,6 @@ namespace CSSPServices.Tests
                             CheckMWQMSiteStartEndDateFields(mwqmSiteStartEndDateList);
                             Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList[0].MWQMSiteStartEndDateID, mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<MWQMSiteStartEndDateExtraA> mwqmSiteStartEndDateExtraAList = new List<MWQMSiteStartEndDateExtraA>();
-                            mwqmSiteStartEndDateExtraAList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateExtraAList().ToList();
-                            CheckMWQMSiteStartEndDateExtraAFields(mwqmSiteStartEndDateExtraAList);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList[0].MWQMSiteStartEndDateID, mwqmSiteStartEndDateExtraAList[0].MWQMSiteStartEndDateID);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList.Count, mwqmSiteStartEndDateExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MWQMSiteStartEndDateExtraB> mwqmSiteStartEndDateExtraBList = new List<MWQMSiteStartEndDateExtraB>();
-                            mwqmSiteStartEndDateExtraBList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateExtraBList().ToList();
-                            CheckMWQMSiteStartEndDateExtraBFields(mwqmSiteStartEndDateExtraBList);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList[0].MWQMSiteStartEndDateID, mwqmSiteStartEndDateExtraBList[0].MWQMSiteStartEndDateID);
-                            Assert.AreEqual(mwqmSiteStartEndDateDirectQueryList.Count, mwqmSiteStartEndDateExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -876,45 +690,11 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(mwqmSiteStartEndDateList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(mwqmSiteStartEndDateList[0].HasErrors);
         }
-        private void CheckMWQMSiteStartEndDateExtraAFields(List<MWQMSiteStartEndDateExtraA> mwqmSiteStartEndDateExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteStartEndDateExtraAList[0].MWQMSiteText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteStartEndDateExtraAList[0].LastUpdateContactText));
-            Assert.IsNotNull(mwqmSiteStartEndDateExtraAList[0].MWQMSiteStartEndDateID);
-            Assert.IsNotNull(mwqmSiteStartEndDateExtraAList[0].MWQMSiteTVItemID);
-            Assert.IsNotNull(mwqmSiteStartEndDateExtraAList[0].StartDate);
-            if (mwqmSiteStartEndDateExtraAList[0].EndDate != null)
-            {
-                Assert.IsNotNull(mwqmSiteStartEndDateExtraAList[0].EndDate);
-            }
-            Assert.IsNotNull(mwqmSiteStartEndDateExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(mwqmSiteStartEndDateExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(mwqmSiteStartEndDateExtraAList[0].HasErrors);
-        }
-        private void CheckMWQMSiteStartEndDateExtraBFields(List<MWQMSiteStartEndDateExtraB> mwqmSiteStartEndDateExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(mwqmSiteStartEndDateExtraBList[0].MWQMSiteStartEndDateReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteStartEndDateExtraBList[0].MWQMSiteStartEndDateReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteStartEndDateExtraBList[0].MWQMSiteText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteStartEndDateExtraBList[0].LastUpdateContactText));
-            Assert.IsNotNull(mwqmSiteStartEndDateExtraBList[0].MWQMSiteStartEndDateID);
-            Assert.IsNotNull(mwqmSiteStartEndDateExtraBList[0].MWQMSiteTVItemID);
-            Assert.IsNotNull(mwqmSiteStartEndDateExtraBList[0].StartDate);
-            if (mwqmSiteStartEndDateExtraBList[0].EndDate != null)
-            {
-                Assert.IsNotNull(mwqmSiteStartEndDateExtraBList[0].EndDate);
-            }
-            Assert.IsNotNull(mwqmSiteStartEndDateExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(mwqmSiteStartEndDateExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(mwqmSiteStartEndDateExtraBList[0].HasErrors);
-        }
         private MWQMSiteStartEndDate GetFilledRandomMWQMSiteStartEndDate(string OmitPropName)
         {
             MWQMSiteStartEndDate mwqmSiteStartEndDate = new MWQMSiteStartEndDate();
 
-            if (OmitPropName != "MWQMSiteTVItemID") mwqmSiteStartEndDate.MWQMSiteTVItemID = 43;
+            if (OmitPropName != "MWQMSiteTVItemID") mwqmSiteStartEndDate.MWQMSiteTVItemID = 44;
             if (OmitPropName != "StartDate") mwqmSiteStartEndDate.StartDate = new DateTime(2005, 3, 6);
             if (OmitPropName != "EndDate") mwqmSiteStartEndDate.EndDate = new DateTime(2005, 3, 7);
             if (OmitPropName != "LastUpdateDate_UTC") mwqmSiteStartEndDate.LastUpdateDate_UTC = new DateTime(2005, 3, 6);

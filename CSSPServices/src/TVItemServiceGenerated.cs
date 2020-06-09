@@ -129,12 +129,13 @@ namespace CSSPServices
                         TVTypeEnum.Subsector,
                         TVTypeEnum.Tel,
                         TVTypeEnum.MWQMRun,
+                        TVTypeEnum.RainExceedance,
                         TVTypeEnum.Classification,
                     };
                     if (!AllowableTVTypes.Contains(TVItemParentID.TVType))
                     {
                         tvItem.HasErrors = true;
-                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "ParentID", "Root,Address,Area,ClimateSite,Contact,Country,Email,HydrometricSite,Infrastructure,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeScenario,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,Tel,MWQMRun,Classification"), new[] { "ParentID" });
+                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "ParentID", "Root,Address,Area,ClimateSite,Contact,Country,Email,HydrometricSite,Infrastructure,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeScenario,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,Tel,MWQMRun,RainExceedance,Classification"), new[] { "ParentID" });
                     }
                 }
             }
@@ -201,32 +202,6 @@ namespace CSSPServices
             TVItemQuery = EnhanceQueryStatements<TVItem>(TVItemQuery) as IQueryable<TVItem>;
 
             return TVItemQuery;
-        }
-        public TVItemExtraA GetTVItemExtraAWithTVItemID(int TVItemID)
-        {
-            return FillTVItemExtraA().Where(c => c.TVItemID == TVItemID).FirstOrDefault();
-
-        }
-        public IQueryable<TVItemExtraA> GetTVItemExtraAList()
-        {
-            IQueryable<TVItemExtraA> TVItemExtraAQuery = FillTVItemExtraA();
-
-            TVItemExtraAQuery = EnhanceQueryStatements<TVItemExtraA>(TVItemExtraAQuery) as IQueryable<TVItemExtraA>;
-
-            return TVItemExtraAQuery;
-        }
-        public TVItemExtraB GetTVItemExtraBWithTVItemID(int TVItemID)
-        {
-            return FillTVItemExtraB().Where(c => c.TVItemID == TVItemID).FirstOrDefault();
-
-        }
-        public IQueryable<TVItemExtraB> GetTVItemExtraBList()
-        {
-            IQueryable<TVItemExtraB> TVItemExtraBQuery = FillTVItemExtraB();
-
-            TVItemExtraBQuery = EnhanceQueryStatements<TVItemExtraB>(TVItemExtraBQuery) as IQueryable<TVItemExtraB>;
-
-            return TVItemExtraBQuery;
         }
         #endregion Functions public Generated Get
 

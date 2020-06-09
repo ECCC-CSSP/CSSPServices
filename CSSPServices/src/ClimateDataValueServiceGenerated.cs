@@ -251,32 +251,6 @@ namespace CSSPServices
 
             return ClimateDataValueQuery;
         }
-        public ClimateDataValueExtraA GetClimateDataValueExtraAWithClimateDataValueID(int ClimateDataValueID)
-        {
-            return FillClimateDataValueExtraA().Where(c => c.ClimateDataValueID == ClimateDataValueID).FirstOrDefault();
-
-        }
-        public IQueryable<ClimateDataValueExtraA> GetClimateDataValueExtraAList()
-        {
-            IQueryable<ClimateDataValueExtraA> ClimateDataValueExtraAQuery = FillClimateDataValueExtraA();
-
-            ClimateDataValueExtraAQuery = EnhanceQueryStatements<ClimateDataValueExtraA>(ClimateDataValueExtraAQuery) as IQueryable<ClimateDataValueExtraA>;
-
-            return ClimateDataValueExtraAQuery;
-        }
-        public ClimateDataValueExtraB GetClimateDataValueExtraBWithClimateDataValueID(int ClimateDataValueID)
-        {
-            return FillClimateDataValueExtraB().Where(c => c.ClimateDataValueID == ClimateDataValueID).FirstOrDefault();
-
-        }
-        public IQueryable<ClimateDataValueExtraB> GetClimateDataValueExtraBList()
-        {
-            IQueryable<ClimateDataValueExtraB> ClimateDataValueExtraBQuery = FillClimateDataValueExtraB();
-
-            ClimateDataValueExtraBQuery = EnhanceQueryStatements<ClimateDataValueExtraB>(ClimateDataValueExtraBQuery) as IQueryable<ClimateDataValueExtraB>;
-
-            return ClimateDataValueExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

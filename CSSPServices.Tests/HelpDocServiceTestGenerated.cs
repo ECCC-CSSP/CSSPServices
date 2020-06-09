@@ -275,18 +275,6 @@ namespace CSSPServices.Tests
                             CheckHelpDocFields(new List<HelpDoc>() { helpDocRet });
                             Assert.AreEqual(helpDoc.HelpDocID, helpDocRet.HelpDocID);
                         }
-                        else if (extra == "A")
-                        {
-                            HelpDocExtraA helpDocExtraARet = helpDocService.GetHelpDocExtraAWithHelpDocID(helpDoc.HelpDocID);
-                            CheckHelpDocExtraAFields(new List<HelpDocExtraA>() { helpDocExtraARet });
-                            Assert.AreEqual(helpDoc.HelpDocID, helpDocExtraARet.HelpDocID);
-                        }
-                        else if (extra == "B")
-                        {
-                            HelpDocExtraB helpDocExtraBRet = helpDocService.GetHelpDocExtraBWithHelpDocID(helpDoc.HelpDocID);
-                            CheckHelpDocExtraBFields(new List<HelpDocExtraB>() { helpDocExtraBRet });
-                            Assert.AreEqual(helpDoc.HelpDocID, helpDocExtraBRet.HelpDocID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -324,20 +312,6 @@ namespace CSSPServices.Tests
                             helpDocList = helpDocService.GetHelpDocList().ToList();
                             CheckHelpDocFields(helpDocList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<HelpDocExtraA> helpDocExtraAList = new List<HelpDocExtraA>();
-                            helpDocExtraAList = helpDocService.GetHelpDocExtraAList().ToList();
-                            CheckHelpDocExtraAFields(helpDocExtraAList);
-                            Assert.AreEqual(helpDocDirectQueryList.Count, helpDocExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<HelpDocExtraB> helpDocExtraBList = new List<HelpDocExtraB>();
-                            helpDocExtraBList = helpDocService.GetHelpDocExtraBList().ToList();
-                            CheckHelpDocExtraBFields(helpDocExtraBList);
-                            Assert.AreEqual(helpDocDirectQueryList.Count, helpDocExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -373,22 +347,6 @@ namespace CSSPServices.Tests
                             helpDocList = helpDocService.GetHelpDocList().ToList();
                             CheckHelpDocFields(helpDocList);
                             Assert.AreEqual(helpDocDirectQueryList[0].HelpDocID, helpDocList[0].HelpDocID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<HelpDocExtraA> helpDocExtraAList = new List<HelpDocExtraA>();
-                            helpDocExtraAList = helpDocService.GetHelpDocExtraAList().ToList();
-                            CheckHelpDocExtraAFields(helpDocExtraAList);
-                            Assert.AreEqual(helpDocDirectQueryList[0].HelpDocID, helpDocExtraAList[0].HelpDocID);
-                            Assert.AreEqual(helpDocDirectQueryList.Count, helpDocExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<HelpDocExtraB> helpDocExtraBList = new List<HelpDocExtraB>();
-                            helpDocExtraBList = helpDocService.GetHelpDocExtraBList().ToList();
-                            CheckHelpDocExtraBFields(helpDocExtraBList);
-                            Assert.AreEqual(helpDocDirectQueryList[0].HelpDocID, helpDocExtraBList[0].HelpDocID);
-                            Assert.AreEqual(helpDocDirectQueryList.Count, helpDocExtraBList.Count);
                         }
                         else
                         {
@@ -426,22 +384,6 @@ namespace CSSPServices.Tests
                             CheckHelpDocFields(helpDocList);
                             Assert.AreEqual(helpDocDirectQueryList[0].HelpDocID, helpDocList[0].HelpDocID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<HelpDocExtraA> helpDocExtraAList = new List<HelpDocExtraA>();
-                            helpDocExtraAList = helpDocService.GetHelpDocExtraAList().ToList();
-                            CheckHelpDocExtraAFields(helpDocExtraAList);
-                            Assert.AreEqual(helpDocDirectQueryList[0].HelpDocID, helpDocExtraAList[0].HelpDocID);
-                            Assert.AreEqual(helpDocDirectQueryList.Count, helpDocExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<HelpDocExtraB> helpDocExtraBList = new List<HelpDocExtraB>();
-                            helpDocExtraBList = helpDocService.GetHelpDocExtraBList().ToList();
-                            CheckHelpDocExtraBFields(helpDocExtraBList);
-                            Assert.AreEqual(helpDocDirectQueryList[0].HelpDocID, helpDocExtraBList[0].HelpDocID);
-                            Assert.AreEqual(helpDocDirectQueryList.Count, helpDocExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -477,22 +419,6 @@ namespace CSSPServices.Tests
                             helpDocList = helpDocService.GetHelpDocList().ToList();
                             CheckHelpDocFields(helpDocList);
                             Assert.AreEqual(helpDocDirectQueryList[0].HelpDocID, helpDocList[0].HelpDocID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<HelpDocExtraA> helpDocExtraAList = new List<HelpDocExtraA>();
-                            helpDocExtraAList = helpDocService.GetHelpDocExtraAList().ToList();
-                            CheckHelpDocExtraAFields(helpDocExtraAList);
-                            Assert.AreEqual(helpDocDirectQueryList[0].HelpDocID, helpDocExtraAList[0].HelpDocID);
-                            Assert.AreEqual(helpDocDirectQueryList.Count, helpDocExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<HelpDocExtraB> helpDocExtraBList = new List<HelpDocExtraB>();
-                            helpDocExtraBList = helpDocService.GetHelpDocExtraBList().ToList();
-                            CheckHelpDocExtraBFields(helpDocExtraBList);
-                            Assert.AreEqual(helpDocDirectQueryList[0].HelpDocID, helpDocExtraBList[0].HelpDocID);
-                            Assert.AreEqual(helpDocDirectQueryList.Count, helpDocExtraBList.Count);
                         }
                         else
                         {
@@ -530,22 +456,6 @@ namespace CSSPServices.Tests
                             CheckHelpDocFields(helpDocList);
                             Assert.AreEqual(helpDocDirectQueryList[0].HelpDocID, helpDocList[0].HelpDocID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<HelpDocExtraA> helpDocExtraAList = new List<HelpDocExtraA>();
-                            helpDocExtraAList = helpDocService.GetHelpDocExtraAList().ToList();
-                            CheckHelpDocExtraAFields(helpDocExtraAList);
-                            Assert.AreEqual(helpDocDirectQueryList[0].HelpDocID, helpDocExtraAList[0].HelpDocID);
-                            Assert.AreEqual(helpDocDirectQueryList.Count, helpDocExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<HelpDocExtraB> helpDocExtraBList = new List<HelpDocExtraB>();
-                            helpDocExtraBList = helpDocService.GetHelpDocExtraBList().ToList();
-                            CheckHelpDocExtraBFields(helpDocExtraBList);
-                            Assert.AreEqual(helpDocDirectQueryList[0].HelpDocID, helpDocExtraBList[0].HelpDocID);
-                            Assert.AreEqual(helpDocDirectQueryList.Count, helpDocExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -581,22 +491,6 @@ namespace CSSPServices.Tests
                             helpDocList = helpDocService.GetHelpDocList().ToList();
                             CheckHelpDocFields(helpDocList);
                             Assert.AreEqual(helpDocDirectQueryList[0].HelpDocID, helpDocList[0].HelpDocID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<HelpDocExtraA> helpDocExtraAList = new List<HelpDocExtraA>();
-                            helpDocExtraAList = helpDocService.GetHelpDocExtraAList().ToList();
-                            CheckHelpDocExtraAFields(helpDocExtraAList);
-                            Assert.AreEqual(helpDocDirectQueryList[0].HelpDocID, helpDocExtraAList[0].HelpDocID);
-                            Assert.AreEqual(helpDocDirectQueryList.Count, helpDocExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<HelpDocExtraB> helpDocExtraBList = new List<HelpDocExtraB>();
-                            helpDocExtraBList = helpDocService.GetHelpDocExtraBList().ToList();
-                            CheckHelpDocExtraBFields(helpDocExtraBList);
-                            Assert.AreEqual(helpDocDirectQueryList[0].HelpDocID, helpDocExtraBList[0].HelpDocID);
-                            Assert.AreEqual(helpDocDirectQueryList.Count, helpDocExtraBList.Count);
                         }
                         else
                         {
@@ -634,22 +528,6 @@ namespace CSSPServices.Tests
                             CheckHelpDocFields(helpDocList);
                             Assert.AreEqual(helpDocDirectQueryList[0].HelpDocID, helpDocList[0].HelpDocID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<HelpDocExtraA> helpDocExtraAList = new List<HelpDocExtraA>();
-                            helpDocExtraAList = helpDocService.GetHelpDocExtraAList().ToList();
-                            CheckHelpDocExtraAFields(helpDocExtraAList);
-                            Assert.AreEqual(helpDocDirectQueryList[0].HelpDocID, helpDocExtraAList[0].HelpDocID);
-                            Assert.AreEqual(helpDocDirectQueryList.Count, helpDocExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<HelpDocExtraB> helpDocExtraBList = new List<HelpDocExtraB>();
-                            helpDocExtraBList = helpDocService.GetHelpDocExtraBList().ToList();
-                            CheckHelpDocExtraBFields(helpDocExtraBList);
-                            Assert.AreEqual(helpDocDirectQueryList[0].HelpDocID, helpDocExtraBList[0].HelpDocID);
-                            Assert.AreEqual(helpDocDirectQueryList.Count, helpDocExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -685,22 +563,6 @@ namespace CSSPServices.Tests
                             helpDocList = helpDocService.GetHelpDocList().ToList();
                             CheckHelpDocFields(helpDocList);
                             Assert.AreEqual(helpDocDirectQueryList[0].HelpDocID, helpDocList[0].HelpDocID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<HelpDocExtraA> helpDocExtraAList = new List<HelpDocExtraA>();
-                            helpDocExtraAList = helpDocService.GetHelpDocExtraAList().ToList();
-                            CheckHelpDocExtraAFields(helpDocExtraAList);
-                            Assert.AreEqual(helpDocDirectQueryList[0].HelpDocID, helpDocExtraAList[0].HelpDocID);
-                            Assert.AreEqual(helpDocDirectQueryList.Count, helpDocExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<HelpDocExtraB> helpDocExtraBList = new List<HelpDocExtraB>();
-                            helpDocExtraBList = helpDocService.GetHelpDocExtraBList().ToList();
-                            CheckHelpDocExtraBFields(helpDocExtraBList);
-                            Assert.AreEqual(helpDocDirectQueryList[0].HelpDocID, helpDocExtraBList[0].HelpDocID);
-                            Assert.AreEqual(helpDocDirectQueryList.Count, helpDocExtraBList.Count);
                         }
                         else
                         {
@@ -738,22 +600,6 @@ namespace CSSPServices.Tests
                             CheckHelpDocFields(helpDocList);
                             Assert.AreEqual(helpDocDirectQueryList[0].HelpDocID, helpDocList[0].HelpDocID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<HelpDocExtraA> helpDocExtraAList = new List<HelpDocExtraA>();
-                            helpDocExtraAList = helpDocService.GetHelpDocExtraAList().ToList();
-                            CheckHelpDocExtraAFields(helpDocExtraAList);
-                            Assert.AreEqual(helpDocDirectQueryList[0].HelpDocID, helpDocExtraAList[0].HelpDocID);
-                            Assert.AreEqual(helpDocDirectQueryList.Count, helpDocExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<HelpDocExtraB> helpDocExtraBList = new List<HelpDocExtraB>();
-                            helpDocExtraBList = helpDocService.GetHelpDocExtraBList().ToList();
-                            CheckHelpDocExtraBFields(helpDocExtraBList);
-                            Assert.AreEqual(helpDocDirectQueryList[0].HelpDocID, helpDocExtraBList[0].HelpDocID);
-                            Assert.AreEqual(helpDocDirectQueryList.Count, helpDocExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -789,22 +635,6 @@ namespace CSSPServices.Tests
                             helpDocList = helpDocService.GetHelpDocList().ToList();
                             CheckHelpDocFields(helpDocList);
                             Assert.AreEqual(helpDocDirectQueryList[0].HelpDocID, helpDocList[0].HelpDocID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<HelpDocExtraA> helpDocExtraAList = new List<HelpDocExtraA>();
-                            helpDocExtraAList = helpDocService.GetHelpDocExtraAList().ToList();
-                            CheckHelpDocExtraAFields(helpDocExtraAList);
-                            Assert.AreEqual(helpDocDirectQueryList[0].HelpDocID, helpDocExtraAList[0].HelpDocID);
-                            Assert.AreEqual(helpDocDirectQueryList.Count, helpDocExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<HelpDocExtraB> helpDocExtraBList = new List<HelpDocExtraB>();
-                            helpDocExtraBList = helpDocService.GetHelpDocExtraBList().ToList();
-                            CheckHelpDocExtraBFields(helpDocExtraBList);
-                            Assert.AreEqual(helpDocDirectQueryList[0].HelpDocID, helpDocExtraBList[0].HelpDocID);
-                            Assert.AreEqual(helpDocDirectQueryList.Count, helpDocExtraBList.Count);
                         }
                         else
                         {
@@ -842,22 +672,6 @@ namespace CSSPServices.Tests
                             CheckHelpDocFields(helpDocList);
                             Assert.AreEqual(helpDocDirectQueryList[0].HelpDocID, helpDocList[0].HelpDocID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<HelpDocExtraA> helpDocExtraAList = new List<HelpDocExtraA>();
-                            helpDocExtraAList = helpDocService.GetHelpDocExtraAList().ToList();
-                            CheckHelpDocExtraAFields(helpDocExtraAList);
-                            Assert.AreEqual(helpDocDirectQueryList[0].HelpDocID, helpDocExtraAList[0].HelpDocID);
-                            Assert.AreEqual(helpDocDirectQueryList.Count, helpDocExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<HelpDocExtraB> helpDocExtraBList = new List<HelpDocExtraB>();
-                            helpDocExtraBList = helpDocService.GetHelpDocExtraBList().ToList();
-                            CheckHelpDocExtraBFields(helpDocExtraBList);
-                            Assert.AreEqual(helpDocDirectQueryList[0].HelpDocID, helpDocExtraBList[0].HelpDocID);
-                            Assert.AreEqual(helpDocDirectQueryList.Count, helpDocExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -878,32 +692,6 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(helpDocList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(helpDocList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(helpDocList[0].HasErrors);
-        }
-        private void CheckHelpDocExtraAFields(List<HelpDocExtraA> helpDocExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(helpDocExtraAList[0].LastUpdateContactText));
-            Assert.IsNotNull(helpDocExtraAList[0].HelpDocID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(helpDocExtraAList[0].DocKey));
-            Assert.IsNotNull(helpDocExtraAList[0].Language);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(helpDocExtraAList[0].DocHTMLText));
-            Assert.IsNotNull(helpDocExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(helpDocExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(helpDocExtraAList[0].HasErrors);
-        }
-        private void CheckHelpDocExtraBFields(List<HelpDocExtraB> helpDocExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(helpDocExtraBList[0].EmailReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(helpDocExtraBList[0].EmailReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(helpDocExtraBList[0].LastUpdateContactText));
-            Assert.IsNotNull(helpDocExtraBList[0].HelpDocID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(helpDocExtraBList[0].DocKey));
-            Assert.IsNotNull(helpDocExtraBList[0].Language);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(helpDocExtraBList[0].DocHTMLText));
-            Assert.IsNotNull(helpDocExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(helpDocExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(helpDocExtraBList[0].HasErrors);
         }
         private HelpDoc GetFilledRandomHelpDoc(string OmitPropName)
         {

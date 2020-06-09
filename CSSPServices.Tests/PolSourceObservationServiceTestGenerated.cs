@@ -289,18 +289,6 @@ namespace CSSPServices.Tests
                             CheckPolSourceObservationFields(new List<PolSourceObservation>() { polSourceObservationRet });
                             Assert.AreEqual(polSourceObservation.PolSourceObservationID, polSourceObservationRet.PolSourceObservationID);
                         }
-                        else if (extra == "A")
-                        {
-                            PolSourceObservationExtraA polSourceObservationExtraARet = polSourceObservationService.GetPolSourceObservationExtraAWithPolSourceObservationID(polSourceObservation.PolSourceObservationID);
-                            CheckPolSourceObservationExtraAFields(new List<PolSourceObservationExtraA>() { polSourceObservationExtraARet });
-                            Assert.AreEqual(polSourceObservation.PolSourceObservationID, polSourceObservationExtraARet.PolSourceObservationID);
-                        }
-                        else if (extra == "B")
-                        {
-                            PolSourceObservationExtraB polSourceObservationExtraBRet = polSourceObservationService.GetPolSourceObservationExtraBWithPolSourceObservationID(polSourceObservation.PolSourceObservationID);
-                            CheckPolSourceObservationExtraBFields(new List<PolSourceObservationExtraB>() { polSourceObservationExtraBRet });
-                            Assert.AreEqual(polSourceObservation.PolSourceObservationID, polSourceObservationExtraBRet.PolSourceObservationID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -338,20 +326,6 @@ namespace CSSPServices.Tests
                             polSourceObservationList = polSourceObservationService.GetPolSourceObservationList().ToList();
                             CheckPolSourceObservationFields(polSourceObservationList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<PolSourceObservationExtraA> polSourceObservationExtraAList = new List<PolSourceObservationExtraA>();
-                            polSourceObservationExtraAList = polSourceObservationService.GetPolSourceObservationExtraAList().ToList();
-                            CheckPolSourceObservationExtraAFields(polSourceObservationExtraAList);
-                            Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<PolSourceObservationExtraB> polSourceObservationExtraBList = new List<PolSourceObservationExtraB>();
-                            polSourceObservationExtraBList = polSourceObservationService.GetPolSourceObservationExtraBList().ToList();
-                            CheckPolSourceObservationExtraBFields(polSourceObservationExtraBList);
-                            Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -387,22 +361,6 @@ namespace CSSPServices.Tests
                             polSourceObservationList = polSourceObservationService.GetPolSourceObservationList().ToList();
                             CheckPolSourceObservationFields(polSourceObservationList);
                             Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationList[0].PolSourceObservationID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<PolSourceObservationExtraA> polSourceObservationExtraAList = new List<PolSourceObservationExtraA>();
-                            polSourceObservationExtraAList = polSourceObservationService.GetPolSourceObservationExtraAList().ToList();
-                            CheckPolSourceObservationExtraAFields(polSourceObservationExtraAList);
-                            Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraAList[0].PolSourceObservationID);
-                            Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<PolSourceObservationExtraB> polSourceObservationExtraBList = new List<PolSourceObservationExtraB>();
-                            polSourceObservationExtraBList = polSourceObservationService.GetPolSourceObservationExtraBList().ToList();
-                            CheckPolSourceObservationExtraBFields(polSourceObservationExtraBList);
-                            Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraBList[0].PolSourceObservationID);
-                            Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraBList.Count);
                         }
                         else
                         {
@@ -440,22 +398,6 @@ namespace CSSPServices.Tests
                             CheckPolSourceObservationFields(polSourceObservationList);
                             Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationList[0].PolSourceObservationID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<PolSourceObservationExtraA> polSourceObservationExtraAList = new List<PolSourceObservationExtraA>();
-                            polSourceObservationExtraAList = polSourceObservationService.GetPolSourceObservationExtraAList().ToList();
-                            CheckPolSourceObservationExtraAFields(polSourceObservationExtraAList);
-                            Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraAList[0].PolSourceObservationID);
-                            Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<PolSourceObservationExtraB> polSourceObservationExtraBList = new List<PolSourceObservationExtraB>();
-                            polSourceObservationExtraBList = polSourceObservationService.GetPolSourceObservationExtraBList().ToList();
-                            CheckPolSourceObservationExtraBFields(polSourceObservationExtraBList);
-                            Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraBList[0].PolSourceObservationID);
-                            Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -491,22 +433,6 @@ namespace CSSPServices.Tests
                             polSourceObservationList = polSourceObservationService.GetPolSourceObservationList().ToList();
                             CheckPolSourceObservationFields(polSourceObservationList);
                             Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationList[0].PolSourceObservationID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<PolSourceObservationExtraA> polSourceObservationExtraAList = new List<PolSourceObservationExtraA>();
-                            polSourceObservationExtraAList = polSourceObservationService.GetPolSourceObservationExtraAList().ToList();
-                            CheckPolSourceObservationExtraAFields(polSourceObservationExtraAList);
-                            Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraAList[0].PolSourceObservationID);
-                            Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<PolSourceObservationExtraB> polSourceObservationExtraBList = new List<PolSourceObservationExtraB>();
-                            polSourceObservationExtraBList = polSourceObservationService.GetPolSourceObservationExtraBList().ToList();
-                            CheckPolSourceObservationExtraBFields(polSourceObservationExtraBList);
-                            Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraBList[0].PolSourceObservationID);
-                            Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraBList.Count);
                         }
                         else
                         {
@@ -544,22 +470,6 @@ namespace CSSPServices.Tests
                             CheckPolSourceObservationFields(polSourceObservationList);
                             Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationList[0].PolSourceObservationID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<PolSourceObservationExtraA> polSourceObservationExtraAList = new List<PolSourceObservationExtraA>();
-                            polSourceObservationExtraAList = polSourceObservationService.GetPolSourceObservationExtraAList().ToList();
-                            CheckPolSourceObservationExtraAFields(polSourceObservationExtraAList);
-                            Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraAList[0].PolSourceObservationID);
-                            Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<PolSourceObservationExtraB> polSourceObservationExtraBList = new List<PolSourceObservationExtraB>();
-                            polSourceObservationExtraBList = polSourceObservationService.GetPolSourceObservationExtraBList().ToList();
-                            CheckPolSourceObservationExtraBFields(polSourceObservationExtraBList);
-                            Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraBList[0].PolSourceObservationID);
-                            Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -595,22 +505,6 @@ namespace CSSPServices.Tests
                             polSourceObservationList = polSourceObservationService.GetPolSourceObservationList().ToList();
                             CheckPolSourceObservationFields(polSourceObservationList);
                             Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationList[0].PolSourceObservationID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<PolSourceObservationExtraA> polSourceObservationExtraAList = new List<PolSourceObservationExtraA>();
-                            polSourceObservationExtraAList = polSourceObservationService.GetPolSourceObservationExtraAList().ToList();
-                            CheckPolSourceObservationExtraAFields(polSourceObservationExtraAList);
-                            Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraAList[0].PolSourceObservationID);
-                            Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<PolSourceObservationExtraB> polSourceObservationExtraBList = new List<PolSourceObservationExtraB>();
-                            polSourceObservationExtraBList = polSourceObservationService.GetPolSourceObservationExtraBList().ToList();
-                            CheckPolSourceObservationExtraBFields(polSourceObservationExtraBList);
-                            Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraBList[0].PolSourceObservationID);
-                            Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraBList.Count);
                         }
                         else
                         {
@@ -648,22 +542,6 @@ namespace CSSPServices.Tests
                             CheckPolSourceObservationFields(polSourceObservationList);
                             Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationList[0].PolSourceObservationID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<PolSourceObservationExtraA> polSourceObservationExtraAList = new List<PolSourceObservationExtraA>();
-                            polSourceObservationExtraAList = polSourceObservationService.GetPolSourceObservationExtraAList().ToList();
-                            CheckPolSourceObservationExtraAFields(polSourceObservationExtraAList);
-                            Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraAList[0].PolSourceObservationID);
-                            Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<PolSourceObservationExtraB> polSourceObservationExtraBList = new List<PolSourceObservationExtraB>();
-                            polSourceObservationExtraBList = polSourceObservationService.GetPolSourceObservationExtraBList().ToList();
-                            CheckPolSourceObservationExtraBFields(polSourceObservationExtraBList);
-                            Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraBList[0].PolSourceObservationID);
-                            Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -699,22 +577,6 @@ namespace CSSPServices.Tests
                             polSourceObservationList = polSourceObservationService.GetPolSourceObservationList().ToList();
                             CheckPolSourceObservationFields(polSourceObservationList);
                             Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationList[0].PolSourceObservationID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<PolSourceObservationExtraA> polSourceObservationExtraAList = new List<PolSourceObservationExtraA>();
-                            polSourceObservationExtraAList = polSourceObservationService.GetPolSourceObservationExtraAList().ToList();
-                            CheckPolSourceObservationExtraAFields(polSourceObservationExtraAList);
-                            Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraAList[0].PolSourceObservationID);
-                            Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<PolSourceObservationExtraB> polSourceObservationExtraBList = new List<PolSourceObservationExtraB>();
-                            polSourceObservationExtraBList = polSourceObservationService.GetPolSourceObservationExtraBList().ToList();
-                            CheckPolSourceObservationExtraBFields(polSourceObservationExtraBList);
-                            Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraBList[0].PolSourceObservationID);
-                            Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraBList.Count);
                         }
                         else
                         {
@@ -752,22 +614,6 @@ namespace CSSPServices.Tests
                             CheckPolSourceObservationFields(polSourceObservationList);
                             Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationList[0].PolSourceObservationID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<PolSourceObservationExtraA> polSourceObservationExtraAList = new List<PolSourceObservationExtraA>();
-                            polSourceObservationExtraAList = polSourceObservationService.GetPolSourceObservationExtraAList().ToList();
-                            CheckPolSourceObservationExtraAFields(polSourceObservationExtraAList);
-                            Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraAList[0].PolSourceObservationID);
-                            Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<PolSourceObservationExtraB> polSourceObservationExtraBList = new List<PolSourceObservationExtraB>();
-                            polSourceObservationExtraBList = polSourceObservationService.GetPolSourceObservationExtraBList().ToList();
-                            CheckPolSourceObservationExtraBFields(polSourceObservationExtraBList);
-                            Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraBList[0].PolSourceObservationID);
-                            Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -803,22 +649,6 @@ namespace CSSPServices.Tests
                             polSourceObservationList = polSourceObservationService.GetPolSourceObservationList().ToList();
                             CheckPolSourceObservationFields(polSourceObservationList);
                             Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationList[0].PolSourceObservationID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<PolSourceObservationExtraA> polSourceObservationExtraAList = new List<PolSourceObservationExtraA>();
-                            polSourceObservationExtraAList = polSourceObservationService.GetPolSourceObservationExtraAList().ToList();
-                            CheckPolSourceObservationExtraAFields(polSourceObservationExtraAList);
-                            Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraAList[0].PolSourceObservationID);
-                            Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<PolSourceObservationExtraB> polSourceObservationExtraBList = new List<PolSourceObservationExtraB>();
-                            polSourceObservationExtraBList = polSourceObservationService.GetPolSourceObservationExtraBList().ToList();
-                            CheckPolSourceObservationExtraBFields(polSourceObservationExtraBList);
-                            Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraBList[0].PolSourceObservationID);
-                            Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraBList.Count);
                         }
                         else
                         {
@@ -856,22 +686,6 @@ namespace CSSPServices.Tests
                             CheckPolSourceObservationFields(polSourceObservationList);
                             Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationList[0].PolSourceObservationID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<PolSourceObservationExtraA> polSourceObservationExtraAList = new List<PolSourceObservationExtraA>();
-                            polSourceObservationExtraAList = polSourceObservationService.GetPolSourceObservationExtraAList().ToList();
-                            CheckPolSourceObservationExtraAFields(polSourceObservationExtraAList);
-                            Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraAList[0].PolSourceObservationID);
-                            Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<PolSourceObservationExtraB> polSourceObservationExtraBList = new List<PolSourceObservationExtraB>();
-                            polSourceObservationExtraBList = polSourceObservationService.GetPolSourceObservationExtraBList().ToList();
-                            CheckPolSourceObservationExtraBFields(polSourceObservationExtraBList);
-                            Assert.AreEqual(polSourceObservationDirectQueryList[0].PolSourceObservationID, polSourceObservationExtraBList[0].PolSourceObservationID);
-                            Assert.AreEqual(polSourceObservationDirectQueryList.Count, polSourceObservationExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -894,40 +708,6 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(polSourceObservationList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(polSourceObservationList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(polSourceObservationList[0].HasErrors);
-        }
-        private void CheckPolSourceObservationExtraAFields(List<PolSourceObservationExtraA> polSourceObservationExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationExtraAList[0].PolSourceSiteText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationExtraAList[0].ContactName));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationExtraAList[0].LastUpdateContactText));
-            Assert.IsNotNull(polSourceObservationExtraAList[0].PolSourceObservationID);
-            Assert.IsNotNull(polSourceObservationExtraAList[0].PolSourceSiteID);
-            Assert.IsNotNull(polSourceObservationExtraAList[0].ObservationDate_Local);
-            Assert.IsNotNull(polSourceObservationExtraAList[0].ContactTVItemID);
-            Assert.IsNotNull(polSourceObservationExtraAList[0].DesktopReviewed);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationExtraAList[0].Observation_ToBeDeleted));
-            Assert.IsNotNull(polSourceObservationExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(polSourceObservationExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(polSourceObservationExtraAList[0].HasErrors);
-        }
-        private void CheckPolSourceObservationExtraBFields(List<PolSourceObservationExtraB> polSourceObservationExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(polSourceObservationExtraBList[0].PolSourceObservationReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationExtraBList[0].PolSourceObservationReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationExtraBList[0].PolSourceSiteText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationExtraBList[0].ContactName));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationExtraBList[0].LastUpdateContactText));
-            Assert.IsNotNull(polSourceObservationExtraBList[0].PolSourceObservationID);
-            Assert.IsNotNull(polSourceObservationExtraBList[0].PolSourceSiteID);
-            Assert.IsNotNull(polSourceObservationExtraBList[0].ObservationDate_Local);
-            Assert.IsNotNull(polSourceObservationExtraBList[0].ContactTVItemID);
-            Assert.IsNotNull(polSourceObservationExtraBList[0].DesktopReviewed);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationExtraBList[0].Observation_ToBeDeleted));
-            Assert.IsNotNull(polSourceObservationExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(polSourceObservationExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(polSourceObservationExtraBList[0].HasErrors);
         }
         private PolSourceObservation GetFilledRandomPolSourceObservation(string OmitPropName)
         {

@@ -169,32 +169,6 @@ namespace CSSPServices
 
             return TideLocationQuery;
         }
-        public TideLocationExtraA GetTideLocationExtraAWithTideLocationID(int TideLocationID)
-        {
-            return FillTideLocationExtraA().Where(c => c.TideLocationID == TideLocationID).FirstOrDefault();
-
-        }
-        public IQueryable<TideLocationExtraA> GetTideLocationExtraAList()
-        {
-            IQueryable<TideLocationExtraA> TideLocationExtraAQuery = FillTideLocationExtraA();
-
-            TideLocationExtraAQuery = EnhanceQueryStatements<TideLocationExtraA>(TideLocationExtraAQuery) as IQueryable<TideLocationExtraA>;
-
-            return TideLocationExtraAQuery;
-        }
-        public TideLocationExtraB GetTideLocationExtraBWithTideLocationID(int TideLocationID)
-        {
-            return FillTideLocationExtraB().Where(c => c.TideLocationID == TideLocationID).FirstOrDefault();
-
-        }
-        public IQueryable<TideLocationExtraB> GetTideLocationExtraBList()
-        {
-            IQueryable<TideLocationExtraB> TideLocationExtraBQuery = FillTideLocationExtraB();
-
-            TideLocationExtraBQuery = EnhanceQueryStatements<TideLocationExtraB>(TideLocationExtraBQuery) as IQueryable<TideLocationExtraB>;
-
-            return TideLocationExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

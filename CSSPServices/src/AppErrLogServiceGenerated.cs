@@ -169,58 +169,6 @@ namespace CSSPServices
 
             return AppErrLogQuery;
         }
-        public AppErrLogExtraA GetAppErrLogExtraAWithAppErrLogID(int AppErrLogID)
-        {
-            return FillAppErrLogExtraA().Where(c => c.AppErrLogID == AppErrLogID).FirstOrDefault();
-
-        }
-        public IQueryable<AppErrLogExtraA> GetAppErrLogExtraAList()
-        {
-            IQueryable<AppErrLogExtraA> AppErrLogExtraAQuery = FillAppErrLogExtraA();
-
-            AppErrLogExtraAQuery = EnhanceQueryStatements<AppErrLogExtraA>(AppErrLogExtraAQuery) as IQueryable<AppErrLogExtraA>;
-
-            return AppErrLogExtraAQuery;
-        }
-        public AppErrLogExtraB GetAppErrLogExtraBWithAppErrLogID(int AppErrLogID)
-        {
-            return FillAppErrLogExtraB().Where(c => c.AppErrLogID == AppErrLogID).FirstOrDefault();
-
-        }
-        public IQueryable<AppErrLogExtraB> GetAppErrLogExtraBList()
-        {
-            IQueryable<AppErrLogExtraB> AppErrLogExtraBQuery = FillAppErrLogExtraB();
-
-            AppErrLogExtraBQuery = EnhanceQueryStatements<AppErrLogExtraB>(AppErrLogExtraBQuery) as IQueryable<AppErrLogExtraB>;
-
-            return AppErrLogExtraBQuery;
-        }
-        public AppErrLogExtraC GetAppErrLogExtraCWithAppErrLogID(int AppErrLogID)
-        {
-            return FillAppErrLogExtraC().Where(c => c.AppErrLogID == AppErrLogID).FirstOrDefault();
-
-        }
-        public IQueryable<AppErrLogExtraC> GetAppErrLogExtraCList()
-        {
-            IQueryable<AppErrLogExtraC> AppErrLogExtraCQuery = FillAppErrLogExtraC();
-
-            AppErrLogExtraCQuery = EnhanceQueryStatements<AppErrLogExtraC>(AppErrLogExtraCQuery) as IQueryable<AppErrLogExtraC>;
-
-            return AppErrLogExtraCQuery;
-        }
-        public AppErrLogExtraD GetAppErrLogExtraDWithAppErrLogID(int AppErrLogID)
-        {
-            return FillAppErrLogExtraD().Where(c => c.AppErrLogID == AppErrLogID).FirstOrDefault();
-
-        }
-        public IQueryable<AppErrLogExtraD> GetAppErrLogExtraDList()
-        {
-            IQueryable<AppErrLogExtraD> AppErrLogExtraDQuery = FillAppErrLogExtraD();
-
-            AppErrLogExtraDQuery = EnhanceQueryStatements<AppErrLogExtraD>(AppErrLogExtraDQuery) as IQueryable<AppErrLogExtraD>;
-
-            return AppErrLogExtraDQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

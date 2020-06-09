@@ -165,32 +165,6 @@ namespace CSSPServices
 
             return VPResultQuery;
         }
-        public VPResultExtraA GetVPResultExtraAWithVPResultID(int VPResultID)
-        {
-            return FillVPResultExtraA().Where(c => c.VPResultID == VPResultID).FirstOrDefault();
-
-        }
-        public IQueryable<VPResultExtraA> GetVPResultExtraAList()
-        {
-            IQueryable<VPResultExtraA> VPResultExtraAQuery = FillVPResultExtraA();
-
-            VPResultExtraAQuery = EnhanceQueryStatements<VPResultExtraA>(VPResultExtraAQuery) as IQueryable<VPResultExtraA>;
-
-            return VPResultExtraAQuery;
-        }
-        public VPResultExtraB GetVPResultExtraBWithVPResultID(int VPResultID)
-        {
-            return FillVPResultExtraB().Where(c => c.VPResultID == VPResultID).FirstOrDefault();
-
-        }
-        public IQueryable<VPResultExtraB> GetVPResultExtraBList()
-        {
-            IQueryable<VPResultExtraB> VPResultExtraBQuery = FillVPResultExtraB();
-
-            VPResultExtraBQuery = EnhanceQueryStatements<VPResultExtraB>(VPResultExtraBQuery) as IQueryable<VPResultExtraB>;
-
-            return VPResultExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

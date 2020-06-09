@@ -69,10 +69,10 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "DrogueRun", "DrogueRunID", drogueRunPosition.DrogueRunID.ToString()), new[] { "DrogueRunID" });
             }
 
-            if (drogueRunPosition.Ordinal < 0)
+            if (drogueRunPosition.Ordinal < 0 || drogueRunPosition.Ordinal > 100000)
             {
                 drogueRunPosition.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "Ordinal", "0"), new[] { "Ordinal" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "Ordinal", "0", "100000"), new[] { "Ordinal" });
             }
 
             if (drogueRunPosition.StepLat < -180 || drogueRunPosition.StepLat > 180)
@@ -172,32 +172,6 @@ namespace CSSPServices
             DrogueRunPositionQuery = EnhanceQueryStatements<DrogueRunPosition>(DrogueRunPositionQuery) as IQueryable<DrogueRunPosition>;
 
             return DrogueRunPositionQuery;
-        }
-        public DrogueRunPositionExtraA GetDrogueRunPositionExtraAWithDrogueRunPositionID(int DrogueRunPositionID)
-        {
-            return FillDrogueRunPositionExtraA().Where(c => c.DrogueRunPositionID == DrogueRunPositionID).FirstOrDefault();
-
-        }
-        public IQueryable<DrogueRunPositionExtraA> GetDrogueRunPositionExtraAList()
-        {
-            IQueryable<DrogueRunPositionExtraA> DrogueRunPositionExtraAQuery = FillDrogueRunPositionExtraA();
-
-            DrogueRunPositionExtraAQuery = EnhanceQueryStatements<DrogueRunPositionExtraA>(DrogueRunPositionExtraAQuery) as IQueryable<DrogueRunPositionExtraA>;
-
-            return DrogueRunPositionExtraAQuery;
-        }
-        public DrogueRunPositionExtraB GetDrogueRunPositionExtraBWithDrogueRunPositionID(int DrogueRunPositionID)
-        {
-            return FillDrogueRunPositionExtraB().Where(c => c.DrogueRunPositionID == DrogueRunPositionID).FirstOrDefault();
-
-        }
-        public IQueryable<DrogueRunPositionExtraB> GetDrogueRunPositionExtraBList()
-        {
-            IQueryable<DrogueRunPositionExtraB> DrogueRunPositionExtraBQuery = FillDrogueRunPositionExtraB();
-
-            DrogueRunPositionExtraBQuery = EnhanceQueryStatements<DrogueRunPositionExtraB>(DrogueRunPositionExtraBQuery) as IQueryable<DrogueRunPositionExtraB>;
-
-            return DrogueRunPositionExtraBQuery;
         }
         #endregion Functions public Generated Get
 

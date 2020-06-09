@@ -311,18 +311,6 @@ namespace CSSPServices.Tests
                             CheckSpillFields(new List<Spill>() { spillRet });
                             Assert.AreEqual(spill.SpillID, spillRet.SpillID);
                         }
-                        else if (extra == "A")
-                        {
-                            SpillExtraA spillExtraARet = spillService.GetSpillExtraAWithSpillID(spill.SpillID);
-                            CheckSpillExtraAFields(new List<SpillExtraA>() { spillExtraARet });
-                            Assert.AreEqual(spill.SpillID, spillExtraARet.SpillID);
-                        }
-                        else if (extra == "B")
-                        {
-                            SpillExtraB spillExtraBRet = spillService.GetSpillExtraBWithSpillID(spill.SpillID);
-                            CheckSpillExtraBFields(new List<SpillExtraB>() { spillExtraBRet });
-                            Assert.AreEqual(spill.SpillID, spillExtraBRet.SpillID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -360,20 +348,6 @@ namespace CSSPServices.Tests
                             spillList = spillService.GetSpillList().ToList();
                             CheckSpillFields(spillList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<SpillExtraA> spillExtraAList = new List<SpillExtraA>();
-                            spillExtraAList = spillService.GetSpillExtraAList().ToList();
-                            CheckSpillExtraAFields(spillExtraAList);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<SpillExtraB> spillExtraBList = new List<SpillExtraB>();
-                            spillExtraBList = spillService.GetSpillExtraBList().ToList();
-                            CheckSpillExtraBFields(spillExtraBList);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -409,22 +383,6 @@ namespace CSSPServices.Tests
                             spillList = spillService.GetSpillList().ToList();
                             CheckSpillFields(spillList);
                             Assert.AreEqual(spillDirectQueryList[0].SpillID, spillList[0].SpillID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<SpillExtraA> spillExtraAList = new List<SpillExtraA>();
-                            spillExtraAList = spillService.GetSpillExtraAList().ToList();
-                            CheckSpillExtraAFields(spillExtraAList);
-                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spillExtraAList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<SpillExtraB> spillExtraBList = new List<SpillExtraB>();
-                            spillExtraBList = spillService.GetSpillExtraBList().ToList();
-                            CheckSpillExtraBFields(spillExtraBList);
-                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spillExtraBList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillExtraBList.Count);
                         }
                         else
                         {
@@ -462,22 +420,6 @@ namespace CSSPServices.Tests
                             CheckSpillFields(spillList);
                             Assert.AreEqual(spillDirectQueryList[0].SpillID, spillList[0].SpillID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<SpillExtraA> spillExtraAList = new List<SpillExtraA>();
-                            spillExtraAList = spillService.GetSpillExtraAList().ToList();
-                            CheckSpillExtraAFields(spillExtraAList);
-                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spillExtraAList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<SpillExtraB> spillExtraBList = new List<SpillExtraB>();
-                            spillExtraBList = spillService.GetSpillExtraBList().ToList();
-                            CheckSpillExtraBFields(spillExtraBList);
-                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spillExtraBList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -513,22 +455,6 @@ namespace CSSPServices.Tests
                             spillList = spillService.GetSpillList().ToList();
                             CheckSpillFields(spillList);
                             Assert.AreEqual(spillDirectQueryList[0].SpillID, spillList[0].SpillID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<SpillExtraA> spillExtraAList = new List<SpillExtraA>();
-                            spillExtraAList = spillService.GetSpillExtraAList().ToList();
-                            CheckSpillExtraAFields(spillExtraAList);
-                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spillExtraAList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<SpillExtraB> spillExtraBList = new List<SpillExtraB>();
-                            spillExtraBList = spillService.GetSpillExtraBList().ToList();
-                            CheckSpillExtraBFields(spillExtraBList);
-                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spillExtraBList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillExtraBList.Count);
                         }
                         else
                         {
@@ -566,22 +492,6 @@ namespace CSSPServices.Tests
                             CheckSpillFields(spillList);
                             Assert.AreEqual(spillDirectQueryList[0].SpillID, spillList[0].SpillID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<SpillExtraA> spillExtraAList = new List<SpillExtraA>();
-                            spillExtraAList = spillService.GetSpillExtraAList().ToList();
-                            CheckSpillExtraAFields(spillExtraAList);
-                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spillExtraAList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<SpillExtraB> spillExtraBList = new List<SpillExtraB>();
-                            spillExtraBList = spillService.GetSpillExtraBList().ToList();
-                            CheckSpillExtraBFields(spillExtraBList);
-                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spillExtraBList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -617,22 +527,6 @@ namespace CSSPServices.Tests
                             spillList = spillService.GetSpillList().ToList();
                             CheckSpillFields(spillList);
                             Assert.AreEqual(spillDirectQueryList[0].SpillID, spillList[0].SpillID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<SpillExtraA> spillExtraAList = new List<SpillExtraA>();
-                            spillExtraAList = spillService.GetSpillExtraAList().ToList();
-                            CheckSpillExtraAFields(spillExtraAList);
-                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spillExtraAList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<SpillExtraB> spillExtraBList = new List<SpillExtraB>();
-                            spillExtraBList = spillService.GetSpillExtraBList().ToList();
-                            CheckSpillExtraBFields(spillExtraBList);
-                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spillExtraBList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillExtraBList.Count);
                         }
                         else
                         {
@@ -670,22 +564,6 @@ namespace CSSPServices.Tests
                             CheckSpillFields(spillList);
                             Assert.AreEqual(spillDirectQueryList[0].SpillID, spillList[0].SpillID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<SpillExtraA> spillExtraAList = new List<SpillExtraA>();
-                            spillExtraAList = spillService.GetSpillExtraAList().ToList();
-                            CheckSpillExtraAFields(spillExtraAList);
-                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spillExtraAList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<SpillExtraB> spillExtraBList = new List<SpillExtraB>();
-                            spillExtraBList = spillService.GetSpillExtraBList().ToList();
-                            CheckSpillExtraBFields(spillExtraBList);
-                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spillExtraBList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -721,22 +599,6 @@ namespace CSSPServices.Tests
                             spillList = spillService.GetSpillList().ToList();
                             CheckSpillFields(spillList);
                             Assert.AreEqual(spillDirectQueryList[0].SpillID, spillList[0].SpillID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<SpillExtraA> spillExtraAList = new List<SpillExtraA>();
-                            spillExtraAList = spillService.GetSpillExtraAList().ToList();
-                            CheckSpillExtraAFields(spillExtraAList);
-                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spillExtraAList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<SpillExtraB> spillExtraBList = new List<SpillExtraB>();
-                            spillExtraBList = spillService.GetSpillExtraBList().ToList();
-                            CheckSpillExtraBFields(spillExtraBList);
-                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spillExtraBList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillExtraBList.Count);
                         }
                         else
                         {
@@ -774,22 +636,6 @@ namespace CSSPServices.Tests
                             CheckSpillFields(spillList);
                             Assert.AreEqual(spillDirectQueryList[0].SpillID, spillList[0].SpillID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<SpillExtraA> spillExtraAList = new List<SpillExtraA>();
-                            spillExtraAList = spillService.GetSpillExtraAList().ToList();
-                            CheckSpillExtraAFields(spillExtraAList);
-                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spillExtraAList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<SpillExtraB> spillExtraBList = new List<SpillExtraB>();
-                            spillExtraBList = spillService.GetSpillExtraBList().ToList();
-                            CheckSpillExtraBFields(spillExtraBList);
-                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spillExtraBList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -825,22 +671,6 @@ namespace CSSPServices.Tests
                             spillList = spillService.GetSpillList().ToList();
                             CheckSpillFields(spillList);
                             Assert.AreEqual(spillDirectQueryList[0].SpillID, spillList[0].SpillID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<SpillExtraA> spillExtraAList = new List<SpillExtraA>();
-                            spillExtraAList = spillService.GetSpillExtraAList().ToList();
-                            CheckSpillExtraAFields(spillExtraAList);
-                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spillExtraAList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<SpillExtraB> spillExtraBList = new List<SpillExtraB>();
-                            spillExtraBList = spillService.GetSpillExtraBList().ToList();
-                            CheckSpillExtraBFields(spillExtraBList);
-                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spillExtraBList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillExtraBList.Count);
                         }
                         else
                         {
@@ -878,22 +708,6 @@ namespace CSSPServices.Tests
                             CheckSpillFields(spillList);
                             Assert.AreEqual(spillDirectQueryList[0].SpillID, spillList[0].SpillID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<SpillExtraA> spillExtraAList = new List<SpillExtraA>();
-                            spillExtraAList = spillService.GetSpillExtraAList().ToList();
-                            CheckSpillExtraAFields(spillExtraAList);
-                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spillExtraAList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<SpillExtraB> spillExtraBList = new List<SpillExtraB>();
-                            spillExtraBList = spillService.GetSpillExtraBList().ToList();
-                            CheckSpillExtraBFields(spillExtraBList);
-                            Assert.AreEqual(spillDirectQueryList[0].SpillID, spillExtraBList[0].SpillID);
-                            Assert.AreEqual(spillDirectQueryList.Count, spillExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -923,58 +737,12 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(spillList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(spillList[0].HasErrors);
         }
-        private void CheckSpillExtraAFields(List<SpillExtraA> spillExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(spillExtraAList[0].MunicipalityText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(spillExtraAList[0].InfrastructureText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(spillExtraAList[0].LastUpdateContactText));
-            Assert.IsNotNull(spillExtraAList[0].SpillID);
-            Assert.IsNotNull(spillExtraAList[0].MunicipalityTVItemID);
-            if (spillExtraAList[0].InfrastructureTVItemID != null)
-            {
-                Assert.IsNotNull(spillExtraAList[0].InfrastructureTVItemID);
-            }
-            Assert.IsNotNull(spillExtraAList[0].StartDateTime_Local);
-            if (spillExtraAList[0].EndDateTime_Local != null)
-            {
-                Assert.IsNotNull(spillExtraAList[0].EndDateTime_Local);
-            }
-            Assert.IsNotNull(spillExtraAList[0].AverageFlow_m3_day);
-            Assert.IsNotNull(spillExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(spillExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(spillExtraAList[0].HasErrors);
-        }
-        private void CheckSpillExtraBFields(List<SpillExtraB> spillExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(spillExtraBList[0].SpillReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(spillExtraBList[0].SpillReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(spillExtraBList[0].MunicipalityText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(spillExtraBList[0].InfrastructureText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(spillExtraBList[0].LastUpdateContactText));
-            Assert.IsNotNull(spillExtraBList[0].SpillID);
-            Assert.IsNotNull(spillExtraBList[0].MunicipalityTVItemID);
-            if (spillExtraBList[0].InfrastructureTVItemID != null)
-            {
-                Assert.IsNotNull(spillExtraBList[0].InfrastructureTVItemID);
-            }
-            Assert.IsNotNull(spillExtraBList[0].StartDateTime_Local);
-            if (spillExtraBList[0].EndDateTime_Local != null)
-            {
-                Assert.IsNotNull(spillExtraBList[0].EndDateTime_Local);
-            }
-            Assert.IsNotNull(spillExtraBList[0].AverageFlow_m3_day);
-            Assert.IsNotNull(spillExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(spillExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(spillExtraBList[0].HasErrors);
-        }
         private Spill GetFilledRandomSpill(string OmitPropName)
         {
             Spill spill = new Spill();
 
-            if (OmitPropName != "MunicipalityTVItemID") spill.MunicipalityTVItemID = 38;
-            if (OmitPropName != "InfrastructureTVItemID") spill.InfrastructureTVItemID = 40;
+            if (OmitPropName != "MunicipalityTVItemID") spill.MunicipalityTVItemID = 39;
+            if (OmitPropName != "InfrastructureTVItemID") spill.InfrastructureTVItemID = 41;
             if (OmitPropName != "StartDateTime_Local") spill.StartDateTime_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "EndDateTime_Local") spill.EndDateTime_Local = new DateTime(2005, 3, 7);
             if (OmitPropName != "AverageFlow_m3_day") spill.AverageFlow_m3_day = GetRandomDouble(0.0D, 1000000.0D);

@@ -163,32 +163,6 @@ namespace CSSPServices
 
             return EmailDistributionListContactQuery;
         }
-        public EmailDistributionListContactExtraA GetEmailDistributionListContactExtraAWithEmailDistributionListContactID(int EmailDistributionListContactID)
-        {
-            return FillEmailDistributionListContactExtraA().Where(c => c.EmailDistributionListContactID == EmailDistributionListContactID).FirstOrDefault();
-
-        }
-        public IQueryable<EmailDistributionListContactExtraA> GetEmailDistributionListContactExtraAList()
-        {
-            IQueryable<EmailDistributionListContactExtraA> EmailDistributionListContactExtraAQuery = FillEmailDistributionListContactExtraA();
-
-            EmailDistributionListContactExtraAQuery = EnhanceQueryStatements<EmailDistributionListContactExtraA>(EmailDistributionListContactExtraAQuery) as IQueryable<EmailDistributionListContactExtraA>;
-
-            return EmailDistributionListContactExtraAQuery;
-        }
-        public EmailDistributionListContactExtraB GetEmailDistributionListContactExtraBWithEmailDistributionListContactID(int EmailDistributionListContactID)
-        {
-            return FillEmailDistributionListContactExtraB().Where(c => c.EmailDistributionListContactID == EmailDistributionListContactID).FirstOrDefault();
-
-        }
-        public IQueryable<EmailDistributionListContactExtraB> GetEmailDistributionListContactExtraBList()
-        {
-            IQueryable<EmailDistributionListContactExtraB> EmailDistributionListContactExtraBQuery = FillEmailDistributionListContactExtraB();
-
-            EmailDistributionListContactExtraBQuery = EnhanceQueryStatements<EmailDistributionListContactExtraB>(EmailDistributionListContactExtraBQuery) as IQueryable<EmailDistributionListContactExtraB>;
-
-            return EmailDistributionListContactExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

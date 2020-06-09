@@ -154,32 +154,6 @@ namespace CSSPServices
 
             return ClassificationQuery;
         }
-        public ClassificationExtraA GetClassificationExtraAWithClassificationID(int ClassificationID)
-        {
-            return FillClassificationExtraA().Where(c => c.ClassificationID == ClassificationID).FirstOrDefault();
-
-        }
-        public IQueryable<ClassificationExtraA> GetClassificationExtraAList()
-        {
-            IQueryable<ClassificationExtraA> ClassificationExtraAQuery = FillClassificationExtraA();
-
-            ClassificationExtraAQuery = EnhanceQueryStatements<ClassificationExtraA>(ClassificationExtraAQuery) as IQueryable<ClassificationExtraA>;
-
-            return ClassificationExtraAQuery;
-        }
-        public ClassificationExtraB GetClassificationExtraBWithClassificationID(int ClassificationID)
-        {
-            return FillClassificationExtraB().Where(c => c.ClassificationID == ClassificationID).FirstOrDefault();
-
-        }
-        public IQueryable<ClassificationExtraB> GetClassificationExtraBList()
-        {
-            IQueryable<ClassificationExtraB> ClassificationExtraBQuery = FillClassificationExtraB();
-
-            ClassificationExtraBQuery = EnhanceQueryStatements<ClassificationExtraB>(ClassificationExtraBQuery) as IQueryable<ClassificationExtraB>;
-
-            return ClassificationExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

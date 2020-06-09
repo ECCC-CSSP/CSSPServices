@@ -87,6 +87,34 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "UniqueCode", "100"), new[] { "UniqueCode" });
             }
 
+            if (reportType.Language != null)
+            {
+                retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)reportType.Language);
+                if (reportType.Language == null || !string.IsNullOrWhiteSpace(retStr))
+                {
+                    reportType.HasErrors = true;
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "Language"), new[] { "Language" });
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(reportType.Name) && reportType.Name.Length > 100)
+            {
+                reportType.HasErrors = true;
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "Name", "100"), new[] { "Name" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(reportType.Description) && reportType.Description.Length > 1000)
+            {
+                reportType.HasErrors = true;
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "Description", "1000"), new[] { "Description" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(reportType.StartOfFileName) && reportType.StartOfFileName.Length > 100)
+            {
+                reportType.HasErrors = true;
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "StartOfFileName", "100"), new[] { "StartOfFileName" });
+            }
+
             if (reportType.LastUpdateDate_UTC.Year == 1)
             {
                 reportType.HasErrors = true;
@@ -146,32 +174,6 @@ namespace CSSPServices
             ReportTypeQuery = EnhanceQueryStatements<ReportType>(ReportTypeQuery) as IQueryable<ReportType>;
 
             return ReportTypeQuery;
-        }
-        public ReportTypeExtraA GetReportTypeExtraAWithReportTypeID(int ReportTypeID)
-        {
-            return FillReportTypeExtraA().Where(c => c.ReportTypeID == ReportTypeID).FirstOrDefault();
-
-        }
-        public IQueryable<ReportTypeExtraA> GetReportTypeExtraAList()
-        {
-            IQueryable<ReportTypeExtraA> ReportTypeExtraAQuery = FillReportTypeExtraA();
-
-            ReportTypeExtraAQuery = EnhanceQueryStatements<ReportTypeExtraA>(ReportTypeExtraAQuery) as IQueryable<ReportTypeExtraA>;
-
-            return ReportTypeExtraAQuery;
-        }
-        public ReportTypeExtraB GetReportTypeExtraBWithReportTypeID(int ReportTypeID)
-        {
-            return FillReportTypeExtraB().Where(c => c.ReportTypeID == ReportTypeID).FirstOrDefault();
-
-        }
-        public IQueryable<ReportTypeExtraB> GetReportTypeExtraBList()
-        {
-            IQueryable<ReportTypeExtraB> ReportTypeExtraBQuery = FillReportTypeExtraB();
-
-            ReportTypeExtraBQuery = EnhanceQueryStatements<ReportTypeExtraB>(ReportTypeExtraBQuery) as IQueryable<ReportTypeExtraB>;
-
-            return ReportTypeExtraBQuery;
         }
         #endregion Functions public Generated Get
 

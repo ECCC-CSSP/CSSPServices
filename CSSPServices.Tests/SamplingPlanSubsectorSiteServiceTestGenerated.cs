@@ -258,18 +258,6 @@ namespace CSSPServices.Tests
                             CheckSamplingPlanSubsectorSiteFields(new List<SamplingPlanSubsectorSite>() { samplingPlanSubsectorSiteRet });
                             Assert.AreEqual(samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteRet.SamplingPlanSubsectorSiteID);
                         }
-                        else if (extra == "A")
-                        {
-                            SamplingPlanSubsectorSiteExtraA samplingPlanSubsectorSiteExtraARet = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteExtraAWithSamplingPlanSubsectorSiteID(samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID);
-                            CheckSamplingPlanSubsectorSiteExtraAFields(new List<SamplingPlanSubsectorSiteExtraA>() { samplingPlanSubsectorSiteExtraARet });
-                            Assert.AreEqual(samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteExtraARet.SamplingPlanSubsectorSiteID);
-                        }
-                        else if (extra == "B")
-                        {
-                            SamplingPlanSubsectorSiteExtraB samplingPlanSubsectorSiteExtraBRet = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteExtraBWithSamplingPlanSubsectorSiteID(samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID);
-                            CheckSamplingPlanSubsectorSiteExtraBFields(new List<SamplingPlanSubsectorSiteExtraB>() { samplingPlanSubsectorSiteExtraBRet });
-                            Assert.AreEqual(samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteExtraBRet.SamplingPlanSubsectorSiteID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -307,20 +295,6 @@ namespace CSSPServices.Tests
                             samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
                             CheckSamplingPlanSubsectorSiteFields(samplingPlanSubsectorSiteList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<SamplingPlanSubsectorSiteExtraA> samplingPlanSubsectorSiteExtraAList = new List<SamplingPlanSubsectorSiteExtraA>();
-                            samplingPlanSubsectorSiteExtraAList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteExtraAList().ToList();
-                            CheckSamplingPlanSubsectorSiteExtraAFields(samplingPlanSubsectorSiteExtraAList);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<SamplingPlanSubsectorSiteExtraB> samplingPlanSubsectorSiteExtraBList = new List<SamplingPlanSubsectorSiteExtraB>();
-                            samplingPlanSubsectorSiteExtraBList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteExtraBList().ToList();
-                            CheckSamplingPlanSubsectorSiteExtraBFields(samplingPlanSubsectorSiteExtraBList);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -356,22 +330,6 @@ namespace CSSPServices.Tests
                             samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
                             CheckSamplingPlanSubsectorSiteFields(samplingPlanSubsectorSiteList);
                             Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteList[0].SamplingPlanSubsectorSiteID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<SamplingPlanSubsectorSiteExtraA> samplingPlanSubsectorSiteExtraAList = new List<SamplingPlanSubsectorSiteExtraA>();
-                            samplingPlanSubsectorSiteExtraAList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteExtraAList().ToList();
-                            CheckSamplingPlanSubsectorSiteExtraAFields(samplingPlanSubsectorSiteExtraAList);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteExtraAList[0].SamplingPlanSubsectorSiteID);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<SamplingPlanSubsectorSiteExtraB> samplingPlanSubsectorSiteExtraBList = new List<SamplingPlanSubsectorSiteExtraB>();
-                            samplingPlanSubsectorSiteExtraBList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteExtraBList().ToList();
-                            CheckSamplingPlanSubsectorSiteExtraBFields(samplingPlanSubsectorSiteExtraBList);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteExtraBList[0].SamplingPlanSubsectorSiteID);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteExtraBList.Count);
                         }
                         else
                         {
@@ -409,22 +367,6 @@ namespace CSSPServices.Tests
                             CheckSamplingPlanSubsectorSiteFields(samplingPlanSubsectorSiteList);
                             Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteList[0].SamplingPlanSubsectorSiteID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<SamplingPlanSubsectorSiteExtraA> samplingPlanSubsectorSiteExtraAList = new List<SamplingPlanSubsectorSiteExtraA>();
-                            samplingPlanSubsectorSiteExtraAList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteExtraAList().ToList();
-                            CheckSamplingPlanSubsectorSiteExtraAFields(samplingPlanSubsectorSiteExtraAList);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteExtraAList[0].SamplingPlanSubsectorSiteID);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<SamplingPlanSubsectorSiteExtraB> samplingPlanSubsectorSiteExtraBList = new List<SamplingPlanSubsectorSiteExtraB>();
-                            samplingPlanSubsectorSiteExtraBList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteExtraBList().ToList();
-                            CheckSamplingPlanSubsectorSiteExtraBFields(samplingPlanSubsectorSiteExtraBList);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteExtraBList[0].SamplingPlanSubsectorSiteID);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -460,22 +402,6 @@ namespace CSSPServices.Tests
                             samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
                             CheckSamplingPlanSubsectorSiteFields(samplingPlanSubsectorSiteList);
                             Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteList[0].SamplingPlanSubsectorSiteID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<SamplingPlanSubsectorSiteExtraA> samplingPlanSubsectorSiteExtraAList = new List<SamplingPlanSubsectorSiteExtraA>();
-                            samplingPlanSubsectorSiteExtraAList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteExtraAList().ToList();
-                            CheckSamplingPlanSubsectorSiteExtraAFields(samplingPlanSubsectorSiteExtraAList);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteExtraAList[0].SamplingPlanSubsectorSiteID);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<SamplingPlanSubsectorSiteExtraB> samplingPlanSubsectorSiteExtraBList = new List<SamplingPlanSubsectorSiteExtraB>();
-                            samplingPlanSubsectorSiteExtraBList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteExtraBList().ToList();
-                            CheckSamplingPlanSubsectorSiteExtraBFields(samplingPlanSubsectorSiteExtraBList);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteExtraBList[0].SamplingPlanSubsectorSiteID);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteExtraBList.Count);
                         }
                         else
                         {
@@ -513,22 +439,6 @@ namespace CSSPServices.Tests
                             CheckSamplingPlanSubsectorSiteFields(samplingPlanSubsectorSiteList);
                             Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteList[0].SamplingPlanSubsectorSiteID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<SamplingPlanSubsectorSiteExtraA> samplingPlanSubsectorSiteExtraAList = new List<SamplingPlanSubsectorSiteExtraA>();
-                            samplingPlanSubsectorSiteExtraAList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteExtraAList().ToList();
-                            CheckSamplingPlanSubsectorSiteExtraAFields(samplingPlanSubsectorSiteExtraAList);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteExtraAList[0].SamplingPlanSubsectorSiteID);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<SamplingPlanSubsectorSiteExtraB> samplingPlanSubsectorSiteExtraBList = new List<SamplingPlanSubsectorSiteExtraB>();
-                            samplingPlanSubsectorSiteExtraBList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteExtraBList().ToList();
-                            CheckSamplingPlanSubsectorSiteExtraBFields(samplingPlanSubsectorSiteExtraBList);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteExtraBList[0].SamplingPlanSubsectorSiteID);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -564,22 +474,6 @@ namespace CSSPServices.Tests
                             samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
                             CheckSamplingPlanSubsectorSiteFields(samplingPlanSubsectorSiteList);
                             Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteList[0].SamplingPlanSubsectorSiteID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<SamplingPlanSubsectorSiteExtraA> samplingPlanSubsectorSiteExtraAList = new List<SamplingPlanSubsectorSiteExtraA>();
-                            samplingPlanSubsectorSiteExtraAList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteExtraAList().ToList();
-                            CheckSamplingPlanSubsectorSiteExtraAFields(samplingPlanSubsectorSiteExtraAList);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteExtraAList[0].SamplingPlanSubsectorSiteID);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<SamplingPlanSubsectorSiteExtraB> samplingPlanSubsectorSiteExtraBList = new List<SamplingPlanSubsectorSiteExtraB>();
-                            samplingPlanSubsectorSiteExtraBList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteExtraBList().ToList();
-                            CheckSamplingPlanSubsectorSiteExtraBFields(samplingPlanSubsectorSiteExtraBList);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteExtraBList[0].SamplingPlanSubsectorSiteID);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteExtraBList.Count);
                         }
                         else
                         {
@@ -617,22 +511,6 @@ namespace CSSPServices.Tests
                             CheckSamplingPlanSubsectorSiteFields(samplingPlanSubsectorSiteList);
                             Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteList[0].SamplingPlanSubsectorSiteID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<SamplingPlanSubsectorSiteExtraA> samplingPlanSubsectorSiteExtraAList = new List<SamplingPlanSubsectorSiteExtraA>();
-                            samplingPlanSubsectorSiteExtraAList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteExtraAList().ToList();
-                            CheckSamplingPlanSubsectorSiteExtraAFields(samplingPlanSubsectorSiteExtraAList);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteExtraAList[0].SamplingPlanSubsectorSiteID);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<SamplingPlanSubsectorSiteExtraB> samplingPlanSubsectorSiteExtraBList = new List<SamplingPlanSubsectorSiteExtraB>();
-                            samplingPlanSubsectorSiteExtraBList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteExtraBList().ToList();
-                            CheckSamplingPlanSubsectorSiteExtraBFields(samplingPlanSubsectorSiteExtraBList);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteExtraBList[0].SamplingPlanSubsectorSiteID);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -668,22 +546,6 @@ namespace CSSPServices.Tests
                             samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
                             CheckSamplingPlanSubsectorSiteFields(samplingPlanSubsectorSiteList);
                             Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteList[0].SamplingPlanSubsectorSiteID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<SamplingPlanSubsectorSiteExtraA> samplingPlanSubsectorSiteExtraAList = new List<SamplingPlanSubsectorSiteExtraA>();
-                            samplingPlanSubsectorSiteExtraAList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteExtraAList().ToList();
-                            CheckSamplingPlanSubsectorSiteExtraAFields(samplingPlanSubsectorSiteExtraAList);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteExtraAList[0].SamplingPlanSubsectorSiteID);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<SamplingPlanSubsectorSiteExtraB> samplingPlanSubsectorSiteExtraBList = new List<SamplingPlanSubsectorSiteExtraB>();
-                            samplingPlanSubsectorSiteExtraBList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteExtraBList().ToList();
-                            CheckSamplingPlanSubsectorSiteExtraBFields(samplingPlanSubsectorSiteExtraBList);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteExtraBList[0].SamplingPlanSubsectorSiteID);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteExtraBList.Count);
                         }
                         else
                         {
@@ -721,22 +583,6 @@ namespace CSSPServices.Tests
                             CheckSamplingPlanSubsectorSiteFields(samplingPlanSubsectorSiteList);
                             Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteList[0].SamplingPlanSubsectorSiteID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<SamplingPlanSubsectorSiteExtraA> samplingPlanSubsectorSiteExtraAList = new List<SamplingPlanSubsectorSiteExtraA>();
-                            samplingPlanSubsectorSiteExtraAList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteExtraAList().ToList();
-                            CheckSamplingPlanSubsectorSiteExtraAFields(samplingPlanSubsectorSiteExtraAList);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteExtraAList[0].SamplingPlanSubsectorSiteID);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<SamplingPlanSubsectorSiteExtraB> samplingPlanSubsectorSiteExtraBList = new List<SamplingPlanSubsectorSiteExtraB>();
-                            samplingPlanSubsectorSiteExtraBList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteExtraBList().ToList();
-                            CheckSamplingPlanSubsectorSiteExtraBFields(samplingPlanSubsectorSiteExtraBList);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteExtraBList[0].SamplingPlanSubsectorSiteID);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -772,22 +618,6 @@ namespace CSSPServices.Tests
                             samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
                             CheckSamplingPlanSubsectorSiteFields(samplingPlanSubsectorSiteList);
                             Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteList[0].SamplingPlanSubsectorSiteID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<SamplingPlanSubsectorSiteExtraA> samplingPlanSubsectorSiteExtraAList = new List<SamplingPlanSubsectorSiteExtraA>();
-                            samplingPlanSubsectorSiteExtraAList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteExtraAList().ToList();
-                            CheckSamplingPlanSubsectorSiteExtraAFields(samplingPlanSubsectorSiteExtraAList);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteExtraAList[0].SamplingPlanSubsectorSiteID);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<SamplingPlanSubsectorSiteExtraB> samplingPlanSubsectorSiteExtraBList = new List<SamplingPlanSubsectorSiteExtraB>();
-                            samplingPlanSubsectorSiteExtraBList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteExtraBList().ToList();
-                            CheckSamplingPlanSubsectorSiteExtraBFields(samplingPlanSubsectorSiteExtraBList);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteExtraBList[0].SamplingPlanSubsectorSiteID);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteExtraBList.Count);
                         }
                         else
                         {
@@ -825,22 +655,6 @@ namespace CSSPServices.Tests
                             CheckSamplingPlanSubsectorSiteFields(samplingPlanSubsectorSiteList);
                             Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteList[0].SamplingPlanSubsectorSiteID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<SamplingPlanSubsectorSiteExtraA> samplingPlanSubsectorSiteExtraAList = new List<SamplingPlanSubsectorSiteExtraA>();
-                            samplingPlanSubsectorSiteExtraAList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteExtraAList().ToList();
-                            CheckSamplingPlanSubsectorSiteExtraAFields(samplingPlanSubsectorSiteExtraAList);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteExtraAList[0].SamplingPlanSubsectorSiteID);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<SamplingPlanSubsectorSiteExtraB> samplingPlanSubsectorSiteExtraBList = new List<SamplingPlanSubsectorSiteExtraB>();
-                            samplingPlanSubsectorSiteExtraBList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteExtraBList().ToList();
-                            CheckSamplingPlanSubsectorSiteExtraBFields(samplingPlanSubsectorSiteExtraBList);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteExtraBList[0].SamplingPlanSubsectorSiteID);
-                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -862,40 +676,12 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(samplingPlanSubsectorSiteList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(samplingPlanSubsectorSiteList[0].HasErrors);
         }
-        private void CheckSamplingPlanSubsectorSiteExtraAFields(List<SamplingPlanSubsectorSiteExtraA> samplingPlanSubsectorSiteExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorSiteExtraAList[0].MWQMSiteText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorSiteExtraAList[0].LastUpdateContactText));
-            Assert.IsNotNull(samplingPlanSubsectorSiteExtraAList[0].SamplingPlanSubsectorSiteID);
-            Assert.IsNotNull(samplingPlanSubsectorSiteExtraAList[0].SamplingPlanSubsectorID);
-            Assert.IsNotNull(samplingPlanSubsectorSiteExtraAList[0].MWQMSiteTVItemID);
-            Assert.IsNotNull(samplingPlanSubsectorSiteExtraAList[0].IsDuplicate);
-            Assert.IsNotNull(samplingPlanSubsectorSiteExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(samplingPlanSubsectorSiteExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(samplingPlanSubsectorSiteExtraAList[0].HasErrors);
-        }
-        private void CheckSamplingPlanSubsectorSiteExtraBFields(List<SamplingPlanSubsectorSiteExtraB> samplingPlanSubsectorSiteExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(samplingPlanSubsectorSiteExtraBList[0].SamplingPlanSubsectorSiteReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorSiteExtraBList[0].SamplingPlanSubsectorSiteReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorSiteExtraBList[0].MWQMSiteText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorSiteExtraBList[0].LastUpdateContactText));
-            Assert.IsNotNull(samplingPlanSubsectorSiteExtraBList[0].SamplingPlanSubsectorSiteID);
-            Assert.IsNotNull(samplingPlanSubsectorSiteExtraBList[0].SamplingPlanSubsectorID);
-            Assert.IsNotNull(samplingPlanSubsectorSiteExtraBList[0].MWQMSiteTVItemID);
-            Assert.IsNotNull(samplingPlanSubsectorSiteExtraBList[0].IsDuplicate);
-            Assert.IsNotNull(samplingPlanSubsectorSiteExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(samplingPlanSubsectorSiteExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(samplingPlanSubsectorSiteExtraBList[0].HasErrors);
-        }
         private SamplingPlanSubsectorSite GetFilledRandomSamplingPlanSubsectorSite(string OmitPropName)
         {
             SamplingPlanSubsectorSite samplingPlanSubsectorSite = new SamplingPlanSubsectorSite();
 
             if (OmitPropName != "SamplingPlanSubsectorID") samplingPlanSubsectorSite.SamplingPlanSubsectorID = 1;
-            if (OmitPropName != "MWQMSiteTVItemID") samplingPlanSubsectorSite.MWQMSiteTVItemID = 43;
+            if (OmitPropName != "MWQMSiteTVItemID") samplingPlanSubsectorSite.MWQMSiteTVItemID = 44;
             if (OmitPropName != "IsDuplicate") samplingPlanSubsectorSite.IsDuplicate = true;
             if (OmitPropName != "LastUpdateDate_UTC") samplingPlanSubsectorSite.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") samplingPlanSubsectorSite.LastUpdateContactTVItemID = 2;

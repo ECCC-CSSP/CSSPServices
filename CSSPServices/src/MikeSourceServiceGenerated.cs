@@ -194,32 +194,6 @@ namespace CSSPServices
 
             return MikeSourceQuery;
         }
-        public MikeSourceExtraA GetMikeSourceExtraAWithMikeSourceID(int MikeSourceID)
-        {
-            return FillMikeSourceExtraA().Where(c => c.MikeSourceID == MikeSourceID).FirstOrDefault();
-
-        }
-        public IQueryable<MikeSourceExtraA> GetMikeSourceExtraAList()
-        {
-            IQueryable<MikeSourceExtraA> MikeSourceExtraAQuery = FillMikeSourceExtraA();
-
-            MikeSourceExtraAQuery = EnhanceQueryStatements<MikeSourceExtraA>(MikeSourceExtraAQuery) as IQueryable<MikeSourceExtraA>;
-
-            return MikeSourceExtraAQuery;
-        }
-        public MikeSourceExtraB GetMikeSourceExtraBWithMikeSourceID(int MikeSourceID)
-        {
-            return FillMikeSourceExtraB().Where(c => c.MikeSourceID == MikeSourceID).FirstOrDefault();
-
-        }
-        public IQueryable<MikeSourceExtraB> GetMikeSourceExtraBList()
-        {
-            IQueryable<MikeSourceExtraB> MikeSourceExtraBQuery = FillMikeSourceExtraB();
-
-            MikeSourceExtraBQuery = EnhanceQueryStatements<MikeSourceExtraB>(MikeSourceExtraBQuery) as IQueryable<MikeSourceExtraB>;
-
-            return MikeSourceExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

@@ -398,18 +398,6 @@ namespace CSSPServices.Tests
                             CheckAppTaskFields(new List<AppTask>() { appTaskRet });
                             Assert.AreEqual(appTask.AppTaskID, appTaskRet.AppTaskID);
                         }
-                        else if (extra == "A")
-                        {
-                            AppTaskExtraA appTaskExtraARet = appTaskService.GetAppTaskExtraAWithAppTaskID(appTask.AppTaskID);
-                            CheckAppTaskExtraAFields(new List<AppTaskExtraA>() { appTaskExtraARet });
-                            Assert.AreEqual(appTask.AppTaskID, appTaskExtraARet.AppTaskID);
-                        }
-                        else if (extra == "B")
-                        {
-                            AppTaskExtraB appTaskExtraBRet = appTaskService.GetAppTaskExtraBWithAppTaskID(appTask.AppTaskID);
-                            CheckAppTaskExtraBFields(new List<AppTaskExtraB>() { appTaskExtraBRet });
-                            Assert.AreEqual(appTask.AppTaskID, appTaskExtraBRet.AppTaskID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -447,20 +435,6 @@ namespace CSSPServices.Tests
                             appTaskList = appTaskService.GetAppTaskList().ToList();
                             CheckAppTaskFields(appTaskList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<AppTaskExtraA> appTaskExtraAList = new List<AppTaskExtraA>();
-                            appTaskExtraAList = appTaskService.GetAppTaskExtraAList().ToList();
-                            CheckAppTaskExtraAFields(appTaskExtraAList);
-                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<AppTaskExtraB> appTaskExtraBList = new List<AppTaskExtraB>();
-                            appTaskExtraBList = appTaskService.GetAppTaskExtraBList().ToList();
-                            CheckAppTaskExtraBFields(appTaskExtraBList);
-                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -496,22 +470,6 @@ namespace CSSPServices.Tests
                             appTaskList = appTaskService.GetAppTaskList().ToList();
                             CheckAppTaskFields(appTaskList);
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<AppTaskExtraA> appTaskExtraAList = new List<AppTaskExtraA>();
-                            appTaskExtraAList = appTaskService.GetAppTaskExtraAList().ToList();
-                            CheckAppTaskExtraAFields(appTaskExtraAList);
-                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraAList[0].AppTaskID);
-                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<AppTaskExtraB> appTaskExtraBList = new List<AppTaskExtraB>();
-                            appTaskExtraBList = appTaskService.GetAppTaskExtraBList().ToList();
-                            CheckAppTaskExtraBFields(appTaskExtraBList);
-                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraBList[0].AppTaskID);
-                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraBList.Count);
                         }
                         else
                         {
@@ -549,22 +507,6 @@ namespace CSSPServices.Tests
                             CheckAppTaskFields(appTaskList);
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<AppTaskExtraA> appTaskExtraAList = new List<AppTaskExtraA>();
-                            appTaskExtraAList = appTaskService.GetAppTaskExtraAList().ToList();
-                            CheckAppTaskExtraAFields(appTaskExtraAList);
-                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraAList[0].AppTaskID);
-                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<AppTaskExtraB> appTaskExtraBList = new List<AppTaskExtraB>();
-                            appTaskExtraBList = appTaskService.GetAppTaskExtraBList().ToList();
-                            CheckAppTaskExtraBFields(appTaskExtraBList);
-                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraBList[0].AppTaskID);
-                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -600,22 +542,6 @@ namespace CSSPServices.Tests
                             appTaskList = appTaskService.GetAppTaskList().ToList();
                             CheckAppTaskFields(appTaskList);
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<AppTaskExtraA> appTaskExtraAList = new List<AppTaskExtraA>();
-                            appTaskExtraAList = appTaskService.GetAppTaskExtraAList().ToList();
-                            CheckAppTaskExtraAFields(appTaskExtraAList);
-                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraAList[0].AppTaskID);
-                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<AppTaskExtraB> appTaskExtraBList = new List<AppTaskExtraB>();
-                            appTaskExtraBList = appTaskService.GetAppTaskExtraBList().ToList();
-                            CheckAppTaskExtraBFields(appTaskExtraBList);
-                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraBList[0].AppTaskID);
-                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraBList.Count);
                         }
                         else
                         {
@@ -653,22 +579,6 @@ namespace CSSPServices.Tests
                             CheckAppTaskFields(appTaskList);
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<AppTaskExtraA> appTaskExtraAList = new List<AppTaskExtraA>();
-                            appTaskExtraAList = appTaskService.GetAppTaskExtraAList().ToList();
-                            CheckAppTaskExtraAFields(appTaskExtraAList);
-                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraAList[0].AppTaskID);
-                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<AppTaskExtraB> appTaskExtraBList = new List<AppTaskExtraB>();
-                            appTaskExtraBList = appTaskService.GetAppTaskExtraBList().ToList();
-                            CheckAppTaskExtraBFields(appTaskExtraBList);
-                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraBList[0].AppTaskID);
-                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -704,22 +614,6 @@ namespace CSSPServices.Tests
                             appTaskList = appTaskService.GetAppTaskList().ToList();
                             CheckAppTaskFields(appTaskList);
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<AppTaskExtraA> appTaskExtraAList = new List<AppTaskExtraA>();
-                            appTaskExtraAList = appTaskService.GetAppTaskExtraAList().ToList();
-                            CheckAppTaskExtraAFields(appTaskExtraAList);
-                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraAList[0].AppTaskID);
-                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<AppTaskExtraB> appTaskExtraBList = new List<AppTaskExtraB>();
-                            appTaskExtraBList = appTaskService.GetAppTaskExtraBList().ToList();
-                            CheckAppTaskExtraBFields(appTaskExtraBList);
-                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraBList[0].AppTaskID);
-                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraBList.Count);
                         }
                         else
                         {
@@ -757,22 +651,6 @@ namespace CSSPServices.Tests
                             CheckAppTaskFields(appTaskList);
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<AppTaskExtraA> appTaskExtraAList = new List<AppTaskExtraA>();
-                            appTaskExtraAList = appTaskService.GetAppTaskExtraAList().ToList();
-                            CheckAppTaskExtraAFields(appTaskExtraAList);
-                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraAList[0].AppTaskID);
-                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<AppTaskExtraB> appTaskExtraBList = new List<AppTaskExtraB>();
-                            appTaskExtraBList = appTaskService.GetAppTaskExtraBList().ToList();
-                            CheckAppTaskExtraBFields(appTaskExtraBList);
-                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraBList[0].AppTaskID);
-                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -808,22 +686,6 @@ namespace CSSPServices.Tests
                             appTaskList = appTaskService.GetAppTaskList().ToList();
                             CheckAppTaskFields(appTaskList);
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<AppTaskExtraA> appTaskExtraAList = new List<AppTaskExtraA>();
-                            appTaskExtraAList = appTaskService.GetAppTaskExtraAList().ToList();
-                            CheckAppTaskExtraAFields(appTaskExtraAList);
-                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraAList[0].AppTaskID);
-                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<AppTaskExtraB> appTaskExtraBList = new List<AppTaskExtraB>();
-                            appTaskExtraBList = appTaskService.GetAppTaskExtraBList().ToList();
-                            CheckAppTaskExtraBFields(appTaskExtraBList);
-                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraBList[0].AppTaskID);
-                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraBList.Count);
                         }
                         else
                         {
@@ -861,22 +723,6 @@ namespace CSSPServices.Tests
                             CheckAppTaskFields(appTaskList);
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<AppTaskExtraA> appTaskExtraAList = new List<AppTaskExtraA>();
-                            appTaskExtraAList = appTaskService.GetAppTaskExtraAList().ToList();
-                            CheckAppTaskExtraAFields(appTaskExtraAList);
-                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraAList[0].AppTaskID);
-                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<AppTaskExtraB> appTaskExtraBList = new List<AppTaskExtraB>();
-                            appTaskExtraBList = appTaskService.GetAppTaskExtraBList().ToList();
-                            CheckAppTaskExtraBFields(appTaskExtraBList);
-                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraBList[0].AppTaskID);
-                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -913,22 +759,6 @@ namespace CSSPServices.Tests
                             CheckAppTaskFields(appTaskList);
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<AppTaskExtraA> appTaskExtraAList = new List<AppTaskExtraA>();
-                            appTaskExtraAList = appTaskService.GetAppTaskExtraAList().ToList();
-                            CheckAppTaskExtraAFields(appTaskExtraAList);
-                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraAList[0].AppTaskID);
-                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<AppTaskExtraB> appTaskExtraBList = new List<AppTaskExtraB>();
-                            appTaskExtraBList = appTaskService.GetAppTaskExtraBList().ToList();
-                            CheckAppTaskExtraBFields(appTaskExtraBList);
-                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraBList[0].AppTaskID);
-                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -964,22 +794,6 @@ namespace CSSPServices.Tests
                             appTaskList = appTaskService.GetAppTaskList().ToList();
                             CheckAppTaskFields(appTaskList);
                             Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<AppTaskExtraA> appTaskExtraAList = new List<AppTaskExtraA>();
-                            appTaskExtraAList = appTaskService.GetAppTaskExtraAList().ToList();
-                            CheckAppTaskExtraAFields(appTaskExtraAList);
-                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraAList[0].AppTaskID);
-                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<AppTaskExtraB> appTaskExtraBList = new List<AppTaskExtraB>();
-                            appTaskExtraBList = appTaskService.GetAppTaskExtraBList().ToList();
-                            CheckAppTaskExtraBFields(appTaskExtraBList);
-                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskExtraBList[0].AppTaskID);
-                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskExtraBList.Count);
                         }
                         else
                         {
@@ -1018,94 +832,6 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(appTaskList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(appTaskList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(appTaskList[0].HasErrors);
-        }
-        private void CheckAppTaskExtraAFields(List<AppTaskExtraA> appTaskExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskExtraAList[0].TVItemText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskExtraAList[0].TVItem2Text));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskExtraAList[0].LastUpdateContactText));
-            if (!string.IsNullOrWhiteSpace(appTaskExtraAList[0].AppTaskCommandText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskExtraAList[0].AppTaskCommandText));
-            }
-            if (!string.IsNullOrWhiteSpace(appTaskExtraAList[0].AppTaskStatusText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskExtraAList[0].AppTaskStatusText));
-            }
-            if (!string.IsNullOrWhiteSpace(appTaskExtraAList[0].LanguageText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskExtraAList[0].LanguageText));
-            }
-            Assert.IsNotNull(appTaskExtraAList[0].AppTaskID);
-            Assert.IsNotNull(appTaskExtraAList[0].TVItemID);
-            Assert.IsNotNull(appTaskExtraAList[0].TVItemID2);
-            Assert.IsNotNull(appTaskExtraAList[0].AppTaskCommand);
-            Assert.IsNotNull(appTaskExtraAList[0].AppTaskStatus);
-            Assert.IsNotNull(appTaskExtraAList[0].PercentCompleted);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskExtraAList[0].Parameters));
-            Assert.IsNotNull(appTaskExtraAList[0].Language);
-            Assert.IsNotNull(appTaskExtraAList[0].StartDateTime_UTC);
-            if (appTaskExtraAList[0].EndDateTime_UTC != null)
-            {
-                Assert.IsNotNull(appTaskExtraAList[0].EndDateTime_UTC);
-            }
-            if (appTaskExtraAList[0].EstimatedLength_second != null)
-            {
-                Assert.IsNotNull(appTaskExtraAList[0].EstimatedLength_second);
-            }
-            if (appTaskExtraAList[0].RemainingTime_second != null)
-            {
-                Assert.IsNotNull(appTaskExtraAList[0].RemainingTime_second);
-            }
-            Assert.IsNotNull(appTaskExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(appTaskExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(appTaskExtraAList[0].HasErrors);
-        }
-        private void CheckAppTaskExtraBFields(List<AppTaskExtraB> appTaskExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(appTaskExtraBList[0].AppTaskReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskExtraBList[0].AppTaskReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskExtraBList[0].TVItemText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskExtraBList[0].TVItem2Text));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskExtraBList[0].LastUpdateContactText));
-            if (!string.IsNullOrWhiteSpace(appTaskExtraBList[0].AppTaskCommandText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskExtraBList[0].AppTaskCommandText));
-            }
-            if (!string.IsNullOrWhiteSpace(appTaskExtraBList[0].AppTaskStatusText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskExtraBList[0].AppTaskStatusText));
-            }
-            if (!string.IsNullOrWhiteSpace(appTaskExtraBList[0].LanguageText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskExtraBList[0].LanguageText));
-            }
-            Assert.IsNotNull(appTaskExtraBList[0].AppTaskID);
-            Assert.IsNotNull(appTaskExtraBList[0].TVItemID);
-            Assert.IsNotNull(appTaskExtraBList[0].TVItemID2);
-            Assert.IsNotNull(appTaskExtraBList[0].AppTaskCommand);
-            Assert.IsNotNull(appTaskExtraBList[0].AppTaskStatus);
-            Assert.IsNotNull(appTaskExtraBList[0].PercentCompleted);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskExtraBList[0].Parameters));
-            Assert.IsNotNull(appTaskExtraBList[0].Language);
-            Assert.IsNotNull(appTaskExtraBList[0].StartDateTime_UTC);
-            if (appTaskExtraBList[0].EndDateTime_UTC != null)
-            {
-                Assert.IsNotNull(appTaskExtraBList[0].EndDateTime_UTC);
-            }
-            if (appTaskExtraBList[0].EstimatedLength_second != null)
-            {
-                Assert.IsNotNull(appTaskExtraBList[0].EstimatedLength_second);
-            }
-            if (appTaskExtraBList[0].RemainingTime_second != null)
-            {
-                Assert.IsNotNull(appTaskExtraBList[0].RemainingTime_second);
-            }
-            Assert.IsNotNull(appTaskExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(appTaskExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(appTaskExtraBList[0].HasErrors);
         }
         private AppTask GetFilledRandomAppTask(string OmitPropName)
         {

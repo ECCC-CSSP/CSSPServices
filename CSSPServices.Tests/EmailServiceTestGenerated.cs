@@ -274,18 +274,6 @@ namespace CSSPServices.Tests
                             CheckEmailFields(new List<Email>() { emailRet });
                             Assert.AreEqual(email.EmailID, emailRet.EmailID);
                         }
-                        else if (extra == "A")
-                        {
-                            EmailExtraA emailExtraARet = emailService.GetEmailExtraAWithEmailID(email.EmailID);
-                            CheckEmailExtraAFields(new List<EmailExtraA>() { emailExtraARet });
-                            Assert.AreEqual(email.EmailID, emailExtraARet.EmailID);
-                        }
-                        else if (extra == "B")
-                        {
-                            EmailExtraB emailExtraBRet = emailService.GetEmailExtraBWithEmailID(email.EmailID);
-                            CheckEmailExtraBFields(new List<EmailExtraB>() { emailExtraBRet });
-                            Assert.AreEqual(email.EmailID, emailExtraBRet.EmailID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -323,20 +311,6 @@ namespace CSSPServices.Tests
                             emailList = emailService.GetEmailList().ToList();
                             CheckEmailFields(emailList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<EmailExtraA> emailExtraAList = new List<EmailExtraA>();
-                            emailExtraAList = emailService.GetEmailExtraAList().ToList();
-                            CheckEmailExtraAFields(emailExtraAList);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<EmailExtraB> emailExtraBList = new List<EmailExtraB>();
-                            emailExtraBList = emailService.GetEmailExtraBList().ToList();
-                            CheckEmailExtraBFields(emailExtraBList);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -372,22 +346,6 @@ namespace CSSPServices.Tests
                             emailList = emailService.GetEmailList().ToList();
                             CheckEmailFields(emailList);
                             Assert.AreEqual(emailDirectQueryList[0].EmailID, emailList[0].EmailID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<EmailExtraA> emailExtraAList = new List<EmailExtraA>();
-                            emailExtraAList = emailService.GetEmailExtraAList().ToList();
-                            CheckEmailExtraAFields(emailExtraAList);
-                            Assert.AreEqual(emailDirectQueryList[0].EmailID, emailExtraAList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<EmailExtraB> emailExtraBList = new List<EmailExtraB>();
-                            emailExtraBList = emailService.GetEmailExtraBList().ToList();
-                            CheckEmailExtraBFields(emailExtraBList);
-                            Assert.AreEqual(emailDirectQueryList[0].EmailID, emailExtraBList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailExtraBList.Count);
                         }
                         else
                         {
@@ -425,22 +383,6 @@ namespace CSSPServices.Tests
                             CheckEmailFields(emailList);
                             Assert.AreEqual(emailDirectQueryList[0].EmailID, emailList[0].EmailID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<EmailExtraA> emailExtraAList = new List<EmailExtraA>();
-                            emailExtraAList = emailService.GetEmailExtraAList().ToList();
-                            CheckEmailExtraAFields(emailExtraAList);
-                            Assert.AreEqual(emailDirectQueryList[0].EmailID, emailExtraAList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<EmailExtraB> emailExtraBList = new List<EmailExtraB>();
-                            emailExtraBList = emailService.GetEmailExtraBList().ToList();
-                            CheckEmailExtraBFields(emailExtraBList);
-                            Assert.AreEqual(emailDirectQueryList[0].EmailID, emailExtraBList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -476,22 +418,6 @@ namespace CSSPServices.Tests
                             emailList = emailService.GetEmailList().ToList();
                             CheckEmailFields(emailList);
                             Assert.AreEqual(emailDirectQueryList[0].EmailID, emailList[0].EmailID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<EmailExtraA> emailExtraAList = new List<EmailExtraA>();
-                            emailExtraAList = emailService.GetEmailExtraAList().ToList();
-                            CheckEmailExtraAFields(emailExtraAList);
-                            Assert.AreEqual(emailDirectQueryList[0].EmailID, emailExtraAList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<EmailExtraB> emailExtraBList = new List<EmailExtraB>();
-                            emailExtraBList = emailService.GetEmailExtraBList().ToList();
-                            CheckEmailExtraBFields(emailExtraBList);
-                            Assert.AreEqual(emailDirectQueryList[0].EmailID, emailExtraBList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailExtraBList.Count);
                         }
                         else
                         {
@@ -529,22 +455,6 @@ namespace CSSPServices.Tests
                             CheckEmailFields(emailList);
                             Assert.AreEqual(emailDirectQueryList[0].EmailID, emailList[0].EmailID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<EmailExtraA> emailExtraAList = new List<EmailExtraA>();
-                            emailExtraAList = emailService.GetEmailExtraAList().ToList();
-                            CheckEmailExtraAFields(emailExtraAList);
-                            Assert.AreEqual(emailDirectQueryList[0].EmailID, emailExtraAList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<EmailExtraB> emailExtraBList = new List<EmailExtraB>();
-                            emailExtraBList = emailService.GetEmailExtraBList().ToList();
-                            CheckEmailExtraBFields(emailExtraBList);
-                            Assert.AreEqual(emailDirectQueryList[0].EmailID, emailExtraBList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -580,22 +490,6 @@ namespace CSSPServices.Tests
                             emailList = emailService.GetEmailList().ToList();
                             CheckEmailFields(emailList);
                             Assert.AreEqual(emailDirectQueryList[0].EmailID, emailList[0].EmailID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<EmailExtraA> emailExtraAList = new List<EmailExtraA>();
-                            emailExtraAList = emailService.GetEmailExtraAList().ToList();
-                            CheckEmailExtraAFields(emailExtraAList);
-                            Assert.AreEqual(emailDirectQueryList[0].EmailID, emailExtraAList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<EmailExtraB> emailExtraBList = new List<EmailExtraB>();
-                            emailExtraBList = emailService.GetEmailExtraBList().ToList();
-                            CheckEmailExtraBFields(emailExtraBList);
-                            Assert.AreEqual(emailDirectQueryList[0].EmailID, emailExtraBList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailExtraBList.Count);
                         }
                         else
                         {
@@ -633,22 +527,6 @@ namespace CSSPServices.Tests
                             CheckEmailFields(emailList);
                             Assert.AreEqual(emailDirectQueryList[0].EmailID, emailList[0].EmailID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<EmailExtraA> emailExtraAList = new List<EmailExtraA>();
-                            emailExtraAList = emailService.GetEmailExtraAList().ToList();
-                            CheckEmailExtraAFields(emailExtraAList);
-                            Assert.AreEqual(emailDirectQueryList[0].EmailID, emailExtraAList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<EmailExtraB> emailExtraBList = new List<EmailExtraB>();
-                            emailExtraBList = emailService.GetEmailExtraBList().ToList();
-                            CheckEmailExtraBFields(emailExtraBList);
-                            Assert.AreEqual(emailDirectQueryList[0].EmailID, emailExtraBList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -684,22 +562,6 @@ namespace CSSPServices.Tests
                             emailList = emailService.GetEmailList().ToList();
                             CheckEmailFields(emailList);
                             Assert.AreEqual(emailDirectQueryList[0].EmailID, emailList[0].EmailID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<EmailExtraA> emailExtraAList = new List<EmailExtraA>();
-                            emailExtraAList = emailService.GetEmailExtraAList().ToList();
-                            CheckEmailExtraAFields(emailExtraAList);
-                            Assert.AreEqual(emailDirectQueryList[0].EmailID, emailExtraAList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<EmailExtraB> emailExtraBList = new List<EmailExtraB>();
-                            emailExtraBList = emailService.GetEmailExtraBList().ToList();
-                            CheckEmailExtraBFields(emailExtraBList);
-                            Assert.AreEqual(emailDirectQueryList[0].EmailID, emailExtraBList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailExtraBList.Count);
                         }
                         else
                         {
@@ -737,22 +599,6 @@ namespace CSSPServices.Tests
                             CheckEmailFields(emailList);
                             Assert.AreEqual(emailDirectQueryList[0].EmailID, emailList[0].EmailID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<EmailExtraA> emailExtraAList = new List<EmailExtraA>();
-                            emailExtraAList = emailService.GetEmailExtraAList().ToList();
-                            CheckEmailExtraAFields(emailExtraAList);
-                            Assert.AreEqual(emailDirectQueryList[0].EmailID, emailExtraAList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<EmailExtraB> emailExtraBList = new List<EmailExtraB>();
-                            emailExtraBList = emailService.GetEmailExtraBList().ToList();
-                            CheckEmailExtraBFields(emailExtraBList);
-                            Assert.AreEqual(emailDirectQueryList[0].EmailID, emailExtraBList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -788,22 +634,6 @@ namespace CSSPServices.Tests
                             emailList = emailService.GetEmailList().ToList();
                             CheckEmailFields(emailList);
                             Assert.AreEqual(emailDirectQueryList[0].EmailID, emailList[0].EmailID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<EmailExtraA> emailExtraAList = new List<EmailExtraA>();
-                            emailExtraAList = emailService.GetEmailExtraAList().ToList();
-                            CheckEmailExtraAFields(emailExtraAList);
-                            Assert.AreEqual(emailDirectQueryList[0].EmailID, emailExtraAList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<EmailExtraB> emailExtraBList = new List<EmailExtraB>();
-                            emailExtraBList = emailService.GetEmailExtraBList().ToList();
-                            CheckEmailExtraBFields(emailExtraBList);
-                            Assert.AreEqual(emailDirectQueryList[0].EmailID, emailExtraBList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailExtraBList.Count);
                         }
                         else
                         {
@@ -841,22 +671,6 @@ namespace CSSPServices.Tests
                             CheckEmailFields(emailList);
                             Assert.AreEqual(emailDirectQueryList[0].EmailID, emailList[0].EmailID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<EmailExtraA> emailExtraAList = new List<EmailExtraA>();
-                            emailExtraAList = emailService.GetEmailExtraAList().ToList();
-                            CheckEmailExtraAFields(emailExtraAList);
-                            Assert.AreEqual(emailDirectQueryList[0].EmailID, emailExtraAList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<EmailExtraB> emailExtraBList = new List<EmailExtraB>();
-                            emailExtraBList = emailService.GetEmailExtraBList().ToList();
-                            CheckEmailExtraBFields(emailExtraBList);
-                            Assert.AreEqual(emailDirectQueryList[0].EmailID, emailExtraBList[0].EmailID);
-                            Assert.AreEqual(emailDirectQueryList.Count, emailExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -878,47 +692,11 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(emailList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(emailList[0].HasErrors);
         }
-        private void CheckEmailExtraAFields(List<EmailExtraA> emailExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(emailExtraAList[0].EmailText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(emailExtraAList[0].LastUpdateContactText));
-            if (!string.IsNullOrWhiteSpace(emailExtraAList[0].EmailTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(emailExtraAList[0].EmailTypeText));
-            }
-            Assert.IsNotNull(emailExtraAList[0].EmailID);
-            Assert.IsNotNull(emailExtraAList[0].EmailTVItemID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(emailExtraAList[0].EmailAddress));
-            Assert.IsNotNull(emailExtraAList[0].EmailType);
-            Assert.IsNotNull(emailExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(emailExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(emailExtraAList[0].HasErrors);
-        }
-        private void CheckEmailExtraBFields(List<EmailExtraB> emailExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(emailExtraBList[0].EmailReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(emailExtraBList[0].EmailReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(emailExtraBList[0].EmailText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(emailExtraBList[0].LastUpdateContactText));
-            if (!string.IsNullOrWhiteSpace(emailExtraBList[0].EmailTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(emailExtraBList[0].EmailTypeText));
-            }
-            Assert.IsNotNull(emailExtraBList[0].EmailID);
-            Assert.IsNotNull(emailExtraBList[0].EmailTVItemID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(emailExtraBList[0].EmailAddress));
-            Assert.IsNotNull(emailExtraBList[0].EmailType);
-            Assert.IsNotNull(emailExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(emailExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(emailExtraBList[0].HasErrors);
-        }
         private Email GetFilledRandomEmail(string OmitPropName)
         {
             Email email = new Email();
 
-            if (OmitPropName != "EmailTVItemID") email.EmailTVItemID = 53;
+            if (OmitPropName != "EmailTVItemID") email.EmailTVItemID = 54;
             if (OmitPropName != "EmailAddress") email.EmailAddress = GetRandomEmail();
             if (OmitPropName != "EmailType") email.EmailType = (EmailTypeEnum)GetRandomEnumType(typeof(EmailTypeEnum));
             if (OmitPropName != "LastUpdateDate_UTC") email.LastUpdateDate_UTC = new DateTime(2005, 3, 6);

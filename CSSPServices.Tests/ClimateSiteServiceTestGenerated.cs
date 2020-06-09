@@ -160,7 +160,7 @@ namespace CSSPServices.Tests
 
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [Range(1, 100000)]
                     // climateSite.ECDBID   (Int32)
                     // -----------------------------------
@@ -290,22 +290,15 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is Nullable
-                    // climateSite.IsProvincial   (Boolean)
+                    // climateSite.IsQuebecSite   (Boolean)
                     // -----------------------------------
 
 
                     // -----------------------------------
                     // Is Nullable
-                    // [StringLength(50))]
-                    // climateSite.ProvSiteID   (String)
+                    // climateSite.IsCoCoRaHS   (Boolean)
                     // -----------------------------------
 
-                    climateSite = null;
-                    climateSite = GetFilledRandomClimateSite("");
-                    climateSite.ProvSiteID = GetRandomString("", 51);
-                    Assert.AreEqual(false, climateSiteService.Add(climateSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "ProvSiteID", "50"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, climateSiteService.GetClimateSiteList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -513,18 +506,6 @@ namespace CSSPServices.Tests
                             CheckClimateSiteFields(new List<ClimateSite>() { climateSiteRet });
                             Assert.AreEqual(climateSite.ClimateSiteID, climateSiteRet.ClimateSiteID);
                         }
-                        else if (extra == "A")
-                        {
-                            ClimateSiteExtraA climateSiteExtraARet = climateSiteService.GetClimateSiteExtraAWithClimateSiteID(climateSite.ClimateSiteID);
-                            CheckClimateSiteExtraAFields(new List<ClimateSiteExtraA>() { climateSiteExtraARet });
-                            Assert.AreEqual(climateSite.ClimateSiteID, climateSiteExtraARet.ClimateSiteID);
-                        }
-                        else if (extra == "B")
-                        {
-                            ClimateSiteExtraB climateSiteExtraBRet = climateSiteService.GetClimateSiteExtraBWithClimateSiteID(climateSite.ClimateSiteID);
-                            CheckClimateSiteExtraBFields(new List<ClimateSiteExtraB>() { climateSiteExtraBRet });
-                            Assert.AreEqual(climateSite.ClimateSiteID, climateSiteExtraBRet.ClimateSiteID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -562,20 +543,6 @@ namespace CSSPServices.Tests
                             climateSiteList = climateSiteService.GetClimateSiteList().ToList();
                             CheckClimateSiteFields(climateSiteList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ClimateSiteExtraA> climateSiteExtraAList = new List<ClimateSiteExtraA>();
-                            climateSiteExtraAList = climateSiteService.GetClimateSiteExtraAList().ToList();
-                            CheckClimateSiteExtraAFields(climateSiteExtraAList);
-                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ClimateSiteExtraB> climateSiteExtraBList = new List<ClimateSiteExtraB>();
-                            climateSiteExtraBList = climateSiteService.GetClimateSiteExtraBList().ToList();
-                            CheckClimateSiteExtraBFields(climateSiteExtraBList);
-                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -611,22 +578,6 @@ namespace CSSPServices.Tests
                             climateSiteList = climateSiteService.GetClimateSiteList().ToList();
                             CheckClimateSiteFields(climateSiteList);
                             Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteList[0].ClimateSiteID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<ClimateSiteExtraA> climateSiteExtraAList = new List<ClimateSiteExtraA>();
-                            climateSiteExtraAList = climateSiteService.GetClimateSiteExtraAList().ToList();
-                            CheckClimateSiteExtraAFields(climateSiteExtraAList);
-                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteExtraAList[0].ClimateSiteID);
-                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ClimateSiteExtraB> climateSiteExtraBList = new List<ClimateSiteExtraB>();
-                            climateSiteExtraBList = climateSiteService.GetClimateSiteExtraBList().ToList();
-                            CheckClimateSiteExtraBFields(climateSiteExtraBList);
-                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteExtraBList[0].ClimateSiteID);
-                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteExtraBList.Count);
                         }
                         else
                         {
@@ -664,22 +615,6 @@ namespace CSSPServices.Tests
                             CheckClimateSiteFields(climateSiteList);
                             Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteList[0].ClimateSiteID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ClimateSiteExtraA> climateSiteExtraAList = new List<ClimateSiteExtraA>();
-                            climateSiteExtraAList = climateSiteService.GetClimateSiteExtraAList().ToList();
-                            CheckClimateSiteExtraAFields(climateSiteExtraAList);
-                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteExtraAList[0].ClimateSiteID);
-                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ClimateSiteExtraB> climateSiteExtraBList = new List<ClimateSiteExtraB>();
-                            climateSiteExtraBList = climateSiteService.GetClimateSiteExtraBList().ToList();
-                            CheckClimateSiteExtraBFields(climateSiteExtraBList);
-                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteExtraBList[0].ClimateSiteID);
-                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -715,22 +650,6 @@ namespace CSSPServices.Tests
                             climateSiteList = climateSiteService.GetClimateSiteList().ToList();
                             CheckClimateSiteFields(climateSiteList);
                             Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteList[0].ClimateSiteID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<ClimateSiteExtraA> climateSiteExtraAList = new List<ClimateSiteExtraA>();
-                            climateSiteExtraAList = climateSiteService.GetClimateSiteExtraAList().ToList();
-                            CheckClimateSiteExtraAFields(climateSiteExtraAList);
-                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteExtraAList[0].ClimateSiteID);
-                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ClimateSiteExtraB> climateSiteExtraBList = new List<ClimateSiteExtraB>();
-                            climateSiteExtraBList = climateSiteService.GetClimateSiteExtraBList().ToList();
-                            CheckClimateSiteExtraBFields(climateSiteExtraBList);
-                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteExtraBList[0].ClimateSiteID);
-                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteExtraBList.Count);
                         }
                         else
                         {
@@ -768,22 +687,6 @@ namespace CSSPServices.Tests
                             CheckClimateSiteFields(climateSiteList);
                             Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteList[0].ClimateSiteID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ClimateSiteExtraA> climateSiteExtraAList = new List<ClimateSiteExtraA>();
-                            climateSiteExtraAList = climateSiteService.GetClimateSiteExtraAList().ToList();
-                            CheckClimateSiteExtraAFields(climateSiteExtraAList);
-                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteExtraAList[0].ClimateSiteID);
-                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ClimateSiteExtraB> climateSiteExtraBList = new List<ClimateSiteExtraB>();
-                            climateSiteExtraBList = climateSiteService.GetClimateSiteExtraBList().ToList();
-                            CheckClimateSiteExtraBFields(climateSiteExtraBList);
-                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteExtraBList[0].ClimateSiteID);
-                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -819,22 +722,6 @@ namespace CSSPServices.Tests
                             climateSiteList = climateSiteService.GetClimateSiteList().ToList();
                             CheckClimateSiteFields(climateSiteList);
                             Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteList[0].ClimateSiteID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<ClimateSiteExtraA> climateSiteExtraAList = new List<ClimateSiteExtraA>();
-                            climateSiteExtraAList = climateSiteService.GetClimateSiteExtraAList().ToList();
-                            CheckClimateSiteExtraAFields(climateSiteExtraAList);
-                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteExtraAList[0].ClimateSiteID);
-                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ClimateSiteExtraB> climateSiteExtraBList = new List<ClimateSiteExtraB>();
-                            climateSiteExtraBList = climateSiteService.GetClimateSiteExtraBList().ToList();
-                            CheckClimateSiteExtraBFields(climateSiteExtraBList);
-                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteExtraBList[0].ClimateSiteID);
-                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteExtraBList.Count);
                         }
                         else
                         {
@@ -872,22 +759,6 @@ namespace CSSPServices.Tests
                             CheckClimateSiteFields(climateSiteList);
                             Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteList[0].ClimateSiteID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ClimateSiteExtraA> climateSiteExtraAList = new List<ClimateSiteExtraA>();
-                            climateSiteExtraAList = climateSiteService.GetClimateSiteExtraAList().ToList();
-                            CheckClimateSiteExtraAFields(climateSiteExtraAList);
-                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteExtraAList[0].ClimateSiteID);
-                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ClimateSiteExtraB> climateSiteExtraBList = new List<ClimateSiteExtraB>();
-                            climateSiteExtraBList = climateSiteService.GetClimateSiteExtraBList().ToList();
-                            CheckClimateSiteExtraBFields(climateSiteExtraBList);
-                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteExtraBList[0].ClimateSiteID);
-                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -923,22 +794,6 @@ namespace CSSPServices.Tests
                             climateSiteList = climateSiteService.GetClimateSiteList().ToList();
                             CheckClimateSiteFields(climateSiteList);
                             Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteList[0].ClimateSiteID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<ClimateSiteExtraA> climateSiteExtraAList = new List<ClimateSiteExtraA>();
-                            climateSiteExtraAList = climateSiteService.GetClimateSiteExtraAList().ToList();
-                            CheckClimateSiteExtraAFields(climateSiteExtraAList);
-                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteExtraAList[0].ClimateSiteID);
-                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ClimateSiteExtraB> climateSiteExtraBList = new List<ClimateSiteExtraB>();
-                            climateSiteExtraBList = climateSiteService.GetClimateSiteExtraBList().ToList();
-                            CheckClimateSiteExtraBFields(climateSiteExtraBList);
-                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteExtraBList[0].ClimateSiteID);
-                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteExtraBList.Count);
                         }
                         else
                         {
@@ -976,22 +831,6 @@ namespace CSSPServices.Tests
                             CheckClimateSiteFields(climateSiteList);
                             Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteList[0].ClimateSiteID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ClimateSiteExtraA> climateSiteExtraAList = new List<ClimateSiteExtraA>();
-                            climateSiteExtraAList = climateSiteService.GetClimateSiteExtraAList().ToList();
-                            CheckClimateSiteExtraAFields(climateSiteExtraAList);
-                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteExtraAList[0].ClimateSiteID);
-                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ClimateSiteExtraB> climateSiteExtraBList = new List<ClimateSiteExtraB>();
-                            climateSiteExtraBList = climateSiteService.GetClimateSiteExtraBList().ToList();
-                            CheckClimateSiteExtraBFields(climateSiteExtraBList);
-                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteExtraBList[0].ClimateSiteID);
-                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -1027,22 +866,6 @@ namespace CSSPServices.Tests
                             climateSiteList = climateSiteService.GetClimateSiteList().ToList();
                             CheckClimateSiteFields(climateSiteList);
                             Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteList[0].ClimateSiteID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<ClimateSiteExtraA> climateSiteExtraAList = new List<ClimateSiteExtraA>();
-                            climateSiteExtraAList = climateSiteService.GetClimateSiteExtraAList().ToList();
-                            CheckClimateSiteExtraAFields(climateSiteExtraAList);
-                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteExtraAList[0].ClimateSiteID);
-                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ClimateSiteExtraB> climateSiteExtraBList = new List<ClimateSiteExtraB>();
-                            climateSiteExtraBList = climateSiteService.GetClimateSiteExtraBList().ToList();
-                            CheckClimateSiteExtraBFields(climateSiteExtraBList);
-                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteExtraBList[0].ClimateSiteID);
-                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteExtraBList.Count);
                         }
                         else
                         {
@@ -1080,22 +903,6 @@ namespace CSSPServices.Tests
                             CheckClimateSiteFields(climateSiteList);
                             Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteList[0].ClimateSiteID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ClimateSiteExtraA> climateSiteExtraAList = new List<ClimateSiteExtraA>();
-                            climateSiteExtraAList = climateSiteService.GetClimateSiteExtraAList().ToList();
-                            CheckClimateSiteExtraAFields(climateSiteExtraAList);
-                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteExtraAList[0].ClimateSiteID);
-                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ClimateSiteExtraB> climateSiteExtraBList = new List<ClimateSiteExtraB>();
-                            climateSiteExtraBList = climateSiteService.GetClimateSiteExtraBList().ToList();
-                            CheckClimateSiteExtraBFields(climateSiteExtraBList);
-                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteExtraBList[0].ClimateSiteID);
-                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -1111,7 +918,10 @@ namespace CSSPServices.Tests
         {
             Assert.IsNotNull(climateSiteList[0].ClimateSiteID);
             Assert.IsNotNull(climateSiteList[0].ClimateSiteTVItemID);
-            Assert.IsNotNull(climateSiteList[0].ECDBID);
+            if (climateSiteList[0].ECDBID != null)
+            {
+                Assert.IsNotNull(climateSiteList[0].ECDBID);
+            }
             Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteList[0].ClimateSiteName));
             Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteList[0].Province));
             if (climateSiteList[0].Elevation_m != null)
@@ -1130,13 +940,13 @@ namespace CSSPServices.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteList[0].TCID));
             }
-            if (climateSiteList[0].IsProvincial != null)
+            if (climateSiteList[0].IsQuebecSite != null)
             {
-                Assert.IsNotNull(climateSiteList[0].IsProvincial);
+                Assert.IsNotNull(climateSiteList[0].IsQuebecSite);
             }
-            if (!string.IsNullOrWhiteSpace(climateSiteList[0].ProvSiteID))
+            if (climateSiteList[0].IsCoCoRaHS != null)
             {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteList[0].ProvSiteID));
+                Assert.IsNotNull(climateSiteList[0].IsCoCoRaHS);
             }
             if (climateSiteList[0].TimeOffset_hour != null)
             {
@@ -1186,172 +996,6 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(climateSiteList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(climateSiteList[0].HasErrors);
         }
-        private void CheckClimateSiteExtraAFields(List<ClimateSiteExtraA> climateSiteExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteExtraAList[0].ClimateSiteText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteExtraAList[0].LastUpdateContactText));
-            Assert.IsNotNull(climateSiteExtraAList[0].ClimateSiteID);
-            Assert.IsNotNull(climateSiteExtraAList[0].ClimateSiteTVItemID);
-            Assert.IsNotNull(climateSiteExtraAList[0].ECDBID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteExtraAList[0].ClimateSiteName));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteExtraAList[0].Province));
-            if (climateSiteExtraAList[0].Elevation_m != null)
-            {
-                Assert.IsNotNull(climateSiteExtraAList[0].Elevation_m);
-            }
-            if (!string.IsNullOrWhiteSpace(climateSiteExtraAList[0].ClimateID))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteExtraAList[0].ClimateID));
-            }
-            if (climateSiteExtraAList[0].WMOID != null)
-            {
-                Assert.IsNotNull(climateSiteExtraAList[0].WMOID);
-            }
-            if (!string.IsNullOrWhiteSpace(climateSiteExtraAList[0].TCID))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteExtraAList[0].TCID));
-            }
-            if (climateSiteExtraAList[0].IsProvincial != null)
-            {
-                Assert.IsNotNull(climateSiteExtraAList[0].IsProvincial);
-            }
-            if (!string.IsNullOrWhiteSpace(climateSiteExtraAList[0].ProvSiteID))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteExtraAList[0].ProvSiteID));
-            }
-            if (climateSiteExtraAList[0].TimeOffset_hour != null)
-            {
-                Assert.IsNotNull(climateSiteExtraAList[0].TimeOffset_hour);
-            }
-            if (!string.IsNullOrWhiteSpace(climateSiteExtraAList[0].File_desc))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteExtraAList[0].File_desc));
-            }
-            if (climateSiteExtraAList[0].HourlyStartDate_Local != null)
-            {
-                Assert.IsNotNull(climateSiteExtraAList[0].HourlyStartDate_Local);
-            }
-            if (climateSiteExtraAList[0].HourlyEndDate_Local != null)
-            {
-                Assert.IsNotNull(climateSiteExtraAList[0].HourlyEndDate_Local);
-            }
-            if (climateSiteExtraAList[0].HourlyNow != null)
-            {
-                Assert.IsNotNull(climateSiteExtraAList[0].HourlyNow);
-            }
-            if (climateSiteExtraAList[0].DailyStartDate_Local != null)
-            {
-                Assert.IsNotNull(climateSiteExtraAList[0].DailyStartDate_Local);
-            }
-            if (climateSiteExtraAList[0].DailyEndDate_Local != null)
-            {
-                Assert.IsNotNull(climateSiteExtraAList[0].DailyEndDate_Local);
-            }
-            if (climateSiteExtraAList[0].DailyNow != null)
-            {
-                Assert.IsNotNull(climateSiteExtraAList[0].DailyNow);
-            }
-            if (climateSiteExtraAList[0].MonthlyStartDate_Local != null)
-            {
-                Assert.IsNotNull(climateSiteExtraAList[0].MonthlyStartDate_Local);
-            }
-            if (climateSiteExtraAList[0].MonthlyEndDate_Local != null)
-            {
-                Assert.IsNotNull(climateSiteExtraAList[0].MonthlyEndDate_Local);
-            }
-            if (climateSiteExtraAList[0].MonthlyNow != null)
-            {
-                Assert.IsNotNull(climateSiteExtraAList[0].MonthlyNow);
-            }
-            Assert.IsNotNull(climateSiteExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(climateSiteExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(climateSiteExtraAList[0].HasErrors);
-        }
-        private void CheckClimateSiteExtraBFields(List<ClimateSiteExtraB> climateSiteExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(climateSiteExtraBList[0].ClimateSiteReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteExtraBList[0].ClimateSiteReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteExtraBList[0].ClimateSiteText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteExtraBList[0].LastUpdateContactText));
-            Assert.IsNotNull(climateSiteExtraBList[0].ClimateSiteID);
-            Assert.IsNotNull(climateSiteExtraBList[0].ClimateSiteTVItemID);
-            Assert.IsNotNull(climateSiteExtraBList[0].ECDBID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteExtraBList[0].ClimateSiteName));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteExtraBList[0].Province));
-            if (climateSiteExtraBList[0].Elevation_m != null)
-            {
-                Assert.IsNotNull(climateSiteExtraBList[0].Elevation_m);
-            }
-            if (!string.IsNullOrWhiteSpace(climateSiteExtraBList[0].ClimateID))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteExtraBList[0].ClimateID));
-            }
-            if (climateSiteExtraBList[0].WMOID != null)
-            {
-                Assert.IsNotNull(climateSiteExtraBList[0].WMOID);
-            }
-            if (!string.IsNullOrWhiteSpace(climateSiteExtraBList[0].TCID))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteExtraBList[0].TCID));
-            }
-            if (climateSiteExtraBList[0].IsProvincial != null)
-            {
-                Assert.IsNotNull(climateSiteExtraBList[0].IsProvincial);
-            }
-            if (!string.IsNullOrWhiteSpace(climateSiteExtraBList[0].ProvSiteID))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteExtraBList[0].ProvSiteID));
-            }
-            if (climateSiteExtraBList[0].TimeOffset_hour != null)
-            {
-                Assert.IsNotNull(climateSiteExtraBList[0].TimeOffset_hour);
-            }
-            if (!string.IsNullOrWhiteSpace(climateSiteExtraBList[0].File_desc))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteExtraBList[0].File_desc));
-            }
-            if (climateSiteExtraBList[0].HourlyStartDate_Local != null)
-            {
-                Assert.IsNotNull(climateSiteExtraBList[0].HourlyStartDate_Local);
-            }
-            if (climateSiteExtraBList[0].HourlyEndDate_Local != null)
-            {
-                Assert.IsNotNull(climateSiteExtraBList[0].HourlyEndDate_Local);
-            }
-            if (climateSiteExtraBList[0].HourlyNow != null)
-            {
-                Assert.IsNotNull(climateSiteExtraBList[0].HourlyNow);
-            }
-            if (climateSiteExtraBList[0].DailyStartDate_Local != null)
-            {
-                Assert.IsNotNull(climateSiteExtraBList[0].DailyStartDate_Local);
-            }
-            if (climateSiteExtraBList[0].DailyEndDate_Local != null)
-            {
-                Assert.IsNotNull(climateSiteExtraBList[0].DailyEndDate_Local);
-            }
-            if (climateSiteExtraBList[0].DailyNow != null)
-            {
-                Assert.IsNotNull(climateSiteExtraBList[0].DailyNow);
-            }
-            if (climateSiteExtraBList[0].MonthlyStartDate_Local != null)
-            {
-                Assert.IsNotNull(climateSiteExtraBList[0].MonthlyStartDate_Local);
-            }
-            if (climateSiteExtraBList[0].MonthlyEndDate_Local != null)
-            {
-                Assert.IsNotNull(climateSiteExtraBList[0].MonthlyEndDate_Local);
-            }
-            if (climateSiteExtraBList[0].MonthlyNow != null)
-            {
-                Assert.IsNotNull(climateSiteExtraBList[0].MonthlyNow);
-            }
-            Assert.IsNotNull(climateSiteExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(climateSiteExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(climateSiteExtraBList[0].HasErrors);
-        }
         private ClimateSite GetFilledRandomClimateSite(string OmitPropName)
         {
             ClimateSite climateSite = new ClimateSite();
@@ -1364,8 +1008,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "ClimateID") climateSite.ClimateID = GetRandomString("", 5);
             if (OmitPropName != "WMOID") climateSite.WMOID = GetRandomInt(1, 100000);
             if (OmitPropName != "TCID") climateSite.TCID = GetRandomString("", 3);
-            if (OmitPropName != "IsProvincial") climateSite.IsProvincial = true;
-            if (OmitPropName != "ProvSiteID") climateSite.ProvSiteID = GetRandomString("", 5);
+            if (OmitPropName != "IsQuebecSite") climateSite.IsQuebecSite = true;
+            if (OmitPropName != "IsCoCoRaHS") climateSite.IsCoCoRaHS = true;
             if (OmitPropName != "TimeOffset_hour") climateSite.TimeOffset_hour = GetRandomDouble(-10.0D, 0.0D);
             if (OmitPropName != "File_desc") climateSite.File_desc = GetRandomString("", 5);
             if (OmitPropName != "HourlyStartDate_Local") climateSite.HourlyStartDate_Local = new DateTime(2005, 3, 6);

@@ -141,32 +141,6 @@ namespace CSSPServices
 
             return RatingCurveQuery;
         }
-        public RatingCurveExtraA GetRatingCurveExtraAWithRatingCurveID(int RatingCurveID)
-        {
-            return FillRatingCurveExtraA().Where(c => c.RatingCurveID == RatingCurveID).FirstOrDefault();
-
-        }
-        public IQueryable<RatingCurveExtraA> GetRatingCurveExtraAList()
-        {
-            IQueryable<RatingCurveExtraA> RatingCurveExtraAQuery = FillRatingCurveExtraA();
-
-            RatingCurveExtraAQuery = EnhanceQueryStatements<RatingCurveExtraA>(RatingCurveExtraAQuery) as IQueryable<RatingCurveExtraA>;
-
-            return RatingCurveExtraAQuery;
-        }
-        public RatingCurveExtraB GetRatingCurveExtraBWithRatingCurveID(int RatingCurveID)
-        {
-            return FillRatingCurveExtraB().Where(c => c.RatingCurveID == RatingCurveID).FirstOrDefault();
-
-        }
-        public IQueryable<RatingCurveExtraB> GetRatingCurveExtraBList()
-        {
-            IQueryable<RatingCurveExtraB> RatingCurveExtraBQuery = FillRatingCurveExtraB();
-
-            RatingCurveExtraBQuery = EnhanceQueryStatements<RatingCurveExtraB>(RatingCurveExtraBQuery) as IQueryable<RatingCurveExtraB>;
-
-            return RatingCurveExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

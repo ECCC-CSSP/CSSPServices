@@ -207,32 +207,6 @@ namespace CSSPServices
 
             return TideDataValueQuery;
         }
-        public TideDataValueExtraA GetTideDataValueExtraAWithTideDataValueID(int TideDataValueID)
-        {
-            return FillTideDataValueExtraA().Where(c => c.TideDataValueID == TideDataValueID).FirstOrDefault();
-
-        }
-        public IQueryable<TideDataValueExtraA> GetTideDataValueExtraAList()
-        {
-            IQueryable<TideDataValueExtraA> TideDataValueExtraAQuery = FillTideDataValueExtraA();
-
-            TideDataValueExtraAQuery = EnhanceQueryStatements<TideDataValueExtraA>(TideDataValueExtraAQuery) as IQueryable<TideDataValueExtraA>;
-
-            return TideDataValueExtraAQuery;
-        }
-        public TideDataValueExtraB GetTideDataValueExtraBWithTideDataValueID(int TideDataValueID)
-        {
-            return FillTideDataValueExtraB().Where(c => c.TideDataValueID == TideDataValueID).FirstOrDefault();
-
-        }
-        public IQueryable<TideDataValueExtraB> GetTideDataValueExtraBList()
-        {
-            IQueryable<TideDataValueExtraB> TideDataValueExtraBQuery = FillTideDataValueExtraB();
-
-            TideDataValueExtraBQuery = EnhanceQueryStatements<TideDataValueExtraB>(TideDataValueExtraBQuery) as IQueryable<TideDataValueExtraB>;
-
-            return TideDataValueExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

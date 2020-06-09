@@ -170,32 +170,6 @@ namespace CSSPServices
 
             return EmailQuery;
         }
-        public EmailExtraA GetEmailExtraAWithEmailID(int EmailID)
-        {
-            return FillEmailExtraA().Where(c => c.EmailID == EmailID).FirstOrDefault();
-
-        }
-        public IQueryable<EmailExtraA> GetEmailExtraAList()
-        {
-            IQueryable<EmailExtraA> EmailExtraAQuery = FillEmailExtraA();
-
-            EmailExtraAQuery = EnhanceQueryStatements<EmailExtraA>(EmailExtraAQuery) as IQueryable<EmailExtraA>;
-
-            return EmailExtraAQuery;
-        }
-        public EmailExtraB GetEmailExtraBWithEmailID(int EmailID)
-        {
-            return FillEmailExtraB().Where(c => c.EmailID == EmailID).FirstOrDefault();
-
-        }
-        public IQueryable<EmailExtraB> GetEmailExtraBList()
-        {
-            IQueryable<EmailExtraB> EmailExtraBQuery = FillEmailExtraB();
-
-            EmailExtraBQuery = EnhanceQueryStatements<EmailExtraB>(EmailExtraBQuery) as IQueryable<EmailExtraB>;
-
-            return EmailExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

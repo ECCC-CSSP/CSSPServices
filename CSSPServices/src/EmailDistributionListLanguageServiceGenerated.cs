@@ -76,16 +76,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "Language"), new[] { "Language" });
             }
 
-            if (string.IsNullOrWhiteSpace(emailDistributionListLanguage.RegionName))
+            if (string.IsNullOrWhiteSpace(emailDistributionListLanguage.EmailListName))
             {
                 emailDistributionListLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "RegionName"), new[] { "RegionName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "EmailListName"), new[] { "EmailListName" });
             }
 
-            if (!string.IsNullOrWhiteSpace(emailDistributionListLanguage.RegionName) && (emailDistributionListLanguage.RegionName.Length < 1 || emailDistributionListLanguage.RegionName.Length > 100))
+            if (!string.IsNullOrWhiteSpace(emailDistributionListLanguage.EmailListName) && (emailDistributionListLanguage.EmailListName.Length < 1 || emailDistributionListLanguage.EmailListName.Length > 100))
             {
                 emailDistributionListLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "RegionName", "1", "100"), new[] { "RegionName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "EmailListName", "1", "100"), new[] { "EmailListName" });
             }
 
             retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)emailDistributionListLanguage.TranslationStatus);
@@ -154,32 +154,6 @@ namespace CSSPServices
             EmailDistributionListLanguageQuery = EnhanceQueryStatements<EmailDistributionListLanguage>(EmailDistributionListLanguageQuery) as IQueryable<EmailDistributionListLanguage>;
 
             return EmailDistributionListLanguageQuery;
-        }
-        public EmailDistributionListLanguageExtraA GetEmailDistributionListLanguageExtraAWithEmailDistributionListLanguageID(int EmailDistributionListLanguageID)
-        {
-            return FillEmailDistributionListLanguageExtraA().Where(c => c.EmailDistributionListLanguageID == EmailDistributionListLanguageID).FirstOrDefault();
-
-        }
-        public IQueryable<EmailDistributionListLanguageExtraA> GetEmailDistributionListLanguageExtraAList()
-        {
-            IQueryable<EmailDistributionListLanguageExtraA> EmailDistributionListLanguageExtraAQuery = FillEmailDistributionListLanguageExtraA();
-
-            EmailDistributionListLanguageExtraAQuery = EnhanceQueryStatements<EmailDistributionListLanguageExtraA>(EmailDistributionListLanguageExtraAQuery) as IQueryable<EmailDistributionListLanguageExtraA>;
-
-            return EmailDistributionListLanguageExtraAQuery;
-        }
-        public EmailDistributionListLanguageExtraB GetEmailDistributionListLanguageExtraBWithEmailDistributionListLanguageID(int EmailDistributionListLanguageID)
-        {
-            return FillEmailDistributionListLanguageExtraB().Where(c => c.EmailDistributionListLanguageID == EmailDistributionListLanguageID).FirstOrDefault();
-
-        }
-        public IQueryable<EmailDistributionListLanguageExtraB> GetEmailDistributionListLanguageExtraBList()
-        {
-            IQueryable<EmailDistributionListLanguageExtraB> EmailDistributionListLanguageExtraBQuery = FillEmailDistributionListLanguageExtraB();
-
-            EmailDistributionListLanguageExtraBQuery = EnhanceQueryStatements<EmailDistributionListLanguageExtraB>(EmailDistributionListLanguageExtraBQuery) as IQueryable<EmailDistributionListLanguageExtraB>;
-
-            return EmailDistributionListLanguageExtraBQuery;
         }
         #endregion Functions public Generated Get
 

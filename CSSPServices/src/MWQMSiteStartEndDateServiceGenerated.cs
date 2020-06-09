@@ -167,32 +167,6 @@ namespace CSSPServices
 
             return MWQMSiteStartEndDateQuery;
         }
-        public MWQMSiteStartEndDateExtraA GetMWQMSiteStartEndDateExtraAWithMWQMSiteStartEndDateID(int MWQMSiteStartEndDateID)
-        {
-            return FillMWQMSiteStartEndDateExtraA().Where(c => c.MWQMSiteStartEndDateID == MWQMSiteStartEndDateID).FirstOrDefault();
-
-        }
-        public IQueryable<MWQMSiteStartEndDateExtraA> GetMWQMSiteStartEndDateExtraAList()
-        {
-            IQueryable<MWQMSiteStartEndDateExtraA> MWQMSiteStartEndDateExtraAQuery = FillMWQMSiteStartEndDateExtraA();
-
-            MWQMSiteStartEndDateExtraAQuery = EnhanceQueryStatements<MWQMSiteStartEndDateExtraA>(MWQMSiteStartEndDateExtraAQuery) as IQueryable<MWQMSiteStartEndDateExtraA>;
-
-            return MWQMSiteStartEndDateExtraAQuery;
-        }
-        public MWQMSiteStartEndDateExtraB GetMWQMSiteStartEndDateExtraBWithMWQMSiteStartEndDateID(int MWQMSiteStartEndDateID)
-        {
-            return FillMWQMSiteStartEndDateExtraB().Where(c => c.MWQMSiteStartEndDateID == MWQMSiteStartEndDateID).FirstOrDefault();
-
-        }
-        public IQueryable<MWQMSiteStartEndDateExtraB> GetMWQMSiteStartEndDateExtraBList()
-        {
-            IQueryable<MWQMSiteStartEndDateExtraB> MWQMSiteStartEndDateExtraBQuery = FillMWQMSiteStartEndDateExtraB();
-
-            MWQMSiteStartEndDateExtraBQuery = EnhanceQueryStatements<MWQMSiteStartEndDateExtraB>(MWQMSiteStartEndDateExtraBQuery) as IQueryable<MWQMSiteStartEndDateExtraB>;
-
-            return MWQMSiteStartEndDateExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

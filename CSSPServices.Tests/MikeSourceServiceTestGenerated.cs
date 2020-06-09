@@ -349,18 +349,6 @@ namespace CSSPServices.Tests
                             CheckMikeSourceFields(new List<MikeSource>() { mikeSourceRet });
                             Assert.AreEqual(mikeSource.MikeSourceID, mikeSourceRet.MikeSourceID);
                         }
-                        else if (extra == "A")
-                        {
-                            MikeSourceExtraA mikeSourceExtraARet = mikeSourceService.GetMikeSourceExtraAWithMikeSourceID(mikeSource.MikeSourceID);
-                            CheckMikeSourceExtraAFields(new List<MikeSourceExtraA>() { mikeSourceExtraARet });
-                            Assert.AreEqual(mikeSource.MikeSourceID, mikeSourceExtraARet.MikeSourceID);
-                        }
-                        else if (extra == "B")
-                        {
-                            MikeSourceExtraB mikeSourceExtraBRet = mikeSourceService.GetMikeSourceExtraBWithMikeSourceID(mikeSource.MikeSourceID);
-                            CheckMikeSourceExtraBFields(new List<MikeSourceExtraB>() { mikeSourceExtraBRet });
-                            Assert.AreEqual(mikeSource.MikeSourceID, mikeSourceExtraBRet.MikeSourceID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -398,20 +386,6 @@ namespace CSSPServices.Tests
                             mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
                             CheckMikeSourceFields(mikeSourceList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<MikeSourceExtraA> mikeSourceExtraAList = new List<MikeSourceExtraA>();
-                            mikeSourceExtraAList = mikeSourceService.GetMikeSourceExtraAList().ToList();
-                            CheckMikeSourceExtraAFields(mikeSourceExtraAList);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MikeSourceExtraB> mikeSourceExtraBList = new List<MikeSourceExtraB>();
-                            mikeSourceExtraBList = mikeSourceService.GetMikeSourceExtraBList().ToList();
-                            CheckMikeSourceExtraBFields(mikeSourceExtraBList);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -447,22 +421,6 @@ namespace CSSPServices.Tests
                             mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
                             CheckMikeSourceFields(mikeSourceList);
                             Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceList[0].MikeSourceID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<MikeSourceExtraA> mikeSourceExtraAList = new List<MikeSourceExtraA>();
-                            mikeSourceExtraAList = mikeSourceService.GetMikeSourceExtraAList().ToList();
-                            CheckMikeSourceExtraAFields(mikeSourceExtraAList);
-                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceExtraAList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MikeSourceExtraB> mikeSourceExtraBList = new List<MikeSourceExtraB>();
-                            mikeSourceExtraBList = mikeSourceService.GetMikeSourceExtraBList().ToList();
-                            CheckMikeSourceExtraBFields(mikeSourceExtraBList);
-                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceExtraBList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceExtraBList.Count);
                         }
                         else
                         {
@@ -500,22 +458,6 @@ namespace CSSPServices.Tests
                             CheckMikeSourceFields(mikeSourceList);
                             Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceList[0].MikeSourceID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<MikeSourceExtraA> mikeSourceExtraAList = new List<MikeSourceExtraA>();
-                            mikeSourceExtraAList = mikeSourceService.GetMikeSourceExtraAList().ToList();
-                            CheckMikeSourceExtraAFields(mikeSourceExtraAList);
-                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceExtraAList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MikeSourceExtraB> mikeSourceExtraBList = new List<MikeSourceExtraB>();
-                            mikeSourceExtraBList = mikeSourceService.GetMikeSourceExtraBList().ToList();
-                            CheckMikeSourceExtraBFields(mikeSourceExtraBList);
-                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceExtraBList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -551,22 +493,6 @@ namespace CSSPServices.Tests
                             mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
                             CheckMikeSourceFields(mikeSourceList);
                             Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceList[0].MikeSourceID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<MikeSourceExtraA> mikeSourceExtraAList = new List<MikeSourceExtraA>();
-                            mikeSourceExtraAList = mikeSourceService.GetMikeSourceExtraAList().ToList();
-                            CheckMikeSourceExtraAFields(mikeSourceExtraAList);
-                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceExtraAList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MikeSourceExtraB> mikeSourceExtraBList = new List<MikeSourceExtraB>();
-                            mikeSourceExtraBList = mikeSourceService.GetMikeSourceExtraBList().ToList();
-                            CheckMikeSourceExtraBFields(mikeSourceExtraBList);
-                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceExtraBList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceExtraBList.Count);
                         }
                         else
                         {
@@ -604,22 +530,6 @@ namespace CSSPServices.Tests
                             CheckMikeSourceFields(mikeSourceList);
                             Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceList[0].MikeSourceID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<MikeSourceExtraA> mikeSourceExtraAList = new List<MikeSourceExtraA>();
-                            mikeSourceExtraAList = mikeSourceService.GetMikeSourceExtraAList().ToList();
-                            CheckMikeSourceExtraAFields(mikeSourceExtraAList);
-                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceExtraAList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MikeSourceExtraB> mikeSourceExtraBList = new List<MikeSourceExtraB>();
-                            mikeSourceExtraBList = mikeSourceService.GetMikeSourceExtraBList().ToList();
-                            CheckMikeSourceExtraBFields(mikeSourceExtraBList);
-                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceExtraBList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -655,22 +565,6 @@ namespace CSSPServices.Tests
                             mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
                             CheckMikeSourceFields(mikeSourceList);
                             Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceList[0].MikeSourceID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<MikeSourceExtraA> mikeSourceExtraAList = new List<MikeSourceExtraA>();
-                            mikeSourceExtraAList = mikeSourceService.GetMikeSourceExtraAList().ToList();
-                            CheckMikeSourceExtraAFields(mikeSourceExtraAList);
-                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceExtraAList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MikeSourceExtraB> mikeSourceExtraBList = new List<MikeSourceExtraB>();
-                            mikeSourceExtraBList = mikeSourceService.GetMikeSourceExtraBList().ToList();
-                            CheckMikeSourceExtraBFields(mikeSourceExtraBList);
-                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceExtraBList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceExtraBList.Count);
                         }
                         else
                         {
@@ -708,22 +602,6 @@ namespace CSSPServices.Tests
                             CheckMikeSourceFields(mikeSourceList);
                             Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceList[0].MikeSourceID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<MikeSourceExtraA> mikeSourceExtraAList = new List<MikeSourceExtraA>();
-                            mikeSourceExtraAList = mikeSourceService.GetMikeSourceExtraAList().ToList();
-                            CheckMikeSourceExtraAFields(mikeSourceExtraAList);
-                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceExtraAList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MikeSourceExtraB> mikeSourceExtraBList = new List<MikeSourceExtraB>();
-                            mikeSourceExtraBList = mikeSourceService.GetMikeSourceExtraBList().ToList();
-                            CheckMikeSourceExtraBFields(mikeSourceExtraBList);
-                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceExtraBList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -759,22 +637,6 @@ namespace CSSPServices.Tests
                             mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
                             CheckMikeSourceFields(mikeSourceList);
                             Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceList[0].MikeSourceID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<MikeSourceExtraA> mikeSourceExtraAList = new List<MikeSourceExtraA>();
-                            mikeSourceExtraAList = mikeSourceService.GetMikeSourceExtraAList().ToList();
-                            CheckMikeSourceExtraAFields(mikeSourceExtraAList);
-                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceExtraAList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MikeSourceExtraB> mikeSourceExtraBList = new List<MikeSourceExtraB>();
-                            mikeSourceExtraBList = mikeSourceService.GetMikeSourceExtraBList().ToList();
-                            CheckMikeSourceExtraBFields(mikeSourceExtraBList);
-                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceExtraBList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceExtraBList.Count);
                         }
                         else
                         {
@@ -812,22 +674,6 @@ namespace CSSPServices.Tests
                             CheckMikeSourceFields(mikeSourceList);
                             Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceList[0].MikeSourceID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<MikeSourceExtraA> mikeSourceExtraAList = new List<MikeSourceExtraA>();
-                            mikeSourceExtraAList = mikeSourceService.GetMikeSourceExtraAList().ToList();
-                            CheckMikeSourceExtraAFields(mikeSourceExtraAList);
-                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceExtraAList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MikeSourceExtraB> mikeSourceExtraBList = new List<MikeSourceExtraB>();
-                            mikeSourceExtraBList = mikeSourceService.GetMikeSourceExtraBList().ToList();
-                            CheckMikeSourceExtraBFields(mikeSourceExtraBList);
-                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceExtraBList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -863,22 +709,6 @@ namespace CSSPServices.Tests
                             mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
                             CheckMikeSourceFields(mikeSourceList);
                             Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceList[0].MikeSourceID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<MikeSourceExtraA> mikeSourceExtraAList = new List<MikeSourceExtraA>();
-                            mikeSourceExtraAList = mikeSourceService.GetMikeSourceExtraAList().ToList();
-                            CheckMikeSourceExtraAFields(mikeSourceExtraAList);
-                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceExtraAList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MikeSourceExtraB> mikeSourceExtraBList = new List<MikeSourceExtraB>();
-                            mikeSourceExtraBList = mikeSourceService.GetMikeSourceExtraBList().ToList();
-                            CheckMikeSourceExtraBFields(mikeSourceExtraBList);
-                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceExtraBList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceExtraBList.Count);
                         }
                         else
                         {
@@ -916,22 +746,6 @@ namespace CSSPServices.Tests
                             CheckMikeSourceFields(mikeSourceList);
                             Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceList[0].MikeSourceID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<MikeSourceExtraA> mikeSourceExtraAList = new List<MikeSourceExtraA>();
-                            mikeSourceExtraAList = mikeSourceService.GetMikeSourceExtraAList().ToList();
-                            CheckMikeSourceExtraAFields(mikeSourceExtraAList);
-                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceExtraAList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MikeSourceExtraB> mikeSourceExtraBList = new List<MikeSourceExtraB>();
-                            mikeSourceExtraBList = mikeSourceService.GetMikeSourceExtraBList().ToList();
-                            CheckMikeSourceExtraBFields(mikeSourceExtraBList);
-                            Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceExtraBList[0].MikeSourceID);
-                            Assert.AreEqual(mikeSourceDirectQueryList.Count, mikeSourceExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -968,69 +782,11 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(mikeSourceList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(mikeSourceList[0].HasErrors);
         }
-        private void CheckMikeSourceExtraAFields(List<MikeSourceExtraA> mikeSourceExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceExtraAList[0].MikeSourceText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceExtraAList[0].LastUpdateContactText));
-            Assert.IsNotNull(mikeSourceExtraAList[0].MikeSourceID);
-            Assert.IsNotNull(mikeSourceExtraAList[0].MikeSourceTVItemID);
-            Assert.IsNotNull(mikeSourceExtraAList[0].IsContinuous);
-            Assert.IsNotNull(mikeSourceExtraAList[0].Include);
-            Assert.IsNotNull(mikeSourceExtraAList[0].IsRiver);
-            Assert.IsNotNull(mikeSourceExtraAList[0].UseHydrometric);
-            if (mikeSourceExtraAList[0].HydrometricTVItemID != null)
-            {
-                Assert.IsNotNull(mikeSourceExtraAList[0].HydrometricTVItemID);
-            }
-            if (mikeSourceExtraAList[0].DrainageArea_km2 != null)
-            {
-                Assert.IsNotNull(mikeSourceExtraAList[0].DrainageArea_km2);
-            }
-            if (mikeSourceExtraAList[0].Factor != null)
-            {
-                Assert.IsNotNull(mikeSourceExtraAList[0].Factor);
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceExtraAList[0].SourceNumberString));
-            Assert.IsNotNull(mikeSourceExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(mikeSourceExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(mikeSourceExtraAList[0].HasErrors);
-        }
-        private void CheckMikeSourceExtraBFields(List<MikeSourceExtraB> mikeSourceExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(mikeSourceExtraBList[0].MikeSourceReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceExtraBList[0].MikeSourceReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceExtraBList[0].MikeSourceText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceExtraBList[0].LastUpdateContactText));
-            Assert.IsNotNull(mikeSourceExtraBList[0].MikeSourceID);
-            Assert.IsNotNull(mikeSourceExtraBList[0].MikeSourceTVItemID);
-            Assert.IsNotNull(mikeSourceExtraBList[0].IsContinuous);
-            Assert.IsNotNull(mikeSourceExtraBList[0].Include);
-            Assert.IsNotNull(mikeSourceExtraBList[0].IsRiver);
-            Assert.IsNotNull(mikeSourceExtraBList[0].UseHydrometric);
-            if (mikeSourceExtraBList[0].HydrometricTVItemID != null)
-            {
-                Assert.IsNotNull(mikeSourceExtraBList[0].HydrometricTVItemID);
-            }
-            if (mikeSourceExtraBList[0].DrainageArea_km2 != null)
-            {
-                Assert.IsNotNull(mikeSourceExtraBList[0].DrainageArea_km2);
-            }
-            if (mikeSourceExtraBList[0].Factor != null)
-            {
-                Assert.IsNotNull(mikeSourceExtraBList[0].Factor);
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceExtraBList[0].SourceNumberString));
-            Assert.IsNotNull(mikeSourceExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(mikeSourceExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(mikeSourceExtraBList[0].HasErrors);
-        }
         private MikeSource GetFilledRandomMikeSource(string OmitPropName)
         {
             MikeSource mikeSource = new MikeSource();
 
-            if (OmitPropName != "MikeSourceTVItemID") mikeSource.MikeSourceTVItemID = 52;
+            if (OmitPropName != "MikeSourceTVItemID") mikeSource.MikeSourceTVItemID = 53;
             if (OmitPropName != "IsContinuous") mikeSource.IsContinuous = true;
             if (OmitPropName != "Include") mikeSource.Include = true;
             if (OmitPropName != "IsRiver") mikeSource.IsRiver = true;

@@ -155,32 +155,6 @@ namespace CSSPServices
 
             return VPScenarioLanguageQuery;
         }
-        public VPScenarioLanguageExtraA GetVPScenarioLanguageExtraAWithVPScenarioLanguageID(int VPScenarioLanguageID)
-        {
-            return FillVPScenarioLanguageExtraA().Where(c => c.VPScenarioLanguageID == VPScenarioLanguageID).FirstOrDefault();
-
-        }
-        public IQueryable<VPScenarioLanguageExtraA> GetVPScenarioLanguageExtraAList()
-        {
-            IQueryable<VPScenarioLanguageExtraA> VPScenarioLanguageExtraAQuery = FillVPScenarioLanguageExtraA();
-
-            VPScenarioLanguageExtraAQuery = EnhanceQueryStatements<VPScenarioLanguageExtraA>(VPScenarioLanguageExtraAQuery) as IQueryable<VPScenarioLanguageExtraA>;
-
-            return VPScenarioLanguageExtraAQuery;
-        }
-        public VPScenarioLanguageExtraB GetVPScenarioLanguageExtraBWithVPScenarioLanguageID(int VPScenarioLanguageID)
-        {
-            return FillVPScenarioLanguageExtraB().Where(c => c.VPScenarioLanguageID == VPScenarioLanguageID).FirstOrDefault();
-
-        }
-        public IQueryable<VPScenarioLanguageExtraB> GetVPScenarioLanguageExtraBList()
-        {
-            IQueryable<VPScenarioLanguageExtraB> VPScenarioLanguageExtraBQuery = FillVPScenarioLanguageExtraB();
-
-            VPScenarioLanguageExtraBQuery = EnhanceQueryStatements<VPScenarioLanguageExtraB>(VPScenarioLanguageExtraBQuery) as IQueryable<VPScenarioLanguageExtraB>;
-
-            return VPScenarioLanguageExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

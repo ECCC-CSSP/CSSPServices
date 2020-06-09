@@ -236,32 +236,6 @@ namespace CSSPServices
 
             return UseOfSiteQuery;
         }
-        public UseOfSiteExtraA GetUseOfSiteExtraAWithUseOfSiteID(int UseOfSiteID)
-        {
-            return FillUseOfSiteExtraA().Where(c => c.UseOfSiteID == UseOfSiteID).FirstOrDefault();
-
-        }
-        public IQueryable<UseOfSiteExtraA> GetUseOfSiteExtraAList()
-        {
-            IQueryable<UseOfSiteExtraA> UseOfSiteExtraAQuery = FillUseOfSiteExtraA();
-
-            UseOfSiteExtraAQuery = EnhanceQueryStatements<UseOfSiteExtraA>(UseOfSiteExtraAQuery) as IQueryable<UseOfSiteExtraA>;
-
-            return UseOfSiteExtraAQuery;
-        }
-        public UseOfSiteExtraB GetUseOfSiteExtraBWithUseOfSiteID(int UseOfSiteID)
-        {
-            return FillUseOfSiteExtraB().Where(c => c.UseOfSiteID == UseOfSiteID).FirstOrDefault();
-
-        }
-        public IQueryable<UseOfSiteExtraB> GetUseOfSiteExtraBList()
-        {
-            IQueryable<UseOfSiteExtraB> UseOfSiteExtraBQuery = FillUseOfSiteExtraB();
-
-            UseOfSiteExtraBQuery = EnhanceQueryStatements<UseOfSiteExtraB>(UseOfSiteExtraBQuery) as IQueryable<UseOfSiteExtraB>;
-
-            return UseOfSiteExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

@@ -188,32 +188,6 @@ namespace CSSPServices
 
             return TVItemLanguageQuery;
         }
-        public TVItemLanguageExtraA GetTVItemLanguageExtraAWithTVItemLanguageID(int TVItemLanguageID)
-        {
-            return FillTVItemLanguageExtraA().Where(c => c.TVItemLanguageID == TVItemLanguageID).FirstOrDefault();
-
-        }
-        public IQueryable<TVItemLanguageExtraA> GetTVItemLanguageExtraAList()
-        {
-            IQueryable<TVItemLanguageExtraA> TVItemLanguageExtraAQuery = FillTVItemLanguageExtraA();
-
-            TVItemLanguageExtraAQuery = EnhanceQueryStatements<TVItemLanguageExtraA>(TVItemLanguageExtraAQuery) as IQueryable<TVItemLanguageExtraA>;
-
-            return TVItemLanguageExtraAQuery;
-        }
-        public TVItemLanguageExtraB GetTVItemLanguageExtraBWithTVItemLanguageID(int TVItemLanguageID)
-        {
-            return FillTVItemLanguageExtraB().Where(c => c.TVItemLanguageID == TVItemLanguageID).FirstOrDefault();
-
-        }
-        public IQueryable<TVItemLanguageExtraB> GetTVItemLanguageExtraBList()
-        {
-            IQueryable<TVItemLanguageExtraB> TVItemLanguageExtraBQuery = FillTVItemLanguageExtraB();
-
-            TVItemLanguageExtraBQuery = EnhanceQueryStatements<TVItemLanguageExtraB>(TVItemLanguageExtraBQuery) as IQueryable<TVItemLanguageExtraB>;
-
-            return TVItemLanguageExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

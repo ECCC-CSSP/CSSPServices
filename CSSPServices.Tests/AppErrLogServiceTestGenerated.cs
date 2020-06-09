@@ -299,30 +299,6 @@ namespace CSSPServices.Tests
                             CheckAppErrLogFields(new List<AppErrLog>() { appErrLogRet });
                             Assert.AreEqual(appErrLog.AppErrLogID, appErrLogRet.AppErrLogID);
                         }
-                        else if (extra == "A")
-                        {
-                            AppErrLogExtraA appErrLogExtraARet = appErrLogService.GetAppErrLogExtraAWithAppErrLogID(appErrLog.AppErrLogID);
-                            CheckAppErrLogExtraAFields(new List<AppErrLogExtraA>() { appErrLogExtraARet });
-                            Assert.AreEqual(appErrLog.AppErrLogID, appErrLogExtraARet.AppErrLogID);
-                        }
-                        else if (extra == "B")
-                        {
-                            AppErrLogExtraB appErrLogExtraBRet = appErrLogService.GetAppErrLogExtraBWithAppErrLogID(appErrLog.AppErrLogID);
-                            CheckAppErrLogExtraBFields(new List<AppErrLogExtraB>() { appErrLogExtraBRet });
-                            Assert.AreEqual(appErrLog.AppErrLogID, appErrLogExtraBRet.AppErrLogID);
-                        }
-                        else if (extra == "C")
-                        {
-                            AppErrLogExtraC appErrLogExtraCRet = appErrLogService.GetAppErrLogExtraCWithAppErrLogID(appErrLog.AppErrLogID);
-                            CheckAppErrLogExtraCFields(new List<AppErrLogExtraC>() { appErrLogExtraCRet });
-                            Assert.AreEqual(appErrLog.AppErrLogID, appErrLogExtraCRet.AppErrLogID);
-                        }
-                        else if (extra == "D")
-                        {
-                            AppErrLogExtraD appErrLogExtraDRet = appErrLogService.GetAppErrLogExtraDWithAppErrLogID(appErrLog.AppErrLogID);
-                            CheckAppErrLogExtraDFields(new List<AppErrLogExtraD>() { appErrLogExtraDRet });
-                            Assert.AreEqual(appErrLog.AppErrLogID, appErrLogExtraDRet.AppErrLogID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -360,34 +336,6 @@ namespace CSSPServices.Tests
                             appErrLogList = appErrLogService.GetAppErrLogList().ToList();
                             CheckAppErrLogFields(appErrLogList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<AppErrLogExtraA> appErrLogExtraAList = new List<AppErrLogExtraA>();
-                            appErrLogExtraAList = appErrLogService.GetAppErrLogExtraAList().ToList();
-                            CheckAppErrLogExtraAFields(appErrLogExtraAList);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<AppErrLogExtraB> appErrLogExtraBList = new List<AppErrLogExtraB>();
-                            appErrLogExtraBList = appErrLogService.GetAppErrLogExtraBList().ToList();
-                            CheckAppErrLogExtraBFields(appErrLogExtraBList);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraBList.Count);
-                        }
-                        else if (extra == "C")
-                        {
-                            List<AppErrLogExtraC> appErrLogExtraCList = new List<AppErrLogExtraC>();
-                            appErrLogExtraCList = appErrLogService.GetAppErrLogExtraCList().ToList();
-                            CheckAppErrLogExtraCFields(appErrLogExtraCList);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraCList.Count);
-                        }
-                        else if (extra == "D")
-                        {
-                            List<AppErrLogExtraD> appErrLogExtraDList = new List<AppErrLogExtraD>();
-                            appErrLogExtraDList = appErrLogService.GetAppErrLogExtraDList().ToList();
-                            CheckAppErrLogExtraDFields(appErrLogExtraDList);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraDList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -423,38 +371,6 @@ namespace CSSPServices.Tests
                             appErrLogList = appErrLogService.GetAppErrLogList().ToList();
                             CheckAppErrLogFields(appErrLogList);
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogList[0].AppErrLogID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<AppErrLogExtraA> appErrLogExtraAList = new List<AppErrLogExtraA>();
-                            appErrLogExtraAList = appErrLogService.GetAppErrLogExtraAList().ToList();
-                            CheckAppErrLogExtraAFields(appErrLogExtraAList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraAList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<AppErrLogExtraB> appErrLogExtraBList = new List<AppErrLogExtraB>();
-                            appErrLogExtraBList = appErrLogService.GetAppErrLogExtraBList().ToList();
-                            CheckAppErrLogExtraBFields(appErrLogExtraBList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraBList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraBList.Count);
-                        }
-                        else if (extra == "C")
-                        {
-                            List<AppErrLogExtraC> appErrLogExtraCList = new List<AppErrLogExtraC>();
-                            appErrLogExtraCList = appErrLogService.GetAppErrLogExtraCList().ToList();
-                            CheckAppErrLogExtraCFields(appErrLogExtraCList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraCList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraCList.Count);
-                        }
-                        else if (extra == "D")
-                        {
-                            List<AppErrLogExtraD> appErrLogExtraDList = new List<AppErrLogExtraD>();
-                            appErrLogExtraDList = appErrLogService.GetAppErrLogExtraDList().ToList();
-                            CheckAppErrLogExtraDFields(appErrLogExtraDList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraDList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraDList.Count);
                         }
                         else
                         {
@@ -492,38 +408,6 @@ namespace CSSPServices.Tests
                             CheckAppErrLogFields(appErrLogList);
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogList[0].AppErrLogID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<AppErrLogExtraA> appErrLogExtraAList = new List<AppErrLogExtraA>();
-                            appErrLogExtraAList = appErrLogService.GetAppErrLogExtraAList().ToList();
-                            CheckAppErrLogExtraAFields(appErrLogExtraAList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraAList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<AppErrLogExtraB> appErrLogExtraBList = new List<AppErrLogExtraB>();
-                            appErrLogExtraBList = appErrLogService.GetAppErrLogExtraBList().ToList();
-                            CheckAppErrLogExtraBFields(appErrLogExtraBList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraBList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraBList.Count);
-                        }
-                        else if (extra == "C")
-                        {
-                            List<AppErrLogExtraC> appErrLogExtraCList = new List<AppErrLogExtraC>();
-                            appErrLogExtraCList = appErrLogService.GetAppErrLogExtraCList().ToList();
-                            CheckAppErrLogExtraCFields(appErrLogExtraCList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraCList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraCList.Count);
-                        }
-                        else if (extra == "D")
-                        {
-                            List<AppErrLogExtraD> appErrLogExtraDList = new List<AppErrLogExtraD>();
-                            appErrLogExtraDList = appErrLogService.GetAppErrLogExtraDList().ToList();
-                            CheckAppErrLogExtraDFields(appErrLogExtraDList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraDList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraDList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -559,38 +443,6 @@ namespace CSSPServices.Tests
                             appErrLogList = appErrLogService.GetAppErrLogList().ToList();
                             CheckAppErrLogFields(appErrLogList);
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogList[0].AppErrLogID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<AppErrLogExtraA> appErrLogExtraAList = new List<AppErrLogExtraA>();
-                            appErrLogExtraAList = appErrLogService.GetAppErrLogExtraAList().ToList();
-                            CheckAppErrLogExtraAFields(appErrLogExtraAList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraAList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<AppErrLogExtraB> appErrLogExtraBList = new List<AppErrLogExtraB>();
-                            appErrLogExtraBList = appErrLogService.GetAppErrLogExtraBList().ToList();
-                            CheckAppErrLogExtraBFields(appErrLogExtraBList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraBList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraBList.Count);
-                        }
-                        else if (extra == "C")
-                        {
-                            List<AppErrLogExtraC> appErrLogExtraCList = new List<AppErrLogExtraC>();
-                            appErrLogExtraCList = appErrLogService.GetAppErrLogExtraCList().ToList();
-                            CheckAppErrLogExtraCFields(appErrLogExtraCList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraCList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraCList.Count);
-                        }
-                        else if (extra == "D")
-                        {
-                            List<AppErrLogExtraD> appErrLogExtraDList = new List<AppErrLogExtraD>();
-                            appErrLogExtraDList = appErrLogService.GetAppErrLogExtraDList().ToList();
-                            CheckAppErrLogExtraDFields(appErrLogExtraDList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraDList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraDList.Count);
                         }
                         else
                         {
@@ -628,38 +480,6 @@ namespace CSSPServices.Tests
                             CheckAppErrLogFields(appErrLogList);
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogList[0].AppErrLogID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<AppErrLogExtraA> appErrLogExtraAList = new List<AppErrLogExtraA>();
-                            appErrLogExtraAList = appErrLogService.GetAppErrLogExtraAList().ToList();
-                            CheckAppErrLogExtraAFields(appErrLogExtraAList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraAList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<AppErrLogExtraB> appErrLogExtraBList = new List<AppErrLogExtraB>();
-                            appErrLogExtraBList = appErrLogService.GetAppErrLogExtraBList().ToList();
-                            CheckAppErrLogExtraBFields(appErrLogExtraBList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraBList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraBList.Count);
-                        }
-                        else if (extra == "C")
-                        {
-                            List<AppErrLogExtraC> appErrLogExtraCList = new List<AppErrLogExtraC>();
-                            appErrLogExtraCList = appErrLogService.GetAppErrLogExtraCList().ToList();
-                            CheckAppErrLogExtraCFields(appErrLogExtraCList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraCList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraCList.Count);
-                        }
-                        else if (extra == "D")
-                        {
-                            List<AppErrLogExtraD> appErrLogExtraDList = new List<AppErrLogExtraD>();
-                            appErrLogExtraDList = appErrLogService.GetAppErrLogExtraDList().ToList();
-                            CheckAppErrLogExtraDFields(appErrLogExtraDList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraDList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraDList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -695,38 +515,6 @@ namespace CSSPServices.Tests
                             appErrLogList = appErrLogService.GetAppErrLogList().ToList();
                             CheckAppErrLogFields(appErrLogList);
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogList[0].AppErrLogID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<AppErrLogExtraA> appErrLogExtraAList = new List<AppErrLogExtraA>();
-                            appErrLogExtraAList = appErrLogService.GetAppErrLogExtraAList().ToList();
-                            CheckAppErrLogExtraAFields(appErrLogExtraAList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraAList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<AppErrLogExtraB> appErrLogExtraBList = new List<AppErrLogExtraB>();
-                            appErrLogExtraBList = appErrLogService.GetAppErrLogExtraBList().ToList();
-                            CheckAppErrLogExtraBFields(appErrLogExtraBList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraBList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraBList.Count);
-                        }
-                        else if (extra == "C")
-                        {
-                            List<AppErrLogExtraC> appErrLogExtraCList = new List<AppErrLogExtraC>();
-                            appErrLogExtraCList = appErrLogService.GetAppErrLogExtraCList().ToList();
-                            CheckAppErrLogExtraCFields(appErrLogExtraCList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraCList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraCList.Count);
-                        }
-                        else if (extra == "D")
-                        {
-                            List<AppErrLogExtraD> appErrLogExtraDList = new List<AppErrLogExtraD>();
-                            appErrLogExtraDList = appErrLogService.GetAppErrLogExtraDList().ToList();
-                            CheckAppErrLogExtraDFields(appErrLogExtraDList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraDList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraDList.Count);
                         }
                         else
                         {
@@ -764,38 +552,6 @@ namespace CSSPServices.Tests
                             CheckAppErrLogFields(appErrLogList);
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogList[0].AppErrLogID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<AppErrLogExtraA> appErrLogExtraAList = new List<AppErrLogExtraA>();
-                            appErrLogExtraAList = appErrLogService.GetAppErrLogExtraAList().ToList();
-                            CheckAppErrLogExtraAFields(appErrLogExtraAList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraAList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<AppErrLogExtraB> appErrLogExtraBList = new List<AppErrLogExtraB>();
-                            appErrLogExtraBList = appErrLogService.GetAppErrLogExtraBList().ToList();
-                            CheckAppErrLogExtraBFields(appErrLogExtraBList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraBList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraBList.Count);
-                        }
-                        else if (extra == "C")
-                        {
-                            List<AppErrLogExtraC> appErrLogExtraCList = new List<AppErrLogExtraC>();
-                            appErrLogExtraCList = appErrLogService.GetAppErrLogExtraCList().ToList();
-                            CheckAppErrLogExtraCFields(appErrLogExtraCList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraCList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraCList.Count);
-                        }
-                        else if (extra == "D")
-                        {
-                            List<AppErrLogExtraD> appErrLogExtraDList = new List<AppErrLogExtraD>();
-                            appErrLogExtraDList = appErrLogService.GetAppErrLogExtraDList().ToList();
-                            CheckAppErrLogExtraDFields(appErrLogExtraDList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraDList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraDList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -831,38 +587,6 @@ namespace CSSPServices.Tests
                             appErrLogList = appErrLogService.GetAppErrLogList().ToList();
                             CheckAppErrLogFields(appErrLogList);
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogList[0].AppErrLogID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<AppErrLogExtraA> appErrLogExtraAList = new List<AppErrLogExtraA>();
-                            appErrLogExtraAList = appErrLogService.GetAppErrLogExtraAList().ToList();
-                            CheckAppErrLogExtraAFields(appErrLogExtraAList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraAList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<AppErrLogExtraB> appErrLogExtraBList = new List<AppErrLogExtraB>();
-                            appErrLogExtraBList = appErrLogService.GetAppErrLogExtraBList().ToList();
-                            CheckAppErrLogExtraBFields(appErrLogExtraBList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraBList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraBList.Count);
-                        }
-                        else if (extra == "C")
-                        {
-                            List<AppErrLogExtraC> appErrLogExtraCList = new List<AppErrLogExtraC>();
-                            appErrLogExtraCList = appErrLogService.GetAppErrLogExtraCList().ToList();
-                            CheckAppErrLogExtraCFields(appErrLogExtraCList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraCList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraCList.Count);
-                        }
-                        else if (extra == "D")
-                        {
-                            List<AppErrLogExtraD> appErrLogExtraDList = new List<AppErrLogExtraD>();
-                            appErrLogExtraDList = appErrLogService.GetAppErrLogExtraDList().ToList();
-                            CheckAppErrLogExtraDFields(appErrLogExtraDList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraDList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraDList.Count);
                         }
                         else
                         {
@@ -900,38 +624,6 @@ namespace CSSPServices.Tests
                             CheckAppErrLogFields(appErrLogList);
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogList[0].AppErrLogID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<AppErrLogExtraA> appErrLogExtraAList = new List<AppErrLogExtraA>();
-                            appErrLogExtraAList = appErrLogService.GetAppErrLogExtraAList().ToList();
-                            CheckAppErrLogExtraAFields(appErrLogExtraAList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraAList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<AppErrLogExtraB> appErrLogExtraBList = new List<AppErrLogExtraB>();
-                            appErrLogExtraBList = appErrLogService.GetAppErrLogExtraBList().ToList();
-                            CheckAppErrLogExtraBFields(appErrLogExtraBList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraBList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraBList.Count);
-                        }
-                        else if (extra == "C")
-                        {
-                            List<AppErrLogExtraC> appErrLogExtraCList = new List<AppErrLogExtraC>();
-                            appErrLogExtraCList = appErrLogService.GetAppErrLogExtraCList().ToList();
-                            CheckAppErrLogExtraCFields(appErrLogExtraCList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraCList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraCList.Count);
-                        }
-                        else if (extra == "D")
-                        {
-                            List<AppErrLogExtraD> appErrLogExtraDList = new List<AppErrLogExtraD>();
-                            appErrLogExtraDList = appErrLogService.GetAppErrLogExtraDList().ToList();
-                            CheckAppErrLogExtraDFields(appErrLogExtraDList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraDList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraDList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -967,38 +659,6 @@ namespace CSSPServices.Tests
                             appErrLogList = appErrLogService.GetAppErrLogList().ToList();
                             CheckAppErrLogFields(appErrLogList);
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogList[0].AppErrLogID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<AppErrLogExtraA> appErrLogExtraAList = new List<AppErrLogExtraA>();
-                            appErrLogExtraAList = appErrLogService.GetAppErrLogExtraAList().ToList();
-                            CheckAppErrLogExtraAFields(appErrLogExtraAList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraAList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<AppErrLogExtraB> appErrLogExtraBList = new List<AppErrLogExtraB>();
-                            appErrLogExtraBList = appErrLogService.GetAppErrLogExtraBList().ToList();
-                            CheckAppErrLogExtraBFields(appErrLogExtraBList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraBList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraBList.Count);
-                        }
-                        else if (extra == "C")
-                        {
-                            List<AppErrLogExtraC> appErrLogExtraCList = new List<AppErrLogExtraC>();
-                            appErrLogExtraCList = appErrLogService.GetAppErrLogExtraCList().ToList();
-                            CheckAppErrLogExtraCFields(appErrLogExtraCList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraCList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraCList.Count);
-                        }
-                        else if (extra == "D")
-                        {
-                            List<AppErrLogExtraD> appErrLogExtraDList = new List<AppErrLogExtraD>();
-                            appErrLogExtraDList = appErrLogService.GetAppErrLogExtraDList().ToList();
-                            CheckAppErrLogExtraDFields(appErrLogExtraDList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraDList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraDList.Count);
                         }
                         else
                         {
@@ -1036,38 +696,6 @@ namespace CSSPServices.Tests
                             CheckAppErrLogFields(appErrLogList);
                             Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogList[0].AppErrLogID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<AppErrLogExtraA> appErrLogExtraAList = new List<AppErrLogExtraA>();
-                            appErrLogExtraAList = appErrLogService.GetAppErrLogExtraAList().ToList();
-                            CheckAppErrLogExtraAFields(appErrLogExtraAList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraAList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<AppErrLogExtraB> appErrLogExtraBList = new List<AppErrLogExtraB>();
-                            appErrLogExtraBList = appErrLogService.GetAppErrLogExtraBList().ToList();
-                            CheckAppErrLogExtraBFields(appErrLogExtraBList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraBList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraBList.Count);
-                        }
-                        else if (extra == "C")
-                        {
-                            List<AppErrLogExtraC> appErrLogExtraCList = new List<AppErrLogExtraC>();
-                            appErrLogExtraCList = appErrLogService.GetAppErrLogExtraCList().ToList();
-                            CheckAppErrLogExtraCFields(appErrLogExtraCList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraCList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraCList.Count);
-                        }
-                        else if (extra == "D")
-                        {
-                            List<AppErrLogExtraD> appErrLogExtraDList = new List<AppErrLogExtraD>();
-                            appErrLogExtraDList = appErrLogService.GetAppErrLogExtraDList().ToList();
-                            CheckAppErrLogExtraDFields(appErrLogExtraDList);
-                            Assert.AreEqual(appErrLogDirectQueryList[0].AppErrLogID, appErrLogExtraDList[0].AppErrLogID);
-                            Assert.AreEqual(appErrLogDirectQueryList.Count, appErrLogExtraDList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -1090,114 +718,6 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(appErrLogList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(appErrLogList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(appErrLogList[0].HasErrors);
-        }
-        private void CheckAppErrLogExtraAFields(List<AppErrLogExtraA> appErrLogExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogExtraAList[0].LastUpdateContactText));
-            Assert.IsNotNull(appErrLogExtraAList[0].AppErrLogID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogExtraAList[0].Tag));
-            Assert.IsNotNull(appErrLogExtraAList[0].LineNumber);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogExtraAList[0].Source));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogExtraAList[0].Message));
-            Assert.IsNotNull(appErrLogExtraAList[0].DateTime_UTC);
-            Assert.IsNotNull(appErrLogExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(appErrLogExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(appErrLogExtraAList[0].HasErrors);
-        }
-        private void CheckAppErrLogExtraBFields(List<AppErrLogExtraB> appErrLogExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(appErrLogExtraBList[0].AppErrLogReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogExtraBList[0].AppErrLogReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogExtraBList[0].LastUpdateContactText));
-            Assert.IsNotNull(appErrLogExtraBList[0].AppErrLogID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogExtraBList[0].Tag));
-            Assert.IsNotNull(appErrLogExtraBList[0].LineNumber);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogExtraBList[0].Source));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogExtraBList[0].Message));
-            Assert.IsNotNull(appErrLogExtraBList[0].DateTime_UTC);
-            Assert.IsNotNull(appErrLogExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(appErrLogExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(appErrLogExtraBList[0].HasErrors);
-        }
-        private void CheckAppErrLogExtraCFields(List<AppErrLogExtraC> appErrLogExtraCList)
-        {
-            if (!string.IsNullOrWhiteSpace(appErrLogExtraCList[0].AppErrLogReportTest2))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogExtraCList[0].AppErrLogReportTest2));
-            }
-            if (!string.IsNullOrWhiteSpace(appErrLogExtraCList[0].AppErrLogReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogExtraCList[0].AppErrLogReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogExtraCList[0].LastUpdateContactText));
-            Assert.IsNotNull(appErrLogExtraCList[0].AppErrLogID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogExtraCList[0].Tag));
-            Assert.IsNotNull(appErrLogExtraCList[0].LineNumber);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogExtraCList[0].Source));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogExtraCList[0].Message));
-            Assert.IsNotNull(appErrLogExtraCList[0].DateTime_UTC);
-            Assert.IsNotNull(appErrLogExtraCList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(appErrLogExtraCList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(appErrLogExtraCList[0].HasErrors);
-        }
-        private void CheckAppErrLogExtraDFields(List<AppErrLogExtraD> appErrLogExtraDList)
-        {
-            if (!string.IsNullOrWhiteSpace(appErrLogExtraDList[0].AppErrLogReportTest2K))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogExtraDList[0].AppErrLogReportTest2K));
-            }
-            if (!string.IsNullOrWhiteSpace(appErrLogExtraDList[0].AppErrLogReportTest2H))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogExtraDList[0].AppErrLogReportTest2H));
-            }
-            if (!string.IsNullOrWhiteSpace(appErrLogExtraDList[0].AppErrLogReportTest2D))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogExtraDList[0].AppErrLogReportTest2D));
-            }
-            if (!string.IsNullOrWhiteSpace(appErrLogExtraDList[0].AppErrLogReportTest2G))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogExtraDList[0].AppErrLogReportTest2G));
-            }
-            if (!string.IsNullOrWhiteSpace(appErrLogExtraDList[0].AppErrLogReportTest2S))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogExtraDList[0].AppErrLogReportTest2S));
-            }
-            if (!string.IsNullOrWhiteSpace(appErrLogExtraDList[0].AppErrLogReportTest2L))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogExtraDList[0].AppErrLogReportTest2L));
-            }
-            if (!string.IsNullOrWhiteSpace(appErrLogExtraDList[0].AppErrLogReportTest2C))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogExtraDList[0].AppErrLogReportTest2C));
-            }
-            if (!string.IsNullOrWhiteSpace(appErrLogExtraDList[0].AppErrLogReportTest2B))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogExtraDList[0].AppErrLogReportTest2B));
-            }
-            if (!string.IsNullOrWhiteSpace(appErrLogExtraDList[0].AppErrLogReportTest2A))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogExtraDList[0].AppErrLogReportTest2A));
-            }
-            if (!string.IsNullOrWhiteSpace(appErrLogExtraDList[0].AppErrLogReportTest2))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogExtraDList[0].AppErrLogReportTest2));
-            }
-            if (!string.IsNullOrWhiteSpace(appErrLogExtraDList[0].AppErrLogReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogExtraDList[0].AppErrLogReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogExtraDList[0].LastUpdateContactText));
-            Assert.IsNotNull(appErrLogExtraDList[0].AppErrLogID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogExtraDList[0].Tag));
-            Assert.IsNotNull(appErrLogExtraDList[0].LineNumber);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogExtraDList[0].Source));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogExtraDList[0].Message));
-            Assert.IsNotNull(appErrLogExtraDList[0].DateTime_UTC);
-            Assert.IsNotNull(appErrLogExtraDList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(appErrLogExtraDList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(appErrLogExtraDList[0].HasErrors);
         }
         private AppErrLog GetFilledRandomAppErrLog(string OmitPropName)
         {

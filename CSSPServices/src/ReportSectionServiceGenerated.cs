@@ -91,6 +91,16 @@ namespace CSSPServices
                 }
             }
 
+            if (reportSection.Language != null)
+            {
+                retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)reportSection.Language);
+                if (reportSection.Language == null || !string.IsNullOrWhiteSpace(retStr))
+                {
+                    reportSection.HasErrors = true;
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "Language"), new[] { "Language" });
+                }
+            }
+
             if (reportSection.Ordinal < 0 || reportSection.Ordinal > 1000)
             {
                 reportSection.HasErrors = true;
@@ -126,6 +136,18 @@ namespace CSSPServices
                     reportSection.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ReportSection", "TemplateReportSectionID", (reportSection.TemplateReportSectionID == null ? "" : reportSection.TemplateReportSectionID.ToString())), new[] { "TemplateReportSectionID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(reportSection.ReportSectionName) && reportSection.ReportSectionName.Length > 100)
+            {
+                reportSection.HasErrors = true;
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ReportSectionName", "100"), new[] { "ReportSectionName" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(reportSection.ReportSectionText) && reportSection.ReportSectionText.Length > 10000)
+            {
+                reportSection.HasErrors = true;
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ReportSectionText", "10000"), new[] { "ReportSectionText" });
             }
 
             if (reportSection.LastUpdateDate_UTC.Year == 1)
@@ -187,32 +209,6 @@ namespace CSSPServices
             ReportSectionQuery = EnhanceQueryStatements<ReportSection>(ReportSectionQuery) as IQueryable<ReportSection>;
 
             return ReportSectionQuery;
-        }
-        public ReportSectionExtraA GetReportSectionExtraAWithReportSectionID(int ReportSectionID)
-        {
-            return FillReportSectionExtraA().Where(c => c.ReportSectionID == ReportSectionID).FirstOrDefault();
-
-        }
-        public IQueryable<ReportSectionExtraA> GetReportSectionExtraAList()
-        {
-            IQueryable<ReportSectionExtraA> ReportSectionExtraAQuery = FillReportSectionExtraA();
-
-            ReportSectionExtraAQuery = EnhanceQueryStatements<ReportSectionExtraA>(ReportSectionExtraAQuery) as IQueryable<ReportSectionExtraA>;
-
-            return ReportSectionExtraAQuery;
-        }
-        public ReportSectionExtraB GetReportSectionExtraBWithReportSectionID(int ReportSectionID)
-        {
-            return FillReportSectionExtraB().Where(c => c.ReportSectionID == ReportSectionID).FirstOrDefault();
-
-        }
-        public IQueryable<ReportSectionExtraB> GetReportSectionExtraBList()
-        {
-            IQueryable<ReportSectionExtraB> ReportSectionExtraBQuery = FillReportSectionExtraB();
-
-            ReportSectionExtraBQuery = EnhanceQueryStatements<ReportSectionExtraB>(ReportSectionExtraBQuery) as IQueryable<ReportSectionExtraB>;
-
-            return ReportSectionExtraBQuery;
         }
         #endregion Functions public Generated Get
 

@@ -271,18 +271,6 @@ namespace CSSPServices.Tests
                             CheckClassificationFields(new List<Classification>() { classificationRet });
                             Assert.AreEqual(classification.ClassificationID, classificationRet.ClassificationID);
                         }
-                        else if (extra == "A")
-                        {
-                            ClassificationExtraA classificationExtraARet = classificationService.GetClassificationExtraAWithClassificationID(classification.ClassificationID);
-                            CheckClassificationExtraAFields(new List<ClassificationExtraA>() { classificationExtraARet });
-                            Assert.AreEqual(classification.ClassificationID, classificationExtraARet.ClassificationID);
-                        }
-                        else if (extra == "B")
-                        {
-                            ClassificationExtraB classificationExtraBRet = classificationService.GetClassificationExtraBWithClassificationID(classification.ClassificationID);
-                            CheckClassificationExtraBFields(new List<ClassificationExtraB>() { classificationExtraBRet });
-                            Assert.AreEqual(classification.ClassificationID, classificationExtraBRet.ClassificationID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -320,20 +308,6 @@ namespace CSSPServices.Tests
                             classificationList = classificationService.GetClassificationList().ToList();
                             CheckClassificationFields(classificationList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ClassificationExtraA> classificationExtraAList = new List<ClassificationExtraA>();
-                            classificationExtraAList = classificationService.GetClassificationExtraAList().ToList();
-                            CheckClassificationExtraAFields(classificationExtraAList);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ClassificationExtraB> classificationExtraBList = new List<ClassificationExtraB>();
-                            classificationExtraBList = classificationService.GetClassificationExtraBList().ToList();
-                            CheckClassificationExtraBFields(classificationExtraBList);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -369,22 +343,6 @@ namespace CSSPServices.Tests
                             classificationList = classificationService.GetClassificationList().ToList();
                             CheckClassificationFields(classificationList);
                             Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationList[0].ClassificationID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<ClassificationExtraA> classificationExtraAList = new List<ClassificationExtraA>();
-                            classificationExtraAList = classificationService.GetClassificationExtraAList().ToList();
-                            CheckClassificationExtraAFields(classificationExtraAList);
-                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraAList[0].ClassificationID);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ClassificationExtraB> classificationExtraBList = new List<ClassificationExtraB>();
-                            classificationExtraBList = classificationService.GetClassificationExtraBList().ToList();
-                            CheckClassificationExtraBFields(classificationExtraBList);
-                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraBList[0].ClassificationID);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraBList.Count);
                         }
                         else
                         {
@@ -422,22 +380,6 @@ namespace CSSPServices.Tests
                             CheckClassificationFields(classificationList);
                             Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationList[0].ClassificationID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ClassificationExtraA> classificationExtraAList = new List<ClassificationExtraA>();
-                            classificationExtraAList = classificationService.GetClassificationExtraAList().ToList();
-                            CheckClassificationExtraAFields(classificationExtraAList);
-                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraAList[0].ClassificationID);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ClassificationExtraB> classificationExtraBList = new List<ClassificationExtraB>();
-                            classificationExtraBList = classificationService.GetClassificationExtraBList().ToList();
-                            CheckClassificationExtraBFields(classificationExtraBList);
-                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraBList[0].ClassificationID);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -473,22 +415,6 @@ namespace CSSPServices.Tests
                             classificationList = classificationService.GetClassificationList().ToList();
                             CheckClassificationFields(classificationList);
                             Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationList[0].ClassificationID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<ClassificationExtraA> classificationExtraAList = new List<ClassificationExtraA>();
-                            classificationExtraAList = classificationService.GetClassificationExtraAList().ToList();
-                            CheckClassificationExtraAFields(classificationExtraAList);
-                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraAList[0].ClassificationID);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ClassificationExtraB> classificationExtraBList = new List<ClassificationExtraB>();
-                            classificationExtraBList = classificationService.GetClassificationExtraBList().ToList();
-                            CheckClassificationExtraBFields(classificationExtraBList);
-                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraBList[0].ClassificationID);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraBList.Count);
                         }
                         else
                         {
@@ -526,22 +452,6 @@ namespace CSSPServices.Tests
                             CheckClassificationFields(classificationList);
                             Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationList[0].ClassificationID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ClassificationExtraA> classificationExtraAList = new List<ClassificationExtraA>();
-                            classificationExtraAList = classificationService.GetClassificationExtraAList().ToList();
-                            CheckClassificationExtraAFields(classificationExtraAList);
-                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraAList[0].ClassificationID);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ClassificationExtraB> classificationExtraBList = new List<ClassificationExtraB>();
-                            classificationExtraBList = classificationService.GetClassificationExtraBList().ToList();
-                            CheckClassificationExtraBFields(classificationExtraBList);
-                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraBList[0].ClassificationID);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -577,22 +487,6 @@ namespace CSSPServices.Tests
                             classificationList = classificationService.GetClassificationList().ToList();
                             CheckClassificationFields(classificationList);
                             Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationList[0].ClassificationID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<ClassificationExtraA> classificationExtraAList = new List<ClassificationExtraA>();
-                            classificationExtraAList = classificationService.GetClassificationExtraAList().ToList();
-                            CheckClassificationExtraAFields(classificationExtraAList);
-                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraAList[0].ClassificationID);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ClassificationExtraB> classificationExtraBList = new List<ClassificationExtraB>();
-                            classificationExtraBList = classificationService.GetClassificationExtraBList().ToList();
-                            CheckClassificationExtraBFields(classificationExtraBList);
-                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraBList[0].ClassificationID);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraBList.Count);
                         }
                         else
                         {
@@ -630,22 +524,6 @@ namespace CSSPServices.Tests
                             CheckClassificationFields(classificationList);
                             Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationList[0].ClassificationID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ClassificationExtraA> classificationExtraAList = new List<ClassificationExtraA>();
-                            classificationExtraAList = classificationService.GetClassificationExtraAList().ToList();
-                            CheckClassificationExtraAFields(classificationExtraAList);
-                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraAList[0].ClassificationID);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ClassificationExtraB> classificationExtraBList = new List<ClassificationExtraB>();
-                            classificationExtraBList = classificationService.GetClassificationExtraBList().ToList();
-                            CheckClassificationExtraBFields(classificationExtraBList);
-                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraBList[0].ClassificationID);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -681,22 +559,6 @@ namespace CSSPServices.Tests
                             classificationList = classificationService.GetClassificationList().ToList();
                             CheckClassificationFields(classificationList);
                             Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationList[0].ClassificationID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<ClassificationExtraA> classificationExtraAList = new List<ClassificationExtraA>();
-                            classificationExtraAList = classificationService.GetClassificationExtraAList().ToList();
-                            CheckClassificationExtraAFields(classificationExtraAList);
-                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraAList[0].ClassificationID);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ClassificationExtraB> classificationExtraBList = new List<ClassificationExtraB>();
-                            classificationExtraBList = classificationService.GetClassificationExtraBList().ToList();
-                            CheckClassificationExtraBFields(classificationExtraBList);
-                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraBList[0].ClassificationID);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraBList.Count);
                         }
                         else
                         {
@@ -734,22 +596,6 @@ namespace CSSPServices.Tests
                             CheckClassificationFields(classificationList);
                             Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationList[0].ClassificationID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ClassificationExtraA> classificationExtraAList = new List<ClassificationExtraA>();
-                            classificationExtraAList = classificationService.GetClassificationExtraAList().ToList();
-                            CheckClassificationExtraAFields(classificationExtraAList);
-                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraAList[0].ClassificationID);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ClassificationExtraB> classificationExtraBList = new List<ClassificationExtraB>();
-                            classificationExtraBList = classificationService.GetClassificationExtraBList().ToList();
-                            CheckClassificationExtraBFields(classificationExtraBList);
-                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraBList[0].ClassificationID);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -785,22 +631,6 @@ namespace CSSPServices.Tests
                             classificationList = classificationService.GetClassificationList().ToList();
                             CheckClassificationFields(classificationList);
                             Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationList[0].ClassificationID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<ClassificationExtraA> classificationExtraAList = new List<ClassificationExtraA>();
-                            classificationExtraAList = classificationService.GetClassificationExtraAList().ToList();
-                            CheckClassificationExtraAFields(classificationExtraAList);
-                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraAList[0].ClassificationID);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ClassificationExtraB> classificationExtraBList = new List<ClassificationExtraB>();
-                            classificationExtraBList = classificationService.GetClassificationExtraBList().ToList();
-                            CheckClassificationExtraBFields(classificationExtraBList);
-                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraBList[0].ClassificationID);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraBList.Count);
                         }
                         else
                         {
@@ -838,22 +668,6 @@ namespace CSSPServices.Tests
                             CheckClassificationFields(classificationList);
                             Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationList[0].ClassificationID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ClassificationExtraA> classificationExtraAList = new List<ClassificationExtraA>();
-                            classificationExtraAList = classificationService.GetClassificationExtraAList().ToList();
-                            CheckClassificationExtraAFields(classificationExtraAList);
-                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraAList[0].ClassificationID);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ClassificationExtraB> classificationExtraBList = new List<ClassificationExtraB>();
-                            classificationExtraBList = classificationService.GetClassificationExtraBList().ToList();
-                            CheckClassificationExtraBFields(classificationExtraBList);
-                            Assert.AreEqual(classificationDirectQueryList[0].ClassificationID, classificationExtraBList[0].ClassificationID);
-                            Assert.AreEqual(classificationDirectQueryList.Count, classificationExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -874,40 +688,6 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(classificationList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(classificationList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(classificationList[0].HasErrors);
-        }
-        private void CheckClassificationExtraAFields(List<ClassificationExtraA> classificationExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(classificationExtraAList[0].LastUpdateContactText));
-            if (!string.IsNullOrWhiteSpace(classificationExtraAList[0].ClassificationTVText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(classificationExtraAList[0].ClassificationTVText));
-            }
-            Assert.IsNotNull(classificationExtraAList[0].ClassificationID);
-            Assert.IsNotNull(classificationExtraAList[0].ClassificationTVItemID);
-            Assert.IsNotNull(classificationExtraAList[0].ClassificationType);
-            Assert.IsNotNull(classificationExtraAList[0].Ordinal);
-            Assert.IsNotNull(classificationExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(classificationExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(classificationExtraAList[0].HasErrors);
-        }
-        private void CheckClassificationExtraBFields(List<ClassificationExtraB> classificationExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(classificationExtraBList[0].ClassificationReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(classificationExtraBList[0].ClassificationReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(classificationExtraBList[0].LastUpdateContactText));
-            if (!string.IsNullOrWhiteSpace(classificationExtraBList[0].ClassificationTVText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(classificationExtraBList[0].ClassificationTVText));
-            }
-            Assert.IsNotNull(classificationExtraBList[0].ClassificationID);
-            Assert.IsNotNull(classificationExtraBList[0].ClassificationTVItemID);
-            Assert.IsNotNull(classificationExtraBList[0].ClassificationType);
-            Assert.IsNotNull(classificationExtraBList[0].Ordinal);
-            Assert.IsNotNull(classificationExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(classificationExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(classificationExtraBList[0].HasErrors);
         }
         private Classification GetFilledRandomClassification(string OmitPropName)
         {

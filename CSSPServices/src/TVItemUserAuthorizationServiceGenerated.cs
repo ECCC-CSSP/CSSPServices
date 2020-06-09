@@ -369,32 +369,6 @@ namespace CSSPServices
 
             return TVItemUserAuthorizationQuery;
         }
-        public TVItemUserAuthorizationExtraA GetTVItemUserAuthorizationExtraAWithTVItemUserAuthorizationID(int TVItemUserAuthorizationID)
-        {
-            return FillTVItemUserAuthorizationExtraA().Where(c => c.TVItemUserAuthorizationID == TVItemUserAuthorizationID).FirstOrDefault();
-
-        }
-        public IQueryable<TVItemUserAuthorizationExtraA> GetTVItemUserAuthorizationExtraAList()
-        {
-            IQueryable<TVItemUserAuthorizationExtraA> TVItemUserAuthorizationExtraAQuery = FillTVItemUserAuthorizationExtraA();
-
-            TVItemUserAuthorizationExtraAQuery = EnhanceQueryStatements<TVItemUserAuthorizationExtraA>(TVItemUserAuthorizationExtraAQuery) as IQueryable<TVItemUserAuthorizationExtraA>;
-
-            return TVItemUserAuthorizationExtraAQuery;
-        }
-        public TVItemUserAuthorizationExtraB GetTVItemUserAuthorizationExtraBWithTVItemUserAuthorizationID(int TVItemUserAuthorizationID)
-        {
-            return FillTVItemUserAuthorizationExtraB().Where(c => c.TVItemUserAuthorizationID == TVItemUserAuthorizationID).FirstOrDefault();
-
-        }
-        public IQueryable<TVItemUserAuthorizationExtraB> GetTVItemUserAuthorizationExtraBList()
-        {
-            IQueryable<TVItemUserAuthorizationExtraB> TVItemUserAuthorizationExtraBQuery = FillTVItemUserAuthorizationExtraB();
-
-            TVItemUserAuthorizationExtraBQuery = EnhanceQueryStatements<TVItemUserAuthorizationExtraB>(TVItemUserAuthorizationExtraBQuery) as IQueryable<TVItemUserAuthorizationExtraB>;
-
-            return TVItemUserAuthorizationExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

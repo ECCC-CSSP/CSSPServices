@@ -432,18 +432,6 @@ namespace CSSPServices.Tests
                             CheckTVFileFields(new List<TVFile>() { tvFileRet });
                             Assert.AreEqual(tvFile.TVFileID, tvFileRet.TVFileID);
                         }
-                        else if (extra == "A")
-                        {
-                            TVFileExtraA tvFileExtraARet = tvFileService.GetTVFileExtraAWithTVFileID(tvFile.TVFileID);
-                            CheckTVFileExtraAFields(new List<TVFileExtraA>() { tvFileExtraARet });
-                            Assert.AreEqual(tvFile.TVFileID, tvFileExtraARet.TVFileID);
-                        }
-                        else if (extra == "B")
-                        {
-                            TVFileExtraB tvFileExtraBRet = tvFileService.GetTVFileExtraBWithTVFileID(tvFile.TVFileID);
-                            CheckTVFileExtraBFields(new List<TVFileExtraB>() { tvFileExtraBRet });
-                            Assert.AreEqual(tvFile.TVFileID, tvFileExtraBRet.TVFileID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -481,20 +469,6 @@ namespace CSSPServices.Tests
                             tvFileList = tvFileService.GetTVFileList().ToList();
                             CheckTVFileFields(tvFileList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<TVFileExtraA> tvFileExtraAList = new List<TVFileExtraA>();
-                            tvFileExtraAList = tvFileService.GetTVFileExtraAList().ToList();
-                            CheckTVFileExtraAFields(tvFileExtraAList);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TVFileExtraB> tvFileExtraBList = new List<TVFileExtraB>();
-                            tvFileExtraBList = tvFileService.GetTVFileExtraBList().ToList();
-                            CheckTVFileExtraBFields(tvFileExtraBList);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -530,22 +504,6 @@ namespace CSSPServices.Tests
                             tvFileList = tvFileService.GetTVFileList().ToList();
                             CheckTVFileFields(tvFileList);
                             Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileList[0].TVFileID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<TVFileExtraA> tvFileExtraAList = new List<TVFileExtraA>();
-                            tvFileExtraAList = tvFileService.GetTVFileExtraAList().ToList();
-                            CheckTVFileExtraAFields(tvFileExtraAList);
-                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraAList[0].TVFileID);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TVFileExtraB> tvFileExtraBList = new List<TVFileExtraB>();
-                            tvFileExtraBList = tvFileService.GetTVFileExtraBList().ToList();
-                            CheckTVFileExtraBFields(tvFileExtraBList);
-                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraBList[0].TVFileID);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraBList.Count);
                         }
                         else
                         {
@@ -583,22 +541,6 @@ namespace CSSPServices.Tests
                             CheckTVFileFields(tvFileList);
                             Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileList[0].TVFileID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<TVFileExtraA> tvFileExtraAList = new List<TVFileExtraA>();
-                            tvFileExtraAList = tvFileService.GetTVFileExtraAList().ToList();
-                            CheckTVFileExtraAFields(tvFileExtraAList);
-                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraAList[0].TVFileID);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TVFileExtraB> tvFileExtraBList = new List<TVFileExtraB>();
-                            tvFileExtraBList = tvFileService.GetTVFileExtraBList().ToList();
-                            CheckTVFileExtraBFields(tvFileExtraBList);
-                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraBList[0].TVFileID);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -634,22 +576,6 @@ namespace CSSPServices.Tests
                             tvFileList = tvFileService.GetTVFileList().ToList();
                             CheckTVFileFields(tvFileList);
                             Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileList[0].TVFileID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<TVFileExtraA> tvFileExtraAList = new List<TVFileExtraA>();
-                            tvFileExtraAList = tvFileService.GetTVFileExtraAList().ToList();
-                            CheckTVFileExtraAFields(tvFileExtraAList);
-                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraAList[0].TVFileID);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TVFileExtraB> tvFileExtraBList = new List<TVFileExtraB>();
-                            tvFileExtraBList = tvFileService.GetTVFileExtraBList().ToList();
-                            CheckTVFileExtraBFields(tvFileExtraBList);
-                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraBList[0].TVFileID);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraBList.Count);
                         }
                         else
                         {
@@ -687,22 +613,6 @@ namespace CSSPServices.Tests
                             CheckTVFileFields(tvFileList);
                             Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileList[0].TVFileID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<TVFileExtraA> tvFileExtraAList = new List<TVFileExtraA>();
-                            tvFileExtraAList = tvFileService.GetTVFileExtraAList().ToList();
-                            CheckTVFileExtraAFields(tvFileExtraAList);
-                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraAList[0].TVFileID);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TVFileExtraB> tvFileExtraBList = new List<TVFileExtraB>();
-                            tvFileExtraBList = tvFileService.GetTVFileExtraBList().ToList();
-                            CheckTVFileExtraBFields(tvFileExtraBList);
-                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraBList[0].TVFileID);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -738,22 +648,6 @@ namespace CSSPServices.Tests
                             tvFileList = tvFileService.GetTVFileList().ToList();
                             CheckTVFileFields(tvFileList);
                             Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileList[0].TVFileID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<TVFileExtraA> tvFileExtraAList = new List<TVFileExtraA>();
-                            tvFileExtraAList = tvFileService.GetTVFileExtraAList().ToList();
-                            CheckTVFileExtraAFields(tvFileExtraAList);
-                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraAList[0].TVFileID);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TVFileExtraB> tvFileExtraBList = new List<TVFileExtraB>();
-                            tvFileExtraBList = tvFileService.GetTVFileExtraBList().ToList();
-                            CheckTVFileExtraBFields(tvFileExtraBList);
-                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraBList[0].TVFileID);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraBList.Count);
                         }
                         else
                         {
@@ -791,22 +685,6 @@ namespace CSSPServices.Tests
                             CheckTVFileFields(tvFileList);
                             Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileList[0].TVFileID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<TVFileExtraA> tvFileExtraAList = new List<TVFileExtraA>();
-                            tvFileExtraAList = tvFileService.GetTVFileExtraAList().ToList();
-                            CheckTVFileExtraAFields(tvFileExtraAList);
-                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraAList[0].TVFileID);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TVFileExtraB> tvFileExtraBList = new List<TVFileExtraB>();
-                            tvFileExtraBList = tvFileService.GetTVFileExtraBList().ToList();
-                            CheckTVFileExtraBFields(tvFileExtraBList);
-                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraBList[0].TVFileID);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -842,22 +720,6 @@ namespace CSSPServices.Tests
                             tvFileList = tvFileService.GetTVFileList().ToList();
                             CheckTVFileFields(tvFileList);
                             Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileList[0].TVFileID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<TVFileExtraA> tvFileExtraAList = new List<TVFileExtraA>();
-                            tvFileExtraAList = tvFileService.GetTVFileExtraAList().ToList();
-                            CheckTVFileExtraAFields(tvFileExtraAList);
-                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraAList[0].TVFileID);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TVFileExtraB> tvFileExtraBList = new List<TVFileExtraB>();
-                            tvFileExtraBList = tvFileService.GetTVFileExtraBList().ToList();
-                            CheckTVFileExtraBFields(tvFileExtraBList);
-                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraBList[0].TVFileID);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraBList.Count);
                         }
                         else
                         {
@@ -895,22 +757,6 @@ namespace CSSPServices.Tests
                             CheckTVFileFields(tvFileList);
                             Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileList[0].TVFileID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<TVFileExtraA> tvFileExtraAList = new List<TVFileExtraA>();
-                            tvFileExtraAList = tvFileService.GetTVFileExtraAList().ToList();
-                            CheckTVFileExtraAFields(tvFileExtraAList);
-                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraAList[0].TVFileID);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TVFileExtraB> tvFileExtraBList = new List<TVFileExtraB>();
-                            tvFileExtraBList = tvFileService.GetTVFileExtraBList().ToList();
-                            CheckTVFileExtraBFields(tvFileExtraBList);
-                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraBList[0].TVFileID);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -947,22 +793,6 @@ namespace CSSPServices.Tests
                             CheckTVFileFields(tvFileList);
                             Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileList[0].TVFileID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<TVFileExtraA> tvFileExtraAList = new List<TVFileExtraA>();
-                            tvFileExtraAList = tvFileService.GetTVFileExtraAList().ToList();
-                            CheckTVFileExtraAFields(tvFileExtraAList);
-                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraAList[0].TVFileID);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TVFileExtraB> tvFileExtraBList = new List<TVFileExtraB>();
-                            tvFileExtraBList = tvFileService.GetTVFileExtraBList().ToList();
-                            CheckTVFileExtraBFields(tvFileExtraBList);
-                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraBList[0].TVFileID);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -998,22 +828,6 @@ namespace CSSPServices.Tests
                             tvFileList = tvFileService.GetTVFileList().ToList();
                             CheckTVFileFields(tvFileList);
                             Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileList[0].TVFileID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<TVFileExtraA> tvFileExtraAList = new List<TVFileExtraA>();
-                            tvFileExtraAList = tvFileService.GetTVFileExtraAList().ToList();
-                            CheckTVFileExtraAFields(tvFileExtraAList);
-                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraAList[0].TVFileID);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TVFileExtraB> tvFileExtraBList = new List<TVFileExtraB>();
-                            tvFileExtraBList = tvFileService.GetTVFileExtraBList().ToList();
-                            CheckTVFileExtraBFields(tvFileExtraBList);
-                            Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileExtraBList[0].TVFileID);
-                            Assert.AreEqual(tvFileDirectQueryList.Count, tvFileExtraBList.Count);
                         }
                         else
                         {
@@ -1069,137 +883,11 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(tvFileList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(tvFileList[0].HasErrors);
         }
-        private void CheckTVFileExtraAFields(List<TVFileExtraA> tvFileExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraAList[0].TVFileName));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraAList[0].LastUpdateContactText));
-            if (!string.IsNullOrWhiteSpace(tvFileExtraAList[0].TemplateTVTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraAList[0].TemplateTVTypeText));
-            }
-            if (!string.IsNullOrWhiteSpace(tvFileExtraAList[0].LanguageText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraAList[0].LanguageText));
-            }
-            if (!string.IsNullOrWhiteSpace(tvFileExtraAList[0].FilePurposeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraAList[0].FilePurposeText));
-            }
-            if (!string.IsNullOrWhiteSpace(tvFileExtraAList[0].FileTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraAList[0].FileTypeText));
-            }
-            Assert.IsNotNull(tvFileExtraAList[0].TVFileID);
-            Assert.IsNotNull(tvFileExtraAList[0].TVFileTVItemID);
-            if (tvFileExtraAList[0].TemplateTVType != null)
-            {
-                Assert.IsNotNull(tvFileExtraAList[0].TemplateTVType);
-            }
-            if (tvFileExtraAList[0].ReportTypeID != null)
-            {
-                Assert.IsNotNull(tvFileExtraAList[0].ReportTypeID);
-            }
-            if (!string.IsNullOrWhiteSpace(tvFileExtraAList[0].Parameters))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraAList[0].Parameters));
-            }
-            if (tvFileExtraAList[0].Year != null)
-            {
-                Assert.IsNotNull(tvFileExtraAList[0].Year);
-            }
-            Assert.IsNotNull(tvFileExtraAList[0].Language);
-            Assert.IsNotNull(tvFileExtraAList[0].FilePurpose);
-            Assert.IsNotNull(tvFileExtraAList[0].FileType);
-            Assert.IsNotNull(tvFileExtraAList[0].FileSize_kb);
-            if (!string.IsNullOrWhiteSpace(tvFileExtraAList[0].FileInfo))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraAList[0].FileInfo));
-            }
-            Assert.IsNotNull(tvFileExtraAList[0].FileCreatedDate_UTC);
-            if (tvFileExtraAList[0].FromWater != null)
-            {
-                Assert.IsNotNull(tvFileExtraAList[0].FromWater);
-            }
-            if (!string.IsNullOrWhiteSpace(tvFileExtraAList[0].ClientFilePath))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraAList[0].ClientFilePath));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraAList[0].ServerFileName));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraAList[0].ServerFilePath));
-            Assert.IsNotNull(tvFileExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(tvFileExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(tvFileExtraAList[0].HasErrors);
-        }
-        private void CheckTVFileExtraBFields(List<TVFileExtraB> tvFileExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(tvFileExtraBList[0].TVFileReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraBList[0].TVFileReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraBList[0].TVFileName));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraBList[0].LastUpdateContactText));
-            if (!string.IsNullOrWhiteSpace(tvFileExtraBList[0].TemplateTVTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraBList[0].TemplateTVTypeText));
-            }
-            if (!string.IsNullOrWhiteSpace(tvFileExtraBList[0].LanguageText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraBList[0].LanguageText));
-            }
-            if (!string.IsNullOrWhiteSpace(tvFileExtraBList[0].FilePurposeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraBList[0].FilePurposeText));
-            }
-            if (!string.IsNullOrWhiteSpace(tvFileExtraBList[0].FileTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraBList[0].FileTypeText));
-            }
-            Assert.IsNotNull(tvFileExtraBList[0].TVFileID);
-            Assert.IsNotNull(tvFileExtraBList[0].TVFileTVItemID);
-            if (tvFileExtraBList[0].TemplateTVType != null)
-            {
-                Assert.IsNotNull(tvFileExtraBList[0].TemplateTVType);
-            }
-            if (tvFileExtraBList[0].ReportTypeID != null)
-            {
-                Assert.IsNotNull(tvFileExtraBList[0].ReportTypeID);
-            }
-            if (!string.IsNullOrWhiteSpace(tvFileExtraBList[0].Parameters))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraBList[0].Parameters));
-            }
-            if (tvFileExtraBList[0].Year != null)
-            {
-                Assert.IsNotNull(tvFileExtraBList[0].Year);
-            }
-            Assert.IsNotNull(tvFileExtraBList[0].Language);
-            Assert.IsNotNull(tvFileExtraBList[0].FilePurpose);
-            Assert.IsNotNull(tvFileExtraBList[0].FileType);
-            Assert.IsNotNull(tvFileExtraBList[0].FileSize_kb);
-            if (!string.IsNullOrWhiteSpace(tvFileExtraBList[0].FileInfo))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraBList[0].FileInfo));
-            }
-            Assert.IsNotNull(tvFileExtraBList[0].FileCreatedDate_UTC);
-            if (tvFileExtraBList[0].FromWater != null)
-            {
-                Assert.IsNotNull(tvFileExtraBList[0].FromWater);
-            }
-            if (!string.IsNullOrWhiteSpace(tvFileExtraBList[0].ClientFilePath))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraBList[0].ClientFilePath));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraBList[0].ServerFileName));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileExtraBList[0].ServerFilePath));
-            Assert.IsNotNull(tvFileExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(tvFileExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(tvFileExtraBList[0].HasErrors);
-        }
         private TVFile GetFilledRandomTVFile(string OmitPropName)
         {
             TVFile tvFile = new TVFile();
 
-            if (OmitPropName != "TVFileTVItemID") tvFile.TVFileTVItemID = 41;
+            if (OmitPropName != "TVFileTVItemID") tvFile.TVFileTVItemID = 42;
             if (OmitPropName != "TemplateTVType") tvFile.TemplateTVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
             if (OmitPropName != "ReportTypeID") tvFile.ReportTypeID = 1;
             if (OmitPropName != "Parameters") tvFile.Parameters = GetRandomString("", 20);

@@ -220,32 +220,6 @@ namespace CSSPServices
 
             return BoxModelResultQuery;
         }
-        public BoxModelResultExtraA GetBoxModelResultExtraAWithBoxModelResultID(int BoxModelResultID)
-        {
-            return FillBoxModelResultExtraA().Where(c => c.BoxModelResultID == BoxModelResultID).FirstOrDefault();
-
-        }
-        public IQueryable<BoxModelResultExtraA> GetBoxModelResultExtraAList()
-        {
-            IQueryable<BoxModelResultExtraA> BoxModelResultExtraAQuery = FillBoxModelResultExtraA();
-
-            BoxModelResultExtraAQuery = EnhanceQueryStatements<BoxModelResultExtraA>(BoxModelResultExtraAQuery) as IQueryable<BoxModelResultExtraA>;
-
-            return BoxModelResultExtraAQuery;
-        }
-        public BoxModelResultExtraB GetBoxModelResultExtraBWithBoxModelResultID(int BoxModelResultID)
-        {
-            return FillBoxModelResultExtraB().Where(c => c.BoxModelResultID == BoxModelResultID).FirstOrDefault();
-
-        }
-        public IQueryable<BoxModelResultExtraB> GetBoxModelResultExtraBList()
-        {
-            IQueryable<BoxModelResultExtraB> BoxModelResultExtraBQuery = FillBoxModelResultExtraB();
-
-            BoxModelResultExtraBQuery = EnhanceQueryStatements<BoxModelResultExtraB>(BoxModelResultExtraBQuery) as IQueryable<BoxModelResultExtraB>;
-
-            return BoxModelResultExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

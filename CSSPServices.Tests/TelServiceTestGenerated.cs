@@ -273,18 +273,6 @@ namespace CSSPServices.Tests
                             CheckTelFields(new List<Tel>() { telRet });
                             Assert.AreEqual(tel.TelID, telRet.TelID);
                         }
-                        else if (extra == "A")
-                        {
-                            TelExtraA telExtraARet = telService.GetTelExtraAWithTelID(tel.TelID);
-                            CheckTelExtraAFields(new List<TelExtraA>() { telExtraARet });
-                            Assert.AreEqual(tel.TelID, telExtraARet.TelID);
-                        }
-                        else if (extra == "B")
-                        {
-                            TelExtraB telExtraBRet = telService.GetTelExtraBWithTelID(tel.TelID);
-                            CheckTelExtraBFields(new List<TelExtraB>() { telExtraBRet });
-                            Assert.AreEqual(tel.TelID, telExtraBRet.TelID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -322,20 +310,6 @@ namespace CSSPServices.Tests
                             telList = telService.GetTelList().ToList();
                             CheckTelFields(telList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<TelExtraA> telExtraAList = new List<TelExtraA>();
-                            telExtraAList = telService.GetTelExtraAList().ToList();
-                            CheckTelExtraAFields(telExtraAList);
-                            Assert.AreEqual(telDirectQueryList.Count, telExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TelExtraB> telExtraBList = new List<TelExtraB>();
-                            telExtraBList = telService.GetTelExtraBList().ToList();
-                            CheckTelExtraBFields(telExtraBList);
-                            Assert.AreEqual(telDirectQueryList.Count, telExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -371,22 +345,6 @@ namespace CSSPServices.Tests
                             telList = telService.GetTelList().ToList();
                             CheckTelFields(telList);
                             Assert.AreEqual(telDirectQueryList[0].TelID, telList[0].TelID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<TelExtraA> telExtraAList = new List<TelExtraA>();
-                            telExtraAList = telService.GetTelExtraAList().ToList();
-                            CheckTelExtraAFields(telExtraAList);
-                            Assert.AreEqual(telDirectQueryList[0].TelID, telExtraAList[0].TelID);
-                            Assert.AreEqual(telDirectQueryList.Count, telExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TelExtraB> telExtraBList = new List<TelExtraB>();
-                            telExtraBList = telService.GetTelExtraBList().ToList();
-                            CheckTelExtraBFields(telExtraBList);
-                            Assert.AreEqual(telDirectQueryList[0].TelID, telExtraBList[0].TelID);
-                            Assert.AreEqual(telDirectQueryList.Count, telExtraBList.Count);
                         }
                         else
                         {
@@ -424,22 +382,6 @@ namespace CSSPServices.Tests
                             CheckTelFields(telList);
                             Assert.AreEqual(telDirectQueryList[0].TelID, telList[0].TelID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<TelExtraA> telExtraAList = new List<TelExtraA>();
-                            telExtraAList = telService.GetTelExtraAList().ToList();
-                            CheckTelExtraAFields(telExtraAList);
-                            Assert.AreEqual(telDirectQueryList[0].TelID, telExtraAList[0].TelID);
-                            Assert.AreEqual(telDirectQueryList.Count, telExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TelExtraB> telExtraBList = new List<TelExtraB>();
-                            telExtraBList = telService.GetTelExtraBList().ToList();
-                            CheckTelExtraBFields(telExtraBList);
-                            Assert.AreEqual(telDirectQueryList[0].TelID, telExtraBList[0].TelID);
-                            Assert.AreEqual(telDirectQueryList.Count, telExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -475,22 +417,6 @@ namespace CSSPServices.Tests
                             telList = telService.GetTelList().ToList();
                             CheckTelFields(telList);
                             Assert.AreEqual(telDirectQueryList[0].TelID, telList[0].TelID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<TelExtraA> telExtraAList = new List<TelExtraA>();
-                            telExtraAList = telService.GetTelExtraAList().ToList();
-                            CheckTelExtraAFields(telExtraAList);
-                            Assert.AreEqual(telDirectQueryList[0].TelID, telExtraAList[0].TelID);
-                            Assert.AreEqual(telDirectQueryList.Count, telExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TelExtraB> telExtraBList = new List<TelExtraB>();
-                            telExtraBList = telService.GetTelExtraBList().ToList();
-                            CheckTelExtraBFields(telExtraBList);
-                            Assert.AreEqual(telDirectQueryList[0].TelID, telExtraBList[0].TelID);
-                            Assert.AreEqual(telDirectQueryList.Count, telExtraBList.Count);
                         }
                         else
                         {
@@ -528,22 +454,6 @@ namespace CSSPServices.Tests
                             CheckTelFields(telList);
                             Assert.AreEqual(telDirectQueryList[0].TelID, telList[0].TelID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<TelExtraA> telExtraAList = new List<TelExtraA>();
-                            telExtraAList = telService.GetTelExtraAList().ToList();
-                            CheckTelExtraAFields(telExtraAList);
-                            Assert.AreEqual(telDirectQueryList[0].TelID, telExtraAList[0].TelID);
-                            Assert.AreEqual(telDirectQueryList.Count, telExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TelExtraB> telExtraBList = new List<TelExtraB>();
-                            telExtraBList = telService.GetTelExtraBList().ToList();
-                            CheckTelExtraBFields(telExtraBList);
-                            Assert.AreEqual(telDirectQueryList[0].TelID, telExtraBList[0].TelID);
-                            Assert.AreEqual(telDirectQueryList.Count, telExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -579,22 +489,6 @@ namespace CSSPServices.Tests
                             telList = telService.GetTelList().ToList();
                             CheckTelFields(telList);
                             Assert.AreEqual(telDirectQueryList[0].TelID, telList[0].TelID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<TelExtraA> telExtraAList = new List<TelExtraA>();
-                            telExtraAList = telService.GetTelExtraAList().ToList();
-                            CheckTelExtraAFields(telExtraAList);
-                            Assert.AreEqual(telDirectQueryList[0].TelID, telExtraAList[0].TelID);
-                            Assert.AreEqual(telDirectQueryList.Count, telExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TelExtraB> telExtraBList = new List<TelExtraB>();
-                            telExtraBList = telService.GetTelExtraBList().ToList();
-                            CheckTelExtraBFields(telExtraBList);
-                            Assert.AreEqual(telDirectQueryList[0].TelID, telExtraBList[0].TelID);
-                            Assert.AreEqual(telDirectQueryList.Count, telExtraBList.Count);
                         }
                         else
                         {
@@ -632,22 +526,6 @@ namespace CSSPServices.Tests
                             CheckTelFields(telList);
                             Assert.AreEqual(telDirectQueryList[0].TelID, telList[0].TelID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<TelExtraA> telExtraAList = new List<TelExtraA>();
-                            telExtraAList = telService.GetTelExtraAList().ToList();
-                            CheckTelExtraAFields(telExtraAList);
-                            Assert.AreEqual(telDirectQueryList[0].TelID, telExtraAList[0].TelID);
-                            Assert.AreEqual(telDirectQueryList.Count, telExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TelExtraB> telExtraBList = new List<TelExtraB>();
-                            telExtraBList = telService.GetTelExtraBList().ToList();
-                            CheckTelExtraBFields(telExtraBList);
-                            Assert.AreEqual(telDirectQueryList[0].TelID, telExtraBList[0].TelID);
-                            Assert.AreEqual(telDirectQueryList.Count, telExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -683,22 +561,6 @@ namespace CSSPServices.Tests
                             telList = telService.GetTelList().ToList();
                             CheckTelFields(telList);
                             Assert.AreEqual(telDirectQueryList[0].TelID, telList[0].TelID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<TelExtraA> telExtraAList = new List<TelExtraA>();
-                            telExtraAList = telService.GetTelExtraAList().ToList();
-                            CheckTelExtraAFields(telExtraAList);
-                            Assert.AreEqual(telDirectQueryList[0].TelID, telExtraAList[0].TelID);
-                            Assert.AreEqual(telDirectQueryList.Count, telExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TelExtraB> telExtraBList = new List<TelExtraB>();
-                            telExtraBList = telService.GetTelExtraBList().ToList();
-                            CheckTelExtraBFields(telExtraBList);
-                            Assert.AreEqual(telDirectQueryList[0].TelID, telExtraBList[0].TelID);
-                            Assert.AreEqual(telDirectQueryList.Count, telExtraBList.Count);
                         }
                         else
                         {
@@ -736,22 +598,6 @@ namespace CSSPServices.Tests
                             CheckTelFields(telList);
                             Assert.AreEqual(telDirectQueryList[0].TelID, telList[0].TelID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<TelExtraA> telExtraAList = new List<TelExtraA>();
-                            telExtraAList = telService.GetTelExtraAList().ToList();
-                            CheckTelExtraAFields(telExtraAList);
-                            Assert.AreEqual(telDirectQueryList[0].TelID, telExtraAList[0].TelID);
-                            Assert.AreEqual(telDirectQueryList.Count, telExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TelExtraB> telExtraBList = new List<TelExtraB>();
-                            telExtraBList = telService.GetTelExtraBList().ToList();
-                            CheckTelExtraBFields(telExtraBList);
-                            Assert.AreEqual(telDirectQueryList[0].TelID, telExtraBList[0].TelID);
-                            Assert.AreEqual(telDirectQueryList.Count, telExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -787,22 +633,6 @@ namespace CSSPServices.Tests
                             telList = telService.GetTelList().ToList();
                             CheckTelFields(telList);
                             Assert.AreEqual(telDirectQueryList[0].TelID, telList[0].TelID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<TelExtraA> telExtraAList = new List<TelExtraA>();
-                            telExtraAList = telService.GetTelExtraAList().ToList();
-                            CheckTelExtraAFields(telExtraAList);
-                            Assert.AreEqual(telDirectQueryList[0].TelID, telExtraAList[0].TelID);
-                            Assert.AreEqual(telDirectQueryList.Count, telExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TelExtraB> telExtraBList = new List<TelExtraB>();
-                            telExtraBList = telService.GetTelExtraBList().ToList();
-                            CheckTelExtraBFields(telExtraBList);
-                            Assert.AreEqual(telDirectQueryList[0].TelID, telExtraBList[0].TelID);
-                            Assert.AreEqual(telDirectQueryList.Count, telExtraBList.Count);
                         }
                         else
                         {
@@ -840,22 +670,6 @@ namespace CSSPServices.Tests
                             CheckTelFields(telList);
                             Assert.AreEqual(telDirectQueryList[0].TelID, telList[0].TelID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<TelExtraA> telExtraAList = new List<TelExtraA>();
-                            telExtraAList = telService.GetTelExtraAList().ToList();
-                            CheckTelExtraAFields(telExtraAList);
-                            Assert.AreEqual(telDirectQueryList[0].TelID, telExtraAList[0].TelID);
-                            Assert.AreEqual(telDirectQueryList.Count, telExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TelExtraB> telExtraBList = new List<TelExtraB>();
-                            telExtraBList = telService.GetTelExtraBList().ToList();
-                            CheckTelExtraBFields(telExtraBList);
-                            Assert.AreEqual(telDirectQueryList[0].TelID, telExtraBList[0].TelID);
-                            Assert.AreEqual(telDirectQueryList.Count, telExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -877,47 +691,11 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(telList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(telList[0].HasErrors);
         }
-        private void CheckTelExtraAFields(List<TelExtraA> telExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(telExtraAList[0].TelNumberText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(telExtraAList[0].LastUpdateContactText));
-            if (!string.IsNullOrWhiteSpace(telExtraAList[0].TelTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(telExtraAList[0].TelTypeText));
-            }
-            Assert.IsNotNull(telExtraAList[0].TelID);
-            Assert.IsNotNull(telExtraAList[0].TelTVItemID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(telExtraAList[0].TelNumber));
-            Assert.IsNotNull(telExtraAList[0].TelType);
-            Assert.IsNotNull(telExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(telExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(telExtraAList[0].HasErrors);
-        }
-        private void CheckTelExtraBFields(List<TelExtraB> telExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(telExtraBList[0].TelReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(telExtraBList[0].TelReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(telExtraBList[0].TelNumberText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(telExtraBList[0].LastUpdateContactText));
-            if (!string.IsNullOrWhiteSpace(telExtraBList[0].TelTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(telExtraBList[0].TelTypeText));
-            }
-            Assert.IsNotNull(telExtraBList[0].TelID);
-            Assert.IsNotNull(telExtraBList[0].TelTVItemID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(telExtraBList[0].TelNumber));
-            Assert.IsNotNull(telExtraBList[0].TelType);
-            Assert.IsNotNull(telExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(telExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(telExtraBList[0].HasErrors);
-        }
         private Tel GetFilledRandomTel(string OmitPropName)
         {
             Tel tel = new Tel();
 
-            if (OmitPropName != "TelTVItemID") tel.TelTVItemID = 54;
+            if (OmitPropName != "TelTVItemID") tel.TelTVItemID = 55;
             if (OmitPropName != "TelNumber") tel.TelNumber = GetRandomString("", 5);
             if (OmitPropName != "TelType") tel.TelType = (TelTypeEnum)GetRandomEnumType(typeof(TelTypeEnum));
             if (OmitPropName != "LastUpdateDate_UTC") tel.LastUpdateDate_UTC = new DateTime(2005, 3, 6);

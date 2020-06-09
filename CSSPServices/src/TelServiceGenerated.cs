@@ -160,32 +160,6 @@ namespace CSSPServices
 
             return TelQuery;
         }
-        public TelExtraA GetTelExtraAWithTelID(int TelID)
-        {
-            return FillTelExtraA().Where(c => c.TelID == TelID).FirstOrDefault();
-
-        }
-        public IQueryable<TelExtraA> GetTelExtraAList()
-        {
-            IQueryable<TelExtraA> TelExtraAQuery = FillTelExtraA();
-
-            TelExtraAQuery = EnhanceQueryStatements<TelExtraA>(TelExtraAQuery) as IQueryable<TelExtraA>;
-
-            return TelExtraAQuery;
-        }
-        public TelExtraB GetTelExtraBWithTelID(int TelID)
-        {
-            return FillTelExtraB().Where(c => c.TelID == TelID).FirstOrDefault();
-
-        }
-        public IQueryable<TelExtraB> GetTelExtraBList()
-        {
-            IQueryable<TelExtraB> TelExtraBQuery = FillTelExtraB();
-
-            TelExtraBQuery = EnhanceQueryStatements<TelExtraB>(TelExtraBQuery) as IQueryable<TelExtraB>;
-
-            return TelExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

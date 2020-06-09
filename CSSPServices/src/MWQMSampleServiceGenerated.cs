@@ -115,6 +115,12 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(mwqmSample.TimeText) && mwqmSample.TimeText.Length > 6)
+            {
+                mwqmSample.HasErrors = true;
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "TimeText", "6"), new[] { "TimeText" });
+            }
+
             if (mwqmSample.Depth_m != null)
             {
                 if (mwqmSample.Depth_m < 0 || mwqmSample.Depth_m > 1000)
@@ -271,32 +277,6 @@ namespace CSSPServices
             MWQMSampleQuery = EnhanceQueryStatements<MWQMSample>(MWQMSampleQuery) as IQueryable<MWQMSample>;
 
             return MWQMSampleQuery;
-        }
-        public MWQMSampleExtraA GetMWQMSampleExtraAWithMWQMSampleID(int MWQMSampleID)
-        {
-            return FillMWQMSampleExtraA().Where(c => c.MWQMSampleID == MWQMSampleID).FirstOrDefault();
-
-        }
-        public IQueryable<MWQMSampleExtraA> GetMWQMSampleExtraAList()
-        {
-            IQueryable<MWQMSampleExtraA> MWQMSampleExtraAQuery = FillMWQMSampleExtraA();
-
-            MWQMSampleExtraAQuery = EnhanceQueryStatements<MWQMSampleExtraA>(MWQMSampleExtraAQuery) as IQueryable<MWQMSampleExtraA>;
-
-            return MWQMSampleExtraAQuery;
-        }
-        public MWQMSampleExtraB GetMWQMSampleExtraBWithMWQMSampleID(int MWQMSampleID)
-        {
-            return FillMWQMSampleExtraB().Where(c => c.MWQMSampleID == MWQMSampleID).FirstOrDefault();
-
-        }
-        public IQueryable<MWQMSampleExtraB> GetMWQMSampleExtraBList()
-        {
-            IQueryable<MWQMSampleExtraB> MWQMSampleExtraBQuery = FillMWQMSampleExtraB();
-
-            MWQMSampleExtraBQuery = EnhanceQueryStatements<MWQMSampleExtraB>(MWQMSampleExtraBQuery) as IQueryable<MWQMSampleExtraB>;
-
-            return MWQMSampleExtraBQuery;
         }
         #endregion Functions public Generated Get
 

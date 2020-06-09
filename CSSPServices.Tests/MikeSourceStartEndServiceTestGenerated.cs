@@ -444,18 +444,6 @@ namespace CSSPServices.Tests
                             CheckMikeSourceStartEndFields(new List<MikeSourceStartEnd>() { mikeSourceStartEndRet });
                             Assert.AreEqual(mikeSourceStartEnd.MikeSourceStartEndID, mikeSourceStartEndRet.MikeSourceStartEndID);
                         }
-                        else if (extra == "A")
-                        {
-                            MikeSourceStartEndExtraA mikeSourceStartEndExtraARet = mikeSourceStartEndService.GetMikeSourceStartEndExtraAWithMikeSourceStartEndID(mikeSourceStartEnd.MikeSourceStartEndID);
-                            CheckMikeSourceStartEndExtraAFields(new List<MikeSourceStartEndExtraA>() { mikeSourceStartEndExtraARet });
-                            Assert.AreEqual(mikeSourceStartEnd.MikeSourceStartEndID, mikeSourceStartEndExtraARet.MikeSourceStartEndID);
-                        }
-                        else if (extra == "B")
-                        {
-                            MikeSourceStartEndExtraB mikeSourceStartEndExtraBRet = mikeSourceStartEndService.GetMikeSourceStartEndExtraBWithMikeSourceStartEndID(mikeSourceStartEnd.MikeSourceStartEndID);
-                            CheckMikeSourceStartEndExtraBFields(new List<MikeSourceStartEndExtraB>() { mikeSourceStartEndExtraBRet });
-                            Assert.AreEqual(mikeSourceStartEnd.MikeSourceStartEndID, mikeSourceStartEndExtraBRet.MikeSourceStartEndID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -493,20 +481,6 @@ namespace CSSPServices.Tests
                             mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
                             CheckMikeSourceStartEndFields(mikeSourceStartEndList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<MikeSourceStartEndExtraA> mikeSourceStartEndExtraAList = new List<MikeSourceStartEndExtraA>();
-                            mikeSourceStartEndExtraAList = mikeSourceStartEndService.GetMikeSourceStartEndExtraAList().ToList();
-                            CheckMikeSourceStartEndExtraAFields(mikeSourceStartEndExtraAList);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList.Count, mikeSourceStartEndExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MikeSourceStartEndExtraB> mikeSourceStartEndExtraBList = new List<MikeSourceStartEndExtraB>();
-                            mikeSourceStartEndExtraBList = mikeSourceStartEndService.GetMikeSourceStartEndExtraBList().ToList();
-                            CheckMikeSourceStartEndExtraBFields(mikeSourceStartEndExtraBList);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList.Count, mikeSourceStartEndExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -542,22 +516,6 @@ namespace CSSPServices.Tests
                             mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
                             CheckMikeSourceStartEndFields(mikeSourceStartEndList);
                             Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndList[0].MikeSourceStartEndID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<MikeSourceStartEndExtraA> mikeSourceStartEndExtraAList = new List<MikeSourceStartEndExtraA>();
-                            mikeSourceStartEndExtraAList = mikeSourceStartEndService.GetMikeSourceStartEndExtraAList().ToList();
-                            CheckMikeSourceStartEndExtraAFields(mikeSourceStartEndExtraAList);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndExtraAList[0].MikeSourceStartEndID);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList.Count, mikeSourceStartEndExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MikeSourceStartEndExtraB> mikeSourceStartEndExtraBList = new List<MikeSourceStartEndExtraB>();
-                            mikeSourceStartEndExtraBList = mikeSourceStartEndService.GetMikeSourceStartEndExtraBList().ToList();
-                            CheckMikeSourceStartEndExtraBFields(mikeSourceStartEndExtraBList);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndExtraBList[0].MikeSourceStartEndID);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList.Count, mikeSourceStartEndExtraBList.Count);
                         }
                         else
                         {
@@ -595,22 +553,6 @@ namespace CSSPServices.Tests
                             CheckMikeSourceStartEndFields(mikeSourceStartEndList);
                             Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndList[0].MikeSourceStartEndID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<MikeSourceStartEndExtraA> mikeSourceStartEndExtraAList = new List<MikeSourceStartEndExtraA>();
-                            mikeSourceStartEndExtraAList = mikeSourceStartEndService.GetMikeSourceStartEndExtraAList().ToList();
-                            CheckMikeSourceStartEndExtraAFields(mikeSourceStartEndExtraAList);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndExtraAList[0].MikeSourceStartEndID);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList.Count, mikeSourceStartEndExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MikeSourceStartEndExtraB> mikeSourceStartEndExtraBList = new List<MikeSourceStartEndExtraB>();
-                            mikeSourceStartEndExtraBList = mikeSourceStartEndService.GetMikeSourceStartEndExtraBList().ToList();
-                            CheckMikeSourceStartEndExtraBFields(mikeSourceStartEndExtraBList);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndExtraBList[0].MikeSourceStartEndID);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList.Count, mikeSourceStartEndExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -646,22 +588,6 @@ namespace CSSPServices.Tests
                             mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
                             CheckMikeSourceStartEndFields(mikeSourceStartEndList);
                             Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndList[0].MikeSourceStartEndID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<MikeSourceStartEndExtraA> mikeSourceStartEndExtraAList = new List<MikeSourceStartEndExtraA>();
-                            mikeSourceStartEndExtraAList = mikeSourceStartEndService.GetMikeSourceStartEndExtraAList().ToList();
-                            CheckMikeSourceStartEndExtraAFields(mikeSourceStartEndExtraAList);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndExtraAList[0].MikeSourceStartEndID);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList.Count, mikeSourceStartEndExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MikeSourceStartEndExtraB> mikeSourceStartEndExtraBList = new List<MikeSourceStartEndExtraB>();
-                            mikeSourceStartEndExtraBList = mikeSourceStartEndService.GetMikeSourceStartEndExtraBList().ToList();
-                            CheckMikeSourceStartEndExtraBFields(mikeSourceStartEndExtraBList);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndExtraBList[0].MikeSourceStartEndID);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList.Count, mikeSourceStartEndExtraBList.Count);
                         }
                         else
                         {
@@ -699,22 +625,6 @@ namespace CSSPServices.Tests
                             CheckMikeSourceStartEndFields(mikeSourceStartEndList);
                             Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndList[0].MikeSourceStartEndID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<MikeSourceStartEndExtraA> mikeSourceStartEndExtraAList = new List<MikeSourceStartEndExtraA>();
-                            mikeSourceStartEndExtraAList = mikeSourceStartEndService.GetMikeSourceStartEndExtraAList().ToList();
-                            CheckMikeSourceStartEndExtraAFields(mikeSourceStartEndExtraAList);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndExtraAList[0].MikeSourceStartEndID);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList.Count, mikeSourceStartEndExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MikeSourceStartEndExtraB> mikeSourceStartEndExtraBList = new List<MikeSourceStartEndExtraB>();
-                            mikeSourceStartEndExtraBList = mikeSourceStartEndService.GetMikeSourceStartEndExtraBList().ToList();
-                            CheckMikeSourceStartEndExtraBFields(mikeSourceStartEndExtraBList);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndExtraBList[0].MikeSourceStartEndID);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList.Count, mikeSourceStartEndExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -750,22 +660,6 @@ namespace CSSPServices.Tests
                             mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
                             CheckMikeSourceStartEndFields(mikeSourceStartEndList);
                             Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndList[0].MikeSourceStartEndID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<MikeSourceStartEndExtraA> mikeSourceStartEndExtraAList = new List<MikeSourceStartEndExtraA>();
-                            mikeSourceStartEndExtraAList = mikeSourceStartEndService.GetMikeSourceStartEndExtraAList().ToList();
-                            CheckMikeSourceStartEndExtraAFields(mikeSourceStartEndExtraAList);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndExtraAList[0].MikeSourceStartEndID);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList.Count, mikeSourceStartEndExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MikeSourceStartEndExtraB> mikeSourceStartEndExtraBList = new List<MikeSourceStartEndExtraB>();
-                            mikeSourceStartEndExtraBList = mikeSourceStartEndService.GetMikeSourceStartEndExtraBList().ToList();
-                            CheckMikeSourceStartEndExtraBFields(mikeSourceStartEndExtraBList);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndExtraBList[0].MikeSourceStartEndID);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList.Count, mikeSourceStartEndExtraBList.Count);
                         }
                         else
                         {
@@ -803,22 +697,6 @@ namespace CSSPServices.Tests
                             CheckMikeSourceStartEndFields(mikeSourceStartEndList);
                             Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndList[0].MikeSourceStartEndID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<MikeSourceStartEndExtraA> mikeSourceStartEndExtraAList = new List<MikeSourceStartEndExtraA>();
-                            mikeSourceStartEndExtraAList = mikeSourceStartEndService.GetMikeSourceStartEndExtraAList().ToList();
-                            CheckMikeSourceStartEndExtraAFields(mikeSourceStartEndExtraAList);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndExtraAList[0].MikeSourceStartEndID);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList.Count, mikeSourceStartEndExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MikeSourceStartEndExtraB> mikeSourceStartEndExtraBList = new List<MikeSourceStartEndExtraB>();
-                            mikeSourceStartEndExtraBList = mikeSourceStartEndService.GetMikeSourceStartEndExtraBList().ToList();
-                            CheckMikeSourceStartEndExtraBFields(mikeSourceStartEndExtraBList);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndExtraBList[0].MikeSourceStartEndID);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList.Count, mikeSourceStartEndExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -854,22 +732,6 @@ namespace CSSPServices.Tests
                             mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
                             CheckMikeSourceStartEndFields(mikeSourceStartEndList);
                             Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndList[0].MikeSourceStartEndID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<MikeSourceStartEndExtraA> mikeSourceStartEndExtraAList = new List<MikeSourceStartEndExtraA>();
-                            mikeSourceStartEndExtraAList = mikeSourceStartEndService.GetMikeSourceStartEndExtraAList().ToList();
-                            CheckMikeSourceStartEndExtraAFields(mikeSourceStartEndExtraAList);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndExtraAList[0].MikeSourceStartEndID);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList.Count, mikeSourceStartEndExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MikeSourceStartEndExtraB> mikeSourceStartEndExtraBList = new List<MikeSourceStartEndExtraB>();
-                            mikeSourceStartEndExtraBList = mikeSourceStartEndService.GetMikeSourceStartEndExtraBList().ToList();
-                            CheckMikeSourceStartEndExtraBFields(mikeSourceStartEndExtraBList);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndExtraBList[0].MikeSourceStartEndID);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList.Count, mikeSourceStartEndExtraBList.Count);
                         }
                         else
                         {
@@ -907,22 +769,6 @@ namespace CSSPServices.Tests
                             CheckMikeSourceStartEndFields(mikeSourceStartEndList);
                             Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndList[0].MikeSourceStartEndID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<MikeSourceStartEndExtraA> mikeSourceStartEndExtraAList = new List<MikeSourceStartEndExtraA>();
-                            mikeSourceStartEndExtraAList = mikeSourceStartEndService.GetMikeSourceStartEndExtraAList().ToList();
-                            CheckMikeSourceStartEndExtraAFields(mikeSourceStartEndExtraAList);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndExtraAList[0].MikeSourceStartEndID);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList.Count, mikeSourceStartEndExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MikeSourceStartEndExtraB> mikeSourceStartEndExtraBList = new List<MikeSourceStartEndExtraB>();
-                            mikeSourceStartEndExtraBList = mikeSourceStartEndService.GetMikeSourceStartEndExtraBList().ToList();
-                            CheckMikeSourceStartEndExtraBFields(mikeSourceStartEndExtraBList);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndExtraBList[0].MikeSourceStartEndID);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList.Count, mikeSourceStartEndExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -958,22 +804,6 @@ namespace CSSPServices.Tests
                             mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
                             CheckMikeSourceStartEndFields(mikeSourceStartEndList);
                             Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndList[0].MikeSourceStartEndID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<MikeSourceStartEndExtraA> mikeSourceStartEndExtraAList = new List<MikeSourceStartEndExtraA>();
-                            mikeSourceStartEndExtraAList = mikeSourceStartEndService.GetMikeSourceStartEndExtraAList().ToList();
-                            CheckMikeSourceStartEndExtraAFields(mikeSourceStartEndExtraAList);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndExtraAList[0].MikeSourceStartEndID);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList.Count, mikeSourceStartEndExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MikeSourceStartEndExtraB> mikeSourceStartEndExtraBList = new List<MikeSourceStartEndExtraB>();
-                            mikeSourceStartEndExtraBList = mikeSourceStartEndService.GetMikeSourceStartEndExtraBList().ToList();
-                            CheckMikeSourceStartEndExtraBFields(mikeSourceStartEndExtraBList);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndExtraBList[0].MikeSourceStartEndID);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList.Count, mikeSourceStartEndExtraBList.Count);
                         }
                         else
                         {
@@ -1011,22 +841,6 @@ namespace CSSPServices.Tests
                             CheckMikeSourceStartEndFields(mikeSourceStartEndList);
                             Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndList[0].MikeSourceStartEndID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<MikeSourceStartEndExtraA> mikeSourceStartEndExtraAList = new List<MikeSourceStartEndExtraA>();
-                            mikeSourceStartEndExtraAList = mikeSourceStartEndService.GetMikeSourceStartEndExtraAList().ToList();
-                            CheckMikeSourceStartEndExtraAFields(mikeSourceStartEndExtraAList);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndExtraAList[0].MikeSourceStartEndID);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList.Count, mikeSourceStartEndExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<MikeSourceStartEndExtraB> mikeSourceStartEndExtraBList = new List<MikeSourceStartEndExtraB>();
-                            mikeSourceStartEndExtraBList = mikeSourceStartEndService.GetMikeSourceStartEndExtraBList().ToList();
-                            CheckMikeSourceStartEndExtraBFields(mikeSourceStartEndExtraBList);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndExtraBList[0].MikeSourceStartEndID);
-                            Assert.AreEqual(mikeSourceStartEndDirectQueryList.Count, mikeSourceStartEndExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -1055,48 +869,6 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(mikeSourceStartEndList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(mikeSourceStartEndList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(mikeSourceStartEndList[0].HasErrors);
-        }
-        private void CheckMikeSourceStartEndExtraAFields(List<MikeSourceStartEndExtraA> mikeSourceStartEndExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceStartEndExtraAList[0].LastUpdateContactText));
-            Assert.IsNotNull(mikeSourceStartEndExtraAList[0].MikeSourceStartEndID);
-            Assert.IsNotNull(mikeSourceStartEndExtraAList[0].MikeSourceID);
-            Assert.IsNotNull(mikeSourceStartEndExtraAList[0].StartDateAndTime_Local);
-            Assert.IsNotNull(mikeSourceStartEndExtraAList[0].EndDateAndTime_Local);
-            Assert.IsNotNull(mikeSourceStartEndExtraAList[0].SourceFlowStart_m3_day);
-            Assert.IsNotNull(mikeSourceStartEndExtraAList[0].SourceFlowEnd_m3_day);
-            Assert.IsNotNull(mikeSourceStartEndExtraAList[0].SourcePollutionStart_MPN_100ml);
-            Assert.IsNotNull(mikeSourceStartEndExtraAList[0].SourcePollutionEnd_MPN_100ml);
-            Assert.IsNotNull(mikeSourceStartEndExtraAList[0].SourceTemperatureStart_C);
-            Assert.IsNotNull(mikeSourceStartEndExtraAList[0].SourceTemperatureEnd_C);
-            Assert.IsNotNull(mikeSourceStartEndExtraAList[0].SourceSalinityStart_PSU);
-            Assert.IsNotNull(mikeSourceStartEndExtraAList[0].SourceSalinityEnd_PSU);
-            Assert.IsNotNull(mikeSourceStartEndExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(mikeSourceStartEndExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(mikeSourceStartEndExtraAList[0].HasErrors);
-        }
-        private void CheckMikeSourceStartEndExtraBFields(List<MikeSourceStartEndExtraB> mikeSourceStartEndExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(mikeSourceStartEndExtraBList[0].MikeSourceStartEndReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceStartEndExtraBList[0].MikeSourceStartEndReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceStartEndExtraBList[0].LastUpdateContactText));
-            Assert.IsNotNull(mikeSourceStartEndExtraBList[0].MikeSourceStartEndID);
-            Assert.IsNotNull(mikeSourceStartEndExtraBList[0].MikeSourceID);
-            Assert.IsNotNull(mikeSourceStartEndExtraBList[0].StartDateAndTime_Local);
-            Assert.IsNotNull(mikeSourceStartEndExtraBList[0].EndDateAndTime_Local);
-            Assert.IsNotNull(mikeSourceStartEndExtraBList[0].SourceFlowStart_m3_day);
-            Assert.IsNotNull(mikeSourceStartEndExtraBList[0].SourceFlowEnd_m3_day);
-            Assert.IsNotNull(mikeSourceStartEndExtraBList[0].SourcePollutionStart_MPN_100ml);
-            Assert.IsNotNull(mikeSourceStartEndExtraBList[0].SourcePollutionEnd_MPN_100ml);
-            Assert.IsNotNull(mikeSourceStartEndExtraBList[0].SourceTemperatureStart_C);
-            Assert.IsNotNull(mikeSourceStartEndExtraBList[0].SourceTemperatureEnd_C);
-            Assert.IsNotNull(mikeSourceStartEndExtraBList[0].SourceSalinityStart_PSU);
-            Assert.IsNotNull(mikeSourceStartEndExtraBList[0].SourceSalinityEnd_PSU);
-            Assert.IsNotNull(mikeSourceStartEndExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(mikeSourceStartEndExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(mikeSourceStartEndExtraBList[0].HasErrors);
         }
         private MikeSourceStartEnd GetFilledRandomMikeSourceStartEnd(string OmitPropName)
         {

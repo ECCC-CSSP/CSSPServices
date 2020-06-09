@@ -142,32 +142,6 @@ namespace CSSPServices
 
             return ContactPreferenceQuery;
         }
-        public ContactPreferenceExtraA GetContactPreferenceExtraAWithContactPreferenceID(int ContactPreferenceID)
-        {
-            return FillContactPreferenceExtraA().Where(c => c.ContactPreferenceID == ContactPreferenceID).FirstOrDefault();
-
-        }
-        public IQueryable<ContactPreferenceExtraA> GetContactPreferenceExtraAList()
-        {
-            IQueryable<ContactPreferenceExtraA> ContactPreferenceExtraAQuery = FillContactPreferenceExtraA();
-
-            ContactPreferenceExtraAQuery = EnhanceQueryStatements<ContactPreferenceExtraA>(ContactPreferenceExtraAQuery) as IQueryable<ContactPreferenceExtraA>;
-
-            return ContactPreferenceExtraAQuery;
-        }
-        public ContactPreferenceExtraB GetContactPreferenceExtraBWithContactPreferenceID(int ContactPreferenceID)
-        {
-            return FillContactPreferenceExtraB().Where(c => c.ContactPreferenceID == ContactPreferenceID).FirstOrDefault();
-
-        }
-        public IQueryable<ContactPreferenceExtraB> GetContactPreferenceExtraBList()
-        {
-            IQueryable<ContactPreferenceExtraB> ContactPreferenceExtraBQuery = FillContactPreferenceExtraB();
-
-            ContactPreferenceExtraBQuery = EnhanceQueryStatements<ContactPreferenceExtraB>(ContactPreferenceExtraBQuery) as IQueryable<ContactPreferenceExtraB>;
-
-            return ContactPreferenceExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

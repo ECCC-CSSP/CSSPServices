@@ -153,32 +153,6 @@ namespace CSSPServices
 
             return ContactShortcutQuery;
         }
-        public ContactShortcutExtraA GetContactShortcutExtraAWithContactShortcutID(int ContactShortcutID)
-        {
-            return FillContactShortcutExtraA().Where(c => c.ContactShortcutID == ContactShortcutID).FirstOrDefault();
-
-        }
-        public IQueryable<ContactShortcutExtraA> GetContactShortcutExtraAList()
-        {
-            IQueryable<ContactShortcutExtraA> ContactShortcutExtraAQuery = FillContactShortcutExtraA();
-
-            ContactShortcutExtraAQuery = EnhanceQueryStatements<ContactShortcutExtraA>(ContactShortcutExtraAQuery) as IQueryable<ContactShortcutExtraA>;
-
-            return ContactShortcutExtraAQuery;
-        }
-        public ContactShortcutExtraB GetContactShortcutExtraBWithContactShortcutID(int ContactShortcutID)
-        {
-            return FillContactShortcutExtraB().Where(c => c.ContactShortcutID == ContactShortcutID).FirstOrDefault();
-
-        }
-        public IQueryable<ContactShortcutExtraB> GetContactShortcutExtraBList()
-        {
-            IQueryable<ContactShortcutExtraB> ContactShortcutExtraBQuery = FillContactShortcutExtraB();
-
-            ContactShortcutExtraBQuery = EnhanceQueryStatements<ContactShortcutExtraB>(ContactShortcutExtraBQuery) as IQueryable<ContactShortcutExtraB>;
-
-            return ContactShortcutExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

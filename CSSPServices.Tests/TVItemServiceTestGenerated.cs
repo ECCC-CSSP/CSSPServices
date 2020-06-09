@@ -195,7 +195,7 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is NOT Nullable
-                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Root,Address,Area,ClimateSite,Contact,Country,Email,HydrometricSite,Infrastructure,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeScenario,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,Tel,MWQMRun,Classification)]
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Root,Address,Area,ClimateSite,Contact,Country,Email,HydrometricSite,Infrastructure,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeScenario,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,Tel,MWQMRun,RainExceedance,Classification)]
                     // tvItem.ParentID   (Int32)
                     // -----------------------------------
 
@@ -207,9 +207,9 @@ namespace CSSPServices.Tests
 
                     tvItem = null;
                     tvItem = GetFilledRandomTVItem("");
-                    tvItem.ParentID = 37;
+                    tvItem.ParentID = 38;
                     tvItemService.Add(tvItem);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, "ParentID", "Root,Address,Area,ClimateSite,Contact,Country,Email,HydrometricSite,Infrastructure,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeScenario,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,Tel,MWQMRun,Classification"), tvItem.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, "ParentID", "Root,Address,Area,ClimateSite,Contact,Country,Email,HydrometricSite,Infrastructure,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeScenario,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,Tel,MWQMRun,RainExceedance,Classification"), tvItem.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -298,18 +298,6 @@ namespace CSSPServices.Tests
                             CheckTVItemFields(new List<TVItem>() { tvItemRet });
                             Assert.AreEqual(tvItem.TVItemID, tvItemRet.TVItemID);
                         }
-                        else if (extra == "A")
-                        {
-                            TVItemExtraA tvItemExtraARet = tvItemService.GetTVItemExtraAWithTVItemID(tvItem.TVItemID);
-                            CheckTVItemExtraAFields(new List<TVItemExtraA>() { tvItemExtraARet });
-                            Assert.AreEqual(tvItem.TVItemID, tvItemExtraARet.TVItemID);
-                        }
-                        else if (extra == "B")
-                        {
-                            TVItemExtraB tvItemExtraBRet = tvItemService.GetTVItemExtraBWithTVItemID(tvItem.TVItemID);
-                            CheckTVItemExtraBFields(new List<TVItemExtraB>() { tvItemExtraBRet });
-                            Assert.AreEqual(tvItem.TVItemID, tvItemExtraBRet.TVItemID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -347,20 +335,6 @@ namespace CSSPServices.Tests
                             tvItemList = tvItemService.GetTVItemList().ToList();
                             CheckTVItemFields(tvItemList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<TVItemExtraA> tvItemExtraAList = new List<TVItemExtraA>();
-                            tvItemExtraAList = tvItemService.GetTVItemExtraAList().ToList();
-                            CheckTVItemExtraAFields(tvItemExtraAList);
-                            Assert.AreEqual(tvItemDirectQueryList.Count, tvItemExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TVItemExtraB> tvItemExtraBList = new List<TVItemExtraB>();
-                            tvItemExtraBList = tvItemService.GetTVItemExtraBList().ToList();
-                            CheckTVItemExtraBFields(tvItemExtraBList);
-                            Assert.AreEqual(tvItemDirectQueryList.Count, tvItemExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -396,22 +370,6 @@ namespace CSSPServices.Tests
                             tvItemList = tvItemService.GetTVItemList().ToList();
                             CheckTVItemFields(tvItemList);
                             Assert.AreEqual(tvItemDirectQueryList[0].TVItemID, tvItemList[0].TVItemID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<TVItemExtraA> tvItemExtraAList = new List<TVItemExtraA>();
-                            tvItemExtraAList = tvItemService.GetTVItemExtraAList().ToList();
-                            CheckTVItemExtraAFields(tvItemExtraAList);
-                            Assert.AreEqual(tvItemDirectQueryList[0].TVItemID, tvItemExtraAList[0].TVItemID);
-                            Assert.AreEqual(tvItemDirectQueryList.Count, tvItemExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TVItemExtraB> tvItemExtraBList = new List<TVItemExtraB>();
-                            tvItemExtraBList = tvItemService.GetTVItemExtraBList().ToList();
-                            CheckTVItemExtraBFields(tvItemExtraBList);
-                            Assert.AreEqual(tvItemDirectQueryList[0].TVItemID, tvItemExtraBList[0].TVItemID);
-                            Assert.AreEqual(tvItemDirectQueryList.Count, tvItemExtraBList.Count);
                         }
                         else
                         {
@@ -449,22 +407,6 @@ namespace CSSPServices.Tests
                             CheckTVItemFields(tvItemList);
                             Assert.AreEqual(tvItemDirectQueryList[0].TVItemID, tvItemList[0].TVItemID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<TVItemExtraA> tvItemExtraAList = new List<TVItemExtraA>();
-                            tvItemExtraAList = tvItemService.GetTVItemExtraAList().ToList();
-                            CheckTVItemExtraAFields(tvItemExtraAList);
-                            Assert.AreEqual(tvItemDirectQueryList[0].TVItemID, tvItemExtraAList[0].TVItemID);
-                            Assert.AreEqual(tvItemDirectQueryList.Count, tvItemExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TVItemExtraB> tvItemExtraBList = new List<TVItemExtraB>();
-                            tvItemExtraBList = tvItemService.GetTVItemExtraBList().ToList();
-                            CheckTVItemExtraBFields(tvItemExtraBList);
-                            Assert.AreEqual(tvItemDirectQueryList[0].TVItemID, tvItemExtraBList[0].TVItemID);
-                            Assert.AreEqual(tvItemDirectQueryList.Count, tvItemExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -500,22 +442,6 @@ namespace CSSPServices.Tests
                             tvItemList = tvItemService.GetTVItemList().ToList();
                             CheckTVItemFields(tvItemList);
                             Assert.AreEqual(tvItemDirectQueryList[0].TVItemID, tvItemList[0].TVItemID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<TVItemExtraA> tvItemExtraAList = new List<TVItemExtraA>();
-                            tvItemExtraAList = tvItemService.GetTVItemExtraAList().ToList();
-                            CheckTVItemExtraAFields(tvItemExtraAList);
-                            Assert.AreEqual(tvItemDirectQueryList[0].TVItemID, tvItemExtraAList[0].TVItemID);
-                            Assert.AreEqual(tvItemDirectQueryList.Count, tvItemExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TVItemExtraB> tvItemExtraBList = new List<TVItemExtraB>();
-                            tvItemExtraBList = tvItemService.GetTVItemExtraBList().ToList();
-                            CheckTVItemExtraBFields(tvItemExtraBList);
-                            Assert.AreEqual(tvItemDirectQueryList[0].TVItemID, tvItemExtraBList[0].TVItemID);
-                            Assert.AreEqual(tvItemDirectQueryList.Count, tvItemExtraBList.Count);
                         }
                         else
                         {
@@ -553,22 +479,6 @@ namespace CSSPServices.Tests
                             CheckTVItemFields(tvItemList);
                             Assert.AreEqual(tvItemDirectQueryList[0].TVItemID, tvItemList[0].TVItemID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<TVItemExtraA> tvItemExtraAList = new List<TVItemExtraA>();
-                            tvItemExtraAList = tvItemService.GetTVItemExtraAList().ToList();
-                            CheckTVItemExtraAFields(tvItemExtraAList);
-                            Assert.AreEqual(tvItemDirectQueryList[0].TVItemID, tvItemExtraAList[0].TVItemID);
-                            Assert.AreEqual(tvItemDirectQueryList.Count, tvItemExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TVItemExtraB> tvItemExtraBList = new List<TVItemExtraB>();
-                            tvItemExtraBList = tvItemService.GetTVItemExtraBList().ToList();
-                            CheckTVItemExtraBFields(tvItemExtraBList);
-                            Assert.AreEqual(tvItemDirectQueryList[0].TVItemID, tvItemExtraBList[0].TVItemID);
-                            Assert.AreEqual(tvItemDirectQueryList.Count, tvItemExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -604,22 +514,6 @@ namespace CSSPServices.Tests
                             tvItemList = tvItemService.GetTVItemList().ToList();
                             CheckTVItemFields(tvItemList);
                             Assert.AreEqual(tvItemDirectQueryList[0].TVItemID, tvItemList[0].TVItemID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<TVItemExtraA> tvItemExtraAList = new List<TVItemExtraA>();
-                            tvItemExtraAList = tvItemService.GetTVItemExtraAList().ToList();
-                            CheckTVItemExtraAFields(tvItemExtraAList);
-                            Assert.AreEqual(tvItemDirectQueryList[0].TVItemID, tvItemExtraAList[0].TVItemID);
-                            Assert.AreEqual(tvItemDirectQueryList.Count, tvItemExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TVItemExtraB> tvItemExtraBList = new List<TVItemExtraB>();
-                            tvItemExtraBList = tvItemService.GetTVItemExtraBList().ToList();
-                            CheckTVItemExtraBFields(tvItemExtraBList);
-                            Assert.AreEqual(tvItemDirectQueryList[0].TVItemID, tvItemExtraBList[0].TVItemID);
-                            Assert.AreEqual(tvItemDirectQueryList.Count, tvItemExtraBList.Count);
                         }
                         else
                         {
@@ -657,22 +551,6 @@ namespace CSSPServices.Tests
                             CheckTVItemFields(tvItemList);
                             Assert.AreEqual(tvItemDirectQueryList[0].TVItemID, tvItemList[0].TVItemID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<TVItemExtraA> tvItemExtraAList = new List<TVItemExtraA>();
-                            tvItemExtraAList = tvItemService.GetTVItemExtraAList().ToList();
-                            CheckTVItemExtraAFields(tvItemExtraAList);
-                            Assert.AreEqual(tvItemDirectQueryList[0].TVItemID, tvItemExtraAList[0].TVItemID);
-                            Assert.AreEqual(tvItemDirectQueryList.Count, tvItemExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TVItemExtraB> tvItemExtraBList = new List<TVItemExtraB>();
-                            tvItemExtraBList = tvItemService.GetTVItemExtraBList().ToList();
-                            CheckTVItemExtraBFields(tvItemExtraBList);
-                            Assert.AreEqual(tvItemDirectQueryList[0].TVItemID, tvItemExtraBList[0].TVItemID);
-                            Assert.AreEqual(tvItemDirectQueryList.Count, tvItemExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -708,22 +586,6 @@ namespace CSSPServices.Tests
                             tvItemList = tvItemService.GetTVItemList().ToList();
                             CheckTVItemFields(tvItemList);
                             Assert.AreEqual(tvItemDirectQueryList[0].TVItemID, tvItemList[0].TVItemID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<TVItemExtraA> tvItemExtraAList = new List<TVItemExtraA>();
-                            tvItemExtraAList = tvItemService.GetTVItemExtraAList().ToList();
-                            CheckTVItemExtraAFields(tvItemExtraAList);
-                            Assert.AreEqual(tvItemDirectQueryList[0].TVItemID, tvItemExtraAList[0].TVItemID);
-                            Assert.AreEqual(tvItemDirectQueryList.Count, tvItemExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TVItemExtraB> tvItemExtraBList = new List<TVItemExtraB>();
-                            tvItemExtraBList = tvItemService.GetTVItemExtraBList().ToList();
-                            CheckTVItemExtraBFields(tvItemExtraBList);
-                            Assert.AreEqual(tvItemDirectQueryList[0].TVItemID, tvItemExtraBList[0].TVItemID);
-                            Assert.AreEqual(tvItemDirectQueryList.Count, tvItemExtraBList.Count);
                         }
                         else
                         {
@@ -761,22 +623,6 @@ namespace CSSPServices.Tests
                             CheckTVItemFields(tvItemList);
                             Assert.AreEqual(tvItemDirectQueryList[0].TVItemID, tvItemList[0].TVItemID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<TVItemExtraA> tvItemExtraAList = new List<TVItemExtraA>();
-                            tvItemExtraAList = tvItemService.GetTVItemExtraAList().ToList();
-                            CheckTVItemExtraAFields(tvItemExtraAList);
-                            Assert.AreEqual(tvItemDirectQueryList[0].TVItemID, tvItemExtraAList[0].TVItemID);
-                            Assert.AreEqual(tvItemDirectQueryList.Count, tvItemExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TVItemExtraB> tvItemExtraBList = new List<TVItemExtraB>();
-                            tvItemExtraBList = tvItemService.GetTVItemExtraBList().ToList();
-                            CheckTVItemExtraBFields(tvItemExtraBList);
-                            Assert.AreEqual(tvItemDirectQueryList[0].TVItemID, tvItemExtraBList[0].TVItemID);
-                            Assert.AreEqual(tvItemDirectQueryList.Count, tvItemExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -812,22 +658,6 @@ namespace CSSPServices.Tests
                             tvItemList = tvItemService.GetTVItemList().ToList();
                             CheckTVItemFields(tvItemList);
                             Assert.AreEqual(tvItemDirectQueryList[0].TVItemID, tvItemList[0].TVItemID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<TVItemExtraA> tvItemExtraAList = new List<TVItemExtraA>();
-                            tvItemExtraAList = tvItemService.GetTVItemExtraAList().ToList();
-                            CheckTVItemExtraAFields(tvItemExtraAList);
-                            Assert.AreEqual(tvItemDirectQueryList[0].TVItemID, tvItemExtraAList[0].TVItemID);
-                            Assert.AreEqual(tvItemDirectQueryList.Count, tvItemExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TVItemExtraB> tvItemExtraBList = new List<TVItemExtraB>();
-                            tvItemExtraBList = tvItemService.GetTVItemExtraBList().ToList();
-                            CheckTVItemExtraBFields(tvItemExtraBList);
-                            Assert.AreEqual(tvItemDirectQueryList[0].TVItemID, tvItemExtraBList[0].TVItemID);
-                            Assert.AreEqual(tvItemDirectQueryList.Count, tvItemExtraBList.Count);
                         }
                         else
                         {
@@ -865,22 +695,6 @@ namespace CSSPServices.Tests
                             CheckTVItemFields(tvItemList);
                             Assert.AreEqual(tvItemDirectQueryList[0].TVItemID, tvItemList[0].TVItemID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<TVItemExtraA> tvItemExtraAList = new List<TVItemExtraA>();
-                            tvItemExtraAList = tvItemService.GetTVItemExtraAList().ToList();
-                            CheckTVItemExtraAFields(tvItemExtraAList);
-                            Assert.AreEqual(tvItemDirectQueryList[0].TVItemID, tvItemExtraAList[0].TVItemID);
-                            Assert.AreEqual(tvItemDirectQueryList.Count, tvItemExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TVItemExtraB> tvItemExtraBList = new List<TVItemExtraB>();
-                            tvItemExtraBList = tvItemService.GetTVItemExtraBList().ToList();
-                            CheckTVItemExtraBFields(tvItemExtraBList);
-                            Assert.AreEqual(tvItemDirectQueryList[0].TVItemID, tvItemExtraBList[0].TVItemID);
-                            Assert.AreEqual(tvItemDirectQueryList.Count, tvItemExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -903,46 +717,6 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(tvItemList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(tvItemList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(tvItemList[0].HasErrors);
-        }
-        private void CheckTVItemExtraAFields(List<TVItemExtraA> tvItemExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemExtraAList[0].TVItemText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemExtraAList[0].LastUpdateContactText));
-            if (!string.IsNullOrWhiteSpace(tvItemExtraAList[0].TVTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemExtraAList[0].TVTypeText));
-            }
-            Assert.IsNotNull(tvItemExtraAList[0].TVItemID);
-            Assert.IsNotNull(tvItemExtraAList[0].TVLevel);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemExtraAList[0].TVPath));
-            Assert.IsNotNull(tvItemExtraAList[0].TVType);
-            Assert.IsNotNull(tvItemExtraAList[0].ParentID);
-            Assert.IsNotNull(tvItemExtraAList[0].IsActive);
-            Assert.IsNotNull(tvItemExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(tvItemExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(tvItemExtraAList[0].HasErrors);
-        }
-        private void CheckTVItemExtraBFields(List<TVItemExtraB> tvItemExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(tvItemExtraBList[0].TVItemReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemExtraBList[0].TVItemReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemExtraBList[0].TVItemText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemExtraBList[0].LastUpdateContactText));
-            if (!string.IsNullOrWhiteSpace(tvItemExtraBList[0].TVTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemExtraBList[0].TVTypeText));
-            }
-            Assert.IsNotNull(tvItemExtraBList[0].TVItemID);
-            Assert.IsNotNull(tvItemExtraBList[0].TVLevel);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemExtraBList[0].TVPath));
-            Assert.IsNotNull(tvItemExtraBList[0].TVType);
-            Assert.IsNotNull(tvItemExtraBList[0].ParentID);
-            Assert.IsNotNull(tvItemExtraBList[0].IsActive);
-            Assert.IsNotNull(tvItemExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(tvItemExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(tvItemExtraBList[0].HasErrors);
         }
         private TVItem GetFilledRandomTVItem(string OmitPropName)
         {

@@ -265,18 +265,6 @@ namespace CSSPServices.Tests
                             CheckTVFileLanguageFields(new List<TVFileLanguage>() { tvFileLanguageRet });
                             Assert.AreEqual(tvFileLanguage.TVFileLanguageID, tvFileLanguageRet.TVFileLanguageID);
                         }
-                        else if (extra == "A")
-                        {
-                            TVFileLanguageExtraA tvFileLanguageExtraARet = tvFileLanguageService.GetTVFileLanguageExtraAWithTVFileLanguageID(tvFileLanguage.TVFileLanguageID);
-                            CheckTVFileLanguageExtraAFields(new List<TVFileLanguageExtraA>() { tvFileLanguageExtraARet });
-                            Assert.AreEqual(tvFileLanguage.TVFileLanguageID, tvFileLanguageExtraARet.TVFileLanguageID);
-                        }
-                        else if (extra == "B")
-                        {
-                            TVFileLanguageExtraB tvFileLanguageExtraBRet = tvFileLanguageService.GetTVFileLanguageExtraBWithTVFileLanguageID(tvFileLanguage.TVFileLanguageID);
-                            CheckTVFileLanguageExtraBFields(new List<TVFileLanguageExtraB>() { tvFileLanguageExtraBRet });
-                            Assert.AreEqual(tvFileLanguage.TVFileLanguageID, tvFileLanguageExtraBRet.TVFileLanguageID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -314,20 +302,6 @@ namespace CSSPServices.Tests
                             tvFileLanguageList = tvFileLanguageService.GetTVFileLanguageList().ToList();
                             CheckTVFileLanguageFields(tvFileLanguageList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<TVFileLanguageExtraA> tvFileLanguageExtraAList = new List<TVFileLanguageExtraA>();
-                            tvFileLanguageExtraAList = tvFileLanguageService.GetTVFileLanguageExtraAList().ToList();
-                            CheckTVFileLanguageExtraAFields(tvFileLanguageExtraAList);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList.Count, tvFileLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TVFileLanguageExtraB> tvFileLanguageExtraBList = new List<TVFileLanguageExtraB>();
-                            tvFileLanguageExtraBList = tvFileLanguageService.GetTVFileLanguageExtraBList().ToList();
-                            CheckTVFileLanguageExtraBFields(tvFileLanguageExtraBList);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList.Count, tvFileLanguageExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -363,22 +337,6 @@ namespace CSSPServices.Tests
                             tvFileLanguageList = tvFileLanguageService.GetTVFileLanguageList().ToList();
                             CheckTVFileLanguageFields(tvFileLanguageList);
                             Assert.AreEqual(tvFileLanguageDirectQueryList[0].TVFileLanguageID, tvFileLanguageList[0].TVFileLanguageID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<TVFileLanguageExtraA> tvFileLanguageExtraAList = new List<TVFileLanguageExtraA>();
-                            tvFileLanguageExtraAList = tvFileLanguageService.GetTVFileLanguageExtraAList().ToList();
-                            CheckTVFileLanguageExtraAFields(tvFileLanguageExtraAList);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList[0].TVFileLanguageID, tvFileLanguageExtraAList[0].TVFileLanguageID);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList.Count, tvFileLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TVFileLanguageExtraB> tvFileLanguageExtraBList = new List<TVFileLanguageExtraB>();
-                            tvFileLanguageExtraBList = tvFileLanguageService.GetTVFileLanguageExtraBList().ToList();
-                            CheckTVFileLanguageExtraBFields(tvFileLanguageExtraBList);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList[0].TVFileLanguageID, tvFileLanguageExtraBList[0].TVFileLanguageID);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList.Count, tvFileLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -416,22 +374,6 @@ namespace CSSPServices.Tests
                             CheckTVFileLanguageFields(tvFileLanguageList);
                             Assert.AreEqual(tvFileLanguageDirectQueryList[0].TVFileLanguageID, tvFileLanguageList[0].TVFileLanguageID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<TVFileLanguageExtraA> tvFileLanguageExtraAList = new List<TVFileLanguageExtraA>();
-                            tvFileLanguageExtraAList = tvFileLanguageService.GetTVFileLanguageExtraAList().ToList();
-                            CheckTVFileLanguageExtraAFields(tvFileLanguageExtraAList);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList[0].TVFileLanguageID, tvFileLanguageExtraAList[0].TVFileLanguageID);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList.Count, tvFileLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TVFileLanguageExtraB> tvFileLanguageExtraBList = new List<TVFileLanguageExtraB>();
-                            tvFileLanguageExtraBList = tvFileLanguageService.GetTVFileLanguageExtraBList().ToList();
-                            CheckTVFileLanguageExtraBFields(tvFileLanguageExtraBList);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList[0].TVFileLanguageID, tvFileLanguageExtraBList[0].TVFileLanguageID);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList.Count, tvFileLanguageExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -467,22 +409,6 @@ namespace CSSPServices.Tests
                             tvFileLanguageList = tvFileLanguageService.GetTVFileLanguageList().ToList();
                             CheckTVFileLanguageFields(tvFileLanguageList);
                             Assert.AreEqual(tvFileLanguageDirectQueryList[0].TVFileLanguageID, tvFileLanguageList[0].TVFileLanguageID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<TVFileLanguageExtraA> tvFileLanguageExtraAList = new List<TVFileLanguageExtraA>();
-                            tvFileLanguageExtraAList = tvFileLanguageService.GetTVFileLanguageExtraAList().ToList();
-                            CheckTVFileLanguageExtraAFields(tvFileLanguageExtraAList);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList[0].TVFileLanguageID, tvFileLanguageExtraAList[0].TVFileLanguageID);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList.Count, tvFileLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TVFileLanguageExtraB> tvFileLanguageExtraBList = new List<TVFileLanguageExtraB>();
-                            tvFileLanguageExtraBList = tvFileLanguageService.GetTVFileLanguageExtraBList().ToList();
-                            CheckTVFileLanguageExtraBFields(tvFileLanguageExtraBList);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList[0].TVFileLanguageID, tvFileLanguageExtraBList[0].TVFileLanguageID);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList.Count, tvFileLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -520,22 +446,6 @@ namespace CSSPServices.Tests
                             CheckTVFileLanguageFields(tvFileLanguageList);
                             Assert.AreEqual(tvFileLanguageDirectQueryList[0].TVFileLanguageID, tvFileLanguageList[0].TVFileLanguageID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<TVFileLanguageExtraA> tvFileLanguageExtraAList = new List<TVFileLanguageExtraA>();
-                            tvFileLanguageExtraAList = tvFileLanguageService.GetTVFileLanguageExtraAList().ToList();
-                            CheckTVFileLanguageExtraAFields(tvFileLanguageExtraAList);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList[0].TVFileLanguageID, tvFileLanguageExtraAList[0].TVFileLanguageID);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList.Count, tvFileLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TVFileLanguageExtraB> tvFileLanguageExtraBList = new List<TVFileLanguageExtraB>();
-                            tvFileLanguageExtraBList = tvFileLanguageService.GetTVFileLanguageExtraBList().ToList();
-                            CheckTVFileLanguageExtraBFields(tvFileLanguageExtraBList);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList[0].TVFileLanguageID, tvFileLanguageExtraBList[0].TVFileLanguageID);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList.Count, tvFileLanguageExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -571,22 +481,6 @@ namespace CSSPServices.Tests
                             tvFileLanguageList = tvFileLanguageService.GetTVFileLanguageList().ToList();
                             CheckTVFileLanguageFields(tvFileLanguageList);
                             Assert.AreEqual(tvFileLanguageDirectQueryList[0].TVFileLanguageID, tvFileLanguageList[0].TVFileLanguageID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<TVFileLanguageExtraA> tvFileLanguageExtraAList = new List<TVFileLanguageExtraA>();
-                            tvFileLanguageExtraAList = tvFileLanguageService.GetTVFileLanguageExtraAList().ToList();
-                            CheckTVFileLanguageExtraAFields(tvFileLanguageExtraAList);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList[0].TVFileLanguageID, tvFileLanguageExtraAList[0].TVFileLanguageID);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList.Count, tvFileLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TVFileLanguageExtraB> tvFileLanguageExtraBList = new List<TVFileLanguageExtraB>();
-                            tvFileLanguageExtraBList = tvFileLanguageService.GetTVFileLanguageExtraBList().ToList();
-                            CheckTVFileLanguageExtraBFields(tvFileLanguageExtraBList);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList[0].TVFileLanguageID, tvFileLanguageExtraBList[0].TVFileLanguageID);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList.Count, tvFileLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -624,22 +518,6 @@ namespace CSSPServices.Tests
                             CheckTVFileLanguageFields(tvFileLanguageList);
                             Assert.AreEqual(tvFileLanguageDirectQueryList[0].TVFileLanguageID, tvFileLanguageList[0].TVFileLanguageID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<TVFileLanguageExtraA> tvFileLanguageExtraAList = new List<TVFileLanguageExtraA>();
-                            tvFileLanguageExtraAList = tvFileLanguageService.GetTVFileLanguageExtraAList().ToList();
-                            CheckTVFileLanguageExtraAFields(tvFileLanguageExtraAList);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList[0].TVFileLanguageID, tvFileLanguageExtraAList[0].TVFileLanguageID);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList.Count, tvFileLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TVFileLanguageExtraB> tvFileLanguageExtraBList = new List<TVFileLanguageExtraB>();
-                            tvFileLanguageExtraBList = tvFileLanguageService.GetTVFileLanguageExtraBList().ToList();
-                            CheckTVFileLanguageExtraBFields(tvFileLanguageExtraBList);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList[0].TVFileLanguageID, tvFileLanguageExtraBList[0].TVFileLanguageID);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList.Count, tvFileLanguageExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -675,22 +553,6 @@ namespace CSSPServices.Tests
                             tvFileLanguageList = tvFileLanguageService.GetTVFileLanguageList().ToList();
                             CheckTVFileLanguageFields(tvFileLanguageList);
                             Assert.AreEqual(tvFileLanguageDirectQueryList[0].TVFileLanguageID, tvFileLanguageList[0].TVFileLanguageID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<TVFileLanguageExtraA> tvFileLanguageExtraAList = new List<TVFileLanguageExtraA>();
-                            tvFileLanguageExtraAList = tvFileLanguageService.GetTVFileLanguageExtraAList().ToList();
-                            CheckTVFileLanguageExtraAFields(tvFileLanguageExtraAList);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList[0].TVFileLanguageID, tvFileLanguageExtraAList[0].TVFileLanguageID);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList.Count, tvFileLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TVFileLanguageExtraB> tvFileLanguageExtraBList = new List<TVFileLanguageExtraB>();
-                            tvFileLanguageExtraBList = tvFileLanguageService.GetTVFileLanguageExtraBList().ToList();
-                            CheckTVFileLanguageExtraBFields(tvFileLanguageExtraBList);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList[0].TVFileLanguageID, tvFileLanguageExtraBList[0].TVFileLanguageID);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList.Count, tvFileLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -728,22 +590,6 @@ namespace CSSPServices.Tests
                             CheckTVFileLanguageFields(tvFileLanguageList);
                             Assert.AreEqual(tvFileLanguageDirectQueryList[0].TVFileLanguageID, tvFileLanguageList[0].TVFileLanguageID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<TVFileLanguageExtraA> tvFileLanguageExtraAList = new List<TVFileLanguageExtraA>();
-                            tvFileLanguageExtraAList = tvFileLanguageService.GetTVFileLanguageExtraAList().ToList();
-                            CheckTVFileLanguageExtraAFields(tvFileLanguageExtraAList);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList[0].TVFileLanguageID, tvFileLanguageExtraAList[0].TVFileLanguageID);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList.Count, tvFileLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TVFileLanguageExtraB> tvFileLanguageExtraBList = new List<TVFileLanguageExtraB>();
-                            tvFileLanguageExtraBList = tvFileLanguageService.GetTVFileLanguageExtraBList().ToList();
-                            CheckTVFileLanguageExtraBFields(tvFileLanguageExtraBList);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList[0].TVFileLanguageID, tvFileLanguageExtraBList[0].TVFileLanguageID);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList.Count, tvFileLanguageExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -779,22 +625,6 @@ namespace CSSPServices.Tests
                             tvFileLanguageList = tvFileLanguageService.GetTVFileLanguageList().ToList();
                             CheckTVFileLanguageFields(tvFileLanguageList);
                             Assert.AreEqual(tvFileLanguageDirectQueryList[0].TVFileLanguageID, tvFileLanguageList[0].TVFileLanguageID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<TVFileLanguageExtraA> tvFileLanguageExtraAList = new List<TVFileLanguageExtraA>();
-                            tvFileLanguageExtraAList = tvFileLanguageService.GetTVFileLanguageExtraAList().ToList();
-                            CheckTVFileLanguageExtraAFields(tvFileLanguageExtraAList);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList[0].TVFileLanguageID, tvFileLanguageExtraAList[0].TVFileLanguageID);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList.Count, tvFileLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TVFileLanguageExtraB> tvFileLanguageExtraBList = new List<TVFileLanguageExtraB>();
-                            tvFileLanguageExtraBList = tvFileLanguageService.GetTVFileLanguageExtraBList().ToList();
-                            CheckTVFileLanguageExtraBFields(tvFileLanguageExtraBList);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList[0].TVFileLanguageID, tvFileLanguageExtraBList[0].TVFileLanguageID);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList.Count, tvFileLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -832,22 +662,6 @@ namespace CSSPServices.Tests
                             CheckTVFileLanguageFields(tvFileLanguageList);
                             Assert.AreEqual(tvFileLanguageDirectQueryList[0].TVFileLanguageID, tvFileLanguageList[0].TVFileLanguageID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<TVFileLanguageExtraA> tvFileLanguageExtraAList = new List<TVFileLanguageExtraA>();
-                            tvFileLanguageExtraAList = tvFileLanguageService.GetTVFileLanguageExtraAList().ToList();
-                            CheckTVFileLanguageExtraAFields(tvFileLanguageExtraAList);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList[0].TVFileLanguageID, tvFileLanguageExtraAList[0].TVFileLanguageID);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList.Count, tvFileLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TVFileLanguageExtraB> tvFileLanguageExtraBList = new List<TVFileLanguageExtraB>();
-                            tvFileLanguageExtraBList = tvFileLanguageService.GetTVFileLanguageExtraBList().ToList();
-                            CheckTVFileLanguageExtraBFields(tvFileLanguageExtraBList);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList[0].TVFileLanguageID, tvFileLanguageExtraBList[0].TVFileLanguageID);
-                            Assert.AreEqual(tvFileLanguageDirectQueryList.Count, tvFileLanguageExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -872,56 +686,6 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(tvFileLanguageList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(tvFileLanguageList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(tvFileLanguageList[0].HasErrors);
-        }
-        private void CheckTVFileLanguageExtraAFields(List<TVFileLanguageExtraA> tvFileLanguageExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileLanguageExtraAList[0].LastUpdateContactText));
-            if (!string.IsNullOrWhiteSpace(tvFileLanguageExtraAList[0].LanguageText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileLanguageExtraAList[0].LanguageText));
-            }
-            if (!string.IsNullOrWhiteSpace(tvFileLanguageExtraAList[0].TranslationStatusText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileLanguageExtraAList[0].TranslationStatusText));
-            }
-            Assert.IsNotNull(tvFileLanguageExtraAList[0].TVFileLanguageID);
-            Assert.IsNotNull(tvFileLanguageExtraAList[0].TVFileID);
-            Assert.IsNotNull(tvFileLanguageExtraAList[0].Language);
-            if (!string.IsNullOrWhiteSpace(tvFileLanguageExtraAList[0].FileDescription))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileLanguageExtraAList[0].FileDescription));
-            }
-            Assert.IsNotNull(tvFileLanguageExtraAList[0].TranslationStatus);
-            Assert.IsNotNull(tvFileLanguageExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(tvFileLanguageExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(tvFileLanguageExtraAList[0].HasErrors);
-        }
-        private void CheckTVFileLanguageExtraBFields(List<TVFileLanguageExtraB> tvFileLanguageExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(tvFileLanguageExtraBList[0].TVFileLanguageReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileLanguageExtraBList[0].TVFileLanguageReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileLanguageExtraBList[0].LastUpdateContactText));
-            if (!string.IsNullOrWhiteSpace(tvFileLanguageExtraBList[0].LanguageText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileLanguageExtraBList[0].LanguageText));
-            }
-            if (!string.IsNullOrWhiteSpace(tvFileLanguageExtraBList[0].TranslationStatusText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileLanguageExtraBList[0].TranslationStatusText));
-            }
-            Assert.IsNotNull(tvFileLanguageExtraBList[0].TVFileLanguageID);
-            Assert.IsNotNull(tvFileLanguageExtraBList[0].TVFileID);
-            Assert.IsNotNull(tvFileLanguageExtraBList[0].Language);
-            if (!string.IsNullOrWhiteSpace(tvFileLanguageExtraBList[0].FileDescription))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileLanguageExtraBList[0].FileDescription));
-            }
-            Assert.IsNotNull(tvFileLanguageExtraBList[0].TranslationStatus);
-            Assert.IsNotNull(tvFileLanguageExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(tvFileLanguageExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(tvFileLanguageExtraBList[0].HasErrors);
         }
         private TVFileLanguage GetFilledRandomTVFileLanguage(string OmitPropName)
         {

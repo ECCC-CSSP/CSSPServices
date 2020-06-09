@@ -179,32 +179,6 @@ namespace CSSPServices
 
             return HydrometricDataValueQuery;
         }
-        public HydrometricDataValueExtraA GetHydrometricDataValueExtraAWithHydrometricDataValueID(int HydrometricDataValueID)
-        {
-            return FillHydrometricDataValueExtraA().Where(c => c.HydrometricDataValueID == HydrometricDataValueID).FirstOrDefault();
-
-        }
-        public IQueryable<HydrometricDataValueExtraA> GetHydrometricDataValueExtraAList()
-        {
-            IQueryable<HydrometricDataValueExtraA> HydrometricDataValueExtraAQuery = FillHydrometricDataValueExtraA();
-
-            HydrometricDataValueExtraAQuery = EnhanceQueryStatements<HydrometricDataValueExtraA>(HydrometricDataValueExtraAQuery) as IQueryable<HydrometricDataValueExtraA>;
-
-            return HydrometricDataValueExtraAQuery;
-        }
-        public HydrometricDataValueExtraB GetHydrometricDataValueExtraBWithHydrometricDataValueID(int HydrometricDataValueID)
-        {
-            return FillHydrometricDataValueExtraB().Where(c => c.HydrometricDataValueID == HydrometricDataValueID).FirstOrDefault();
-
-        }
-        public IQueryable<HydrometricDataValueExtraB> GetHydrometricDataValueExtraBList()
-        {
-            IQueryable<HydrometricDataValueExtraB> HydrometricDataValueExtraBQuery = FillHydrometricDataValueExtraB();
-
-            HydrometricDataValueExtraBQuery = EnhanceQueryStatements<HydrometricDataValueExtraB>(HydrometricDataValueExtraBQuery) as IQueryable<HydrometricDataValueExtraB>;
-
-            return HydrometricDataValueExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

@@ -297,6 +297,12 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is Nullable
+                    // infrastructure.HasBackupPower   (Boolean)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is Nullable
                     // infrastructure.IsMechanicallyAerated   (Boolean)
                     // -----------------------------------
 
@@ -548,6 +554,19 @@ namespace CSSPServices.Tests
                     // Is Nullable
                     // infrastructure.CanOverflow   (Boolean)
                     // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPEnumType]
+                    // infrastructure.ValveType   (ValveTypeEnum)
+                    // -----------------------------------
+
+                    infrastructure = null;
+                    infrastructure = GetFilledRandomInfrastructure("");
+                    infrastructure.ValveType = (ValveTypeEnum)1000000;
+                    infrastructureService.Add(infrastructure);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "ValveType"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -1034,18 +1053,6 @@ namespace CSSPServices.Tests
                             CheckInfrastructureFields(new List<Infrastructure>() { infrastructureRet });
                             Assert.AreEqual(infrastructure.InfrastructureID, infrastructureRet.InfrastructureID);
                         }
-                        else if (extra == "A")
-                        {
-                            InfrastructureExtraA infrastructureExtraARet = infrastructureService.GetInfrastructureExtraAWithInfrastructureID(infrastructure.InfrastructureID);
-                            CheckInfrastructureExtraAFields(new List<InfrastructureExtraA>() { infrastructureExtraARet });
-                            Assert.AreEqual(infrastructure.InfrastructureID, infrastructureExtraARet.InfrastructureID);
-                        }
-                        else if (extra == "B")
-                        {
-                            InfrastructureExtraB infrastructureExtraBRet = infrastructureService.GetInfrastructureExtraBWithInfrastructureID(infrastructure.InfrastructureID);
-                            CheckInfrastructureExtraBFields(new List<InfrastructureExtraB>() { infrastructureExtraBRet });
-                            Assert.AreEqual(infrastructure.InfrastructureID, infrastructureExtraBRet.InfrastructureID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -1083,20 +1090,6 @@ namespace CSSPServices.Tests
                             infrastructureList = infrastructureService.GetInfrastructureList().ToList();
                             CheckInfrastructureFields(infrastructureList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
-                            infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
-                            CheckInfrastructureExtraAFields(infrastructureExtraAList);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
-                            infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
-                            CheckInfrastructureExtraBFields(infrastructureExtraBList);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -1132,22 +1125,6 @@ namespace CSSPServices.Tests
                             infrastructureList = infrastructureService.GetInfrastructureList().ToList();
                             CheckInfrastructureFields(infrastructureList);
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
-                            infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
-                            CheckInfrastructureExtraAFields(infrastructureExtraAList);
-                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraAList[0].InfrastructureID);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
-                            infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
-                            CheckInfrastructureExtraBFields(infrastructureExtraBList);
-                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraBList[0].InfrastructureID);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraBList.Count);
                         }
                         else
                         {
@@ -1185,22 +1162,6 @@ namespace CSSPServices.Tests
                             CheckInfrastructureFields(infrastructureList);
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
-                            infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
-                            CheckInfrastructureExtraAFields(infrastructureExtraAList);
-                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraAList[0].InfrastructureID);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
-                            infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
-                            CheckInfrastructureExtraBFields(infrastructureExtraBList);
-                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraBList[0].InfrastructureID);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -1236,22 +1197,6 @@ namespace CSSPServices.Tests
                             infrastructureList = infrastructureService.GetInfrastructureList().ToList();
                             CheckInfrastructureFields(infrastructureList);
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
-                            infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
-                            CheckInfrastructureExtraAFields(infrastructureExtraAList);
-                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraAList[0].InfrastructureID);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
-                            infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
-                            CheckInfrastructureExtraBFields(infrastructureExtraBList);
-                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraBList[0].InfrastructureID);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraBList.Count);
                         }
                         else
                         {
@@ -1289,22 +1234,6 @@ namespace CSSPServices.Tests
                             CheckInfrastructureFields(infrastructureList);
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
-                            infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
-                            CheckInfrastructureExtraAFields(infrastructureExtraAList);
-                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraAList[0].InfrastructureID);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
-                            infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
-                            CheckInfrastructureExtraBFields(infrastructureExtraBList);
-                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraBList[0].InfrastructureID);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -1340,22 +1269,6 @@ namespace CSSPServices.Tests
                             infrastructureList = infrastructureService.GetInfrastructureList().ToList();
                             CheckInfrastructureFields(infrastructureList);
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
-                            infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
-                            CheckInfrastructureExtraAFields(infrastructureExtraAList);
-                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraAList[0].InfrastructureID);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
-                            infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
-                            CheckInfrastructureExtraBFields(infrastructureExtraBList);
-                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraBList[0].InfrastructureID);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraBList.Count);
                         }
                         else
                         {
@@ -1393,22 +1306,6 @@ namespace CSSPServices.Tests
                             CheckInfrastructureFields(infrastructureList);
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
-                            infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
-                            CheckInfrastructureExtraAFields(infrastructureExtraAList);
-                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraAList[0].InfrastructureID);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
-                            infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
-                            CheckInfrastructureExtraBFields(infrastructureExtraBList);
-                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraBList[0].InfrastructureID);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -1444,22 +1341,6 @@ namespace CSSPServices.Tests
                             infrastructureList = infrastructureService.GetInfrastructureList().ToList();
                             CheckInfrastructureFields(infrastructureList);
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
-                            infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
-                            CheckInfrastructureExtraAFields(infrastructureExtraAList);
-                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraAList[0].InfrastructureID);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
-                            infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
-                            CheckInfrastructureExtraBFields(infrastructureExtraBList);
-                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraBList[0].InfrastructureID);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraBList.Count);
                         }
                         else
                         {
@@ -1497,22 +1378,6 @@ namespace CSSPServices.Tests
                             CheckInfrastructureFields(infrastructureList);
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
-                            infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
-                            CheckInfrastructureExtraAFields(infrastructureExtraAList);
-                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraAList[0].InfrastructureID);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
-                            infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
-                            CheckInfrastructureExtraBFields(infrastructureExtraBList);
-                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraBList[0].InfrastructureID);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -1549,22 +1414,6 @@ namespace CSSPServices.Tests
                             CheckInfrastructureFields(infrastructureList);
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
-                            infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
-                            CheckInfrastructureExtraAFields(infrastructureExtraAList);
-                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraAList[0].InfrastructureID);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
-                            infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
-                            CheckInfrastructureExtraBFields(infrastructureExtraBList);
-                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraBList[0].InfrastructureID);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -1600,22 +1449,6 @@ namespace CSSPServices.Tests
                             infrastructureList = infrastructureService.GetInfrastructureList().ToList();
                             CheckInfrastructureFields(infrastructureList);
                             Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<InfrastructureExtraA> infrastructureExtraAList = new List<InfrastructureExtraA>();
-                            infrastructureExtraAList = infrastructureService.GetInfrastructureExtraAList().ToList();
-                            CheckInfrastructureExtraAFields(infrastructureExtraAList);
-                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraAList[0].InfrastructureID);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<InfrastructureExtraB> infrastructureExtraBList = new List<InfrastructureExtraB>();
-                            infrastructureExtraBList = infrastructureService.GetInfrastructureExtraBList().ToList();
-                            CheckInfrastructureExtraBFields(infrastructureExtraBList);
-                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureExtraBList[0].InfrastructureID);
-                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureExtraBList.Count);
                         }
                         else
                         {
@@ -1663,6 +1496,10 @@ namespace CSSPServices.Tests
             if (infrastructureList[0].FacilityType != null)
             {
                 Assert.IsNotNull(infrastructureList[0].FacilityType);
+            }
+            if (infrastructureList[0].HasBackupPower != null)
+            {
+                Assert.IsNotNull(infrastructureList[0].HasBackupPower);
             }
             if (infrastructureList[0].IsMechanicallyAerated != null)
             {
@@ -1731,6 +1568,10 @@ namespace CSSPServices.Tests
             if (infrastructureList[0].CanOverflow != null)
             {
                 Assert.IsNotNull(infrastructureList[0].CanOverflow);
+            }
+            if (infrastructureList[0].ValveType != null)
+            {
+                Assert.IsNotNull(infrastructureList[0].ValveType);
             }
             if (infrastructureList[0].PercFlowOfTotal != null)
             {
@@ -1812,491 +1653,11 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(infrastructureList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(infrastructureList[0].HasErrors);
         }
-        private void CheckInfrastructureExtraAFields(List<InfrastructureExtraA> infrastructureExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].InfrastructureText));
-            if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].SeeOtherMunicipalityText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].SeeOtherMunicipalityText));
-            }
-            if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].CivicAddressText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].CivicAddressText));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].LastUpdateContactText));
-            if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].InfrastructureTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].InfrastructureTypeText));
-            }
-            if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].FacilityTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].FacilityTypeText));
-            }
-            if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].AerationTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].AerationTypeText));
-            }
-            if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].PreliminaryTreatmentTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].PreliminaryTreatmentTypeText));
-            }
-            if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].PrimaryTreatmentTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].PrimaryTreatmentTypeText));
-            }
-            if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].SecondaryTreatmentTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].SecondaryTreatmentTypeText));
-            }
-            if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].TertiaryTreatmentTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].TertiaryTreatmentTypeText));
-            }
-            if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].TreatmentTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].TreatmentTypeText));
-            }
-            if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].DisinfectionTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].DisinfectionTypeText));
-            }
-            if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].CollectionSystemTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].CollectionSystemTypeText));
-            }
-            if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].AlarmSystemTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].AlarmSystemTypeText));
-            }
-            Assert.IsNotNull(infrastructureExtraAList[0].InfrastructureID);
-            Assert.IsNotNull(infrastructureExtraAList[0].InfrastructureTVItemID);
-            if (infrastructureExtraAList[0].PrismID != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].PrismID);
-            }
-            if (infrastructureExtraAList[0].TPID != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].TPID);
-            }
-            if (infrastructureExtraAList[0].LSID != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].LSID);
-            }
-            if (infrastructureExtraAList[0].SiteID != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].SiteID);
-            }
-            if (infrastructureExtraAList[0].Site != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].Site);
-            }
-            if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].InfrastructureCategory))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].InfrastructureCategory));
-            }
-            if (infrastructureExtraAList[0].InfrastructureType != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].InfrastructureType);
-            }
-            if (infrastructureExtraAList[0].FacilityType != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].FacilityType);
-            }
-            if (infrastructureExtraAList[0].IsMechanicallyAerated != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].IsMechanicallyAerated);
-            }
-            if (infrastructureExtraAList[0].NumberOfCells != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].NumberOfCells);
-            }
-            if (infrastructureExtraAList[0].NumberOfAeratedCells != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].NumberOfAeratedCells);
-            }
-            if (infrastructureExtraAList[0].AerationType != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].AerationType);
-            }
-            if (infrastructureExtraAList[0].PreliminaryTreatmentType != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].PreliminaryTreatmentType);
-            }
-            if (infrastructureExtraAList[0].PrimaryTreatmentType != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].PrimaryTreatmentType);
-            }
-            if (infrastructureExtraAList[0].SecondaryTreatmentType != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].SecondaryTreatmentType);
-            }
-            if (infrastructureExtraAList[0].TertiaryTreatmentType != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].TertiaryTreatmentType);
-            }
-            if (infrastructureExtraAList[0].TreatmentType != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].TreatmentType);
-            }
-            if (infrastructureExtraAList[0].DisinfectionType != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].DisinfectionType);
-            }
-            if (infrastructureExtraAList[0].CollectionSystemType != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].CollectionSystemType);
-            }
-            if (infrastructureExtraAList[0].AlarmSystemType != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].AlarmSystemType);
-            }
-            if (infrastructureExtraAList[0].DesignFlow_m3_day != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].DesignFlow_m3_day);
-            }
-            if (infrastructureExtraAList[0].AverageFlow_m3_day != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].AverageFlow_m3_day);
-            }
-            if (infrastructureExtraAList[0].PeakFlow_m3_day != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].PeakFlow_m3_day);
-            }
-            if (infrastructureExtraAList[0].PopServed != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].PopServed);
-            }
-            if (infrastructureExtraAList[0].CanOverflow != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].CanOverflow);
-            }
-            if (infrastructureExtraAList[0].PercFlowOfTotal != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].PercFlowOfTotal);
-            }
-            if (infrastructureExtraAList[0].TimeOffset_hour != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].TimeOffset_hour);
-            }
-            if (!string.IsNullOrWhiteSpace(infrastructureExtraAList[0].TempCatchAllRemoveLater))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraAList[0].TempCatchAllRemoveLater));
-            }
-            if (infrastructureExtraAList[0].AverageDepth_m != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].AverageDepth_m);
-            }
-            if (infrastructureExtraAList[0].NumberOfPorts != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].NumberOfPorts);
-            }
-            if (infrastructureExtraAList[0].PortDiameter_m != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].PortDiameter_m);
-            }
-            if (infrastructureExtraAList[0].PortSpacing_m != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].PortSpacing_m);
-            }
-            if (infrastructureExtraAList[0].PortElevation_m != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].PortElevation_m);
-            }
-            if (infrastructureExtraAList[0].VerticalAngle_deg != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].VerticalAngle_deg);
-            }
-            if (infrastructureExtraAList[0].HorizontalAngle_deg != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].HorizontalAngle_deg);
-            }
-            if (infrastructureExtraAList[0].DecayRate_per_day != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].DecayRate_per_day);
-            }
-            if (infrastructureExtraAList[0].NearFieldVelocity_m_s != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].NearFieldVelocity_m_s);
-            }
-            if (infrastructureExtraAList[0].FarFieldVelocity_m_s != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].FarFieldVelocity_m_s);
-            }
-            if (infrastructureExtraAList[0].ReceivingWaterSalinity_PSU != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].ReceivingWaterSalinity_PSU);
-            }
-            if (infrastructureExtraAList[0].ReceivingWaterTemperature_C != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].ReceivingWaterTemperature_C);
-            }
-            if (infrastructureExtraAList[0].ReceivingWater_MPN_per_100ml != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].ReceivingWater_MPN_per_100ml);
-            }
-            if (infrastructureExtraAList[0].DistanceFromShore_m != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].DistanceFromShore_m);
-            }
-            if (infrastructureExtraAList[0].SeeOtherMunicipalityTVItemID != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].SeeOtherMunicipalityTVItemID);
-            }
-            if (infrastructureExtraAList[0].CivicAddressTVItemID != null)
-            {
-                Assert.IsNotNull(infrastructureExtraAList[0].CivicAddressTVItemID);
-            }
-            Assert.IsNotNull(infrastructureExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(infrastructureExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(infrastructureExtraAList[0].HasErrors);
-        }
-        private void CheckInfrastructureExtraBFields(List<InfrastructureExtraB> infrastructureExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].InfrastructureReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].InfrastructureReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].InfrastructureText));
-            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].SeeOtherMunicipalityText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].SeeOtherMunicipalityText));
-            }
-            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].CivicAddressText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].CivicAddressText));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].LastUpdateContactText));
-            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].InfrastructureTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].InfrastructureTypeText));
-            }
-            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].FacilityTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].FacilityTypeText));
-            }
-            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].AerationTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].AerationTypeText));
-            }
-            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].PreliminaryTreatmentTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].PreliminaryTreatmentTypeText));
-            }
-            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].PrimaryTreatmentTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].PrimaryTreatmentTypeText));
-            }
-            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].SecondaryTreatmentTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].SecondaryTreatmentTypeText));
-            }
-            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].TertiaryTreatmentTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].TertiaryTreatmentTypeText));
-            }
-            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].TreatmentTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].TreatmentTypeText));
-            }
-            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].DisinfectionTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].DisinfectionTypeText));
-            }
-            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].CollectionSystemTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].CollectionSystemTypeText));
-            }
-            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].AlarmSystemTypeText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].AlarmSystemTypeText));
-            }
-            Assert.IsNotNull(infrastructureExtraBList[0].InfrastructureID);
-            Assert.IsNotNull(infrastructureExtraBList[0].InfrastructureTVItemID);
-            if (infrastructureExtraBList[0].PrismID != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].PrismID);
-            }
-            if (infrastructureExtraBList[0].TPID != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].TPID);
-            }
-            if (infrastructureExtraBList[0].LSID != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].LSID);
-            }
-            if (infrastructureExtraBList[0].SiteID != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].SiteID);
-            }
-            if (infrastructureExtraBList[0].Site != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].Site);
-            }
-            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].InfrastructureCategory))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].InfrastructureCategory));
-            }
-            if (infrastructureExtraBList[0].InfrastructureType != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].InfrastructureType);
-            }
-            if (infrastructureExtraBList[0].FacilityType != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].FacilityType);
-            }
-            if (infrastructureExtraBList[0].IsMechanicallyAerated != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].IsMechanicallyAerated);
-            }
-            if (infrastructureExtraBList[0].NumberOfCells != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].NumberOfCells);
-            }
-            if (infrastructureExtraBList[0].NumberOfAeratedCells != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].NumberOfAeratedCells);
-            }
-            if (infrastructureExtraBList[0].AerationType != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].AerationType);
-            }
-            if (infrastructureExtraBList[0].PreliminaryTreatmentType != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].PreliminaryTreatmentType);
-            }
-            if (infrastructureExtraBList[0].PrimaryTreatmentType != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].PrimaryTreatmentType);
-            }
-            if (infrastructureExtraBList[0].SecondaryTreatmentType != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].SecondaryTreatmentType);
-            }
-            if (infrastructureExtraBList[0].TertiaryTreatmentType != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].TertiaryTreatmentType);
-            }
-            if (infrastructureExtraBList[0].TreatmentType != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].TreatmentType);
-            }
-            if (infrastructureExtraBList[0].DisinfectionType != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].DisinfectionType);
-            }
-            if (infrastructureExtraBList[0].CollectionSystemType != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].CollectionSystemType);
-            }
-            if (infrastructureExtraBList[0].AlarmSystemType != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].AlarmSystemType);
-            }
-            if (infrastructureExtraBList[0].DesignFlow_m3_day != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].DesignFlow_m3_day);
-            }
-            if (infrastructureExtraBList[0].AverageFlow_m3_day != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].AverageFlow_m3_day);
-            }
-            if (infrastructureExtraBList[0].PeakFlow_m3_day != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].PeakFlow_m3_day);
-            }
-            if (infrastructureExtraBList[0].PopServed != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].PopServed);
-            }
-            if (infrastructureExtraBList[0].CanOverflow != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].CanOverflow);
-            }
-            if (infrastructureExtraBList[0].PercFlowOfTotal != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].PercFlowOfTotal);
-            }
-            if (infrastructureExtraBList[0].TimeOffset_hour != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].TimeOffset_hour);
-            }
-            if (!string.IsNullOrWhiteSpace(infrastructureExtraBList[0].TempCatchAllRemoveLater))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureExtraBList[0].TempCatchAllRemoveLater));
-            }
-            if (infrastructureExtraBList[0].AverageDepth_m != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].AverageDepth_m);
-            }
-            if (infrastructureExtraBList[0].NumberOfPorts != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].NumberOfPorts);
-            }
-            if (infrastructureExtraBList[0].PortDiameter_m != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].PortDiameter_m);
-            }
-            if (infrastructureExtraBList[0].PortSpacing_m != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].PortSpacing_m);
-            }
-            if (infrastructureExtraBList[0].PortElevation_m != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].PortElevation_m);
-            }
-            if (infrastructureExtraBList[0].VerticalAngle_deg != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].VerticalAngle_deg);
-            }
-            if (infrastructureExtraBList[0].HorizontalAngle_deg != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].HorizontalAngle_deg);
-            }
-            if (infrastructureExtraBList[0].DecayRate_per_day != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].DecayRate_per_day);
-            }
-            if (infrastructureExtraBList[0].NearFieldVelocity_m_s != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].NearFieldVelocity_m_s);
-            }
-            if (infrastructureExtraBList[0].FarFieldVelocity_m_s != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].FarFieldVelocity_m_s);
-            }
-            if (infrastructureExtraBList[0].ReceivingWaterSalinity_PSU != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].ReceivingWaterSalinity_PSU);
-            }
-            if (infrastructureExtraBList[0].ReceivingWaterTemperature_C != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].ReceivingWaterTemperature_C);
-            }
-            if (infrastructureExtraBList[0].ReceivingWater_MPN_per_100ml != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].ReceivingWater_MPN_per_100ml);
-            }
-            if (infrastructureExtraBList[0].DistanceFromShore_m != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].DistanceFromShore_m);
-            }
-            if (infrastructureExtraBList[0].SeeOtherMunicipalityTVItemID != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].SeeOtherMunicipalityTVItemID);
-            }
-            if (infrastructureExtraBList[0].CivicAddressTVItemID != null)
-            {
-                Assert.IsNotNull(infrastructureExtraBList[0].CivicAddressTVItemID);
-            }
-            Assert.IsNotNull(infrastructureExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(infrastructureExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(infrastructureExtraBList[0].HasErrors);
-        }
         private Infrastructure GetFilledRandomInfrastructure(string OmitPropName)
         {
             Infrastructure infrastructure = new Infrastructure();
 
-            if (OmitPropName != "InfrastructureTVItemID") infrastructure.InfrastructureTVItemID = 40;
+            if (OmitPropName != "InfrastructureTVItemID") infrastructure.InfrastructureTVItemID = 41;
             if (OmitPropName != "PrismID") infrastructure.PrismID = GetRandomInt(0, 100000);
             if (OmitPropName != "TPID") infrastructure.TPID = GetRandomInt(0, 100000);
             if (OmitPropName != "LSID") infrastructure.LSID = GetRandomInt(0, 100000);
@@ -2305,6 +1666,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "InfrastructureCategory") infrastructure.InfrastructureCategory = GetRandomString("", 1);
             if (OmitPropName != "InfrastructureType") infrastructure.InfrastructureType = (InfrastructureTypeEnum)GetRandomEnumType(typeof(InfrastructureTypeEnum));
             if (OmitPropName != "FacilityType") infrastructure.FacilityType = (FacilityTypeEnum)GetRandomEnumType(typeof(FacilityTypeEnum));
+            if (OmitPropName != "HasBackupPower") infrastructure.HasBackupPower = true;
             if (OmitPropName != "IsMechanicallyAerated") infrastructure.IsMechanicallyAerated = true;
             if (OmitPropName != "NumberOfCells") infrastructure.NumberOfCells = GetRandomInt(0, 10);
             if (OmitPropName != "NumberOfAeratedCells") infrastructure.NumberOfAeratedCells = GetRandomInt(0, 10);
@@ -2322,6 +1684,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "PeakFlow_m3_day") infrastructure.PeakFlow_m3_day = GetRandomDouble(0.0D, 1000000.0D);
             if (OmitPropName != "PopServed") infrastructure.PopServed = GetRandomInt(0, 1000000);
             if (OmitPropName != "CanOverflow") infrastructure.CanOverflow = true;
+            if (OmitPropName != "ValveType") infrastructure.ValveType = (ValveTypeEnum)GetRandomEnumType(typeof(ValveTypeEnum));
             if (OmitPropName != "PercFlowOfTotal") infrastructure.PercFlowOfTotal = GetRandomDouble(0.0D, 100.0D);
             if (OmitPropName != "TimeOffset_hour") infrastructure.TimeOffset_hour = GetRandomDouble(-10.0D, 0.0D);
             if (OmitPropName != "TempCatchAllRemoveLater") infrastructure.TempCatchAllRemoveLater = GetRandomString("", 20);
@@ -2339,8 +1702,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "ReceivingWaterTemperature_C") infrastructure.ReceivingWaterTemperature_C = GetRandomDouble(-10.0D, 40.0D);
             if (OmitPropName != "ReceivingWater_MPN_per_100ml") infrastructure.ReceivingWater_MPN_per_100ml = GetRandomInt(0, 10000000);
             if (OmitPropName != "DistanceFromShore_m") infrastructure.DistanceFromShore_m = GetRandomDouble(0.0D, 1000.0D);
-            if (OmitPropName != "SeeOtherMunicipalityTVItemID") infrastructure.SeeOtherMunicipalityTVItemID = 40;
-            if (OmitPropName != "CivicAddressTVItemID") infrastructure.CivicAddressTVItemID = 45;
+            if (OmitPropName != "SeeOtherMunicipalityTVItemID") infrastructure.SeeOtherMunicipalityTVItemID = 41;
+            if (OmitPropName != "CivicAddressTVItemID") infrastructure.CivicAddressTVItemID = 46;
             if (OmitPropName != "LastUpdateDate_UTC") infrastructure.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") infrastructure.LastUpdateContactTVItemID = 2;
 

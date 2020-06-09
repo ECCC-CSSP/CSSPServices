@@ -151,32 +151,6 @@ namespace CSSPServices
 
             return SpillLanguageQuery;
         }
-        public SpillLanguageExtraA GetSpillLanguageExtraAWithSpillLanguageID(int SpillLanguageID)
-        {
-            return FillSpillLanguageExtraA().Where(c => c.SpillLanguageID == SpillLanguageID).FirstOrDefault();
-
-        }
-        public IQueryable<SpillLanguageExtraA> GetSpillLanguageExtraAList()
-        {
-            IQueryable<SpillLanguageExtraA> SpillLanguageExtraAQuery = FillSpillLanguageExtraA();
-
-            SpillLanguageExtraAQuery = EnhanceQueryStatements<SpillLanguageExtraA>(SpillLanguageExtraAQuery) as IQueryable<SpillLanguageExtraA>;
-
-            return SpillLanguageExtraAQuery;
-        }
-        public SpillLanguageExtraB GetSpillLanguageExtraBWithSpillLanguageID(int SpillLanguageID)
-        {
-            return FillSpillLanguageExtraB().Where(c => c.SpillLanguageID == SpillLanguageID).FirstOrDefault();
-
-        }
-        public IQueryable<SpillLanguageExtraB> GetSpillLanguageExtraBList()
-        {
-            IQueryable<SpillLanguageExtraB> SpillLanguageExtraBQuery = FillSpillLanguageExtraB();
-
-            SpillLanguageExtraBQuery = EnhanceQueryStatements<SpillLanguageExtraB>(SpillLanguageExtraBQuery) as IQueryable<SpillLanguageExtraB>;
-
-            return SpillLanguageExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

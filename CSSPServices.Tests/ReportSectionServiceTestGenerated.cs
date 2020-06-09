@@ -173,6 +173,19 @@ namespace CSSPServices.Tests
 
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [CSSPEnumType]
+                    // reportSection.Language   (LanguageEnum)
+                    // -----------------------------------
+
+                    reportSection = null;
+                    reportSection = GetFilledRandomReportSection("");
+                    reportSection.Language = (LanguageEnum)1000000;
+                    reportSectionService.Add(reportSection);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "Language"), reportSection.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [Range(0, 1000)]
                     // reportSection.Ordinal   (Int32)
@@ -247,6 +260,32 @@ namespace CSSPServices.Tests
                     reportSectionService.Add(reportSection);
                     Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ReportSection", "TemplateReportSectionID", reportSection.TemplateReportSectionID.ToString()), reportSection.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [StringLength(100))]
+                    // reportSection.ReportSectionName   (String)
+                    // -----------------------------------
+
+                    reportSection = null;
+                    reportSection = GetFilledRandomReportSection("");
+                    reportSection.ReportSectionName = GetRandomString("", 101);
+                    Assert.AreEqual(false, reportSectionService.Add(reportSection));
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "ReportSectionName", "100"), reportSection.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, reportSectionService.GetReportSectionList().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [StringLength(10000))]
+                    // reportSection.ReportSectionText   (String)
+                    // -----------------------------------
+
+                    reportSection = null;
+                    reportSection = GetFilledRandomReportSection("");
+                    reportSection.ReportSectionText = GetRandomString("", 10001);
+                    Assert.AreEqual(false, reportSectionService.Add(reportSection));
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "ReportSectionText", "10000"), reportSection.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, reportSectionService.GetReportSectionList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -328,18 +367,6 @@ namespace CSSPServices.Tests
                             CheckReportSectionFields(new List<ReportSection>() { reportSectionRet });
                             Assert.AreEqual(reportSection.ReportSectionID, reportSectionRet.ReportSectionID);
                         }
-                        else if (extra == "A")
-                        {
-                            ReportSectionExtraA reportSectionExtraARet = reportSectionService.GetReportSectionExtraAWithReportSectionID(reportSection.ReportSectionID);
-                            CheckReportSectionExtraAFields(new List<ReportSectionExtraA>() { reportSectionExtraARet });
-                            Assert.AreEqual(reportSection.ReportSectionID, reportSectionExtraARet.ReportSectionID);
-                        }
-                        else if (extra == "B")
-                        {
-                            ReportSectionExtraB reportSectionExtraBRet = reportSectionService.GetReportSectionExtraBWithReportSectionID(reportSection.ReportSectionID);
-                            CheckReportSectionExtraBFields(new List<ReportSectionExtraB>() { reportSectionExtraBRet });
-                            Assert.AreEqual(reportSection.ReportSectionID, reportSectionExtraBRet.ReportSectionID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -377,20 +404,6 @@ namespace CSSPServices.Tests
                             reportSectionList = reportSectionService.GetReportSectionList().ToList();
                             CheckReportSectionFields(reportSectionList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ReportSectionExtraA> reportSectionExtraAList = new List<ReportSectionExtraA>();
-                            reportSectionExtraAList = reportSectionService.GetReportSectionExtraAList().ToList();
-                            CheckReportSectionExtraAFields(reportSectionExtraAList);
-                            Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ReportSectionExtraB> reportSectionExtraBList = new List<ReportSectionExtraB>();
-                            reportSectionExtraBList = reportSectionService.GetReportSectionExtraBList().ToList();
-                            CheckReportSectionExtraBFields(reportSectionExtraBList);
-                            Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -426,22 +439,6 @@ namespace CSSPServices.Tests
                             reportSectionList = reportSectionService.GetReportSectionList().ToList();
                             CheckReportSectionFields(reportSectionList);
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionList[0].ReportSectionID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<ReportSectionExtraA> reportSectionExtraAList = new List<ReportSectionExtraA>();
-                            reportSectionExtraAList = reportSectionService.GetReportSectionExtraAList().ToList();
-                            CheckReportSectionExtraAFields(reportSectionExtraAList);
-                            Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraAList[0].ReportSectionID);
-                            Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ReportSectionExtraB> reportSectionExtraBList = new List<ReportSectionExtraB>();
-                            reportSectionExtraBList = reportSectionService.GetReportSectionExtraBList().ToList();
-                            CheckReportSectionExtraBFields(reportSectionExtraBList);
-                            Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraBList[0].ReportSectionID);
-                            Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraBList.Count);
                         }
                         else
                         {
@@ -479,22 +476,6 @@ namespace CSSPServices.Tests
                             CheckReportSectionFields(reportSectionList);
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionList[0].ReportSectionID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ReportSectionExtraA> reportSectionExtraAList = new List<ReportSectionExtraA>();
-                            reportSectionExtraAList = reportSectionService.GetReportSectionExtraAList().ToList();
-                            CheckReportSectionExtraAFields(reportSectionExtraAList);
-                            Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraAList[0].ReportSectionID);
-                            Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ReportSectionExtraB> reportSectionExtraBList = new List<ReportSectionExtraB>();
-                            reportSectionExtraBList = reportSectionService.GetReportSectionExtraBList().ToList();
-                            CheckReportSectionExtraBFields(reportSectionExtraBList);
-                            Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraBList[0].ReportSectionID);
-                            Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -530,22 +511,6 @@ namespace CSSPServices.Tests
                             reportSectionList = reportSectionService.GetReportSectionList().ToList();
                             CheckReportSectionFields(reportSectionList);
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionList[0].ReportSectionID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<ReportSectionExtraA> reportSectionExtraAList = new List<ReportSectionExtraA>();
-                            reportSectionExtraAList = reportSectionService.GetReportSectionExtraAList().ToList();
-                            CheckReportSectionExtraAFields(reportSectionExtraAList);
-                            Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraAList[0].ReportSectionID);
-                            Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ReportSectionExtraB> reportSectionExtraBList = new List<ReportSectionExtraB>();
-                            reportSectionExtraBList = reportSectionService.GetReportSectionExtraBList().ToList();
-                            CheckReportSectionExtraBFields(reportSectionExtraBList);
-                            Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraBList[0].ReportSectionID);
-                            Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraBList.Count);
                         }
                         else
                         {
@@ -583,22 +548,6 @@ namespace CSSPServices.Tests
                             CheckReportSectionFields(reportSectionList);
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionList[0].ReportSectionID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ReportSectionExtraA> reportSectionExtraAList = new List<ReportSectionExtraA>();
-                            reportSectionExtraAList = reportSectionService.GetReportSectionExtraAList().ToList();
-                            CheckReportSectionExtraAFields(reportSectionExtraAList);
-                            Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraAList[0].ReportSectionID);
-                            Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ReportSectionExtraB> reportSectionExtraBList = new List<ReportSectionExtraB>();
-                            reportSectionExtraBList = reportSectionService.GetReportSectionExtraBList().ToList();
-                            CheckReportSectionExtraBFields(reportSectionExtraBList);
-                            Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraBList[0].ReportSectionID);
-                            Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -634,22 +583,6 @@ namespace CSSPServices.Tests
                             reportSectionList = reportSectionService.GetReportSectionList().ToList();
                             CheckReportSectionFields(reportSectionList);
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionList[0].ReportSectionID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<ReportSectionExtraA> reportSectionExtraAList = new List<ReportSectionExtraA>();
-                            reportSectionExtraAList = reportSectionService.GetReportSectionExtraAList().ToList();
-                            CheckReportSectionExtraAFields(reportSectionExtraAList);
-                            Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraAList[0].ReportSectionID);
-                            Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ReportSectionExtraB> reportSectionExtraBList = new List<ReportSectionExtraB>();
-                            reportSectionExtraBList = reportSectionService.GetReportSectionExtraBList().ToList();
-                            CheckReportSectionExtraBFields(reportSectionExtraBList);
-                            Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraBList[0].ReportSectionID);
-                            Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraBList.Count);
                         }
                         else
                         {
@@ -687,22 +620,6 @@ namespace CSSPServices.Tests
                             CheckReportSectionFields(reportSectionList);
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionList[0].ReportSectionID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ReportSectionExtraA> reportSectionExtraAList = new List<ReportSectionExtraA>();
-                            reportSectionExtraAList = reportSectionService.GetReportSectionExtraAList().ToList();
-                            CheckReportSectionExtraAFields(reportSectionExtraAList);
-                            Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraAList[0].ReportSectionID);
-                            Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ReportSectionExtraB> reportSectionExtraBList = new List<ReportSectionExtraB>();
-                            reportSectionExtraBList = reportSectionService.GetReportSectionExtraBList().ToList();
-                            CheckReportSectionExtraBFields(reportSectionExtraBList);
-                            Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraBList[0].ReportSectionID);
-                            Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -738,22 +655,6 @@ namespace CSSPServices.Tests
                             reportSectionList = reportSectionService.GetReportSectionList().ToList();
                             CheckReportSectionFields(reportSectionList);
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionList[0].ReportSectionID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<ReportSectionExtraA> reportSectionExtraAList = new List<ReportSectionExtraA>();
-                            reportSectionExtraAList = reportSectionService.GetReportSectionExtraAList().ToList();
-                            CheckReportSectionExtraAFields(reportSectionExtraAList);
-                            Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraAList[0].ReportSectionID);
-                            Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ReportSectionExtraB> reportSectionExtraBList = new List<ReportSectionExtraB>();
-                            reportSectionExtraBList = reportSectionService.GetReportSectionExtraBList().ToList();
-                            CheckReportSectionExtraBFields(reportSectionExtraBList);
-                            Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraBList[0].ReportSectionID);
-                            Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraBList.Count);
                         }
                         else
                         {
@@ -791,22 +692,6 @@ namespace CSSPServices.Tests
                             CheckReportSectionFields(reportSectionList);
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionList[0].ReportSectionID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ReportSectionExtraA> reportSectionExtraAList = new List<ReportSectionExtraA>();
-                            reportSectionExtraAList = reportSectionService.GetReportSectionExtraAList().ToList();
-                            CheckReportSectionExtraAFields(reportSectionExtraAList);
-                            Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraAList[0].ReportSectionID);
-                            Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ReportSectionExtraB> reportSectionExtraBList = new List<ReportSectionExtraB>();
-                            reportSectionExtraBList = reportSectionService.GetReportSectionExtraBList().ToList();
-                            CheckReportSectionExtraBFields(reportSectionExtraBList);
-                            Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraBList[0].ReportSectionID);
-                            Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -842,22 +727,6 @@ namespace CSSPServices.Tests
                             reportSectionList = reportSectionService.GetReportSectionList().ToList();
                             CheckReportSectionFields(reportSectionList);
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionList[0].ReportSectionID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<ReportSectionExtraA> reportSectionExtraAList = new List<ReportSectionExtraA>();
-                            reportSectionExtraAList = reportSectionService.GetReportSectionExtraAList().ToList();
-                            CheckReportSectionExtraAFields(reportSectionExtraAList);
-                            Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraAList[0].ReportSectionID);
-                            Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ReportSectionExtraB> reportSectionExtraBList = new List<ReportSectionExtraB>();
-                            reportSectionExtraBList = reportSectionService.GetReportSectionExtraBList().ToList();
-                            CheckReportSectionExtraBFields(reportSectionExtraBList);
-                            Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraBList[0].ReportSectionID);
-                            Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraBList.Count);
                         }
                         else
                         {
@@ -895,22 +764,6 @@ namespace CSSPServices.Tests
                             CheckReportSectionFields(reportSectionList);
                             Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionList[0].ReportSectionID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ReportSectionExtraA> reportSectionExtraAList = new List<ReportSectionExtraA>();
-                            reportSectionExtraAList = reportSectionService.GetReportSectionExtraAList().ToList();
-                            CheckReportSectionExtraAFields(reportSectionExtraAList);
-                            Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraAList[0].ReportSectionID);
-                            Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ReportSectionExtraB> reportSectionExtraBList = new List<ReportSectionExtraB>();
-                            reportSectionExtraBList = reportSectionService.GetReportSectionExtraBList().ToList();
-                            CheckReportSectionExtraBFields(reportSectionExtraBList);
-                            Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionExtraBList[0].ReportSectionID);
-                            Assert.AreEqual(reportSectionDirectQueryList.Count, reportSectionExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -930,6 +783,10 @@ namespace CSSPServices.Tests
             {
                 Assert.IsNotNull(reportSectionList[0].TVItemID);
             }
+            if (reportSectionList[0].Language != null)
+            {
+                Assert.IsNotNull(reportSectionList[0].Language);
+            }
             Assert.IsNotNull(reportSectionList[0].Ordinal);
             Assert.IsNotNull(reportSectionList[0].IsStatic);
             if (reportSectionList[0].ParentReportSectionID != null)
@@ -945,73 +802,17 @@ namespace CSSPServices.Tests
             {
                 Assert.IsNotNull(reportSectionList[0].TemplateReportSectionID);
             }
+            if (!string.IsNullOrWhiteSpace(reportSectionList[0].ReportSectionName))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionList[0].ReportSectionName));
+            }
+            if (!string.IsNullOrWhiteSpace(reportSectionList[0].ReportSectionText))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionList[0].ReportSectionText));
+            }
             Assert.IsNotNull(reportSectionList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(reportSectionList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(reportSectionList[0].HasErrors);
-        }
-        private void CheckReportSectionExtraAFields(List<ReportSectionExtraA> reportSectionExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionExtraAList[0].LastUpdateContactText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionExtraAList[0].ReportSectionName));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionExtraAList[0].ReportSectionText));
-            Assert.IsNotNull(reportSectionExtraAList[0].ReportSectionID);
-            Assert.IsNotNull(reportSectionExtraAList[0].ReportTypeID);
-            if (reportSectionExtraAList[0].TVItemID != null)
-            {
-                Assert.IsNotNull(reportSectionExtraAList[0].TVItemID);
-            }
-            Assert.IsNotNull(reportSectionExtraAList[0].Ordinal);
-            Assert.IsNotNull(reportSectionExtraAList[0].IsStatic);
-            if (reportSectionExtraAList[0].ParentReportSectionID != null)
-            {
-                Assert.IsNotNull(reportSectionExtraAList[0].ParentReportSectionID);
-            }
-            if (reportSectionExtraAList[0].Year != null)
-            {
-                Assert.IsNotNull(reportSectionExtraAList[0].Year);
-            }
-            Assert.IsNotNull(reportSectionExtraAList[0].Locked);
-            if (reportSectionExtraAList[0].TemplateReportSectionID != null)
-            {
-                Assert.IsNotNull(reportSectionExtraAList[0].TemplateReportSectionID);
-            }
-            Assert.IsNotNull(reportSectionExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(reportSectionExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(reportSectionExtraAList[0].HasErrors);
-        }
-        private void CheckReportSectionExtraBFields(List<ReportSectionExtraB> reportSectionExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(reportSectionExtraBList[0].ReportSectionReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionExtraBList[0].ReportSectionReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionExtraBList[0].LastUpdateContactText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionExtraBList[0].ReportSectionName));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionExtraBList[0].ReportSectionText));
-            Assert.IsNotNull(reportSectionExtraBList[0].ReportSectionID);
-            Assert.IsNotNull(reportSectionExtraBList[0].ReportTypeID);
-            if (reportSectionExtraBList[0].TVItemID != null)
-            {
-                Assert.IsNotNull(reportSectionExtraBList[0].TVItemID);
-            }
-            Assert.IsNotNull(reportSectionExtraBList[0].Ordinal);
-            Assert.IsNotNull(reportSectionExtraBList[0].IsStatic);
-            if (reportSectionExtraBList[0].ParentReportSectionID != null)
-            {
-                Assert.IsNotNull(reportSectionExtraBList[0].ParentReportSectionID);
-            }
-            if (reportSectionExtraBList[0].Year != null)
-            {
-                Assert.IsNotNull(reportSectionExtraBList[0].Year);
-            }
-            Assert.IsNotNull(reportSectionExtraBList[0].Locked);
-            if (reportSectionExtraBList[0].TemplateReportSectionID != null)
-            {
-                Assert.IsNotNull(reportSectionExtraBList[0].TemplateReportSectionID);
-            }
-            Assert.IsNotNull(reportSectionExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(reportSectionExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(reportSectionExtraBList[0].HasErrors);
         }
         private ReportSection GetFilledRandomReportSection(string OmitPropName)
         {
@@ -1019,12 +820,15 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "ReportTypeID") reportSection.ReportTypeID = 1;
             // Need to implement (no items found, would need to add at least one in the TestDB) [ReportSection TVItemID TVItem TVItemID]
+            if (OmitPropName != "Language") reportSection.Language = LanguageRequest;
             if (OmitPropName != "Ordinal") reportSection.Ordinal = GetRandomInt(0, 1000);
             if (OmitPropName != "IsStatic") reportSection.IsStatic = true;
             if (OmitPropName != "ParentReportSectionID") reportSection.ParentReportSectionID = 1;
             if (OmitPropName != "Year") reportSection.Year = GetRandomInt(1979, 2050);
             if (OmitPropName != "Locked") reportSection.Locked = true;
             if (OmitPropName != "TemplateReportSectionID") reportSection.TemplateReportSectionID = 1;
+            if (OmitPropName != "ReportSectionName") reportSection.ReportSectionName = GetRandomString("", 5);
+            if (OmitPropName != "ReportSectionText") reportSection.ReportSectionText = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") reportSection.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") reportSection.LastUpdateContactTVItemID = 2;
 

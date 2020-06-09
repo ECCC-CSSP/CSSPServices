@@ -155,32 +155,6 @@ namespace CSSPServices
 
             return BoxModelLanguageQuery;
         }
-        public BoxModelLanguageExtraA GetBoxModelLanguageExtraAWithBoxModelLanguageID(int BoxModelLanguageID)
-        {
-            return FillBoxModelLanguageExtraA().Where(c => c.BoxModelLanguageID == BoxModelLanguageID).FirstOrDefault();
-
-        }
-        public IQueryable<BoxModelLanguageExtraA> GetBoxModelLanguageExtraAList()
-        {
-            IQueryable<BoxModelLanguageExtraA> BoxModelLanguageExtraAQuery = FillBoxModelLanguageExtraA();
-
-            BoxModelLanguageExtraAQuery = EnhanceQueryStatements<BoxModelLanguageExtraA>(BoxModelLanguageExtraAQuery) as IQueryable<BoxModelLanguageExtraA>;
-
-            return BoxModelLanguageExtraAQuery;
-        }
-        public BoxModelLanguageExtraB GetBoxModelLanguageExtraBWithBoxModelLanguageID(int BoxModelLanguageID)
-        {
-            return FillBoxModelLanguageExtraB().Where(c => c.BoxModelLanguageID == BoxModelLanguageID).FirstOrDefault();
-
-        }
-        public IQueryable<BoxModelLanguageExtraB> GetBoxModelLanguageExtraBList()
-        {
-            IQueryable<BoxModelLanguageExtraB> BoxModelLanguageExtraBQuery = FillBoxModelLanguageExtraB();
-
-            BoxModelLanguageExtraBQuery = EnhanceQueryStatements<BoxModelLanguageExtraB>(BoxModelLanguageExtraBQuery) as IQueryable<BoxModelLanguageExtraB>;
-
-            return BoxModelLanguageExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

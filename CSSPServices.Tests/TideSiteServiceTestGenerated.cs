@@ -325,18 +325,6 @@ namespace CSSPServices.Tests
                             CheckTideSiteFields(new List<TideSite>() { tideSiteRet });
                             Assert.AreEqual(tideSite.TideSiteID, tideSiteRet.TideSiteID);
                         }
-                        else if (extra == "A")
-                        {
-                            TideSiteExtraA tideSiteExtraARet = tideSiteService.GetTideSiteExtraAWithTideSiteID(tideSite.TideSiteID);
-                            CheckTideSiteExtraAFields(new List<TideSiteExtraA>() { tideSiteExtraARet });
-                            Assert.AreEqual(tideSite.TideSiteID, tideSiteExtraARet.TideSiteID);
-                        }
-                        else if (extra == "B")
-                        {
-                            TideSiteExtraB tideSiteExtraBRet = tideSiteService.GetTideSiteExtraBWithTideSiteID(tideSite.TideSiteID);
-                            CheckTideSiteExtraBFields(new List<TideSiteExtraB>() { tideSiteExtraBRet });
-                            Assert.AreEqual(tideSite.TideSiteID, tideSiteExtraBRet.TideSiteID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -374,20 +362,6 @@ namespace CSSPServices.Tests
                             tideSiteList = tideSiteService.GetTideSiteList().ToList();
                             CheckTideSiteFields(tideSiteList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<TideSiteExtraA> tideSiteExtraAList = new List<TideSiteExtraA>();
-                            tideSiteExtraAList = tideSiteService.GetTideSiteExtraAList().ToList();
-                            CheckTideSiteExtraAFields(tideSiteExtraAList);
-                            Assert.AreEqual(tideSiteDirectQueryList.Count, tideSiteExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TideSiteExtraB> tideSiteExtraBList = new List<TideSiteExtraB>();
-                            tideSiteExtraBList = tideSiteService.GetTideSiteExtraBList().ToList();
-                            CheckTideSiteExtraBFields(tideSiteExtraBList);
-                            Assert.AreEqual(tideSiteDirectQueryList.Count, tideSiteExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -423,22 +397,6 @@ namespace CSSPServices.Tests
                             tideSiteList = tideSiteService.GetTideSiteList().ToList();
                             CheckTideSiteFields(tideSiteList);
                             Assert.AreEqual(tideSiteDirectQueryList[0].TideSiteID, tideSiteList[0].TideSiteID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<TideSiteExtraA> tideSiteExtraAList = new List<TideSiteExtraA>();
-                            tideSiteExtraAList = tideSiteService.GetTideSiteExtraAList().ToList();
-                            CheckTideSiteExtraAFields(tideSiteExtraAList);
-                            Assert.AreEqual(tideSiteDirectQueryList[0].TideSiteID, tideSiteExtraAList[0].TideSiteID);
-                            Assert.AreEqual(tideSiteDirectQueryList.Count, tideSiteExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TideSiteExtraB> tideSiteExtraBList = new List<TideSiteExtraB>();
-                            tideSiteExtraBList = tideSiteService.GetTideSiteExtraBList().ToList();
-                            CheckTideSiteExtraBFields(tideSiteExtraBList);
-                            Assert.AreEqual(tideSiteDirectQueryList[0].TideSiteID, tideSiteExtraBList[0].TideSiteID);
-                            Assert.AreEqual(tideSiteDirectQueryList.Count, tideSiteExtraBList.Count);
                         }
                         else
                         {
@@ -476,22 +434,6 @@ namespace CSSPServices.Tests
                             CheckTideSiteFields(tideSiteList);
                             Assert.AreEqual(tideSiteDirectQueryList[0].TideSiteID, tideSiteList[0].TideSiteID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<TideSiteExtraA> tideSiteExtraAList = new List<TideSiteExtraA>();
-                            tideSiteExtraAList = tideSiteService.GetTideSiteExtraAList().ToList();
-                            CheckTideSiteExtraAFields(tideSiteExtraAList);
-                            Assert.AreEqual(tideSiteDirectQueryList[0].TideSiteID, tideSiteExtraAList[0].TideSiteID);
-                            Assert.AreEqual(tideSiteDirectQueryList.Count, tideSiteExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TideSiteExtraB> tideSiteExtraBList = new List<TideSiteExtraB>();
-                            tideSiteExtraBList = tideSiteService.GetTideSiteExtraBList().ToList();
-                            CheckTideSiteExtraBFields(tideSiteExtraBList);
-                            Assert.AreEqual(tideSiteDirectQueryList[0].TideSiteID, tideSiteExtraBList[0].TideSiteID);
-                            Assert.AreEqual(tideSiteDirectQueryList.Count, tideSiteExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -527,22 +469,6 @@ namespace CSSPServices.Tests
                             tideSiteList = tideSiteService.GetTideSiteList().ToList();
                             CheckTideSiteFields(tideSiteList);
                             Assert.AreEqual(tideSiteDirectQueryList[0].TideSiteID, tideSiteList[0].TideSiteID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<TideSiteExtraA> tideSiteExtraAList = new List<TideSiteExtraA>();
-                            tideSiteExtraAList = tideSiteService.GetTideSiteExtraAList().ToList();
-                            CheckTideSiteExtraAFields(tideSiteExtraAList);
-                            Assert.AreEqual(tideSiteDirectQueryList[0].TideSiteID, tideSiteExtraAList[0].TideSiteID);
-                            Assert.AreEqual(tideSiteDirectQueryList.Count, tideSiteExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TideSiteExtraB> tideSiteExtraBList = new List<TideSiteExtraB>();
-                            tideSiteExtraBList = tideSiteService.GetTideSiteExtraBList().ToList();
-                            CheckTideSiteExtraBFields(tideSiteExtraBList);
-                            Assert.AreEqual(tideSiteDirectQueryList[0].TideSiteID, tideSiteExtraBList[0].TideSiteID);
-                            Assert.AreEqual(tideSiteDirectQueryList.Count, tideSiteExtraBList.Count);
                         }
                         else
                         {
@@ -580,22 +506,6 @@ namespace CSSPServices.Tests
                             CheckTideSiteFields(tideSiteList);
                             Assert.AreEqual(tideSiteDirectQueryList[0].TideSiteID, tideSiteList[0].TideSiteID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<TideSiteExtraA> tideSiteExtraAList = new List<TideSiteExtraA>();
-                            tideSiteExtraAList = tideSiteService.GetTideSiteExtraAList().ToList();
-                            CheckTideSiteExtraAFields(tideSiteExtraAList);
-                            Assert.AreEqual(tideSiteDirectQueryList[0].TideSiteID, tideSiteExtraAList[0].TideSiteID);
-                            Assert.AreEqual(tideSiteDirectQueryList.Count, tideSiteExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TideSiteExtraB> tideSiteExtraBList = new List<TideSiteExtraB>();
-                            tideSiteExtraBList = tideSiteService.GetTideSiteExtraBList().ToList();
-                            CheckTideSiteExtraBFields(tideSiteExtraBList);
-                            Assert.AreEqual(tideSiteDirectQueryList[0].TideSiteID, tideSiteExtraBList[0].TideSiteID);
-                            Assert.AreEqual(tideSiteDirectQueryList.Count, tideSiteExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -631,22 +541,6 @@ namespace CSSPServices.Tests
                             tideSiteList = tideSiteService.GetTideSiteList().ToList();
                             CheckTideSiteFields(tideSiteList);
                             Assert.AreEqual(tideSiteDirectQueryList[0].TideSiteID, tideSiteList[0].TideSiteID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<TideSiteExtraA> tideSiteExtraAList = new List<TideSiteExtraA>();
-                            tideSiteExtraAList = tideSiteService.GetTideSiteExtraAList().ToList();
-                            CheckTideSiteExtraAFields(tideSiteExtraAList);
-                            Assert.AreEqual(tideSiteDirectQueryList[0].TideSiteID, tideSiteExtraAList[0].TideSiteID);
-                            Assert.AreEqual(tideSiteDirectQueryList.Count, tideSiteExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TideSiteExtraB> tideSiteExtraBList = new List<TideSiteExtraB>();
-                            tideSiteExtraBList = tideSiteService.GetTideSiteExtraBList().ToList();
-                            CheckTideSiteExtraBFields(tideSiteExtraBList);
-                            Assert.AreEqual(tideSiteDirectQueryList[0].TideSiteID, tideSiteExtraBList[0].TideSiteID);
-                            Assert.AreEqual(tideSiteDirectQueryList.Count, tideSiteExtraBList.Count);
                         }
                         else
                         {
@@ -684,22 +578,6 @@ namespace CSSPServices.Tests
                             CheckTideSiteFields(tideSiteList);
                             Assert.AreEqual(tideSiteDirectQueryList[0].TideSiteID, tideSiteList[0].TideSiteID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<TideSiteExtraA> tideSiteExtraAList = new List<TideSiteExtraA>();
-                            tideSiteExtraAList = tideSiteService.GetTideSiteExtraAList().ToList();
-                            CheckTideSiteExtraAFields(tideSiteExtraAList);
-                            Assert.AreEqual(tideSiteDirectQueryList[0].TideSiteID, tideSiteExtraAList[0].TideSiteID);
-                            Assert.AreEqual(tideSiteDirectQueryList.Count, tideSiteExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TideSiteExtraB> tideSiteExtraBList = new List<TideSiteExtraB>();
-                            tideSiteExtraBList = tideSiteService.GetTideSiteExtraBList().ToList();
-                            CheckTideSiteExtraBFields(tideSiteExtraBList);
-                            Assert.AreEqual(tideSiteDirectQueryList[0].TideSiteID, tideSiteExtraBList[0].TideSiteID);
-                            Assert.AreEqual(tideSiteDirectQueryList.Count, tideSiteExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -735,22 +613,6 @@ namespace CSSPServices.Tests
                             tideSiteList = tideSiteService.GetTideSiteList().ToList();
                             CheckTideSiteFields(tideSiteList);
                             Assert.AreEqual(tideSiteDirectQueryList[0].TideSiteID, tideSiteList[0].TideSiteID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<TideSiteExtraA> tideSiteExtraAList = new List<TideSiteExtraA>();
-                            tideSiteExtraAList = tideSiteService.GetTideSiteExtraAList().ToList();
-                            CheckTideSiteExtraAFields(tideSiteExtraAList);
-                            Assert.AreEqual(tideSiteDirectQueryList[0].TideSiteID, tideSiteExtraAList[0].TideSiteID);
-                            Assert.AreEqual(tideSiteDirectQueryList.Count, tideSiteExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TideSiteExtraB> tideSiteExtraBList = new List<TideSiteExtraB>();
-                            tideSiteExtraBList = tideSiteService.GetTideSiteExtraBList().ToList();
-                            CheckTideSiteExtraBFields(tideSiteExtraBList);
-                            Assert.AreEqual(tideSiteDirectQueryList[0].TideSiteID, tideSiteExtraBList[0].TideSiteID);
-                            Assert.AreEqual(tideSiteDirectQueryList.Count, tideSiteExtraBList.Count);
                         }
                         else
                         {
@@ -788,22 +650,6 @@ namespace CSSPServices.Tests
                             CheckTideSiteFields(tideSiteList);
                             Assert.AreEqual(tideSiteDirectQueryList[0].TideSiteID, tideSiteList[0].TideSiteID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<TideSiteExtraA> tideSiteExtraAList = new List<TideSiteExtraA>();
-                            tideSiteExtraAList = tideSiteService.GetTideSiteExtraAList().ToList();
-                            CheckTideSiteExtraAFields(tideSiteExtraAList);
-                            Assert.AreEqual(tideSiteDirectQueryList[0].TideSiteID, tideSiteExtraAList[0].TideSiteID);
-                            Assert.AreEqual(tideSiteDirectQueryList.Count, tideSiteExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TideSiteExtraB> tideSiteExtraBList = new List<TideSiteExtraB>();
-                            tideSiteExtraBList = tideSiteService.GetTideSiteExtraBList().ToList();
-                            CheckTideSiteExtraBFields(tideSiteExtraBList);
-                            Assert.AreEqual(tideSiteDirectQueryList[0].TideSiteID, tideSiteExtraBList[0].TideSiteID);
-                            Assert.AreEqual(tideSiteDirectQueryList.Count, tideSiteExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -839,22 +685,6 @@ namespace CSSPServices.Tests
                             tideSiteList = tideSiteService.GetTideSiteList().ToList();
                             CheckTideSiteFields(tideSiteList);
                             Assert.AreEqual(tideSiteDirectQueryList[0].TideSiteID, tideSiteList[0].TideSiteID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<TideSiteExtraA> tideSiteExtraAList = new List<TideSiteExtraA>();
-                            tideSiteExtraAList = tideSiteService.GetTideSiteExtraAList().ToList();
-                            CheckTideSiteExtraAFields(tideSiteExtraAList);
-                            Assert.AreEqual(tideSiteDirectQueryList[0].TideSiteID, tideSiteExtraAList[0].TideSiteID);
-                            Assert.AreEqual(tideSiteDirectQueryList.Count, tideSiteExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TideSiteExtraB> tideSiteExtraBList = new List<TideSiteExtraB>();
-                            tideSiteExtraBList = tideSiteService.GetTideSiteExtraBList().ToList();
-                            CheckTideSiteExtraBFields(tideSiteExtraBList);
-                            Assert.AreEqual(tideSiteDirectQueryList[0].TideSiteID, tideSiteExtraBList[0].TideSiteID);
-                            Assert.AreEqual(tideSiteDirectQueryList.Count, tideSiteExtraBList.Count);
                         }
                         else
                         {
@@ -892,22 +722,6 @@ namespace CSSPServices.Tests
                             CheckTideSiteFields(tideSiteList);
                             Assert.AreEqual(tideSiteDirectQueryList[0].TideSiteID, tideSiteList[0].TideSiteID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<TideSiteExtraA> tideSiteExtraAList = new List<TideSiteExtraA>();
-                            tideSiteExtraAList = tideSiteService.GetTideSiteExtraAList().ToList();
-                            CheckTideSiteExtraAFields(tideSiteExtraAList);
-                            Assert.AreEqual(tideSiteDirectQueryList[0].TideSiteID, tideSiteExtraAList[0].TideSiteID);
-                            Assert.AreEqual(tideSiteDirectQueryList.Count, tideSiteExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<TideSiteExtraB> tideSiteExtraBList = new List<TideSiteExtraB>();
-                            tideSiteExtraBList = tideSiteService.GetTideSiteExtraBList().ToList();
-                            CheckTideSiteExtraBFields(tideSiteExtraBList);
-                            Assert.AreEqual(tideSiteDirectQueryList[0].TideSiteID, tideSiteExtraBList[0].TideSiteID);
-                            Assert.AreEqual(tideSiteDirectQueryList.Count, tideSiteExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -931,43 +745,11 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(tideSiteList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(tideSiteList[0].HasErrors);
         }
-        private void CheckTideSiteExtraAFields(List<TideSiteExtraA> tideSiteExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteExtraAList[0].TideSiteText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteExtraAList[0].LastUpdateContactText));
-            Assert.IsNotNull(tideSiteExtraAList[0].TideSiteID);
-            Assert.IsNotNull(tideSiteExtraAList[0].TideSiteTVItemID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteExtraAList[0].TideSiteName));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteExtraAList[0].Province));
-            Assert.IsNotNull(tideSiteExtraAList[0].sid);
-            Assert.IsNotNull(tideSiteExtraAList[0].Zone);
-            Assert.IsNotNull(tideSiteExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(tideSiteExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(tideSiteExtraAList[0].HasErrors);
-        }
-        private void CheckTideSiteExtraBFields(List<TideSiteExtraB> tideSiteExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(tideSiteExtraBList[0].TideSiteReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteExtraBList[0].TideSiteReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteExtraBList[0].TideSiteText));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteExtraBList[0].LastUpdateContactText));
-            Assert.IsNotNull(tideSiteExtraBList[0].TideSiteID);
-            Assert.IsNotNull(tideSiteExtraBList[0].TideSiteTVItemID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteExtraBList[0].TideSiteName));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteExtraBList[0].Province));
-            Assert.IsNotNull(tideSiteExtraBList[0].sid);
-            Assert.IsNotNull(tideSiteExtraBList[0].Zone);
-            Assert.IsNotNull(tideSiteExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(tideSiteExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(tideSiteExtraBList[0].HasErrors);
-        }
         private TideSite GetFilledRandomTideSite(string OmitPropName)
         {
             TideSite tideSite = new TideSite();
 
-            if (OmitPropName != "TideSiteTVItemID") tideSite.TideSiteTVItemID = 37;
+            if (OmitPropName != "TideSiteTVItemID") tideSite.TideSiteTVItemID = 38;
             if (OmitPropName != "TideSiteName") tideSite.TideSiteName = GetRandomString("", 5);
             if (OmitPropName != "Province") tideSite.Province = GetRandomString("", 2);
             if (OmitPropName != "sid") tideSite.sid = GetRandomInt(0, 10000);

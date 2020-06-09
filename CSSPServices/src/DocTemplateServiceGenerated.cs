@@ -167,32 +167,6 @@ namespace CSSPServices
 
             return DocTemplateQuery;
         }
-        public DocTemplateExtraA GetDocTemplateExtraAWithDocTemplateID(int DocTemplateID)
-        {
-            return FillDocTemplateExtraA().Where(c => c.DocTemplateID == DocTemplateID).FirstOrDefault();
-
-        }
-        public IQueryable<DocTemplateExtraA> GetDocTemplateExtraAList()
-        {
-            IQueryable<DocTemplateExtraA> DocTemplateExtraAQuery = FillDocTemplateExtraA();
-
-            DocTemplateExtraAQuery = EnhanceQueryStatements<DocTemplateExtraA>(DocTemplateExtraAQuery) as IQueryable<DocTemplateExtraA>;
-
-            return DocTemplateExtraAQuery;
-        }
-        public DocTemplateExtraB GetDocTemplateExtraBWithDocTemplateID(int DocTemplateID)
-        {
-            return FillDocTemplateExtraB().Where(c => c.DocTemplateID == DocTemplateID).FirstOrDefault();
-
-        }
-        public IQueryable<DocTemplateExtraB> GetDocTemplateExtraBList()
-        {
-            IQueryable<DocTemplateExtraB> DocTemplateExtraBQuery = FillDocTemplateExtraB();
-
-            DocTemplateExtraBQuery = EnhanceQueryStatements<DocTemplateExtraB>(DocTemplateExtraBQuery) as IQueryable<DocTemplateExtraB>;
-
-            return DocTemplateExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

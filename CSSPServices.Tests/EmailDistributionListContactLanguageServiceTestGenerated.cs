@@ -282,18 +282,6 @@ namespace CSSPServices.Tests
                             CheckEmailDistributionListContactLanguageFields(new List<EmailDistributionListContactLanguage>() { emailDistributionListContactLanguageRet });
                             Assert.AreEqual(emailDistributionListContactLanguage.EmailDistributionListContactLanguageID, emailDistributionListContactLanguageRet.EmailDistributionListContactLanguageID);
                         }
-                        else if (extra == "A")
-                        {
-                            EmailDistributionListContactLanguageExtraA emailDistributionListContactLanguageExtraARet = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraAWithEmailDistributionListContactLanguageID(emailDistributionListContactLanguage.EmailDistributionListContactLanguageID);
-                            CheckEmailDistributionListContactLanguageExtraAFields(new List<EmailDistributionListContactLanguageExtraA>() { emailDistributionListContactLanguageExtraARet });
-                            Assert.AreEqual(emailDistributionListContactLanguage.EmailDistributionListContactLanguageID, emailDistributionListContactLanguageExtraARet.EmailDistributionListContactLanguageID);
-                        }
-                        else if (extra == "B")
-                        {
-                            EmailDistributionListContactLanguageExtraB emailDistributionListContactLanguageExtraBRet = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraBWithEmailDistributionListContactLanguageID(emailDistributionListContactLanguage.EmailDistributionListContactLanguageID);
-                            CheckEmailDistributionListContactLanguageExtraBFields(new List<EmailDistributionListContactLanguageExtraB>() { emailDistributionListContactLanguageExtraBRet });
-                            Assert.AreEqual(emailDistributionListContactLanguage.EmailDistributionListContactLanguageID, emailDistributionListContactLanguageExtraBRet.EmailDistributionListContactLanguageID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -331,20 +319,6 @@ namespace CSSPServices.Tests
                             emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
                             CheckEmailDistributionListContactLanguageFields(emailDistributionListContactLanguageList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<EmailDistributionListContactLanguageExtraA> emailDistributionListContactLanguageExtraAList = new List<EmailDistributionListContactLanguageExtraA>();
-                            emailDistributionListContactLanguageExtraAList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraAList().ToList();
-                            CheckEmailDistributionListContactLanguageExtraAFields(emailDistributionListContactLanguageExtraAList);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<EmailDistributionListContactLanguageExtraB> emailDistributionListContactLanguageExtraBList = new List<EmailDistributionListContactLanguageExtraB>();
-                            emailDistributionListContactLanguageExtraBList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraBList().ToList();
-                            CheckEmailDistributionListContactLanguageExtraBFields(emailDistributionListContactLanguageExtraBList);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -380,22 +354,6 @@ namespace CSSPServices.Tests
                             emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
                             CheckEmailDistributionListContactLanguageFields(emailDistributionListContactLanguageList);
                             Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<EmailDistributionListContactLanguageExtraA> emailDistributionListContactLanguageExtraAList = new List<EmailDistributionListContactLanguageExtraA>();
-                            emailDistributionListContactLanguageExtraAList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraAList().ToList();
-                            CheckEmailDistributionListContactLanguageExtraAFields(emailDistributionListContactLanguageExtraAList);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageExtraAList[0].EmailDistributionListContactLanguageID);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<EmailDistributionListContactLanguageExtraB> emailDistributionListContactLanguageExtraBList = new List<EmailDistributionListContactLanguageExtraB>();
-                            emailDistributionListContactLanguageExtraBList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraBList().ToList();
-                            CheckEmailDistributionListContactLanguageExtraBFields(emailDistributionListContactLanguageExtraBList);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageExtraBList[0].EmailDistributionListContactLanguageID);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -433,22 +391,6 @@ namespace CSSPServices.Tests
                             CheckEmailDistributionListContactLanguageFields(emailDistributionListContactLanguageList);
                             Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<EmailDistributionListContactLanguageExtraA> emailDistributionListContactLanguageExtraAList = new List<EmailDistributionListContactLanguageExtraA>();
-                            emailDistributionListContactLanguageExtraAList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraAList().ToList();
-                            CheckEmailDistributionListContactLanguageExtraAFields(emailDistributionListContactLanguageExtraAList);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageExtraAList[0].EmailDistributionListContactLanguageID);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<EmailDistributionListContactLanguageExtraB> emailDistributionListContactLanguageExtraBList = new List<EmailDistributionListContactLanguageExtraB>();
-                            emailDistributionListContactLanguageExtraBList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraBList().ToList();
-                            CheckEmailDistributionListContactLanguageExtraBFields(emailDistributionListContactLanguageExtraBList);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageExtraBList[0].EmailDistributionListContactLanguageID);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -484,22 +426,6 @@ namespace CSSPServices.Tests
                             emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
                             CheckEmailDistributionListContactLanguageFields(emailDistributionListContactLanguageList);
                             Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<EmailDistributionListContactLanguageExtraA> emailDistributionListContactLanguageExtraAList = new List<EmailDistributionListContactLanguageExtraA>();
-                            emailDistributionListContactLanguageExtraAList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraAList().ToList();
-                            CheckEmailDistributionListContactLanguageExtraAFields(emailDistributionListContactLanguageExtraAList);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageExtraAList[0].EmailDistributionListContactLanguageID);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<EmailDistributionListContactLanguageExtraB> emailDistributionListContactLanguageExtraBList = new List<EmailDistributionListContactLanguageExtraB>();
-                            emailDistributionListContactLanguageExtraBList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraBList().ToList();
-                            CheckEmailDistributionListContactLanguageExtraBFields(emailDistributionListContactLanguageExtraBList);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageExtraBList[0].EmailDistributionListContactLanguageID);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -537,22 +463,6 @@ namespace CSSPServices.Tests
                             CheckEmailDistributionListContactLanguageFields(emailDistributionListContactLanguageList);
                             Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<EmailDistributionListContactLanguageExtraA> emailDistributionListContactLanguageExtraAList = new List<EmailDistributionListContactLanguageExtraA>();
-                            emailDistributionListContactLanguageExtraAList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraAList().ToList();
-                            CheckEmailDistributionListContactLanguageExtraAFields(emailDistributionListContactLanguageExtraAList);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageExtraAList[0].EmailDistributionListContactLanguageID);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<EmailDistributionListContactLanguageExtraB> emailDistributionListContactLanguageExtraBList = new List<EmailDistributionListContactLanguageExtraB>();
-                            emailDistributionListContactLanguageExtraBList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraBList().ToList();
-                            CheckEmailDistributionListContactLanguageExtraBFields(emailDistributionListContactLanguageExtraBList);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageExtraBList[0].EmailDistributionListContactLanguageID);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -588,22 +498,6 @@ namespace CSSPServices.Tests
                             emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
                             CheckEmailDistributionListContactLanguageFields(emailDistributionListContactLanguageList);
                             Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<EmailDistributionListContactLanguageExtraA> emailDistributionListContactLanguageExtraAList = new List<EmailDistributionListContactLanguageExtraA>();
-                            emailDistributionListContactLanguageExtraAList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraAList().ToList();
-                            CheckEmailDistributionListContactLanguageExtraAFields(emailDistributionListContactLanguageExtraAList);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageExtraAList[0].EmailDistributionListContactLanguageID);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<EmailDistributionListContactLanguageExtraB> emailDistributionListContactLanguageExtraBList = new List<EmailDistributionListContactLanguageExtraB>();
-                            emailDistributionListContactLanguageExtraBList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraBList().ToList();
-                            CheckEmailDistributionListContactLanguageExtraBFields(emailDistributionListContactLanguageExtraBList);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageExtraBList[0].EmailDistributionListContactLanguageID);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -641,22 +535,6 @@ namespace CSSPServices.Tests
                             CheckEmailDistributionListContactLanguageFields(emailDistributionListContactLanguageList);
                             Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<EmailDistributionListContactLanguageExtraA> emailDistributionListContactLanguageExtraAList = new List<EmailDistributionListContactLanguageExtraA>();
-                            emailDistributionListContactLanguageExtraAList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraAList().ToList();
-                            CheckEmailDistributionListContactLanguageExtraAFields(emailDistributionListContactLanguageExtraAList);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageExtraAList[0].EmailDistributionListContactLanguageID);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<EmailDistributionListContactLanguageExtraB> emailDistributionListContactLanguageExtraBList = new List<EmailDistributionListContactLanguageExtraB>();
-                            emailDistributionListContactLanguageExtraBList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraBList().ToList();
-                            CheckEmailDistributionListContactLanguageExtraBFields(emailDistributionListContactLanguageExtraBList);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageExtraBList[0].EmailDistributionListContactLanguageID);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -692,22 +570,6 @@ namespace CSSPServices.Tests
                             emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
                             CheckEmailDistributionListContactLanguageFields(emailDistributionListContactLanguageList);
                             Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<EmailDistributionListContactLanguageExtraA> emailDistributionListContactLanguageExtraAList = new List<EmailDistributionListContactLanguageExtraA>();
-                            emailDistributionListContactLanguageExtraAList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraAList().ToList();
-                            CheckEmailDistributionListContactLanguageExtraAFields(emailDistributionListContactLanguageExtraAList);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageExtraAList[0].EmailDistributionListContactLanguageID);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<EmailDistributionListContactLanguageExtraB> emailDistributionListContactLanguageExtraBList = new List<EmailDistributionListContactLanguageExtraB>();
-                            emailDistributionListContactLanguageExtraBList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraBList().ToList();
-                            CheckEmailDistributionListContactLanguageExtraBFields(emailDistributionListContactLanguageExtraBList);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageExtraBList[0].EmailDistributionListContactLanguageID);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -745,22 +607,6 @@ namespace CSSPServices.Tests
                             CheckEmailDistributionListContactLanguageFields(emailDistributionListContactLanguageList);
                             Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<EmailDistributionListContactLanguageExtraA> emailDistributionListContactLanguageExtraAList = new List<EmailDistributionListContactLanguageExtraA>();
-                            emailDistributionListContactLanguageExtraAList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraAList().ToList();
-                            CheckEmailDistributionListContactLanguageExtraAFields(emailDistributionListContactLanguageExtraAList);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageExtraAList[0].EmailDistributionListContactLanguageID);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<EmailDistributionListContactLanguageExtraB> emailDistributionListContactLanguageExtraBList = new List<EmailDistributionListContactLanguageExtraB>();
-                            emailDistributionListContactLanguageExtraBList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraBList().ToList();
-                            CheckEmailDistributionListContactLanguageExtraBFields(emailDistributionListContactLanguageExtraBList);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageExtraBList[0].EmailDistributionListContactLanguageID);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -796,22 +642,6 @@ namespace CSSPServices.Tests
                             emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
                             CheckEmailDistributionListContactLanguageFields(emailDistributionListContactLanguageList);
                             Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<EmailDistributionListContactLanguageExtraA> emailDistributionListContactLanguageExtraAList = new List<EmailDistributionListContactLanguageExtraA>();
-                            emailDistributionListContactLanguageExtraAList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraAList().ToList();
-                            CheckEmailDistributionListContactLanguageExtraAFields(emailDistributionListContactLanguageExtraAList);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageExtraAList[0].EmailDistributionListContactLanguageID);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<EmailDistributionListContactLanguageExtraB> emailDistributionListContactLanguageExtraBList = new List<EmailDistributionListContactLanguageExtraB>();
-                            emailDistributionListContactLanguageExtraBList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraBList().ToList();
-                            CheckEmailDistributionListContactLanguageExtraBFields(emailDistributionListContactLanguageExtraBList);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageExtraBList[0].EmailDistributionListContactLanguageID);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageExtraBList.Count);
                         }
                         else
                         {
@@ -849,22 +679,6 @@ namespace CSSPServices.Tests
                             CheckEmailDistributionListContactLanguageFields(emailDistributionListContactLanguageList);
                             Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<EmailDistributionListContactLanguageExtraA> emailDistributionListContactLanguageExtraAList = new List<EmailDistributionListContactLanguageExtraA>();
-                            emailDistributionListContactLanguageExtraAList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraAList().ToList();
-                            CheckEmailDistributionListContactLanguageExtraAFields(emailDistributionListContactLanguageExtraAList);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageExtraAList[0].EmailDistributionListContactLanguageID);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<EmailDistributionListContactLanguageExtraB> emailDistributionListContactLanguageExtraBList = new List<EmailDistributionListContactLanguageExtraB>();
-                            emailDistributionListContactLanguageExtraBList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageExtraBList().ToList();
-                            CheckEmailDistributionListContactLanguageExtraBFields(emailDistributionListContactLanguageExtraBList);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageExtraBList[0].EmailDistributionListContactLanguageID);
-                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -886,50 +700,6 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(emailDistributionListContactLanguageList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(emailDistributionListContactLanguageList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(emailDistributionListContactLanguageList[0].HasErrors);
-        }
-        private void CheckEmailDistributionListContactLanguageExtraAFields(List<EmailDistributionListContactLanguageExtraA> emailDistributionListContactLanguageExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageExtraAList[0].LastUpdateContactText));
-            if (!string.IsNullOrWhiteSpace(emailDistributionListContactLanguageExtraAList[0].LanguageText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageExtraAList[0].LanguageText));
-            }
-            if (!string.IsNullOrWhiteSpace(emailDistributionListContactLanguageExtraAList[0].TranslationStatusText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageExtraAList[0].TranslationStatusText));
-            }
-            Assert.IsNotNull(emailDistributionListContactLanguageExtraAList[0].EmailDistributionListContactLanguageID);
-            Assert.IsNotNull(emailDistributionListContactLanguageExtraAList[0].EmailDistributionListContactID);
-            Assert.IsNotNull(emailDistributionListContactLanguageExtraAList[0].Language);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageExtraAList[0].Agency));
-            Assert.IsNotNull(emailDistributionListContactLanguageExtraAList[0].TranslationStatus);
-            Assert.IsNotNull(emailDistributionListContactLanguageExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(emailDistributionListContactLanguageExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(emailDistributionListContactLanguageExtraAList[0].HasErrors);
-        }
-        private void CheckEmailDistributionListContactLanguageExtraBFields(List<EmailDistributionListContactLanguageExtraB> emailDistributionListContactLanguageExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(emailDistributionListContactLanguageExtraBList[0].EmailDistributionListContactLanguageReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageExtraBList[0].EmailDistributionListContactLanguageReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageExtraBList[0].LastUpdateContactText));
-            if (!string.IsNullOrWhiteSpace(emailDistributionListContactLanguageExtraBList[0].LanguageText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageExtraBList[0].LanguageText));
-            }
-            if (!string.IsNullOrWhiteSpace(emailDistributionListContactLanguageExtraBList[0].TranslationStatusText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageExtraBList[0].TranslationStatusText));
-            }
-            Assert.IsNotNull(emailDistributionListContactLanguageExtraBList[0].EmailDistributionListContactLanguageID);
-            Assert.IsNotNull(emailDistributionListContactLanguageExtraBList[0].EmailDistributionListContactID);
-            Assert.IsNotNull(emailDistributionListContactLanguageExtraBList[0].Language);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageExtraBList[0].Agency));
-            Assert.IsNotNull(emailDistributionListContactLanguageExtraBList[0].TranslationStatus);
-            Assert.IsNotNull(emailDistributionListContactLanguageExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(emailDistributionListContactLanguageExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(emailDistributionListContactLanguageExtraBList[0].HasErrors);
         }
         private EmailDistributionListContactLanguage GetFilledRandomEmailDistributionListContactLanguage(string OmitPropName)
         {

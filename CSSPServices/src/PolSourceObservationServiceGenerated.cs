@@ -171,32 +171,6 @@ namespace CSSPServices
 
             return PolSourceObservationQuery;
         }
-        public PolSourceObservationExtraA GetPolSourceObservationExtraAWithPolSourceObservationID(int PolSourceObservationID)
-        {
-            return FillPolSourceObservationExtraA().Where(c => c.PolSourceObservationID == PolSourceObservationID).FirstOrDefault();
-
-        }
-        public IQueryable<PolSourceObservationExtraA> GetPolSourceObservationExtraAList()
-        {
-            IQueryable<PolSourceObservationExtraA> PolSourceObservationExtraAQuery = FillPolSourceObservationExtraA();
-
-            PolSourceObservationExtraAQuery = EnhanceQueryStatements<PolSourceObservationExtraA>(PolSourceObservationExtraAQuery) as IQueryable<PolSourceObservationExtraA>;
-
-            return PolSourceObservationExtraAQuery;
-        }
-        public PolSourceObservationExtraB GetPolSourceObservationExtraBWithPolSourceObservationID(int PolSourceObservationID)
-        {
-            return FillPolSourceObservationExtraB().Where(c => c.PolSourceObservationID == PolSourceObservationID).FirstOrDefault();
-
-        }
-        public IQueryable<PolSourceObservationExtraB> GetPolSourceObservationExtraBList()
-        {
-            IQueryable<PolSourceObservationExtraB> PolSourceObservationExtraBQuery = FillPolSourceObservationExtraB();
-
-            PolSourceObservationExtraBQuery = EnhanceQueryStatements<PolSourceObservationExtraB>(PolSourceObservationExtraBQuery) as IQueryable<PolSourceObservationExtraB>;
-
-            return PolSourceObservationExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

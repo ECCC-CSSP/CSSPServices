@@ -155,7 +155,7 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is NOT Nullable
-                    // [Range(0, -1)]
+                    // [Range(0, 100000)]
                     // drogueRunPosition.Ordinal   (Int32)
                     // -----------------------------------
 
@@ -163,7 +163,13 @@ namespace CSSPServices.Tests
                     drogueRunPosition = GetFilledRandomDrogueRunPosition("");
                     drogueRunPosition.Ordinal = -1;
                     Assert.AreEqual(false, drogueRunPositionService.Add(drogueRunPosition));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MinValueIs_, "Ordinal", "0"), drogueRunPosition.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "Ordinal", "0", "100000"), drogueRunPosition.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, drogueRunPositionService.GetDrogueRunPositionList().Count());
+                    drogueRunPosition = null;
+                    drogueRunPosition = GetFilledRandomDrogueRunPosition("");
+                    drogueRunPosition.Ordinal = 100001;
+                    Assert.AreEqual(false, drogueRunPositionService.Add(drogueRunPosition));
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "Ordinal", "0", "100000"), drogueRunPosition.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, drogueRunPositionService.GetDrogueRunPositionList().Count());
 
                     // -----------------------------------
@@ -355,18 +361,6 @@ namespace CSSPServices.Tests
                             CheckDrogueRunPositionFields(new List<DrogueRunPosition>() { drogueRunPositionRet });
                             Assert.AreEqual(drogueRunPosition.DrogueRunPositionID, drogueRunPositionRet.DrogueRunPositionID);
                         }
-                        else if (extra == "A")
-                        {
-                            DrogueRunPositionExtraA drogueRunPositionExtraARet = drogueRunPositionService.GetDrogueRunPositionExtraAWithDrogueRunPositionID(drogueRunPosition.DrogueRunPositionID);
-                            CheckDrogueRunPositionExtraAFields(new List<DrogueRunPositionExtraA>() { drogueRunPositionExtraARet });
-                            Assert.AreEqual(drogueRunPosition.DrogueRunPositionID, drogueRunPositionExtraARet.DrogueRunPositionID);
-                        }
-                        else if (extra == "B")
-                        {
-                            DrogueRunPositionExtraB drogueRunPositionExtraBRet = drogueRunPositionService.GetDrogueRunPositionExtraBWithDrogueRunPositionID(drogueRunPosition.DrogueRunPositionID);
-                            CheckDrogueRunPositionExtraBFields(new List<DrogueRunPositionExtraB>() { drogueRunPositionExtraBRet });
-                            Assert.AreEqual(drogueRunPosition.DrogueRunPositionID, drogueRunPositionExtraBRet.DrogueRunPositionID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -404,20 +398,6 @@ namespace CSSPServices.Tests
                             drogueRunPositionList = drogueRunPositionService.GetDrogueRunPositionList().ToList();
                             CheckDrogueRunPositionFields(drogueRunPositionList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<DrogueRunPositionExtraA> drogueRunPositionExtraAList = new List<DrogueRunPositionExtraA>();
-                            drogueRunPositionExtraAList = drogueRunPositionService.GetDrogueRunPositionExtraAList().ToList();
-                            CheckDrogueRunPositionExtraAFields(drogueRunPositionExtraAList);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList.Count, drogueRunPositionExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<DrogueRunPositionExtraB> drogueRunPositionExtraBList = new List<DrogueRunPositionExtraB>();
-                            drogueRunPositionExtraBList = drogueRunPositionService.GetDrogueRunPositionExtraBList().ToList();
-                            CheckDrogueRunPositionExtraBFields(drogueRunPositionExtraBList);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList.Count, drogueRunPositionExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -453,22 +433,6 @@ namespace CSSPServices.Tests
                             drogueRunPositionList = drogueRunPositionService.GetDrogueRunPositionList().ToList();
                             CheckDrogueRunPositionFields(drogueRunPositionList);
                             Assert.AreEqual(drogueRunPositionDirectQueryList[0].DrogueRunPositionID, drogueRunPositionList[0].DrogueRunPositionID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<DrogueRunPositionExtraA> drogueRunPositionExtraAList = new List<DrogueRunPositionExtraA>();
-                            drogueRunPositionExtraAList = drogueRunPositionService.GetDrogueRunPositionExtraAList().ToList();
-                            CheckDrogueRunPositionExtraAFields(drogueRunPositionExtraAList);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList[0].DrogueRunPositionID, drogueRunPositionExtraAList[0].DrogueRunPositionID);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList.Count, drogueRunPositionExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<DrogueRunPositionExtraB> drogueRunPositionExtraBList = new List<DrogueRunPositionExtraB>();
-                            drogueRunPositionExtraBList = drogueRunPositionService.GetDrogueRunPositionExtraBList().ToList();
-                            CheckDrogueRunPositionExtraBFields(drogueRunPositionExtraBList);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList[0].DrogueRunPositionID, drogueRunPositionExtraBList[0].DrogueRunPositionID);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList.Count, drogueRunPositionExtraBList.Count);
                         }
                         else
                         {
@@ -506,22 +470,6 @@ namespace CSSPServices.Tests
                             CheckDrogueRunPositionFields(drogueRunPositionList);
                             Assert.AreEqual(drogueRunPositionDirectQueryList[0].DrogueRunPositionID, drogueRunPositionList[0].DrogueRunPositionID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<DrogueRunPositionExtraA> drogueRunPositionExtraAList = new List<DrogueRunPositionExtraA>();
-                            drogueRunPositionExtraAList = drogueRunPositionService.GetDrogueRunPositionExtraAList().ToList();
-                            CheckDrogueRunPositionExtraAFields(drogueRunPositionExtraAList);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList[0].DrogueRunPositionID, drogueRunPositionExtraAList[0].DrogueRunPositionID);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList.Count, drogueRunPositionExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<DrogueRunPositionExtraB> drogueRunPositionExtraBList = new List<DrogueRunPositionExtraB>();
-                            drogueRunPositionExtraBList = drogueRunPositionService.GetDrogueRunPositionExtraBList().ToList();
-                            CheckDrogueRunPositionExtraBFields(drogueRunPositionExtraBList);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList[0].DrogueRunPositionID, drogueRunPositionExtraBList[0].DrogueRunPositionID);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList.Count, drogueRunPositionExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -557,22 +505,6 @@ namespace CSSPServices.Tests
                             drogueRunPositionList = drogueRunPositionService.GetDrogueRunPositionList().ToList();
                             CheckDrogueRunPositionFields(drogueRunPositionList);
                             Assert.AreEqual(drogueRunPositionDirectQueryList[0].DrogueRunPositionID, drogueRunPositionList[0].DrogueRunPositionID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<DrogueRunPositionExtraA> drogueRunPositionExtraAList = new List<DrogueRunPositionExtraA>();
-                            drogueRunPositionExtraAList = drogueRunPositionService.GetDrogueRunPositionExtraAList().ToList();
-                            CheckDrogueRunPositionExtraAFields(drogueRunPositionExtraAList);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList[0].DrogueRunPositionID, drogueRunPositionExtraAList[0].DrogueRunPositionID);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList.Count, drogueRunPositionExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<DrogueRunPositionExtraB> drogueRunPositionExtraBList = new List<DrogueRunPositionExtraB>();
-                            drogueRunPositionExtraBList = drogueRunPositionService.GetDrogueRunPositionExtraBList().ToList();
-                            CheckDrogueRunPositionExtraBFields(drogueRunPositionExtraBList);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList[0].DrogueRunPositionID, drogueRunPositionExtraBList[0].DrogueRunPositionID);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList.Count, drogueRunPositionExtraBList.Count);
                         }
                         else
                         {
@@ -610,22 +542,6 @@ namespace CSSPServices.Tests
                             CheckDrogueRunPositionFields(drogueRunPositionList);
                             Assert.AreEqual(drogueRunPositionDirectQueryList[0].DrogueRunPositionID, drogueRunPositionList[0].DrogueRunPositionID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<DrogueRunPositionExtraA> drogueRunPositionExtraAList = new List<DrogueRunPositionExtraA>();
-                            drogueRunPositionExtraAList = drogueRunPositionService.GetDrogueRunPositionExtraAList().ToList();
-                            CheckDrogueRunPositionExtraAFields(drogueRunPositionExtraAList);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList[0].DrogueRunPositionID, drogueRunPositionExtraAList[0].DrogueRunPositionID);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList.Count, drogueRunPositionExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<DrogueRunPositionExtraB> drogueRunPositionExtraBList = new List<DrogueRunPositionExtraB>();
-                            drogueRunPositionExtraBList = drogueRunPositionService.GetDrogueRunPositionExtraBList().ToList();
-                            CheckDrogueRunPositionExtraBFields(drogueRunPositionExtraBList);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList[0].DrogueRunPositionID, drogueRunPositionExtraBList[0].DrogueRunPositionID);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList.Count, drogueRunPositionExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -661,22 +577,6 @@ namespace CSSPServices.Tests
                             drogueRunPositionList = drogueRunPositionService.GetDrogueRunPositionList().ToList();
                             CheckDrogueRunPositionFields(drogueRunPositionList);
                             Assert.AreEqual(drogueRunPositionDirectQueryList[0].DrogueRunPositionID, drogueRunPositionList[0].DrogueRunPositionID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<DrogueRunPositionExtraA> drogueRunPositionExtraAList = new List<DrogueRunPositionExtraA>();
-                            drogueRunPositionExtraAList = drogueRunPositionService.GetDrogueRunPositionExtraAList().ToList();
-                            CheckDrogueRunPositionExtraAFields(drogueRunPositionExtraAList);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList[0].DrogueRunPositionID, drogueRunPositionExtraAList[0].DrogueRunPositionID);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList.Count, drogueRunPositionExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<DrogueRunPositionExtraB> drogueRunPositionExtraBList = new List<DrogueRunPositionExtraB>();
-                            drogueRunPositionExtraBList = drogueRunPositionService.GetDrogueRunPositionExtraBList().ToList();
-                            CheckDrogueRunPositionExtraBFields(drogueRunPositionExtraBList);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList[0].DrogueRunPositionID, drogueRunPositionExtraBList[0].DrogueRunPositionID);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList.Count, drogueRunPositionExtraBList.Count);
                         }
                         else
                         {
@@ -714,22 +614,6 @@ namespace CSSPServices.Tests
                             CheckDrogueRunPositionFields(drogueRunPositionList);
                             Assert.AreEqual(drogueRunPositionDirectQueryList[0].DrogueRunPositionID, drogueRunPositionList[0].DrogueRunPositionID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<DrogueRunPositionExtraA> drogueRunPositionExtraAList = new List<DrogueRunPositionExtraA>();
-                            drogueRunPositionExtraAList = drogueRunPositionService.GetDrogueRunPositionExtraAList().ToList();
-                            CheckDrogueRunPositionExtraAFields(drogueRunPositionExtraAList);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList[0].DrogueRunPositionID, drogueRunPositionExtraAList[0].DrogueRunPositionID);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList.Count, drogueRunPositionExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<DrogueRunPositionExtraB> drogueRunPositionExtraBList = new List<DrogueRunPositionExtraB>();
-                            drogueRunPositionExtraBList = drogueRunPositionService.GetDrogueRunPositionExtraBList().ToList();
-                            CheckDrogueRunPositionExtraBFields(drogueRunPositionExtraBList);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList[0].DrogueRunPositionID, drogueRunPositionExtraBList[0].DrogueRunPositionID);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList.Count, drogueRunPositionExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -765,22 +649,6 @@ namespace CSSPServices.Tests
                             drogueRunPositionList = drogueRunPositionService.GetDrogueRunPositionList().ToList();
                             CheckDrogueRunPositionFields(drogueRunPositionList);
                             Assert.AreEqual(drogueRunPositionDirectQueryList[0].DrogueRunPositionID, drogueRunPositionList[0].DrogueRunPositionID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<DrogueRunPositionExtraA> drogueRunPositionExtraAList = new List<DrogueRunPositionExtraA>();
-                            drogueRunPositionExtraAList = drogueRunPositionService.GetDrogueRunPositionExtraAList().ToList();
-                            CheckDrogueRunPositionExtraAFields(drogueRunPositionExtraAList);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList[0].DrogueRunPositionID, drogueRunPositionExtraAList[0].DrogueRunPositionID);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList.Count, drogueRunPositionExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<DrogueRunPositionExtraB> drogueRunPositionExtraBList = new List<DrogueRunPositionExtraB>();
-                            drogueRunPositionExtraBList = drogueRunPositionService.GetDrogueRunPositionExtraBList().ToList();
-                            CheckDrogueRunPositionExtraBFields(drogueRunPositionExtraBList);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList[0].DrogueRunPositionID, drogueRunPositionExtraBList[0].DrogueRunPositionID);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList.Count, drogueRunPositionExtraBList.Count);
                         }
                         else
                         {
@@ -818,22 +686,6 @@ namespace CSSPServices.Tests
                             CheckDrogueRunPositionFields(drogueRunPositionList);
                             Assert.AreEqual(drogueRunPositionDirectQueryList[0].DrogueRunPositionID, drogueRunPositionList[0].DrogueRunPositionID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<DrogueRunPositionExtraA> drogueRunPositionExtraAList = new List<DrogueRunPositionExtraA>();
-                            drogueRunPositionExtraAList = drogueRunPositionService.GetDrogueRunPositionExtraAList().ToList();
-                            CheckDrogueRunPositionExtraAFields(drogueRunPositionExtraAList);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList[0].DrogueRunPositionID, drogueRunPositionExtraAList[0].DrogueRunPositionID);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList.Count, drogueRunPositionExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<DrogueRunPositionExtraB> drogueRunPositionExtraBList = new List<DrogueRunPositionExtraB>();
-                            drogueRunPositionExtraBList = drogueRunPositionService.GetDrogueRunPositionExtraBList().ToList();
-                            CheckDrogueRunPositionExtraBFields(drogueRunPositionExtraBList);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList[0].DrogueRunPositionID, drogueRunPositionExtraBList[0].DrogueRunPositionID);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList.Count, drogueRunPositionExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -869,22 +721,6 @@ namespace CSSPServices.Tests
                             drogueRunPositionList = drogueRunPositionService.GetDrogueRunPositionList().ToList();
                             CheckDrogueRunPositionFields(drogueRunPositionList);
                             Assert.AreEqual(drogueRunPositionDirectQueryList[0].DrogueRunPositionID, drogueRunPositionList[0].DrogueRunPositionID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<DrogueRunPositionExtraA> drogueRunPositionExtraAList = new List<DrogueRunPositionExtraA>();
-                            drogueRunPositionExtraAList = drogueRunPositionService.GetDrogueRunPositionExtraAList().ToList();
-                            CheckDrogueRunPositionExtraAFields(drogueRunPositionExtraAList);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList[0].DrogueRunPositionID, drogueRunPositionExtraAList[0].DrogueRunPositionID);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList.Count, drogueRunPositionExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<DrogueRunPositionExtraB> drogueRunPositionExtraBList = new List<DrogueRunPositionExtraB>();
-                            drogueRunPositionExtraBList = drogueRunPositionService.GetDrogueRunPositionExtraBList().ToList();
-                            CheckDrogueRunPositionExtraBFields(drogueRunPositionExtraBList);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList[0].DrogueRunPositionID, drogueRunPositionExtraBList[0].DrogueRunPositionID);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList.Count, drogueRunPositionExtraBList.Count);
                         }
                         else
                         {
@@ -922,22 +758,6 @@ namespace CSSPServices.Tests
                             CheckDrogueRunPositionFields(drogueRunPositionList);
                             Assert.AreEqual(drogueRunPositionDirectQueryList[0].DrogueRunPositionID, drogueRunPositionList[0].DrogueRunPositionID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<DrogueRunPositionExtraA> drogueRunPositionExtraAList = new List<DrogueRunPositionExtraA>();
-                            drogueRunPositionExtraAList = drogueRunPositionService.GetDrogueRunPositionExtraAList().ToList();
-                            CheckDrogueRunPositionExtraAFields(drogueRunPositionExtraAList);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList[0].DrogueRunPositionID, drogueRunPositionExtraAList[0].DrogueRunPositionID);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList.Count, drogueRunPositionExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<DrogueRunPositionExtraB> drogueRunPositionExtraBList = new List<DrogueRunPositionExtraB>();
-                            drogueRunPositionExtraBList = drogueRunPositionService.GetDrogueRunPositionExtraBList().ToList();
-                            CheckDrogueRunPositionExtraBFields(drogueRunPositionExtraBList);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList[0].DrogueRunPositionID, drogueRunPositionExtraBList[0].DrogueRunPositionID);
-                            Assert.AreEqual(drogueRunPositionDirectQueryList.Count, drogueRunPositionExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -963,46 +783,12 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(drogueRunPositionList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(drogueRunPositionList[0].HasErrors);
         }
-        private void CheckDrogueRunPositionExtraAFields(List<DrogueRunPositionExtraA> drogueRunPositionExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(drogueRunPositionExtraAList[0].LastUpdateContactText));
-            Assert.IsNotNull(drogueRunPositionExtraAList[0].DrogueRunPositionID);
-            Assert.IsNotNull(drogueRunPositionExtraAList[0].DrogueRunID);
-            Assert.IsNotNull(drogueRunPositionExtraAList[0].Ordinal);
-            Assert.IsNotNull(drogueRunPositionExtraAList[0].StepLat);
-            Assert.IsNotNull(drogueRunPositionExtraAList[0].StepLng);
-            Assert.IsNotNull(drogueRunPositionExtraAList[0].StepDateTime_Local);
-            Assert.IsNotNull(drogueRunPositionExtraAList[0].CalculatedSpeed_m_s);
-            Assert.IsNotNull(drogueRunPositionExtraAList[0].CalculatedDirection_deg);
-            Assert.IsNotNull(drogueRunPositionExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(drogueRunPositionExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(drogueRunPositionExtraAList[0].HasErrors);
-        }
-        private void CheckDrogueRunPositionExtraBFields(List<DrogueRunPositionExtraB> drogueRunPositionExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(drogueRunPositionExtraBList[0].DrogueRunPositionReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(drogueRunPositionExtraBList[0].DrogueRunPositionReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(drogueRunPositionExtraBList[0].LastUpdateContactText));
-            Assert.IsNotNull(drogueRunPositionExtraBList[0].DrogueRunPositionID);
-            Assert.IsNotNull(drogueRunPositionExtraBList[0].DrogueRunID);
-            Assert.IsNotNull(drogueRunPositionExtraBList[0].Ordinal);
-            Assert.IsNotNull(drogueRunPositionExtraBList[0].StepLat);
-            Assert.IsNotNull(drogueRunPositionExtraBList[0].StepLng);
-            Assert.IsNotNull(drogueRunPositionExtraBList[0].StepDateTime_Local);
-            Assert.IsNotNull(drogueRunPositionExtraBList[0].CalculatedSpeed_m_s);
-            Assert.IsNotNull(drogueRunPositionExtraBList[0].CalculatedDirection_deg);
-            Assert.IsNotNull(drogueRunPositionExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(drogueRunPositionExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(drogueRunPositionExtraBList[0].HasErrors);
-        }
         private DrogueRunPosition GetFilledRandomDrogueRunPosition(string OmitPropName)
         {
             DrogueRunPosition drogueRunPosition = new DrogueRunPosition();
 
             // Need to implement [DrogueRunPosition DrogueRunID DrogueRun DrogueRunID]
-            if (OmitPropName != "Ordinal") drogueRunPosition.Ordinal = GetRandomInt(0, 10);
+            if (OmitPropName != "Ordinal") drogueRunPosition.Ordinal = GetRandomInt(0, 100000);
             if (OmitPropName != "StepLat") drogueRunPosition.StepLat = GetRandomDouble(-180.0D, 180.0D);
             if (OmitPropName != "StepLng") drogueRunPosition.StepLng = GetRandomDouble(-90.0D, 90.0D);
             if (OmitPropName != "StepDateTime_Local") drogueRunPosition.StepDateTime_Local = new DateTime(2005, 3, 6);

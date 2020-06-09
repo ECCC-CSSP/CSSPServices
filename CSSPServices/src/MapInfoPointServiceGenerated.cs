@@ -147,32 +147,6 @@ namespace CSSPServices
 
             return MapInfoPointQuery;
         }
-        public MapInfoPointExtraA GetMapInfoPointExtraAWithMapInfoPointID(int MapInfoPointID)
-        {
-            return FillMapInfoPointExtraA().Where(c => c.MapInfoPointID == MapInfoPointID).FirstOrDefault();
-
-        }
-        public IQueryable<MapInfoPointExtraA> GetMapInfoPointExtraAList()
-        {
-            IQueryable<MapInfoPointExtraA> MapInfoPointExtraAQuery = FillMapInfoPointExtraA();
-
-            MapInfoPointExtraAQuery = EnhanceQueryStatements<MapInfoPointExtraA>(MapInfoPointExtraAQuery) as IQueryable<MapInfoPointExtraA>;
-
-            return MapInfoPointExtraAQuery;
-        }
-        public MapInfoPointExtraB GetMapInfoPointExtraBWithMapInfoPointID(int MapInfoPointID)
-        {
-            return FillMapInfoPointExtraB().Where(c => c.MapInfoPointID == MapInfoPointID).FirstOrDefault();
-
-        }
-        public IQueryable<MapInfoPointExtraB> GetMapInfoPointExtraBList()
-        {
-            IQueryable<MapInfoPointExtraB> MapInfoPointExtraBQuery = FillMapInfoPointExtraB();
-
-            MapInfoPointExtraBQuery = EnhanceQueryStatements<MapInfoPointExtraB>(MapInfoPointExtraBQuery) as IQueryable<MapInfoPointExtraB>;
-
-            return MapInfoPointExtraBQuery;
-        }
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD

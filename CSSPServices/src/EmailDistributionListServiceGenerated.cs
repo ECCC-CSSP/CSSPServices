@@ -61,12 +61,12 @@ namespace CSSPServices
                 }
             }
 
-            TVItem TVItemCountryTVItemID = (from c in db.TVItems where c.TVItemID == emailDistributionList.CountryTVItemID select c).FirstOrDefault();
+            TVItem TVItemParentTVItemID = (from c in db.TVItems where c.TVItemID == emailDistributionList.ParentTVItemID select c).FirstOrDefault();
 
-            if (TVItemCountryTVItemID == null)
+            if (TVItemParentTVItemID == null)
             {
                 emailDistributionList.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "CountryTVItemID", emailDistributionList.CountryTVItemID.ToString()), new[] { "CountryTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "ParentTVItemID", emailDistributionList.ParentTVItemID.ToString()), new[] { "ParentTVItemID" });
             }
             else
             {
@@ -74,10 +74,10 @@ namespace CSSPServices
                 {
                     TVTypeEnum.Country,
                 };
-                if (!AllowableTVTypes.Contains(TVItemCountryTVItemID.TVType))
+                if (!AllowableTVTypes.Contains(TVItemParentTVItemID.TVType))
                 {
                     emailDistributionList.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "CountryTVItemID", "Country"), new[] { "CountryTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "ParentTVItemID", "Country"), new[] { "ParentTVItemID" });
                 }
             }
 
@@ -146,32 +146,6 @@ namespace CSSPServices
             EmailDistributionListQuery = EnhanceQueryStatements<EmailDistributionList>(EmailDistributionListQuery) as IQueryable<EmailDistributionList>;
 
             return EmailDistributionListQuery;
-        }
-        public EmailDistributionListExtraA GetEmailDistributionListExtraAWithEmailDistributionListID(int EmailDistributionListID)
-        {
-            return FillEmailDistributionListExtraA().Where(c => c.EmailDistributionListID == EmailDistributionListID).FirstOrDefault();
-
-        }
-        public IQueryable<EmailDistributionListExtraA> GetEmailDistributionListExtraAList()
-        {
-            IQueryable<EmailDistributionListExtraA> EmailDistributionListExtraAQuery = FillEmailDistributionListExtraA();
-
-            EmailDistributionListExtraAQuery = EnhanceQueryStatements<EmailDistributionListExtraA>(EmailDistributionListExtraAQuery) as IQueryable<EmailDistributionListExtraA>;
-
-            return EmailDistributionListExtraAQuery;
-        }
-        public EmailDistributionListExtraB GetEmailDistributionListExtraBWithEmailDistributionListID(int EmailDistributionListID)
-        {
-            return FillEmailDistributionListExtraB().Where(c => c.EmailDistributionListID == EmailDistributionListID).FirstOrDefault();
-
-        }
-        public IQueryable<EmailDistributionListExtraB> GetEmailDistributionListExtraBList()
-        {
-            IQueryable<EmailDistributionListExtraB> EmailDistributionListExtraBQuery = FillEmailDistributionListExtraB();
-
-            EmailDistributionListExtraBQuery = EnhanceQueryStatements<EmailDistributionListExtraB>(EmailDistributionListExtraBQuery) as IQueryable<EmailDistributionListExtraB>;
-
-            return EmailDistributionListExtraBQuery;
         }
         #endregion Functions public Generated Get
 

@@ -336,6 +336,19 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, contactService.GetContactList().Count());
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [StringLength(255))]
+                    // contact.Token   (String)
+                    // -----------------------------------
+
+                    contact = null;
+                    contact = GetFilledRandomContact("");
+                    contact.Token = GetRandomString("", 256);
+                    Assert.AreEqual(false, contactService.Add(contact, AddContactTypeEnum.First));
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "Token", "255"), contact.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, contactService.GetContactList().Count());
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // contact.LastUpdateDate_UTC   (DateTime)
@@ -415,18 +428,6 @@ namespace CSSPServices.Tests
                             CheckContactFields(new List<Contact>() { contactRet });
                             Assert.AreEqual(contact.ContactID, contactRet.ContactID);
                         }
-                        else if (extra == "A")
-                        {
-                            ContactExtraA contactExtraARet = contactService.GetContactExtraAWithContactID(contact.ContactID);
-                            CheckContactExtraAFields(new List<ContactExtraA>() { contactExtraARet });
-                            Assert.AreEqual(contact.ContactID, contactExtraARet.ContactID);
-                        }
-                        else if (extra == "B")
-                        {
-                            ContactExtraB contactExtraBRet = contactService.GetContactExtraBWithContactID(contact.ContactID);
-                            CheckContactExtraBFields(new List<ContactExtraB>() { contactExtraBRet });
-                            Assert.AreEqual(contact.ContactID, contactExtraBRet.ContactID);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -464,20 +465,6 @@ namespace CSSPServices.Tests
                             contactList = contactService.GetContactList().ToList();
                             CheckContactFields(contactList);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ContactExtraA> contactExtraAList = new List<ContactExtraA>();
-                            contactExtraAList = contactService.GetContactExtraAList().ToList();
-                            CheckContactExtraAFields(contactExtraAList);
-                            Assert.AreEqual(contactDirectQueryList.Count, contactExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ContactExtraB> contactExtraBList = new List<ContactExtraB>();
-                            contactExtraBList = contactService.GetContactExtraBList().ToList();
-                            CheckContactExtraBFields(contactExtraBList);
-                            Assert.AreEqual(contactDirectQueryList.Count, contactExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -513,22 +500,6 @@ namespace CSSPServices.Tests
                             contactList = contactService.GetContactList().ToList();
                             CheckContactFields(contactList);
                             Assert.AreEqual(contactDirectQueryList[0].ContactID, contactList[0].ContactID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<ContactExtraA> contactExtraAList = new List<ContactExtraA>();
-                            contactExtraAList = contactService.GetContactExtraAList().ToList();
-                            CheckContactExtraAFields(contactExtraAList);
-                            Assert.AreEqual(contactDirectQueryList[0].ContactID, contactExtraAList[0].ContactID);
-                            Assert.AreEqual(contactDirectQueryList.Count, contactExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ContactExtraB> contactExtraBList = new List<ContactExtraB>();
-                            contactExtraBList = contactService.GetContactExtraBList().ToList();
-                            CheckContactExtraBFields(contactExtraBList);
-                            Assert.AreEqual(contactDirectQueryList[0].ContactID, contactExtraBList[0].ContactID);
-                            Assert.AreEqual(contactDirectQueryList.Count, contactExtraBList.Count);
                         }
                         else
                         {
@@ -566,22 +537,6 @@ namespace CSSPServices.Tests
                             CheckContactFields(contactList);
                             Assert.AreEqual(contactDirectQueryList[0].ContactID, contactList[0].ContactID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ContactExtraA> contactExtraAList = new List<ContactExtraA>();
-                            contactExtraAList = contactService.GetContactExtraAList().ToList();
-                            CheckContactExtraAFields(contactExtraAList);
-                            Assert.AreEqual(contactDirectQueryList[0].ContactID, contactExtraAList[0].ContactID);
-                            Assert.AreEqual(contactDirectQueryList.Count, contactExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ContactExtraB> contactExtraBList = new List<ContactExtraB>();
-                            contactExtraBList = contactService.GetContactExtraBList().ToList();
-                            CheckContactExtraBFields(contactExtraBList);
-                            Assert.AreEqual(contactDirectQueryList[0].ContactID, contactExtraBList[0].ContactID);
-                            Assert.AreEqual(contactDirectQueryList.Count, contactExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -617,22 +572,6 @@ namespace CSSPServices.Tests
                             contactList = contactService.GetContactList().ToList();
                             CheckContactFields(contactList);
                             Assert.AreEqual(contactDirectQueryList[0].ContactID, contactList[0].ContactID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<ContactExtraA> contactExtraAList = new List<ContactExtraA>();
-                            contactExtraAList = contactService.GetContactExtraAList().ToList();
-                            CheckContactExtraAFields(contactExtraAList);
-                            Assert.AreEqual(contactDirectQueryList[0].ContactID, contactExtraAList[0].ContactID);
-                            Assert.AreEqual(contactDirectQueryList.Count, contactExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ContactExtraB> contactExtraBList = new List<ContactExtraB>();
-                            contactExtraBList = contactService.GetContactExtraBList().ToList();
-                            CheckContactExtraBFields(contactExtraBList);
-                            Assert.AreEqual(contactDirectQueryList[0].ContactID, contactExtraBList[0].ContactID);
-                            Assert.AreEqual(contactDirectQueryList.Count, contactExtraBList.Count);
                         }
                         else
                         {
@@ -670,22 +609,6 @@ namespace CSSPServices.Tests
                             CheckContactFields(contactList);
                             Assert.AreEqual(contactDirectQueryList[0].ContactID, contactList[0].ContactID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ContactExtraA> contactExtraAList = new List<ContactExtraA>();
-                            contactExtraAList = contactService.GetContactExtraAList().ToList();
-                            CheckContactExtraAFields(contactExtraAList);
-                            Assert.AreEqual(contactDirectQueryList[0].ContactID, contactExtraAList[0].ContactID);
-                            Assert.AreEqual(contactDirectQueryList.Count, contactExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ContactExtraB> contactExtraBList = new List<ContactExtraB>();
-                            contactExtraBList = contactService.GetContactExtraBList().ToList();
-                            CheckContactExtraBFields(contactExtraBList);
-                            Assert.AreEqual(contactDirectQueryList[0].ContactID, contactExtraBList[0].ContactID);
-                            Assert.AreEqual(contactDirectQueryList.Count, contactExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -721,22 +644,6 @@ namespace CSSPServices.Tests
                             contactList = contactService.GetContactList().ToList();
                             CheckContactFields(contactList);
                             Assert.AreEqual(contactDirectQueryList[0].ContactID, contactList[0].ContactID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<ContactExtraA> contactExtraAList = new List<ContactExtraA>();
-                            contactExtraAList = contactService.GetContactExtraAList().ToList();
-                            CheckContactExtraAFields(contactExtraAList);
-                            Assert.AreEqual(contactDirectQueryList[0].ContactID, contactExtraAList[0].ContactID);
-                            Assert.AreEqual(contactDirectQueryList.Count, contactExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ContactExtraB> contactExtraBList = new List<ContactExtraB>();
-                            contactExtraBList = contactService.GetContactExtraBList().ToList();
-                            CheckContactExtraBFields(contactExtraBList);
-                            Assert.AreEqual(contactDirectQueryList[0].ContactID, contactExtraBList[0].ContactID);
-                            Assert.AreEqual(contactDirectQueryList.Count, contactExtraBList.Count);
                         }
                         else
                         {
@@ -774,22 +681,6 @@ namespace CSSPServices.Tests
                             CheckContactFields(contactList);
                             Assert.AreEqual(contactDirectQueryList[0].ContactID, contactList[0].ContactID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ContactExtraA> contactExtraAList = new List<ContactExtraA>();
-                            contactExtraAList = contactService.GetContactExtraAList().ToList();
-                            CheckContactExtraAFields(contactExtraAList);
-                            Assert.AreEqual(contactDirectQueryList[0].ContactID, contactExtraAList[0].ContactID);
-                            Assert.AreEqual(contactDirectQueryList.Count, contactExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ContactExtraB> contactExtraBList = new List<ContactExtraB>();
-                            contactExtraBList = contactService.GetContactExtraBList().ToList();
-                            CheckContactExtraBFields(contactExtraBList);
-                            Assert.AreEqual(contactDirectQueryList[0].ContactID, contactExtraBList[0].ContactID);
-                            Assert.AreEqual(contactDirectQueryList.Count, contactExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -825,22 +716,6 @@ namespace CSSPServices.Tests
                             contactList = contactService.GetContactList().ToList();
                             CheckContactFields(contactList);
                             Assert.AreEqual(contactDirectQueryList[0].ContactID, contactList[0].ContactID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<ContactExtraA> contactExtraAList = new List<ContactExtraA>();
-                            contactExtraAList = contactService.GetContactExtraAList().ToList();
-                            CheckContactExtraAFields(contactExtraAList);
-                            Assert.AreEqual(contactDirectQueryList[0].ContactID, contactExtraAList[0].ContactID);
-                            Assert.AreEqual(contactDirectQueryList.Count, contactExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ContactExtraB> contactExtraBList = new List<ContactExtraB>();
-                            contactExtraBList = contactService.GetContactExtraBList().ToList();
-                            CheckContactExtraBFields(contactExtraBList);
-                            Assert.AreEqual(contactDirectQueryList[0].ContactID, contactExtraBList[0].ContactID);
-                            Assert.AreEqual(contactDirectQueryList.Count, contactExtraBList.Count);
                         }
                         else
                         {
@@ -878,22 +753,6 @@ namespace CSSPServices.Tests
                             CheckContactFields(contactList);
                             Assert.AreEqual(contactDirectQueryList[0].ContactID, contactList[0].ContactID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ContactExtraA> contactExtraAList = new List<ContactExtraA>();
-                            contactExtraAList = contactService.GetContactExtraAList().ToList();
-                            CheckContactExtraAFields(contactExtraAList);
-                            Assert.AreEqual(contactDirectQueryList[0].ContactID, contactExtraAList[0].ContactID);
-                            Assert.AreEqual(contactDirectQueryList.Count, contactExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ContactExtraB> contactExtraBList = new List<ContactExtraB>();
-                            contactExtraBList = contactService.GetContactExtraBList().ToList();
-                            CheckContactExtraBFields(contactExtraBList);
-                            Assert.AreEqual(contactDirectQueryList[0].ContactID, contactExtraBList[0].ContactID);
-                            Assert.AreEqual(contactDirectQueryList.Count, contactExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -929,22 +788,6 @@ namespace CSSPServices.Tests
                             contactList = contactService.GetContactList().ToList();
                             CheckContactFields(contactList);
                             Assert.AreEqual(contactDirectQueryList[0].ContactID, contactList[0].ContactID);
-                        }
-                        else if (extra == "A")
-                        {
-                            List<ContactExtraA> contactExtraAList = new List<ContactExtraA>();
-                            contactExtraAList = contactService.GetContactExtraAList().ToList();
-                            CheckContactExtraAFields(contactExtraAList);
-                            Assert.AreEqual(contactDirectQueryList[0].ContactID, contactExtraAList[0].ContactID);
-                            Assert.AreEqual(contactDirectQueryList.Count, contactExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ContactExtraB> contactExtraBList = new List<ContactExtraB>();
-                            contactExtraBList = contactService.GetContactExtraBList().ToList();
-                            CheckContactExtraBFields(contactExtraBList);
-                            Assert.AreEqual(contactDirectQueryList[0].ContactID, contactExtraBList[0].ContactID);
-                            Assert.AreEqual(contactDirectQueryList.Count, contactExtraBList.Count);
                         }
                         else
                         {
@@ -982,22 +825,6 @@ namespace CSSPServices.Tests
                             CheckContactFields(contactList);
                             Assert.AreEqual(contactDirectQueryList[0].ContactID, contactList[0].ContactID);
                         }
-                        else if (extra == "A")
-                        {
-                            List<ContactExtraA> contactExtraAList = new List<ContactExtraA>();
-                            contactExtraAList = contactService.GetContactExtraAList().ToList();
-                            CheckContactExtraAFields(contactExtraAList);
-                            Assert.AreEqual(contactDirectQueryList[0].ContactID, contactExtraAList[0].ContactID);
-                            Assert.AreEqual(contactDirectQueryList.Count, contactExtraAList.Count);
-                        }
-                        else if (extra == "B")
-                        {
-                            List<ContactExtraB> contactExtraBList = new List<ContactExtraB>();
-                            contactExtraBList = contactService.GetContactExtraBList().ToList();
-                            CheckContactExtraBFields(contactExtraBList);
-                            Assert.AreEqual(contactDirectQueryList[0].ContactID, contactExtraBList[0].ContactID);
-                            Assert.AreEqual(contactDirectQueryList.Count, contactExtraBList.Count);
-                        }
                         else
                         {
                             //Assert.AreEqual(true, false);
@@ -1034,83 +861,13 @@ namespace CSSPServices.Tests
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].SamplingPlanner_ProvincesTVItemID));
             }
+            if (!string.IsNullOrWhiteSpace(contactList[0].Token))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].Token));
+            }
             Assert.IsNotNull(contactList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(contactList[0].LastUpdateContactTVItemID);
             Assert.IsNotNull(contactList[0].HasErrors);
-        }
-        private void CheckContactExtraAFields(List<ContactExtraA> contactExtraAList)
-        {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(contactExtraAList[0].ContactName));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(contactExtraAList[0].LastUpdateContactText));
-            if (!string.IsNullOrWhiteSpace(contactExtraAList[0].ContactTitleText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(contactExtraAList[0].ContactTitleText));
-            }
-            Assert.IsNotNull(contactExtraAList[0].ContactID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(contactExtraAList[0].Id));
-            Assert.IsNotNull(contactExtraAList[0].ContactTVItemID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(contactExtraAList[0].LoginEmail));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(contactExtraAList[0].FirstName));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(contactExtraAList[0].LastName));
-            if (!string.IsNullOrWhiteSpace(contactExtraAList[0].Initial))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(contactExtraAList[0].Initial));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(contactExtraAList[0].WebName));
-            if (contactExtraAList[0].ContactTitle != null)
-            {
-                Assert.IsNotNull(contactExtraAList[0].ContactTitle);
-            }
-            Assert.IsNotNull(contactExtraAList[0].IsAdmin);
-            Assert.IsNotNull(contactExtraAList[0].EmailValidated);
-            Assert.IsNotNull(contactExtraAList[0].Disabled);
-            Assert.IsNotNull(contactExtraAList[0].IsNew);
-            if (!string.IsNullOrWhiteSpace(contactExtraAList[0].SamplingPlanner_ProvincesTVItemID))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(contactExtraAList[0].SamplingPlanner_ProvincesTVItemID));
-            }
-            Assert.IsNotNull(contactExtraAList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(contactExtraAList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(contactExtraAList[0].HasErrors);
-        }
-        private void CheckContactExtraBFields(List<ContactExtraB> contactExtraBList)
-        {
-            if (!string.IsNullOrWhiteSpace(contactExtraBList[0].ContactReportTest))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(contactExtraBList[0].ContactReportTest));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(contactExtraBList[0].ContactName));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(contactExtraBList[0].LastUpdateContactText));
-            if (!string.IsNullOrWhiteSpace(contactExtraBList[0].ContactTitleText))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(contactExtraBList[0].ContactTitleText));
-            }
-            Assert.IsNotNull(contactExtraBList[0].ContactID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(contactExtraBList[0].Id));
-            Assert.IsNotNull(contactExtraBList[0].ContactTVItemID);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(contactExtraBList[0].LoginEmail));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(contactExtraBList[0].FirstName));
-            Assert.IsFalse(string.IsNullOrWhiteSpace(contactExtraBList[0].LastName));
-            if (!string.IsNullOrWhiteSpace(contactExtraBList[0].Initial))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(contactExtraBList[0].Initial));
-            }
-            Assert.IsFalse(string.IsNullOrWhiteSpace(contactExtraBList[0].WebName));
-            if (contactExtraBList[0].ContactTitle != null)
-            {
-                Assert.IsNotNull(contactExtraBList[0].ContactTitle);
-            }
-            Assert.IsNotNull(contactExtraBList[0].IsAdmin);
-            Assert.IsNotNull(contactExtraBList[0].EmailValidated);
-            Assert.IsNotNull(contactExtraBList[0].Disabled);
-            Assert.IsNotNull(contactExtraBList[0].IsNew);
-            if (!string.IsNullOrWhiteSpace(contactExtraBList[0].SamplingPlanner_ProvincesTVItemID))
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(contactExtraBList[0].SamplingPlanner_ProvincesTVItemID));
-            }
-            Assert.IsNotNull(contactExtraBList[0].LastUpdateDate_UTC);
-            Assert.IsNotNull(contactExtraBList[0].LastUpdateContactTVItemID);
-            Assert.IsNotNull(contactExtraBList[0].HasErrors);
         }
         private Contact GetFilledRandomContact(string OmitPropName)
         {
@@ -1129,6 +886,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Disabled") contact.Disabled = true;
             if (OmitPropName != "IsNew") contact.IsNew = true;
             if (OmitPropName != "SamplingPlanner_ProvincesTVItemID") contact.SamplingPlanner_ProvincesTVItemID = GetRandomString("", 5);
+            if (OmitPropName != "Token") contact.Token = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") contact.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") contact.LastUpdateContactTVItemID = 2;
 
